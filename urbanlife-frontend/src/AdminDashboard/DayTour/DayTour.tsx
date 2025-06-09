@@ -31,7 +31,7 @@ function DayTour() {
       <main className=" p-6 flex-1">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">Western and Eastern Nusa Penida Tour</h2>
-          <div className="text-sm text-gray-500 mb-6 flex space-x-4">
+          <div className="text-sm text-gray-500 mb-6 flex space-x-5">
             <span className="cursor-pointer underline-from-left relative">Description</span>
             <span className="cursor-pointer underline-from-left relative">Image</span>
             <span className="cursor-pointer underline-from-left relative">Itinerary</span>
@@ -48,7 +48,7 @@ function DayTour() {
                 name="packageName"
                 value={formData.packageName}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border rounded-md "
+                className="mt-1 p-2 w-full border rounded-l-md "
               />
             </div>
 

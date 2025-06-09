@@ -48,11 +48,11 @@ function DayTour() {
                 name="packageName"
                 value={formData.packageName}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border rounded-l-md "
+                className="mt-1 p-2 w-full border rounded-md "
               />
             </div>
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mt-5">
               <div className="w-1/2">
                 <label className="block text-sm font-medium text-gray-700">English</label>
                 <textarea
@@ -85,11 +85,11 @@ function DayTour() {
               />
             </div>
 
-            <div className="flex justify-end space-x-4">
-              <button type="button" className="px-4 py-2 bg-gray-200 rounded-md">
+            <div className="flex justify-end space-x-4 mt-8">
+              <button type="button" className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
                 Cancel
               </button>
-              <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded-md">
+              <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
                 Save Template
               </button>
             </div>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './DayTour.css'; // Pastikan file ini ada di AdminDashboard/DayTour/
 
 function DayTour() {
@@ -28,26 +27,26 @@ function DayTour() {
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar (Bar) - Ini diasumsikan udah dihandle oleh App.tsx */}
       {/* Konten utama */}
-      <main className="ml-56 p-6 flex-1">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+      <main className="ml-1 p-6 flex-1"> {/* Ubah ml-56 jadi ml-1 */}
+        <div className="bg-white p-6 rounded-md shadow-md"> {/* Ubah rounded-lg jadi rounded-md buat border lebih rapi */}
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">Western and Eastern Nusa Penida Tour</h2>
           <div className="text-sm text-gray-500 mb-6 flex space-x-4">
             <span className="cursor-pointer hover:underline text-green-500">Description</span>
             <span className="cursor-pointer hover:underline">Image</span>
-            {/* Hapus Itinerary dan Price */}
+            <span className="cursor-pointer hover:underline">Itinerary</span>
+            <span className="cursor-pointer hover:underline">Price</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex items-center">
-              <label className="block text-sm font-medium text-gray-700 mr-2">Day tour package name</label>
+              <label className="block text-sm font-medium text-gray-700 mr-2 whitespace-nowrap">Day tour package name</label>
               <input
                 type="text"
                 name="packageName"
                 value={formData.packageName}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-r-0 rounded-l-md rounded-r-none"
+                className="mt-1 p-2 w-full border rounded-md"
               />
-              <div className="border border-l-0 h-10 w-2"></div> {/* Spasi kecil dengan border kanan */}
             </div>
 
             <div className="flex space-x-4">

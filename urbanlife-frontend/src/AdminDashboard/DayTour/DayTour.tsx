@@ -25,15 +25,18 @@ function DayTour() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen">
       {/* Sidebar (Bar) - Ini diasumsikan udah dihandle oleh App.tsx */}
       {/* Konten utama */}
-      <main className="ml-56 p-6 flex-1">
+      <main className=" p-6 flex-1">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">Western and Eastern Nusa Penida Tour</h2>
           <div className="text-sm text-gray-500 mb-6 flex space-x-4">
-            <span className="cursor-pointer hover:underline text-green-500">Description</span>
-            <span className="cursor-pointer hover:underline">Image</span>
+            <span className="cursor-pointer underline-from-left relative">Description</span>
+            <span className="cursor-pointer underline-from-left relative">Image</span>
+            <span className="cursor-pointer underline-from-left relative">Itinerary</span>
+            <span className="cursor-pointer underline-from-left relative ">Price</span>
+
             {/* Hapus Itinerary dan Price */}
           </div>
 
@@ -45,9 +48,8 @@ function DayTour() {
                 name="packageName"
                 value={formData.packageName}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-r-0 rounded-l-md rounded-r-none"
+                className="mt-1 p-2 w-full border rounded-md "
               />
-              <div className="border border-l-0 h-10 w-2"></div> {/* Spasi kecil dengan border kanan */}
             </div>
 
             <div className="flex space-x-4">

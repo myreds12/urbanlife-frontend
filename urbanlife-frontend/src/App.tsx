@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
-import Bar from './AdminDashboard/Bar/bar';
-import Dashboard from'./AdminDashboard/Dashboard/dashboard';
-import Order from'./AdminDashboard/Order/Order';
+import Bar from './AdminDashboard/Bar/Bar';
+import Dashboard from './AdminDashboard/Dashboard/Dashboard';
+import Order from './AdminDashboard/Order/Order';
+import DayTour from './AdminDashboard/DayTour/DayTour'; // Tambah import DayTour
 
 function App() {
   return (
@@ -13,9 +14,11 @@ function App() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/day-tour" element={<DayTour />} /> 
         </Routes>
       </div>
-    </Router>  );
+    </Router>
+  );
 }
 
 export default App;

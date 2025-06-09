@@ -1,7 +1,5 @@
-import React from 'react';
 import Chart from 'react-apexcharts';
 import './dashboard.css';
-import { Link } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import './CalendarCustom.css';
 

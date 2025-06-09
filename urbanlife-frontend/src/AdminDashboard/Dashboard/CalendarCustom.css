@@ -1,0 +1,108 @@
+.react-calendar {
+    width: 100%;
+    max-width: 350px;
+    /* background: #f9f9fb; */
+    border: none;
+    border-radius: 12px;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    line-height: 1.5em;
+    padding: 4px;
+  }
+  
+  /* ini ialah navigasi dari sgala navigasi */
+  .react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .react-calendar__navigation button {
+    min-width: 30px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .react-calendar__navigation button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+  }
+  
+  .react-calendar__navigation button:disabled {
+    opacity: 0.3;
+  }
+  
+  /* Weekday Headers */
+  .react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #888;
+    margin-bottom: 4px;
+  }
+  
+  .react-calendar__month-view__weekdays__weekday {
+    padding: 0.5em 0;
+  }
+  
+  /* Days */
+  .react-calendar__tile {
+    padding: 8px 0;
+    font-size: 0.875rem;
+    background: none;
+    border: none;
+    text-align: center;
+    border-radius: 8px;
+    color: #222;
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+    width: 100%;
+  }
+  
+  .react-calendar__tile:enabled:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+  }
+  
+  /* Hari ini */
+  .react-calendar__tile--now {
+    background: transparent;
+    border: 2px solid #007bff;
+    color: #007bff;
+    
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  
+  /* Tanggal aktif / terpilih */
+  .react-calendar__tile--active {
+    background: #007bff;
+    color: white;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  
+  .react-calendar__tile--active:hover {
+    background: #3399ff;
+  }
+  
+  /* Hari Minggu */
+  /* .react-calendar__month-view__days__day--weekend {
+    color: red;
+  } */
+  
+  /* Hari dari bulan lain */
+  .react-calendar__month-view__days__day--neighboringMonth {
+    color: #ccc;
+  }
+  

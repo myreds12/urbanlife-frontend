@@ -12,3 +12,18 @@ table {
   tr:hover {
     background-color: #f3f4f6;
   }
+
+  .underline-from-left::before {
+  content: '';
+  position: absolute;
+  bottom: -4px; 
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #10b981;
+  transition: width 0.3s ease-in-out;
+}
+
+.underline-from-left:hover::before {
+  width: 100%;
+}

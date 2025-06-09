@@ -93,10 +93,16 @@ const Orders = () => {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Orders</h1>
         
-        <div className="mt-3 space-x-2">
-          <button className="bg-gray-200 text-gray-700 hover:font-medium hover:bg-green-300 px-3 py-1 rounded-full text-sm">All Orders</button>
-          <button className="bg-gray-200 text-gray-700 hover:font-medium hover:bg-green-300 px-3 py-1 rounded-full text-sm">Open Orders</button>
-          <button className="bg-gray-200 text-gray-700 hover:font-medium hover:bg-green-300 px-3 py-1 rounded-full text-sm">Cancelled Order</button>
+        <div className="mt-3 space-x-6">
+          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-green-500 group underline-from-left relative">
+            All Orders
+          </button>
+          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-green-500 group underline-from-left relative">
+            Open Orders
+          </button>
+          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-green-500 group underline-from-left relative">
+            Cancelled Order
+          </button>
         </div>
       </div>
 

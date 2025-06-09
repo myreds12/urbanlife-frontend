@@ -111,7 +111,7 @@ function Dashboard() {
                             {/* KALENDERRR */}
                             <div className="lg:col-span-1">
                                    <div className="w-full p-1 rounded-lg">
-                                          <h5 className="text-2xl font-bold text-gray-900 mb-5">Calendar upcoming event</h5>
+                                          <h5 className="text-xl font-bold text-gray-900 mb-5">Calendar upcoming event</h5>
                                           <Calendar
                                                  value={new Date()}
                                                  className="react-calendar"

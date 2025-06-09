@@ -1,6 +1,5 @@
 import "./bar.css";
-import { Link } from "react-router-dom";
-
+import { NavLink } from 'react-router-dom';
 import React, { useState } from "react";
 
 const Bar = () => {
@@ -70,7 +69,7 @@ const Bar = () => {
               className="flex items-center text-sm rounded-full focus:outline-none"
             >
               <span className="mr-2 font-medium text-gray-900 hidden sm:inline">
-                Baginda Raja
+                Admin
               </span>
               <img
                 className="w-8 h-8 rounded-full border border-gray-300"
@@ -81,7 +80,7 @@ const Bar = () => {
             {profileOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
                 <div className="px-4 py-3 text-sm text-gray-700 border-b">
-                  <p className="font-medium">Baginda Raja</p>
+                  <p className="font-medium">Admin</p>
                   <p className="text-xs text-gray-500">Admin@gmail.com</p>
                 </div>
                 <ul className="py-1 text-sm text-gray-700">
@@ -107,89 +106,137 @@ const Bar = () => {
         </div>
       </nav>
 
-      <aside
-        className="fixed top-0 left-0 z-100 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
-        aria-label="Sidebar"
-      >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-white">
-          <ul className="space-y-2 font-medium ">
-            <div className="flex items-center justify-center h-12 mb-2">
-              <img src="./logo.png" alt="Logo" className="h-12" />
-            </div>
-            <li>
-              <Link
-                to="/dashboard"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-500 hover:text-white group"
-              >
-                <i className="fa-solid fa-chart-line w-5 h-5 text-gray-500 group-hover:text-gray-900"></i>
-                <span className="ml-3">Dashboard</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/order"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-500 hover:text-white group"
-              >
-                <i className="fa-regular fa-calendar w-5 h-5 text-gray-500 group-hover:text-gray-900"></i>
-                <span className="ml-3">Order</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/day-tour"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-500 hover:text-white group"
-              >
-                <i className="fa-solid fa-suitcase-rolling w-5 h-5 text-gray-500 group-hover:text-gray-900"></i>
-                <span className="ml-3">Day Tour</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/rent-car"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-500 hover:text-white group"
-              >
-                <i className="fa-solid fa-car w-5 h-5 text-gray-500 group-hover:text-gray-900"></i>
-                <span className="ml-3">Rent Car</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/accommodation"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-500 hover:text-white group"
-              >
-                <i className="fa-solid fa-house-user w-5 h-5 text-gray-500 group-hover:text-gray-900"></i>
-                <span className="ml-3">Accommodation</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/inbox"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-500 hover:text-white group"
-              >
-                <i className="fa-solid fa-inbox w-5 h-5 text-gray-500 group-hover:text-gray-900"></i>
-                <span className="ml-3">Inbox</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/whatsapp-setting"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-500 hover:text-white group"
-              >
-                <i className="fa-brands fa-whatsapp w-5 h-5 text-gray-500 group-hover:text-gray-900"></i>
-                <span className="ml-3">WhatsApp Setting</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-500 hover:text-white group"
-              >
-                <i className="fa-solid fa-gear w-5 h-5 text-gray-500 group-hover:text-gray-900"></i>
-                <span className="ml-3">Setting</span>
-              </Link>
-            </li>
-          </ul>
-
+<aside
+      className="fixed top-0 left-0 z-[100] w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+      aria-label="Sidebar"
+    >
+      <div className="h-full px-7 py-4 overflow-y-auto bg-white">
+        <ul className="space-y-2 font-medium">
+          <div className="flex items-center justify-center h-12 mb-2">
+            <img src="./logo.png" alt="Logo" className="h-12" />
+          </div>
+          <li>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isActive
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-900 hover:bg-green-500 hover:text-white group'
+                }`
+              }
+            >
+              <i className="fa-solid fa-chart-line w-5 text-gray-500 group-hover:text-gray-900 "></i>
+              <span className="ml-3">Dashboard</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/order"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isActive
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-900 hover:bg-green-500 hover:text-white group'
+                }`
+              }
+            >
+              <i className="fa-regular fa-calendar w-5 text-gray-500 group-hover:text-gray-900"></i>
+              <span className="ml-3">Order</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/day-tour"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isActive
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-900 hover:bg-green-500 hover:text-white group'
+                }`
+              }
+            >
+              <i className="fa-solid fa-suitcase-rolling w-5 text-gray-500 group-hover:text-gray-900"></i>
+              <span className="ml-3">Day Tour</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/rent-car"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isActive
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-900 hover:bg-green-500 hover:text-white group'
+                }`
+              }
+            >
+              <i className="fa-solid fa-car w-5 text-gray-500 group-hover:text-gray-900"></i>
+              <span className="ml-3">Rent Car</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/accommodation"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isActive
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-900 hover:bg-green-500 hover:text-white group'
+                }`
+              }
+            >
+              <i className="fa-solid fa-house-user w-5 text-gray-500 group-hover:text-gray-900"></i>
+              <span className="ml-3">Accommodation</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/inbox"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isActive
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-900 hover:bg-green-500 hover:text-white group'
+                }`
+              }
+            >
+              <i className="fa-solid fa-inbox w-5 text-gray-500 group-hover:text-gray-900"></i>
+              <span className="ml-3">Inbox</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/whatsapp-setting"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isActive
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-900 hover:bg-green-500 hover:text-white group'
+                }`
+              }
+            >
+              <i className="fa-brands fa-whatsapp w-5 text-gray-500 group-hover:text-gray-900"></i>
+              <span className="ml-3">WhatsApp Setting</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isActive
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-900 hover:bg-green-500 hover:text-white group'
+                }`
+              }
+            >
+              <i className="fa-solid fa-gear w-5 text-gray-500 group-hover:text-gray-900"></i>
+              <span className="ml-3">Setting</span>
+            </NavLink>
+          </li>
+        </ul>
+      </div>
           
           <div className="w-full max-w-xs p-4 mx-auto rounded-lg dark:bg-gray-50 dark:text-gray-800">
             <div className="flex justify-between space-x-4 items-center">
@@ -226,8 +273,7 @@ const Bar = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
+          </div> 
         
       </aside>
 

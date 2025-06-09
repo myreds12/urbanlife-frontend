@@ -22,7 +22,7 @@ const Bar = () => {
               className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 rounded-lg cursor-pointer hover:bg-green-500 hover:text-white transition"
             >
               <img
-                src="./image.png"
+                src="./us.png"
                 alt="US Flag"
                 className="w-5 h-5 rounded-full mr-2"
               />
@@ -38,7 +38,7 @@ const Bar = () => {
                       className="flex items-center px-4 py-2 hover:bg-gray-100"
                     >
                       <img
-                        src="./image.png"
+                        src="./us.png"
                         alt="US Flag"
                         className="w-5 h-5 rounded-full mr-2"
                       />
@@ -74,7 +74,7 @@ const Bar = () => {
               </span>
               <img
                 className="w-8 h-8 rounded-full border border-gray-300"
-                src="./mario.jpg"
+                src="./profile.png"
                 alt="User avatar"
               />
             </button>

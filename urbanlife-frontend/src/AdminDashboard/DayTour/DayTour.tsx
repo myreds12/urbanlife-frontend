@@ -128,7 +128,7 @@ function DayTour() {
         <div id="image" className={activeSection === 'image' ? 'block' : 'hidden'}>
             <div className="flex items-center mb-4">
                 <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" id="photoUpload"/>
-                <label htmlFor="photoUpload" className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer">
+                <label htmlFor="photoUpload" className="absolute right-15 top-45 px-4 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer">
                   Add Photo
                 </label>
             </div>

@@ -70,7 +70,7 @@ function DayTour() {
         <div id="description" className={activeSection === 'description' ? 'block' : 'hidden'}>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex items-center">
-              <label className="block text-sm font-medium text-gray-700 mr-2">Day tour package name</label>
+              <label className="block text-sm font-medium text-gray-700 mr-2 whitespace-nowrap">Day tour package name</label>
               <input
                 type="text"
                 name="packageName"
@@ -79,6 +79,7 @@ function DayTour() {
                 className="mt-1 p-2 w-full border rounded-md "
               />
             </div>
+            
 
             <div className="flex space-x-4 mt-5">
               <div className="w-1/2">

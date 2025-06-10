@@ -2,6 +2,7 @@ import Chart from 'react-apexcharts';
 import './dashboard.css';
 import Calendar from 'react-calendar';
 import './CalendarCustom.css';
+import Orders from '../Order/Order';
 
 function Dashboard() {
        const chartOptions = {
@@ -122,6 +123,10 @@ function Dashboard() {
                                           />
                                    </div>
                             </div>
+                     </div>
+                     {/* order, -posisi */}
+                     <div className="lg:col-span-3 mt-5">
+                      <Orders />
                      </div>
               </div>
        );

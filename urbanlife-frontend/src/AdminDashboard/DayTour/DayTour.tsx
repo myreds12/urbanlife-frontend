@@ -79,8 +79,7 @@ function DayTour() {
                 className="mt-1 p-2 w-full border rounded-md "
               />
             </div>
-            
-
+          
             <div className="flex space-x-4 mt-5">
               <div className="w-1/2">
                 <label className="block text-sm font-medium text-gray-700">English</label>
@@ -125,6 +124,7 @@ function DayTour() {
           </form>
         </div>
 
+        {/* IMAGEEE */}
         <div id="image" className={activeSection === 'image' ? 'block' : 'hidden'}>
             <div className="flex items-center mb-4">
                 <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" id="photoUpload"/>
@@ -136,13 +136,15 @@ function DayTour() {
               {photos.map((photo, index) => (
                 <div key={index} className="relative">
                   <img src={photo} alt={`Tour photo ${index + 1}`} className="w-40 h-50 mt-2 object-cover rounded-md"/>
-                  <button onClick={() => removePhoto(index)} className="absolute top-0 right-10 bg-zinc-600 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-gray-400">
+                  <button onClick={() => removePhoto(index)} className="absolute top-0 right-10 bg-zinc-600 text-white rounded-full w-6 flex items-center justify-center shadow-md hover:bg-gray-400">
                     ×
                   </button>
                 </div>
               ))}
             </div>
           </div>
+
+          {/* ITINERARY */}
         </div>
       </main>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './order.css'; // Pastikan file ini ada di src/ untuk styling tambahan
+import './order.css';
 
 const Orders = () => {
   // Data dummy untuk tabel

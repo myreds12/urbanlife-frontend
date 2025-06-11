@@ -19,7 +19,7 @@ function Dashboard() {
                                    shade: '#1C64F2',
                                    gradientToColors: ['#1C64F2'],},},
               dataLabels: { enabled: false },
-              stroke: {     width: 6 },
+              stroke: {     width: 4 },
               grid: {       show: false,
                             strokeDashArray: 4,
                             padding: { left: 2, right: 2, top: 0 },},
@@ -99,7 +99,7 @@ function Dashboard() {
                                                  height={100}
                                           />
 
-                                          <div className="grid grid-cols-1 items-center justify-between mt-2">
+                                          <div className="grid grid-cols-1 items-center justify-between">
                                                  <p className="text-sm font-medium text-gray-500 text-center">From last month</p>
                                           </div>
                                    </div>
@@ -110,7 +110,7 @@ function Dashboard() {
                             {/* KALENDERRR */}
                             <div className="lg:col-span-1">
                                    <div className="w-full p-1 rounded-lg">
-                                          <h5 className="text-xl font-bold text-gray-900 mb-5">Calendar upcoming event</h5>
+                                          <h5 className="text-xl font-bold text-gray-900 mt-3 mb-4">Calendar upcoming event</h5>
                                           <Calendar
                                                  value={new Date()}
                                                  className="react-calendar"
@@ -122,6 +122,7 @@ function Dashboard() {
                                                  }}
                                           />
                                    </div>
+                                   
                             </div>
                      </div>
                      {/* order, -posisi */}

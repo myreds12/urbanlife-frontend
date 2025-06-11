@@ -1,5 +1,5 @@
 import '../../../styles/Bar/Bar.css';
-import React, { useState } from "react";
+import  { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 const Bar = () => {
@@ -127,9 +127,9 @@ const Bar = () => {
               <NavLink
                 to="/dashboard"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
                     isActive
-                      ? "bg-green-500 text-white"
+                      ? "bg-green-500  text-white"
                       : "text-gray-900 hover:bg-green-500 hover:text-white group"
                   }`
                 }
@@ -142,7 +142,7 @@ const Bar = () => {
               <NavLink
                 to="/order"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
                     isActive
                       ? "bg-green-500 text-white"
                       : "text-gray-900 hover:bg-green-500 hover:text-white group"
@@ -157,7 +157,7 @@ const Bar = () => {
               <NavLink
                 to="/day-tour"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
                     isActive
                       ? "bg-green-500 text-white"
                       : "text-gray-900 hover:bg-green-500 hover:text-white group"
@@ -172,7 +172,7 @@ const Bar = () => {
               <NavLink
                 to="/rent-car"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
                     isActive
                       ? "bg-green-500 text-white"
                       : "text-gray-900 hover:bg-green-500 hover:text-white group"
@@ -187,7 +187,7 @@ const Bar = () => {
               <NavLink
                 to="/accommodation"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
                     isActive
                       ? "bg-green-500 text-white"
                       : "text-gray-900 hover:bg-green-500 hover:text-white group"
@@ -202,7 +202,7 @@ const Bar = () => {
               <NavLink
                 to="/inbox"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
                     isActive
                       ? "bg-green-500 text-white"
                       : "text-gray-900 hover:bg-green-500 hover:text-white group"
@@ -218,7 +218,7 @@ const Bar = () => {
                 <NavLink
                   to="/whatsapp-setting"
                   className={() =>
-                    `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                    `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
                       location.pathname === "/whatsapp-setting"
                         ? "bg-white text-green-600"
                         : "text-white hover:bg-green-500 group"
@@ -235,7 +235,7 @@ const Bar = () => {
                     <NavLink
                       to="/whatsapp-connect"
                       className={({ isActive }) =>
-                        `block py-2 pr-4 pl-11 rounded-xl font-semibold text-left ${
+                        `block py-2 pr-4 pl-11 rounded-xl font-semibold text-left hoveraside ${
                           isActive
                             ? "bg-white text-green-500"
                             : "text-white hover:bg-green-400 hover:text-white"
@@ -247,7 +247,7 @@ const Bar = () => {
                     <NavLink
                       to="/whatsapp-template"
                       className={({ isActive }) =>
-                        `block py-3 pr-4 pl-11 rounded-xl font-semibold text-left ${
+                        `block py-3 pr-4 pl-11 rounded-xl font-semibold text-left hoveraside ${
                           isActive
                             ? "bg-white text-green-500"
                             : "text-white hover:bg-green-400 hover:text-white"

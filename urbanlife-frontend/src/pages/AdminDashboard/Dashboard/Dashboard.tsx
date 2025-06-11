@@ -1,7 +1,7 @@
 import Chart from 'react-apexcharts';
-import '../../styles/Dashboard.css';
+import '../../../styles/Dashboard/Dashboard.css';
 import Calendar from 'react-calendar';
-import '../../styles/Calendar.css';
+import '../../../styles/Dashboard/CalendarCustom.css';
 import Orders from '../Order/Order';
 
 function Dashboard() {

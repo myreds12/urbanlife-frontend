@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/order.css';
+import '../../../styles/Order/Order.css';
 
 const Orders = () => {
   // Data dummy untuk tabel

@@ -1,4 +1,4 @@
-import '../../styles/Bar.css';
+import '../../../styles/Bar/Bar.css';
 import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 

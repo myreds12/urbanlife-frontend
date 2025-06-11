@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+<<<<<<< HEAD
 import '../../../styles/DayTour/DayTour.css';
+=======
+import '../../styles/daytour/DayTour.css';
+>>>>>>> d2d4d94072f7da22507fbec51436b08b72d91fc4
 
 function DayTour() {
   // State untuk form

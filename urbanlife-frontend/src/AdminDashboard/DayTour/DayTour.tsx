@@ -132,11 +132,11 @@ function DayTour() {
                   Add Photo
                 </label>
             </div>
-            <div className="grid grid-cols-5">
+            <div className="grid grid-cols-5 gap-7">
               {photos.map((photo, index) => (
                 <div key={index} className="relative">
-                  <img src={photo} alt={`Tour photo ${index + 1}`} className="w-40 h-50 mt-2 object-cover rounded-md"/>
-                  <button onClick={() => removePhoto(index)} className="absolute top-0 right-10 bg-zinc-600 text-white rounded-full w-6 flex items-center justify-center shadow-md hover:bg-gray-400">
+                  <img src={photo} alt={`Tour photo ${index + 1}`} className="w-45 h-50 mt-2 object-cover rounded-md"/>
+                  <button onClick={() => removePhoto(index)} className="absolute top-0 right-1 bg-zinc-600 text-white rounded-full w-6 flex items-center justify-center shadow-md hover:bg-gray-400">
                     ×
                   </button>
                 </div>

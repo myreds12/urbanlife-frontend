@@ -94,13 +94,13 @@ const Orders = () => {
         <h1 className="text-3xl font-bold text-gray-900">Orders</h1>
         
         <div className="mt-3 space-x-6">
-          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-green-500 group underline-from-left relative">
+          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-cyan-600 group underline-from-left relative">
             All Orders
           </button>
-          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-green-500 group underline-from-left relative">
+          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-cyan-600 group underline-from-left relative">
             Open Orders
           </button>
-          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-green-500 group underline-from-left relative">
+          <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-cyan-600 group underline-from-left relative">
             Cancelled Order
           </button>
         </div>

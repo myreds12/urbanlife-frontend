@@ -27,7 +27,7 @@ const Bar = () => {
             <button
               type="button"
               onClick={() => setLanguageOpen(!languageOpen)}
-              className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 rounded-lg cursor-pointer hover:bg-green-500 hover:text-white transition"
+              className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 rounded-lg cursor-pointer hover:bg-cyan-600 hover:text-white transition"
             >
               <img
                 src="./us.png"
@@ -127,10 +127,10 @@ const Bar = () => {
               <NavLink
                 to="/dashboard"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
-                      ? "bg-green-500  text-white"
-                      : "text-gray-900 hover:bg-green-500 hover:text-white group"
+                      ? "bg-cyan-600 text-white"
+                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
                   }`
                 }
               >
@@ -142,10 +142,10 @@ const Bar = () => {
               <NavLink
                 to="/order"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
-                      ? "bg-green-500 text-white"
-                      : "text-gray-900 hover:bg-green-500 hover:text-white group"
+                      ? "bg-cyan-600 text-white"
+                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
                   }`
                 }
               >
@@ -157,10 +157,10 @@ const Bar = () => {
               <NavLink
                 to="/day-tour"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
-                      ? "bg-green-500 text-white"
-                      : "text-gray-900 hover:bg-green-500 hover:text-white group"
+                      ? "bg-cyan-600 text-white"
+                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
                   }`
                 }
               >
@@ -172,10 +172,10 @@ const Bar = () => {
               <NavLink
                 to="/rent-car"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
-                      ? "bg-green-500 text-white"
-                      : "text-gray-900 hover:bg-green-500 hover:text-white group"
+                      ? "bg-cyan-600 text-white"
+                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
                   }`
                 }
               >
@@ -187,10 +187,10 @@ const Bar = () => {
               <NavLink
                 to="/accommodation"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
-                      ? "bg-green-500 text-white"
-                      : "text-gray-900 hover:bg-green-500 hover:text-white group"
+                      ? "bg-cyan-600 text-white"
+                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
                   }`
                 }
               >
@@ -202,10 +202,10 @@ const Bar = () => {
               <NavLink
                 to="/inbox"
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
-                      ? "bg-green-500 text-white"
-                      : "text-gray-900 hover:bg-green-500 hover:text-white group"
+                      ? "bg-cyan-600 text-white"
+                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
                   }`
                 }
               >
@@ -214,14 +214,14 @@ const Bar = () => {
               </NavLink>
             </li>
             <li>
-              <div className="rounded-2xl bg-green-600 text-white w-60 space-y-1">
+              <div className="rounded-2xl bg-cyan-600 text-white w-60 space-y-1">
                 <NavLink
                   to="/whatsapp-setting"
                   className={() =>
-                    `flex items-center p-2 rounded-xl transition duration-100 ease-in-out hoveraside ${
+                    `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                       location.pathname === "/whatsapp-setting"
                         ? "bg-white text-green-600"
-                        : "text-white hover:bg-green-500 group"
+                        : "text-white hover:bg-cyan-600 group"
                     }`
                   }
                 >
@@ -235,9 +235,9 @@ const Bar = () => {
                     <NavLink
                       to="/whatsapp-connect"
                       className={({ isActive }) =>
-                        `block py-2 pr-4 pl-11 rounded-xl font-semibold text-left hoveraside ${
+                        `block py-2 pr-4 pl-11 rounded-xl font-semibold text-left buttonhover ${
                           isActive
-                            ? "bg-white text-green-500"
+                            ? "bg-white text-cyan-600"
                             : "text-white hover:bg-green-400 hover:text-white"
                         }`
                       }
@@ -247,7 +247,7 @@ const Bar = () => {
                     <NavLink
                       to="/whatsapp-template"
                       className={({ isActive }) =>
-                        `block py-3 pr-4 pl-11 rounded-xl font-semibold text-left hoveraside ${
+                        `block py-3 pr-4 pl-11 rounded-xl font-semibold text-left buttonhover ${
                           isActive
                             ? "bg-white text-green-500"
                             : "text-white hover:bg-green-400 hover:text-white"

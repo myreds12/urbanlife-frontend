@@ -56,8 +56,8 @@ function DayTour() {
   return (
     <div className="flex h-screen">
       <main className="p-6 flex-1">
-        <div className="bg-white p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Western and Eastern Nusa Penida Tour</h2>
+        <div className=" p-6 rounded-lg">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-3">Western and Eastern Nusa Penida Tour</h2>
           <div className="text-sm text-gray-500 mb-6 flex space-x-5">
             <span
               className={`cursor-pointer ${activeSection === 'description' ? 'text-green-500' : 'text-gray-500'} hover:text-green-500 underline-from-left relative`}
@@ -87,16 +87,16 @@ function DayTour() {
 
           {/* Description Section */}
           <div id="description" className={activeSection === 'description' ? 'block' : 'hidden'}>
-            <div className="p-6 rounded-lg shadow-md shadow-black/20">
+            <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="flex items-center">
-                  <label className="block text-sm font-medium text-gray-700 mr-2 whitespace-nowrap">Day tour package name</label>
+                  <label className="block text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-3 py-2 rounded-md">Day tour package name</label>
                   <input
                     type="text"
                     name="packageName"
                     value={formData.packageName}
                     onChange={handleChange}
-                    className="mt-1 p-2 w-full border rounded-md"
+                    className="py-1 px-3 w-full border border-gray-300 rounded-md focus:outline-cyan-600"
                   />
                 </div>
 

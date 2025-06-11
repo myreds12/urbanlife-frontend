@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
-import Bar from './AdminDashboard/Bar/Bar';
-import Dashboard from './AdminDashboard/Dashboard/Dashboard';
-import Order from './AdminDashboard/Order/Order';
-import DayTour from './AdminDashboard/DayTour/DayTour'; // Tambah import DayTour
+import Bar from './pages/AdminDashboard/Bar/Bar';
+import Dashboard from './pages/AdminDashboard/Dashboard/Dashboard';
+import Order from './pages/AdminDashboard/Order/Order';
+import DayTour from './pages/AdminDashboard/DayTour/DayTour'; // Tambah import DayTour
 
 function App() {
   return (

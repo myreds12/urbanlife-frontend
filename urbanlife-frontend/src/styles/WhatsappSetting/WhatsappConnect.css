@@ -1,7 +1,27 @@
 /* src/styles/WhatsappSetting/WhatsappConnect.css */
-label {
+.modal-overlay {
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .modal-overlay.entering {
+    opacity: 0;
+  }
+  
+  .modal-overlay.entered {
+    opacity: 0.3;
+  }
+  
+  .modal-overlay.exiting {
+    opacity: 0;
+  }
+  
+  label {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     min-width: 0;
+  }
+  
+  input:focus {
+    outline: 2px solid #22d3ee; /* Warna cyan-600 */
   }

@@ -108,7 +108,9 @@ const WhatsappConnect: React.FC = () => {
       <div className="mb-4 flex justify-between items-center">
         <div className="flex space-x-4">
           <div className="flex items-center">
-            <label className="block text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-3 py-2 rounded-md">No Admin 1</label>
+            <label className="text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-16 py-2 rounded-md flex items-center justify-start">
+              No Admin 1
+            </label>
             <input
               type="text"
               placeholder="No Admin 1"
@@ -118,7 +120,9 @@ const WhatsappConnect: React.FC = () => {
             />
           </div>
           <div className="flex items-center">
-            <label className="block text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-3 py-2 rounded-md">No Admin 2</label>
+            <label className="text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-16 py-2 rounded-md flex items-center justify-start">
+              No Admin 2
+            </label>
             <input
               type="text"
               placeholder="No Admin 2"
@@ -136,13 +140,17 @@ const WhatsappConnect: React.FC = () => {
         </button>
       </div>
 
-      <div className="relative mb-4">
-        <input
-          type="text"
-          placeholder="Search template"
-          className="border rounded-lg p-2 pl-10 w-64"
-        />
-        <span className="absolute left-3 top-2 text-gray-400">🔍</span>
+      <div className="mb-4 flex items-center">
+        <div className="relative w-60 max-w-md">
+          <input
+            type="text"
+            placeholder="Search template"
+            className="w-full p-2 pr-10 border border-gray-300 rounded-lg text-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-600"
+          />
+          <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+            <i className="fas fa-search"></i>
+          </button>
+        </div>
       </div>
 
       <div className="overflow-x-auto">

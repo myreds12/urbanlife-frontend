@@ -107,26 +107,22 @@ const WhatsappConnect: React.FC = () => {
     <div className="p-4">
       <div className="mb-4 flex justify-between items-center">
         <div className="flex space-x-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search template"
-              className="border rounded-lg p-2 pl-10 w-64"
-            />
-            <span className="absolute left-3 top-2 text-gray-400">🔍</span>
-          </div>
-          <div className="flex space-x-2">
+          <div className="flex items-center">
+            <label className="block text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-3 py-2 rounded-md">No Admin 1</label>
             <input
               type="text"
               placeholder="No Admin 1"
-              className="border rounded-lg p-2 w-32"
+              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
               value={admin1}
               onChange={(e) => setAdmin1(e.target.value)}
             />
+          </div>
+          <div className="flex items-center">
+            <label className="block text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-3 py-2 rounded-md">No Admin 2</label>
             <input
               type="text"
               placeholder="No Admin 2"
-              className="border rounded-lg p-2 w-32"
+              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
               value={admin2}
               onChange={(e) => setAdmin2(e.target.value)}
             />
@@ -138,6 +134,15 @@ const WhatsappConnect: React.FC = () => {
         >
           + New Template
         </button>
+      </div>
+
+      <div className="relative mb-4">
+        <input
+          type="text"
+          placeholder="Search template"
+          className="border rounded-lg p-2 pl-10 w-64"
+        />
+        <span className="absolute left-3 top-2 text-gray-400">🔍</span>
       </div>
 
       <div className="overflow-x-auto">

@@ -1,0 +1,6 @@
+.flex.items-center label {
+    margin-right: 0.5rem;
+  }
+  input:focus {
+    outline: 2px solid #22d3ee; /* Warna cyan-600 */
+  }

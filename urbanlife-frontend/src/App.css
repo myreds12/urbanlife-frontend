@@ -8,3 +8,7 @@
   min-height: 100vh;
   background-color: #f9fafb; /* optional untuk latar belakang */
 }
+
+::-webkit-scrollbar{
+  display: none;
+}

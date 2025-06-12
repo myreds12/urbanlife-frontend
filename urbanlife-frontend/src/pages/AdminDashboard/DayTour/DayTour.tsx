@@ -60,25 +60,25 @@ function DayTour() {
           <h2 className="text-2xl font-semibold text-gray-900 mb-3">Western and Eastern Nusa Penida Tour</h2>
           <div className="text-sm text-gray-500 mb-6 flex space-x-5">
             <span
-              className={`cursor-pointer ${activeSection === 'description' ? 'text-green-500' : 'text-gray-500'} hover:text-green-500 underline-from-left relative`}
+              className={`cursor-pointer ${activeSection === 'description' ? 'text-cyan-600' : 'text-gray-500'} hover:text-cyan-700 underline-from-left relative`}
               onClick={() => moveSection('description')}
             >
               Description
             </span>
             <span
-              className={`cursor-pointer ${activeSection === 'image' ? 'text-green-500' : 'text-gray-500'} hover:text-green-500 underline-from-left relative`}
+              className={`cursor-pointer ${activeSection === 'image' ? 'text-cyan-600' : 'text-gray-500'} hover:text-cyan-700 underline-from-left relative`}
               onClick={() => moveSection('image')}
             >
               Image
             </span>
             <span
-              className={`cursor-pointer ${activeSection === 'itinerary' ? 'text-green-500' : 'text-gray-500'} hover:text-green-500 underline-from-left relative`}
+              className={`cursor-pointer ${activeSection === 'itinerary' ? 'text-cyan-600' : 'text-gray-500'} hover:text-cyan-700 underline-from-left relative`}
               onClick={() => moveSection('itinerary')}
             >
               Itinerary
             </span>
             <span
-              className={`cursor-pointer ${activeSection === 'price' ? 'text-green-500' : 'text-gray-500'} hover:text-green-500 underline-from-left relative`}
+              className={`cursor-pointer ${activeSection === 'price' ? 'text-cyan-600' : 'text-gray-500'} hover:text-cyan-700 underline-from-left relative`}
               onClick={() => moveSection('price')}
             >
               Price
@@ -126,10 +126,10 @@ function DayTour() {
                 </div>
 
                 <div className="flex justify-end space-x-4 mt-8">
-                  <button type="button" className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+                  <button type="button" className="px-4 py-2 bg-gray-200 rounded-md hover:bg-cyan-700">
                     Cancel
                   </button>
-                  <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                  <button type="submit" className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
                     Save Template
                   </button>
                 </div>
@@ -144,7 +144,7 @@ function DayTour() {
                 <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" id="photoUpload" />
                 <label
                   htmlFor="photoUpload"
-                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer"
+                  className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 cursor-pointer"
                 >
                   Add Photo
                 </label>

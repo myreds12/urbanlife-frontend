@@ -1,5 +1,5 @@
-import '../../../styles/Bar/Bar.css';
-import  { useState } from "react";
+import "../../../styles/Bar/Bar.css";
+import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 const Bar = () => {
@@ -213,32 +213,34 @@ const Bar = () => {
                 <span className="ml-3">Inbox</span>
               </NavLink>
             </li>
+
+
             <li>
-              <div className="rounded-2xl bg-cyan-600 text-white w-60 space-y-1">
+              <div className="rounded-2xl bg-cyan-600 text-white w-50 space-y-1 p-2">
                 <NavLink
                   to="/whatsapp-setting"
-                  className={() =>
-                    `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
-                      location.pathname === "/whatsapp-setting"
-                        ? "bg-white text-green-600"
-                        : "text-white hover:bg-cyan-600 group"
+                  className={({ isActive }) =>
+                    `flex items-center p-2 rounded-full transition duration-100 ease-in-out ${
+                      isActive
+                        ? "bg-white text-cyan-600"
+                        : "text-white hover:bg-cyan-700 hover:text-white"
                     }`
                   }
                 >
-                  <i className="fa-brands fa-whatsapp w-5 text-gray-500 group-hover:text-gray-900"></i>
+                  <i className="fa-brands fa-whatsapp w-5 text-white hover:text-white"></i>
                   <span className="ml-3">Whatsapp Setting</span>
                 </NavLink>
 
                 {/* Show submenu if inside whatsapp section */}
                 {isInWhatsappSection && (
-                  <div className="space-y-1">
+                  <div className="space-y-1 pl-6">
                     <NavLink
                       to="/whatsapp-connect"
                       className={({ isActive }) =>
-                        `block py-2 pr-4 pl-11 rounded-xl font-semibold text-left buttonhover ${
+                        `flex items-center p-2 rounded-full font-semibold text-left transition duration-100 ease-in-out ${
                           isActive
                             ? "bg-white text-cyan-600"
-                            : "text-white hover:bg-green-400 hover:text-white"
+                            : "text-white hover:bg-cyan-700 hover:text-white"
                         }`
                       }
                     >
@@ -247,19 +249,21 @@ const Bar = () => {
                     <NavLink
                       to="/whatsapp-template"
                       className={({ isActive }) =>
-                        `block py-3 pr-4 pl-11 rounded-xl font-semibold text-left buttonhover ${
+                        `flex items-center p-2 block py-2 pr-4 pl-4 rounded-full font-semibold text-left transition duration-500 ease-in-out ${
                           isActive
-                            ? "bg-white text-green-500"
-                            : "text-white hover:bg-green-400 hover:text-white"
+                            ? "bg-white text-cyan-600"
+                            : "text-white hover:bg-cyan-700 hover:text-white"
                         }`
                       }
                     >
-                      Whatsapp Template
+                       Template
                     </NavLink>
                   </div>
                 )}
               </div>
             </li>
+
+            
           </ul>
         </div>
 

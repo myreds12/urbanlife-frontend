@@ -1,19 +1,23 @@
 import "../../../styles/Bar/Bar.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 const Bar = () => {
   const [languageOpen, setLanguageOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [whatsappExpanded, setWhatsappExpanded] = useState(false);
   const location = useLocation();
 
-  const whatsappRoutes = [
-    "/whatsapp-setting",
-    "/whatsapp-connect",
-    "/whatsapp-template",
-  ];
+  const isInWhatsappSection = location.pathname.startsWith("/whatsapp-");
+  useEffect(() => {
+    const whatsappRoutes = [
+      "/whatsapp-setting",
+      "/whatsapp-connect",
+      "/whatsapp-template",
+    ];
 
-  const isInWhatsappSection = whatsappRoutes.includes(location.pathname);
+    setWhatsappExpanded(whatsappRoutes.includes(location.pathname));
+  }, [location.pathname]);
 
   return (
     <>
@@ -27,7 +31,7 @@ const Bar = () => {
             <button
               type="button"
               onClick={() => setLanguageOpen(!languageOpen)}
-              className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 rounded-lg cursor-pointer hover:bg-cyan-600 hover:text-white transition"
+              className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 rounded-lg cursor-pointer hover:bg-cyan-100 hover:text-gray transition"
             >
               <img
                 src="./us.png"
@@ -130,7 +134,7 @@ const Bar = () => {
                   `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
                       ? "bg-cyan-600 text-white"
-                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
+                      : "text-gray-900 hover:bg-cyan-100 hover:text-gray group"
                   }`
                 }
               >
@@ -145,7 +149,7 @@ const Bar = () => {
                   `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
                       ? "bg-cyan-600 text-white"
-                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
+                      : "text-gray-900 hover:bg-cyan-100 hover:text-gray group"
                   }`
                 }
               >
@@ -160,7 +164,7 @@ const Bar = () => {
                   `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
                       ? "bg-cyan-600 text-white"
-                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
+                      : "text-gray-900 hover:bg-cyan-100 hover:text-gray group"
                   }`
                 }
               >
@@ -175,7 +179,7 @@ const Bar = () => {
                   `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
                       ? "bg-cyan-600 text-white"
-                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
+                      : "text-gray-900 hover:bg-cyan-100 hover:text-gray group"
                   }`
                 }
               >
@@ -190,7 +194,7 @@ const Bar = () => {
                   `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
                       ? "bg-cyan-600 text-white"
-                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
+                      : "text-gray-900 hover:bg-cyan-100 hover:text-gray group"
                   }`
                 }
               >
@@ -205,7 +209,7 @@ const Bar = () => {
                   `flex items-center p-2 rounded-xl transition duration-100 ease-in-out buttonhover ${
                     isActive
                       ? "bg-cyan-600 text-white"
-                      : "text-gray-900 hover:bg-cyan-600 hover:text-white group"
+                      : "text-gray-900 hover:bg-cyan-100 hover:text-gray group"
                   }`
                 }
               >
@@ -214,56 +218,91 @@ const Bar = () => {
               </NavLink>
             </li>
 
-
             <li>
-              <div className="rounded-2xl bg-cyan-600 text-white w-50 space-y-1 p-2">
-                <NavLink
-                  to="/whatsapp-setting"
-                  className={({ isActive }) =>
-                    `flex items-center p-2 rounded-full transition duration-100 ease-in-out ${
-                      isActive
-                        ? "bg-white text-cyan-600"
-                        : "text-white hover:bg-cyan-700 hover:text-white"
-                    }`
-                  }
-                >
-                  <i className="fa-brands fa-whatsapp w-5 text-white hover:text-white"></i>
-                  <span className="ml-3">Whatsapp Setting</span>
-                </NavLink>
+              {/* Main WhatsApp Toggle Button */}
+              <button
+                onClick={() => setWhatsappExpanded(!whatsappExpanded)} // boolean state
+                className={`flex items-center justify-between w-full p-2 rounded-xl transition duration-100 ease-in-out ${
+                  isInWhatsappSection
+                    ? "bg-cyan-600 text-white"
+                    : "text-gray-900 hover:bg-cyan-100 hover:text-gray"
+                }`}
+              >
+                <div className="flex items-center">
+                  <i className="fa-brands fa-whatsapp w-5 text-gray-500 group-hover:text-white"></i>
+                  <span className="ml-3">WhatsApp</span>
+                </div>
+                <i
+                  className={`fa-solid fa-chevron-down text-xs ml-2 transition-transform duration-200 ${
+                    whatsappExpanded ? "rotate-180" : ""
+                  }`}
+                ></i>
+              </button>
 
-                {/* Show submenu if inside whatsapp section */}
-                {isInWhatsappSection && (
-                  <div className="space-y-1 pl-6">
+              {/* Submenu */}
+              {whatsappExpanded && (
+                <ul className="ml-9 mt-1 space-y-1">
+                  <li>
+                    <NavLink
+                      to="/whatsapp-setting"
+                      className={({ isActive }) =>
+                        `block p-2 rounded-xl text-sm transition duration-100 ease-in-out ${
+                          isActive
+                            ? "bg-cyan-600 text-white"
+                            : "text-gray-700 hover:bg-cyan-100"
+                        }`
+                      }
+                    >
+                      WhatsApp Setting
+                    </NavLink>
+                  </li>
+                  <li>
                     <NavLink
                       to="/whatsapp-connect"
                       className={({ isActive }) =>
-                        `flex items-center p-2 rounded-full font-semibold text-left transition duration-100 ease-in-out ${
+                        `block p-2 rounded-xl text-sm transition duration-100 ease-in-out ${
                           isActive
-                            ? "bg-white text-cyan-600"
-                            : "text-white hover:bg-cyan-700 hover:text-white"
+                            ? "bg-cyan-600 text-white"
+                            : "text-gray-700 hover:bg-cyan-100"
                         }`
                       }
                     >
-                      Whatsapp Connect
+                      WhatsApp Connect
                     </NavLink>
+                  </li>
+                  <li>
                     <NavLink
                       to="/whatsapp-template"
                       className={({ isActive }) =>
-                        `flex items-center p-2 block py-2 pr-4 pl-4 rounded-full font-semibold text-left transition duration-500 ease-in-out ${
+                        `block p-2 rounded-xl text-sm transition duration-100 ease-in-out ${
                           isActive
-                            ? "bg-white text-cyan-600"
-                            : "text-white hover:bg-cyan-700 hover:text-white"
+                            ? "bg-cyan-600 text-white"
+                            : "text-gray-700 hover:bg-cyan-100"
                         }`
                       }
                     >
-                       Template
+                      WhatsApp Template
                     </NavLink>
-                  </div>
-                )}
-              </div>
+                  </li>
+                </ul>
+              )}
             </li>
 
-            
+            <li>
+              <NavLink
+                to="/settings"
+                className={({ isActive }) =>
+                  `flex items-center p-2 rounded-xl transition duration-100 ease-in-out ${
+                    isActive
+                      ? "bg-cyan-600 text-white"
+                      : "text-gray-900 hover:bg-cyan-100 hover:text-gray"
+                  }`
+                }
+              >
+                <i className="fa-solid fa-gear w-5 text-gray-500 group-hover:text-gray-900"></i>
+                <span className="ml-3">Setting</span>
+              </NavLink>
+            </li>
           </ul>
         </div>
 

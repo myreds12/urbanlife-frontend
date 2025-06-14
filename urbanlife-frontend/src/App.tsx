@@ -5,7 +5,7 @@ import Bar from './pages/AdminDashboard/Bar/Bar';
 import Dashboard from './pages/AdminDashboard/Dashboard/Dashboard';
 import Order from './pages/AdminDashboard/Order/Order';
 import DayTour from './pages/AdminDashboard/DayTour/DayTour';
-import WhatsappConnect from './pages/AdminDashboard/WhatsappSetting/WhatsappConnect'; // Pastikan path ini benar
+import WhatsappConnect from './pages/AdminDashboard/WhatsappSetting/WhatsappConnect';
 
 function App() {
   return (

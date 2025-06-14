@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../../styles/DayTour/DayTour.css';
+import '../../../styles/AdminDashboard/DayTour/DayTour.css';
 
 
 function DayTour() {

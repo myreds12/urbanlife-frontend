@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-import "../../../styles/Dashboard/Dashboard.css";
+import "../../../styles/AdminDashboard/Dashboard/Dashboard.css";
 import Calendar from "react-calendar";
-import "../../../styles/Dashboard/CalendarCustom.css";
+import "../../../styles/AdminDashboard/Dashboard/CalendarCustom.css";
 import Orders from "../Order/Order";
 
 function Dashboard() {

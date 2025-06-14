@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../../styles/WhatsappSetting/WhatsappConnect.css'; // Tambahkan CSS sesuai kebutuhan
+import '../../../styles/AdminDashboard/WhatsappSetting/WhatsappConnect.css'; // Tambahkan CSS sesuai kebutuhan
 
 interface Template {
   id: string;

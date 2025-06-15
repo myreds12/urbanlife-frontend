@@ -10,23 +10,24 @@ function Dashboard() {
 
   return (
     <div className="p-2">
-      <div className="grid grid-cols-1 gap-5">
+      <div className="grid grid-cols-10 gap-5">
         <CardWelcome />
       </div>
 
-      <div className="grid grid-cols-10 gap-5 mt-5">
+      <div className="grid grid-cols-10 gap-5">
         <div className="col-span-6 ">
           <ChartBar />
         </div>
+
         <div className="col-span-4">
           <CardWidget />
         </div>  
       </div>
-
       <div className="grid grid-cols-10 gap-5 mt-5">
         <div className="col-span-6 ">
           <RecentOrders />
         </div>
+
         <div className="col-span-4">
           
         </div>  

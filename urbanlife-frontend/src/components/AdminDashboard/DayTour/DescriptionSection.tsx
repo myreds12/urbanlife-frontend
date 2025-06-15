@@ -25,7 +25,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex items-center">
-            <label className="block text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-3 py-2 rounded-md">
+            <label className="block text-sm font-medium text-gray-600 mr-5 whitespace-nowrap bg-gray-100 px-3 py-2 rounded-md">
               Day tour package name
             </label>
             <input

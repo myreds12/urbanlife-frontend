@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import AppLayout from "./layout/AppLayout";
+import AppLayout from "./layouts/AdminDashboard/AppLayout.tsx";
 import Dashboard from "./pages/AdminDashboard/Dashboard/Dashboard";
 import Order from "./pages/AdminDashboard/Order/Order";
 import DayTour from "./pages/AdminDashboard/DayTour/DayTour";

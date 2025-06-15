@@ -1,9 +1,9 @@
 import "../../../styles/AdminDashboard/Dashboard/Dashboard.css";
 import "../../../styles/AdminDashboard/Dashboard/CalendarCustom.css";
-import ChartBar from "../../../components/AdminDashboard/Dashboard/charts/bar/ChartBar";
-import CardWidget from "../../../components/AdminDashboard/Dashboard/card/CardWidget";
-import RecentOrders from "../../../components/AdminDashboard/Dashboard/orders/RecentOrders";
-import CardWelcome from "../../../components/AdminDashboard/Dashboard/card/CardWelcome";
+import ChartBar from "../../../components/AdminDashboard/charts/bar/ChartBar";
+import CardWidget from "../../../components/AdminDashboard/card/CardWidget";
+import RecentOrders from "../../../components/AdminDashboard/orders/RecentOrders";
+import CardWorld from "../../../components/AdminDashboard/map/CardWorld";
 
 function Dashboard() {
 
@@ -28,6 +28,10 @@ function Dashboard() {
           <RecentOrders />
         </div>
         <div className="col-span-4">
+<<<<<<< HEAD
+          
+=======
+>>>>>>> bfcd47e1de173af21757dd82de3f2425afec9600
         </div>  
 
       </div>

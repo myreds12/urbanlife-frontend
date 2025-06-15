@@ -3,6 +3,7 @@ import "../../../styles/AdminDashboard/Dashboard/CalendarCustom.css";
 import ChartBar from "../../../components/AdminDashboard/charts/bar/ChartBar";
 import CardWidget from "../../../components/AdminDashboard/card/CardWidget";
 import RecentOrders from "../../../components/AdminDashboard/orders/RecentOrders";
+import CardWorld from "../../../components/AdminDashboard/map/CardWorld";
 
 function Dashboard() {
 

@@ -3,7 +3,7 @@ import "../../../styles/AdminDashboard/Dashboard/CalendarCustom.css";
 import ChartBar from "../../../components/AdminDashboard/Dashboard/charts/bar/ChartBar";
 import CardWidget from "../../../components/AdminDashboard/Dashboard/card/CardWidget";
 import RecentOrders from "../../../components/AdminDashboard/Dashboard/orders/RecentOrders";
-import CardWorld from "../../../components/AdminDashboard/Dashboard/map/CardWorld";
+
 
 function Dashboard() {
 
@@ -25,7 +25,7 @@ function Dashboard() {
         </div>
 
         <div className="col-span-4">
-          <CardWorld />
+          
         </div>  
 
       </div>

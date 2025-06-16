@@ -38,7 +38,7 @@ export default function CardWelcome() {
 
        <div className="flex flex-col space-y-2">
             <h1 className="text-2xl font-bold">Welcome Back, <span className="text-cyan-600">Angela</span> !</h1>
-            <span className="flex items-center space-x-2">
+            <span className="flex items-center space-x-1">
                 <p className="text-gray-600 font-">Great to see you again! Your Admin Dashboard awaits</p>
                 <img src="./emoji.png" alt="" className="w-6" />
             </span>

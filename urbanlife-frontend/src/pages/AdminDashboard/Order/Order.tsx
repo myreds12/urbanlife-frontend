@@ -1,98 +1,122 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../../../styles/AdminDashboard/Order/Order.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "../../../styles/AdminDashboard/Order/Order.css";
 
 const Orders = () => {
   // Data dummy untuk tabel
   const orders = [
     {
-      id: 'Order001',
-      customer: 'Angelina',
-      type: 'Day tour',
-      detail: 'Eastern Bali Tour [B]',
-      date: '03 June 2025',
-      amount: 'Rp 2,100,000',
-      status: 'PAID',
+      id: "Order001",
+      customer: "Angelina",
+      type: "Day tour",
+      detail: "Eastern Bali Tour [B]",
+      date: "03 June 2025",
+      amount: "Rp 2,100,000",
+      status: "PAID",
     },
     {
-      id: 'Order002',
-      customer: 'Daniel Mananta',
-      type: 'Rent car',
-      detail: 'Toyota Alphard',
-      date: '03 June 2025',
-      amount: 'Rp 1,200,000',
-      status: 'PAID',
+      id: "Order002",
+      customer: "Daniel Mananta",
+      type: "Rent car",
+      detail: "Toyota Alphard",
+      date: "03 June 2025",
+      amount: "Rp 1,200,000",
+      status: "PAID",
     },
     {
-      id: 'Order003',
-      customer: 'Anne Hathaway',
-      type: 'Day tour',
-      detail: 'Eastern Bali Tour [B]',
-      date: '03 June 2025',
-      amount: 'Rp 2,100,000',
-      status: 'UNPAID',
+      id: "Order003",
+      customer: "Anne Hathaway",
+      type: "Day tour",
+      detail: "Eastern Bali Tour [B]",
+      date: "03 June 2025",
+      amount: "Rp 2,100,000",
+      status: "UNPAID",
     },
     {
-      id: 'Order004',
-      customer: 'Carlos Quiros',
-      type: 'Day tour',
-      detail: 'Eastern Bali Tour [B]',
-      date: '03 June 2025',
-      amount: 'Rp 1,200,000',
-      status: 'PAID',
+      id: "Order004",
+      customer: "Carlos Quiros",
+      type: "Day tour",
+      detail: "Eastern Bali Tour [B]",
+      date: "03 June 2025",
+      amount: "Rp 1,200,000",
+      status: "PAID",
     },
     {
-      id: 'Order005',
-      customer: 'Jimmy Buttler',
-      type: 'Day tour',
-      detail: 'Eastern Bali Tour [B]',
-      date: '03 June 2025',
-      amount: 'Rp 2,100,000',
-      status: 'CANCELLED',
+      id: "Order005",
+      customer: "Jimmy Buttler",
+      type: "Day tour",
+      detail: "Eastern Bali Tour [B]",
+      date: "03 June 2025",
+      amount: "Rp 2,100,000",
+      status: "CANCELLED",
     },
     {
-      id: 'Order006',
-      customer: 'Marchelino',
-      type: 'Day tour',
-      detail: 'Eastern Bali Tour [B]',
-      date: '03 June 2025',
-      amount: 'Rp 1,200,000',
-      status: 'PAID',
+      id: "Order006",
+      customer: "Marchelino",
+      type: "Day tour",
+      detail: "Eastern Bali Tour [B]",
+      date: "03 June 2025",
+      amount: "Rp 1,200,000",
+      status: "PAID",
     },
     {
-      id: 'Order007',
-      customer: 'Daniella',
-      type: 'Rent car',
-      detail: 'Toyota Alphard',
-      date: '03 June 2025',
-      amount: 'Rp 1,200,000',
-      status: 'PAID',
+      id: "Order007",
+      customer: "Daniella",
+      type: "Rent car",
+      detail: "Toyota Alphard",
+      date: "03 June 2025",
+      amount: "Rp 1,200,000",
+      status: "PAID",
     },
     {
-      id: 'Order008',
-      customer: 'ceril',
-      type: 'Rent car',
-      detail: 'Toyota Alphard',
-      date: '03 June 2025',
-      amount: 'Rp 1,200,000',
-      status: 'PAID',
+      id: "Order008",
+      customer: "ceril",
+      type: "Rent car",
+      detail: "Toyota Alphard",
+      date: "03 June 2025",
+      amount: "Rp 1,200,000",
+      status: "PAID",
     },
     {
-      id: 'Order009',
-      customer: 'Maulana',
-      type: 'Rent car',
-      detail: 'Toyota Alphard',
-      date: '03 June 2025',
-      amount: 'Rp 1,200,000',
-      status: 'PAID',
+      id: "Order009",
+      customer: "Maulana",
+      type: "Rent car",
+      detail: "Toyota Alphard",
+      date: "03 June 2025",
+      amount: "Rp 1,200,000",
+      status: "PAID",
     },
   ];
+
+  const getStatus = (status) => {
+    switch (status) {
+      case "PAID":
+        return {
+          backgroundColor: "#d1fae5", // bg-green-100
+          color: "#10b981",           // text-green-600
+        };
+      case "UNPAID":
+        return {
+          backgroundColor: "#fef3c7", // bg-yellow-100
+          color: "#f59e0b",           // text-yellow-600
+        };
+      case "CANCELLED":
+        return {
+          backgroundColor: "#fee2e2", // bg-red-100
+          color: "#ef4444",           // text-red-500
+        };
+      default:
+        return {
+          backgroundColor: "#e5e7eb", // bg-gray-200
+          color: "#6b7280",           // text-gray-500
+        };
+    }
+  };
 
   return (
     <div className="p-4">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Orders</h1>
-        
+        <h1 style={{ fontSize: "24px", fontWeight: "700", color: "#1f2937" }}>Orders</h1>
         <div className="mt-3 space-x-6">
           <button className="text-sm font-medium transition duration-100 ease-in-out text-gray-900 hover:text-cyan-600 group underline-from-left relative">
             All Orders
@@ -106,45 +130,50 @@ const Orders = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-x-auto">
-        <table className="w-full text-sm text-left text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th scope="col" className="px-4 py-3">Booking ID</th>
-              <th scope="col" className="px-4 py-3">Customer Name</th>
-              <th scope="col" className="px-4 py-3">Type of order</th>
-              <th scope="col" className="px-4 py-3">Detail order</th>
-              <th scope="col" className="px-4 py-3">Date</th>
-              <th scope="col" className="px-4 py-3">Total amount</th>
-              <th scope="col" className="px-4 py-3">Payment status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order.id} className="bg-white border-b hover:bg-gray-50">
-                <td className="px-4 py-2">{order.id}</td>
-                <td className="px-4 py-2">{order.customer}</td>
-                <td className="px-4 py-2">{order.type}</td>
-                <td className="px-4 py-2">{order.detail}</td>
-                <td className="px-4 py-2">{order.date}</td>
-                <td className="px-4 py-2">{order.amount}</td>
-                <td className="px-4 py-2">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      order.status === 'PAID'
-                        ? 'bg-green-100 text-green-800'
-                        : order.status === 'UNPAID'
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </td>
+      <div style={{ overflow: "hidden", border: "1px solid #e5e7eb", background: "#ffffff", padding: "16px", borderRadius: "12px" }}>
+        <div style={{ maxWidth: "100%", overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead style={{ borderBottom: "1px solid #e5e7eb" }}>
+              <tr>
+                <th style={{ padding: "12px", fontWeight: "500", color: "#6b7280", textAlign: "left", fontSize: "12px" }}>Booking ID</th>
+                <th style={{ padding: "12px", fontWeight: "500", color: "#6b7280", textAlign: "left", fontSize: "12px" }}>Customer Name</th>
+                <th style={{ padding: "12px", fontWeight: "500", color: "#6b7280", textAlign: "left", fontSize: "12px" }}>Type of Order</th>
+                <th style={{ padding: "12px", fontWeight: "500", color: "#6b7280", textAlign: "left", fontSize: "12px" }}>Detail Order</th>
+                <th style={{ padding: "12px", fontWeight: "500", color: "#6b7280", textAlign: "left", fontSize: "12px" }}>Date</th>
+                <th style={{ padding: "12px", fontWeight: "500", color: "#6b7280", textAlign: "left", fontSize: "12px" }}>Total Amount</th>
+                <th style={{ padding: "12px", fontWeight: "500", color: "#6b7280", textAlign: "left", fontSize: "12px" }}>Payment Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody style={{ borderTop: "1px solid #e5e7eb" }}>
+              {orders.map((order) => (
+                <tr key={order.id} style={{ borderBottom: "1px solid #e5e7eb" }}>
+                  <td style={{ padding: "12px", color: "#6b7280", fontSize: "14px" }}>{order.id}</td>
+                  <td style={{ padding: "12px" }}>
+                        <p style={{ fontWeight: "500", color: "#1f2937", fontSize: "14px" }}>{order.customer}</p>
+                  </td>
+                  <td style={{ padding: "12px", color: "#6b7280", fontSize: "14px" }}>{order.type}</td>
+                  <td style={{ padding: "12px", color: "#6b7280", fontSize: "14px" }}>{order.detail}</td>
+                  <td style={{ padding: "12px", color: "#6b7280", fontSize: "14px" }}>{order.date}</td>
+                  <td style={{ padding: "12px", color: "#6b7280", fontSize: "14px" }}>{order.amount}</td>
+                  <td style={{ padding: "12px", color: "#6b7280", fontSize: "14px" }}>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        padding: "4px 12px",
+                        borderRadius: "9999px",
+                        fontWeight: 500,
+                        fontSize: "13px",
+                        ...getStatus(order.status.toUpperCase()),
+                      }}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Sidebar (simplified) */}

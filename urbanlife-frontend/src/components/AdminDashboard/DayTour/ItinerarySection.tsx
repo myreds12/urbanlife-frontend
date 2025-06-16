@@ -45,7 +45,7 @@ const ItinerarySection: React.FC<ItinerarySectionProps> = ({ id, isActive }) => 
             <button
               type="button"
               onClick={addDestination}
-              className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+              className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
             >
               Add destination
             </button>
@@ -120,11 +120,11 @@ const ItinerarySection: React.FC<ItinerarySectionProps> = ({ id, isActive }) => 
               ))}
             </div>
           </div>
-          <div className="flex justify-end space-x-4 mt-4">
-            <button type="button" className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+          <div className="flex justify-end space-x-4 mt-8">
+            <button type="button" className="px-4 py-2 bg-gray-200 rounded-md hover:bg-cyan-700">
               Cancel
             </button>
-            <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+            <button type="submit" className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
               Save Template
             </button>
           </div>

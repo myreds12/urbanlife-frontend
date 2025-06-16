@@ -25,15 +25,15 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex items-center">
-            <label className="block text-sm font-medium text-gray-600 mr-5 whitespace-nowrap bg-gray-100 px-3 py-2 rounded-md">
-              Day tour package name
-            </label>
+            <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "170px" }}>
+              Daytour package name
+            </label>            
             <input
               type="text"
               name="packageName"
               value={formData.packageName}
               onChange={handleChange}
-              className="py-1 px-3 w-full border border-gray-300 rounded-md focus:outline-cyan-600"
+              className="py-1 px-3 w-full  rounded-md border border-gray-300 focus:outline-cyan-600"
             />
           </div>
 
@@ -47,7 +47,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                 name="englishDescription"
                 value={formData.englishDescription}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border rounded-md h-60"
+                className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:outline-cyan-600"
               />
             </div>
             <div className="w-1/2">
@@ -59,7 +59,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                 name="indonesiaDescription"
                 value={formData.indonesiaDescription}
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border rounded-md h-60"
+                className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:outline-cyan-600"
               />
             </div>
           </div>

@@ -3,7 +3,7 @@ import HeroSection from "../../components/LandingPage/HeroSection";
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className="relative">
       <Navbar />
       <HeroSection />
     </div>

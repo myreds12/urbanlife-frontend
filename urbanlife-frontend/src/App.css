@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "daisyui";
 
 .main-content {
   margin-left: 16rem; /* width sidebar: 64 (4rem x 4 = 16rem) */

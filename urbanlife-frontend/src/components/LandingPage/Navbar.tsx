@@ -5,57 +5,66 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="navbar bg-white shadow-md fixed z-50 px-6 py-2">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <label tabIndex={0} className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
-            </svg>
-          </label>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-            <li><Link to="/place-to-see">Place to see</Link></li>
-            <li><Link to="/transportation">Transportation services</Link></li>
-            <li><Link to="/accommodation">Accommodation</Link></li>
-            <li><Link to="/day-tour">Day tour</Link></li>
-            <li><Link to="/news">News</Link></li>
-          </ul>
+    <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg px-6 py-2 z-50 flex items-center justify-between w-11/12 max-w-5xl">
+      {/* Logo Section */}
+      <div className="flex items-center">
+        <div className="bg-white p-2 rounded-lg flex items-center">
+          <img src="/images/logo/logo.svg" alt="Urbanlife Logo" className="h-6 mr-2" />
+          
         </div>
-        <Link to="/" className="btn btn-ghost normal-case text-xl flex items-center">
-          <img src="/images/logo/logo.svg" alt="Urbanlife Logo" className="h-8 mr-2" />
-          <span className="flex flex-col">
-            <span>urbanlife</span>
-            <span className="text-sm text-gray-500">Your Leisure Reference</span>
-          </span>
+      </div>
+
+      {/* Menu Section */}
+      <div className="hidden lg:flex space-x-6">
+        <div className="relative group">
+          <Link to="/place-to-see" className="text-gray-800 hover:text-teal-500">Place to see</Link>
+          <div className="absolute hidden group-hover:block bg-white shadow-md mt-2 rounded-md w-32">
+            <Link to="/home" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Home</Link>
+          </div>
+        </div>
+        <Link to="/transportation" className="text-gray-800 hover:text-teal-500">Transportation services</Link>
+        <Link to="/accommodation" className="text-gray-800 hover:text-teal-500">Accommodation</Link>
+        <Link to="/day-tour" className="text-gray-800 hover:text-teal-500">Day tour</Link>
+        <Link to="/news" className="text-gray-800 hover:text-teal-500">News</Link>
+        <Link to="/contact" className="text-gray-800 hover:text-teal-500 flex items-center">
+          <span>Eng</span>
+          <span className="ml-1 text-gray-500">🌐</span>
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 space-x-6">
-          <li tabIndex={0}>
-            <details>
-              <summary>Place to see</summary>
-              <ul className="p-2 bg-base-100 rounded-t-none">
-                <li><Link to="/home">Home</Link></li>
-              </ul>
-            </details>
-          </li>
-          <li><Link to="/transportation">Transportation services</Link></li>
-          <li><Link to="/accommodation">Accommodation</Link></li>
-          <li><Link to="/day-tour">Day tour</Link></li>
-          <li><Link to="/news">News</Link></li>
-          <li><Link to="/contact" className="flex items-center"><span className="mr-1">Eng</span><span className="text-gray-500">🌐</span></Link></li>
-        </ul>
+
+      {/* Mobile Menu Button */}
+      <div className="lg:hidden">
+        <button onClick={() => setIsOpen(!isOpen)} className="text-gray-800 focus:outline-none">
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
       </div>
-      <div className="navbar-end">
-        <button className="btn bg-teal-500 text-white rounded-full">Contact Us</button>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="lg:hidden absolute top-14 left-1/2 transform -translate-x-1/2 bg-white shadow-md rounded-lg w-48">
+          <ul className="flex flex-col space-y-2 p-4">
+            <li><Link to="/place-to-see" className="text-gray-800 hover:text-teal-500">Place to see</Link></li>
+            <li><Link to="/transportation" className="text-gray-800 hover:text-teal-500">Transportation services</Link></li>
+            <li><Link to="/accommodation" className="text-gray-800 hover:text-teal-500">Accommodation</Link></li>
+            <li><Link to="/day-tour" className="text-gray-800 hover:text-teal-500">Day tour</Link></li>
+            <li><Link to="/news" className="text-gray-800 hover:text-teal-500">News</Link></li>
+            <li><Link to="/contact" className="text-gray-800 hover:text-teal-500 flex items-center">
+              <span>Eng</span>
+              <span className="ml-1 text-gray-500">🌐</span>
+            </Link></li>
+          </ul>
+        </div>
+      )}
+
+      {/* Contact Us Button */}
+      <div>
+        <button className="bg-teal-500 text-white px-4 py-2 rounded-full text-sm">
+          Contact Us
+        </button>
       </div>
-    </div>
+    </nav>
   );
 };
 

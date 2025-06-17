@@ -52,8 +52,8 @@ export default function NotificationDropdown() {
           onClick={(e) => e.stopPropagation()}
           onMouseLeave={closeDropdown}
         >
-          <div className="flex items-center justify-between pb-3 mb-3 border-gray-100 ">
-            <h5 className="text-lg font-semibold text-gray-800 ">Notification</h5>
+          <div className="flex items-center justify-between p-2 border-gray-100 ">
+            <h5 className="text-lg]] font-semibold text-gray-800 ">Notification</h5>
             <button
               onClick={toggleDropdown}
               className="text-gray-500 transition dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
@@ -93,7 +93,7 @@ export default function NotificationDropdown() {
                 </span>
 
                 <span className="block">
-                  <span className=" mb-1.5 block text-theme-sm text-gray-500">
+                  <span className="block text-theme-sm text-gray-500">
                     <div className="flex justify-between">
                         <span className="font-medium  text-gray-800 "> Terry Franci </span>
                         <span>5 min ago</span>

@@ -19,10 +19,10 @@ function App() {
           {/* Admin layout and nested routes */}
           <Route path="/admin" element={<AppLayout />}>
             <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="order" element={<Order />} />
-            <Route path="day-tour" element={<DayTour />} />
-            <Route path="whatsapp-connect" element={<WhatsappConnect />} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/order" element={<Order />} />
+            <Route path="/admin/day-tour" element={<DayTour />} />
+            <Route path="/admin/whatsapp-connect" element={<WhatsappConnect />} />
           </Route>
         </Routes>
       </Router>

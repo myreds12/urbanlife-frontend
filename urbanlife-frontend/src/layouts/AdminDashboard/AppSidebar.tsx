@@ -4,21 +4,21 @@ import { Dropdown } from "../../components/AdminDashboard/Utils/Ui/Dropdown";
 import { DropdownItem } from "../../components/AdminDashboard/Utils/Ui/DropdownItem";
 
 const navItems = [
-  { icon: "fa-tachometer-alt", name: "Dashboard", path: "/dashboard" },
-  { icon: "fa-shopping-cart", name: "Order", path: "/order" },
-  { icon: "fa-calendar", name: "Calendar order", path: "/calendar-order" },
+  { icon: "fa-tachometer-alt", name: "Dashboard", path: "/admin/dashboard" },
+  { icon: "fa-shopping-cart", name: "Order", path: "/admin/order" },
+  { icon: "fa-calendar", name: "Calendar order", path: "/admin/calendar-order" },
 ];
 
 const contentItems = [
-  { icon: "fa-sun", name: "Day tour", path: "/day-tour" },
-  { icon: "fa-car", name: "Rent car", path: "/rent-car" },
-  { icon: "fa-bed", name: "Accommodation", path: "/accommodation" },
+  { icon: "fa-sun", name: "Day tour", path: "/admin/day-tour" },
+  { icon: "fa-car", name: "Rent car", path: "/admin/rent-car" },
+  { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
 ];
 
 const othersItems = [
-  { icon: "fa-users", name: "Customer", path: "/customer" },
-  { icon: "fa-whatsapp", name: "Whatsapp", path: "/whatsapp-connect" },
-  { icon: "fa-inbox", name: "Inbox", path: "/inbox" },
+  { icon: "fa-users", name: "Customer", path: "/admin/customer" },
+  { icon: "fa-whatsapp", name: "Whatsapp", path: "/admin/whatsapp-connect" },
+  { icon: "fa-inbox", name: "Inbox", path: "/admin/inbox" },
   {
     icon: "fa-database",
     name: "Data master",

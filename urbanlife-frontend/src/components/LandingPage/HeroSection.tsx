@@ -8,12 +8,12 @@ const HeroSection = () => {
         </div>
       </div>
       <img
-        src="/images/plane.svg" // Ganti dengan path gambar pesawatmu
+        src="/images/plane.svg"
         alt="Plane"
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/4 opacity-80"
       />
       <img
-        src="/images/building-background.jpg" // Ganti dengan path gambar gedungmu
+        src="/images/building-background.jpg"
         alt="Building Background"
         className="absolute bottom-0 left-0 w-full h-1/3 object-cover opacity-50"
       />

@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 .main-content {
   margin-left: 16rem; /* width sidebar: 64 (4rem x 4 = 16rem) */
   margin-top: 4.5rem; /* tinggi navbar: sekitar 4.5rem */

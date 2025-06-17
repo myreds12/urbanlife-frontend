@@ -5,19 +5,24 @@ import Dashboard from "./pages/AdminDashboard/Dashboard/Dashboard";
 import Order from "./pages/AdminDashboard/Order/Order";
 import DayTour from "./pages/AdminDashboard/DayTour/DayTour";
 import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConnect";
-import { ThemeProvider } from "./components/AdminDashboard/Utils/Context/ThemeContext"; // Sesuaikan path
+import LandingPage from "./pages/LandingPage/LandingPage";
+import { ThemeProvider } from "./components/AdminDashboard/Utils/Context/ThemeContext";
 
 function App() {
   return (
     <ThemeProvider>
       <Router>
         <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/order" element={<Order />} />
-            <Route path="/day-tour" element={<DayTour />} />
-            <Route path="/whatsapp-connect" element={<WhatsappConnect />} />
+          {/* Website landing page */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* Admin layout and nested routes */}
+          <Route path="/admin" element={<AppLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="order" element={<Order />} />
+            <Route path="day-tour" element={<DayTour />} />
+            <Route path="whatsapp-connect" element={<WhatsappConnect />} />
           </Route>
         </Routes>
       </Router>

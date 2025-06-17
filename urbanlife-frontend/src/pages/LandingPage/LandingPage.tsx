@@ -7,32 +7,39 @@ const LandingPage = () => {
   return (
     <div>
       <Navbar />
-      <HeroSection />
-      <section className="py-10">
-        <h2 className="text-2xl font-bold text-center mb-6">Destination</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto px-4">
+      <div className="hero-container">
+        <HeroSection />
+        <div className="destination-grid">
           <DestinationCard
+            country="Indonesia"
             title="Eastern Bali Tour"
+            destinations="4 Destination"
             price="1,200,000"
             image="/images/EasternBaliTour.png"
           />
           <DestinationCard
+            country="Vietnam"
             title="Danang"
+            destinations="4 Destination"
             price="1,200,000"
             image="/images/Danang.png"
           />
           <DestinationCard
+            country="Indonesia"
             title="Jakarta"
+            destinations="4 Destination"
             price="1,200,000"
             image="/images/Jakarta.png"
           />
           <DestinationCard
+            country="Vietnam"
             title="Ho Chi Minh City"
+            destinations="4 Destination"
             price="1,200,000"
             image="/images/HoChiMinhCity.png"
           />
         </div>
-      </section>
+      </div>
     </div>
   );
 };

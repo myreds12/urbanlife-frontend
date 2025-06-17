@@ -39,7 +39,6 @@ const Navbar = () => {
               <summary>Place to see</summary>
               <ul className="p-2 bg-base-100 rounded-t-none">
                 <li><Link to="/home">Home</Link></li>
-                {/* Tambah item lain jika perlu */}
               </ul>
             </details>
           </li>

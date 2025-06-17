@@ -1,11 +1,13 @@
 .destination-card {
-    width: 300px;
-    height: 400px;
-    border-radius: 20px;
+    width: 240px; /* Ukuran lebih kecil agar tidak kegedean */
+    height: 320px;
+    border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     background: #fff;
+    display: inline-block; /* Untuk berjejer rapi */
+    margin: 0 10px; /* Jarak antar card */
   }
   
   .card-image {
@@ -28,7 +30,7 @@
     color: #757575;
     padding: 5px 10px;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
   }
   
@@ -36,8 +38,8 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     background: #e0e0e0;
     border-radius: 50%;
     display: flex;
@@ -48,7 +50,7 @@
   .heart-icon::after {
     content: "♥";
     color: #757575;
-    font-size: 16px;
+    font-size: 14px;
   }
   
   .book-btn {
@@ -58,13 +60,14 @@
     transform: translate(-50%, -50%);
     background: #b0bec5;
     color: #fff;
-    padding: 8px 20px;
-    border-radius: 20px;
+    padding: 6px 15px;
+    border-radius: 15px;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap; /* Pastikan teks tidak patah baris */
   }
   
   .book-btn .arrow {
@@ -72,26 +75,26 @@
   }
   
   .card-body {
-    padding: 10px;
+    padding: 8px;
     text-align: center;
   }
   
   .card-title {
     color: #1e88e5;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     margin: 0;
   }
   
   .destinations {
     color: #757575;
-    font-size: 14px;
-    margin: 5px 0 0;
+    font-size: 12px;
+    margin: 4px 0 0;
   }
   
   .price {
     color: #e53935;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
-    margin: 5px 0 0;
+    margin: 4px 0 0;
   }

@@ -5,7 +5,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="navbar bg-base-100 shadow-md fixed z-50">
+    <div className="navbar bg-white shadow-md fixed z-50 px-6 py-2">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -27,13 +27,16 @@ const Navbar = () => {
             <li><Link to="/news">News</Link></li>
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost normal-case text-xl">
+        <Link to="/" className="btn btn-ghost normal-case text-xl flex items-center">
           <img src="/images/logo/logo.svg" alt="Urbanlife Logo" className="h-8 mr-2" />
-          urbanlife
+          <span className="flex flex-col">
+            <span>urbanlife</span>
+            <span className="text-sm text-gray-500">Your Leisure Reference</span>
+          </span>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 space-x-6">
           <li tabIndex={0}>
             <details>
               <summary>Place to see</summary>
@@ -46,11 +49,11 @@ const Navbar = () => {
           <li><Link to="/accommodation">Accommodation</Link></li>
           <li><Link to="/day-tour">Day tour</Link></li>
           <li><Link to="/news">News</Link></li>
-          <li><Link to="/contact">Eng</Link></li>
+          <li><Link to="/contact" className="flex items-center"><span className="mr-1">Eng</span><span className="text-gray-500">🌐</span></Link></li>
         </ul>
       </div>
       <div className="navbar-end">
-        <button className="btn bg-teal-500 text-white">Contact Us</button>
+        <button className="btn bg-teal-500 text-white rounded-full">Contact Us</button>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import CardForm from "./CardForm";
 const HeroSection = () => {
   return (
     <>
-    <div className="hero-section" style={{ backgroundImage: url(${backgroundImage}) }}> 
+    <div className="hero-section" style={{ backgroundImage: `url(${backgroundImage})` }}> 
 <CardForm />
     </div>
     </>

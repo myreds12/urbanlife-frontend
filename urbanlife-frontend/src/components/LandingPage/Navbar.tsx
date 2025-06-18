@@ -19,7 +19,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white fixed top-0 left-0 right-0 mx-auto max-w-6xl rounded-lg flex items-center justify-between px-5 py-3 mt-6 z-50">
+    <nav className="bg-white fixed justify-between top-0 left-0 right-0 mx-auto max-w-6xl rounded-lg flex items-center  px-5 py-3 mt-6 z-50">
       {/* Logo Section */}
       <div className="flex items-center">
         <div className="rounded-lg flex items-center">
@@ -28,7 +28,7 @@ const Navbar = () => {
       </div>
 
       {/* Menu Section */}
-      <div className="hidden lg:flex space-x-6">
+      <div className="hidden lg:flex space-x-6 items-center">
         <div className="relative">
           <span
             onClick={toggleDropdown}
@@ -68,37 +68,65 @@ const Navbar = () => {
             </div>
           )}
         </div>
+        <div className="relative">
+          <span
+            onClick={toggleDropdown}
+            className="flex items-center text-gray-500 font-medium hover:text-teal-500 cursor-pointer underline-from-left relative"
+          >
+            Services
+            <svg
+              className={`stroke-gray-500 ml-1 transition-transform duration-200 ${
+                isDropdownOpen ? "rotate-180" : ""
+              }`}
+              width="18"
+              height="20"
+              viewBox="0 0 18 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          {isDropdownOpen && (
+            <div className="absolute top-full mt-2 w-32 bg-white shadow-md rounded-md"           onClick={(e) => e.stopPropagation()}
+          onMouseLeave={closeDropdown}
+>
+              <Link
+                to="/home"
+                onClick={() => setIsDropdownOpen(false)}
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              >
+                Home
+              </Link>
+            </div>
+          )}
+        </div>
+
         <Link
           to="/transportation"
-          className="text-gray-500 font-medium hover:text-teal-500 underline-from-left relative"
-        >
-          Transportation Services
-        </Link>
-        <Link
-          to="/accommodation"
-          className="text-gray-500 font-medium hover:text-teal-500 underline-from-left relative"
-        >
-          Accommodation
-        </Link>
-        <Link
-          to="/day-tour"
-          className="text-gray-500 font-medium hover:text-teal-500 underline-from-left relative"
-        >
-          Day tour
-        </Link>
-        <Link
-          to="/news"
           className="text-gray-500 font-medium hover:text-teal-500 underline-from-left relative"
         >
           News
         </Link>
         <Link
           to="/contact"
-          className="text-gray-800 font-medium hover:text-teal-500 flex items-center gap-2">
+          className="text-gray-500 font-medium hover:text-teal-500 flex items-center gap-2">
           <i className="fa-solid fa-globe"></i>
           <span>Eng</span>
 
         </Link>
+              <div>
+        <button className="bg-teal-500 text-white px-4 py-2 rounded-r-lg text-sm">
+          Contact Us
+        </button>
+      </div>
+
       </div>
 
       {/* Mobile Menu Button */}
@@ -172,11 +200,6 @@ const Navbar = () => {
       )}
 
       {/* Contact Us Button */}
-      <div>
-        <button className="bg-teal-500 text-white px-4 py-2 rounded-r-lg text-sm">
-          Contact Us
-        </button>
-      </div>
     </nav>
   );
 };

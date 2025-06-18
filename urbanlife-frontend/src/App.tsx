@@ -3,7 +3,7 @@ import "./App.css";
 import AppLayout from "./layouts/AdminDashboard/AppLayout";
 import Dashboard from "./pages/AdminDashboard/Dashboard/Dashboard";
 import Order from "./pages/AdminDashboard/Order/Order";
-import Calendar from "./components/AdminDashboard/Calendar/Calendar";
+import Calendar from "./pages/AdminDashboard/Calendar/Calendar"; // Diperbarui ke pages
 import DayTour from "./pages/AdminDashboard/DayTour/DayTour";
 import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConnect";
 import LandingPage from "./pages/LandingPage/LandingPage";
@@ -22,7 +22,7 @@ function App() {
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="order" element={<Order />} />
-            <Route path="calendar" element={<Calendar />} /> {/* Perbaikan typo dan hapus / */}
+            <Route path="calendar" element={<Calendar />} />
             <Route path="day-tour" element={<DayTour />} />
             <Route path="whatsapp-connect" element={<WhatsappConnect />} />
           </Route>

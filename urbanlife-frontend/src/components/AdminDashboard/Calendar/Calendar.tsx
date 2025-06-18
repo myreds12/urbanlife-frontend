@@ -1,16 +1,9 @@
-import { useState } from 'react';
+import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-
-const Calendar = () => {
-  const [events] = useState([
-    { title: 'Accommodation - Selena gomes - Bali - FourRoses Boutique Hotel', date: '2025-06-17', className: 'accommodation' },
-    { title: 'Day tour - Ahmad dhani - Bali - Eastern Nusa Penida Tour', date: '2025-06-17', className: 'daytour' },
-    { title: 'Rent car - Ahmad dhani - Jakarta - Toyota Alphard', date: '2025-06-17', className: 'rentcar' },
-  ]);
-
+const Calendar = ({ events }) => {
   return (
     <div className="calendar-container">
       <FullCalendar

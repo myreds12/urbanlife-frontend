@@ -1,0 +1,17 @@
+.calendar-page {
+    display: flex;
+    height: 100vh;
+    padding: 20px;
+  }
+  .calendar-layout {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+  }
+  .calendar-section {
+    flex: 2; /* Lebar lebih besar untuk kalender */
+  }
+  .order-list-section {
+    flex: 1; /* Lebar lebih kecil untuk order list */
+    min-width: 300px;
+  }

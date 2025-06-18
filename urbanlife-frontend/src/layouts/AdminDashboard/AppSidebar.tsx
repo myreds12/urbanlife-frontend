@@ -6,7 +6,7 @@ import { DropdownItem } from "../../components/AdminDashboard/Utils/Ui/DropdownI
 const navItems = [
   { icon: "fa-tachometer-alt", name: "Dashboard", path: "/admin/dashboard" },
   { icon: "fa-shopping-cart", name: "Order", path: "/admin/order" },
-  { icon: "fa-calendar", name: "Calendar order", path: "/admin/calendar-order" },
+  { icon: "fa-calendar", name: "Calendar order", path: "/admin/calendar" },
 ];
 
 const contentItems = [

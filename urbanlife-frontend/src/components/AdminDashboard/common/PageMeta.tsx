@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 
 const PageMeta = ({
   title,
@@ -6,22 +6,15 @@ const PageMeta = ({
 }: {
   title: string;
   description: string;
-}) => {
-  useEffect(() => {
-    document.title = title;
+}) => (
+  <Helmet>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </Helmet>
+);
 
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute("content", description);
-    } else {
-      const meta = document.createElement("meta");
-      meta.name = "description";
-      meta.content = description;
-      document.head.appendChild(meta);
-    }
-  }, [title, description]);
-
-  return null;
-};
+export const AppWrapper = ({ children }: { children: React.ReactNode }) => (
+  <HelmetProvider>{children}</HelmetProvider>
+);
 
 export default PageMeta;

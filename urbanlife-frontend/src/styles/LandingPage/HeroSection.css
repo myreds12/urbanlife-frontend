@@ -1,0 +1,12 @@
+.hero-section {
+  background-image: url('/images/building-plane.jpg'); /* Pastikan path benar */
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Tambahkan ini */
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

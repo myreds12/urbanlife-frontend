@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "../node_modules/flowbite-datepicker";
+@plugin "flowbite/plugin";
 
 .main-content {
   margin-left: 16rem; /* width sidebar: 64 (4rem x 4 = 16rem) */

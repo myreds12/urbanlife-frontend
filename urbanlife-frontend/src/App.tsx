@@ -7,6 +7,7 @@ import Calendar from "./pages/AdminDashboard/Calendar/Calendar"; // Diperbarui k
 import DayTour from "./pages/AdminDashboard/DayTour/DayTour";
 import RentCar from "./pages/AdminDashboard/RentCar/RentCar";
 import Accommodation from "./pages/AdminDashboard/Accomodation/Accomodation";
+import Customer from "./pages/AdminDashboard/Customer/Customer";
 import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConnect";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { ThemeProvider } from "./components/AdminDashboard/Utils/Context/ThemeContext";
@@ -27,6 +28,7 @@ function App() {
             <Route path="calendar" element={<Calendar />} />
             <Route path="day-tour" element={<DayTour />} />
             <Route path="rent-car" element={<RentCar />} />
+            <Route path="customer" element={<Customer />} />
             <Route path="accommodation" element={<Accommodation />} />
             <Route path="whatsapp-connect" element={<WhatsappConnect />} />
           </Route>

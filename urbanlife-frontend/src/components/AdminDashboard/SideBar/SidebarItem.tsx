@@ -9,7 +9,7 @@ const SidebarItem = ({ item }: { item: { icon: string; name: string; path: strin
       <Link
         to={item.path}
         className={`flex items-center px-3 py-2 rounded-md transition-colors group ${
-          isActive ? "bg-cyan-500 text-white" : "text-gray-700 hover:bg-gray-100"
+          isActive ? "bg-cyan-600 text-white" : "text-gray-700 hover:bg-gray-100"
         }`}
       >
         <i className={`fas ${item.icon} mr-3 w-5 text-center`}></i>

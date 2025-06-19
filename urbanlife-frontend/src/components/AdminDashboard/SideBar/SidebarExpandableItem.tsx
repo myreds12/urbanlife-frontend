@@ -14,7 +14,7 @@ const SidebarExpandableItem = ({ item }: { item: any }) => {
       <button
         onClick={toggle}
         className={`flex items-center w-full px-3 py-2 rounded-md transition-colors group ${
-          open || isAnyChildActive ? "bg-cyan-500 text-white" : "text-gray-700 hover:bg-gray-100"
+          open || isAnyChildActive ? "bg-cyan-600 text-white" : "text-gray-700 hover:bg-gray-100"
         }`}
       >
         <i className={`fas ${item.icon} mr-3 w-5 text-center`}></i>
@@ -32,7 +32,7 @@ const SidebarExpandableItem = ({ item }: { item: any }) => {
               to={subItem.path}
               className={`block text-sm rounded-md px-3 py-1 transition-colors ${
                 isActive(subItem.path)
-                  ? "bg-cyan-500 text-white"
+                  ? "bg-cyan-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >

@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import SidebarItem from "../../components/AdminDashboard/SideBar/SidebarItem";
+import SidebarExpandableItem from "../../components/AdminDashboard/SideBar/SidebarExpandableItem";
 
 const navItems = [
   { icon: "fa-tachometer-alt", name: "Dashboard", path: "/admin/dashboard" },
@@ -44,84 +45,16 @@ const othersItems = [
 
 const AppSidebar = () => {
   const location = useLocation();
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
-  const isActive = (path: string) => location.pathname === path;
-  const toggleMenu = (name: string) => {
-    setOpenMenu((prev) => (prev === name ? null : name));
-  };
-
-  const renderMenuItems = (items: typeof navItems) => (
-    <ul className="space-y-2">
-      {items.map((item) => {
-        const isOpen = openMenu === item.name;
-        const isMainActive = isActive(item.path || "");
-        const isAnySubItemActive = item.subItems?.some((s) =>
-          isActive(s.path)
-        );
-        const isActiveStyle = isMainActive || isAnySubItemActive;
-
-        return (
-          <li key={item.name}>
-            {item.subItems ? (
-              <>
-                <button
-                  onClick={() => toggleMenu(item.name)}
-                  className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-all ${
-                    isActiveStyle
-                      ? "bg-teal-500 text-white"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <i className={`fas ${item.icon} mr-3 text-lg`} />
-                    <span className="text-sm">{item.name}</span>
-                  </div>
-                  <i
-                    className={`fas fa-chevron-down transform transition-transform duration-300 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                <div
-                  className={`ml-7 mt-1 overflow-hidden transition-[max-height] duration-300 ease-in-out ${
-                    isOpen ? "max-h-[500px]" : "max-h-0"
-                  }`}
-                >
-                  <ul className="space-y-1">
-                    {item.subItems.map((sub) => (
-                      <li key={sub.name}>
-                        <Link
-                          to={sub.path}
-                          className={`block px-2 py-1 rounded-md text-sm transition-all ${
-                            isActive(sub.path)
-                              ? "bg-teal-100 text-teal-700 font-medium"
-                              : "text-gray-600 hover:bg-gray-50"
-                          }`}
-                        >
-                          {sub.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </>
-            ) : (
-              <Link
-                to={item.path!}
-                className={`flex items-center px-3 py-2 rounded-lg transition-all ${
-                  isActive(item.path!)
-                    ? "bg-teal-500 text-white"
-                    : "text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                <i className={`fas ${item.icon} mr-3 text-lg`} />
-                <span className="text-sm">{item.name}</span>
-              </Link>
-            )}
-          </li>
-        );
-      })}
+  const renderMenuItems = (items: any[]) => (
+    <ul className="space-y-1">
+      {items.map((item) =>
+        item.subItems ? (
+          <SidebarExpandableItem key={item.name} item={item} />
+        ) : (
+          <SidebarItem key={item.name} item={item} />
+        )
+      )}
     </ul>
   );
 

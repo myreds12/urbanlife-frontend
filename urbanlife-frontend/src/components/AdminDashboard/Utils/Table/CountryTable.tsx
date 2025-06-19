@@ -1,9 +1,10 @@
-const countries = [
-    { id: "001", name: "Indonesia", status: "Active" },
-    { id: "002", name: "Vietnam", status: "Active" },
-  ];
+interface Country {
+    id: string;
+    name: string;
+    status: string;
+  }
   
-  const CountryTable = () => {
+  const CountryTable = ({ countries }: { countries: Country[] }) => {
     return (
       <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">

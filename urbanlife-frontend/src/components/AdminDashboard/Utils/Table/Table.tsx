@@ -12,38 +12,41 @@ const Table = ({ data, columns }) => {
   };
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border border-gray-300 rounded-xl">
-        <thead>
-          <tr className="bg-gray-100">
-            {columns.map((column, index) => (
-              <th key={index} className="p-1 text-left text-xs font-medium text-gray-600">
-                {column}
-              </th>
+      <div className="overflow-x-auto rounded-lg border border-gray-300">
+        <table className="w-full">
+              <thead>
+                <tr className="bg-gray-100">
+                  {columns.map((column, index) => (
+                    <th key={index} className="p-2 text-left text-xs font-medium text-gray-600">
+                      {column}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+          <tbody>
+            {data.map((row, rowIndex) => (
+              <tr key={rowIndex} className="hover:bg-gray-50">
+                {columns.map((column) =>
+                  column === 'Action' ? (
+                    <td key={column} className="p-2">
+                      <button className="border border-cyan-600 text-cyan-600 px-2 py-1 text-xs rounded-md">
+                        Detail
+                      </button>
+                    </td>
+                  ) : (
+                    <td key={column} className="p-2 text-xs text-gray-700">
+                      {typeof defaultMapping[column] === 'function'
+                        ? defaultMapping[column](row, rowIndex)
+                        : row[defaultMapping[column]] || ''}
+                    </td>
+                  )
+                )}
+              </tr>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, rowIndex) => (
-            <tr key={rowIndex} className="hover:bg-gray-50">
-              {columns.map((column) => (
-                column === 'Action' ? (
-                  <td key={column} className="p-1">
-                    <button className="border border-cyan-600 text-cyan-600 px-1 py-0.5 text-xs rounded">Detail</button>
-                  </td>
-                ) : (
-                  <td key={column} className="p-1 text-xs text-gray-700">
-                    {typeof defaultMapping[column] === 'function'
-                      ? defaultMapping[column](row, rowIndex)
-                      : row[defaultMapping[column]] || ''}
-                  </td>
-                )
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </div>
+
   );
 };
 

@@ -29,7 +29,7 @@ const Table = ({ data, columns }) => {
                 {columns.map((column) =>
                   column === 'Action' ? (
                     <td key={column} className="p-2">
-                      <button className="border border-cyan-600 text-cyan-600 px-2 py-1 text-xs rounded-md">
+                      <button className="border border-cyan-600 text-cyan-600 px-1 py-0.5 text-xs rounded-md">
                         Detail
                       </button>
                     </td>

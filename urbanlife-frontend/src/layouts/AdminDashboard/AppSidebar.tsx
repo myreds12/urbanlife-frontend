@@ -25,17 +25,17 @@ const othersItems = [
     ],
   },
   { icon: "fa-inbox", name: "Inbox", path: "/admin/inbox" },
-  {
-    icon: "fa-database",
-    name: "Data master",
-    subItems: [
-      { name: "Countries", path: "/countries" },
-      { name: "Cities", path: "/cities" },
-      { name: "Car", path: "/car" },
-      { name: "Driver", path: "/driver" },
-      { name: "Guide", path: "/guide" },
-    ],
-  },
+    {
+      icon: "fa-database",
+      name: "Data master",
+      subItems: [
+        { name: "Countries", path: "/admin/country" },  // ← ganti ini
+        { name: "Cities", path: "/admin/cities" },
+        { name: "Car", path: "/admin/car" },
+        { name: "Driver", path: "/admin/driver" },
+        { name: "Guide", path: "/admin/guide" },
+      ],
+    },
   {
     icon: "fa-cog",
     name: "Setting",

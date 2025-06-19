@@ -36,12 +36,12 @@ const CustomerTable = ({ data, columns }) => {
       setSelectedRows([]);
     } else {
       setSelectedRows(currentData.map((row) => row.id));
-    }
+    };
   };
 
   return (
     <div>
-      <div className="flex justify-between mb-4">
+      <div className="flex justify-end mb-4 space-x-2">
         <input
           type="text"
           placeholder="Search..."

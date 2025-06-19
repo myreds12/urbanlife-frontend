@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from '../../../components/AdminDashboard/Utils/Table/Table'; // Impor dari Utils
+import Table from '../../../components/AdminDashboard/Utils/Table/Table';
 
 const RentCar = () => {
   const rentCarData = [
@@ -15,19 +15,19 @@ const RentCar = () => {
     { id: 'ID010', location: 'Jakarta', type: 'Jakarta Car Rental', unit: 'Wuling Confero' },
   ];
 
-  const columns = ['ID', 'Location', 'Type of services', 'Unit', 'Action'];
+  const columns = ['#', 'Booking ID', 'Location', 'Type of services', 'Unit', 'Action'];
 
   const handleAddUnit = () => {
     console.log('Add Unit clicked');
   };
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Rent car</h2>
+    <div className="p-2">
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-xl font-bold">Rent car</h2>
         <button
           onClick={handleAddUnit}
-          className="bg-cyan-600 text-white px-4 py-2 rounded"
+          className="bg-cyan-600 text-white px-3 py-1 rounded text-sm"
         >
           Add Unit
         </button>

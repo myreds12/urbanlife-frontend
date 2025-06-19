@@ -1,28 +1,42 @@
 import React from 'react';
 
 const Table = ({ data, columns }) => {
+  // Default mapping berdasarkan nama kolom umum
+  const defaultMapping = {
+    '#': (row, index) => index + 1,
+    'Booking ID': 'id',
+    'Location': 'location',
+    'Type of services': 'type',
+    'Unit': 'unit',
+    'Action': null, // Action akan dihandle khusus
+  };
+
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border-collapse">
+      <table className="w-full border border-gray-300 rounded-xl">
         <thead>
           <tr className="bg-gray-100">
             {columns.map((column, index) => (
-              <th key={index} className="p-2 text-left text-sm font-medium text-gray-600">
+              <th key={index} className="p-1 text-left text-xs font-medium text-gray-600">
                 {column}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
-            <tr key={index} className="border-b">
+          {data.map((row, rowIndex) => (
+            <tr key={rowIndex} className="hover:bg-gray-50">
               {columns.map((column) => (
                 column === 'Action' ? (
-                  <td key={column} className="p-2">
-                    <button className="bg-cyan-600 text-white px-2 py-1 rounded">Detail</button>
+                  <td key={column} className="p-1">
+                    <button className="border border-cyan-600 text-cyan-600 px-1 py-0.5 text-xs rounded">Detail</button>
                   </td>
                 ) : (
-                  <td key={column} className="p-2 text-gray-700">{row[column.toLowerCase().replace(' ', '_')]}</td>
+                  <td key={column} className="p-1 text-xs text-gray-700">
+                    {typeof defaultMapping[column] === 'function'
+                      ? defaultMapping[column](row, rowIndex)
+                      : row[defaultMapping[column]] || ''}
+                  </td>
                 )
               ))}
             </tr>

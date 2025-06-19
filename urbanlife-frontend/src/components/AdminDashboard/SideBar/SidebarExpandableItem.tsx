@@ -25,12 +25,12 @@ const SidebarExpandableItem = ({ item }: { item: any }) => {
           }`}
         ></i>
       </button>
-      <ul className={`mt-1 pl-8 space-y-1 ${open ? "block" : "hidden"}`}>
+      <ul className={`mt-1 pl-0 space-y-1 ${open ? "block" : "hidden"}`}>
         {item.subItems.map((subItem: any) => (
           <li key={subItem.name}>
             <Link
               to={subItem.path}
-              className={`block text-sm rounded-md px-3 py-1 transition-colors ${
+              className={`block text-sm rounded-md px-3 py-2 transition-colors ${
                 isActive(subItem.path)
                   ? "bg-cyan-600 text-white"
                   : "text-gray-600 hover:bg-gray-100"

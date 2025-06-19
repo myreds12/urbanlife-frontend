@@ -4,7 +4,7 @@ import CountryForm, {
   type CountryFormHandle,
   type Country,
 } from "../../../components/AdminDashboard/Utils/Form/CountryForm";
-import CountryTable from "../../../components/AdminDashboard/Utils/Table/CountryTable";
+import CountryTable from "../../../components/AdminDashboard/Utils/Table/ListTable";
 
 const Country = () => {
   const [countries, setCountries] = useState<Country[]>([
@@ -28,17 +28,11 @@ const Country = () => {
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* LEFT: WRAPPER */}
+        {/* LEFT SIDE */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
           <h3 className="text-lg font-semibold text-gray-800">Countries</h3>
-
-          {/* Form input (tanpa tombol) */}
           <CountryForm ref={formRef} />
-
-          {/* Dropzone */}
           <Dropzone />
-
-          {/* Tombol pindah ke bawah Dropzone */}
           <div className="flex justify-end gap-4">
             <button
               onClick={handleCancel}
@@ -55,8 +49,22 @@ const Country = () => {
           </div>
         </div>
 
-        {/* RIGHT: Table */}
-        <CountryTable countries={countries} />
+        {/* RIGHT SIDE: Table Wrapper */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Countries List</h3>
+            <div className="flex gap-2">
+              <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
+                <i className="fas fa-filter mr-2"></i>Filter
+              </button>
+              <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
+                See all
+              </button>
+            </div>
+          </div>
+
+          <CountryTable countries={countries} />
+        </div>
       </div>
     </div>
   );

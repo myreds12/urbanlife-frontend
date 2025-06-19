@@ -4,7 +4,7 @@ export interface Country {
     status: string;
   }
   
-  const ListTable = ({ countries }: { countries: Country[] }) => {
+  const CountryTable = ({ countries }: { countries: Country[] }) => {
     return (
       <table className="w-full text-sm text-left">
         <thead className="text-gray-400">
@@ -38,5 +38,5 @@ export interface Country {
     );
   };
   
-  export default  ListTable;
+  export default  CountryTable;
   

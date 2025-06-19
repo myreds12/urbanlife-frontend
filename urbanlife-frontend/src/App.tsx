@@ -5,6 +5,7 @@ import Dashboard from "./pages/AdminDashboard/Dashboard/Dashboard";
 import Order from "./pages/AdminDashboard/Order/Order";
 import Calendar from "./pages/AdminDashboard/Calendar/Calendar"; // Diperbarui ke pages
 import DayTour from "./pages/AdminDashboard/DayTour/DayTour";
+import RentCar from "./pages/AdminDashboard/RentCar/RentCar";
 import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConnect";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { ThemeProvider } from "./components/AdminDashboard/Utils/Context/ThemeContext";
@@ -24,6 +25,7 @@ function App() {
             <Route path="order" element={<Order />} />
             <Route path="calendar" element={<Calendar />} />
             <Route path="day-tour" element={<DayTour />} />
+            <Route path="rent-car" element={<RentCar />} />
             <Route path="whatsapp-connect" element={<WhatsappConnect />} />
           </Route>
         </Routes>

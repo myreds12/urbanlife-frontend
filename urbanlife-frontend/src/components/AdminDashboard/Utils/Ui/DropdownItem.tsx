@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 interface DropdownItemProps {
   tag?: "a" | "button";
@@ -11,12 +11,12 @@ interface DropdownItemProps {
 }
 
 export const DropdownItem: React.FC<DropdownItemProps> = ({
-  tag = "button",
+  tag = "a",
   to,
   onClick,
   onItemClick,
   baseClassName = "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900",
-  className,
+  className = "",
   children,
 }) => {
   const handleClick = (event: React.MouseEvent) => {

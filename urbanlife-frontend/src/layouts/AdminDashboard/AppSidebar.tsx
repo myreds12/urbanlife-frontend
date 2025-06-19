@@ -17,7 +17,14 @@ const contentItems = [
 
 const othersItems = [
   { icon: "fa-users", name: "Customer", path: "/admin/customer" },
-  { icon: "fa-whatsapp", name: "Whatsapp", path: "/admin/whatsapp-connect" },
+  {
+    icon: "fa-whatsapp",
+    name: "Whatsapp",
+    subItems: [
+      { name: "Connect", path: "/admin/whatsapp-connect" },
+      { name: "Template", path: "/admin/whatsapp-template" },
+    ],
+  },
   { icon: "fa-inbox", name: "Inbox", path: "/admin/inbox" },
   {
     icon: "fa-database",
@@ -42,6 +49,8 @@ const AppSidebar = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const isActive = (path: string) => location.pathname === path;
+  const isAnySubItemActive = (subItems: any[]) =>
+    subItems?.some((item) => isActive(item.path));
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown((prev) => (prev === name ? null : name));
@@ -49,49 +58,65 @@ const AppSidebar = () => {
 
   const renderMenuItems = (items: typeof navItems) => (
     <ul className="space-y-2">
-      {items.map((item) => (
-        <li key={item.name} className="relative">
-          {item.subItems ? (
-            <>
-              <button
-                onClick={() => toggleDropdown(item.name)}
-                className={`flex items-center p-2 rounded-lg w-full text-left transition-colors ${
-                  isActive(item.path || "") ? "bg-teal-500 text-white" : "text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                <i className={`fas ${item.icon} mr-3 text-lg`}></i>
-                <span className="text-sm">{item.name}</span>
-                <i className={`fas fa-chevron-down ml-auto transition-transform ${
-                  openDropdown === item.name ? "rotate-180" : ""
-                }`}></i>
-              </button>
-              <Dropdown
-                isOpen={openDropdown === item.name}
-                onClose={() => setOpenDropdown(null)}
-                className="w-48 mt-1 left-0"
-              >
-                {item.subItems.map((subItem) => (
-                  <DropdownItem key={subItem.name} to={subItem.path} onItemClick={() => setOpenDropdown(null)}>
-                    {subItem.name}
-                  </DropdownItem>
-                ))}
-              </Dropdown>
-            </>
-          ) : (
-            item.path && (
+      {items.map((item) => {
+        const isDropdownOpen = openDropdown === item.name;
+        const isSubmenuActive = isAnySubItemActive(item.subItems || []);
+        const isMainActive = isActive(item.path || "");
+        const isActiveStyle = isMainActive || isSubmenuActive;
+
+        return (
+          <li key={item.name} className="relative">
+            {item.subItems ? (
+              <>
+                <button
+                  onClick={() => toggleDropdown(item.name)}
+                  className={`flex items-center p-2 rounded-lg w-full text-left transition-colors ${
+                    isDropdownOpen || isSubmenuActive
+                      ? "bg-teal-500 text-white"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  <i className={`fas ${item.icon} mr-3 text-lg`}></i>
+                  <span className="text-sm">{item.name}</span>
+                  <i
+                    className={`fas fa-chevron-down ml-auto transition-transform ${
+                      isDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  ></i>
+                </button>
+                <Dropdown
+                  isOpen={isDropdownOpen}
+                  onClose={() => setOpenDropdown(null)}
+                  className="w-48 mt-1 left-0"
+                >
+                  {item.subItems.map((subItem) => (
+                    <DropdownItem
+                      key={subItem.name}
+                      to={subItem.path}
+                      onItemClick={() => setOpenDropdown(null)}
+                      className={isActive(subItem.path) ? "bg-teal-500 text-white" : ""}
+                    >
+                      {subItem.name}
+                    </DropdownItem>
+                  ))}
+                </Dropdown>
+              </>
+            ) : (
               <Link
-                to={item.path}
+                to={item.path!}
                 className={`flex items-center p-2 rounded-lg transition-colors ${
-                  isActive(item.path) ? "bg-teal-500 text-white" : "text-gray-600 hover:bg-gray-100"
+                  isMainActive
+                    ? "bg-teal-500 text-white"
+                    : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
                 <i className={`fas ${item.icon} mr-3 text-lg`}></i>
                 <span className="text-sm">{item.name}</span>
               </Link>
-            )
-          )}
-        </li>
-      ))}
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 

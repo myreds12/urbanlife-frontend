@@ -49,7 +49,7 @@ const CustomerTable = ({ data, columns }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="bg-gray-200 p-2 rounded">Download</button>
+        <button className="bg-gray-200 p-2 rounded fa--download">Download</button>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded-lg">

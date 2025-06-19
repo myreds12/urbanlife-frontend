@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Dropdown } from "../../components/AdminDashboard/Utils/Ui/Dropdown";
-import { DropdownItem } from "../../components/AdminDashboard/Utils/Ui/DropdownItem";
 
 const navItems = [
   { icon: "fa-tachometer-alt", name: "Dashboard", path: "/admin/dashboard" },
@@ -46,71 +44,78 @@ const othersItems = [
 
 const AppSidebar = () => {
   const location = useLocation();
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const isActive = (path: string) => location.pathname === path;
-  const isAnySubItemActive = (subItems: any[]) =>
-    subItems?.some((item) => isActive(item.path));
-
-  const toggleDropdown = (name: string) => {
-    setOpenDropdown((prev) => (prev === name ? null : name));
+  const toggleMenu = (name: string) => {
+    setOpenMenu((prev) => (prev === name ? null : name));
   };
 
   const renderMenuItems = (items: typeof navItems) => (
     <ul className="space-y-2">
       {items.map((item) => {
-        const isDropdownOpen = openDropdown === item.name;
-        const isSubmenuActive = isAnySubItemActive(item.subItems || []);
+        const isOpen = openMenu === item.name;
         const isMainActive = isActive(item.path || "");
-        const isActiveStyle = isMainActive || isSubmenuActive;
+        const isAnySubItemActive = item.subItems?.some((s) =>
+          isActive(s.path)
+        );
+        const isActiveStyle = isMainActive || isAnySubItemActive;
 
         return (
-          <li key={item.name} className="relative">
+          <li key={item.name}>
             {item.subItems ? (
               <>
                 <button
-                  onClick={() => toggleDropdown(item.name)}
-                  className={`flex items-center p-2 rounded-lg w-full text-left transition-colors ${
-                    isDropdownOpen || isSubmenuActive
+                  onClick={() => toggleMenu(item.name)}
+                  className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-all ${
+                    isActiveStyle
                       ? "bg-teal-500 text-white"
                       : "text-gray-600 hover:bg-gray-100"
                   }`}
                 >
-                  <i className={`fas ${item.icon} mr-3 text-lg`}></i>
-                  <span className="text-sm">{item.name}</span>
+                  <div className="flex items-center">
+                    <i className={`fas ${item.icon} mr-3 text-lg`} />
+                    <span className="text-sm">{item.name}</span>
+                  </div>
                   <i
-                    className={`fas fa-chevron-down ml-auto transition-transform ${
-                      isDropdownOpen ? "rotate-180" : ""
+                    className={`fas fa-chevron-down transform transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : ""
                     }`}
-                  ></i>
+                  />
                 </button>
-                <Dropdown
-                  isOpen={isDropdownOpen}
-                  onClose={() => setOpenDropdown(null)}
-                  className="w-48 mt-1 left-0"
+                <div
+                  className={`ml-7 mt-1 overflow-hidden transition-[max-height] duration-300 ease-in-out ${
+                    isOpen ? "max-h-[500px]" : "max-h-0"
+                  }`}
                 >
-                  {item.subItems.map((subItem) => (
-                    <DropdownItem
-                      key={subItem.name}
-                      to={subItem.path}
-                      onItemClick={() => setOpenDropdown(null)}
-                      className={isActive(subItem.path) ? "bg-teal-500 text-white" : ""}
-                    >
-                      {subItem.name}
-                    </DropdownItem>
-                  ))}
-                </Dropdown>
+                  <ul className="space-y-1">
+                    {item.subItems.map((sub) => (
+                      <li key={sub.name}>
+                        <Link
+                          to={sub.path}
+                          className={`block px-2 py-1 rounded-md text-sm transition-all ${
+                            isActive(sub.path)
+                              ? "bg-teal-100 text-teal-700 font-medium"
+                              : "text-gray-600 hover:bg-gray-50"
+                          }`}
+                        >
+                          {sub.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </>
             ) : (
               <Link
                 to={item.path!}
-                className={`flex items-center p-2 rounded-lg transition-colors ${
-                  isMainActive
+                className={`flex items-center px-3 py-2 rounded-lg transition-all ${
+                  isActive(item.path!)
                     ? "bg-teal-500 text-white"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
-                <i className={`fas ${item.icon} mr-3 text-lg`}></i>
+                <i className={`fas ${item.icon} mr-3 text-lg`} />
                 <span className="text-sm">{item.name}</span>
               </Link>
             )}
@@ -121,12 +126,12 @@ const AppSidebar = () => {
   );
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 p-4">
+    <aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 p-4 overflow-y-auto">
       <div className="mb-6">
         <div className="text-2xl font-bold text-black">urbanlife</div>
         <div className="text-xs text-gray-500">Your Leisure Reference</div>
       </div>
-      <nav className="flex-1 overflow-y-auto">
+      <nav>
         <div className="mb-4">
           <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Menu</h2>
           {renderMenuItems(navItems)}

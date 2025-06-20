@@ -30,7 +30,7 @@ const othersItems = [
       name: "Data master",
       subItems: [
         { name: "Countries", path: "/admin/country" },  // ← ganti ini
-        { name: "Cities", path: "/admin/cities" },
+        { name: "Cities", path: "/admin/city" },
         { name: "Car", path: "/admin/car" },
         { name: "Driver", path: "/admin/driver" },
         { name: "Guide", path: "/admin/guide" },

@@ -1,23 +1,22 @@
 import { useRef, useState } from "react";
-import Dropzone from "../../../components/AdminDashboard/Utils/Form/DropZone";
-import CountryForm, {
-  type CountryFormHandle,
-  type Country,
-} from "../../../components/AdminDashboard/Utils/Form/CountryForm";
-import CountryTable from "../../../components/AdminDashboard/Utils/Table/CountryTable";
+import CityForm, {
+  type CityFormHandle,
+  type City,
+} from "../../../components/AdminDashboard/Utils/Form/CityForm";
+import CityTable from "../../../components/AdminDashboard/Utils/Table/CityTable";
 
-const Country = () => {
-  const [countries, setCountries] = useState<Country[]>([
-    { id: "001", name: "Indonesia", status: "Active" },
-    { id: "002", name: "Vietnam", status: "Active" },
+const City = () => {
+  const [cities, setCities] = useState<City[]>([
+    { id: "001", country: "Indonesia", name: "Jakarta", status: "Active" },
+    { id: "002", country: "Vietnam", name: "Ho chi minh city", status: "Active" },
   ]);
 
-  const formRef = useRef<CountryFormHandle>(null);
+  const formRef = useRef<CityFormHandle>(null);
 
   const handleSave = () => {
     const newData = formRef.current?.getFormData();
     if (!newData) return;
-    setCountries((prev) => [...prev, { ...newData, status: "Active" }]);
+    setCities((prev) => [...prev, { ...newData, status: "Active" }]);
     formRef.current?.resetForm();
   };
 
@@ -28,11 +27,14 @@ const Country = () => {
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* LEFT SIDE */}
+        {/* LEFT */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
-          <h3 className="text-lg font-semibold text-gray-800">Countries</h3>
-          <CountryForm ref={formRef} />
-          <Dropzone />
+          <h3 className="text-lg font-semibold text-gray-800">Cities</h3>
+
+          {/* Form */}
+          <CityForm ref={formRef} />
+
+          {/* Button */}
           <div className="flex justify-end gap-4">
             <button
               onClick={handleCancel}
@@ -49,10 +51,10 @@ const Country = () => {
           </div>
         </div>
 
-        {/* RIGHT SIDE: Table Wrapper */}
+        {/* RIGHT */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Countries List</h3>
+            <h3 className="text-lg font-semibold text-gray-800">List Cities</h3>
             <div className="flex gap-2">
               <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
                 <i className="fas fa-filter mr-2"></i>Filter
@@ -62,12 +64,11 @@ const Country = () => {
               </button>
             </div>
           </div>
-
-          <CountryTable countries={countries} />
+          <CityTable cities={cities} />
         </div>
       </div>
     </div>
   );
 };
 
-export default Country;
+export default City;

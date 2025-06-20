@@ -2,8 +2,8 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 
 export interface Driver {
   id: string;
-  name: string;
-  identityNumber: string;
+  brand: string;
+  model: string;
   phone: string;
   gender: string;
   expiry: string;
@@ -16,27 +16,27 @@ export interface DriverFormHandle {
 }
 
 const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
-  const [name, setName] = useState("");
-  const [identityNumber, setIdentityNumber] = useState("");
+  const [brand, setBrand] = useState("");
+  const [model, setModel] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [expiry, setExpiry] = useState("");
 
   useImperativeHandle(ref, () => ({
     getFormData: () => {
-      if (!name || !identityNumber || !phone || !gender || !expiry) return null;
+      if (!brand || !model || !phone || !gender || !expiry) return null;
       return {
         id: String(Date.now()).slice(-3),
-        name,
-        identityNumber,
+        brand,
+        model,
         phone,
         gender,
         expiry,
       };
     },
     resetForm: () => {
-      setName("");
-      setIdentityNumber("");
+      setBrand("");
+      setModel("");
       setPhone("");
       setGender("");
       setExpiry("");
@@ -44,7 +44,7 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
   }));
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
       <div>
         <label className="block text-sm text-gray-600 mb-1">Driver ID</label>
         <input
@@ -55,22 +55,22 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Driver name</label>
+        <label className="block text-sm text-gray-600 mb-1">Brand</label>
         <input
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="David"
+          value={brand}
+          onChange={(e) => setBrand(e.target.value)}
+          placeholder="Enter brand"
           className="input input-bordered w-full"
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">ID</label>
+        <label className="block text-sm text-gray-600 mb-1">Model</label>
         <input
           type="text"
-          value={identityNumber}
-          onChange={(e) => setIdentityNumber(e.target.value)}
-          placeholder="12345678"
+          value={model}
+          onChange={(e) => setModel(e.target.value)}
+          placeholder="Enter model"
           className="input input-bordered w-full"
         />
       </div>
@@ -80,7 +80,7 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
           type="text"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="0811111111"
+          placeholder="Enter phone"
           className="input input-bordered w-full"
         />
       </div>

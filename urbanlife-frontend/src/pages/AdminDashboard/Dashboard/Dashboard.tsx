@@ -23,7 +23,7 @@ function Dashboard() {
           </div>
           
           {/* Baris 3: Chart Bar */}
-          <div>
+          <div className="grid grid-cols-2 gap-5 mb-5">
             <ChartBar />
           </div>
         </div>

@@ -61,18 +61,17 @@ const Footer: React.FC = () => {
 
           {/* Contact Section */}
           <div>
-            <div className="mb-8">
-              <div className="bg-white text-slate-900 px-4 py-2 rounded inline-block mb-4">
-                <span className="font-bold text-lg">urbanlife</span>
-                <div className="text-xs">Your Leisure Reference</div>
-              </div>
-              <div className="space-y-2">
-                <p className="text-gray-300">Jakarta Selatan</p>
-                <p className="text-gray-300">Indonesia</p>
-                <p className="text-gray-300">0821 - 2222 - 8888</p>
-                <p className="text-gray-300">support@urbanlife.id</p>
-              </div>
-            </div>
+          <div className="mb-8">
+                <div className="bg-white text-slate-900 px-4 py-2 rounded inline-block mb-4">
+                    <img src="/public/logo.png" alt="Urbanlife Logo" className="h-10" />
+                </div>
+                <div className="space-y-2">
+                    <p className="text-gray-300">Jakarta Selatan</p>
+                    <p className="text-gray-300">Indonesia</p>
+                    <p className="text-gray-300">0821 - 2222 - 8888</p>
+                    <p className="text-gray-300">support@urbanlife.id</p>
+                </div>
+           </div>
             
             {/* Social Media Icons */}
             <div className="flex space-x-4">

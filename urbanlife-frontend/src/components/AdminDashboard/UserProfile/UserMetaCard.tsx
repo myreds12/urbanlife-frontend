@@ -36,17 +36,17 @@ export default function UserMetaCard() {
 
       {/* Reset Password Section */}
       {showResetForm && (
-        <div className="mt-6 p-6 border border-gray-100 rounded-2xl shadow-sm bg-white">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4">Reset password</h4>
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Column 1 with border */}
+          <div className="p-6 border border-gray-100 rounded-2xl shadow-sm bg-white">
+            <h4 className="text-lg font-semibold text-gray-800 mb-4">Reset password</h4>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Left Column */}
-            <div className="space-y-4 max-w-[90%]">
+            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
                 <input
                   type="password"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-[90%] px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter new password"
                 />
               </div>
@@ -54,7 +54,7 @@ export default function UserMetaCard() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
                 <input
                   type="password"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-[90%] px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Confirm new password"
                 />
               </div>
@@ -67,10 +67,10 @@ export default function UserMetaCard() {
                 <Button size="sm">Save Changes</Button>
               </div>
             </div>
-
-            {/* Right Column Kosong */}
-            <div></div>
           </div>
+
+          {/* Column 2 kosong */}
+          <div></div>
         </div>
       )}
     </div>

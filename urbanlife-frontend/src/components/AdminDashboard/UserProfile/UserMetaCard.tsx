@@ -39,30 +39,37 @@ export default function UserMetaCard() {
         <div className="mt-8 p-6 rounded-2xl border border-gray-100 bg-gray-50">
           <h4 className="text-lg font-semibold text-gray-800 mb-4">Reset password</h4>
 
-          <div className="flex flex-col md:flex-row gap-4 md:gap-6 mb-6 max-w-[70%]">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
-              <input
-                type="password"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter new password"
-              />
-            </div>
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
-              <input
-                type="password"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Confirm new password"
-              />
-            </div>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Left Column: Form Inputs */}
+            <div className="space-y-4 max-w-[90%]">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
+                <input
+                  type="password"
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter new password"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
+                <input
+                  type="password"
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Confirm new password"
+                />
+              </div>
 
-          <div className="flex justify-end gap-3 mt-4">
-            <Button size="sm" variant="outline" onClick={() => setShowResetForm(false)}>
-              Cancel
-            </Button>
-            <Button size="sm">Save Changes</Button>
+              {/* Action Buttons inside left column */}
+              <div className="flex justify-end gap-3 mt-4">
+                <Button size="sm" variant="outline" onClick={() => setShowResetForm(false)}>
+                  Cancel
+                </Button>
+                <Button size="sm">Save Changes</Button>
+              </div>
+            </div>
+
+            {/* Right Column: Kosong (biar balance layout) */}
+            <div></div>
           </div>
         </div>
       )}

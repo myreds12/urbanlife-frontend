@@ -126,7 +126,7 @@ const Calendar: React.FC = () => {
         <div className="custom-calendar">
           <FullCalendar
             ref={calendarRef}
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             headerToolbar={{
               left: "prev,next addEventButton",

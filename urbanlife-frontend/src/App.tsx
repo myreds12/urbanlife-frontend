@@ -14,6 +14,7 @@ import RentCar from "./pages/AdminDashboard/RentCar/RentCar";
 import Accommodation from "./pages/AdminDashboard/Accomodation/Accomodation";
 import Customer from "./pages/AdminDashboard/Customer/Customer";
 import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConnect";
+import Inbox from "./pages/AdminDashboard/Inbox/Inbox";
 
 // Data Master Pages
 import Country from "./pages/AdminDashboard/DataMaster/Country";
@@ -47,6 +48,8 @@ function App() {
             <Route path="accommodation" element={<Accommodation />} />
             <Route path="customer" element={<Customer />} />
             <Route path="whatsapp-connect" element={<WhatsappConnect />} />
+            <Route path="inbox" element={<Inbox />} />
+
 
             {/* Data Master */}
             <Route path="country" element={<Country />} />

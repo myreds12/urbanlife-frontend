@@ -23,6 +23,9 @@ import Car from "./pages/AdminDashboard/DataMaster/Car";
 import Driver from "./pages/AdminDashboard/DataMaster/Driver";
 import Guide from "./pages/AdminDashboard/DataMaster/Guide";
 
+// User Profile
+import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";
+
 // Public Page
 import LandingPage from "./pages/LandingPage/LandingPage";
 
@@ -57,6 +60,9 @@ function App() {
             <Route path="car" element={<Car />} />
             <Route path="driver" element={<Driver />} />
             <Route path="guide" element={<Guide />} />
+
+            {/* User Profile */}
+            <Route path="profile" element={<UserProfile />} />
 
           </Route>
         </Routes>

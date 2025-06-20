@@ -36,11 +36,11 @@ const othersItems = [
         { name: "Guide", path: "/admin/guide" },
       ],
     },
-  {
-    icon: "fa-cog",
-    name: "Setting",
-    subItems: [{ name: "User", path: "/user" }],
-  },
+    {
+      icon: "fa-cog",
+      name: "Setting",
+      subItems: [{ name: "User", path: "/admin/profile" }],
+    },
 ];
 
 const AppSidebar = () => {

@@ -36,11 +36,11 @@ export default function UserMetaCard() {
 
       {/* Reset Password Section */}
       {showResetForm && (
-        <div className="mt-8 p-6 rounded-2xl border border-gray-100 bg-gray-50">
+        <div className="mt-6 p-6 border border-gray-100 rounded-2xl shadow-sm bg-white">
           <h4 className="text-lg font-semibold text-gray-800 mb-4">Reset password</h4>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Left Column: Form Inputs */}
+            {/* Left Column */}
             <div className="space-y-4 max-w-[90%]">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
@@ -59,7 +59,7 @@ export default function UserMetaCard() {
                 />
               </div>
 
-              {/* Action Buttons inside left column */}
+              {/* Action Buttons */}
               <div className="flex justify-end gap-3 mt-4">
                 <Button size="sm" variant="outline" onClick={() => setShowResetForm(false)}>
                   Cancel
@@ -68,7 +68,7 @@ export default function UserMetaCard() {
               </div>
             </div>
 
-            {/* Right Column: Kosong (biar balance layout) */}
+            {/* Right Column Kosong */}
             <div></div>
           </div>
         </div>

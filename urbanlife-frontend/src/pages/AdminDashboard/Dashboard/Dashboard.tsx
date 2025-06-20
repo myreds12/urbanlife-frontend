@@ -18,7 +18,7 @@ function Dashboard() {
             {/* Kiri: CardWidget & ChartBar */}
             <div className="flex flex-col gap-5">
               {/* CardWidget: tetap 2 kolom */}
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 gap-5">
                 <CardWidget />
               </div>
 

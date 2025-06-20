@@ -5,7 +5,7 @@ export default function UserMetaCard() {
   const [showResetForm, setShowResetForm] = useState(false);
 
   return (
-    <div className="p-6 border border-gray-100 rounded-2xl shadow-sm bg-white">
+    <div className="p-6 border-[1.5px] border-gray-200 shadow-sm rounded-2xl bg-white">
       {/* Header */}
       <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
         {/* Left: Avatar + Info */}
@@ -21,13 +21,15 @@ export default function UserMetaCard() {
 
         {/* Right: Buttons */}
         <div className="flex gap-3 justify-end">
-          <Button
-            size="sm"
-            variant={showResetForm ? "solid" : "outline"}
-            onClick={() => setShowResetForm(!showResetForm)}
-          >
-            Reset password
-          </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          isActive={showResetForm} // aktif ketika form reset muncul
+          onClick={() => setShowResetForm(!showResetForm)}
+          startIcon={<i className="fa fa-rotate-left" />}
+        >
+          Reset password
+        </Button>
           <Button size="sm" variant="outline">
             Edit
           </Button>
@@ -38,7 +40,7 @@ export default function UserMetaCard() {
       {showResetForm && (
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Column 1 with border */}
-          <div className="p-6 border border-gray-100 rounded-2xl shadow-sm bg-white">
+          <div className="p-6 border-[1.5px] border-gray-200 shadow-sm rounded-2xl bg-white">
             <h4 className="text-lg font-semibold text-gray-800 mb-4">Reset password</h4>
 
             <div className="space-y-4">

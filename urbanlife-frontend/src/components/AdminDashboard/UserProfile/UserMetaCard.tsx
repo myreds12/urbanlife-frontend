@@ -36,29 +36,29 @@ export default function UserMetaCard() {
 
       {/* Reset Password Section */}
       {showResetForm && (
-        <div className=" grid gap-4 md:grid-cols-2mt-8 p-6 rounded-2xl border border-gray-100 bg-gray-50">
+        <div className="mt-8 p-6 rounded-2xl border border-gray-100 bg-gray-50">
           <h4 className="text-lg font-semibold text-gray-800 mb-4">Reset password</h4>
-        
-          <div className="grid gap-4 md:grid-cols-2">
-            <div>
+
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 mb-6 max-w-[70%]">
+            <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
               <input
                 type="password"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter new password"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
               <input
                 type="password"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Confirm new password"
               />
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 mt-6">
+          <div className="flex justify-end gap-3 mt-4">
             <Button size="sm" variant="outline" onClick={() => setShowResetForm(false)}>
               Cancel
             </Button>

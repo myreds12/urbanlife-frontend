@@ -9,8 +9,8 @@ const Driver = () => {
   const [drivers, setDrivers] = useState<Driver[]>([
     {
       id: "001",
-      name: "David omstein",
-      identityNumber: "12345678",
+      brand: "toyota",
+      model: "supra",
       phone: "0811111111",
       gender: "Male",
       expiry: "2025-12-12",
@@ -18,8 +18,8 @@ const Driver = () => {
     },
     {
       id: "002",
-      name: "David raya",
-      identityNumber: "12345678",
+      brand: "toyota",
+      model: "kijang",
       phone: "0811111111",
       gender: "Male",
       expiry: "2025-12-12",

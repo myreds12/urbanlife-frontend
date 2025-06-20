@@ -21,8 +21,8 @@ const DriverTable = ({ drivers }: { drivers: Driver[] }) => {
           <tr key={driver.id} className="border-b last:border-none">
             <td className="py-2">{index + 1}</td>
             <td className="py-2">{driver.id}</td>
-            <td className="py-2">{driver.name}</td>
-            <td className="py-2">{driver.identityNumber}</td>
+            <td className="py-2">{driver.brand}</td>
+            <td className="py-2">{driver.model}</td>
             <td className="py-2">{driver.phone}</td>
             <td className="py-2">{driver.gender}</td>
             <td className="py-2">{driver.expiry}</td>

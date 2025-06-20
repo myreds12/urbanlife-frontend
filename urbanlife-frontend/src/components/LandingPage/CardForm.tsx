@@ -44,7 +44,7 @@ const CardForm: React.FC = () => {
             <label className="block text-xs font-medium text-gray-500">To</label>
             <div className="relative">
               <input
-                type="text"
+                type="date"
                 className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm"
                 value={toDate}
                 onClick={() => document.getElementById('toDateInput')?.focus()}
@@ -61,7 +61,7 @@ const CardForm: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         <button className="w-full bg-teal-500 text-white p-2 rounded-md text-sm hover:bg-teal-600">
           Search
         </button>

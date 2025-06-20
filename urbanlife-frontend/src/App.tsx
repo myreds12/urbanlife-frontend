@@ -19,6 +19,7 @@ import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConn
 import Country from "./pages/AdminDashboard/DataMaster/Country";
 import City from "./pages/AdminDashboard/DataMaster/City";
 import Car from "./pages/AdminDashboard/DataMaster/Car";
+import Driver from "./pages/AdminDashboard/DataMaster/Driver";
 
 // Public Page
 import LandingPage from "./pages/LandingPage/LandingPage";
@@ -50,6 +51,8 @@ function App() {
             <Route path="country" element={<Country />} />
             <Route path="city" element={<City />} />
             <Route path="car" element={<Car />} />
+            <Route path="driver" element={<Driver />} />
+
 
           </Route>
         </Routes>

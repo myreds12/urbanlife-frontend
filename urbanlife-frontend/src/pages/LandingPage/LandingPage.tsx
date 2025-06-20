@@ -1,4 +1,5 @@
 import Navbar from "../../components/LandingPage/Navbar";
+import Footer from "../../components/LandingPage/Footer";
 import HeroSection from "../../components/LandingPage/HeroSection";
 import DestinationCard from "../../components/LandingPage/DestinationCard";
 import "../../components/LandingPage/DestinationCard.css";
@@ -40,7 +41,7 @@ const LandingPage = () => {
           />
         </div>
       </div>
-
+      <Footer />
     </div>
   );
 };

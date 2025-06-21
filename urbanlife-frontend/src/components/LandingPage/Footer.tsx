@@ -4,7 +4,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-slate-900 text-white py-16 px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 mb-12">
           {/* Company Section */}
           <div>
             <h3 className="text-lg font-semibold mb-6">COMPANY</h3>
@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
           {/* Contact Section */}
           <div>
           <div className="mb-8">
-                <div className="bg-white text-slate-900 px-4 py-2 rounded inline-block mb-4">
+                <div className="bg-white text-slate-900 px-5 py-2 rounded inline-block mb-4">
                     <img src="/public/logo.png" alt="Urbanlife Logo" className="h-10" />
                 </div>
                 <div className="space-y-2">
@@ -74,7 +74,8 @@ const Footer: React.FC = () => {
            </div>
             
             {/* Social Media Icons */}
-            <div className="flex space-x-4">
+            <h3 className="text-lg font-semibold mb-2 ">Follow Us</h3>
+            <div className="flex space-x-4 mb-3">
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   {/* TikTok Icon */}
@@ -94,6 +95,13 @@ const Footer: React.FC = () => {
                 </svg>
               </a>
             </div>
+
+            {/* PAYMENT PARTNER */}
+            <h3 className="text-lg font-semibold mb-2 ">Payment Partner</h3>
+            <div className="bg-white text-slate-900 px-6 py-2 rounded inline-block mb-4 mt-1">
+                    <img src="/public/partner.png" alt="Urbanlife Logo" className="h-10" />
+            </div>
+
           </div>
         </div>
 

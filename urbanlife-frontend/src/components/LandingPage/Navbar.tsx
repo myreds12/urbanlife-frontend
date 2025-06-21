@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(null); // Melacak item mana yang dibuka
 
   function closeDropdown() {
-    setIsDropdownOpen(null);
+ setIsDropdownOpen(null);
   }
 
   const toggleMobileMenu = () => {
@@ -56,8 +56,8 @@ const Navbar = () => {
           </span>
           {isDropdownOpen === "place" && (
             <div
-              className="absolute top-full left-0 w-screen bg-cyan-600 text-white shadow-md"
-              style={{ width: "100vw", marginLeft: "-50vw", left: "50%" }}
+              className="absolute top-full left-0  -translate-x-167 bg-cyan-600 text-white shadow-md"
+              style={{ minWidth: "1100px", maxWidth: "1500px" }}
               onMouseLeave={closeDropdown}
             >
               <div className="container mx-auto px-4 py-4 grid grid-cols-6 gap-4">
@@ -138,32 +138,32 @@ const Navbar = () => {
           </span>
           {isDropdownOpen === "services" && (
             <div
-              className="absolute top-full left-0 w-screen bg-cyan-600 text-white shadow-md"
-              style={{ width: "100vw", marginLeft: "-50vw", left: "50%" }}
+              className="absolute top-full left-1/2 -translate-x-106 bg-cyan-600 text-white shadow-md"
+              style={{ minWidth: "700px", maxWidth: "1100px" }}
               onMouseLeave={closeDropdown}
             >
-              <div className="container mx-auto px-4 py-4 grid grid-cols-3 gap-4">
-                <div>
-                  <h4 className="font-semibold mb-2">Transportation</h4>
-                  <ul>
-                    <li><Link to="/transportation/rent-car" className="block py-1 hover:text-gray-200">Rent Car</Link></li>
-                    <li><Link to="/transportation/shuttle" className="block py-1 hover:text-gray-200">Shuttle Service</Link></li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">Accommodation</h4>
-                  <ul>
-                    <li><Link to="/accommodation/hotel" className="block py-1 hover:text-gray-200">Hotel Booking</Link></li>
-                    <li><Link to="/accommodation/resort" className="block py-1 hover:text-gray-200">Resort Booking</Link></li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">Day Tours</h4>
-                  <ul>
-                    <li><Link to="/day-tours/city" className="block py-1 hover:text-gray-200">City Tours</Link></li>
-                    <li><Link to="/day-tours/nature" className="block py-1 hover:text-gray-200">Nature Tours</Link></li>
-                  </ul>
-                </div>
+            <div className="container mx-auto px-4 py-4 grid grid-cols-3 gap-2">
+              <div>
+                <h4 className="font-semibold mb-2">Transportation</h4>
+                <ul>
+                <li><Link to="/transportation/rent-car" className="block py-1 hover:text-gray-200">Rent Car</Link></li>
+                <li><Link to="/transportation/shuttle" className="block py-1 hover:text-gray-200">Shuttle Service</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">Accommodation</h4>
+                <ul>
+                <li><Link to="/accommodation/hotel" className="block py-1 hover:text-gray-200">Hotel Booking</Link></li>
+                <li><Link to="/accommodation/resort" className="block py-1 hover:text-gray-200">Resort Booking</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">Day Tours</h4>
+                <ul>
+                <li><Link to="/day-tours/city" className="block py-1 hover:text-gray-200">City Tours</Link></li>
+                <li><Link to="/day-tours/nature" className="block py-1 hover:text-gray-200">Nature Tours</Link></li>
+                </ul>
+              </div>
               </div>
             </div>
           )}

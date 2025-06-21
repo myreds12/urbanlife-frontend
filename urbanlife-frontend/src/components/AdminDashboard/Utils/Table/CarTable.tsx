@@ -18,7 +18,7 @@ const CarTable = ({ cars }: { cars: Car[] }) => {
       </thead>
       <tbody>
         {cars.map((car, index) => (
-          <tr key={car.id} className="border-b last:border-none">
+          <tr key={car.id} className="last:border-none">
             <td className="py-2">{index + 1}</td>
             <td className="py-2">{car.id}</td>
             <td className="py-2">{car.brand}</td>

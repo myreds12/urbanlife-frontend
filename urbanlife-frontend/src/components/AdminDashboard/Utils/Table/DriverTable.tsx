@@ -18,7 +18,7 @@ const DriverTable = ({ drivers }: { drivers: Driver[] }) => {
       </thead>
       <tbody>
         {drivers.map((driver, index) => (
-          <tr key={driver.id} className="border-b last:border-none">
+          <tr key={driver.id} className=" last:border-none">
             <td className="py-2">{index + 1}</td>
             <td className="py-2">{driver.id}</td>
             <td className="py-2">{driver.brand}</td>

@@ -51,7 +51,7 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
           type="text"
           disabled
           value="Auto"
-          className="input input-bordered w-full bg-gray-100 text-gray-500"
+          className="input input-bordered w-full bg-gray-100 text-gray-500 rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -61,7 +61,7 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
           value={brand}
           onChange={(e) => setBrand(e.target.value)}
           placeholder="Enter brand"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -71,7 +71,7 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
           value={model}
           onChange={(e) => setModel(e.target.value)}
           placeholder="Enter model"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -81,7 +81,7 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Enter phone"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -89,7 +89,7 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
         <select
           value={gender}
           onChange={(e) => setGender(e.target.value)}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         >
           <option value="">Choose</option>
           <option value="Male">Male</option>
@@ -102,7 +102,7 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
           type="date"
           value={expiry}
           onChange={(e) => setExpiry(e.target.value)}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
     </div>

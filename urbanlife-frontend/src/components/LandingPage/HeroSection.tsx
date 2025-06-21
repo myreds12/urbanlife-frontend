@@ -7,7 +7,7 @@ const HeroSection = () => {
     <>
     <div className="hero-section justify-between gap-40" style={{ backgroundImage: `url(${backgroundImage})` }}> 
       <div style={{ maxWidth: "650px", margin: "" }}>
-        <p className="text-7xl/23 font-bold text-left ">
+        <p className="text-7xl/23 font-bold text-left text-white">
           Discover the beauty places around the world
         </p>
       </div>

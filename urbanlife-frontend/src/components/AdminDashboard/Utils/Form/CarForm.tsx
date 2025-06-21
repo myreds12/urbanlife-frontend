@@ -52,7 +52,7 @@ const CarForm = forwardRef<CarFormHandle>((_, ref) => {
           type="text"
           disabled
           value="Auto"
-          className="input input-bordered w-full bg-gray-100 text-gray-500"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -62,7 +62,7 @@ const CarForm = forwardRef<CarFormHandle>((_, ref) => {
           value={brand}
           onChange={(e) => setBrand(e.target.value)}
           placeholder="Enter brand"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -72,7 +72,7 @@ const CarForm = forwardRef<CarFormHandle>((_, ref) => {
           value={model}
           onChange={(e) => setModel(e.target.value)}
           placeholder="Enter model"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -82,7 +82,7 @@ const CarForm = forwardRef<CarFormHandle>((_, ref) => {
           value={policeNumber}
           onChange={(e) => setPoliceNumber(e.target.value)}
           placeholder="Enter police number"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -90,7 +90,7 @@ const CarForm = forwardRef<CarFormHandle>((_, ref) => {
         <select
           value={taxStatus}
           onChange={(e) => setTaxStatus(e.target.value)}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         >
           <option value="">Choose</option>
           <option value="Active">Active</option>
@@ -103,7 +103,7 @@ const CarForm = forwardRef<CarFormHandle>((_, ref) => {
           type="date"
           value={taxExpiry}
           onChange={(e) => setTaxExpiry(e.target.value)}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
     </div>

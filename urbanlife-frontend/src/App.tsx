@@ -28,6 +28,7 @@ import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";
 
 // Public Page
 import LandingPage from "./pages/LandingPage/LandingPage";
+import OrderDetail from "./pages/LandingPage/OrderDetail";
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
         <Routes>
           {/* Website landing page */}
           <Route path="/" element={<LandingPage />} />
+
+          {/* Order detail page */}
+          <Route path="/order-detail" element={<OrderDetail />} />
 
           {/* Admin layout and nested routes */}
           <Route path="/admin" element={<AppLayout />}>

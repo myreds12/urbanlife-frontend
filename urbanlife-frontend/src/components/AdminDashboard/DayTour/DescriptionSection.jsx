@@ -1,19 +1,6 @@
 import React from 'react';
 
-interface DescriptionSectionProps {
-  id: string;
-  isActive: boolean;
-  formData: {
-    packageName: string;
-    englishDescription: string;
-    indonesiaDescription: string;
-    image: string;
-  };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  handleSubmit: (e: React.FormEvent) => void;
-}
-
-const DescriptionSection: React.FC<DescriptionSectionProps> = ({
+const DescriptionSection = ({
   id,
   isActive,
   formData,
@@ -33,7 +20,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
               name="packageName"
               value={formData.packageName}
               onChange={handleChange}
-              className="py-1 px-3 w-full  rounded-md border border-gray-300 focus:outline-cyan-600"
+              className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
             />
           </div>
 

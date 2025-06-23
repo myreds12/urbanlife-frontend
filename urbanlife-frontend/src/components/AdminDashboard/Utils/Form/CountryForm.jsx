@@ -1,20 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 
-export interface Country {
-  id: string;
-  name: string;
-}
-
-export interface CountryFormHandle {
-  getFormData: () => Country | null;
-  resetForm: () => void;
-}
-
-interface Props {
-  // No onSubmit lagi karena dikontrol dari luar
-}
-
-const CountryForm = forwardRef<CountryFormHandle, Props>((_, ref) => {
+const CountryForm = forwardRef((_, ref) => {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
 

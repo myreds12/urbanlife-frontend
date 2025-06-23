@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeToggleButton } from "../../components/AdminDashboard/common/ThemeToggleButton"; // Sesuaikan path ini dengan struktur proyekmu
+import ThemeToggleButton from "../../components/AdminDashboard/common/ThemeToggleButton"; // Sesuaikan path ini dengan struktur proyekmu
 import NotificationDropdown from "../../components/AdminDashboard/common/NotificationDropdown";
 import UserDropdown from "../../components/AdminDashboard/common/UserDropdown";
 

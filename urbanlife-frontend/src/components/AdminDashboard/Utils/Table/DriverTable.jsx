@@ -1,6 +1,4 @@
-import type { Driver } from "../Form/DriverForm";
-
-const DriverTable = ({ drivers }: { drivers: Driver[] }) => {
+const DriverTable = ({ drivers }) => {
   return (
     <table className="w-full text-sm text-left">
       <thead className="text-gray-400">
@@ -18,7 +16,7 @@ const DriverTable = ({ drivers }: { drivers: Driver[] }) => {
       </thead>
       <tbody>
         {drivers.map((driver, index) => (
-          <tr key={driver.id} className=" last:border-none">
+          <tr key={driver.id} className="last:border-none">
             <td className="py-2">{index + 1}</td>
             <td className="py-2">{driver.id}</td>
             <td className="py-2">{driver.brand}</td>

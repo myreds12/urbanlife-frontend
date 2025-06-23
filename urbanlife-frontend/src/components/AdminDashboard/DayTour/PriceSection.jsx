@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
 
-interface PriceSectionProps {
-  id: string;
-  isActive: boolean;
-}
-
-const PriceSection: React.FC<PriceSectionProps> = ({ id, isActive }) => {
+const PriceSection = ({ id, isActive }) => {
   const [priceData, setPriceData] = useState({
     startFrom: 'Rp 1.200.000',
     indonesiaDescription: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setPriceData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Price submitted:', priceData);
   };
@@ -30,8 +25,8 @@ const PriceSection: React.FC<PriceSectionProps> = ({ id, isActive }) => {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <div className="mb-4 mt-20 inline-flex  ">
-                <label className="block text-sm font-medium text-gray-600 mr-5 whitespace-nowrap border px-3 py-2 ">Start from</label>
+              <div className="mb-4 mt-20 inline-flex">
+                <label className="block text-sm font-medium text-gray-600 mr-5 whitespace-nowrap border px-3 py-2">Start from</label>
                 <input
                   type="text"
                   name="startFrom"

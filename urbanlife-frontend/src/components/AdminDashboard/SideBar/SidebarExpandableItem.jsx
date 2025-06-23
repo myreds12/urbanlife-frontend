@@ -1,12 +1,12 @@
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 
-const SidebarExpandableItem = ({ item }: { item: any }) => {
+const SidebarExpandableItem = ({ item }) => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
-  const isActive = (path: string) => location.pathname === path;
-  const isAnyChildActive = item.subItems.some((child: any) => isActive(child.path));
+  const isActive = (path) => location.pathname === path;
+  const isAnyChildActive = item.subItems.some((child) => isActive(child.path));
   const toggle = () => setOpen((prev) => !prev);
 
   return (
@@ -26,7 +26,7 @@ const SidebarExpandableItem = ({ item }: { item: any }) => {
         ></i>
       </button>
       <ul className={`mt-1 pl-0 space-y-1 ${open ? "block" : "hidden"}`}>
-        {item.subItems.map((subItem: any) => (
+        {item.subItems.map((subItem) => (
           <li key={subItem.name}>
             <Link
               to={subItem.path}

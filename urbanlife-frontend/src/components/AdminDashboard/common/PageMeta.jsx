@@ -1,12 +1,6 @@
 import { useEffect } from "react";
 
-const PageMeta = ({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) => {
+const PageMeta = ({ title, description }) => {
   useEffect(() => {
     document.title = title;
 

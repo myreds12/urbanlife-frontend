@@ -4,7 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 // import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import type { EventInput } from "@fullcalendar/core";
-import type { DateSelectArg } from "@fullcalendar/interaction";
+import type { DateSelectArg } from "@fullcalendar/core";
 import type { EventClickArg } from "@fullcalendar/core";
 import { Modal } from "../../../components/AdminDashboard/Utils/Ui/modal/index"
 import { useModal } from "../../../components/AdminDashboard/Utils/hooks/useModal";

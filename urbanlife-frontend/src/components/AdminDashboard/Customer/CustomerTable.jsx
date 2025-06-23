@@ -36,7 +36,7 @@ const CustomerTable = ({ data, columns }) => {
       setSelectedRows([]);
     } else {
       setSelectedRows(currentData.map((row) => row.id));
-    };
+    }
   };
 
   return (

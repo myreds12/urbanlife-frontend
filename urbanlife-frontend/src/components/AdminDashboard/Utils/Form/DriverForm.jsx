@@ -1,58 +1,42 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 
-export interface Car {
-  id: string;
-  brand: string;
-  model: string;
-  policeNumber: string;
-  taxStatus: string;
-  taxExpiry: string;
-  status: string;
-}
-
-export interface CarFormHandle {
-  getFormData: () => Omit<Car, "status"> | null;
-  resetForm: () => void;
-}
-
-const CarForm = forwardRef<CarFormHandle>((_, ref) => {
+const DriverForm = forwardRef((_, ref) => {
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
-  const [policeNumber, setPoliceNumber] = useState("");
-  const [taxStatus, setTaxStatus] = useState("");
-  const [taxExpiry, setTaxExpiry] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("");
+  const [expiry, setExpiry] = useState("");
 
   useImperativeHandle(ref, () => ({
     getFormData: () => {
-      if (!brand || !model || !policeNumber || !taxStatus || !taxExpiry) return null;
+      if (!brand || !model || !phone || !gender || !expiry) return null;
       return {
         id: String(Date.now()).slice(-3),
         brand,
         model,
-        policeNumber,
-        taxStatus,
-        taxExpiry,
+        phone,
+        gender,
+        expiry,
       };
     },
     resetForm: () => {
       setBrand("");
       setModel("");
-      setPoliceNumber("");
-      setTaxStatus("");
-      setTaxExpiry("");
+      setPhone("");
+      setGender("");
+      setExpiry("");
     },
   }));
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {/* Auto ID */}
+    <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Unit ID</label>
+        <label className="block text-sm text-gray-600 mb-1">Driver ID</label>
         <input
           type="text"
           disabled
           value="Auto"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full bg-gray-100 text-gray-500 rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -76,33 +60,33 @@ const CarForm = forwardRef<CarFormHandle>((_, ref) => {
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Police number</label>
+        <label className="block text-sm text-gray-600 mb-1">Phone number</label>
         <input
           type="text"
-          value={policeNumber}
-          onChange={(e) => setPoliceNumber(e.target.value)}
-          placeholder="Enter police number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="Enter phone"
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Vehicle tax status</label>
+        <label className="block text-sm text-gray-600 mb-1">Gender</label>
         <select
-          value={taxStatus}
-          onChange={(e) => setTaxStatus(e.target.value)}
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         >
           <option value="">Choose</option>
-          <option value="Active">Active</option>
-          <option value="Expired">Expired</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
         </select>
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Tax expiry period</label>
+        <label className="block text-sm text-gray-600 mb-1">Driving expiry period</label>
         <input
           type="date"
-          value={taxExpiry}
-          onChange={(e) => setTaxExpiry(e.target.value)}
+          value={expiry}
+          onChange={(e) => setExpiry(e.target.value)}
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
@@ -110,4 +94,4 @@ const CarForm = forwardRef<CarFormHandle>((_, ref) => {
   );
 });
 
-export default CarForm;
+export default DriverForm;

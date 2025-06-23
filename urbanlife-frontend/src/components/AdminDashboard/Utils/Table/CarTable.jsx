@@ -1,6 +1,4 @@
-import type { Car } from "../Form/CarForm";
-
-const CarTable = ({ cars }: { cars: Car[] }) => {
+const CarTable = ({ cars }) => {
   return (
     <table className="w-full text-sm text-left">
       <thead className="text-gray-400">

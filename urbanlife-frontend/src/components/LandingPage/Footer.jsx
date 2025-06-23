@@ -61,51 +61,47 @@ const Footer = () => {
 
           {/* Contact Section */}
           <div>
-          <div className="mb-8">
-                <div className="bg-white text-slate-900 px-5 py-2 rounded inline-block mb-4">
-                    <img src="/public/logo.png" alt="Urbanlife Logo" className="h-10" />
-                </div>
-                <div className="space-y-2">
-                    <p className="text-gray-300">Jakarta Selatan</p>
-                    <p className="text-gray-300">Indonesia</p>
-                    <p className="text-gray-300">0821 - 2222 - 8888</p>
-                    <p className="text-gray-300">support@urbanlife.id</p>
-                </div>
-           </div>
-            
-            {/* Social Media Icons */}
-            <h3 className="text-lg font-semibold mb-2 ">Follow Us</h3>
+            <div className="mb-8">
+              <div className="bg-white text-slate-900 px-5 py-2 rounded inline-block mb-4">
+                <img src="/logo.png" alt="Urbanlife Logo" className="h-10" />
+              </div>
+              <div className="space-y-2">
+                <p className="text-gray-300">Jakarta Selatan</p>
+                <p className="text-gray-300">Indonesia</p>
+                <p className="text-gray-300">0821 - 2222 - 8888</p>
+                <p className="text-gray-300">support@urbanlife.id</p>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
             <div className="flex space-x-4 mb-3">
+              {/* TikTok */}
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  {/* TikTok Icon */}
                   <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-.88-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
                 </svg>
               </a>
+              {/* Facebook */}
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  {/* Facebook Icon */}
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                 </svg>
               </a>
+              {/* Instagram */}
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  {/* Instagram Icon */}
                   <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                 </svg>
               </a>
             </div>
 
-            {/* PAYMENT PARTNER */}
-            <h3 className="text-lg font-semibold mb-2 ">Payment Partner</h3>
+            <h3 className="text-lg font-semibold mb-2">Payment Partner</h3>
             <div className="bg-white text-slate-900 px-6 py-2 rounded inline-block mb-4 mt-1">
-                    <img src="/public/partner.png" alt="Urbanlife Logo" className="h-10" />
+              <img src="/partner.png" alt="Payment Partner" className="h-10" />
             </div>
-
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="border-t border-gray-700 pt-8">
           <p className="text-center text-gray-400">
             2025 Copyright Urbanlife • All rights reserved • Made in Jakarta

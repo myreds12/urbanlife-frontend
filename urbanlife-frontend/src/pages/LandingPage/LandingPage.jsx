@@ -7,6 +7,9 @@ import CategoriesCard from "../../components/LandingPage/CategoriesCard";
 import "../../components/LandingPage/CategoriesCard.css";
 import DiscoverCard from "../../components/LandingPage/DiscoverCard";
 import "../../components/LandingPage/DiscoverCard.css";
+import PartnerCard1 from "../../components/LandingPage/PartnerCard1";
+import "../../components/LandingPage/PartnerCard1.css";
+
 
 
 const LandingPage = () => {
@@ -128,6 +131,28 @@ const LandingPage = () => {
           </div>
         </div>
 
+        <div>
+          <h1 className="text-2xl font-semibold ml-27 mb-5"> Our Partner </h1>
+          <div
+            className="partner1-grid mb-10"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "15px",
+              flexWrap: "wrap",
+            }}
+          >
+            <PartnerCard1
+              image="/images/BoutiqueHotel.png"
+            />
+            <PartnerCard1
+              image="/images/PondokSebatu.png"
+            />
+            <PartnerCard1
+              image="/images/BeachHotel.png"
+            />
+          </div>
+        </div>
 
 
 

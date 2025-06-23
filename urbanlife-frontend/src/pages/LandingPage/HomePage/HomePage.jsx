@@ -2,13 +2,9 @@ import Navbar from "../../../components/LandingPage/Navbar";
 import Footer from "../../../components/LandingPage/Footer";
 import HeroSection from "../../../components/LandingPage/HeroSection";
 import DestinationCard from "../../../components/LandingPage/DestinationCard";
-import "../../components/LandingPage/DestinationCard.css";
 import CategoriesCard from "../../../components/LandingPage/CategoriesCard";
-import "../../components/LandingPage/CategoriesCard.css";
 import DiscoverCard from "../../../components/LandingPage/DiscoverCard";
-import "../../components/LandingPage/DiscoverCard.css";
 import PartnerCard1 from "../../../components/LandingPage/PartnerCard1";
-import "../../components/LandingPage/PartnerCard1.css";
 
 
 

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const ThemeContext = createContext(null);
 
-export function ThemeProvider({ children }) {
+const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark" ? "dark" : "light";
@@ -22,7 +22,9 @@ export function ThemeProvider({ children }) {
       {children}
     </ThemeContext.Provider>
   );
-}
+};
+
+export default ThemeProvider;
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);

@@ -3,7 +3,7 @@ import "./App.css";
 
 // Layout & Theme
 import AppLayout from "./layouts/AdminDashboard/AppLayout";
-import { ThemeProvider } from "./components/AdminDashboard/Utils/Context/ThemeContext";
+import ThemeProvider from "./components/AdminDashboard/Utils/Context/ThemeContext";
 
 // Admin Pages
 import Dashboard from "./pages/AdminDashboard/Dashboard/Dashboard";

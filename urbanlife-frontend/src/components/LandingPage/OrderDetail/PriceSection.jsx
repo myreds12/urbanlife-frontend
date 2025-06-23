@@ -1,10 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PriceSection = ({ 
   amount, 
-  onPayment, 
+  bookingInfo,
+  formData,
   disabled = false 
 }) => {
+  const navigate = useNavigate();
+
+  const handlePayment = () => {
+    navigate('/PaymentSection', {
+      state: {
+        bookingInfo,
+        orderData: formData
+      }
+    });
+  };
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 sticky top-4">
       <div className="flex justify-between items-center mb-6">
@@ -13,7 +26,7 @@ const PriceSection = ({
       </div>
       
       <button
-        onClick={onPayment}
+        onClick={handlePayment}
         disabled={disabled}
         className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all ${
           disabled 

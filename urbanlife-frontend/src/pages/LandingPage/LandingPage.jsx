@@ -7,7 +7,14 @@ import CategoriesCard from "../../components/LandingPage/CategoriesCard";
 import "../../components/LandingPage/CategoriesCard.css";
 import DiscoverCard from "../../components/LandingPage/DiscoverCard";
 import "../../components/LandingPage/DiscoverCard.css";
+<<<<<<< HEAD:urbanlife-frontend/src/pages/LandingPage/LandingPage.tsx
 import ServicePromoCard from "../../components/LandingPage/ServicePromoCard";
+=======
+import PartnerCard1 from "../../components/LandingPage/PartnerCard1";
+import "../../components/LandingPage/PartnerCard1.css";
+
+
+>>>>>>> 73628ecbadc8452197ee196e229a2d67fbab28a0:urbanlife-frontend/src/pages/LandingPage/LandingPage.jsx
 
 const LandingPage = () => {
   return (
@@ -134,9 +141,37 @@ const LandingPage = () => {
           </div>
         </div>
 
+<<<<<<< HEAD:urbanlife-frontend/src/pages/LandingPage/LandingPage.tsx
       <section className="max-w-6xl mx-auto px-4 py-12">
         <ServicePromoCard />
       </section>
+=======
+        <div>
+          <h1 className="text-2xl font-semibold ml-27 mb-5"> Our Partner </h1>
+          <div
+            className="partner1-grid mb-10"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "15px",
+              flexWrap: "wrap",
+            }}
+          >
+            <PartnerCard1
+              image="/images/BoutiqueHotel.png"
+            />
+            <PartnerCard1
+              image="/images/PondokSebatu.png"
+            />
+            <PartnerCard1
+              image="/images/BeachHotel.png"
+            />
+          </div>
+        </div>
+
+
+
+>>>>>>> 73628ecbadc8452197ee196e229a2d67fbab28a0:urbanlife-frontend/src/pages/LandingPage/LandingPage.jsx
       </div>
 
       <Footer />

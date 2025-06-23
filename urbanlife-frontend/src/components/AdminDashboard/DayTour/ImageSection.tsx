@@ -11,7 +11,7 @@ interface ImageSectionProps {
 const ImageSection: React.FC<ImageSectionProps> = ({ id, isActive, photos, handlePhotoUpload, removePhoto }) => {
   return (
     <div id={id} className={isActive ? 'block' : 'hidden'}>
-      <div className="p-6 rounded-lg shadow-md shadow-black/20">
+      <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
         <div className="flex items-center mb-4">
           <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" id="photoUpload" />
           <label

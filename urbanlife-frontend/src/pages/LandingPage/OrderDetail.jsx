@@ -5,25 +5,8 @@ import { ServiceDescription } from '../../components/LandingPage/OrderDetail/Ser
 import { CustomerRequest } from '../../components/LandingPage/OrderDetail/CustomerRequest';
 import { PriceSection } from '../../components/LandingPage/OrderDetail/PriceSection';
 
-interface BookingInfo {
-  date: string;
-  duration: string;
-  location: string;
-  vehicle: string;
-  image: string;
-}
-
-interface CustomerFormData {
-  title: 'Mr' | 'Mrs';
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  specialRequest: string;
-  agreeToTerms: boolean;
-}
-
-const OrderDetail: React.FC = () => {
-  const [formData, setFormData] = useState<CustomerFormData>({
+const OrderDetail = () => {
+  const [formData, setFormData] = useState({
     title: 'Mr',
     fullName: '',
     phoneNumber: '+62',
@@ -32,7 +15,7 @@ const OrderDetail: React.FC = () => {
     agreeToTerms: false,
   });
 
-  const bookingInfo: BookingInfo = {
+  const bookingInfo = {
     date: 'Kam, 08 Mei 2025',
     duration: '1 - 12 hours',
     location: 'Bali',
@@ -40,7 +23,7 @@ const OrderDetail: React.FC = () => {
     image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=100&h=100&fit=crop&crop=center',
   };
 
-  const handleFormChange = (data: Partial<CustomerFormData>) => {
+  const handleFormChange = (data) => {
     setFormData(prev => ({ ...prev, ...data }));
   };
 

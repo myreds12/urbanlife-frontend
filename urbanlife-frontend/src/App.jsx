@@ -28,8 +28,9 @@ import Guide from "./pages/AdminDashboard/DataMaster/Guide";
 import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";
 
 // Public Page
-import LandingPage from "./pages/LandingPage/LandingPage";
-import OrderDetail from "./pages/LandingPage/OrderDetail";
+import HomePage from "./pages/LandingPage/HomePage/HomePage";
+import OrderDetail from "./pages/LandingPage/OrderDetail/OrderDetail";
+
 
 function App() {
   return (
@@ -37,7 +38,7 @@ function App() {
       <Router>
         <Routes>
           {/* Website landing page */}
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<HomePage />} />
           
           {/* Order detail page */}
           <Route path="/order-detail" element={<OrderDetail />} />

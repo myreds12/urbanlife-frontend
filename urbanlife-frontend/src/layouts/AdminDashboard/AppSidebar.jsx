@@ -44,9 +44,9 @@ const othersItems = [
 ];
 
 const AppSidebar = () => {
-  const location = useLocation();
+  const LOCATION = useLocation();
 
-  const renderMenuItems = (items: any[]) => (
+  const renderMenuItems = (items) => (
     <ul className="space-y-1">
       {items.map((item) =>
         item.subItems ? (
@@ -68,7 +68,7 @@ const AppSidebar = () => {
           <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Menu</h2>
           {renderMenuItems(navItems)}
         </div>
-        <div className="mb-4">
+        <div className="mb-4">  
           <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Content Management</h2>
           {renderMenuItems(contentItems)}
         </div>

@@ -1,26 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../../styles/AdminDashboard/WhatsappSetting/WhatsappConnect.css'; // Tambahkan CSS sesuai kebutuhan
+import '../../../styles/AdminDashboard/WhatsappSetting/WhatsappConnect.css';
 
-interface Template {
-  id: string;
-  name: string;
-  category: string;
-  noAdmin1: string;
-  noAdmin2: string;
-  content: string;
-  status: 'Active' | 'Inactive';
-}
-
-interface NewTemplateForm {
-  name: string;
-  category: string;
-  textToAdmin: string;
-  textToCustomer: string;
-}
-
-const WhatsappConnect: React.FC = () => {
-  const [templates, setTemplates] = useState<Template[]>([
+const WhatsappConnect = () => {
+  const [templates, setTemplates] = useState([
     {
       id: '1',
       name: 'Notifikasi pemesanan',
@@ -71,21 +54,21 @@ const WhatsappConnect: React.FC = () => {
   const [admin1, setAdmin1] = useState('081122334455');
   const [admin2, setAdmin2] = useState('081133224466');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newTemplate, setNewTemplate] = useState<NewTemplateForm>({
+  const [newTemplate, setNewTemplate] = useState({
     name: '',
     category: '',
     textToAdmin: '',
     textToCustomer: '',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewTemplate((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAddTemplate = () => {
     const newId = (templates.length + 1).toString();
-    const newTemplateData: Template = {
+    const newTemplateData = {
       id: newId,
       name: newTemplate.name,
       category: newTemplate.category,
@@ -99,12 +82,13 @@ const WhatsappConnect: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleDeleteTemplate = (id: string) => {
+  const handleDeleteTemplate = (id) => {
     setTemplates(templates.filter((template) => template.id !== id));
   };
 
   return (
     <div className="p-4">
+      {/* Admin Number Inputs + Button */}
       <div className="mb-4 flex justify-between items-center">
         <div className="flex space-x-4">
           <div className="flex items-center">
@@ -140,6 +124,7 @@ const WhatsappConnect: React.FC = () => {
         </button>
       </div>
 
+      {/* Search */}
       <div className="mb-4 flex items-center">
         <div className="relative w-60 max-w-md">
           <input
@@ -153,6 +138,7 @@ const WhatsappConnect: React.FC = () => {
         </div>
       </div>
 
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="bg-gray-50 text-xs uppercase">
@@ -181,39 +167,13 @@ const WhatsappConnect: React.FC = () => {
                 </td>
                 <td className="px-4 py-2 flex space-x-2">
                   <button className="text-blue-500 hover:text-blue-700">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                      />
-                    </svg>
+                    <i className="fas fa-edit" />
                   </button>
                   <button
                     className="text-red-500 hover:text-red-700"
                     onClick={() => handleDeleteTemplate(template.id)}
                   >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
+                    <i className="fas fa-trash" />
                   </button>
                 </td>
               </tr>
@@ -222,11 +182,12 @@ const WhatsappConnect: React.FC = () => {
         </table>
       </div>
 
+      {/* Pagination */}
       <div className="mt-4 flex justify-end">
         <button className="px-2 py-1 bg-blue-500 text-white rounded">1</button>
       </div>
 
-      {/* Modal for New Template */}
+      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-700 bg-opacity-30 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl flex">
@@ -276,13 +237,16 @@ const WhatsappConnect: React.FC = () => {
                 />
               </div>
             </div>
+
             <div className="w-1/2 p-4 bg-gray-50 flex flex-col">
               <div className="flex items-center space-x-2 mb-2">
                 <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
                 <span className="font-semibold">{newTemplate.name || 'Urbanlife'}</span>
               </div>
               <div className="bg-green-100 p-2 rounded-lg max-w-xs">
-                <p className="text-green-800">{newTemplate.textToCustomer || 'Terjadi perbaikan sistem malam ini...'}</p>
+                <p className="text-green-800">
+                  {newTemplate.textToCustomer || 'Terjadi perbaikan sistem malam ini...'}
+                </p>
               </div>
               <div className="mt-auto flex justify-end space-x-2">
                 <button

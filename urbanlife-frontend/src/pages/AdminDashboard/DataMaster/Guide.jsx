@@ -1,12 +1,9 @@
 import { useRef, useState } from "react";
-import GuideForm, {
-  type Guide,
-  type GuideFormHandle,
-} from "../../../components/AdminDashboard/Utils/Form/GuideForm";
+import GuideForm from "../../../components/AdminDashboard/Utils/Form/GuideForm";
 import GuideTable from "../../../components/AdminDashboard/Utils/Table/GuideTable";
 
 const Guide = () => {
-  const [guides, setGuides] = useState<Guide[]>([
+  const [guides, setGuides] = useState([
     {
       id: "001",
       name: "David omstein",
@@ -27,18 +24,18 @@ const Guide = () => {
     },
   ]);
 
-  const formRef = useRef<GuideFormHandle>(null);
+  const formRef = useRef(null);
 
   const handleSave = () => {
-    const newData = formRef.current?.getFormData();
+    const newData = formRef.current?.getFormData?.();
     if (!newData) return;
 
     setGuides((prev) => [...prev, { ...newData, status: "Active" }]);
-    formRef.current?.resetForm();
+    formRef.current?.resetForm?.();
   };
 
   const handleCancel = () => {
-    formRef.current?.resetForm();
+    formRef.current?.resetForm?.();
   };
 
   return (

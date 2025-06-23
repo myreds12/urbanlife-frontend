@@ -2,24 +2,13 @@ import React, { useState, useEffect } from 'react';
 import InboxSidebarFilter from '../../../components/AdminDashboard/Inbox/InboxSidebarFilter';
 import InboxTable from '../../../components/AdminDashboard/Utils/Table/InboxTable';
 
-// Interface untuk data message
-interface Message {
-  id: string;
-  customerName: string;
-  message: string;
-  status: 'success' | 'failed' | 'sent' | 'unsent';
-  time: string;
-  timestamp: Date;
-}
+const Inbox = () => {
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const Inbox: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<string>('all');
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  // Dummy data - nanti bisa diganti dengan API call
-  const dummyMessages: Message[] = [
+  const dummyMessages = [
     {
       id: '1',
       customerName: 'Selena',
@@ -70,11 +59,9 @@ const Inbox: React.FC = () => {
     }
   ];
 
-  // Simulate API call
   useEffect(() => {
     const fetchMessages = async () => {
       setLoading(true);
-      // Simulate API delay
       setTimeout(() => {
         setMessages(dummyMessages);
         setLoading(false);
@@ -84,42 +71,28 @@ const Inbox: React.FC = () => {
     fetchMessages();
   }, []);
 
-  // Calculate message counts untuk sidebar
   const messageCounts = {
     all: messages.length,
-    sent: messages.filter(m => m.status === 'sent').length,
-    unsent: messages.filter(m => m.status === 'unsent').length,
-    success: messages.filter(m => m.status === 'success').length,
-    failed: messages.filter(m => m.status === 'failed').length,
+    sent: messages.filter((m) => m.status === 'sent').length,
+    unsent: messages.filter((m) => m.status === 'unsent').length,
+    success: messages.filter((m) => m.status === 'success').length,
+    failed: messages.filter((m) => m.status === 'failed').length,
   };
 
-  // Handle filter change
-  const handleFilterChange = (filter: string) => {
+  const handleFilterChange = (filter) => {
     setActiveFilter(filter);
-    setSearchTerm(''); // Reset search when changing filter
+    setSearchTerm('');
   };
 
-  // Handle search change
-  const handleSearchChange = (term: string) => {
+  const handleSearchChange = (term) => {
     setSearchTerm(term);
   };
-
-  // Function untuk refresh data (bisa dipake untuk real-time updates)
-//   const refreshMessages = async () => {
-//     setLoading(true);
-//     // TODO: Replace with actual API call
-//     setTimeout(() => {
-//       setMessages([...dummyMessages]); // Simulate fresh data
-//       setLoading(false);
-//     }, 500);
-//   };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Skeleton Sidebar */}
             <div className="lg:col-span-1">
               <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 h-96 animate-pulse">
                 <div className="space-y-3">
@@ -129,8 +102,6 @@ const Inbox: React.FC = () => {
                 </div>
               </div>
             </div>
-            
-            {/* Skeleton Table */}
             <div className="lg:col-span-3">
               <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 animate-pulse">
                 <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
@@ -151,28 +122,18 @@ const Inbox: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Inbox</h1>
-              <p className="text-gray-600 mt-1">Manage your customer messages and communications</p>
+              <p className="text-gray-600 mt-1">
+                Manage your customer messages and communications
+              </p>
             </div>
-            {/* <button
-              onClick={refreshMessages}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200"
-            >
-              <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              Refresh
-            </button> */}
           </div>
         </div>
 
-        {/* Main Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar Filter - 1/4 width */}
           <div className="lg:col-span-1">
             <InboxSidebarFilter
               activeFilter={activeFilter}
@@ -181,7 +142,6 @@ const Inbox: React.FC = () => {
             />
           </div>
 
-          {/* Main Content - 3/4 width */}
           <div className="lg:col-span-3">
             <InboxTable
               messages={messages}

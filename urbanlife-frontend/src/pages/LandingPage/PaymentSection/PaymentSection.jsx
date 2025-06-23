@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import PaymentTimer from '../../components/PaymentSelection/PaymentTimer';
-import PaymentMethods from '../../components/PaymentSelection/PaymentMethods';
-import OrderSummary from '../../components/PaymentSelection/OrderSummary';
-import PaymentButton from '../../components/PaymentSelection/PaymentButton';
-import PaymentTerms from '../../components/PaymentSelection/PaymentTerms';
+import PaymentTimer from '../../../components/LandingPage/PaymentSection/PaymentTimer';
+import PaymentMethods from '../../../components/LandingPage/PaymentSection/PaymentMethods';
+import OrderSummary from '../../../components/LandingPage/PaymentSection/OrderSummary';
+import PaymentButton from '../../../components/LandingPage/PaymentSection/PaymentButton';
+import PaymentTerms from '../../../components/LandingPage/PaymentSection/PaymentTerms';
 
-const PaymentSelection = () => {
+const PaymentSection = () => {
   const [selectedMethod, setSelectedMethod] = useState('bca_va');
   const [timeLeft, setTimeLeft] = useState(59 * 60 + 31); // 59:31 in seconds
   const [showAllMethods, setShowAllMethods] = useState(false);
@@ -103,4 +103,4 @@ const PaymentSelection = () => {
   );
 };
 
-export default PaymentSelection;
+export default PaymentSection;

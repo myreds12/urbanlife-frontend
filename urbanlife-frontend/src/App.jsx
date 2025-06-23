@@ -30,6 +30,7 @@ import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";
 // Public Page
 import HomePage from "./pages/LandingPage/HomePage/HomePage";
 import OrderDetail from "./pages/LandingPage/OrderDetail/OrderDetail";
+import PaymentSection from "./pages/LandingPage/PaymentSection/PaymentSection";
 
 
 function App() {
@@ -41,7 +42,10 @@ function App() {
           <Route path="/" element={<HomePage />} />
           
           {/* Order detail page */}
-          <Route path="/order-detail" element={<OrderDetail />} />
+          <Route path="/OrderDetail" element={<OrderDetail />} />
+
+          {/* Payment selection page */}
+          <Route path="/PaymentSection" element={<PaymentSection />} />
 
           {/* Admin layout and nested routes */}
           <Route path="/admin" element={<AppLayout />}>

@@ -19,10 +19,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white fixed justify-between top-0 left-0 right-0 mx-auto max-w-6xl rounded-lg flex items-center px-5 py-3 mt-6 z-50">
+    <nav className="bg-white justify-between fixed top-0 left-0 right-0 z-50 mx-auto max-w-6xl rounded-xl flex items-center  py-3 mt-3 shadow-lg backdrop-blur-md bg-opacity-90">
       {/* Logo Section */}
       <div className="flex items-center">
-        <div className="rounded-lg flex items-center">
+        <div className="rounded-lg flex items-center ml-5">
           <img src="/public/logo.png" alt="Urbanlife Logo" className="w-23" />
         </div>
       </div>
@@ -183,7 +183,7 @@ const Navbar = () => {
           <span>Eng</span>
         </Link>
         <div>
-          <Link to="/contact" className="bg-teal-500 text-white px-4 py-2 rounded-r-lg text-sm">
+          <Link to="/contact" className="bg-teal-500 text-white px-4 py-[20px] rounded-r-xl text-sm">
           Contact Us
         </Link>
         </div>
@@ -259,7 +259,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Contact Us Button */}
+     
     </nav>
   );
 };

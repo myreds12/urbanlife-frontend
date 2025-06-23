@@ -5,17 +5,16 @@ import "../../components/LandingPage/DiscoverCard.css";
 const DiscoverCard = ({ country, city, desc, image }: { country: string; city: string; desc: string; image: string }) => {
   return (
     <>
-      <div className="discover-card">
-          <div className="image-discover">
-            <img src={image} alt={city} />
-            <div className="country-discover">{country}</div>
-          </div>
-          <div className="body-discover">
-            <h2 className="title-discover">{city}</h2>
-            <p className="desc-discover">{desc}</p>
-          </div>
+<div className="discover-card">
+      <div className="image-container">
+        <img src={image}/>
+        <div className="description">
+          <div className="country-title">{country}</div>
+          <h2 className="city-title">{city}</h2>
+          <p className="desc-text">{desc}</p>
+        </div>
       </div>
-
+    </div>
     </>
   );
 };

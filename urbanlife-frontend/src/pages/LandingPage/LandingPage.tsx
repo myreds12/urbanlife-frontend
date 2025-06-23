@@ -110,20 +110,20 @@ const LandingPage = () => {
             <DiscoverCard
               country="Indonesia"
               city="2 Cities"
-              desc="4 Destination"
-              image="/images/EasternBaliTour.png"
+              desc="20 Destination"
+              image="/images/Monas.png"
             />
             <DiscoverCard
               country="Vietnam"
               city="2 Cities"
-              desc="1 - 4 hours"
-              image="/images/Alphard.png"
+              desc="20 Unit rental cars"
+              image="/images/Car.png"
             />
             <DiscoverCard
               country="Indonesia"
               city="1 City"
-              desc="Single Bed"
-              image="/images/fourteenroses.png"
+              desc="3 Hotel"
+              image="/images/Hotel.png"
             />
           </div>
         </div>

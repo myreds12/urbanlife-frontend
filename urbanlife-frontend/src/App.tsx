@@ -17,11 +17,11 @@ import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConn
 import Inbox from "./pages/AdminDashboard/Inbox/Inbox";
 
 // Data Master Pages
-import Country from "./pages/AdminDashboard/DataMaster/Country";
-import City from "./pages/AdminDashboard/DataMaster/City";
-import Car from "./pages/AdminDashboard/DataMaster/Car";
-import Driver from "./pages/AdminDashboard/DataMaster/Driver";
-import Guide from "./pages/AdminDashboard/DataMaster/Guide";
+import type Country from "./pages/AdminDashboard/DataMaster/Country";
+import type City from "./pages/AdminDashboard/DataMaster/City";
+import type Car from "./pages/AdminDashboard/DataMaster/Car";
+import type Driver from "./pages/AdminDashboard/DataMaster/Driver";
+import type Guide from "./pages/AdminDashboard/DataMaster/Guide";
 
 // User Profile
 import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";

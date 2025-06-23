@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { BookingInfoCard } from '../../../components/LandingPage/OrderDetail/BookingInfoCard';
-import { ContactForm } from '../../../components/LandingPage/OrderDetail/ContactForm';
-import { ServiceDescription } from '../../../components/LandingPage/OrderDetail/ServiceDescription';
-import { CustomerRequest } from '../../../components/LandingPage/OrderDetail/CustomerRequest';
-import { PriceSection } from '../../../components/LandingPage/OrderDetail/PriceSection';
+import BookingInfoCard from '../../../components/LandingPage/OrderDetail/BookingInfoCard'; 
+import ContactForm from '../../../components/LandingPage/OrderDetail/ContactForm';
+import ServiceDescription from '../../../components/LandingPage/OrderDetail/ServiceDescription';
+import CustomerRequest from '../../../components/LandingPage/OrderDetail/CustomerRequest';
+import PriceSection from '../../../components/LandingPage/OrderDetail/PriceSection';
 
 const OrderDetail = () => {
   const [formData, setFormData] = useState({

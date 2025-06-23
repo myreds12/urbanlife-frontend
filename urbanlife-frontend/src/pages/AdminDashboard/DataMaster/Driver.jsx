@@ -1,16 +1,13 @@
 import { useRef, useState } from "react";
-import DriverForm, {
-  type Driver,
-  type DriverFormHandle,
-} from "../../../components/AdminDashboard/Utils/Form/DriverForm";
+import DriverForm from "../../../components/AdminDashboard/Utils/Form/DriverForm";
 import DriverTable from "../../../components/AdminDashboard/Utils/Table/DriverTable";
 
 const Driver = () => {
-  const [drivers, setDrivers] = useState<Driver[]>([
+  const [drivers, setDrivers] = useState([
     {
       id: "001",
-      brand: "toyota",
-      model: "supra",
+      brand: "Toyota",
+      model: "Supra",
       phone: "0811111111",
       gender: "Male",
       expiry: "2025-12-12",
@@ -18,8 +15,8 @@ const Driver = () => {
     },
     {
       id: "002",
-      brand: "toyota",
-      model: "kijang",
+      brand: "Toyota",
+      model: "Kijang",
       phone: "0811111111",
       gender: "Male",
       expiry: "2025-12-12",
@@ -27,22 +24,21 @@ const Driver = () => {
     },
   ]);
 
-  const formRef = useRef<DriverFormHandle>(null);
+  const formRef = useRef(null);
 
   const handleSave = () => {
-    const newData = formRef.current?.getFormData();
+    const newData = formRef.current?.getFormData?.();
     if (!newData) return;
     setDrivers((prev) => [...prev, { ...newData, status: "Active" }]);
-    formRef.current?.resetForm();
+    formRef.current?.resetForm?.();
   };
 
   const handleCancel = () => {
-    formRef.current?.resetForm();
+    formRef.current?.resetForm?.();
   };
 
   return (
     <div className="p-6">
-      {/* FORM */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
         <h3 className="text-lg font-semibold text-gray-800">Driver</h3>
 
@@ -64,13 +60,14 @@ const Driver = () => {
         </div>
       </div>
 
-      {/* TABLE */}
+      {/* Table Section */}
       <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">List driver unit</h3>
+          <h3 className="text-lg font-semibold text-gray-800">List Driver Unit</h3>
           <div className="flex gap-2">
             <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              <i className="fas fa-filter mr-2"></i>Filter
+              <i className="fas fa-filter mr-2" />
+              Filter
             </button>
             <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
               See all

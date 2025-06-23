@@ -15,19 +15,19 @@ function DayTour() {
   });
 
   const [activeSection, setActiveSection] = useState('description');
-  const [photos, setPhotos] = useState<string[]>([]);
+  const [photos, setPhotos] = useState([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files ? files[0] : value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
   };
 
-  const moveSection = (id: string) => {
+  const moveSection = (id) => {
     setActiveSection(id);
     const element = document.getElementById(id);
     if (element) {
@@ -35,20 +35,20 @@ function DayTour() {
     }
   };
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (reader.result) {
-          setPhotos((prev) => [...prev, reader.result as string]);
+          setPhotos((prev) => [...prev, reader.result]);
         }
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const removePhoto = (index: number) => {
+  const removePhoto = (index) => {
     setPhotos((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -56,32 +56,21 @@ function DayTour() {
     <div className="flex h-screen">
       <main className="p-6 flex-1">
         <div className="p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-3">Western and Eastern Nusa Penida Tour</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+            Western and Eastern Nusa Penida Tour
+          </h2>
           <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-            <span
-              className={`cursor-pointer ${activeSection === 'description' ? 'text-cyan-600' : 'text-gray-500'} hover:text-cyan-700 underline-from-left relative`}
-              onClick={() => moveSection('description')}
-            >
-              Description
-            </span>
-            <span
-              className={`cursor-pointer ${activeSection === 'image' ? 'text-cyan-600' : 'text-gray-500'} hover:text-cyan-700 underline-from-left relative`}
-              onClick={() => moveSection('image')}
-            >
-              Image
-            </span>
-            <span
-              className={`cursor-pointer ${activeSection === 'itinerary' ? 'text-cyan-600' : 'text-gray-500'} hover:text-cyan-700 underline-from-left relative`}
-              onClick={() => moveSection('itinerary')}
-            >
-              Itinerary
-            </span>
-            <span
-              className={`cursor-pointer ${activeSection === 'price' ? 'text-cyan-600' : 'text-gray-500'} hover:text-cyan-700 underline-from-left relative`}
-              onClick={() => moveSection('price')}
-            >
-              Price
-            </span>
+            {['description', 'image', 'itinerary', 'price'].map((section) => (
+              <span
+                key={section}
+                className={`cursor-pointer ${
+                  activeSection === section ? 'text-cyan-600' : 'text-gray-500'
+                } hover:text-cyan-700 underline-from-left relative`}
+                onClick={() => moveSection(section)}
+              >
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </span>
+            ))}
           </div>
 
           <DescriptionSection
@@ -91,6 +80,7 @@ function DayTour() {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
           />
+
           <ImageSection
             id="image"
             isActive={activeSection === 'image'}
@@ -98,8 +88,16 @@ function DayTour() {
             handlePhotoUpload={handlePhotoUpload}
             removePhoto={removePhoto}
           />
-          <ItinerarySection id="itinerary" isActive={activeSection === 'itinerary'} />
-          <PriceSection id="price" isActive={activeSection === 'price'} />
+
+          <ItinerarySection
+            id="itinerary"
+            isActive={activeSection === 'itinerary'}
+          />
+
+          <PriceSection
+            id="price"
+            isActive={activeSection === 'price'}
+          />
         </div>
       </main>
     </div>

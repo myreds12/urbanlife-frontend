@@ -1,9 +1,5 @@
 import React from "react";
-<<<<<<< HEAD:urbanlife-frontend/src/layouts/AdminDashboard/AppHeader.tsx
 import ThemeToggleButton from "../../components/AdminDashboard/common/ThemeToggleButton"; // Sesuaikan path ini dengan struktur proyekmu
-=======
-import { ThemeToggleButton } from "../../components/AdminDashboard/common/ThemeToggleButton";
->>>>>>> 0f610bb3b24d146ba3806c4f1143f9a6c0e013bf:urbanlife-frontend/src/layouts/AdminDashboard/AppHeader.jsx
 import NotificationDropdown from "../../components/AdminDashboard/common/NotificationDropdown";
 import UserDropdown from "../../components/AdminDashboard/common/UserDropdown";
 

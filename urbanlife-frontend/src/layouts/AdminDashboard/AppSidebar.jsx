@@ -17,7 +17,7 @@ const contentItems = [
 const othersItems = [
   { icon: "fa-users", name: "Customer", path: "/admin/customer" },
   {
-    icon: "fa-whatsapp",
+    icon: "fa-brands fa-whatsapp",
     name: "Whatsapp",
     subItems: [
       { name: "Connect", path: "/admin/whatsapp-connect" },

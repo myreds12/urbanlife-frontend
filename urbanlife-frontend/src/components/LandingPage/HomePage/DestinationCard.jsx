@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../../components/LandingPage/DestinationCard.css";
+import "../../../styles/LandingPage/HomePage/DestinationCard.css";
 
 const DestinationCard = ({ country, title, destinations, price, image }) => {
   return (

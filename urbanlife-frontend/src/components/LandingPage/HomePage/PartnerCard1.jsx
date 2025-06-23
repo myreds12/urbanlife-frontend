@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../../components/LandingPage/PartnerCard1.css";
+import "../../../styles/LandingPage/HomePage/PartnerCard1.css";
 
 
 const PartnerCard1 = ({ image }) => {

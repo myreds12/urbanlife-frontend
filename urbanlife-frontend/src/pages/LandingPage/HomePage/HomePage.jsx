@@ -1,10 +1,10 @@
-import Navbar from "../../../components/LandingPage/Navbar";
-import Footer from "../../../components/LandingPage/Footer";
-import HeroSection from "../../../components/LandingPage/HeroSection";
-import DestinationCard from "../../../components/LandingPage/DestinationCard";
-import CategoriesCard from "../../../components/LandingPage/CategoriesCard";
-import DiscoverCard from "../../../components/LandingPage/DiscoverCard";
-import PartnerCard1 from "../../../components/LandingPage/PartnerCard1";
+import Navbar from "../../../components/LandingPage/HomePage/Navbar";
+import Footer from "../../../components/LandingPage/HomePage/Footer";
+import HeroSection from "../../../components/LandingPage/HomePage/HeroSection";
+import DestinationCard from "../../../components/LandingPage/HomePage/DestinationCard";
+import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
+import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
+import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
 
 
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../../components/LandingPage/CategoriesCard.css";
+import "../../../styles/LandingPage/HomePage/CategoriesCard.css";
 
 
 const CategoriesCard = ({ country, title, destinations, price, image }) => {

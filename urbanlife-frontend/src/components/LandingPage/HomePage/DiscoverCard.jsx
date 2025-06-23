@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../../components/LandingPage/DiscoverCard.css";
+import "../../../styles/LandingPage/HomePage/DiscoverCard.css";
 
 
 const DiscoverCard = ({ country, city, desc, image }) => {

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../../components/LandingPage/DestinationCard.css";
 
-const DestinationCard = ({ country, title, destinations, price, image }: { country: string; title: string; destinations: string; price: string; image: string }) => {
+const DestinationCard = ({ country, title, destinations, price, image }) => {
   return (
     <div className="destination-card">
       <div className="card-image">

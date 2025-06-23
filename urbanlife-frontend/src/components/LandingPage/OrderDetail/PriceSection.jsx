@@ -1,12 +1,6 @@
 import React from 'react';
 
-interface PriceSectionProps {
-  amount: string;
-  onPayment: () => void;
-  disabled?: boolean;
-}
-
-export const PriceSection: React.FC<PriceSectionProps> = ({ 
+const PriceSection = ({ 
   amount, 
   onPayment, 
   disabled = false 
@@ -38,3 +32,5 @@ export const PriceSection: React.FC<PriceSectionProps> = ({
     </div>
   );
 };
+
+export default PriceSection;

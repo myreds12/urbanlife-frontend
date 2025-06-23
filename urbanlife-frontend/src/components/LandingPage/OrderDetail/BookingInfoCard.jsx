@@ -1,18 +1,6 @@
 import React from 'react';
 
-interface BookingInfo {
-  date: string;
-  duration: string;
-  location: string;
-  vehicle: string;
-  image: string;
-}
-
-interface BookingInfoCardProps {
-  booking: BookingInfo;
-}
-
-export const BookingInfoCard: React.FC<BookingInfoCardProps> = ({ booking }) => {
+const BookingInfoCard = ({ booking }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
       <div className="flex justify-between items-start mb-6">
@@ -52,3 +40,5 @@ export const BookingInfoCard: React.FC<BookingInfoCardProps> = ({ booking }) => 
     </div>
   );
 };
+
+export default BookingInfoCard;

@@ -1,12 +1,6 @@
-
 import React, { useState } from 'react';
 
-interface CustomerRequestProps {
-  specialRequest: string;
-  onRequestChange: (request: string) => void;
-}
-
-export const CustomerRequest: React.FC<CustomerRequestProps> = ({ 
+const CustomerRequest = ({ 
   specialRequest, 
   onRequestChange 
 }) => {
@@ -59,3 +53,5 @@ export const CustomerRequest: React.FC<CustomerRequestProps> = ({
     </div>
   );
 };
+
+export default CustomerRequest;

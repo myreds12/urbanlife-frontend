@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ServiceDescription: React.FC = () => {
+const ServiceDescription = () => {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-bold text-gray-900">Description</h2>
@@ -44,3 +44,5 @@ export const ServiceDescription: React.FC = () => {
     </div>
   );
 };
+
+export default ServiceDescription;

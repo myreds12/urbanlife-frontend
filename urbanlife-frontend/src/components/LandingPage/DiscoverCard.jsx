@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "../../components/LandingPage/DiscoverCard.css";
 
 
-const DiscoverCard = ({ country, city, desc, image }: { country: string; city: string; desc: string; image: string }) => {
+const DiscoverCard = ({ country, city, desc, image }) => {
   return (
     <>
 <div className="discover-card">

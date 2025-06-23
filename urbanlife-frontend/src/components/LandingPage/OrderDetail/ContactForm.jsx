@@ -1,20 +1,6 @@
 import React from 'react';
 
-interface CustomerFormData {
-  title: 'Mr' | 'Mrs';
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  specialRequest: string;
-  agreeToTerms: boolean;
-}
-
-interface ContactFormProps {
-  formData: CustomerFormData;
-  onFormChange: (data: Partial<CustomerFormData>) => void;
-}
-
-export const ContactForm: React.FC<ContactFormProps> = ({ formData, onFormChange }) => {
+const ContactForm = ({ formData, onFormChange }) => {
   return (
     <div className="space-y-6">
       {/* Title Selection */}
@@ -25,7 +11,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ formData, onFormChange
             name="title"
             value="Mr"
             checked={formData.title === 'Mr'}
-            onChange={(e) => onFormChange({ title: e.target.value as 'Mr' | 'Mrs' })}
+            onChange={(e) => onFormChange({ title: e.target.value })}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
           />
           <span className="ml-2 text-sm font-medium text-gray-700">Mr</span>
@@ -36,7 +22,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ formData, onFormChange
             name="title"
             value="Mrs"
             checked={formData.title === 'Mrs'}
-            onChange={(e) => onFormChange({ title: e.target.value as 'Mr' | 'Mrs' })}
+            onChange={(e) => onFormChange({ title: e.target.value })}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
           />
           <span className="ml-2 text-sm font-medium text-gray-700">Mrs</span>
@@ -84,3 +70,5 @@ export const ContactForm: React.FC<ContactFormProps> = ({ formData, onFormChange
     </div>
   );
 };
+
+export default ContactForm;

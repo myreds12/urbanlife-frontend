@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "../../components/LandingPage/CategoriesCard.css";
 
 
-const CategoriesCard = ({ country, title, destinations, price, image }: { country: string; title: string; destinations: string; price: string; image: string }) => {
+const CategoriesCard = ({ country, title, destinations, price, image }) => {
   return (
     <>
       <div className="categories-card">

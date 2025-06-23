@@ -7,7 +7,7 @@ import CategoriesCard from "../../components/LandingPage/CategoriesCard";
 import "../../components/LandingPage/CategoriesCard.css";
 import DiscoverCard from "../../components/LandingPage/DiscoverCard";
 import "../../components/LandingPage/DiscoverCard.css";
-
+import ServicePromoCard from "../../components/LandingPage/ServicePromoCard";
 
 const LandingPage = () => {
   return (
@@ -55,7 +55,10 @@ const LandingPage = () => {
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold ml-27 mb-5"> Popular Categories </h1>
+          <h1 className="text-2xl font-semibold ml-27 mb-5">
+            {" "}
+            Popular Categories{" "}
+          </h1>
           <div
             className="categories-grid mb-10"
             style={{
@@ -97,7 +100,10 @@ const LandingPage = () => {
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold ml-27 mb-5"> Discover All Around </h1>
+          <h1 className="text-2xl font-semibold ml-27 mb-5">
+            {" "}
+            Discover All Around{" "}
+          </h1>
           <div
             className="discover-grid mb-10"
             style={{
@@ -128,9 +134,9 @@ const LandingPage = () => {
           </div>
         </div>
 
-
-
-
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <ServicePromoCard />
+      </section>
       </div>
 
       <Footer />

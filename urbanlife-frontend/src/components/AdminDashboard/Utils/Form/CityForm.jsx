@@ -1,20 +1,8 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 
-export interface City {
-  id: string;
-  country: string;
-  name: string;
-  status: string;
-}
+const countries = ["Indonesia", "Vietnam"]; // bisa diganti dari props kalau perlu dinamis
 
-export interface CityFormHandle {
-  getFormData: () => Omit<City, "status"> | null;
-  resetForm: () => void;
-}
-
-const countries = ["Indonesia", "Vietnam"]; // ini bisa diganti dari props kalau perlu dinamis
-
-const CityForm = forwardRef<CityFormHandle>((_, ref) => {
+const CityForm = forwardRef((_, ref) => {
   const [country, setCountry] = useState("");
   const [name, setName] = useState("");
 

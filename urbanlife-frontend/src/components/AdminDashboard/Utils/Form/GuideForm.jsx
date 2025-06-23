@@ -1,21 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 
-export interface Guide {
-  id: string;
-  name: string;
-  identity: string;
-  phone: string;
-  gender: string;
-  english: string;
-  status: string;
-}
-
-export interface GuideFormHandle {
-  getFormData: () => Omit<Guide, "status"> | null;
-  resetForm: () => void;
-}
-
-const GuideForm = forwardRef<GuideFormHandle>((_, ref) => {
+const GuideForm = forwardRef((_, ref) => {
   const [name, setName] = useState("");
   const [identity, setIdentity] = useState("");
   const [phone, setPhone] = useState("");

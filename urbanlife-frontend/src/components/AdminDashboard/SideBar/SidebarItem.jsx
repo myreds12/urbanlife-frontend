@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-const SidebarItem = ({ item }: { item: { icon: string; name: string; path: string } }) => {
+const SidebarItem = ({ item }) => {
   const location = useLocation();
   const isActive = location.pathname === item.path;
 

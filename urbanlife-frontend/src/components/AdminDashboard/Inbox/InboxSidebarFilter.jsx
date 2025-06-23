@@ -1,18 +1,6 @@
 import React from 'react';
 
-interface InboxSidebarFilterProps {
-  activeFilter: string;
-  onFilterChange: (filter: string) => void;
-  messageCounts?: {
-    all: number;
-    sent: number;
-    unsent: number;
-    success: number;
-    failed: number;
-  };
-}
-
-const InboxSidebarFilter: React.FC<InboxSidebarFilterProps> = ({
+const InboxSidebarFilter = ({
   activeFilter,
   onFilterChange,
   messageCounts = {

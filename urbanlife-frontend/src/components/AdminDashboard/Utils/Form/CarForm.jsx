@@ -1,57 +1,43 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 
-export interface Driver {
-  id: string;
-  brand: string;
-  model: string;
-  phone: string;
-  gender: string;
-  expiry: string;
-  status: string;
-}
-
-export interface DriverFormHandle {
-  getFormData: () => Omit<Driver, "status"> | null;
-  resetForm: () => void;
-}
-
-const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
+const CarForm = forwardRef((_, ref) => {
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
-  const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState("");
-  const [expiry, setExpiry] = useState("");
+  const [policeNumber, setPoliceNumber] = useState("");
+  const [taxStatus, setTaxStatus] = useState("");
+  const [taxExpiry, setTaxExpiry] = useState("");
 
   useImperativeHandle(ref, () => ({
     getFormData: () => {
-      if (!brand || !model || !phone || !gender || !expiry) return null;
+      if (!brand || !model || !policeNumber || !taxStatus || !taxExpiry) return null;
       return {
         id: String(Date.now()).slice(-3),
         brand,
         model,
-        phone,
-        gender,
-        expiry,
+        policeNumber,
+        taxStatus,
+        taxExpiry,
       };
     },
     resetForm: () => {
       setBrand("");
       setModel("");
-      setPhone("");
-      setGender("");
-      setExpiry("");
+      setPoliceNumber("");
+      setTaxStatus("");
+      setTaxExpiry("");
     },
   }));
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* Auto ID */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Driver ID</label>
+        <label className="block text-sm text-gray-600 mb-1">Unit ID</label>
         <input
           type="text"
           disabled
           value="Auto"
-          className="input input-bordered w-full bg-gray-100 text-gray-500 rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -75,33 +61,33 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Phone number</label>
+        <label className="block text-sm text-gray-600 mb-1">Police number</label>
         <input
           type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="Enter phone"
+          value={policeNumber}
+          onChange={(e) => setPoliceNumber(e.target.value)}
+          placeholder="Enter police number"
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Gender</label>
+        <label className="block text-sm text-gray-600 mb-1">Vehicle tax status</label>
         <select
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
+          value={taxStatus}
+          onChange={(e) => setTaxStatus(e.target.value)}
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         >
           <option value="">Choose</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
+          <option value="Active">Active</option>
+          <option value="Expired">Expired</option>
         </select>
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Driving expiry period</label>
+        <label className="block text-sm text-gray-600 mb-1">Tax expiry period</label>
         <input
           type="date"
-          value={expiry}
-          onChange={(e) => setExpiry(e.target.value)}
+          value={taxExpiry}
+          onChange={(e) => setTaxExpiry(e.target.value)}
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
@@ -109,4 +95,4 @@ const DriverForm = forwardRef<DriverFormHandle>((_, ref) => {
   );
 });
 
-export default DriverForm;
+export default CarForm;

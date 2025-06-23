@@ -1,11 +1,6 @@
-interface ComponentCardProps {
-  title?: string;
-  children: React.ReactNode;
-  className?: string; // Optional custom class for outer wrapper
-  desc?: string; // Optional description
-}
+import React from 'react';
 
-const ComponentCard: React.FC<ComponentCardProps> = ({
+const ComponentCard = ({
   title,
   children,
   className = "",
@@ -13,7 +8,6 @@ const ComponentCard: React.FC<ComponentCardProps> = ({
 }) => {
   return (
     <div className={className}>
-      {/* Header (optional) */}
       {(title || desc) && (
         <div className="px-4 pt-3 pb-1">
           {title && (
@@ -26,8 +20,6 @@ const ComponentCard: React.FC<ComponentCardProps> = ({
           )}
         </div>
       )}
-
-      {/* Body */}
       <div className="p-4 sm:p-6">
         <div className="space-y-6">{children}</div>
       </div>

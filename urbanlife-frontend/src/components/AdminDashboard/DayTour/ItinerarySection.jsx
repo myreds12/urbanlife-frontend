@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
 
-interface ItineraryItem {
-  destination: string;
-  description: string;
-}
-
-interface ItinerarySectionProps {
-  id: string;
-  isActive: boolean;
-}
-
-const ItinerarySection: React.FC<ItinerarySectionProps> = ({ id, isActive }) => {
-  const [itinerary, setItinerary] = useState<ItineraryItem[]>([
+const ItinerarySection = ({ id, isActive }) => {
+  const [itinerary, setItinerary] = useState([
     { destination: '', description: '' },
     { destination: '', description: '' },
   ]);
 
-  const handleChange = (index: number, field: keyof ItineraryItem, value: string) => {
+  const handleChange = (index, field, value) => {
     const newItinerary = [...itinerary];
     newItinerary[index][field] = value;
     setItinerary(newItinerary);
@@ -26,7 +16,7 @@ const ItinerarySection: React.FC<ItinerarySectionProps> = ({ id, isActive }) => 
     setItinerary([...itinerary, { destination: '', description: '' }]);
   };
 
-  const removeDestination = (index: number) => {
+  const removeDestination = (index) => {
     const newItinerary = itinerary.filter((_, i) => i !== index);
     setItinerary(newItinerary);
   };
@@ -64,7 +54,7 @@ const ItinerarySection: React.FC<ItinerarySectionProps> = ({ id, isActive }) => 
                           placeholder={`* Destination ${index + 1}`}
                           value={item.destination}
                           onChange={(e) => handleChange(index, 'destination', e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none "
+                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none"
                         />
                       </div>
                       <div>
@@ -73,7 +63,7 @@ const ItinerarySection: React.FC<ItinerarySectionProps> = ({ id, isActive }) => 
                           placeholder={`* Description ${index + 1}`}
                           value={item.description}
                           onChange={(e) => handleChange(index, 'description', e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none "
+                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -105,7 +95,7 @@ const ItinerarySection: React.FC<ItinerarySectionProps> = ({ id, isActive }) => 
                           placeholder={`* Destination ${index + 1}`}
                           value={item.destination}
                           onChange={(e) => handleChange(index, 'destination', e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none "
+                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none"
                         />
                       </div>
                       <div>
@@ -114,7 +104,7 @@ const ItinerarySection: React.FC<ItinerarySectionProps> = ({ id, isActive }) => 
                           placeholder={`* Description ${index + 1}`}
                           value={item.description}
                           onChange={(e) => handleChange(index, 'description', e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none "
+                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none"
                         />
                       </div>
                     </div>

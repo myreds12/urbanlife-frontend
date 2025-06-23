@@ -1,14 +1,6 @@
 import React from 'react';
 
-interface ImageSectionProps {
-  id: string;
-  isActive: boolean;
-  photos: string[];
-  handlePhotoUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  removePhoto: (index: number) => void;
-}
-
-const ImageSection: React.FC<ImageSectionProps> = ({ id, isActive, photos, handlePhotoUpload, removePhoto }) => {
+const ImageSection = ({ id, isActive, photos, handlePhotoUpload, removePhoto }) => {
   return (
     <div id={id} className={isActive ? 'block' : 'hidden'}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">

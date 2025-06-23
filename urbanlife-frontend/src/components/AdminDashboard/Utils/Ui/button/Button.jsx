@@ -1,19 +1,6 @@
-import { type ReactNode } from "react";
+import React from "react";
 
-interface ButtonProps {
-  children: ReactNode;
-  size?: "sm" | "md";
-  variant?: "primary" | "outline";
-  startIcon?: ReactNode;
-  endIcon?: ReactNode;
-  onClick?: () => void;
-  disabled?: boolean;
-  className?: string;
-  isActive?: boolean; // <- Tambahan baru
-}
-
-
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   children,
   size = "md",
   variant = "primary",
@@ -29,7 +16,8 @@ const Button: React.FC<ButtonProps> = ({
     md: "px-5 py-3 text-base",
   };
 
-  const baseClasses = "inline-flex items-center justify-center gap-2 rounded-full font-medium transition duration-150 ease-in-out";
+  const baseClasses =
+    "inline-flex items-center justify-center gap-2 rounded-full font-medium transition duration-150 ease-in-out";
 
   const variantClasses = {
     primary: "bg-cyan-600 text-white hover:bg-cyan-700 disabled:bg-blue-300",
@@ -52,6 +40,5 @@ const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-
 
 export default Button;

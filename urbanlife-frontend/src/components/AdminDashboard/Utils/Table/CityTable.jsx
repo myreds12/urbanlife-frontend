@@ -1,6 +1,4 @@
-import type { City } from "../Form/CityForm";
-
-const CityTable = ({ cities }: { cities: City[] }) => {
+const CityTable = ({ cities }) => {
   return (
     <table className="w-full text-sm text-left">
       <thead className="text-gray-400">

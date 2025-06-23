@@ -62,7 +62,7 @@ export default function UserDropdown() {
             <li>
               <a
                 onClick={closeDropdown}
-                href="/profile" // Mengganti 'to' dengan 'href' karena bukan Link
+                href="/admin/profile" // Mengganti 'to' dengan 'href' karena bukan Link
                 className="flex items-center gap-3 px-3 py-1 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 "
               >
                 <svg
@@ -86,7 +86,7 @@ export default function UserDropdown() {
             <li>
               <a
                 onClick={closeDropdown}
-                href="/profile"
+                href="/admin/profile"
                 className="flex items-center gap-3 px-3 py-1 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 "
               >
                 <svg

@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import Dropzone from "../../../components/AdminDashboard/Utils/Form/DropZone";
 import CountryForm, {
+  type Country as CountryType,
   type CountryFormHandle,
-  type Country,
 } from "../../../components/AdminDashboard/Utils/Form/CountryForm";
 import CountryTable from "../../../components/AdminDashboard/Utils/Table/CountryTable";
 
 const Country = () => {
-  const [countries, setCountries] = useState<Country[]>([
+  const [countries, setCountries] = useState<CountryType[]>([
     { id: "001", name: "Indonesia", status: "Active" },
     { id: "002", name: "Vietnam", status: "Active" },
   ]);

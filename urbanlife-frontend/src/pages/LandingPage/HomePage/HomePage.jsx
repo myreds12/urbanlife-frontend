@@ -1,3 +1,19 @@
+<<<<<<< HEAD:urbanlife-frontend/src/pages/LandingPage/LandingPage.jsx
+import Navbar from "../../components/LandingPage/Navbar";
+import Footer from "../../components/LandingPage/Footer";
+import HeroSection from "../../components/LandingPage/HeroSection";
+import DestinationCard from "../../components/LandingPage/DestinationCard";
+import "../../components/LandingPage/DestinationCard.css";
+import CategoriesCard from "../../components/LandingPage/CategoriesCard";
+import "../../components/LandingPage/CategoriesCard.css";
+import DiscoverCard from "../../components/LandingPage/DiscoverCard";
+import "../../components/LandingPage/DiscoverCard.css";
+<<<<<<< HEAD:urbanlife-frontend/src/pages/LandingPage/LandingPage.tsx
+import ServicePromoCard from "../../components/LandingPage/ServicePromoCard";
+=======
+import PartnerCard1 from "../../components/LandingPage/PartnerCard1";
+import "../../components/LandingPage/PartnerCard1.css";
+=======
 import Navbar from "../../../components/LandingPage/HomePage/Navbar";
 import Footer from "../../../components/LandingPage/HomePage/Footer";
 import HeroSection from "../../../components/LandingPage/HomePage/HeroSection";
@@ -5,8 +21,10 @@ import DestinationCard from "../../../components/LandingPage/HomePage/Destinatio
 import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
+>>>>>>> ba77719c70611231d710ba4f55998c9f734c6ac8:urbanlife-frontend/src/pages/LandingPage/HomePage/HomePage.jsx
 
 
+>>>>>>> 73628ecbadc8452197ee196e229a2d67fbab28a0:urbanlife-frontend/src/pages/LandingPage/LandingPage.jsx
 
 const LandingPage = () => {
   return (
@@ -54,7 +72,10 @@ const LandingPage = () => {
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold ml-27 mb-5"> Popular Categories </h1>
+          <h1 className="text-2xl font-semibold ml-27 mb-5">
+            {" "}
+            Popular Categories{" "}
+          </h1>
           <div
             className="categories-grid mb-10"
             style={{
@@ -96,7 +117,10 @@ const LandingPage = () => {
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold ml-27 mb-5"> Discover All Around </h1>
+          <h1 className="text-2xl font-semibold ml-27 mb-5">
+            {" "}
+            Discover All Around{" "}
+          </h1>
           <div
             className="discover-grid mb-10"
             style={{
@@ -127,6 +151,11 @@ const LandingPage = () => {
           </div>
         </div>
 
+<<<<<<< HEAD:urbanlife-frontend/src/pages/LandingPage/LandingPage.tsx
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <ServicePromoCard />
+      </section>
+=======
         <div>
           <h1 className="text-2xl font-semibold ml-27 mb-5"> Our Partner </h1>
           <div
@@ -152,6 +181,7 @@ const LandingPage = () => {
 
 
 
+>>>>>>> 73628ecbadc8452197ee196e229a2d67fbab28a0:urbanlife-frontend/src/pages/LandingPage/LandingPage.jsx
       </div>
 
       <Footer />

@@ -1,6 +1,5 @@
 import React from "react";
 import ThemeToggleButton from "../../components/AdminDashboard/common/ThemeToggleButton"; 
-// Remove duplicate import since ThemeToggleButton is already imported above
 import NotificationDropdown from "../../components/AdminDashboard/common/NotificationDropdown";
 import UserDropdown from "../../components/AdminDashboard/common/UserDropdown";
 

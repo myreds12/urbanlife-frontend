@@ -24,7 +24,7 @@ export default function ChartBar() {
     },
     stroke: {
       show: true,
-      width: 4,
+      width: 1,
       colors: ["transparent"],
     },
     xaxis: {

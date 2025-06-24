@@ -1,3 +1,15 @@
+import Navbar from "../../components/LandingPage/Navbar";
+import Footer from "../../components/LandingPage/Footer";
+import HeroSection from "../../components/LandingPage/HeroSection";
+import DestinationCard from "../../components/LandingPage/DestinationCard";
+import "../../components/LandingPage/DestinationCard.css";
+import CategoriesCard from "../../components/LandingPage/CategoriesCard";
+import "../../components/LandingPage/CategoriesCard.css";
+import DiscoverCard from "../../components/LandingPage/DiscoverCard";
+import "../../components/LandingPage/DiscoverCard.css";
+import ServicePromoCard from "../../components/LandingPage/ServicePromoCard";
+import PartnerCard1 from "../../components/LandingPage/PartnerCard1";
+import "../../components/LandingPage/PartnerCard1.css";
 import Navbar from "../../../components/LandingPage/HomePage/Navbar";
 import Footer from "../../../components/LandingPage/HomePage/Footer";
 import HeroSection from "../../../components/LandingPage/HomePage/HeroSection";
@@ -5,9 +17,6 @@ import DestinationCard from "../../../components/LandingPage/HomePage/Destinatio
 import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
-
-
-
 const LandingPage = () => {
   return (
     <div>
@@ -54,7 +63,10 @@ const LandingPage = () => {
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold ml-27 mb-5"> Popular Categories </h1>
+          <h1 className="text-2xl font-semibold ml-27 mb-5">
+            {" "}
+            Popular Categories{" "}
+          </h1>
           <div
             className="categories-grid mb-10"
             style={{
@@ -96,7 +108,10 @@ const LandingPage = () => {
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold ml-27 mb-5"> Discover All Around </h1>
+          <h1 className="text-2xl font-semibold ml-27 mb-5">
+            {" "}
+            Discover All Around{" "}
+          </h1>
           <div
             className="discover-grid mb-10"
             style={{
@@ -126,7 +141,9 @@ const LandingPage = () => {
             />
           </div>
         </div>
-
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <ServicePromoCard />
+      </section>
         <div>
           <h1 className="text-2xl font-semibold ml-27 mb-5"> Our Partner </h1>
           <div
@@ -149,9 +166,6 @@ const LandingPage = () => {
             />
           </div>
         </div>
-
-
-
       </div>
 
       <Footer />

@@ -1,4 +1,3 @@
-// components/Calendar/Calendar.jsx
 import { useState } from "react";
 
 const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {

@@ -87,23 +87,27 @@ const orders = [
 ];
 
 const getStatusStyle = (status) => {
-  const base = {
-    display: "inline-block",
-    padding: "4px 12px",
-    borderRadius: "9999px",
-    fontWeight: 500,
-    fontSize: "13px",
-  };
-
   switch (status) {
     case "PAID":
-      return { ...base, backgroundColor: "#d1fae5", color: "#10b981" };
+      return {
+        backgroundColor: "#10b981",
+        color: "#ffffff",
+      };
     case "UNPAID":
-      return { ...base, backgroundColor: "#fef3c7", color: "#f59e0b" };
+      return {
+        backgroundColor: "#f59e0b",
+        color: "#ffffff",
+      };
     case "CANCELLED":
-      return { ...base, backgroundColor: "#fee2e2", color: "#ef4444" };
+      return {
+        backgroundColor: "#ef4444",
+        color: "#ffffff",
+      };
     default:
-      return { ...base, backgroundColor: "#e5e7eb", color: "#6b7280" };
+      return {
+        backgroundColor: "#6b7280",
+        color: "#ffffff",
+      };
   }
 };
 
@@ -127,37 +131,162 @@ const Orders = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl shadow border p-4 overflow-x-auto">
-        <table className="w-full text-left border-collapse">
-          <thead className="border-b text-xs text-gray-500 uppercase">
-            <tr>
-              <th className="p-3">Booking ID</th>
-              <th className="p-3">Customer</th>
-              <th className="p-3">Type</th>
-              <th className="p-3">Detail</th>
-              <th className="p-3">Date</th>
-              <th className="p-3">Amount</th>
-              <th className="p-3">Status</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm text-gray-700">
-            {orders.map((order) => (
-              <tr key={order.id} className="border-b hover:bg-gray-50">
-                <td className="p-3">{order.id}</td>
-                <td className="p-3 font-medium">{order.customer}</td>
-                <td className="p-3">{order.type}</td>
-                <td className="p-3">{order.detail}</td>
-                <td className="p-3">{order.date}</td>
-                <td className="p-3">{order.amount}</td>
-                <td className="p-3">
-                  <span style={getStatusStyle(order.status.toUpperCase())}>
-                    {order.status}
-                  </span>
-                </td>
+      <div style={{ 
+        background: "#ffffff", 
+        borderRadius: "5px",
+        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+        overflow: "hidden"
+      }}>
+
+        {/* Table */}
+        <div style={{ overflow: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ backgroundColor: "#f9fafb" }}>
+                <th style={{ 
+                  padding: "12px 24px", 
+                  fontWeight: "500", 
+                  color: "#6b7280", 
+                  textAlign: "left", 
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em"
+                }}>
+                  Booking ID
+                </th>
+                <th style={{ 
+                  padding: "12px 24px", 
+                  fontWeight: "500", 
+                  color: "#6b7280", 
+                  textAlign: "left", 
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em"
+                }}>
+                  Customer
+                </th>
+                <th style={{ 
+                  padding: "12px 24px", 
+                  fontWeight: "500", 
+                  color: "#6b7280", 
+                  textAlign: "left", 
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em"
+                }}>
+                  Type
+                </th>
+                <th style={{ 
+                  padding: "12px 24px", 
+                  fontWeight: "500", 
+                  color: "#6b7280", 
+                  textAlign: "left", 
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em"
+                }}>
+                  Detail
+                </th>
+                <th style={{ 
+                  padding: "12px 24px", 
+                  fontWeight: "500", 
+                  color: "#6b7280", 
+                  textAlign: "left", 
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em"
+                }}>
+                  Date
+                </th>
+                <th style={{ 
+                  padding: "12px 24px", 
+                  fontWeight: "500", 
+                  color: "#6b7280", 
+                  textAlign: "left", 
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em"
+                }}>
+                  Amount
+                </th>
+                <th style={{ 
+                  padding: "12px 24px", 
+                  fontWeight: "500", 
+                  color: "#6b7280", 
+                  textAlign: "left", 
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em"
+                }}>
+                  Status
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={order.id} style={{ 
+                  borderBottom: index < orders.length - 1 ? "1px solid #f3f4f6" : "none",
+                  transition: "background-color 0.2s ease"
+                }}>
+                  <td style={{ 
+                    padding: "10px 24px", 
+                    color: "#6b7280", 
+                    fontSize: "14px" 
+                  }}>
+                    {order.id}
+                  </td>
+                  <td style={{ padding: "10px 24px" }}>
+                    <div style={{ color: "#111827", fontSize: "14px", fontWeight: "500" }}>
+                      {order.customer}
+                    </div>
+                  </td>
+                  <td style={{ 
+                    padding: "10px 24px", 
+                    color: "#6b7280", 
+                    fontSize: "14px" 
+                  }}>
+                    {order.type}
+                  </td>
+                  <td style={{ 
+                    padding: "10px 24px", 
+                    color: "#6b7280", 
+                    fontSize: "14px" 
+                  }}>
+                    {order.detail}
+                  </td>
+                  <td style={{ 
+                    padding: "10px 24px", 
+                    color: "#6b7280", 
+                    fontSize: "14px" 
+                  }}>
+                    {order.date}
+                  </td>
+                  <td style={{ 
+                    padding: "10px 24px", 
+                    color: "#6b7280", 
+                    fontSize: "14px" 
+                  }}>
+                    {order.amount}
+                  </td>
+                  <td style={{ padding: "10px 24px" }}>
+                    <span style={{
+                      display: "inline-block",
+                      padding: "4px 12px",
+                      borderRadius: "6px",
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.025em",
+                      ...getStatusStyle(order.status),
+                    }}>
+                      {order.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Sidebar (suggest to extract as component) */}

@@ -3,3 +3,11 @@ body{
   background-color: #FAF9FF;
 }
 
+html, body {
+  font-family: "Inter", sans-serif; /* Default font Inter untuk seluruh aplikasi */
+}
+
+.playfair {
+  font-family: "Playfair Display", serif;
+}
+

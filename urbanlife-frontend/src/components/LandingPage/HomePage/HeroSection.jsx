@@ -8,7 +8,7 @@ const HeroSection = () => {
       style={{ backgroundImage: `url('/images/landingpage.jpg')` }} // langsung dari public
     >
       <div style={{ maxWidth: "650px" }}>
-        <p className="text-7xl/23 font-bold text-left text-white">
+        <p className="playfair text-7xl/23 font-bold text-left text-white">
           Discover the beauty places around the world
         </p>
       </div>

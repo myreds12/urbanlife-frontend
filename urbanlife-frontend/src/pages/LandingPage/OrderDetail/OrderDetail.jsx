@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import BookingInfoCard from '../../../components/LandingPage/OrderDetail/BookingInfoCard'; 
 import ContactForm from '../../../components/LandingPage/OrderDetail/ContactForm';
 import ServiceDescription from '../../../components/LandingPage/OrderDetail/ServiceDescription';
@@ -7,6 +7,9 @@ import CustomerRequest from '../../../components/LandingPage/OrderDetail/Custome
 import PriceSection from '../../../components/LandingPage/OrderDetail/PriceSection';
 
 const OrderDetail = () => {
+  const location = useLocation();
+  const bookingFromState = location.state;
+
   const [formData, setFormData] = useState({
     title: 'Mr',
     fullName: '',
@@ -16,18 +19,14 @@ const OrderDetail = () => {
     agreeToTerms: false,
   });
 
-    const location = useLocation();
-    const data = location.state;
-
-    const bookingInfo = {
-      date: data?.date || 'Kam, 08 Mei 2025',
-      duration: data?.duration || '1 - 12 hours',
-      location: data?.location || 'Bali',
-      vehicle: data?.vehicle || 'Toyota Innova reborn',
-      image: data?.image || 'https://via.placeholder.com/100',
-      price: data?.price || '1.200.000',
-    };
-
+  const bookingInfo = bookingFromState || {
+    date: 'Kam, 08 Mei 2025',
+    duration: '1 - 12 hours',
+    location: 'Bali',
+    vehicle: 'Toyota Innova Reborn',
+    image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=100&h=100&fit=crop&crop=center',
+    price: 'Rp 1.050.000',
+  };
 
   const handleFormChange = (data) => {
     setFormData(prev => ({ ...prev, ...data }));
@@ -35,7 +34,7 @@ const OrderDetail = () => {
 
   const handlePayment = () => {
     console.log('Proceeding to payment with:', formData);
-    // Implement payment logic here
+    // implement payment logic here
   };
 
   return (
@@ -44,7 +43,6 @@ const OrderDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Order Detail Header */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Order Detail</h1>
               <p className="text-gray-600">
@@ -52,7 +50,6 @@ const OrderDetail = () => {
               </p>
             </div>
 
-            {/* Contact Form */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <ContactForm 
                 formData={formData} 
@@ -60,12 +57,10 @@ const OrderDetail = () => {
               />
             </div>
 
-            {/* Service Description */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <ServiceDescription />
             </div>
 
-            {/* Customer Request */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <CustomerRequest 
                 specialRequest={formData.specialRequest}
@@ -73,7 +68,6 @@ const OrderDetail = () => {
               />
             </div>
 
-            {/* Terms Agreement */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
@@ -96,11 +90,10 @@ const OrderDetail = () => {
           <div className="space-y-6">
             <BookingInfoCard booking={bookingInfo} />
             <PriceSection 
-              amount={`IDR ${bookingInfo.price}`}
+              amount={bookingInfo.price}
               onPayment={handlePayment}
               disabled={!formData.agreeToTerms}
             />
-
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from "react-router-dom";
 import BookingInfoCard from '../../../components/LandingPage/OrderDetail/BookingInfoCard'; 
 import ContactForm from '../../../components/LandingPage/OrderDetail/ContactForm';
 import ServiceDescription from '../../../components/LandingPage/OrderDetail/ServiceDescription';
@@ -15,13 +16,18 @@ const OrderDetail = () => {
     agreeToTerms: false,
   });
 
-  const bookingInfo = {
-    date: 'Kam, 08 Mei 2025',
-    duration: '1 - 12 hours',
-    location: 'Bali',
-    vehicle: 'Toyota Innova reborn',
-    image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=100&h=100&fit=crop&crop=center',
-  };
+    const location = useLocation();
+    const data = location.state;
+
+    const bookingInfo = {
+      date: data?.date || 'Kam, 08 Mei 2025',
+      duration: data?.duration || '1 - 12 hours',
+      location: data?.location || 'Bali',
+      vehicle: data?.vehicle || 'Toyota Innova reborn',
+      image: data?.image || 'https://via.placeholder.com/100',
+      price: data?.price || '1.200.000',
+    };
+
 
   const handleFormChange = (data) => {
     setFormData(prev => ({ ...prev, ...data }));
@@ -90,10 +96,11 @@ const OrderDetail = () => {
           <div className="space-y-6">
             <BookingInfoCard booking={bookingInfo} />
             <PriceSection 
-              amount="IDR 1.050.000"
+              amount={`IDR ${bookingInfo.price}`}
               onPayment={handlePayment}
               disabled={!formData.agreeToTerms}
             />
+
           </div>
         </div>
       </div>

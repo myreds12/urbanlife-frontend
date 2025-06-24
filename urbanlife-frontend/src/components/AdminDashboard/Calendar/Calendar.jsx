@@ -492,9 +492,8 @@ const CalendarDemo = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen ">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Calendar Events</h1>
         <Calendar 
           events={events}
           onAddEvent={handleAddEvent}

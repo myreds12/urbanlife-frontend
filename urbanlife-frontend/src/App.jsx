@@ -3,7 +3,7 @@ import "./App.css";
 
 // Layout & Theme
 import AppLayout from "./layouts/AdminDashboard/AppLayout";
-import { ThemeProvider } from "./components/AdminDashboard/Utils/Context/ThemeContext";
+import ThemeProvider from "./components/AdminDashboard/Utils/Context/ThemeContext";
 
 // Admin Pages
 import Dashboard from "./pages/AdminDashboard/Dashboard/Dashboard";
@@ -13,7 +13,11 @@ import DayTour from "./pages/AdminDashboard/DayTour/DayTour";
 import RentCar from "./pages/AdminDashboard/RentCar/RentCar";
 import Accommodation from "./pages/AdminDashboard/Accomodation/Accomodation";
 import Customer from "./pages/AdminDashboard/Customer/Customer";
+
+// Whasapp Setting Pages
 import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConnect";
+import Template from "./pages/AdminDashboard/WhatsappSetting/template";
+
 import Inbox from "./pages/AdminDashboard/Inbox/Inbox";
 
 // Data Master Pages
@@ -28,8 +32,10 @@ import Guide from "./pages/AdminDashboard/DataMaster/Guide";
 import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";
 
 // Public Page
-import LandingPage from "./pages/LandingPage/LandingPage";
-import OrderDetail from "./pages/LandingPage/OrderDetail";
+import HomePage from "./pages/LandingPage/HomePage/HomePage";
+import OrderDetail from "./pages/LandingPage/OrderDetail/OrderDetail";
+import PaymentSection from "./pages/LandingPage/PaymentSection/PaymentSection";
+
 
 function App() {
   return (
@@ -37,10 +43,13 @@ function App() {
       <Router>
         <Routes>
           {/* Website landing page */}
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<HomePage />} />
           
           {/* Order detail page */}
-          <Route path="/order-detail" element={<OrderDetail />} />
+          <Route path="/OrderDetail" element={<OrderDetail />} />
+
+          {/* Payment selection page */}
+          <Route path="/PaymentSection" element={<PaymentSection />} />
 
           {/* Admin layout and nested routes */}
           <Route path="/admin" element={<AppLayout />}>
@@ -53,9 +62,13 @@ function App() {
             <Route path="calendar" element={<Calendar />} />
             <Route path="day-tour" element={<DayTour />} />
             <Route path="rent-car" element={<RentCar />} />
-            <Route path="accommodation" element={<Accommodation />} />
             <Route path="customer" element={<Customer />} />
+            <Route path="accommodation" element={<Accommodation />} />
+
+            {/* WhatsApp Setting */}
             <Route path="whatsapp-connect" element={<WhatsappConnect />} />
+            <Route path="template" element={<Template />} />
+
             <Route path="inbox" element={<Inbox />} />
 
 

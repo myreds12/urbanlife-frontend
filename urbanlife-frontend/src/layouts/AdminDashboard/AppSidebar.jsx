@@ -3,13 +3,13 @@ import SidebarItem from "../../components/AdminDashboard/SideBar/SidebarItem";
 import SidebarExpandableItem from "../../components/AdminDashboard/SideBar/SidebarExpandableItem";
 
 const navItems = [
-  { icon: "fa-tachometer-alt", name: "Dashboard", path: "/admin/dashboard" },
+  { icon: "fa-solid fa-border-all", name: "Dashboard", path: "/admin/dashboard" },
   { icon: "fa-shopping-cart", name: "Order", path: "/admin/order" },
   { icon: "fa-calendar", name: "Calendar order", path: "/admin/calendar" },
 ];
 
 const contentItems = [
-  { icon: "fa-sun", name: "Day tour", path: "/admin/day-tour" },
+  { icon: "fa-solid fa-chart-pie", name: "Day tour", path: "/admin/day-tour" },
   { icon: "fa-car", name: "Rent car", path: "/admin/rent-car" },
   { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
 ];
@@ -21,7 +21,7 @@ const othersItems = [
     name: "Whatsapp",
     subItems: [
       { name: "Connect", path: "/admin/whatsapp-connect" },
-      { name: "Template", path: "/admin/whatsapp-template" },
+      { name: "Template", path: "/admin/template" },
     ],
   },
   { icon: "fa-inbox", name: "Inbox", path: "/admin/inbox" },

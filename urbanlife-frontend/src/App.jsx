@@ -13,7 +13,11 @@ import DayTour from "./pages/AdminDashboard/DayTour/DayTour";
 import RentCar from "./pages/AdminDashboard/RentCar/RentCar";
 import Accommodation from "./pages/AdminDashboard/Accomodation/Accomodation";
 import Customer from "./pages/AdminDashboard/Customer/Customer";
+
+// Whasapp Setting Pages
 import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConnect";
+import Template from "./pages/AdminDashboard/WhatsappSetting/template";
+
 import Inbox from "./pages/AdminDashboard/Inbox/Inbox";
 
 // Data Master Pages
@@ -58,9 +62,13 @@ function App() {
             <Route path="calendar" element={<Calendar />} />
             <Route path="day-tour" element={<DayTour />} />
             <Route path="rent-car" element={<RentCar />} />
-            <Route path="accommodation" element={<Accommodation />} />
             <Route path="customer" element={<Customer />} />
+            <Route path="accommodation" element={<Accommodation />} />
+
+            {/* WhatsApp Setting */}
             <Route path="whatsapp-connect" element={<WhatsappConnect />} />
+            <Route path="template" element={<Template />} />
+
             <Route path="inbox" element={<Inbox />} />
 
 

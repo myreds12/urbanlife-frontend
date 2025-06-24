@@ -4,19 +4,23 @@ import CardForm from "./CardForm";
 const HeroSection = () => {
   return (
     <div
-      className="hero-section justify-between gap-40"
-      style={{ backgroundImage: `url('/images/landingpage.jpg')` }} // langsung dari public
+      className="hero-section"
+      style={{ backgroundImage: `url('/images/landingpage.jpg')` }}
     >
-      <div style={{ maxWidth: "650px" }}>
-        <p className="playfair text-7xl/23 font-bold text-left text-white">
-          Discover the beauty places around the world
-        </p>
-      </div>
-      <div>
-        <CardForm />
+      {/* Tambahkan container biar sejajar dengan navbar */}
+      <div className="max-w-7xl mx-auto px-4 flex justify-between gap-10 py-20">
+        <div style={{ maxWidth: "650px" }}>
+          <p className="playfair text-7xl/23 font-bold text-left text-white">
+            Discover the beauty places around the world
+          </p>
+        </div>
+        <div>
+          <CardForm />
+        </div>
       </div>
     </div>
   );
 };
+
 
 export default HeroSection;

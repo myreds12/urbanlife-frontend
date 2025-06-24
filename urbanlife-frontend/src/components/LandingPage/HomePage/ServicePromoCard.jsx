@@ -1,12 +1,12 @@
 import React from 'react';
-import Schedule from "../../components/LandingPage/Schedule";
+import Schedule from "../../LandingPage/HomePage/Schedule";
 
 const ServicePromoCard = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-6 bg-white">
       {/* Card Kiri */}
       <div className="flex-1 bg-[#f8f9fb] p-6 rounded-2xl shadow-md">
-        <h2 className="text-2xl font-bold text-[#0d1b39] mb-4">
+        <h2 className="playfair text-2xl font-bold text-[#071C4D] mb-4">
           Order Now and Try Our Services!
         </h2>
         <p className="text-[#4f4f4f] text-sm leading-relaxed">

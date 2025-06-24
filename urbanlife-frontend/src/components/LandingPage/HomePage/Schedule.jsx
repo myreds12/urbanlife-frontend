@@ -1,5 +1,4 @@
 import React from 'react';
-// import { FaClockO } from "react-icons/fa"; // Font Awesome (react-icons)
 
 const Schedule = () => {
   const schedule = [
@@ -17,7 +16,6 @@ const Schedule = () => {
       {schedule.map(({ day, time, highlight }) => (
         <li key={day} className="flex justify-between items-center">
           <span className="flex items-center gap-2">
-            <FaClockO className="text-blue-900" />
             {day}
           </span>
           <span className={highlight ? "text-red-500 font-bold" : ""}>{time}</span>

@@ -4,7 +4,7 @@ const CustomerTable = ({ data, columns }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRows, setSelectedRows] = useState([]);
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
   // Filter data berdasarkan search
   const filteredData = data.filter((row) =>
@@ -105,26 +105,66 @@ const CustomerTable = ({ data, columns }) => {
           </tbody>
         </table>
       </div>
+
+      {/* pagination */}
       <div className="flex justify-between items-center mt-4">
-        <span className="text-sm text-gray-600">Showing {indexOfFirstRow + 1} to {Math.min(indexOfLastRow, filteredData.length)} of {filteredData.length} entries</span>
-        <div className="flex space-x-2">
+        <span className="text-sm text-gray-600">
+          Showing {indexOfFirstRow + 1} to {Math.min(indexOfLastRow, filteredData.length)} of {filteredData.length} entries
+        </span>
+        <div className="flex items-center -space-x-px">
           <button
-            className="px-3 py-1 border rounded"
+            className={`flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed ${
+              currentPage === 1 ? 'disabled' : ''
+            }`}
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            Previous
+            <span className="sr-only">Previous</span>
+            <svg
+              className="w-3 h-3 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 6 10"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 1 1 5l4 4"
+              />
+            </svg>
           </button>
-          <span className="px-3 py-1">{currentPage}</span>
+          <span className="flex items-center justify-center px-4 h-10 leading-tight text-gray-700 bg-white border border-gray-300">
+            {currentPage}
+          </span>
           <button
-            className="px-3 py-1 border rounded"
+            className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed ${
+              currentPage === totalPages ? 'disabled' : ''
+            }`}
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
-            Next
+            <span className="sr-only">Next</span>
+            <svg
+              className="w-3 h-3 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 6 10"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 9 4-4-4-4"
+              />
+            </svg>
           </button>
         </div>
-      </div>
+      </div>    
     </div>
   );
 };

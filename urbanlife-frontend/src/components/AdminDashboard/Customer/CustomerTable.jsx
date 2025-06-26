@@ -58,7 +58,7 @@ const CustomerTable = ({ data, columns }) => {
               <th className="p-2 text-left text-xs font-medium text-gray-600">
               <input
               type="checkbox"
-              className="w-4 h-4 border-2 border-gray-500 rounded focus:ring-2 focus:ring-green-500 checked:bg-green-500"
+              className="w-4 h-4 border-2 border-gray-300 rounded focus:ring-2 focus:ring-green-500 checked:bg-green-500"
               checked={selectedRows.length === currentData.length && currentData.length > 0}
               onChange={handleSelectAll}
             />
@@ -80,7 +80,7 @@ const CustomerTable = ({ data, columns }) => {
                 <td className="p-2">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 border-2 border-gray-500 rounded focus:ring-2 focus:ring-green-500 checked:bg-green-500"
+                    className="w-4 h-4 border-2 border-gray-300 rounded focus:ring-2 focus:ring-green-500 checked:bg-green-500"
                     checked={selectedRows.includes(row.id)}
                     onChange={() => handleSelectRow(index)}
                   />

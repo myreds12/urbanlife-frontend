@@ -11,7 +11,7 @@ const ServiceCard = ({ service }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1 max-w-5xl mx-auto flex flex-col lg:flex-row overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md border border-gray-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1 max-w-5xl mx-auto flex flex-col lg:flex-row overflow-hidden">
       
       {/* Gambar di kiri */}
       <div className="relative w-full lg:w-1/3 h-60 lg:h-auto">
@@ -73,7 +73,7 @@ const ServiceCard = ({ service }) => {
           </div>
         </div>
 
-        <div className="flex items-end justify-between pt-4 border-t border-gray-100 mt-4 flex-wrap gap-4">
+        <div className="flex items-end justify-between pt-4 border-t border-gray-200 mt-4 flex-wrap gap-4">
           <div>
             <div className="text-sm text-gray-500 mb-1">Start from</div>
             <div className="flex items-baseline gap-1">

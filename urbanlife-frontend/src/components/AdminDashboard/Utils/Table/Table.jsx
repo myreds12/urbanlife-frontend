@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../Ui/button/Button';
 
 const Table = ({ data, columns }) => {
   // Default mapping berdasarkan nama kolom umum
@@ -12,29 +13,59 @@ const Table = ({ data, columns }) => {
   };
 
   return (
-      <div className="overflow-x-auto rounded-lg border border-gray-300">
-        <table className="w-full">
-              <thead>
-                <tr className="bg-gray-100">
-                  {columns.map((column, index) => (
-                    <th key={index} className="p-2 text-left text-xs font-medium text-gray-600">
-                      {column}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
+    <div style={{
+      background: "#ffffff",
+      borderRadius: "5px",
+      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+      overflow: "hidden"
+    }}>
+      <div style={{ overflow: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr style={{ backgroundColor: "#f9fafb" }}>
+              {columns.map((column, index) => (
+                <th
+                  key={index}
+                  style={{
+                    padding: "12px 24px",
+                    fontWeight: "500",
+                    color: "#6b7280",
+                    textAlign: "left",
+                    fontSize: "12px",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em"
+                  }}
+                >
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
           <tbody>
             {data.map((row, rowIndex) => (
-              <tr key={rowIndex} className="hover:bg-gray-50">
+              <tr
+                key={rowIndex}
+                style={{
+                  borderBottom: rowIndex < data.length - 1 ? "1px solid #f3f4f6" : "none",
+                  transition: "background-color 0.2s ease"
+                }}
+              >
                 {columns.map((column) =>
                   column === 'Action' ? (
-                    <td key={column} className="p-2">
-                      <button className="border border-cyan-600 text-cyan-600 px-1 py-0.5 text-xs rounded-md">
+                    <td key={column} style={{ padding: "10px 24px" }}>
+                      <Button variant="outline" size="sm">
                         Detail
-                      </button>
+                      </Button>
                     </td>
                   ) : (
-                    <td key={column} className="p-2 text-xs text-gray-700">
+                    <td
+                      key={column}
+                      style={{
+                        padding: "10px 24px",
+                        color: "#6b7280",
+                        fontSize: "14px"
+                      }}
+                    >
                       {typeof defaultMapping[column] === 'function'
                         ? defaultMapping[column](row, rowIndex)
                         : row[defaultMapping[column]] || ''}
@@ -46,7 +77,7 @@ const Table = ({ data, columns }) => {
           </tbody>
         </table>
       </div>
-
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Filter } from 'lucide-react';
-import '../../../styles/LandingPage/Services/FilterSection.css';
+import '../../../styles/LandingPage/';
 
 const FilterSection = ({ filters, setFilters }) => {
   const [expandedSections, setExpandedSections] = useState({

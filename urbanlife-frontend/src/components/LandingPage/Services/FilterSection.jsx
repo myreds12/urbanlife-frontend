@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Filter } from 'lucide-react';
 import '../../../styles/LandingPage/Services/FilterSection.css';
 
-const FilterSection = ({ filters, setFilters }) => {
+const FilterSection = ({ filters, setFilters, onSearch }) => {
   const [expandedSections, setExpandedSections] = useState({
     countries: true,
     cities: true,
@@ -178,9 +178,14 @@ const FilterSection = ({ filters, setFilters }) => {
           )}
         </div>
 
-        <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-medium transition-colors">
-          Search
-        </button>
+        <button
+        className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-medium transition-colors"
+        onClick={() => {
+          if (typeof onSearch === 'function') onSearch();
+        }}
+      >
+        Search
+      </button>
       </div>
     </div>
   );

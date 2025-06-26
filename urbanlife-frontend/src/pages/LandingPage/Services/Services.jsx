@@ -3,6 +3,7 @@ import FilterSection from '../../../components/LandingPage/Services/FilterSectio
 import ServiceCard from '../../../components/LandingPage/Services/ServiceCard';
 import ServiceHeader from '../../../components/LandingPage/Services/ServiceHeader';
 import '../../../styles/LandingPage/Services/Services.css';
+import Navbar from '../../../components/LandingPage/HomePage/Navbar';
 
 const Services = () => {
   const [filters, setFilters] = useState({
@@ -56,6 +57,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <ServiceHeader />
         

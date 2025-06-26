@@ -6,6 +6,8 @@ import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesC
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import ServicePromoCard from "../../../components/LandingPage/HomePage/ServicePromoCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
+import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
+import PartnerSection from "../../../components/LandingPage/HomePage/PartnerSection";
 
 const LandingPage = () => {
   return (
@@ -159,6 +161,9 @@ const LandingPage = () => {
       <div>
         <ServicePromoCard/>
       </div>
+
+      <TestimonialSection />
+      <PartnerSection />
 
       <Footer />
     </div>

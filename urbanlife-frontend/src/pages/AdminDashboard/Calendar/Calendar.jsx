@@ -7,40 +7,6 @@ const CalendarPage = () => {
   // State untuk menyimpan events di calendar
   const [events, setEvents] = useState({
     // Sample initial data
-    "2025-6-17": [
-      {
-        id: 1,
-        customer: "Selena Gomes",
-        type: "accommodation",
-        location: "Bali - Fourteen Roses Boutique Hotel",
-        dateDisplay: "17 June 2025"
-      },
-      {
-        id: 2,
-        customer: "Ahmad Dhani",
-        type: "day tour",
-        location: "Bali - Eastern Nusa Penida Tour",
-        dateDisplay: "17 June 2025"
-      }
-    ],
-    "2025-6-18": [
-      {
-        id: 3,
-        customer: "Ahmad Dhani",
-        type: "day tour",
-        location: "Bali - Eastern Nusa Penida Tour",
-        dateDisplay: "18 June 2025"
-      }
-    ],
-    "2025-6-19": [
-      {
-        id: 4,
-        customer: "Ahmad Dhani",
-        type: "rent car",
-        location: "Jakarta - Toyota Alphard",
-        dateDisplay: "19 June 2025"
-      }
-    ]
   });
 
   // Function untuk menambah event baru

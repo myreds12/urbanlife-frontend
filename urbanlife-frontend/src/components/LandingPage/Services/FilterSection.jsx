@@ -98,7 +98,7 @@ const FilterSection = ({ filters, setFilters }) => {
   );
 
   return (
-    <div className="filter-section lg:w-80 flex-shrink-0">
+    <div className="filter-section lg:w-80 flex-shrink-0 shadow-md">
       <div className="bg-white rounded-lg shadow-md p-6 sticky top-8">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">

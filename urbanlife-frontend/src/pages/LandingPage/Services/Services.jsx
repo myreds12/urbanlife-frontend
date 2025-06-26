@@ -160,7 +160,11 @@ const Services = () => {
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filter */}
-          <FilterSection filters={filters} setFilters={setFilters} />
+          <FilterSection
+          filters={filters}
+          setFilters={setFilters}
+          onSearch={handleSearch}
+        />
 
           {/* Content */}
           <div className="flex-1">

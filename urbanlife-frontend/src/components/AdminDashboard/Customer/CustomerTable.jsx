@@ -45,22 +45,23 @@ const CustomerTable = ({ data, columns }) => {
         <input
           type="text"
           placeholder="Search..."
-          className="border border-gray-300 p-2 rounded"
+          className="border border-gray-300 p-2 rounded-lg"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="bg-gray-200 p-2 rounded fa--download">Download</button>
+        <button className="bg-gray-200 p-2 rounded-lg fa--download">Download</button>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded-lg">
           <thead>
             <tr className="bg-gray-100">
               <th className="p-2 text-left text-xs font-medium text-gray-600">
-                <input
-                  type="checkbox"
-                  checked={selectedRows.length === currentData.length && currentData.length > 0}
-                  onChange={handleSelectAll}
-                />
+              <input
+              type="checkbox"
+              className="w-4 h-4 border-2 border-gray-300 rounded focus:ring-2 focus:ring-green-500 checked:bg-green-500"
+              checked={selectedRows.length === currentData.length && currentData.length > 0}
+              onChange={handleSelectAll}
+            />
               </th>
               {columns.map((column) => (
                 <th
@@ -79,6 +80,7 @@ const CustomerTable = ({ data, columns }) => {
                 <td className="p-2">
                   <input
                     type="checkbox"
+                    className="w-4 h-4 border-2 border-gray-300 rounded focus:ring-2 focus:ring-green-500 checked:bg-green-500"
                     checked={selectedRows.includes(row.id)}
                     onChange={() => handleSelectRow(index)}
                   />

@@ -35,6 +35,7 @@ import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";
 import HomePage from "./pages/LandingPage/HomePage/HomePage";
 import OrderDetail from "./pages/LandingPage/OrderDetail/OrderDetail";
 import PaymentSection from "./pages/LandingPage/PaymentSection/PaymentSection";
+import Services from "./pages/LandingPage/Services/Services";
 
 
 function App() {
@@ -50,6 +51,9 @@ function App() {
 
           {/* Payment selection page */}
           <Route path="/PaymentSection" element={<PaymentSection />} />
+
+          {/* Services page */}
+          <Route path="/Services" element={<Services />} />
 
           {/* Admin layout and nested routes */}
           <Route path="/admin" element={<AppLayout />}>

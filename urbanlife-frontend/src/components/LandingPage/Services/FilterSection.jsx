@@ -15,23 +15,39 @@ const FilterSection = ({ filters, setFilters }) => {
   const MAX = 5000000;
   const STEP = 50000;
 
-  const filterOptions = {
-    countries: [
-      { name: 'All', count: 100 },
-      { name: 'Indonesia', count: 70 },
-      { name: 'Vietnam', count: 30 },
-    ],
-    cities: [
-      { name: 'Jakarta', count: 1543 },
-      { name: 'Bali', count: 923 },
-    ],
-    services: [
-      { name: 'Day tour', count: 20 },
-      { name: 'Rent car', count: 3 },
-      { name: 'Accommodation', count: 3 },
-    ],
+  // ====== FILTER OPTIONS ======
+  // TODO: These will be replaced with dynamic data from Admin Dashboard
+  // For now using static options, but structure is ready for API integration
+  const getFilterOptions = () => {
+    // TODO: Replace with availableOptions from API when backend is ready
+    // const options = availableOptions || {
+    //   countries: [],
+    //   cities: [],
+    //   services: []
+    // };
+    
+    return {
+      countries: [
+        { name: 'all', displayName: 'All Countries', count: 100 },
+        { name: 'indonesia', displayName: 'Indonesia', count: 70 },
+        { name: 'vietnam', displayName: 'Vietnam', count: 30 },
+      ],
+      cities: [
+        { name: 'jakarta', displayName: 'Jakarta', count: 1543 },
+        { name: 'bali', displayName: 'Bali', count: 923 },
+        { name: 'hanoi', displayName: 'Hanoi', count: 45 },
+      ],
+      services: [
+        { name: 'day tour', displayName: 'Day Tour', count: 20 },
+        { name: 'rent car', displayName: 'Rent Car', count: 3 },
+        { name: 'accommodation', displayName: 'Accommodation', count: 3 },
+      ],
+    };
   };
 
+  const filterOptions = getFilterOptions();
+
+  // ====== SECTION TOGGLE ======
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({
       ...prev,
@@ -39,6 +55,7 @@ const FilterSection = ({ filters, setFilters }) => {
     }));
   };
 
+  // ====== FILTER CHANGE HANDLERS ======
   const handleFilterChange = (type, value) => {
     setFilters((prev) => ({
       ...prev,
@@ -58,19 +75,21 @@ const FilterSection = ({ filters, setFilters }) => {
     setLocalPriceRange([MIN, MAX]);
   };
 
+  // ====== PRICE RANGE HANDLERS ======
   const handlePriceChange = (index, value) => {
     const newRange = [...localPriceRange];
     newRange[index] = parseInt(value);
-    if (newRange[0] > newRange[1]) return; // avoid cross
+    if (newRange[0] > newRange[1]) return; // Prevent range crossing
     setLocalPriceRange(newRange);
     setFilters((prev) => ({ ...prev, priceRange: newRange }));
   };
 
+  // ====== FILTER GROUP COMPONENT ======
   const FilterGroup = ({ title, items, type, expanded }) => (
     <div className="mb-6">
       <button
         onClick={() => toggleSection(type)}
-        className="flex items-center justify-between w-full text-left font-medium text-gray-800 mb-3"
+        className="flex items-center justify-between w-full text-left font-medium text-gray-800 mb-3 hover:text-gray-600 transition-colors"
       >
         {title}
         {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -80,15 +99,17 @@ const FilterSection = ({ filters, setFilters }) => {
           {items.map((item) => (
             <label
               key={item.name}
-              className="flex items-center space-x-2 cursor-pointer"
+              className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors"
             >
               <input
                 type="checkbox"
-                checked={filters[type].includes(item.name)}
-                onChange={() => handleFilterChange(type, item.name)}
-                className="w-4 h-4 text-teal-600 border-gray-300 rounded"
+                checked={filters[type].includes(item.name.toLowerCase())}
+                onChange={() => handleFilterChange(type, item.name.toLowerCase())}
+                className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
               />
-              <span className="text-sm text-gray-600 flex-1">{item.name}</span>
+              <span className="text-sm text-gray-600 flex-1">
+                {item.displayName || item.name}
+              </span>
               <span className="text-xs text-gray-400">{item.count}</span>
             </label>
           ))}
@@ -97,34 +118,52 @@ const FilterSection = ({ filters, setFilters }) => {
     </div>
   );
 
+  // ====== ACTIVE FILTERS COUNT ======
+  const getActiveFiltersCount = () => {
+    return filters.countries.length + filters.cities.length + filters.services.length;
+  };
+
   return (
     <div className="filter-section lg:w-80 flex-shrink-0 shadow-md">
       <div className="bg-white rounded-lg shadow-md p-6 sticky top-8">
+        
+        {/* ====== FILTER HEADER ====== */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <Filter size={20} className="text-gray-600" />
-            <h2 className="font-semibold text-gray-800">Applied filter</h2>
+            <h2 className="font-semibold text-gray-800">
+              Applied filter
+              {getActiveFiltersCount() > 0 && (
+                <span className="ml-2 bg-teal-100 text-teal-700 px-2 py-1 rounded-full text-xs">
+                  {getActiveFiltersCount()}
+                </span>
+              )}
+            </h2>
           </div>
           <button
             onClick={clearFilters}
-            className="text-sm text-teal-600 hover:text-teal-700 font-medium"
+            className="text-sm text-teal-600 hover:text-teal-700 font-medium transition-colors"
+            disabled={getActiveFiltersCount() === 0}
           >
             Clear all
           </button>
         </div>
 
+        {/* ====== FILTER GROUPS ====== */}
         <FilterGroup
           title="Countries"
           items={filterOptions.countries}
           type="countries"
           expanded={expandedSections.countries}
         />
+        
         <FilterGroup
           title="Cities"
           items={filterOptions.cities}
           type="cities"
           expanded={expandedSections.cities}
         />
+        
         <FilterGroup
           title="Services"
           items={filterOptions.services}
@@ -132,13 +171,13 @@ const FilterSection = ({ filters, setFilters }) => {
           expanded={expandedSections.services}
         />
 
-        {/* Price Range */}
+        {/* ====== PRICE RANGE SECTION ====== */}
         <div className="mb-6">
           <button
             onClick={() => toggleSection('price')}
-            className="flex items-center justify-between w-full text-left font-medium text-gray-800 mb-3"
+            className="flex items-center justify-between w-full text-left font-medium text-gray-800 mb-3 hover:text-gray-600 transition-colors"
           >
-            Price
+            Price Range
             {expandedSections.price ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </button>
           {expandedSections.price && (
@@ -178,9 +217,69 @@ const FilterSection = ({ filters, setFilters }) => {
           )}
         </div>
 
-        <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-medium transition-colors">
+        {/* ====== SEARCH BUTTON ====== */}
+        <button 
+          className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-medium transition-colors shadow-sm"
+          onClick={() => {
+            // TODO: Implement search functionality if needed
+            // For now, filtering happens automatically via useEffect
+            console.log('Search with filters:', filters);
+          }}
+        >
           Search
         </button>
+
+                {/* ====== ACTIVE FILTERS DISPLAY ====== */}
+                <div className="mt-6">
+          <h3 className="text-sm font-semibold text-gray-700 mb-2">Selected Filters:</h3>
+          <div className="flex flex-wrap gap-2">
+            {filters.countries.map((country) => (
+              <div
+                key={`country-${country}`}
+                className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+              >
+                {country}
+                <button
+                  onClick={() => handleFilterChange('countries', country)}
+                  className="text-xs hover:text-red-600"
+                  title="Remove"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+            {filters.cities.map((city) => (
+              <div
+                key={`city-${city}`}
+                className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+              >
+                {city}
+                <button
+                  onClick={() => handleFilterChange('cities', city)}
+                  className="text-xs hover:text-red-600"
+                  title="Remove"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+            {filters.services.map((service) => (
+              <div
+                key={`service-${service}`}
+                className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+              >
+                {service}
+                <button
+                  onClick={() => handleFilterChange('services', service)}
+                  className="text-xs hover:text-red-600"
+                  title="Remove"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

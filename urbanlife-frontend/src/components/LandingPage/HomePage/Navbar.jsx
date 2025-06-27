@@ -47,9 +47,11 @@ const Navbar = () => {
           <div className="relative">
             <span
               onClick={() => toggleDropdown("place")}
-              className="flex items-center text-gray-500 font-medium hover:text-teal-500 cursor-pointer underline-from-left relative"
+              className="flex items-center text-gray-500 font-medium hover:text-teal-500 cursor-pointer group relative"
             >
               Place to see
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
+              <span className="absolute bottom-0 right-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
               <svg
                 className={`stroke-gray-500 ml-1 transition-transform duration-200 ${
                   isDropdownOpen === "place" ? "rotate-180" : ""
@@ -74,9 +76,11 @@ const Navbar = () => {
           <div className="relative">
             <span
               onClick={() => toggleDropdown("services")}
-              className="flex items-center text-gray-500 font-medium hover:text-teal-500 cursor-pointer underline-from-left relative"
+              className="flex items-center text-gray-500 font-medium hover:text-teal-500 cursor-pointer group relative"
             >
               Services
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
+              <span className="absolute bottom-0 right-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
               <svg
                 className={`stroke-gray-500 ml-1 transition-transform duration-200 ${
                   isDropdownOpen === "services" ? "rotate-180" : ""
@@ -100,9 +104,11 @@ const Navbar = () => {
 
           <Link
             to="/transportation"
-            className="text-gray-500 font-medium hover:text-teal-500 underline-from-left relative"
+            className="text-gray-500 font-medium hover:text-teal-500 group relative"
           >
             News
+            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
+            <span className="absolute bottom-0 right-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
           </Link>
           <Link
             to="/contact"
@@ -198,25 +204,19 @@ const Navbar = () => {
           <div className="container mx-auto px-8 py-6">
             <div className="grid grid-cols-2 gap-8">
               <div>
-                <h4 className="font-semibold mb-3 text-lg">Indonesia</h4>
+                <h4 className="font-semibold mb-3 text-lg">Asia</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/indonesia/bali" className="block py-1 hover:text-gray-200 transition-colors">Bali Tours</Link></li>
-                  <li><Link to="/indonesia/yogyakarta" className="block py-1 hover:text-gray-200 transition-colors">Yogyakarta Tours</Link></li>
-                  <li><Link to="/indonesia/jakarta" className="block py-1 hover:text-gray-200 transition-colors">Jakarta Tours</Link></li>
-                  <li><Link to="/indonesia/lombok" className="block py-1 hover:text-gray-200 transition-colors">Lombok Tours</Link></li>
-                  <li><Link to="/indonesia/bandung" className="block py-1 hover:text-gray-200 transition-colors">Bandung Tours</Link></li>
-                  <li><Link to="/indonesia/borobudur" className="block py-1 hover:text-gray-200 transition-colors">Borobudur Temple Tours</Link></li>
+                  <li><Link to="/indonesia" className="block py-1 hover:text-gray-200 transition-colors">Indonesia</Link></li>
+                  <li><Link to="/vietnam" className="block py-1 hover:text-gray-200 transition-colors">Vietnam</Link></li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold mb-3 text-lg">Vietnam</h4>
+                <h4 className="font-semibold mb-3 text-lg">Top Attractions</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/vietnam/ho-chi-minh" className="block py-1 hover:text-gray-200 transition-colors">Ho Chi Minh City Tours</Link></li>
+                  <li><Link to="/indonesia/bali" className="block py-1 hover:text-gray-200 transition-colors">Bali Tours</Link></li>
                   <li><Link to="/vietnam/hanoi" className="block py-1 hover:text-gray-200 transition-colors">Hanoi Tours</Link></li>
-                  <li><Link to="/vietnam/halong-bay" className="block py-1 hover:text-gray-200 transition-colors">Halong Bay Tours</Link></li>
-                  <li><Link to="/vietnam/hoi-an" className="block py-1 hover:text-gray-200 transition-colors">Hoi An Tours</Link></li>
-                  <li><Link to="/vietnam/da-nang" className="block py-1 hover:text-gray-200 transition-colors">Da Nang Tours</Link></li>
-                  <li><Link to="/vietnam/sapa" className="block py-1 hover:text-gray-200 transition-colors">Sapa Tours</Link></li>
+                  <li><Link to="/indonesia/yogyakarta" className="block py-1 hover:text-gray-200 transition-colors">Yogyakarta Tours</Link></li>
+                  <li><Link to="/vietnam/ho-chi-minh" className="block py-1 hover:text-gray-200 transition-colors">Ho Chi Minh City Tours</Link></li>
                 </ul>
               </div>
             </div>
@@ -233,30 +233,21 @@ const Navbar = () => {
           <div className="container mx-auto px-8 py-6">
             <div className="grid grid-cols-3 gap-8">
               <div>
-                <h4 className="font-semibold mb-3 text-lg">Day Tours</h4>
+                <h4 className="font-semibold mb-3 text-lg">Day tour</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/day-tours/city-tour" className="block py-1 hover:text-gray-200 transition-colors">City Tour</Link></li>
-                  <li><Link to="/day-tours/cultural-tour" className="block py-1 hover:text-gray-200 transition-colors">Cultural Tour</Link></li>
-                  <li><Link to="/day-tours/nature-tour" className="block py-1 hover:text-gray-200 transition-colors">Nature Tour</Link></li>
-                  <li><Link to="/day-tours/adventure-tour" className="block py-1 hover:text-gray-200 transition-colors">Adventure Tour</Link></li>
+                  <li><Link to="/day-tours" className="block py-1 hover:text-gray-200 transition-colors">Day tour</Link></li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold mb-3 text-lg">Rent Car</h4>
+                <h4 className="font-semibold mb-3 text-lg">Rent car</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/rent-car/economy" className="block py-1 hover:text-gray-200 transition-colors">Economy Car</Link></li>
-                  <li><Link to="/rent-car/suv" className="block py-1 hover:text-gray-200 transition-colors">SUV</Link></li>
-                  <li><Link to="/rent-car/luxury" className="block py-1 hover:text-gray-200 transition-colors">Luxury Car</Link></li>
-                  <li><Link to="/rent-car/minivan" className="block py-1 hover:text-gray-200 transition-colors">Minivan</Link></li>
+                  <li><Link to="/rent-car" className="block py-1 hover:text-gray-200 transition-colors">Rent car</Link></li>
                 </ul>
               </div>
               <div>
                 <h4 className="font-semibold mb-3 text-lg">Accommodation</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/accommodation/hotel" className="block py-1 hover:text-gray-200 transition-colors">Hotel Booking</Link></li>
-                  <li><Link to="/accommodation/resort" className="block py-1 hover:text-gray-200 transition-colors">Resort Booking</Link></li>
-                  <li><Link to="/accommodation/villa" className="block py-1 hover:text-gray-200 transition-colors">Villa Rental</Link></li>
-                  <li><Link to="/accommodation/apartment" className="block py-1 hover:text-gray-200 transition-colors">Apartment</Link></li>
+                  <li><Link to="/accommodation" className="block py-1 hover:text-gray-200 transition-colors">Accommodation</Link></li>
                 </ul>
               </div>
             </div>

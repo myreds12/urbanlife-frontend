@@ -10,7 +10,7 @@ const HeroSection = () => {
     >
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-6 md:gap-1 py-10 md:py-20">
         <div className="hidden md:block" style={{ maxWidth: "650px" }}>
-          <p className="playfair text-7xl/23 font-bold text-left text-white">
+          <p className="playfair text-7xl/25 font-bold text-left text-white py-5">
             Discover the beauty places around the world
           </p>
         </div>

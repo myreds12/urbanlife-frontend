@@ -5,68 +5,77 @@ const CardForm = () => {
   const [toDate, setToDate] = useState("");
 
   return (
-    <div className="max-w-md w-full mx-auto bg-white rounded-xl shadow-md p-4 space-y-3">
+    <div className="max-w-md w-full mx-auto space-y-1">
+
       {/* Select Country */}
-      <select
-        className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm"
-        defaultValue=""
-      >
-        <option value="" disabled>
-          Select country
-        </option>
-        {/* Tambahkan opsional country */}
-      </select>
+      <div className="bg-white rounded-xl shadow-md p-2">
+        <select
+          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm"
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Select country
+          </option>
+          {/* Tambahkan opsi country */}
+        </select>
+      </div>
 
       {/* Select City */}
-      <select
-        className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm"
-        defaultValue=""
-      >
-        <option value="" disabled>
-          Select city
-        </option>
-        {/* Tambahkan opsional city */}
-      </select>
+      <div className="bg-white rounded-xl shadow-md p-2">
+        <select
+          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm"
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Select city
+          </option>
+          {/* Tambahkan opsi city */}
+        </select>
+      </div>
 
-      {/* Services + Date group */}
-      <div className="bg-gray-100 rounded-md p-3 space-y-3">
+      {/* Services + Date Range */}
+      <div className="bg-white rounded-xl shadow-md p-4 space-y-3">
         {/* Select Services */}
         <select
-          className="w-full p-2 bg-white border-0 rounded-md text-gray-500 text-sm"
+          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm"
           defaultValue=""
         >
           <option value="" disabled>
             Select services
           </option>
-          {/* Tambahkan opsional services */}
+          {/* Tambahkan opsi layanan */}
         </select>
 
-        {/* Date fields */}
+        {/* Date range */}
         <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
           {/* From */}
           <div className="w-full">
             <label className="block text-xs font-medium text-gray-500 mb-1">
               From
             </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={fromDate}
-                readOnly
-                onClick={() =>
-                  document.getElementById("fromDateInput")?.showPicker()
-                }
-                placeholder="Select date"
-                className="w-full p-2 bg-white border-0 rounded-md text-gray-600 text-sm cursor-pointer"
-              />
+            <div className="relative cursor-pointer">
               <input
                 type="date"
                 id="fromDateInput"
-                className="absolute inset-0 opacity-0 cursor-pointer"
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
+                className="absolute inset-0 opacity-0 cursor-pointer z-10"
               />
-              <i className="fa-solid fa-calendar-alt absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+              <div
+                className="w-full p-2 bg-gray-100 rounded-md text-gray-700 text-sm flex items-center gap-2"
+                onClick={() =>
+                  document.getElementById("fromDateInput")?.showPicker()
+                }
+              >
+                <i className="fa-solid fa-calendar-alt text-gray-400 text-sm" />
+                {fromDate
+                  ? new Date(fromDate).toLocaleDateString("id-ID", {
+                      weekday: "short",
+                      day: "numeric",
+                      month: "short",
+                    })
+                  : "Select date"}
+              </div>
             </div>
           </div>
 
@@ -75,34 +84,36 @@ const CardForm = () => {
             <label className="block text-xs font-medium text-gray-500 mb-1">
               To
             </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={toDate}
-                readOnly
-                onClick={() =>
-                  document.getElementById("toDateInput")?.showPicker()
-                }
-                placeholder="Select date"
-                className="w-full p-2 bg-white border-0 rounded-md text-gray-600 text-sm cursor-pointer"
-              />
+            <div className="relative cursor-pointer">
               <input
                 type="date"
                 id="toDateInput"
-                className="absolute inset-0 opacity-0 cursor-pointer"
                 value={toDate}
                 onChange={(e) => setToDate(e.target.value)}
+                className="absolute inset-0 opacity-0 cursor-pointer z-10"
               />
-              <i className="fa-solid fa-calendar-alt absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+              <div
+                className="w-full p-2 bg-gray-100 rounded-md text-gray-700 text-sm flex items-center gap-2"
+                onClick={() =>
+                  document.getElementById("toDateInput")?.showPicker()
+                }
+              >
+                <i className="fa-solid fa-calendar-alt text-gray-400 text-sm" />
+                {toDate
+                  ? new Date(toDate).toLocaleDateString("id-ID", {
+                      weekday: "short",
+                      day: "numeric",
+                      month: "short",
+                    })
+                  : "Select date"}
+              </div>
             </div>
           </div>
         </div>
+            <button className="w-full bg-teal-500 text-white p-2 rounded-md text-sm font-medium hover:bg-teal-600 transition">
+            Search
+            </button>
       </div>
-
-      {/* Search Button */}
-      <button className="w-full bg-teal-500 text-white p-2 rounded-md text-sm font-medium hover:bg-teal-600 transition">
-        Search
-      </button>
     </div>
   );
 };

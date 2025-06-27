@@ -6,7 +6,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   background: #fff;
-  background-size: 50px;
   display: inline-block;
   margin: 0 10px;
   transition: transform 0.3s ease;
@@ -18,14 +17,14 @@
 
 .card-image {
   position: relative;
-  width: 90%; 
-  height: 70%; 
+  width: 90%;
+  height: 70%;
   margin: 0 auto;
   margin-top: 15px;
   border-radius: 10px;
   overflow: hidden;
-  background: #fff; 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .card-image img {
@@ -82,7 +81,7 @@
   font-weight: 500;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Distribute space between elements */
+  justify-content: space-between;
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.3s ease;

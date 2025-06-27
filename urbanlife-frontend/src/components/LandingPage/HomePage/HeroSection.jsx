@@ -1,5 +1,6 @@
 import "../../../styles/LandingPage/HomePage/HeroSection.css";
 import CardForm from "./CardForm";
+import DestinationCard from "./DestinationCard";
 
 const HeroSection = () => {
   return (
@@ -16,6 +17,45 @@ const HeroSection = () => {
         <div className="w-full md:w-auto">
           <CardForm />
         </div>
+      </div>
+      <div
+        className="destination-grid mb-15"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "24px",
+          flexWrap: "wrap",
+          padding: "0 20px",
+        }}
+      >
+        <DestinationCard
+          country="Indonesia"
+          title="Eastern Bali Tour"
+          destinations="4 Destination"
+          price="1,200,000"
+          image="/images/EasternBaliTour.png"
+        />
+        <DestinationCard
+          country="Vietnam"
+          title="Danang"
+          destinations="4 Destination"
+          price="1,200,000"
+          image="/images/Danang.png"
+        />
+        <DestinationCard
+          country="Indonesia"
+          title="Jakarta"
+          destinations="4 Destination"
+          price="1,200,000"
+          image="/images/Jakarta.png"
+        />
+        <DestinationCard
+          country="Vietnam"
+          title="Ho Chi Minh City"
+          destinations="4 Destination"
+          price="1,200,000"
+          image="/images/HoChiMinhCity.png"
+        />
       </div>
     </div>
   );

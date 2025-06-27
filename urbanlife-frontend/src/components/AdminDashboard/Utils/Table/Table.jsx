@@ -52,7 +52,7 @@ const Table = ({
               {/* Checkbox column untuk select all */}
               {onRowSelect && (
                 <th style={{
-                  padding: "12px 24px",
+                  padding: "10px 24px",
                   fontWeight: "500",
                   color: "#6b7280",
                   textAlign: "left",
@@ -81,11 +81,11 @@ const Table = ({
                 <th
                   key={index}
                   style={{
-                    padding: "12px 24px",
-                    fontWeight: "500",
+                    padding: "10px 24px",
+                    fontWeight: "700",
                     color: "#6b7280",
                     textAlign: "left",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
                     cursor: defaultMapping[column] && typeof defaultMapping[column] === 'string' && onSort ? 'pointer' : 'default'
@@ -133,7 +133,7 @@ const Table = ({
                 
                 {columns.map((column) =>
                   column === 'Action' ? (
-                    <td key={column} style={{ padding: "10px 24px" }}>
+                    <td key={column} style={{ padding: "5px 24px" }}>
                       <Button variant="outline" size="sm">
                         Detail
                       </Button>
@@ -142,9 +142,9 @@ const Table = ({
                     <td
                       key={column}
                       style={{
-                        padding: "10px 24px",
+                        padding: "5px 24px",
                         color: "#6b7280",
-                        fontSize: "14px"
+                        fontSize: "12px"
                       }}
                     >
                       {typeof defaultMapping[column] === 'function'

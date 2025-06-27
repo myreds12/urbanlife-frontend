@@ -62,16 +62,15 @@ function DayTour() {
           <div className="text-sm text-gray-500 mb-6 flex space-x-5">
             {['description', 'image', 'itinerary', 'price'].map((section) => (
               <span
-                key={section}
-                className={`cursor-pointer relative ${
-                  activeSection === section ? 'text-cyan-600' : 'text-gray-500'
-                } hover:text-cyan-700 group`}
-                onClick={() => moveSection(section)}
-              >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
-                <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-cyan-600 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
-                <span className="absolute bottom-0 right-1/2 w-0 h-0.5 bg-cyan-600 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
-              </span>
+              key={section}
+              className={`cursor-pointer relative ${
+                activeSection === section ? 'text-cyan-600' : 'text-gray-500'
+              } hover:text-cyan-700 group`}
+              onClick={() => moveSection(section)}
+            >
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-600 group-hover:w-full transition-all duration-200"></span>
+            </span>
             ))}
           </div>
 

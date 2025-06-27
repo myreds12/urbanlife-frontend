@@ -1,17 +1,39 @@
 import React from 'react';
 import Button from '../Ui/button/Button';
 
-const Table = ({ 
-  data, 
-  columns, 
-  selectedRows = [], 
-  onRowSelect, 
-  onSort, 
+// Komponen SVG Icon Sort
+const SortIcon = ({ direction }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 320 512"
+      width="12"
+      height="12"
+      style={{
+        marginLeft: '6px',
+        transform: direction === 'desc' ? 'rotate(180deg)' : 'none',
+        transition: 'transform 0.2s'
+      }}
+    >
+      <path
+        fill="#6b7280"
+        d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8L32 224c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8l256 0c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"
+      />
+    </svg>
+  );
+};
+
+const Table = ({
+  data,
+  columns,
+  selectedRows = [],
+  onRowSelect,
+  onSort,
   sortConfig,
-  startIndex = 0 // tambah prop ini
+  startIndex = 0
 }) => {
   const defaultMapping = {
-    '#': (row, index) => startIndex + index + 1, // update logic ini
+    '#': (row, index) => startIndex + index + 1,
     'Booking ID': 'id',
     'Location': 'location',
     'Type of services': 'type',
@@ -34,8 +56,10 @@ const Table = ({
 
   const getSortIcon = (column) => {
     const mappedKey = defaultMapping[column];
-    if (!sortConfig || sortConfig.key !== mappedKey) return ' ↕️';
-    return sortConfig.direction === 'asc' ? ' ↑' : ' ↓';
+    if (!sortConfig || sortConfig.key !== mappedKey) {
+      return <SortIcon direction={null} />;
+    }
+    return <SortIcon direction={sortConfig.direction} />;
   };
 
   return (
@@ -49,7 +73,6 @@ const Table = ({
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ backgroundColor: "#f9fafb" }}>
-              {/* Checkbox column untuk select all */}
               {onRowSelect && (
                 <th style={{
                   padding: "10px 24px",
@@ -76,7 +99,7 @@ const Table = ({
                   />
                 </th>
               )}
-              
+
               {columns.map((column, index) => (
                 <th
                   key={index}
@@ -92,8 +115,10 @@ const Table = ({
                   }}
                   onClick={() => handleSort(column)}
                 >
-                  {column}
-                  {defaultMapping[column] && typeof defaultMapping[column] === 'string' && onSort && getSortIcon(column)}
+                  <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    {column}
+                    {defaultMapping[column] && typeof defaultMapping[column] === 'string' && onSort && getSortIcon(column)}
+                  </span>
                 </th>
               ))}
             </tr>
@@ -120,7 +145,6 @@ const Table = ({
                   }
                 }}
               >
-                {/* Checkbox column untuk individual row */}
                 {onRowSelect && (
                   <td style={{ padding: "10px 24px" }}>
                     <input
@@ -130,7 +154,7 @@ const Table = ({
                     />
                   </td>
                 )}
-                
+
                 {columns.map((column) =>
                   column === 'Action' ? (
                     <td key={column} style={{ padding: "5px 24px" }}>

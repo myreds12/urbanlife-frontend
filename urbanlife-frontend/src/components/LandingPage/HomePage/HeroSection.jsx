@@ -7,20 +7,18 @@ const HeroSection = () => {
       className="hero-section"
       style={{ backgroundImage: `url('/images/landingpage.jpg')` }}
     >
-      {/* Tambahkan container biar sejajar dengan navbar */}
-      <div className="max-w-7xl mx-auto px-4 flex justify-between gap-10 py-20">
-        <div style={{ maxWidth: "650px" }}>
+      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-6 md:gap-10 py-10 md:py-20">
+        <div className="hidden md:block" style={{ maxWidth: "650px" }}>
           <p className="playfair text-7xl/23 font-bold text-left text-white">
             Discover the beauty places around the world
           </p>
         </div>
-        <div>
+        <div className="w-full md:w-auto">
           <CardForm />
         </div>
       </div>
     </div>
   );
 };
-
 
 export default HeroSection;

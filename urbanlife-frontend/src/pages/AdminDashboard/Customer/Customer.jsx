@@ -8,7 +8,7 @@ const Customer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const customerData = [
+  const [customerData, setCustomerData] = useState([
     { id: 'C001', customer_name: 'Lindsey Curtis', nationality: 'Indonesia', email: 'lindsey.curtis@gmail.com', phone_number: '6281887766', gender: 'Female', date_of_birth: '12-02-1988' },
     { id: 'C002', customer_name: 'Baginda Raja', nationality: 'Malaysia', email: 'sangraja@gmail.com', phone_number: '098765432123', gender: 'Lelaki Jantan', date_of_birth: '17-07-1945' },
     { id: 'C003', customer_name: 'John Doe', nationality: 'Singapore', email: 'john.doe@gmail.com', phone_number: '6581234567', gender: 'Male', date_of_birth: '15-03-1990' },
@@ -23,8 +23,7 @@ const Customer = () => {
     { id: 'C0012', customer_name: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phone_number: '6587654321', gender: 'Female', date_of_birth: '03-05-1987' },
     { id: 'C0013', customer_name: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phone_number: '6289876543', gender: 'Male', date_of_birth: '14-12-1989' },
     { id: 'C0014', customer_name: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phone_number: '61423456789', gender: 'Female', date_of_birth: '25-01-1991' },
-
-  ];
+  ]);
 
   const columns = ['Customer name', 'Nationality', 'Email', 'Phone number', 'Gender', 'Date of birth', 'Action'];
 
@@ -47,6 +46,32 @@ const Customer = () => {
     );
   };
 
+  // Handle edit customer
+  const handleEdit = (row) => {
+    console.log('Edit customer:', row);
+    // TODO: Implement edit logic
+    // Misalnya buka modal atau navigate ke edit page
+    alert(`Edit customer: ${row.customer_name}`);
+  };
+
+  // Handle delete customer
+  const handleDelete = (row) => {
+    console.log('Delete customer:', row);
+    // TODO: Implement delete confirmation
+    const confirmed = window.confirm(`Are you sure you want to delete ${row.customer_name}?`);
+    
+    if (confirmed) {
+      // Remove from customerData
+      setCustomerData(prev => prev.filter(customer => customer.id !== row.id));
+      
+      // Remove from selected rows if selected
+      setSelectedRows(prev => prev.filter(id => id !== row.id));
+      
+      // Show success message
+      alert(`Customer ${row.customer_name} has been deleted.`);
+    }
+  };
+
   // Sorted data
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return customerData;
@@ -61,7 +86,7 @@ const Customer = () => {
     });
   }, [customerData, sortConfig]);
 
-  // Calculate pagination - INI YANG DIPERBAIKI
+  // Calculate pagination
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = sortedData.slice(startIndex, startIndex + itemsPerPage);
@@ -82,7 +107,7 @@ const Customer = () => {
         )}
       </div>
       
-      {/* GUNAKAN currentData BUKAN sortedData */}
+      {/* Table with edit and delete handlers */}
       <Table 
         data={currentData} 
         columns={columns}
@@ -90,6 +115,9 @@ const Customer = () => {
         onRowSelect={handleRowSelect}
         onSort={handleSort}
         sortConfig={sortConfig}
+        startIndex={startIndex}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
       />
 
       {/* Data info dan Pagination */}

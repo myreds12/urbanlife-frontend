@@ -6,28 +6,28 @@ const PartnerSection = () => {
       id: 1,
       title: "Ubud Art Market",
       description: "Open daily from 8 am - 6 pm, Ubud Art Market is a traditional market that sells Balinese handicrafts and souvenirs...",
-      image: "/images/ubud-art-market.jpg", // blm disesuaiin, masi brantakan difoldernyh
+      image: "/images/LandingPage/Partner/UbudArtMarket.png", 
       buttonText: "Read more"
     },
     {
       id: 2,
       title: "Ubud Monkey Forest",
       description: "Ubud Monkey Forest is a nature reserve and temple complex in Ubud area.",
-      image: "/images/ubud-monkey-forest.jpg", // blm disesuaiin, masi brantakan difoldernyh
+      image: "/images/LandingPage/Partner/UbudMonkeyForest.png",
       buttonText: "Read more"
     },
     {
       id: 3,
       title: "Ubud Art Market",
       description: "Open daily from 8 am - 6 pm, Ubud Art Market is a traditional market that sells Balinese handicrafts and souvenirs...",
-      image: "/images/ubud-art-market-2.jpg",// blm disesuaiin, masi brantakan difoldernyh
+      image: "/images/LandingPage/Partner/UbudArtMarket.png",
       buttonText: "Read more"
     },
     {
       id: 4,
       title: "Ubud Monkey Forest",
       description: "Ubud Monkey Forest is a nature reserve and temple complex in Ubud area.",
-      image: "/images/ubud-monkey-forest-2.jpg", // blm disesuaiin, masi brantakan difoldernyh
+      image: "/images/LandingPage/Partner/UbudMonkeyForest.png",
       buttonText: "Read more"
     }
   ];
@@ -43,11 +43,11 @@ const PartnerSection = () => {
         </div>
 
         {/* Partners Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {partners.map((partner) => (
-            <div key={partner.id} className="flex bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div key={partner.id} className="flex bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
               {/* Image Section */}
-              <div className="w-48 h-32 flex-shrink-0">
+              <div className="w-40 h-full flex-shrink-0 flex items-center justify-center bg-gray-50">
                 <img
                   src={partner.image}
                   alt={partner.title}
@@ -56,19 +56,19 @@ const PartnerSection = () => {
               </div>
 
               {/* Content Section */}
-              <div className="flex-1 p-6 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-[#071C4D] font-bold text-lg mb-3">
+              <div className="flex-1 p-5 flex flex-col justify-between min-h-0">
+                <div className="flex-1">
+                  <h3 className="text-[#071C4D] font-bold text-lg mb-2 line-clamp-1">
                     {partner.title}
                   </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                  <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mb-4">
                     {partner.description}
                   </p>
                 </div>
 
                 {/* Button */}
-                <div>
-                  <button className="bg-[#00B4DB] hover:bg-[#0099CC] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-300">
+                <div className="">
+                  <button className="bg-[#00B4DB] hover:bg-[#0099CC] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
                     {partner.buttonText}
                   </button>
                 </div>

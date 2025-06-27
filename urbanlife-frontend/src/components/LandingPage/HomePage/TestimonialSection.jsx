@@ -7,7 +7,7 @@ const TestimonialSection = () => {
       name: "Angga",
       role: "Doctor",
       location: "Jakarta",
-      image: "/images/angga.jpg", // blm disesuaiin, masi brantakan difoldernyh
+      image: "/images/LandingPage/Testimonials/People.png", // blm disesuaiin, masi brantakan difoldernyh
       review: "Really satisfied with the service, the driver was so supportive and helpful and the car was also nice, very good.",
       tour: "Eastern Bali Tour"
     },
@@ -16,7 +16,7 @@ const TestimonialSection = () => {
       name: "Lily",
       role: "Doctor",
       location: "Jakarta",
-      image: "/images/lily.jpg", // blm disesuaiin, masi brantakan difoldernyh
+      image: "/images/LandingPage/Testimonials/People.png", // blm disesuaiin, masi brantakan difoldernyh
       review: "Really satisfied with the service, the driver was so supportive and helpful and the car was also nice, very good.",
       tour: "Eastern Bali Tour"
     },
@@ -25,7 +25,7 @@ const TestimonialSection = () => {
       name: "Melati",
       role: "Dentist",
       location: "Jakarta",
-      image: "/images/melati.jpg", // blm disesuaiin, masi brantakan difoldernyh
+      image: "/images/LandingPage/Testimonials/People.png", // blm disesuaiin, masi brantakan difoldernyh
       review: "urbanlife made my life easier, the hotel was wonderful, the car was clean and the driver was so nice and helpful. I will definitely recommend urbanlife to my friends and family.",
       tour: "Western Nusa Penida Tour"
     }

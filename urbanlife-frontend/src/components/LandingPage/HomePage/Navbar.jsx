@@ -38,7 +38,7 @@ const Navbar = () => {
         {/* Logo Section */}
         <div className="flex items-center">
           <div className="rounded-lg flex items-center ml-5">
-            <img src="/public/logo.png" alt="Urbanlife Logo" className="w-23" />
+            <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="w-23" />
           </div>
         </div>
 

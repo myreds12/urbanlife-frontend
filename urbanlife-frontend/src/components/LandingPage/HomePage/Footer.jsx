@@ -63,7 +63,7 @@ const Footer = () => {
           <div>
             <div className="mb-8">
               <div className="bg-white text-slate-900 px-5 py-2 rounded inline-block mb-4">
-                <img src="/logo.png" alt="Urbanlife Logo" className="h-10" />
+                <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="h-10" />
               </div>
               <div className="space-y-2">
                 <p className="text-gray-300">Jakarta Selatan</p>
@@ -97,7 +97,7 @@ const Footer = () => {
 
             <h3 className="text-lg font-semibold mb-2">Payment Partner</h3>
             <div className="bg-white text-slate-900 px-6 py-2 rounded inline-block mb-4 mt-1">
-              <img src="/partner.png" alt="Payment Partner" className="h-10" />
+              <img src="/images/All/Xendit.png" alt="Payment Partner" className="h-10" />
             </div>
           </div>
         </div>

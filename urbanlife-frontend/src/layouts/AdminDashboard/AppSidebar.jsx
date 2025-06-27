@@ -61,7 +61,7 @@ const AppSidebar = () => {
   return (
     <aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 p-4 overflow-y-auto">
       <div className="mb-6">
-      <img src="/public/logo.png" alt="Urbanlife Logo" className="h-12" />
+      <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="h-12" />
       </div>
       <nav>
         <div className="mb-4">

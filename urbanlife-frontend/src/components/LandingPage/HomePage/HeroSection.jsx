@@ -6,7 +6,7 @@ const HeroSection = () => {
   return (
     <div
       className="hero-section"
-      style={{ backgroundImage: `url('/images/LandingPage/HeroSection/landingpage.jpg')` }}
+      style={{ backgroundImage: `url('/images/LandingPage/HeroSection/landingpage.png')` }}
     >
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-6 md:gap-1 py-10 md:py-20">
         <div className="hidden md:block" style={{ maxWidth: "650px" }}>

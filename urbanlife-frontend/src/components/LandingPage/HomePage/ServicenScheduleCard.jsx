@@ -1,6 +1,7 @@
 import React from "react";
+import { Clock } from "lucide-react";
 
-const ServicenScheduleCard = () => {
+const ServiceScheduleCard = () => {
   const schedule = [
     { day: "MONDAY", time: "08.00 - 17.00" },
     { day: "TUESDAY", time: "08.00 - 17.00" },
@@ -12,9 +13,9 @@ const ServicenScheduleCard = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 p-6 bg-white">
+    <div className="flex flex-col lg:flex-row gap-2 p-6 bg-white">
       {/* Card Kiri - Service Info */}
-      <div className="flex-1 bg-[#f8f9fb] p-8 rounded-2xl shadow-sm">
+      <div className="flex-1  p-8 rounded-2xl">
         <h2 className="playfair text-3xl font-bold text-[#071C4D] mb-4 leading-tight">
           Order Now and Try Our Services!
         </h2>
@@ -27,12 +28,12 @@ const ServicenScheduleCard = () => {
       </div>
 
       {/* Card Kanan - Schedule */}
-      <div className="w-full lg:w-[320px] bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+      <div className="w-full lg:w-[320px]  rounded-2xl p-6">
         <div className="space-y-3 mb-6">
           {schedule.map(({ day, time, highlight }) => (
             <div key={day} className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#071C4D] rounded-full"></div>
+                <Clock className="w-4 h-4 text-[#071C4D]" />
                 <span className="text-[#071C4D] font-semibold text-sm uppercase">
                   {day}
                 </span>
@@ -54,4 +55,4 @@ const ServicenScheduleCard = () => {
   );
 };
 
-export default ServicenScheduleCard;
+export default ServiceScheduleCard;

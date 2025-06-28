@@ -1,6 +1,6 @@
 .destination-card {
   width: 240px;
-  height: 320px;
+  height: 300px;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -18,7 +18,7 @@
 .card-image {
   position: relative;
   width: 90%;
-  height: 70%;
+  height: 65%;
   margin: 0 auto;
   margin-top: 15px;
   border-radius: 10px;
@@ -49,26 +49,38 @@
 
 .heart-icon {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 25px;
-  height: 25px;
-  background: rgba(255, 255, 255, 0.7);
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: none;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
 }
 
-.heart-icon::after {
-  content: "♥";
-  color: #ff0000;
-  font-size: 14px;
+.heart-icon:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.heart-icon.liked {
+  background: rgba(255, 71, 87, 0.2);
+}
+
+.heart-icon svg {
+  transition: all 0.3s ease;
 }
 
 .book-btn {
   position: absolute;
-  top: 89%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgb(205, 203, 203);

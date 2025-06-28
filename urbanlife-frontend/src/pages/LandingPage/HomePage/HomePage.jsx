@@ -1,6 +1,7 @@
 import Navbar from "../../../components/LandingPage/HomePage/Navbar";
 import Footer from "../../../components/LandingPage/HomePage/Footer";
 import HeroSection from "../../../components/LandingPage/HomePage/HeroSection";
+import DestinationCard from "../../../components/LandingPage/HomePage/DestinationCard";
 import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import ServicenScheduleCard from "../../../components/LandingPage/HomePage/ServicenScheduleCard";
@@ -12,8 +13,56 @@ const LandingPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="hero-container mb-50">
+      
+      <div className="hero-container" style={{ position: "relative", marginBottom: "220px" }}>
         <HeroSection />
+        
+        <div
+          className="destination-grid-floating"
+          style={{
+            position: "absolute",
+            bottom: "-200px", // Adjust this value to control how much overlaps
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            justifyContent: "center",
+            gap: "24px",
+            flexWrap: "wrap",
+            padding: "0 20px",
+            zIndex: 10, // Ensure cards are above hero content
+            width: "100%",
+            maxWidth: "1200px" // Limit max width for better control
+          }}
+        >
+          <DestinationCard
+            country="Indonesia"
+            title="Eastern Bali Tour"
+            destinations="4 Destination"
+            price="1,200,000"
+            image="/images/LandingPage/Destination/EasternBaliTour.png"
+          />
+          <DestinationCard
+            country="Vietnam"
+            title="Danang"
+            destinations="4 Destination"
+            price="1,200,000"
+            image="/images/LandingPage/Destination/Danang.png"
+          />
+          <DestinationCard
+            country="Indonesia"
+            title="Jakarta"
+            destinations="4 Destination"
+            price="1,200,000"
+            image="/images/LandingPage/Destination/Jakarta.png"
+          />
+          <DestinationCard
+            country="Vietnam"
+            title="Ho Chi Minh City"
+            destinations="4 Destination"
+            price="1,200,000"
+            image="/images/LandingPage/Destination/HoChiMinhCity.png"
+          />
+        </div>
       </div>
 
       <div className="mb-15">
@@ -116,7 +165,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-        <ServicenScheduleCard />
+      <ServicenScheduleCard />
 
       <TestimonialSection />
       <PartnerSection />

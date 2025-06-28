@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/LandingPage/HomePage/DestinationCard.css";
 
 const DestinationCard = ({ country, title, destinations, price, image }) => {
   const navigate = useNavigate();
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleBookNow = () => {
     const bookingData = {
@@ -17,12 +19,37 @@ const DestinationCard = ({ country, title, destinations, price, image }) => {
     navigate("/OrderDetail", { state: bookingData });
   };
 
+  const handleLikeToggle = () => {
+    setIsLiked(!isLiked);
+  };
+
   return (
     <div className="destination-card">
       <div className="card-image">
         <img src={image} alt={title} />
+        
+        {/* Country Label - Top Left */}
         <div className="country-label">{country}</div>
-        <div className="heart-icon"></div>
+        
+        {/* Heart/Like Button - Top Right */}
+        <button 
+          className={`heart-icon ${isLiked ? 'liked' : ''}`}
+          onClick={handleLikeToggle}
+          aria-label="Like destination"
+        >
+          <svg 
+            width="20" 
+            height="20" 
+            viewBox="0 0 24 24" 
+            fill={isLiked ? "#ff4757" : "none"} 
+            stroke={isLiked ? "#ff4757" : "#ffffff"}
+            strokeWidth="2"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+        
+        {/* Book Now Button - Bottom Right */}
         <button onClick={handleBookNow} className="book-btn">
           Book now <span className="arrow">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -33,6 +60,7 @@ const DestinationCard = ({ country, title, destinations, price, image }) => {
           </span>
         </button>
       </div>
+      
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p className="destinations">{destinations}</p>

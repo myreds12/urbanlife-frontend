@@ -56,7 +56,7 @@ const RentCar = () => {
 
   return (
     <div className="p-2">
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold text-gray-800">Rent Car</h2>
         <div className="flex items-center gap-4">
           <Button variant="primary" size="sm" onClick={() => setIsModalOpen(true)}>

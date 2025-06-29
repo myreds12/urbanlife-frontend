@@ -12,7 +12,7 @@ const DescriptionSection = ({
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex items-center">
-            <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "170px" }}>
+            <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
               Daytour package name
             </label>            
             <input

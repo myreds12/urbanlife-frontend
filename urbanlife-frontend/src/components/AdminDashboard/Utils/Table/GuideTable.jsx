@@ -14,7 +14,7 @@ const GuideTable = ({ guides }) => {
       </div>
 
       <table className="w-full text-sm text-left">
-        <thead className="text-gray-400 border-b">
+        <thead className="text-gray-400 border-b rounded-full rounded-lg">
           <tr>
             <th className="py-2">#</th>
             <th className="py-2">Guide ID</th>

@@ -21,7 +21,7 @@ const Dropzone = () => {
       <div
         {...getRootProps()}
         className={`border border-dashed rounded-xl transition p-10 cursor-pointer 
-          ${isDragActive ? "border-teal-500 bg-gray-50" : "border-gray-200 bg-white"}
+          ${isDragActive ? "border-cyan-600 bg-gray-50" : "border-gray-200 bg-white"}
         `}
       >
         <input {...getInputProps()} />
@@ -55,7 +55,7 @@ const Dropzone = () => {
           </p>
 
           {/* Browse */}
-          <span className="font-medium text-teal-500 underline text-sm">
+          <span className="font-medium text-cyan-600 underline text-sm">
             Browse File
           </span>
         </div>

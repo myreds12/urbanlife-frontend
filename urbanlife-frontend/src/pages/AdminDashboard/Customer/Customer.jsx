@@ -98,7 +98,7 @@ const Customer = () => {
 
   return (
     <div className="p-2">
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold text-gray-800">Customer</h2>
         {selectedRows.length > 0 && (
           <p className="text-sm text-gray-600">

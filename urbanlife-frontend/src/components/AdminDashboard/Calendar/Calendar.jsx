@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 
 const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 5)); // June 2025
+  const [currentDate, setCurrentDate] = useState(new Date()); // Sekarang pake tanggal saat ini (29 Juni 2025)
   const [selectedDay, setSelectedDay] = useState(null);
   const [showEventModal, setShowEventModal] = useState(false);
   const [currentView, setCurrentView] = useState('month'); // month, week, day
@@ -73,7 +73,7 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
   
   const getEventsForDay = (day, month = currentDate.getMonth(), year = currentDate.getFullYear()) => {
     if (!day) return [];
-    const dateKey = `${year}-${month + 1}-${day}`;
+    const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`; // Format konsisten
     return events[dateKey] || [];
   };
   
@@ -136,22 +136,22 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
     e.preventDefault();
     if (!selectedDay) return;
     
-    const dateKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${selectedDay}`;
+    const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
     const newEvent = {
       id: Date.now(),
       ...eventForm,
       date: dateKey,
-      dateDisplay: `${selectedDay} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
+      dateDisplay: `${String(selectedDay).padStart(2, '0')} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
     };
     
     onAddEvent(dateKey, newEvent);
     setShowEventModal(false);
     setEventForm({ title: '', type: 'accommodation', customer: '', location: '' });
     setSelectedDay(null);
-  }, [selectedDay, currentDate, eventForm, onAddEvent]);
+  }, [selectedDay, currentDate, eventForm, onAddEvent, monthNames]);
 
   const handleDeleteEvent = useCallback((day, eventId) => {
-    const dateKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${day}`;
+    const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     onDeleteEvent(dateKey, eventId);
   }, [currentDate, onDeleteEvent]);
 
@@ -161,10 +161,11 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
     return (
       <div className="grid grid-cols-7 gap-1">
         {days.map((day, index) => {
-          const hasEvents = getEventsForDay(day).length > 0;
+          const dayEvents = getEventsForDay(day);
+          const hasEvents = dayEvents.length > 0;
           const todayClass = isToday(day) ? 'bg-blue-500 text-white border-blue-500 shadow-lg' : '';
           const hoverClass = isToday(day) ? 'hover:bg-blue-600' : hasEvents ? 'hover:bg-blue-50' : 'hover:bg-gray-50';
-          
+
           return (
             <div
               key={index}
@@ -178,7 +179,7 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                   <div className={`font-medium ${isToday(day) ? 'text-white' : 'text-gray-900'}`}>
                     {day}
                   </div>
-                  {!isToday(day) && getEventIndicators(day)}
+                  {!isToday(day) && hasEvents && getEventIndicators(day)}
                   {isToday(day) && hasEvents && (
                     <div className="flex gap-1 mt-1 justify-center flex-wrap">
                       {[...new Set(getEventsForDay(day).map(event => event.type))].map((type, index) => (
@@ -590,37 +591,4 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
   );
 };
 
-// Demo component to show the calendar in action
-const CalendarDemo = () => {
-  const [events, setEvents] = useState({
-    //eventtttt
-  });
-
-  const handleAddEvent = (dateKey, newEvent) => {
-    setEvents(prev => ({
-      ...prev,
-      [dateKey]: [...(prev[dateKey] || []), newEvent]
-    }));
-  };
-
-  const handleDeleteEvent = (dateKey, eventId) => {
-    setEvents(prev => ({
-      ...prev,
-      [dateKey]: (prev[dateKey] || []).filter(event => event.id !== eventId)
-    }));
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto">
-        <Calendar 
-          events={events}
-          onAddEvent={handleAddEvent}
-          onDeleteEvent={handleDeleteEvent}
-        />
-      </div>
-    </div>
-  );
-};
-
-export default CalendarDemo;
+export default Calendar;

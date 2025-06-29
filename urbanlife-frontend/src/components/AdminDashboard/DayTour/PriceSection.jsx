@@ -20,26 +20,28 @@ const PriceSection = ({ id, isActive }) => {
     <div id={id} className={isActive ? 'block' : 'hidden'}>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold">Price</h3>
-          </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <div className="mb-4 mt-20 inline-flex">
-                <label className="block text-sm font-medium text-gray-600 mr-5 whitespace-nowrap border px-3 py-2">Start from</label>
-                <input
-                  type="text"
-                  name="startFrom"
-                  value={priceData.startFrom}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded-md"
-                />
-              </div>
+            <div className="mb-4 mt-20 inline-flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-700 border border-gray-900 px-4 py-[6px]">
+              Start from
+            </span>
+            <input
+              type="text"
+              name="startFrom"
+              value={priceData.startFrom}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md px-4 py-[6px] text-sm"
+            />
+          </div>
+
             </div>
             <div>
               <h4 className="text-sm font-medium mb-2">Indonesia</h4>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-red-500">* Description</label>
+                <div className="mt-3 text-sm mb-2">
+                  <span className="text-red-500 mr-1">*</span> Description
+                </div>
                 <textarea
                   name="indonesiaDescription"
                   value={priceData.indonesiaDescription}

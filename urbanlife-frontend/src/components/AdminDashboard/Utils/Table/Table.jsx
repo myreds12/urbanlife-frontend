@@ -197,20 +197,21 @@ const Table = ({
                   width: "50px"
                 }}>
                   <input
-                    type="checkbox"
-                    checked={selectedRows.length === data.length && data.length > 0}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        data.forEach(row => {
-                          if (!selectedRows.includes(row.id)) {
-                            onRowSelect(row.id);
-                          }
-                        });
-                      } else {
-                        selectedRows.forEach(id => onRowSelect(id));
-                      }
-                    }}
-                  />
+                  type="checkbox"
+                  checked={selectedRows.length === data.length && data.length > 0}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      data.forEach(row => {
+                        if (!selectedRows.includes(row.id)) {
+                          onRowSelect(row.id);
+                        }
+                      });
+                    } else {
+                      selectedRows.forEach(id => onRowSelect(id));
+                    }
+                  }}
+                  className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                />
                 </th>
               )}
 
@@ -265,7 +266,9 @@ const Table = ({
                       type="checkbox"
                       checked={selectedRows.includes(row.id)}
                       onChange={() => onRowSelect(row.id)}
+                      className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
                     />
+
                   </td>
                 )}
 

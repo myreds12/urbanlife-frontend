@@ -9,19 +9,27 @@ import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1"
 import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
 import PartnerSection from "../../../components/LandingPage/HomePage/PartnerSection";
 
+// Import CSS file yang terpisah
+import "../../../styles/LandingPage/HomePage/ResponsiveDestination.css";
+
 const LandingPage = () => {
   return (
     <div>
       <Navbar />
       
-      <div className="hero-container" style={{ position: "relative", marginBottom: "220px" }}>
+      {/* Hero container with responsive margin */}
+      <div className="hero-container" style={{ 
+        position: "relative", 
+        marginBottom: "220px" 
+      }}>
         <HeroSection />
         
+        {/* Responsive destination cards */}
         <div
           className="destination-grid-floating"
           style={{
             position: "absolute",
-            bottom: "-200px", // Adjust this value to control how much overlaps
+            bottom: "-200px",
             left: "50%",
             transform: "translateX(-50%)",
             display: "flex",
@@ -29,9 +37,9 @@ const LandingPage = () => {
             gap: "24px",
             flexWrap: "wrap",
             padding: "0 20px",
-            zIndex: 10, // Ensure cards are above hero content
+            zIndex: 10,
             width: "100%",
-            maxWidth: "1200px" // Limit max width for better control
+            maxWidth: "1200px"
           }}
         >
           <DestinationCard

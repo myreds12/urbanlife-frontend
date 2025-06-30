@@ -5,7 +5,7 @@ const CardForm = () => {
   const [toDate, setToDate] = useState("");
 
   return (
-    <div className="w-[200px] sm:w-[500px] mx-auto mx-auto space-y-1 p-12 pl-40 pr-2">
+    <div className="w-[95%] max-w-[700px] mx-auto space-y-1 p-15 sm:p-8 ">
 
       {/* Select Country */}
       <div className="bg-white rounded-xl shadow-md p-2">

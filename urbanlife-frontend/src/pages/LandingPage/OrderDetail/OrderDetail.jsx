@@ -44,7 +44,7 @@ const OrderDetail = () => {
       <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <Navbar />
       </div>
-      x``
+
       {/* Main Content with proper top padding */}
       <div className="pt-30 pb-8">
         <div className="max-w-6xl mx-auto px-4">

@@ -21,37 +21,66 @@ const Accommodation = () => {
     { id: 'AC0013', location: 'Surabaya', type: 'Apartment', unit: 'Business District' },
     { id: 'AC0014', location: 'Lombok', type: 'Resort', unit: 'Beach Paradise' },
     { id: 'AC0015', location: 'Malang', type: 'Villa', unit: 'Highland Retreat' },
-    { id: 'AC0016', location: 'Semarang', type: 'Hotel Stay', unit: 'City Center' },
+    { id: 'AC0016', location: 'Semarang', type: 'Hotel Stay', unit: 'City Center' }
   ]);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(false); // Tambah state loading
+
   const itemsPerPage = 5;
   const columns = ['#', 'Booking ID', 'Location', 'Type of services', 'Unit', 'Action'];
 
-  // Calculate pagination - langsung pake accommodationData
-  const totalPages = Math.ceil(accommodationData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentData = accommodationData.slice(startIndex, startIndex + itemsPerPage);
-
+  // Calculate pagination
+    const totalPages = Math.ceil(accommodationData.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentData = accommodationData.slice(startIndex, startIndex + itemsPerPage);
+  
   // Handle page change
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const handleAddUnit = (newUnit) => {
-    setAccommodationData((prev) => [
-      ...prev,
-      {
-        id: `AC${(prev.length + 1).toString().padStart(3, '0')}`,
-        location: newUnit.location,
-        type: newUnit.type,
-        unit: newUnit.unit,
-      },
-    ]);
-    // Reset to first page after adding new data
-    setCurrentPage(1);
+  const handleAddUnit = async (newUnit) => {
+    setIsLoading(true); // Mulai loading
+    try {
+      // Ganti URL ini dengan endpoint dari BE
+      const response = await fetch('http://localhost:3000/akomodasi', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          location: newUnit.location,
+          type: newUnit.type,
+          unit: newUnit.unit,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Gagal menambahkan akomodasi');
+      }
+
+      const savedUnit = await response.json(); // Ambil data dari BE
+
+      // Tambahkan ke state
+      setAccommodationData((prev) => [
+        ...prev,
+        {
+          id: savedUnit.id || `AC${(prev.length + 1).toString().padStart(3, '0')}`,
+          location: newUnit.location,
+          type: newUnit.type,
+          unit: newUnit.unit,
+        },
+      ]);
+      setCurrentPage(1);
+      setIsModalOpen(false); // Tutup modal
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Gagal menambahkan akomodasi');
+    } finally {
+      setIsLoading(false); // Selesai loading
+    }
   };
 
   return (
@@ -59,26 +88,28 @@ const Accommodation = () => {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold text-gray-800">Accommodation</h2>
         <div className="flex items-center gap-4">
-          <Button variant="primary" size="sm" onClick={() => setIsModalOpen(true)}>
-            Add Unit
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setIsModalOpen(true)}
+            disabled={isLoading} // Disable tombol saat loading
+          >
+            {isLoading ? 'Loading...' : 'Add Unit'}
           </Button>
         </div>
       </div>
 
-      <Table 
-        data={currentData} 
+      <Table
+        data={currentData}
         columns={columns}
         startIndex={startIndex}
       />
 
       {/* Data info dan Pagination */}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        {/* Data info */}
         <div className="text-sm text-gray-700">
           Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, accommodationData.length)} of {accommodationData.length} accommodations
         </div>
-        
-        {/* Pagination */}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -91,6 +122,7 @@ const Accommodation = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddUnit}
+        isLoading={isLoading} // Kirim prop loading ke modal
       />
     </div>
   );

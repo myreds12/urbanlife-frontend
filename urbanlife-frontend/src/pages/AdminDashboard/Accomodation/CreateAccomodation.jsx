@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button'; // Tambah import Button
 
-const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
+const CreateAccomodation = ({ isOpen, onClose, onSubmit, isLoading }) => {
   const [formData, setFormData] = useState({
-    id: '',
     location: '',
     type: '',
     unit: '',
@@ -16,8 +16,8 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
-    setFormData({ id: '', location: '', type: '', unit: '' });
-    onClose();
+    setFormData({ location: '', type: '', unit: '' });
+    // Jangan panggil onClose di sini, biar handleAddUnit yang handle
   };
 
   // Prevent body scroll when modal is open
@@ -27,8 +27,6 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
     } else {
       document.body.style.overflow = 'unset';
     }
-    
-    // Cleanup on unmount
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -41,11 +39,9 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
         onClose();
       }
     };
-    
     if (isOpen) {
       document.addEventListener('keydown', handleEsc, false);
     }
-    
     return () => {
       document.removeEventListener('keydown', handleEsc, false);
     };
@@ -61,15 +57,15 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 flex items-center justify-center p-4"
-      style={{ 
+      style={{
         zIndex: 10000,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)'
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
       }}
       onClick={handleBackdropClick}
     >
-      <div 
+      <div
         className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -80,15 +76,16 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors p-1"
               type="button"
+              disabled={isLoading}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
-          
+
           <form onSubmit={handleSubmit}>
-            <div className="space-y-4">              
+            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                 <input
@@ -99,9 +96,10 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
                   className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
                   placeholder="Enter location"
                   required
+                  disabled={isLoading}
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Type of Services</label>
                 <select
@@ -110,6 +108,7 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
                   required
+                  disabled={isLoading}
                 >
                   <option value="">Select Type</option>
                   <option value="Hotel Stay">Hotel Stay</option>
@@ -117,7 +116,7 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
                   <option value="Villa">Villa</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Unit</label>
                 <input
@@ -128,24 +127,26 @@ const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
                   className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
                   placeholder="Enter unit name"
                   required
+                  disabled={isLoading}
                 />
               </div>
-              
+
               <div className="flex gap-3 pt-4">
-                <button
+                <Button
                   type="button"
+                  variant="outline"
                   onClick={onClose}
-                  className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+                  disabled={isLoading}
                 >
                   Cancel
-                </button>
-
-                <button
+                </Button>
+                <Button
                   type="submit"
-                  className="flex-1 px-4 py-3 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors"
+                  variant="primary"
+                  disabled={isLoading}
                 >
-                  Add Unit
-                </button>
+                  {isLoading ? 'Adding...' : 'Add Unit'}
+                </Button>
               </div>
             </div>
           </form>

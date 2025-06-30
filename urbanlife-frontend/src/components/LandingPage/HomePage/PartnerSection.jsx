@@ -37,7 +37,7 @@ const PartnerSection = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-12">
-          <h2 className="playfair text-[#071C4D] text-[32px] font-bold ml-4">
+        <h2 className="playfair text-[#071C4D] text-[35px] font-bold text-center mx-auto mb-8">
             Our partner
           </h2>
         </div>

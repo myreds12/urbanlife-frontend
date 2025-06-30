@@ -2,7 +2,7 @@ import React from 'react';
 
 const BookingInfoCard = ({ booking }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-white p-6 rounded-lg shadow-sm ">
       <div className="flex justify-between items-start mb-6">
         <div>
           <p className="text-sm font-medium text-gray-500 mb-1">Booking date</p>
@@ -31,7 +31,7 @@ const BookingInfoCard = ({ booking }) => {
         </div>
       </div>
       
-      <div className="flex items-center text-blue-600 text-sm cursor-pointer hover:text-blue-700 transition-colors">
+      <div className="flex items-center text-cyan-600 text-sm cursor-pointer hover:text-cyan-700 transition-colors">
         <span className="font-medium">Refund, reschedule available</span>
         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

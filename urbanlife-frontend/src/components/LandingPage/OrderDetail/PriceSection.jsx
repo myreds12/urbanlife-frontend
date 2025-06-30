@@ -19,7 +19,7 @@ const PriceSection = ({
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 sticky top-4">
+    <div className="bg-white p-6 rounded-lg shadow-sm sticky top-4">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold text-gray-600">Final Amount</h3>
         <p className="text-2xl font-bold text-gray-900">{amount}</p>
@@ -31,7 +31,7 @@ const PriceSection = ({
         className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all ${
           disabled 
             ? 'bg-gray-300 cursor-not-allowed' 
-            : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800 shadow-lg hover:shadow-xl'
+            : 'bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 shadow-lg hover:shadow-xl'
         }`}
       >
         Select Payment Option

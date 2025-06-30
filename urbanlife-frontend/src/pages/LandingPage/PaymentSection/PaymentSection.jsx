@@ -4,6 +4,7 @@ import PaymentMethods from '../../../components/LandingPage/PaymentSection/Payme
 import OrderSummary from '../../../components/LandingPage/PaymentSection/OrderSummary';
 import PaymentButton from '../../../components/LandingPage/PaymentSection/PaymentButton';
 import PaymentTerms from '../../../components/LandingPage/PaymentSection/PaymentTerms';
+import Navbar from '../../../components/LandingPage/HomePage/Navbar';
 
 const PaymentSection = () => {
   const [selectedMethod, setSelectedMethod] = useState('bca_va');
@@ -60,7 +61,11 @@ const PaymentSection = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <Navbar />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 mt-23">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Payment Section */}
           <div className="lg:col-span-2 space-y-6">

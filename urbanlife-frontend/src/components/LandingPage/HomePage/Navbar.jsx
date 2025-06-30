@@ -48,7 +48,7 @@ const Navbar = () => {
       {/* Spacer to prevent content jump when navbar becomes fixed */}
       <div className={`navbar-spacer ${isScrolled ? 'navbar-spacer-active' : ''}`}></div>
       
-      <nav nav className={`navbar-container ${
+      <nav className={`navbar-container ${
         isScrolled ? 'navbar-scrolled' : 'navbar-floating'
       }`}>
         {/* Logo Section */}

@@ -74,7 +74,7 @@ const LandingPage = () => {
       </div>
 
       <div className="mb-15">
-        <h1 className="playfair text-[#071C4D] text-[25px] font-bold ml-27 mb-8">
+      <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
           {" "}
           Popular Categories{" "}
         </h1>
@@ -119,7 +119,7 @@ const LandingPage = () => {
       </div>
 
       <div className="mb-15">
-        <h1 className="playfair text-[#071C4D] text-[25px] font-bold ml-27 mb-8">
+      <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
           {" "}
           Discover All Around{" "}
         </h1>
@@ -154,7 +154,7 @@ const LandingPage = () => {
       </div>
 
       <div>
-        <h1 className="playfair text-[#071C4D] text-[25px] font-bold ml-27 mb-8">
+      <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
           {" "}
           Our Partner{" "}
         </h1>

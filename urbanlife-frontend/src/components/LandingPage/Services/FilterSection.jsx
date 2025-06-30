@@ -86,7 +86,7 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
                 type="checkbox"
                 checked={filters[type].includes(item.name)}
                 onChange={() => handleFilterChange(type, item.name)}
-                className="w-4 h-4 text-teal-600 border-gray-300 rounded"
+                className="w-4 h-4 text-cyan-600 border-gray-300 rounded"
               />
               <span className="text-sm text-gray-600 flex-1">{item.name}</span>
               <span className="text-xs text-gray-400">{item.count}</span>
@@ -107,7 +107,7 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
           </div>
           <button
             onClick={clearFilters}
-            className="text-sm text-teal-600 hover:text-teal-700 font-medium"
+            className="text-sm text-cyan-600 hover:text-cyan-700 font-medium"
           >
             Clear all
           </button>
@@ -179,7 +179,7 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
         </div>
 
         <button
-        className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-medium transition-colors"
+        className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg font-medium transition-colors"
         onClick={() => {
           if (typeof onSearch === 'function') onSearch();
         }}

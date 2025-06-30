@@ -198,7 +198,7 @@ const ServiceCard = ({ service, onOrderClick, onDetailClick }) => {
           <div className="flex gap-2">
             <button 
               onClick={handleOrderClick}
-              className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2.5 rounded-full font-medium transition-colors shadow-sm"
+              className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2.5 rounded-full font-medium transition-colors shadow-sm"
             >
               Order
             </button>

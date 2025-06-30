@@ -26,7 +26,7 @@ const LandingPage = () => {
         
         {/* Responsive destination cards */}
         <div
-          className="destination-grid-floating"
+          className="destination-grid-floating mb-10"
           style={{
             position: "absolute",
             bottom: "-200px",

@@ -176,7 +176,7 @@ const Services = () => {
               </p>
               <button
                 onClick={handleSearch}
-                className="bg-teal-600 text-white py-2 px-4 rounded-md hover:bg-teal-700"
+                className="bg-cyan-600 text-white py-2 px-4 rounded-md hover:bg-cyan-700"
               >
                 Search
               </button>
@@ -221,7 +221,7 @@ const Services = () => {
                       });
                       setFilteredServices(serviceData);
                     }}
-                    className="text-teal-600 hover:text-teal-700 font-medium px-4 py-2 rounded-md hover:bg-teal-50 transition-colors"
+                    className="text-cyan-600 hover:text-cyan-700 font-medium px-4 py-2 rounded-md hover:bg-cyan-50 transition-colors"
                   >
                     Clear filters to see all services
                   </button>

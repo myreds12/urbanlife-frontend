@@ -21,7 +21,7 @@ const PaymentButton = ({
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-white p-6 rounded-lg shadow-sm ">
       <button
         onClick={onPayment}
         disabled={disabled}
@@ -29,7 +29,7 @@ const PaymentButton = ({
           w-full py-4 px-6 rounded-lg font-semibold text-white transition-all text-lg
           ${disabled 
             ? 'bg-gray-300 cursor-not-allowed' 
-            : 'bg-teal-600 hover:bg-teal-700 active:bg-teal-800 shadow-lg hover:shadow-xl'
+            : 'bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 shadow-lg hover:shadow-xl'
           }
         `}
       >

@@ -3,7 +3,7 @@ import React from 'react';
 
 const OrderSummary = ({ order }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 sticky top-4">
+    <div className="bg-white p-6 rounded-lg shadow-sm  sticky top-4">
       <div className="space-y-4">
         {/* Order ID */}
         <div className="text-right">

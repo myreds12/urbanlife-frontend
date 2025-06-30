@@ -8,7 +8,7 @@ const PaymentTerms = () => {
         By proceeding with payment, you accept UrbanLife.id's{' '}
         <a 
           href="#" 
-          className="text-blue-600 hover:text-blue-700 underline"
+          className="text-cyan-600 hover:text-cyan-700 underline"
           onClick={(e) => e.preventDefault()}
         >
           Terms & Conditions
@@ -16,7 +16,7 @@ const PaymentTerms = () => {
         {' '}and{' '}
         <a 
           href="#" 
-          className="text-blue-600 hover:text-blue-700 underline"
+          className="text-cyan-600 hover:text-cyan-700 underline"
           onClick={(e) => e.preventDefault()}
         >
           Privacy Policy

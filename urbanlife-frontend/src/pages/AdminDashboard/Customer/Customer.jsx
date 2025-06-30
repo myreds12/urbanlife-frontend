@@ -7,7 +7,7 @@ const Customer = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 10;
 
   const [customerData, setCustomerData] = useState([
@@ -21,6 +21,10 @@ const Customer = () => {
     { id: 'C008', customer_name: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phone_number: '61423456789', gender: 'Female', date_of_birth: '25-01-1991' },
     { id: 'C009', customer_name: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phone_number: '6587654321', gender: 'Female', date_of_birth: '03-05-1987' },
     { id: 'C0010', customer_name: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phone_number: '6289876543', gender: 'Male', date_of_birth: '14-12-1989' },
+    { id: 'C0011', customer_name: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phone_number: '61423456789', gender: 'Female', date_of_birth: '25-01-1991' },
+    { id: 'C0012', customer_name: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phone_number: '6587654321', gender: 'Female', date_of_birth: '03-05-1987' },
+    { id: 'C0013', customer_name: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phone_number: '6289876543', gender: 'Male', date_of_birth: '14-12-1989' },
+    { id: 'C0014', customer_name: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phone_number: '61423456789', gender: 'Female', date_of_birth: '25-01-1991' },
   ]);
 
   const columns = ['Customer name', 'Nationality', 'Email', 'Phone number', 'Gender', 'Date of birth', 'Action'];
@@ -35,7 +39,11 @@ const Customer = () => {
   };
 
   const handleRowSelect = (rowId) => {
-    setSelectedRows(prev => prev.includes(rowId) ? prev.filter(id => id !== rowId) : [...prev, rowId]);
+    setSelectedRows(prev =>
+      prev.includes(rowId)
+        ? prev.filter(id => id !== rowId)
+        : [...prev, rowId]
+    );
   };
 
   const handleEdit = (row) => {
@@ -52,13 +60,12 @@ const Customer = () => {
   };
 
   const filteredData = useMemo(() => {
-    if (!searchQuery.trim()) return customerData;
-    return customerData.filter(cust =>
-      Object.values(cust).some(value =>
-        value.toLowerCase().includes(searchQuery.toLowerCase())
+    return customerData.filter((customer) =>
+      Object.values(customer).some(value =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
-  }, [customerData, searchQuery]);
+  }, [customerData, searchTerm]);
 
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filteredData;
@@ -80,23 +87,22 @@ const Customer = () => {
   };
 
   return (
-    <div className="p-2">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <h2 className="text-xl font-bold text-gray-800">Customer</h2>
-        <div className="flex gap-3 w-full sm:w-auto">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-md w-full sm:w-[240px]"
-          />
-          <DownloadButton data={sortedData} filename="customer-data.csv" />
-        </div>
+    <div className="p-5 space-y-4">
+      <h2 className="text-xl font-bold text-gray-800">Customer</h2>
+
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+        <input
+          type="text"
+          placeholder="Search customer..."
+          className="border border-gray-300 rounded-md px-3 py-2 text-sm w-full sm:w-[250px]"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <DownloadButton data={filteredData} filename="customers.csv" />
       </div>
 
-      <Table 
-        data={currentData} 
+      <Table
+        data={currentData}
         columns={columns}
         selectedRows={selectedRows}
         onRowSelect={handleRowSelect}

@@ -7,16 +7,28 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle scroll effect
+  // Handle scroll effect with smooth transition
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50); // Change navbar style after 50px scroll
+      setIsScrolled(scrollTop > 80);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setIsDropdownOpen(null);
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [isDropdownOpen]);
 
   function closeDropdown() {
     setIsDropdownOpen(null);
@@ -26,233 +38,215 @@ const Navbar = () => {
     setIsMobileOpen(!isMobileOpen);
   };
 
-  const toggleDropdown = (menu) => {
+  const toggleDropdown = (menu, e) => {
+    e.stopPropagation();
     setIsDropdownOpen(isDropdownOpen === menu ? null : menu);
   };
 
   return (
     <>
-      <nav className={`navbar-container ${
+      {/* Spacer to prevent content jump when navbar becomes fixed */}
+      <div className={`navbar-spacer ${isScrolled ? 'navbar-spacer-active' : ''}`}></div>
+      
+      <nav nav className={`navbar-container ${
         isScrolled ? 'navbar-scrolled' : 'navbar-floating'
       }`}>
         {/* Logo Section */}
-        <div className="flex items-center">
-          <div className="rounded-lg flex items-center ml-5">
-            <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="w-23" />
-          </div>
+        <div className="navbar-logo">
+          <Link to="/" className="logo-link">
+            <img 
+              src="/images/All/Logo.png" 
+              alt="Urbanlife Logo" 
+              className="logo-image" 
+            />
+          </Link>
         </div>
 
-        {/* Menu Section */}
-        <div className="hidden lg:flex space-x-6 items-center">
-          <div className="relative">
-            <span
-              onClick={() => toggleDropdown("place")}
-              className="flex items-center text-gray-500 font-medium hover:text-teal-500 cursor-pointer group relative"
+        {/* Desktop Menu Section */}
+        <div className="navbar-menu-desktop">
+          {/* Place to See Dropdown */}
+          <div className="navbar-dropdown">
+            <button
+              onClick={(e) => toggleDropdown("place", e)}
+              onMouseEnter={() => setIsDropdownOpen("place")}
+              className="navbar-menu-item dropdown-trigger"
             >
               Place to see
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
-              <span className="absolute bottom-0 right-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
               <svg
-                className={`stroke-gray-500 ml-1 transition-transform duration-200 ${
-                  isDropdownOpen === "place" ? "rotate-180" : ""
+                className={`dropdown-arrow ${
+                  isDropdownOpen === "place" ? "dropdown-arrow-active" : ""
                 }`}
-                width="18"
-                height="20"
-                viewBox="0 0 18 20"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
+                  d="M4 6L8 10L12 6"
                   stroke="currentColor"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
-            </span>
+            </button>
           </div>
           
-          <div className="relative">
-            <span
-              onClick={() => toggleDropdown("services")}
-              className="flex items-center text-gray-500 font-medium hover:text-teal-500 cursor-pointer group relative"
+          {/* Services Dropdown */}
+          <div className="navbar-dropdown">
+            <button
+              onClick={(e) => toggleDropdown("services", e)}
+              onMouseEnter={() => setIsDropdownOpen("services")}
+              className="navbar-menu-item dropdown-trigger"
             >
               Services
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
-              <span className="absolute bottom-0 right-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
               <svg
-                className={`stroke-gray-500 ml-1 transition-transform duration-200 ${
-                  isDropdownOpen === "services" ? "rotate-180" : ""
+                className={`dropdown-arrow ${
+                  isDropdownOpen === "services" ? "dropdown-arrow-active" : ""
                 }`}
-                width="18"
-                height="20"
-                viewBox="0 0 18 20"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
+                  d="M4 6L8 10L12 6"
                   stroke="currentColor"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
-            </span>
+            </button>
           </div>
 
-          <Link
-            to="/transportation"
-            className="text-gray-500 font-medium hover:text-teal-500 group relative"
-          >
+          {/* Regular Links */}
+          <Link to="/news" className="navbar-menu-item">
             News
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
-            <span className="absolute bottom-0 right-1/2 w-0 h-0.5 bg-teal-500 group-hover:w-1/2 transition-all duration-200 origin-center"></span>
           </Link>
-          <Link
-            to="/contact"
-            className="text-gray-500 font-medium hover:text-teal-500 flex items-center gap-2"
-          >
+          
+          <Link to="/language" className="navbar-lang-selector">
             <i className="fa-solid fa-globe"></i>
             <span>Eng</span>
           </Link>
-          <div>
-            <Link to="/contact" className="bg-teal-500 text-white px-4 py-[20px] rounded-r-xl text-sm">
-              Contact Us
-            </Link>
-          </div>
+          
+          <Link to="/contact" className="navbar-contact-btn">
+            Contact Us
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="lg:hidden">
-          <button onClick={toggleMobileMenu} className="text-gray-800 focus:outline-none">
-            <i className="fas fa-bars"></i>
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileOpen && (
-          <div className="lg:hidden absolute top-14 left-1/2 transform -translate-x-1/2 bg-white shadow-md rounded-lg w-48">
-            <ul className="flex flex-col space-y-2 p-4">
-              <li>
-                <Link
-                  to="/place-to-see"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="text-gray-800 hover:text-teal-500"
-                >
-                  Place to see
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/transportation"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="text-gray-800 hover:text-teal-500"
-                >
-                  Transportation services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/accommodation"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="text-gray-800 hover:text-teal-500"
-                >
-                  Accommodation
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/day-tour"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="text-gray-800 hover:text-teal-500"
-                >
-                  Day tour
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/news"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="text-gray-800 hover:text-teal-500"
-                >
-                  News
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="text-gray-800 hover:text-teal-500 flex items-center"
-                >
-                  <span>Eng</span>
-                  <span className="ml-1 text-gray-500">🌐</span>
-                </Link>
-              </li>
-            </ul>
+        <button 
+          onClick={toggleMobileMenu} 
+          className="navbar-mobile-toggle"
+          aria-label="Toggle mobile menu"
+        >
+          <div className={`hamburger ${isMobileOpen ? 'hamburger-active' : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
-        )}
+        </button>
       </nav>
 
-      {/* Full Width Mega Menu - Place to See */}
-      {isDropdownOpen === "place" && (
-        <div
-          className={`mega-menu ${isScrolled ? 'mega-menu-scrolled' : 'mega-menu-floating'}`}
-          onMouseLeave={closeDropdown}
-        >
-          <div className="container mx-auto px-8 py-6">
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="font-semibold mb-3 text-lg">Asia</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/indonesia" className="block py-1 hover:text-gray-200 transition-colors">Indonesia</Link></li>
-                  <li><Link to="/vietnam" className="block py-1 hover:text-gray-200 transition-colors">Vietnam</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-3 text-lg">Top Attractions</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/indonesia/bali" className="block py-1 hover:text-gray-200 transition-colors">Bali Tours</Link></li>
-                  <li><Link to="/vietnam/hanoi" className="block py-1 hover:text-gray-200 transition-colors">Hanoi Tours</Link></li>
-                  <li><Link to="/indonesia/yogyakarta" className="block py-1 hover:text-gray-200 transition-colors">Yogyakarta Tours</Link></li>
-                  <li><Link to="/vietnam/ho-chi-minh" className="block py-1 hover:text-gray-200 transition-colors">Ho Chi Minh City Tours</Link></li>
-                </ul>
-              </div>
-            </div>
-          </div>
+      {/* Mobile Menu */}
+      <div className={`navbar-mobile-menu ${isMobileOpen ? 'mobile-menu-active' : ''}`}>
+        <div className="mobile-menu-content">
+          <Link
+            to="/place-to-see"
+            onClick={() => setIsMobileOpen(false)}
+            className="mobile-menu-item"
+          >
+            Place to see
+          </Link>
+          <Link
+            to="/services"
+            onClick={() => setIsMobileOpen(false)}
+            className="mobile-menu-item"
+          >
+            Services
+          </Link>
+          <Link
+            to="/news"
+            onClick={() => setIsMobileOpen(false)}
+            className="mobile-menu-item"
+          >
+            News
+          </Link>
+          <Link
+            to="/contact"
+            onClick={() => setIsMobileOpen(false)}
+            className="mobile-menu-item mobile-contact-btn"
+          >
+            Contact Us
+          </Link>
         </div>
-      )}
+      </div>
 
-      {/* Full Width Mega Menu - Services */}
-      {isDropdownOpen === "services" && (
-        <div
-          className={`mega-menu ${isScrolled ? 'mega-menu-scrolled' : 'mega-menu-floating'}`}
-          onMouseLeave={closeDropdown}
-        >
-          <div className="container mx-auto px-8 py-6">
-            <div className="grid grid-cols-3 gap-8">
-              <div>
-                <h4 className="font-semibold mb-3 text-lg">Day tour</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/day-tours" className="block py-1 hover:text-gray-200 transition-colors">Day tour</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-3 text-lg">Rent car</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/rent-car" className="block py-1 hover:text-gray-200 transition-colors">Rent car</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-3 text-lg">Accommodation</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/accommodation" className="block py-1 hover:text-gray-200 transition-colors">Accommodation</Link></li>
-                </ul>
-              </div>
-            </div>
+      {/* Mega Menu - Place to See */}
+      <div 
+        className={`mega-menu ${isDropdownOpen === "place" ? 'mega-menu-active' : ''} ${
+          isScrolled ? 'mega-menu-scrolled' : 'mega-menu-floating'
+        }`}
+        onMouseLeave={closeDropdown}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mega-menu-content">
+          <div className="mega-menu-section">
+            <h4 className="mega-menu-title">Asia</h4>
+            <ul className="mega-menu-list">
+              <li><Link to="/indonesia" className="mega-menu-link">Indonesia</Link></li>
+              <li><Link to="/vietnam" className="mega-menu-link">Vietnam</Link></li>
+            </ul>
+          </div>
+          <div className="mega-menu-section">
+            <h4 className="mega-menu-title">Top Attractions</h4>
+            <ul className="mega-menu-list">
+              <li><Link to="/indonesia/bali" className="mega-menu-link">Bali Tours</Link></li>
+              <li><Link to="/vietnam/hanoi" className="mega-menu-link">Hanoi Tours</Link></li>
+              <li><Link to="/indonesia/yogyakarta" className="mega-menu-link">Yogyakarta Tours</Link></li>
+              <li><Link to="/vietnam/ho-chi-minh" className="mega-menu-link">Ho Chi Minh City Tours</Link></li>
+            </ul>
           </div>
         </div>
+      </div>
+
+      {/* Mega Menu - Services */}
+      <div 
+        className={`mega-menu ${isDropdownOpen === "services" ? 'mega-menu-active' : ''} ${
+          isScrolled ? 'mega-menu-scrolled' : 'mega-menu-floating'
+        }`}
+        onMouseLeave={closeDropdown}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mega-menu-content mega-menu-three-col">
+          <div className="mega-menu-section">
+            <h4 className="mega-menu-title">Day Tour</h4>
+            <ul className="mega-menu-list">
+              <li><Link to="/day-tours" className="mega-menu-link">Day Tours</Link></li>
+            </ul>
+          </div>
+          <div className="mega-menu-section">
+            <h4 className="mega-menu-title">Transportation</h4>
+            <ul className="mega-menu-list">
+              <li><Link to="/rent-car" className="mega-menu-link">Rent Car</Link></li>
+            </ul>
+          </div>
+          <div className="mega-menu-section">
+            <h4 className="mega-menu-title">Accommodation</h4>
+            <ul className="mega-menu-list">
+              <li><Link to="/accommodation" className="mega-menu-link">Hotels & Resorts</Link></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Overlay for mobile menu */}
+      {isMobileOpen && (
+        <div 
+          className="mobile-menu-overlay" 
+          onClick={() => setIsMobileOpen(false)}
+        ></div>
       )}
     </>
   );

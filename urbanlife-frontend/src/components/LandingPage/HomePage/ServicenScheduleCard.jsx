@@ -47,7 +47,7 @@ const ServiceScheduleCard = () => {
           ))}
         </div>
         
-        <button className="w-full bg-[#00B4DB] hover:bg-[#0099CC] text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-300">
+        <button className="w-full bg-[#0092B8] hover:bg-[#007F9F] text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-300">
           Contact Us
         </button>
       </div>

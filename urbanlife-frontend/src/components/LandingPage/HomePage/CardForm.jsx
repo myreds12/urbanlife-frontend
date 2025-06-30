@@ -110,7 +110,7 @@ const CardForm = () => {
             </div>
           </div>
         </div>
-            <button className="w-full bg-teal-500 text-white p-2 rounded-md text-sm font-medium hover:bg-teal-600 transition">
+            <button className="w-full bg-cyan-600 text-white p-2 rounded-md text-sm font-medium hover:bg-cyan-700 transition">
             Search
             </button>
       </div>

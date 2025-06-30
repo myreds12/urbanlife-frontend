@@ -68,7 +68,7 @@ const PartnerSection = () => {
 
                 {/* Button */}
                 <div className="">
-                  <button className="bg-[#00B4DB] hover:bg-[#0099CC] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
+                  <button className="bg-[#0092B8] hover:bg-[#007F9F] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
                     {partner.buttonText}
                   </button>
                 </div>

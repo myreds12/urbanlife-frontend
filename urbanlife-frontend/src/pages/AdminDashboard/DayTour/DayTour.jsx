@@ -53,10 +53,10 @@ function DayTour() {
   };
 
   return (
-    <div className="flex h-screen">
-      <main className="p-6 flex-1">
+    <div className="flex h-screen ">
+      <main className="p-1 flex-1">
         <div className="p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-5">
             Western and Eastern Nusa Penida Tour
           </h2>
           <div className="text-sm text-gray-500 mb-6 flex space-x-5">

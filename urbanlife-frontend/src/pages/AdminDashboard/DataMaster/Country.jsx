@@ -33,7 +33,7 @@ const Country = () => {
             <button onClick={handleCancel} className="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100">
               Cancel
             </button>
-            <button onClick={handleSave} className="px-5 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600">
+            <button onClick={handleSave} className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
               Save Changes
             </button>
           </div>

@@ -29,14 +29,14 @@ const GuideForm = forwardRef((_, ref) => {
   }));
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-6 gap-4 ">
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Guide ID</label>
+        <label className="block text-sm text-gray-600 mb-1 ">Guide ID</label>
         <input
           type="text"
           disabled
           value="Auto"
-          className="input input-bordered w-full bg-gray-100 text-gray-500"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -46,7 +46,7 @@ const GuideForm = forwardRef((_, ref) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter name"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -56,7 +56,7 @@ const GuideForm = forwardRef((_, ref) => {
           value={identity}
           onChange={(e) => setIdentity(e.target.value)}
           placeholder="Enter ID"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -66,7 +66,7 @@ const GuideForm = forwardRef((_, ref) => {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Enter phone number"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
@@ -74,7 +74,7 @@ const GuideForm = forwardRef((_, ref) => {
         <select
           value={gender}
           onChange={(e) => setGender(e.target.value)}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         >
           <option value="">Choose</option>
           <option value="Male">Male</option>
@@ -86,7 +86,7 @@ const GuideForm = forwardRef((_, ref) => {
         <select
           value={english}
           onChange={(e) => setEnglish(e.target.value)}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         >
           <option value="">Choose</option>
           <option value="Yes">Yes</option>

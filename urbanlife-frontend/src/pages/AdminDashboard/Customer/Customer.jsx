@@ -90,16 +90,17 @@ const Customer = () => {
     <div className="p-5 space-y-4">
       <h2 className="text-xl font-bold text-gray-800">Customer</h2>
 
-      <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-        <input
-          type="text"
-          placeholder="Search customer..."
-          className="border border-gray-300 rounded-md px-3 py-2 text-sm w-full sm:w-[250px]"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <DownloadButton data={filteredData} filename="customers.csv" />
-      </div>
+      <div className="flex flex-col sm:flex-row sm:justify-end items-center gap-3">
+      <input
+        type="text"
+        placeholder="Search customer..."
+        className="border border-gray-300 rounded-md px-3 py-2 text-sm w-full sm:w-[250px]"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <DownloadButton data={filteredData} filename="customers.csv" />
+    </div>
+
 
       <Table
         data={currentData}

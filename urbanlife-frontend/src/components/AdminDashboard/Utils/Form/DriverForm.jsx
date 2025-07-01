@@ -1,27 +1,27 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 
 const DriverForm = forwardRef((_, ref) => {
-  const [brand, setBrand] = useState("");
-  const [model, setModel] = useState("");
+  const [drivername, setDriverName] = useState("");
+  const [driverid, setDriverID] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
   const [expiry, setExpiry] = useState("");
 
   useImperativeHandle(ref, () => ({
     getFormData: () => {
-      if (!brand || !model || !phone || !gender || !expiry) return null;
+      if (!drivername || !driverid || !phone || !gender || !expiry) return null;
       return {
         id: String(Date.now()).slice(-3),
-        brand,
-        model,
+        drivername,
+        driverid,
         phone,
         gender,
         expiry,
       };
     },
     resetForm: () => {
-      setBrand("");
-      setModel("");
+      setDriverName("");
+      setDriverID("");
       setPhone("");
       setGender("");
       setExpiry("");
@@ -40,22 +40,22 @@ const DriverForm = forwardRef((_, ref) => {
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Brand</label>
+        <label className="block text-sm text-gray-600 mb-1">Driver Name</label>
         <input
           type="text"
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-          placeholder="Enter brand"
+          value={drivername}
+          onChange={(e) => setDriverName(e.target.value)}
+          placeholder="Enter Driver Name"
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Model</label>
+        <label className="block text-sm text-gray-600 mb-1">Driver ID</label>
         <input
           type="text"
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-          placeholder="Enter model"
+          value={driverid}
+          onChange={(e) => setDriverID(e.target.value)}
+          placeholder="Enter Driver ID"
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>

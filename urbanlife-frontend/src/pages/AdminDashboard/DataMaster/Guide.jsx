@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import GuideForm from "../../../components/AdminDashboard/Utils/Form/GuideForm";
-import GuideTable from "../../../components/AdminDashboard/Utils/Table/GuideTable";
+import Table from "../../../components/AdminDashboard/Utils/Table/Table"; // Import reusable table
 
 const Guide = () => {
   const [guides, setGuides] = useState([
     {
       id: "001",
       name: "David omstein",
-      identity: "12345678",
+      idguide: "12345678",
       phone: "081111111",
       gender: "Male",
       english: "yes",
@@ -16,7 +16,7 @@ const Guide = () => {
     {
       id: "002",
       name: "David raya",
-      identity: "12345678",
+      idguide: "12345678",
       phone: "081111111",
       gender: "Male",
       english: "yes",
@@ -26,16 +26,28 @@ const Guide = () => {
 
   const formRef = useRef(null);
 
+  const columns = ['#', 'Guide ID', 'Guide Name', 'IDguide', 'Phone Number', 'Gender', 'Fluent English', 'Status', 'Action'];
+
+
   const handleSave = () => {
     const newData = formRef.current?.getFormData?.();
     if (!newData) return;
-
     setGuides((prev) => [...prev, { ...newData, status: "Active" }]);
     formRef.current?.resetForm?.();
   };
 
   const handleCancel = () => {
     formRef.current?.resetForm?.();
+  };
+
+  const handleEdit = (guide) => {
+    console.log("Edit guide:", guide);
+  };
+
+  const handleDelete = (guide) => {
+    if (window.confirm(`Are you sure you want to delete ${guide.name}?`)) {
+      setGuides((prev) => prev.filter(c => c.id !== guide.id));
+    }
   };
 
   return (
@@ -62,7 +74,29 @@ const Guide = () => {
           </div>
         </div>
 
-        <GuideTable guides={guides} />
+      {/* Table Section */}
+      <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-gray-800">List Driver Unit</h3>
+          <div className="flex gap-2">
+            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
+              <i className="fas fa-filter mr-2" />
+              Filter
+            </button>
+            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
+              See all
+            </button>
+          </div>
+        </div>
+
+        <Table
+          data={guides}
+          columns={columns}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          startIndex={0}
+        />
+      </div>
       </div>
     </div>
   );

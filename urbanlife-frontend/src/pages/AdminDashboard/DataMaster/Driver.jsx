@@ -1,22 +1,13 @@
 import { useRef, useState } from "react";
 import DriverForm from "../../../components/AdminDashboard/Utils/Form/DriverForm";
-import DriverTable from "../../../components/AdminDashboard/Utils/Table/DriverTable";
+import Table from "../../../components/AdminDashboard/Utils/Table/Table"; // Import reusable table
 
 const Driver = () => {
   const [drivers, setDrivers] = useState([
     {
       id: "001",
-      brand: "Toyota",
-      model: "Supra",
-      phone: "0811111111",
-      gender: "Male",
-      expiry: "2025-12-12",
-      status: "Active",
-    },
-    {
-      id: "002",
-      brand: "Toyota",
-      model: "Kijang",
+      name: "Baginda Raja",
+      iddriver: "317508",
       phone: "0811111111",
       gender: "Male",
       expiry: "2025-12-12",
@@ -25,16 +16,43 @@ const Driver = () => {
   ]);
 
   const formRef = useRef(null);
+  const [editId, setEditId] = useState(null); // Untuk tracking data yang sedang di-edit
+
+  const columns = ['#', 'Driver ID', 'Driver Name', 'IDdriver', 'Phone Number', 'Gender', 'Driving Expiry Period', 'Status', 'Action'];
 
   const handleSave = () => {
     const newData = formRef.current?.getFormData?.();
     if (!newData) return;
-    setDrivers((prev) => [...prev, { ...newData, status: "Active" }]);
+
+    if (editId) {
+      // Update data existing
+      setDrivers((prev) =>
+        prev.map((d) => (d.id === editId ? { ...newData, id: editId, status: d.status } : d))
+      );
+      setEditId(null);
+    } else {
+      // Tambah data baru
+      const newId = String(drivers.length + 1).padStart(3, "0");
+      setDrivers((prev) => [...prev, { ...newData, id: newId, status: "Active" }]);
+    }
+
     formRef.current?.resetForm?.();
   };
 
   const handleCancel = () => {
     formRef.current?.resetForm?.();
+    setEditId(null);
+  };
+
+  const handleEdit = (driver) => {
+    formRef.current?.setFormData?.(driver); // Populate form
+    setEditId(driver.id); // Tandai sedang edit
+  };
+
+  const handleDelete = (driver) => {
+    if (window.confirm(`Are you sure you want to delete ${driver.name}?`)) {
+      setDrivers((prev) => prev.filter((d) => d.id !== driver.id));
+    }
   };
 
   return (
@@ -55,7 +73,7 @@ const Driver = () => {
             onClick={handleSave}
             className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
           >
-            Save Changes
+            {editId ? "Update Driver" : "Save Changes"}
           </button>
         </div>
       </div>
@@ -74,7 +92,14 @@ const Driver = () => {
             </button>
           </div>
         </div>
-        <DriverTable drivers={drivers} />
+
+        <Table
+          data={drivers}
+          columns={columns}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          startIndex={0}
+        />
       </div>
     </div>
   );

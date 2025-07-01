@@ -1,22 +1,47 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import CreateTemplateModal from '../../../components/AdminDashboard/WhatsApp/CreateTemplateModal'; // Impor modal
+import CreateTemplateModal from '../../../components/AdminDashboard/WhatsApp/CreateTemplateModal';
+import Table from '../../../components/AdminDashboard/Utils/Table/Table';
+import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button';
 import '../../../styles/AdminDashboard/WhatsappSetting/WhatsappConnect.css';
 
 const WhatsappConnect = () => {
-  const [templates, setTemplates] = useState([
-    // Data templates sama seperti sebelumnya
-  ]);
-
+  const [templates, setTemplates] = useState([]);
   const [admin1, setAdmin1] = useState('081122334455');
   const [admin2, setAdmin2] = useState('081133224466');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState(null);
+
   const [newTemplate, setNewTemplate] = useState({
     name: '',
     category: '',
     textToAdmin: '',
     textToCustomer: '',
   });
+
+  const columns = [
+    'Name',
+    'Category',
+    'No Admin 1',
+    'No Admin 2',
+    'Content',
+    'Status',
+    'Action'
+  ];
+
+  const tableData = templates.map((t) => ({
+    id: t.id,
+    Name: t.name,
+    Category: t.category,
+    'No Admin 1': t.noAdmin1,
+    'No Admin 2': t.noAdmin2,
+    Content: t.content,
+    Status: (
+      <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+        {t.status}
+      </span>
+    ),
+  }));
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,12 +60,55 @@ const WhatsappConnect = () => {
       status: 'Active',
     };
     setTemplates([...templates, newTemplateData]);
+    resetModal();
+  };
+
+  const handleEditTemplate = () => {
+    setTemplates(prev =>
+      prev.map(t =>
+        t.id === editId
+          ? {
+              ...t,
+              name: newTemplate.name,
+              category: newTemplate.category,
+              content: newTemplate.textToCustomer,
+            }
+          : t
+      )
+    );
+    resetModal();
+  };
+
+  const resetModal = () => {
     setNewTemplate({ name: '', category: '', textToAdmin: '', textToCustomer: '' });
     setIsModalOpen(false);
+    setEditMode(false);
+    setEditId(null);
+  };
+
+  const handleEdit = (row) => {
+    const template = templates.find((t) => t.id === row.id);
+    if (!template) return;
+
+    setNewTemplate({
+      name: template.name,
+      category: template.category,
+      textToAdmin: '', // Bisa diisi kalau kamu simpan ini
+      textToCustomer: template.content,
+    });
+
+    setAdmin1(template.noAdmin1);
+    setAdmin2(template.noAdmin2);
+    setEditId(template.id);
+    setEditMode(true);
+    setIsModalOpen(true);
   };
 
   const handleDeleteTemplate = (id) => {
-    setTemplates(templates.filter((template) => template.id !== id));
+    const confirmed = window.confirm("Are you sure you want to delete this template?");
+    if (confirmed) {
+      setTemplates(templates.filter((template) => template.id !== id));
+    }
   };
 
   return (
@@ -73,12 +141,17 @@ const WhatsappConnect = () => {
             />
           </div>
         </div>
-        <button
-          className="bg-cyan-500 text-white px-4 py-2 rounded-lg"
-          onClick={() => setIsModalOpen(true)}
+        <Button
+          variant="primary"
+          onClick={() => {
+            setEditMode(false);
+            setEditId(null);
+            setNewTemplate({ name: '', category: '', textToAdmin: '', textToCustomer: '' });
+            setIsModalOpen(true);
+          }}
         >
           + New Template
-        </button>
+        </Button>
       </div>
 
       {/* Search */}
@@ -97,49 +170,15 @@ const WhatsappConnect = () => {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left text-gray-500">
-          <thead className="bg-gray-50 text-xs uppercase">
-            <tr>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Category</th>
-              <th className="px-4 py-2">No Admin 1</th>
-              <th className="px-4 py-2">No Admin 2</th>
-              <th className="px-4 py-2">Content</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {templates.map((template) => (
-              <tr key={template.id} className="bg-white border-b hover:bg-gray-50">
-                <td className="px-4 py-2">{template.name}</td>
-                <td className="px-4 py-2">{template.category}</td>
-                <td className="px-4 py-2">{template.noAdmin1}</td>
-                <td className="px-4 py-2">{template.noAdmin2}</td>
-                <td className="px-4 py-2">{template.content}</td>
-                <td className="px-4 py-2">
-                  <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                    {template.status}
-                  </span>
-                </td>
-                <td className="px-4 py-2 flex space-x-2">
-                  <button className="text-blue-500 hover:text-blue-700">
-                    <i className="fas fa-edit" />
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-700"
-                    onClick={() => handleDeleteTemplate(template.id)}
-                  >
-                    <i className="fas fa-trash" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table
+          data={tableData}
+          columns={columns}
+          onEdit={handleEdit}
+          onDelete={(row) => handleDeleteTemplate(row.id)}
+        />
       </div>
 
-      {/* Pagination */}
+      {/* Pagination dummy */}
       <div className="mt-4 flex justify-end">
         <button className="px-2 py-1 bg-blue-500 text-white rounded">1</button>
       </div>
@@ -147,10 +186,10 @@ const WhatsappConnect = () => {
       {/* Modal */}
       <CreateTemplateModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={resetModal}
         newTemplate={newTemplate}
         onInputChange={handleInputChange}
-        onSave={handleAddTemplate}
+        onSave={editMode ? handleEditTemplate : handleAddTemplate}
         admin1={admin1}
         admin2={admin2}
       />

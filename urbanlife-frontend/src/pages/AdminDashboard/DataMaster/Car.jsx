@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import CarForm from "../../../components/AdminDashboard/Utils/Form/CarForm";
 import Dropzone from "../../../components/AdminDashboard/Utils/Form/DropZone";
 import CarGallery from "../../../components/AdminDashboard/Utils/Ui/Gallery/CarGallery";
-import CarTable from "../../../components/AdminDashboard/Utils/Table/CarTable";
+import Table from "../../../components/AdminDashboard/Utils/Table/Table"; // Import reusable table
 
 const Car = () => {
   const [cars, setCars] = useState([
@@ -16,6 +16,9 @@ const Car = () => {
       status: "Active",
     },
   ]);
+
+    // Define columns untuk table
+  const columns = ['#', 'Unit ID', 'Brand', 'Model', 'PoliceNumber', 'TaxStatus', 'TaxExpiry', 'Status', 'Action'];
 
   const [images, setImages] = useState([
     "/img/car-1.jpg",
@@ -39,6 +42,17 @@ const Car = () => {
   const handleDeleteImage = (index) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const handleEdit = (car) => {
+    console.log("Edit car:", car);
+  };
+
+  const handleDelete = (car) => {
+    if (window.confirm(`Are you sure you want to delete ${car.name}?`)) {
+      setCars((prev) => prev.filter(c => c.id !== car.id));
+    }
+  };
+
 
   return (
     <div className="p-6">
@@ -71,7 +85,13 @@ const Car = () => {
             </button>
           </div>
         </div>
-        <CarTable cars={cars} />
+          <Table
+            data={cars}
+            columns={columns}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            startIndex={0}
+          />
       </div>
     </div>
   );

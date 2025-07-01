@@ -64,6 +64,44 @@ const Table = ({
     'Gender': 'gender',
     'Date of birth': 'date_of_birth',
     'Action': null,
+    // WhatsappConnect columns:
+    'Name': (row) => row.Name || row.name, // Support both Name and name
+    'Category': (row) => row.Category,
+    'No Admin 1': (row) => row['No Admin 1'],
+    'No Admin 2': (row) => row['No Admin 2'],
+    'Content': (row) => row.Content,
+    'Status': (row) => row.Status || row.status, // Support both Status and status
+    // Countries columns:
+    'Country ID': 'id',
+    'Country': (row) => row.country || row.name, // For countries page: row.name, for cities page: row.country
+    // City
+    'City ID': 'id',
+    'City': 'city', // For cities, the name field represents city name
+    //Car
+    'Unit ID': 'id',
+    'Brand' : 'brand',
+    'Model' : 'model',
+    'PoliceNumber' : 'policeNumber',
+    'TaxStatus' : 'taxStatus',
+    'TaxExpiry' : 'taxExpiry',
+    //Driver
+    'Driver ID': 'id',
+    'Driver Name': 'name',
+    'IDdriver': 'iddriver',
+    'Phone Number' : 'phone',
+    'Driving Expiry Period' : 'expiry',
+    'Gender' : 'gender',
+    //Guide
+    'Guide ID' : 'id',
+    'Guide Name' : 'name',
+    'IDguide' : 'idguide',
+    'Fluent English' : 'english',
+
+    
+
+
+
+
   };
 
   const handleSort = (column) => {
@@ -103,19 +141,10 @@ const Table = ({
       );
     }
 
-    // Jika ada onEdit dan onDelete (untuk Customer), tampilkan icon buttons
+    // Jika ada onEdit dan onDelete (untuk Customer dan Countries), tampilkan icon buttons
     if (onEdit || onDelete) {
       return (
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          {onDelete && (
-            <button
-              onClick={() => onDelete(row)}
-              className="action-button delete-button"
-              title="Delete"
-            >
-              <DeleteIcon />
-            </button>
-          )}
           {onEdit && (
             <button
               onClick={() => onEdit(row)}
@@ -123,6 +152,15 @@ const Table = ({
               title="Edit"
             >
               <EditIcon />
+            </button>
+          )}
+          {onDelete && (
+            <button
+              onClick={() => onDelete(row)}
+              className="action-button delete-button"
+              title="Delete"
+            >
+              <DeleteIcon />
             </button>
           )}
         </div>

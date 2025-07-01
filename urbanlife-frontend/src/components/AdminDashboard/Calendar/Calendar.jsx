@@ -1,36 +1,36 @@
 import { useState, useCallback } from "react";
+import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button'; // Import Button untuk konsistensi
 
 const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
-  const [currentDate, setCurrentDate] = useState(new Date()); // Sekarang pake tanggal saat ini (29 Juni 2025)
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
   const [showEventModal, setShowEventModal] = useState(false);
-  const [currentView, setCurrentView] = useState('month'); // month, week, day
+  const [currentView, setCurrentView] = useState('month');
+  const [isLoading, setIsLoading] = useState(false); // Tambah loading state
   const [eventForm, setEventForm] = useState({
     title: '',
     type: 'accommodation',
     customer: '',
     location: ''
   });
-  
+
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
-  
+
   const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   const fullDaysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  
-  // Get today's date
+
   const today = new Date();
   const todayDay = today.getDate();
   const todayMonth = today.getMonth();
   const todayYear = today.getFullYear();
-  
-  // Check if a date is today
+
   const isToday = (day, month = currentDate.getMonth(), year = currentDate.getFullYear()) => {
     return day === todayDay && month === todayMonth && year === todayYear;
   };
-  
+
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -38,17 +38,13 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startingDayOfWeek = firstDay.getDay();
-    
     const days = [];
-    
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(null);
     }
-    
     for (let i = 1; i <= daysInMonth; i++) {
       days.push(i);
     }
-    
     return days;
   };
 
@@ -57,7 +53,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
     const currentDay = targetDate.getDay();
     const startOfWeek = new Date(targetDate);
     startOfWeek.setDate(targetDate.getDate() - currentDay);
-    
     const weekDays = [];
     for (let i = 0; i < 7; i++) {
       const day = new Date(startOfWeek);
@@ -70,19 +65,17 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
   const getCurrentDay = () => {
     return new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
   };
-  
+
   const getEventsForDay = (day, month = currentDate.getMonth(), year = currentDate.getFullYear()) => {
     if (!day) return [];
-    const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`; // Format konsisten
+    const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     return events[dateKey] || [];
   };
-  
+
   const getEventIndicators = (day, month = currentDate.getMonth(), year = currentDate.getFullYear()) => {
     const dayEvents = getEventsForDay(day, month, year);
     if (dayEvents.length === 0) return null;
-    
     const eventTypes = [...new Set(dayEvents.map(event => event.type))];
-    
     return (
       <div className="flex gap-1 mt-1 justify-center flex-wrap">
         {eventTypes.map((type, index) => (
@@ -132,23 +125,50 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
     setShowEventModal(true);
   };
 
-  const handleAddEvent = useCallback((e) => {
+  const handleAddEvent = useCallback(async (e) => {
     e.preventDefault();
-    if (!selectedDay) return;
-    
-    const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
-    const newEvent = {
-      id: Date.now(),
-      ...eventForm,
-      date: dateKey,
-      dateDisplay: `${String(selectedDay).padStart(2, '0')} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
-    };
-    
-    onAddEvent(dateKey, newEvent);
-    setShowEventModal(false);
-    setEventForm({ title: '', type: 'accommodation', customer: '', location: '' });
-    setSelectedDay(null);
-  }, [selectedDay, currentDate, eventForm, onAddEvent, monthNames]);
+    if (!selectedDay || isLoading) return;
+    setIsLoading(true);
+    try {
+      const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
+      const newEvent = {
+        id: Date.now(), // kat sini id 
+        ...eventForm,
+        date: dateKey,
+        dateDisplay: `${String(selectedDay).padStart(2, '0')} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
+      };
+
+      // Kirim ke API
+      const response = await fetch('http://localhost:3000/events', { // kat sini gnti endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: newEvent.title,
+          customer: newEvent.customer,
+          type: newEvent.type,
+          location: newEvent.location,
+          date: newEvent.date,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Gagal menambahkan event');
+      }
+
+      const savedEvent = await response.json();
+      onAddEvent(dateKey, { ...newEvent, id: savedEvent.id || newEvent.id });
+      setShowEventModal(false);
+      setEventForm({ title: '', type: 'accommodation', customer: '', location: '' });
+      setSelectedDay(null);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Gagal menambahkan event');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [selectedDay, currentDate, eventForm, onAddEvent, monthNames, isLoading]);
 
   const handleDeleteEvent = useCallback((day, eventId) => {
     const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -157,7 +177,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
 
   const renderMonthView = () => {
     const days = getDaysInMonth(currentDate);
-    
     return (
       <div className="grid grid-cols-7 gap-1">
         {days.map((day, index) => {
@@ -165,7 +184,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
           const hasEvents = dayEvents.length > 0;
           const todayClass = isToday(day) ? 'bg-blue-500 text-white border-blue-500 shadow-lg' : '';
           const hoverClass = isToday(day) ? 'hover:bg-blue-600' : hasEvents ? 'hover:bg-blue-50' : 'hover:bg-gray-50';
-
           return (
             <div
               key={index}
@@ -183,10 +201,7 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                   {isToday(day) && hasEvents && (
                     <div className="flex gap-1 mt-1 justify-center flex-wrap">
                       {[...new Set(getEventsForDay(day).map(event => event.type))].map((type, index) => (
-                        <div
-                          key={index}
-                          className="w-2 h-2 rounded-full bg-white opacity-80"
-                        />
+                        <div key={index} className="w-2 h-2 rounded-full bg-white opacity-80" />
                       ))}
                     </div>
                   )}
@@ -201,7 +216,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
 
   const renderWeekView = () => {
     const weekDays = getWeekDays(currentDate);
-    
     return (
       <div className="grid grid-cols-7 gap-2">
         {weekDays.map((day, index) => {
@@ -209,7 +223,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
           const dayEvents = getEventsForDay(dayNumber, day.getMonth(), day.getFullYear());
           const isTodayDate = day.toDateString() === today.toDateString();
           const isCurrentMonth = day.getMonth() === currentDate.getMonth();
-          
           return (
             <div
               key={index}
@@ -252,7 +265,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
     const currentDay = getCurrentDay();
     const dayEvents = getEventsForDay(currentDay.getDate());
     const isTodayDate = currentDay.toDateString() === today.toDateString();
-    
     return (
       <div className={`rounded-lg border p-6 ${isTodayDate ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200'}`}>
         <div className="text-center mb-6">
@@ -270,7 +282,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
             {currentDay.getDate()} {monthNames[currentDay.getMonth()]} {currentDay.getFullYear()}
           </p>
         </div>
-        
         <div className="space-y-4">
           {dayEvents.length > 0 ? (
             dayEvents.map((event) => (
@@ -339,10 +350,9 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
     <>
       <div className="relative">
         <div className="bg-white rounded-xl border border-gray-200 shadow-lg">
-          {/* Calendar Header */}
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <button 
+              <button
                 onClick={() => handleNavigation(-1)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
               >
@@ -350,7 +360,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              
               <div className="text-center">
                 <h2 className="text-xl font-bold text-gray-900 mb-3">
                   {getViewTitle()}
@@ -371,8 +380,7 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                   ))}
                 </div>
               </div>
-              
-              <button 
+              <button
                 onClick={() => handleNavigation(1)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
               >
@@ -381,26 +389,24 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                 </svg>
               </button>
             </div>
-            
-            {/* Add Event Button */}
             <div className="flex justify-center">
-              <button
+              <Button
+                variant="primary"
+                size="sm"
                 onClick={() => {
                   setSelectedDay(today.getDate());
                   setShowEventModal(true);
                 }}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
+                disabled={isLoading}
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium" // Ubah rounded-lg jadi rounded-none
               >
-                + Add Event
-              </button>
+                {isLoading ? 'Loading...' : '+ Add Event'}
+              </Button>
             </div>
           </div>
-
-          {/* Calendar Content */}
           <div className="p-6">
             {currentView === 'month' && (
               <>
-                {/* Days of Week Header */}
                 <div className="grid grid-cols-7 gap-1 mb-3">
                   {daysOfWeek.map(day => (
                     <div key={day} className="p-3 text-center text-sm font-semibold text-gray-600">
@@ -411,10 +417,8 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                 {renderMonthView()}
               </>
             )}
-            
             {currentView === 'week' && (
               <>
-                {/* Week Days Header */}
                 <div className="grid grid-cols-7 gap-2 mb-3">
                   {getWeekDays(currentDate).map((day, index) => {
                     const isTodayDate = day.toDateString() === today.toDateString();
@@ -431,11 +435,8 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                 {renderWeekView()}
               </>
             )}
-            
             {currentView === 'day' && renderDayView()}
           </div>
-
-          {/* Legend */}
           {currentView !== 'day' && (
             <div className="px-6 pb-6">
               <div className="flex gap-6 text-sm">
@@ -456,18 +457,13 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
           )}
         </div>
       </div>
-      
-      {/* Modal */}
       {showEventModal && (
-        <div 
+        <div
           className="fixed inset-0 flex items-center justify-center p-4"
-          style={{ 
-            zIndex: 10000,
-            backgroundColor: 'rgba(0, 0, 0, 0.6)'
-          }}
+          style={{ zIndex: 10000, backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
           onClick={() => setShowEventModal(false)}
         >
-          <div 
+          <div
             className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
@@ -476,7 +472,7 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                 <h3 className="text-xl font-bold text-gray-900">
                   Events for {selectedDay} {monthNames[currentDate.getMonth()]}
                 </h3>
-                <button 
+                <button
                   onClick={() => setShowEventModal(false)}
                   className="text-gray-400 hover:text-gray-600 transition-colors p-1"
                 >
@@ -485,8 +481,6 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                   </svg>
                 </button>
               </div>
-              
-              {/* Existing Events */}
               {getEventsForDay(selectedDay).length > 0 && (
                 <div className="mb-6">
                   <h4 className="font-semibold mb-3 text-gray-700">Existing Events:</h4>
@@ -496,17 +490,19 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                         <div className="flex-1">
                           <div className="font-semibold text-gray-900">{event.customer}</div>
                           <div className="text-sm text-gray-600 mt-1">
-                            <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mr-2 ${
-                              event.type === 'accommodation' ? 'bg-red-100 text-red-800' :
-                              event.type === 'day tour' ? 'bg-green-100 text-green-800' :
-                              event.type === 'rent car' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
-                            }`}>
+                            <span
+                              className={`inline-block px-3 py-1 rounded-full text-xs font-medium mr-2 ${
+                                event.type === 'accommodation' ? 'bg-red-100 text-red-800' :
+                                event.type === 'day tour' ? 'bg-green-100 text-green-800' :
+                                event.type === 'rent car' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                              }`}
+                            >
                               {event.type}
                             </span>
                             {event.location}
                           </div>
                         </div>
-                        <button 
+                        <button
                           onClick={() => handleDeleteEvent(selectedDay, event.id)}
                           className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
                         >
@@ -519,9 +515,7 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                   </div>
                 </div>
               )}
-              
-              {/* Add New Event Form */}
-              <div className="">
+              <div>
                 <h4 className="font-semibold mb-2 text-gray-700">Add New Event:</h4>
                 <form onSubmit={handleAddEvent}>
                   <div className="space-y-4">
@@ -535,9 +529,9 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                         className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                         placeholder="Enter customer name"
                         required
+                        disabled={isLoading}
                       />
                     </div>
-                    
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Event Type</label>
                       <select
@@ -545,13 +539,13 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                         value={eventForm.type}
                         onChange={(e) => setEventForm(prev => ({ ...prev, type: e.target.value }))}
                         className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        disabled={isLoading}
                       >
                         <option value="accommodation">Accommodation</option>
                         <option value="day tour">Day Tour</option>
                         <option value="rent car">Rent Car</option>
                       </select>
                     </div>
-                    
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                       <input
@@ -562,20 +556,22 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                         className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                         placeholder="Enter location"
                         required
+                        disabled={isLoading}
                       />
                     </div>
-                    
                     <div className="flex gap-3 pt-4">
                       <button
                         type="submit"
                         className="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                        disabled={isLoading}
                       >
-                        Add Event
+                        {isLoading ? 'Adding...' : 'Add Event'}
                       </button>
                       <button
                         type="button"
                         onClick={() => setShowEventModal(false)}
                         className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+                        disabled={isLoading}
                       >
                         Cancel
                       </button>

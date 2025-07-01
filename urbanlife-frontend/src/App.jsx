@@ -35,6 +35,8 @@ import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";
 import HomePage from "./pages/LandingPage/HomePage/HomePage";
 import OrderDetail from "./pages/LandingPage/OrderDetail/OrderDetail";
 import PaymentSection from "./pages/LandingPage/PaymentSection/PaymentSection";
+import PaymentSuccess from "./pages/LandingPage/PaymentSection/PaymentSuccess";
+import PaymentUnsuccess from "./pages/LandingPage/PaymentSection/PaymentUnsuccess";
 import Services from "./pages/LandingPage/Services/Services";
 
 
@@ -51,6 +53,11 @@ function App() {
 
           {/* Payment selection page */}
           <Route path="/PaymentSection" element={<PaymentSection />} />
+
+          {/* Payment success page */}
+          <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
+          {/* Payment unsuccess page */}
+          <Route path="/PaymentUnsuccess" element={<PaymentUnsuccess />} />
 
           {/* Services page */}
           <Route path="/Services" element={<Services />} />

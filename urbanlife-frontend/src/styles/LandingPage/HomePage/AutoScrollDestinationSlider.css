@@ -1,0 +1,39 @@
+.auto-scroll-wrapper {
+    overflow-x: auto;
+    padding: 0 16px;
+    scroll-behavior: smooth;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .auto-scroll-wrapper:active {
+    cursor: grabbing;
+  }
+  
+  .auto-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .auto-scroll-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: scroll-left 30s linear infinite;
+    padding-bottom: 8px; /* biar bayangan bawah card gak kepotong */
+  }
+  
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  /* Pause animation kalau disentuh/hover */
+  .auto-scroll-wrapper:hover .auto-scroll-track,
+  .auto-scroll-wrapper:active .auto-scroll-track {
+    animation-play-state: paused;
+  }
+  

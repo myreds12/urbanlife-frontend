@@ -1,7 +1,7 @@
 import Navbar from "../../../components/LandingPage/HomePage/Navbar";
 import Footer from "../../../components/LandingPage/HomePage/Footer";
 import HeroSection from "../../../components/LandingPage/HomePage/HeroSection";
-import DestinationCard from "../../../components/LandingPage/HomePage/DestinationCard";
+import AutoScrollDestinationSlider from "../../../components/LandingPage/HomePage/AutoScrollDestinationSlider";
 import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import ServicenScheduleCard from "../../../components/LandingPage/HomePage/ServicenScheduleCard";
@@ -23,53 +23,10 @@ const LandingPage = () => {
       </div>
 
       {/* Separate Destination Section with reduced margin */}
-      <div className="destination-section mt-10 mb-15"> {/* Changed mt-20 to mt-10 */}
-        <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
-          Popular Destinations
-        </h1>
-        <div
-          className="destination-grid mb-10"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "24px",
-            flexWrap: "wrap",
-            padding: "0 20px",
-            width: "100%",
-            maxWidth: "1200px",
-            margin: "0 auto"
-          }}
-        >
-          <DestinationCard
-            country="Indonesia"
-            title="Eastern Bali Tour"
-            destinations="4 Destination"
-            price="1,200,000"
-            image="/images/LandingPage/Destination/EasternBaliTour.png"
-          />
-          <DestinationCard
-            country="Vietnam"
-            title="Danang"
-            destinations="4 Destination"
-            price="1,200,000"
-            image="/images/LandingPage/Destination/Danang.png"
-          />
-          <DestinationCard
-            country="Indonesia"
-            title="Jakarta"
-            destinations="4 Destination"
-            price="1,200,000"
-            image="/images/LandingPage/Destination/Jakarta.png"
-          />
-          <DestinationCard
-            country="Vietnam"
-            title="Ho Chi Minh City"
-            destinations="4 Destination"
-            price="1,200,000"
-            image="/images/LandingPage/Destination/HoChiMinhCity.png"
-          />
-        </div>
+      <div className="mb-10 mt-10">
+        <AutoScrollDestinationSlider />
       </div>
+      
 
       <div className="mb-15">
         <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">

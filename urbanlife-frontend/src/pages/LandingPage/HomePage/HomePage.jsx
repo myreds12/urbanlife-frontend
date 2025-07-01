@@ -17,29 +17,27 @@ const LandingPage = () => {
     <div>
       <Navbar />
       
-      {/* Hero container with responsive margin */}
-      <div className="hero-container" style={{ 
-        position: "relative", 
-        marginBottom: "220px" 
-      }}>
+      {/* Hero container */}
+      <div className="hero-container">
         <HeroSection />
-        
-        {/* Responsive destination cards */}
+      </div>
+
+      {/* Separate Destination Section with reduced margin */}
+      <div className="destination-section mt-10 mb-15"> {/* Changed mt-20 to mt-10 */}
+        <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
+          Popular Destinations
+        </h1>
         <div
-          className="destination-grid-floating mb-10"
+          className="destination-grid mb-10"
           style={{
-            position: "absolute",
-            bottom: "-200px",
-            left: "50%",
-            transform: "translateX(-50%)",
             display: "flex",
             justifyContent: "center",
             gap: "24px",
             flexWrap: "wrap",
             padding: "0 20px",
-            zIndex: 10,
             width: "100%",
-            maxWidth: "1200px"
+            maxWidth: "1200px",
+            margin: "0 auto"
           }}
         >
           <DestinationCard
@@ -74,7 +72,7 @@ const LandingPage = () => {
       </div>
 
       <div className="mb-15">
-      <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
+        <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
           {" "}
           Popular Categories{" "}
         </h1>
@@ -119,7 +117,7 @@ const LandingPage = () => {
       </div>
 
       <div className="mb-15">
-      <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
+        <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
           {" "}
           Discover All Around{" "}
         </h1>
@@ -154,7 +152,7 @@ const LandingPage = () => {
       </div>
 
       <div>
-      <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
+        <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
           {" "}
           Our Partner{" "}
         </h1>
@@ -174,10 +172,8 @@ const LandingPage = () => {
       </div>
 
       <ServicenScheduleCard />
-
       <TestimonialSection />
       <PartnerSection />
-
       <Footer />
     </div>
   );

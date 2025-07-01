@@ -19,30 +19,36 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 0 0 24px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Floating state (over hero section) - Now solid white */
 .navbar-floating {
   background: #ffffff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 0, 0, 0.08);
   margin: 20px auto 0 auto;
   max-width: 1200px;
   border-radius: 16px;
   /* height: 72px; */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* Scrolled state (fixed full width) - Solid white */
 .navbar-scrolled {
   background: #ffffff;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(0, 0, 0, 0.05);
   margin: 0;
   max-width: none;
   border-radius: 0;
   height: 72px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(0) scale(1);
+
 }
 
 /* Logo section */
@@ -61,8 +67,14 @@
 .logo-image {
   height: 35px;
   width: auto;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
+.navbar-scrolled .logo-image {
+  margin-left: 80px;
+  transform: scale(0.95);
+}
+
 
 .logo-image:hover {
   transform: scale(1.05);
@@ -89,7 +101,7 @@
   font-size: 15px;
   text-decoration: none;
   padding: 8px 0;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
   border: none;
   background: none;
@@ -100,20 +112,21 @@
 
 .navbar-menu-item:hover {
   color: #0092B8;
+
 }
 
 /* Underline effect */
 .navbar-menu-item::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: 8px;
   left: 50%;
   width: 0;
   height: 2px;
   background: linear-gradient(90deg, #0092B8, #00c1f1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: translateX(-50%);
-  border-radius: 1px;
+  border-radius: 2px;
 }
 
 .navbar-menu-item:hover::after {
@@ -130,7 +143,7 @@
 }
 
 .dropdown-arrow {
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   color: #64748b;
 }
 
@@ -150,12 +163,14 @@
   font-size: 14px;
   padding: 8px 12px;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .navbar-lang-selector:hover {
   color: #0092B8;
   background: rgba(8, 145, 178, 0.1);
+  transform: translateY(-1px);
+
 }
 
 /* Contact button - Pill shape dengan rounded kanan seperti di foto */
@@ -167,14 +182,22 @@
   text-decoration: none;
   font-weight: 600;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: none;
   border: none;
   position: relative;
+  transform: translateY(0);
 }
 
 .navbar-contact-btn:hover {
   background: #007F9F;
+}
+
+/* Scrolled state contact button */
+.navbar-scrolled .navbar-contact-btn {
+  border-radius: 16px;
+  margin-right: 80px;
+  padding: 16px 28px;
 }
 
 /* Mobile toggle button */
@@ -199,6 +222,7 @@
 
 .navbar-mobile-toggle:hover {
   background: rgba(0, 0, 0, 0.05);
+    transform: scale(1.05);
 }
 
 /* Hamburger menu */
@@ -233,13 +257,15 @@
   position: fixed;
   top: 0;
   right: -100%;
-  width: 280px;
+  width: 300px;
   height: 100vh;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 999;
-  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-left: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
 }
 
 .mobile-menu-active {
@@ -306,42 +332,40 @@
   top: 0;
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   color: #475569;
   z-index: 999;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-20px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px) scale(0.98);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
 }
 
 .mega-menu-active {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* Mega menu positioning */
 .mega-menu-floating {
-  top: 92px; /* Floating navbar height + margin */
-  border-radius: 16px;
+  top: 92px;
+  border-radius: 20px;
   margin: 0 20px;
-  max-width: 1200px;
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%) translateY(-20px);
-}
-
-.mega-menu-floating.mega-menu-active {
-  transform: translateX(-50%) translateY(0);
+  max-width: calc(100% - 40px);
+  left: 0;
+  right: 0;
 }
 
 .mega-menu-scrolled {
-  top: 72px; /* Fixed navbar height */
+  top: 72px;
   border-radius: 0;
   margin: 0;
+  max-width: 100%;
 }
 
 /* Mega menu content */

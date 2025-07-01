@@ -13,7 +13,7 @@ const ServiceScheduleCard = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-2 p-6 bg-white">
+    <div className="flex flex-col lg:flex-row gap-2 p-2 bg-white pl-40 pr-40">
       {/* Card Kiri - Service Info */}
       <div className="flex-1  p-8 rounded-2xl">
         <h2 className="playfair text-3xl font-bold text-[#071C4D] mb-4 leading-tight">
@@ -28,7 +28,7 @@ const ServiceScheduleCard = () => {
       </div>
 
       {/* Card Kanan - Schedule */}
-      <div className="w-full lg:w-[320px]  rounded-2xl p-6">
+      <div className=" lg:w-[350px]  rounded-2xl p-6">
         <div className="space-y-3 mb-6">
           {schedule.map(({ day, time, highlight }) => (
             <div key={day} className="flex items-center justify-between">

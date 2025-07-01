@@ -13,9 +13,9 @@ const ServiceScheduleCard = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-2 p-6 bg-white">
+    <div className="flex flex-col lg:flex-row gap-4 p-4 max-w-7xl mx-auto">
       {/* Card Kiri - Service Info */}
-      <div className="flex-1  p-8 rounded-2xl">
+      <div className="w-full p-6 rounded-lg">
         <h2 className="playfair text-3xl font-bold text-[#071C4D] mb-4 leading-tight">
           Order Now and Try Our Services!
         </h2>
@@ -28,26 +28,23 @@ const ServiceScheduleCard = () => {
       </div>
 
       {/* Card Kanan - Schedule */}
-      <div className="w-full lg:w-[320px]  rounded-2xl p-6">
-        <div className="space-y-3 mb-6">
+      <div className="w-full lg:w-[300px] p-6 rounded-lg">
+        <div className="space-y-2 mb-4">
           {schedule.map(({ day, time, highlight }) => (
             <div key={day} className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-[#071C4D]" />
                 <span className="text-[#071C4D] font-semibold text-sm uppercase">
                   {day}
                 </span>
               </div>
-              <span className={`text-sm font-medium ${
-                highlight ? "text-red-500" : "text-gray-700"
-              }`}>
+              <span className={`text-sm font-medium ${highlight ? "text-red-500" : "text-gray-700"}`}>
                 {time}
               </span>
             </div>
           ))}
         </div>
-        
-        <button className="w-full bg-[#0092B8] hover:bg-[#007F9F] text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-300">
+        <button className="w-full bg-[#0092B8] hover:bg-[#007F9F] text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-300">
           Contact Us
         </button>
       </div>

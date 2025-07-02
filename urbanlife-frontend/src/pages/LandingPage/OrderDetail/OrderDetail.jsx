@@ -5,6 +5,7 @@ import ContactForm from '../../../components/LandingPage/OrderDetail/ContactForm
 import ServiceDescription from '../../../components/LandingPage/OrderDetail/ServiceDescription';
 import CustomerRequest from '../../../components/LandingPage/OrderDetail/CustomerRequest';
 import PriceSection from '../../../components/LandingPage/OrderDetail/PriceSection';
+import AddServices from '../../../components/LandingPage/OrderDetail/AddServices';
 import Navbar from '../../../components/LandingPage/HomePage/Navbar';
 
 const OrderDetail = () => {
@@ -86,6 +87,7 @@ const OrderDetail = () => {
             <div className="lg:col-span-1">
               <div className="sticky top-28 space-y-6">
                 <BookingInfoCard booking={bookingInfo} />
+                <AddServices />
                 <PriceSection 
                   amount={bookingInfo.price}
                   onPayment={handlePayment}

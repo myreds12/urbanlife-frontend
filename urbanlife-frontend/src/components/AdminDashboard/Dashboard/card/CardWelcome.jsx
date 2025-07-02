@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 export default function CardWelcome() {
-  // State untuk menyimpan tanggal dan waktu
   const [currentDate, setCurrentDate] = useState(
     new Date().toLocaleDateString("en-US", {
       weekday: "long",
@@ -40,7 +39,6 @@ export default function CardWelcome() {
             <h1 className="text-2xl font-bold">Welcome Back, <span className="text-cyan-600">Angela</span> !</h1>
             <span className="flex items-center space-x-1">
                 <p className="text-gray-600 font-">Great to see you again! Your Admin Dashboard awaits</p>
-                <img src="./emoji.png" alt="" className="w-6" />
             </span>
        </div>
 

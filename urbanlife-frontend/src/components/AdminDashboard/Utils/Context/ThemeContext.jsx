@@ -17,11 +17,12 @@ const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const root = document.documentElement;
     
-    // Remove previous theme classes
-    root.classList.remove('light', 'dark');
-    
-    // Add current theme class
-    root.classList.add(theme);
+    // Tailwind CSS hanya mengenali class 'dark', bukan 'light'
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
     
     // Save to localStorage
     localStorage.setItem("theme", theme);

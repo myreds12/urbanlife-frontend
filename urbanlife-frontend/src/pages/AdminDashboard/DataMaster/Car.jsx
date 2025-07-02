@@ -15,6 +15,16 @@ const Car = () => {
       taxExpiry: "2025-12-12",
       status: "Active",
     },
+    {
+      id: "002",
+      brand: "Toyota",
+      model: "Alphard",
+      policeNumber: "B 1234 KKO",
+      taxStatus: "Active",
+      taxExpiry: "2025-12-12",
+      status: "Inactive",
+    },
+
   ]);
 
   const columns = ['#', 'Unit ID', 'Brand', 'Model', 'PoliceNumber', 'TaxStatus', 'TaxExpiry', 'Status', 'Action'];
@@ -128,13 +138,16 @@ const Car = () => {
           </div>
         </div>
 
-        {/* Dropzone */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
+                  {/* Dropzone */}
         <Dropzone 
           ref={dropzoneRef}
           onFilesChange={handleFilesChange}
           maxFiles={10}
           showTitle={false}
         />
+
+        </div>
       </div>
 
       <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">

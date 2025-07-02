@@ -1,5 +1,7 @@
 import React from 'react';
 import Button from '../Ui/button/Button';
+import StatusBadge from '../Ui/badge/StatusBadge';
+
 
 // Komponen SVG Icon Sort
 const SortIcon = ({ direction }) => {
@@ -279,64 +281,68 @@ const Table = ({
               ))}
             </tr>
           </thead>
-          <tbody>
-            {data.map((row, rowIndex) => (
-              <tr
-                key={rowIndex}
-                style={{
-                  borderBottom: rowIndex < data.length - 1 ? "1px solid #f3f4f6" : "none",
-                  transition: "all 0.2s ease",
-                  backgroundColor: selectedRows.includes(row.id) ? "#dbeafe" : "transparent",
-                  borderLeft: selectedRows.includes(row.id) ? "3px solid #3b82f6" : "3px solid transparent",
-                  cursor: "pointer"
-                }}
-                onMouseEnter={(e) => {
-                  if (!selectedRows.includes(row.id)) {
-                    e.currentTarget.style.backgroundColor = "#f9fafb";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!selectedRows.includes(row.id)) {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }
-                }}
-              >
-                {onRowSelect && (
-                  <td style={{ padding: "10px 24px" }}>
-                    <input
-                      type="checkbox"
-                      checked={selectedRows.includes(row.id)}
-                      onChange={() => onRowSelect(row.id)}
-                      className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
-                    />
+<tbody>
+  {data.map((row, rowIndex) => (
+    <tr
+      key={rowIndex}
+      style={{
+        borderBottom: rowIndex < data.length - 1 ? "1px solid #f3f4f6" : "none",
+        transition: "all 0.2s ease",
+        backgroundColor: selectedRows.includes(row.id) ? "#dbeafe" : "transparent",
+        borderLeft: selectedRows.includes(row.id) ? "3px solid #3b82f6" : "3px solid transparent",
+        cursor: "pointer"
+      }}
+      onMouseEnter={(e) => {
+        if (!selectedRows.includes(row.id)) {
+          e.currentTarget.style.backgroundColor = "#f9fafb";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!selectedRows.includes(row.id)) {
+          e.currentTarget.style.backgroundColor = "transparent";
+        }
+      }}
+    >
+      {onRowSelect && (
+        <td style={{ padding: "10px 24px" }}>
+          <input
+            type="checkbox"
+            checked={selectedRows.includes(row.id)}
+            onChange={() => onRowSelect(row.id)}
+            className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+          />
+        </td>
+      )}
 
-                  </td>
-                )}
-
-                {columns.map((column) =>
-                  column === 'Action' ? (
-                    <td key={column} style={{ padding: "5px 24px" }}>
-                      {renderActionButtons(row)}
-                    </td>
-                  ) : (
-                    <td
-                      key={column}
-                      style={{
-                        padding: "5px 24px",
-                        color: "#6b7280",
-                        fontSize: "12px"
-                      }}
-                    >
-                      {typeof defaultMapping[column] === 'function'
-                        ? defaultMapping[column](row, rowIndex)
-                        : row[defaultMapping[column]] || ''}
-                    </td>
-                  )
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {columns.map((column) =>
+        column === 'Action' ? (
+          <td key={column} style={{ padding: "5px 24px" }}>
+            {renderActionButtons(row)}
+          </td>
+        ) : (
+          <td
+            key={column}
+            style={{
+              padding: "5px 24px",
+              color: "#6b7280",
+              fontSize: "12px"
+            }}
+          >
+            {column === 'Status' ? (
+              <StatusBadge status={typeof defaultMapping[column] === 'function'
+                ? defaultMapping[column](row, rowIndex)
+                : row[defaultMapping[column]] || ''} />
+            ) : (
+              typeof defaultMapping[column] === 'function'
+                ? defaultMapping[column](row, rowIndex)
+                : row[defaultMapping[column]] || ''
+            )}
+          </td>
+        )
+      )}
+    </tr>
+  ))}
+</tbody>        </table>
       </div>
     </div>
   );

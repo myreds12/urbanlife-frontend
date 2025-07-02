@@ -12,12 +12,12 @@ const ContactForm = ({ formData, onFormChange }) => {
   const handleCountryChange = (e) => {
     const country = countryOptions.find((c) => c.code === e.target.value);
     setSelectedCountry(country);
-    const currentNumber = formData.phoneNumber.replace(/^(\+\d+)/, "");
-    onFormChange({ phoneNumber: country.code + currentNumber });
+    // opsional: reset phone number kalau ganti kode negara
+    onFormChange({ phoneNumber: "" });
   };
 
   const handlePhoneNumberChange = (e) => {
-    onFormChange({ phoneNumber: selectedCountry.code + e.target.value });
+    onFormChange({ phoneNumber: e.target.value });
   };
 
   return (

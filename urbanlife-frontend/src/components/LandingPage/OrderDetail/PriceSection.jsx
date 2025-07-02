@@ -40,7 +40,7 @@ const PriceSection = ({
     <div className="bg-white p-6 rounded-lg shadow-sm sticky top-4">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold text-gray-600">Final Amount</h3>
-        <p className="text-2xl font-bold text-gray-900 text-red-500">{amount}</p>
+        <p className="text-2xl font-bold  text-red-500">{amount}</p>
       </div>
       
       <button

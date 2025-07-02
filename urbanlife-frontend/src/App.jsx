@@ -38,6 +38,7 @@ import PaymentSection from "./pages/LandingPage/PaymentSection/PaymentSection";
 import PaymentSuccess from "./pages/LandingPage/PaymentSection/PaymentSuccess";
 import PaymentUnsuccess from "./pages/LandingPage/PaymentSection/PaymentUnsuccess";
 import Services from "./pages/LandingPage/Services/Services";
+import Login from "./components/AdminDashboard/Utils/Ui/Login/Login";
 
 
 function App() {
@@ -61,6 +62,9 @@ function App() {
 
           {/* Services page */}
           <Route path="/Services" element={<Services />} />
+
+          {/* Login page */}
+          <Route path="/login" element={<Login />} />
 
           {/* Admin layout and nested routes */}
           <Route path="/admin" element={<AppLayout />}>
@@ -92,7 +96,6 @@ function App() {
 
             {/* User Profile */}
             <Route path="profile" element={<UserProfile />} />
-
           </Route>
         </Routes>
       </Router>

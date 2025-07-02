@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Table from '../../../components/AdminDashboard/Utils/Table/Table';
 import "../../../styles/AdminDashboard/Order/Order.css";
 
 const orders = [
@@ -8,8 +9,8 @@ const orders = [
     customer: "Angelina",
     type: "Day tour",
     detail: "Eastern Bali Tour [B]",
-    date: "03 June 2025",
-    amount: "Rp 2,100,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "PAID",
   },
   {
@@ -17,8 +18,8 @@ const orders = [
     customer: "Daniel Mananta",
     type: "Rent car",
     detail: "Toyota Alphard",
-    date: "03 June 2025",
-    amount: "Rp 1,200,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "PAID",
   },
   {
@@ -26,8 +27,8 @@ const orders = [
     customer: "Anne Hathaway",
     type: "Day tour",
     detail: "Eastern Bali Tour [B]",
-    date: "03 June 2025",
-    amount: "Rp 2,100,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "UNPAID",
   },
   {
@@ -35,8 +36,8 @@ const orders = [
     customer: "Carlos Quiros",
     type: "Day tour",
     detail: "Eastern Bali Tour [B]",
-    date: "03 June 2025",
-    amount: "Rp 1,200,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "PAID",
   },
   {
@@ -44,8 +45,8 @@ const orders = [
     customer: "Jimmy Buttler",
     type: "Day tour",
     detail: "Eastern Bali Tour [B]",
-    date: "03 June 2025",
-    amount: "Rp 2,100,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "CANCELLED",
   },
   {
@@ -53,8 +54,8 @@ const orders = [
     customer: "Marchelino",
     type: "Day tour",
     detail: "Eastern Bali Tour [B]",
-    date: "03 June 2025",
-    amount: "Rp 1,200,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "PAID",
   },
   {
@@ -62,8 +63,8 @@ const orders = [
     customer: "Daniella",
     type: "Rent car",
     detail: "Toyota Alphard",
-    date: "03 June 2025",
-    amount: "Rp 1,200,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "PAID",
   },
   {
@@ -71,8 +72,8 @@ const orders = [
     customer: "Ceril",
     type: "Rent car",
     detail: "Toyota Alphard",
-    date: "03 June 2025",
-    amount: "Rp 1,200,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "PAID",
   },
   {
@@ -80,38 +81,68 @@ const orders = [
     customer: "Maulana",
     type: "Rent car",
     detail: "Toyota Alphard",
-    date: "03 June 2025",
-    amount: "Rp 1,200,000",
+    datefrom: "03 June 2025",
+    dateto: "27 June 2025",
     status: "PAID",
   },
 ];
 
-const getStatusStyle = (status) => {
-  switch (status) {
-    case "PAID":
-      return {
-        backgroundColor: "#10b981",
-        color: "#ffffff",
-      };
-    case "UNPAID":
-      return {
-        backgroundColor: "#f59e0b",
-        color: "#ffffff",
-      };
-    case "CANCELLED":
-      return {
-        backgroundColor: "#ef4444",
-        color: "#ffffff",
-      };
-    default:
-      return {
-        backgroundColor: "#6b7280",
-        color: "#ffffff",
-      };
-  }
-};
-
 const Orders = () => {
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const columns = [
+    "#",
+    "Customer name",
+    "Type",
+    "Detail Order",
+    "Date From",
+    "Date To",
+    "Status",
+  ];
+
+  const handleRowSelect = (id) => {
+    setSelectedRows((prev) =>
+      prev.includes(id)
+        ? prev.filter((rowId) => rowId !== id)
+        : [...prev, id]
+    );
+  };
+
+  const handleSort = (key) => {
+    setSortConfig((prev) => {
+      if (prev.key === key && prev.direction === "asc") {
+        return { key, direction: "desc" };
+      }
+      return { key, direction: "asc" };
+    });
+  };
+
+  const sortedOrders = [...orders].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    const aValue = a[sortConfig.key];
+    const bValue = b[sortConfig.key];
+    if (sortConfig.direction === "asc") {
+      return aValue > bValue ? 1 : -1;
+    }
+    return aValue < bValue ? 1 : -1;
+  });
+
+  const handleDetailClick = (row) => {
+    console.log("Detail clicked for order:", row);
+    // Add your detail page navigation logic here
+  };
+
+  const actions = [
+    {
+      type: "detail",
+      label: "Detail",
+      onClick: handleDetailClick,
+      variant: "outline",
+      size: "sm",
+    },
+  ];
+
   return (
     <div className="p-4">
       {/* Title and Tabs */}
@@ -130,177 +161,64 @@ const Orders = () => {
         </div>
       </div>
 
-      {/* Table */}
-      <div style={{ 
-        background: "#ffffff", 
-        borderRadius: "5px",
-        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-        overflow: "hidden"
-      }}>
+      {/* Reusable Table Component */}
+      <Table
+        data={sortedOrders}
+        columns={columns}
+        sortConfig={sortConfig}
+        actions={actions}
+      />
 
-        {/* Table */}
-        <div style={{ overflow: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead>
-              <tr style={{ backgroundColor: "#f9fafb" }}>
-                <th style={{ 
-                  padding: "12px 24px", 
-                  fontWeight: "500", 
-                  color: "#6b7280", 
-                  textAlign: "left", 
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em"
-                }}>
-                  Booking ID
-                </th>
-                <th style={{ 
-                  padding: "12px 24px", 
-                  fontWeight: "500", 
-                  color: "#6b7280", 
-                  textAlign: "left", 
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em"
-                }}>
-                  Customer
-                </th>
-                <th style={{ 
-                  padding: "12px 24px", 
-                  fontWeight: "500", 
-                  color: "#6b7280", 
-                  textAlign: "left", 
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em"
-                }}>
-                  Type
-                </th>
-                <th style={{ 
-                  padding: "12px 24px", 
-                  fontWeight: "500", 
-                  color: "#6b7280", 
-                  textAlign: "left", 
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em"
-                }}>
-                  Detail
-                </th>
-                <th style={{ 
-                  padding: "12px 24px", 
-                  fontWeight: "500", 
-                  color: "#6b7280", 
-                  textAlign: "left", 
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em"
-                }}>
-                  Date
-                </th>
-                <th style={{ 
-                  padding: "12px 24px", 
-                  fontWeight: "500", 
-                  color: "#6b7280", 
-                  textAlign: "left", 
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em"
-                }}>
-                  Amount
-                </th>
-                <th style={{ 
-                  padding: "12px 24px", 
-                  fontWeight: "500", 
-                  color: "#6b7280", 
-                  textAlign: "left", 
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em"
-                }}>
-                  Status
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order, index) => (
-                <tr key={order.id} style={{ 
-                  borderBottom: index < orders.length - 1 ? "1px solid #f3f4f6" : "none",
-                  transition: "background-color 0.2s ease"
-                }}>
-                  <td style={{ 
-                    padding: "10px 24px", 
-                    color: "#6b7280", 
-                    fontSize: "14px" 
-                  }}>
-                    {order.id}
-                  </td>
-                  <td style={{ padding: "10px 24px" }}>
-                    <div style={{ color: "#111827", fontSize: "14px", fontWeight: "500" }}>
-                      {order.customer}
-                    </div>
-                  </td>
-                  <td style={{ 
-                    padding: "10px 24px", 
-                    color: "#6b7280", 
-                    fontSize: "14px" 
-                  }}>
-                    {order.type}
-                  </td>
-                  <td style={{ 
-                    padding: "10px 24px", 
-                    color: "#6b7280", 
-                    fontSize: "14px" 
-                  }}>
-                    {order.detail}
-                  </td>
-                  <td style={{ 
-                    padding: "10px 24px", 
-                    color: "#6b7280", 
-                    fontSize: "14px" 
-                  }}>
-                    {order.date}
-                  </td>
-                  <td style={{ 
-                    padding: "10px 24px", 
-                    color: "#6b7280", 
-                    fontSize: "14px" 
-                  }}>
-                    {order.amount}
-                  </td>
-                  <td style={{ padding: "10px 24px" }}>
-                    <span style={{
-                      display: "inline-block",
-                      padding: "4px 12px",
-                      borderRadius: "6px",
-                      fontWeight: "600",
-                      fontSize: "12px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.025em",
-                      ...getStatusStyle(order.status),
-                    }}>
-                      {order.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Sidebar (suggest to extract as component) */}
+      {/* Sidebar */}
       <div className="fixed top-0 left-0 h-screen w-64 bg-white shadow-md p-5">
         <h2 className="text-lg font-semibold mb-4">Order</h2>
         <ul className="space-y-2">
-          <li><Link to="/dashboard" className="text-gray-700 hover:text-cyan-600">Dashboard</Link></li>
-          <li><Link to="/orders" className="text-cyan-600 font-bold">Orders</Link></li>
-          <li><Link to="/day-tour" className="text-gray-700 hover:text-cyan-600">Day Tour</Link></li>
-          <li><Link to="/rent-car" className="text-gray-700 hover:text-cyan-600">Rent Car</Link></li>
-          <li><Link to="/accommodation" className="text-gray-700 hover:text-cyan-600">Accommodation</Link></li>
-          <li><Link to="/inbox" className="text-gray-700 hover:text-cyan-600">Inbox</Link></li>
-          <li><Link to="/whatsapp-setting" className="text-gray-700 hover:text-cyan-600">Whatsapp setting</Link></li>
-          <li><Link to="/setting" className="text-gray-700 hover:text-cyan-600">Setting</Link></li>
+          <li>
+            <Link to="/dashboard" className="text-gray-700 hover:text-cyan-600">
+              Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link to="/orders" className="text-cyan-600 font-bold">
+              Orders
+            </Link>
+          </li>
+          <li>
+            <Link to="/day-tour" className="text-gray-700 hover:text-cyan-600">
+              Day Tour
+            </Link>
+          </li>
+          <li>
+            <Link to="/rent-car" className="text-gray-700 hover:text-cyan-600">
+              Rent Car
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/accommodation"
+              className="text-gray-700 hover:text-cyan-600"
+            >
+              Accommodation
+            </Link>
+          </li>
+          <li>
+            <Link to="/inbox" className="text-gray-700 hover:text-cyan-600">
+              Inbox
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/whatsapp-setting"
+              className="text-gray-700 hover:text-cyan-600"
+            >
+              Whatsapp setting
+            </Link>
+          </li>
+          <li>
+            <Link to="/setting" className="text-gray-700 hover:text-cyan-600">
+              Setting
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

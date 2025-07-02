@@ -1,121 +1,154 @@
+import React, { useState } from "react";
+import Table from '../../Utils/Table/Table';
+
+const tableData = [
+  {
+    id: 1,
+    name: "Angella",
+    date: "03 June 2025",
+    type: "Day tour",
+    detail: "Eastern Bali Tour [B]",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "PAID",
+  },
+  {
+    id: 2,
+    name: "Daniel Mananta",
+    date: "03 June 2025",
+    type: "Rent car",
+    detail: "Toyota Alphard",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "PAID",
+  },
+  {
+    id: 3,
+    name: "Anne Hathaway",
+    date: "03 June 2025",
+    type: "Day tour",
+    detail: "Eastern Bali Tour [B]",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "UNPAID",
+  },
+  {
+    id: 4,
+    name: "Carlos Quireos",
+    date: "03 June 2025",
+    type: "Day tour",
+    detail: "Eastern Bali Tour [B]",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "UNPAID",
+  },
+  {
+    id: 5,
+    name: "Jimmy Buttler",
+    date: "03 June 2025",
+    type: "Day tour",
+    detail: "Eastern Bali Tour [B]",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "CANCELLED",
+  },
+  {
+    id: 6,
+    name: "Marchelino",
+    date: "03 June 2025",
+    type: "Day tour",
+    detail: "Eastern Bali Tour [B]",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "PAID",
+  },
+  {
+    id: 7,
+    name: "Daniela",
+    date: "03 June 2025",
+    type: "Rent car",
+    detail: "Toyota Alphard",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "PAID",
+  },
+  {
+    id: 8,
+    name: "Maulana",
+    date: "03 June 2025",
+    type: "Rent car",
+    detail: "Toyota Alphard",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "PAID",
+  },
+  {
+    id: 9,
+    name: "Maulana",
+    date: "03 June 2025",
+    type: "Rent car",
+    detail: "Toyota Alphard",
+    datefrom: "03 June 2025",
+    dateto: "03 June 2025",
+    status: "PAID",
+  },
+];
+
 export default function RecentOrders() {
-  const tableData = [
-    {
-      id: 1,
-      name: "Angella",
-      date: "03 June 2025",
-      type: "Day tour",
-      detail: "Eastern Bali Tour [B]",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "PAID",
-    },
-    {
-      id: 2,
-      name: "Daniel Mananta",
-      date: "03 June 2025",
-      type: "Rent car",
-      detail: "Toyota Alphard",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "PAID",
-    },
-    {
-      id: 3,
-      name: "Anne Hathaway",
-      date: "03 June 2025",
-      type: "Day tour",
-      detail: "Eastern Bali Tour [B]",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "UNPAID",
-    },
-    {
-      id: 4,
-      name: "Carlos Quireos",
-      date: "03 June 2025",
-      type: "Day tour",
-      detail: "Eastern Bali Tour [B]",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "UNPAID",
-    },
-    {
-      id: 5,
-      name: "Jimmy Buttler",
-      date: "03 June 2025",
-      type: "Day tour",
-      detail: "Eastern Bali Tour [B]",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "CANCELLED",
-    },
-    {
-      id: 6,
-      name: "Marchelino",
-      date: "03 June 2025",
-      type: "Day tour",
-      detail: "Eastern Bali Tour [B]",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "PAID",
-    },
-    {
-      id: 7,
-      name: "Daniela",
-      date: "03 June 2025",
-      type: "Rent car",
-      detail: "Toyota Alphard",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "PAID",
-    },
-    {
-      id: 8,
-      name: "Maulana",
-      date: "03 June 2025",
-      type: "Rent car",
-      detail: "Toyota Alphard",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "PAID",
-    },
-    {
-      id: 9,
-      name: "Maulana",
-      date: "03 June 2025",
-      type: "Rent car",
-      detail: "Toyota Alphard",
-      dateFrom: "03 June 2025",
-      dateTo: "03 June 2025",
-      status: "PAID",
-    },
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const columns = [
+    "#",
+    "Customer name",
+    "Type",
+    "Detail Order",
+    "Date From",
+    "Date To",
+    "Status",
   ];
 
-const getStatus = (status) => {
-  switch (status) {
-    case "PAID":
-      return {
-        backgroundColor: "#10b981",
-        color: "#ffffff",
-      };
-    case "UNPAID":
-      return {
-        backgroundColor: "#f59e0b",
-        color: "#ffffff",
-      };
-    case "CANCELLED":
-      return {
-        backgroundColor: "#ef4444",
-        color: "#ffffff",
-      };
-    default:
-      return {
-        backgroundColor: "#6b7280",
-        color: "#ffffff",
-      };
-  }
-};
+  const handleRowSelect = (id) => {
+    setSelectedRows((prev) =>
+      prev.includes(id)
+        ? prev.filter((rowId) => rowId !== id)
+        : [...prev, id]
+    );
+  };
+
+  const handleSort = (key) => {
+    setSortConfig((prev) => {
+      if (prev.key === key && prev.direction === "asc") {
+        return { key, direction: "desc" };
+      }
+      return { key, direction: "asc" };
+    });
+  };
+
+  const sortedData = [...tableData].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    const aValue = a[sortConfig.key];
+    const bValue = b[sortConfig.key];
+    if (sortConfig.direction === "asc") {
+      return aValue > bValue ? 1 : -1;
+    }
+    return aValue < bValue ? 1 : -1;
+  });
+
+  const handleDetailClick = (row) => {
+    console.log("Detail clicked for order:", row);
+    // Add your detail page navigation logic here
+  };
+
+  const actions = [
+    {
+      type: "detail",
+      label: "Detail",
+      onClick: handleDetailClick,
+      variant: "outline",
+      size: "sm",
+    },
+  ];
 
   return (
     <div style={{ 
@@ -178,155 +211,13 @@ const getStatus = (status) => {
         </div>
       </div>
 
-      {/* Table */}
-      <div style={{ overflow: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ backgroundColor: "#f9fafb" }}>
-              <th style={{ 
-                padding: "12px 24px", 
-                fontWeight: "500", 
-                color: "#6b7280", 
-                textAlign: "left", 
-                fontSize: "12px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em"
-              }}>
-                #
-              </th>
-              <th style={{ 
-                padding: "12px 24px", 
-                fontWeight: "500", 
-                color: "#6b7280", 
-                textAlign: "left", 
-                fontSize: "12px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em"
-              }}>
-                Customer Name
-              </th>
-              <th style={{ 
-                padding: "12px 24px", 
-                fontWeight: "500", 
-                color: "#6b7280", 
-                textAlign: "left", 
-                fontSize: "12px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em"
-              }}>
-                Type of order
-              </th>
-              <th style={{ 
-                padding: "12px 24px", 
-                fontWeight: "500", 
-                color: "#6b7280", 
-                textAlign: "left", 
-                fontSize: "12px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em"
-              }}>
-                Detail order
-              </th>
-              <th style={{ 
-                padding: "12px 24px", 
-                fontWeight: "500", 
-                color: "#6b7280", 
-                textAlign: "left", 
-                fontSize: "12px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em"
-              }}>
-                Date from
-              </th>
-              <th style={{ 
-                padding: "12px 24px", 
-                fontWeight: "500", 
-                color: "#6b7280", 
-                textAlign: "left", 
-                fontSize: "12px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em"
-              }}>
-                Date to
-              </th>
-              <th style={{ 
-                padding: "12px 24px", 
-                fontWeight: "500", 
-                color: "#6b7280", 
-                textAlign: "left", 
-                fontSize: "12px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em"
-              }}>
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map((order, index) => (
-              <tr key={order.id} style={{ 
-                borderBottom: index < tableData.length - 1 ? "1px solid #f3f4f6" : "none",
-                transition: "background-color 0.2s ease"
-              }}>
-                <td style={{ 
-                  padding: "16px 24px", 
-                  color: "#6b7280", 
-                  fontSize: "14px" 
-                }}>
-                  {order.id}
-                </td>
-                <td style={{ padding: "16px 24px" }}>
-                  <div style={{ color: "#111827", fontSize: "14px", fontWeight: "500" }}>
-                    {order.name}
-                  </div>
-                </td>
-                <td style={{ 
-                  padding: "16px 24px", 
-                  color: "#6b7280", 
-                  fontSize: "14px" 
-                }}>
-                  {order.type}
-                </td>
-                <td style={{ 
-                  padding: "16px 24px", 
-                  color: "#6b7280", 
-                  fontSize: "14px" 
-                }}>
-                  {order.detail}
-                </td>
-                <td style={{ 
-                  padding: "16px 24px", 
-                  color: "#6b7280", 
-                  fontSize: "14px" 
-                }}>
-                  {order.dateFrom}
-                </td>
-                <td style={{ 
-                  padding: "16px 24px", 
-                  color: "#6b7280", 
-                  fontSize: "14px" 
-                }}>
-                  {order.dateTo}
-                </td>
-                <td style={{ padding: "16px 24px" }}>
-                  <span style={{
-                    display: "inline-block",
-                    padding: "4px 12px",
-                    borderRadius: "6px",
-                    fontWeight: "600",
-                    fontSize: "12px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.025em",
-                    ...getStatus(order.status),
-                  }}>
-                    {order.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* Reusable Table Component */}
+      <Table
+        data={sortedData}
+        columns={columns}
+        sortConfig={sortConfig}
+        actions={actions}
+      />
     </div>
   );
 }

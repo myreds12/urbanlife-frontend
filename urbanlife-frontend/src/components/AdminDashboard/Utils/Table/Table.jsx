@@ -59,13 +59,17 @@ const Table = ({
     'Location': 'location',
     'Type of services': 'type',
     'Unit': 'unit',
-    'Customer name': 'customer_name',
+    'Customer name':(row) => row.customer_name || row.name || row.customer,
     'Nationality': 'nationality',
     'Email': 'email',
     'Phone number': 'phone_number',
     'Gender': 'gender',
     'Date of birth': 'date_of_birth',
     'Action': null,
+    'Type' : 'type',
+    'Detail Order' : 'detail',
+    'Date From' : 'datefrom',
+    'Date To' : 'dateto',
     // WhatsappConnect columns:
     'Name': (row) => row.Name || row.name, // Support both Name and name
     'Category': (row) => row.Category,
@@ -323,7 +327,7 @@ const Table = ({
           <td
             key={column}
             style={{
-              padding: "5px 24px",
+              padding: "7px 24px",
               color: "#6b7280",
               fontSize: "12px"
             }}

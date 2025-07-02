@@ -71,6 +71,9 @@ const Table = ({
     'No Admin 2': (row) => row['No Admin 2'],
     'Content': (row) => row.Content,
     'Status': (row) => row.Status || row.status, // Support both Status and status
+
+    // Data Master columns:
+
     // Countries columns:
     'Country ID': 'id',
     'Country': (row) => row.country || row.name, // For countries page: row.name, for cities page: row.country

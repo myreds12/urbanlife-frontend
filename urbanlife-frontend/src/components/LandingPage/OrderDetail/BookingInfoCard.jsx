@@ -32,7 +32,7 @@ const BookingInfoCard = ({ booking }) => {
       </div>
       
       <div className="flex items-center text-cyan-600 text-sm cursor-pointer hover:text-cyan-700 transition-colors">
-        <span className="font-medium">Refund, reschedule available</span>
+        <span className="font-medium">Change Package</span>
         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>

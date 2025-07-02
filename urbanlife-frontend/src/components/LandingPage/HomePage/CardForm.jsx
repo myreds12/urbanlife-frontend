@@ -5,7 +5,8 @@ const CardForm = () => {
   const [toDate, setToDate] = useState("");
 
   return (
-    <div className="w-[95%] max-w-[700px] mx-auto space-y-1 p-15 sm:p-8 ">
+    <div className="w-full max-w-[400px] ml-auto mr-0 space-y-1 px-2 sm:px-0 pt-8">
+
 
       {/* Select Country */}
       <div className="bg-white rounded-xl shadow-md p-2">
@@ -68,13 +69,15 @@ const CardForm = () => {
                 }
               >
                 <i className="fa-solid fa-calendar-alt text-gray-400 text-sm" />
-                {fromDate
-                  ? new Date(fromDate).toLocaleDateString("id-ID", {
-                      weekday: "short",
-                      day: "numeric",
-                      month: "short",
-                    })
-                  : "Select date"}
+                {toDate
+  ? new Date(toDate).toLocaleDateString("id-ID", {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    })
+  : "Select date"}
+
               </div>
             </div>
           </div>
@@ -100,11 +103,13 @@ const CardForm = () => {
               >
                 <i className="fa-solid fa-calendar-alt text-gray-400 text-sm" />
                 {toDate
-                  ? new Date(toDate).toLocaleDateString("id-ID", {
-                      weekday: "short",
-                      day: "numeric",
-                      month: "short",
-                    })
+                  ? new Date(fromDate).toLocaleDateString("id-ID", {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric", // ⬅️ TAHUNNYA DITAMBAH DI SINI
+                  })
+                  
                   : "Select date"}
               </div>
             </div>

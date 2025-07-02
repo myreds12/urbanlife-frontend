@@ -22,7 +22,7 @@ const CustomerRequest = ({
               </svg>
             </div>
             <div>
-              <p className="font-medium text-gray-900">add special request</p>
+              <p className="font-medium text-gray-900">Add special request</p>
               <p className="text-sm text-gray-500">Type your special needs and enjoy your time.</p>
             </div>
           </div>

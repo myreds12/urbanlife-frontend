@@ -1,23 +1,52 @@
 import { useDropzone } from "react-dropzone";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import ComponentCard from "../../common/ComponentCard";
 
-const Dropzone = () => {
+const Dropzone = forwardRef(({ 
+  onFilesChange, 
+  acceptedFileTypes = {
+    "image/png": [],
+    "image/jpeg": [],
+    "image/webp": [],
+    "image/svg+xml": [],
+  },
+  maxFiles = 10,
+  title = "",
+  showTitle = true 
+}, ref) => {
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
   const onDrop = (acceptedFiles) => {
     console.log("Files dropped:", acceptedFiles);
+    
+    // Update internal state
+    setUploadedFiles(prev => [...prev, ...acceptedFiles]);
+    
+    // Call parent callback if provided (untuk Car component)
+    if (onFilesChange) {
+      onFilesChange([...uploadedFiles, ...acceptedFiles]);
+    }
   };
+
+  // Expose methods to parent via ref
+  useImperativeHandle(ref, () => ({
+    resetFiles: () => {
+      setUploadedFiles([]);
+      if (onFilesChange) {
+        onFilesChange([]);
+      }
+    },
+    getFiles: () => uploadedFiles
+  }));
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: {
-      "image/png": [],
-      "image/jpeg": [],
-      "image/webp": [],
-      "image/svg+xml": [],
-    },
+    accept: acceptedFileTypes,
+    maxFiles,
   });
 
   return (
-    <ComponentCard title="">
+    <ComponentCard title={showTitle ? title : ""}>
       <div
         {...getRootProps()}
         className={`border border-dashed rounded-xl transition p-10 cursor-pointer 
@@ -26,7 +55,7 @@ const Dropzone = () => {
       >
         <input {...getInputProps()} />
 
-        <div className="flex flex-col items-center text-center space-y-4 ">
+        <div className="flex flex-col items-center text-center space-y-4">
           {/* Icon */}
           <div className="w-[68px] h-[68px] flex items-center justify-center rounded-full bg-gray-100 text-gray-500">
             <svg
@@ -52,16 +81,26 @@ const Dropzone = () => {
           {/* Description */}
           <p className="text-sm text-gray-500">
             Drag and drop your PNG, JPG, WebP, SVG images here or browse
+            {maxFiles > 1 && ` (Max: ${maxFiles} files)`}
           </p>
 
           {/* Browse */}
           <span className="font-medium text-cyan-600 underline text-sm">
             Browse File
           </span>
+
+          {/* Show uploaded files count if any */}
+          {uploadedFiles.length > 0 && (
+            <div className="mt-2 text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+              {uploadedFiles.length} file{uploadedFiles.length > 1 ? 's' : ''} uploaded
+            </div>
+          )}
         </div>
       </div>
     </ComponentCard>
   );
-};
+});
+
+Dropzone.displayName = 'Dropzone';
 
 export default Dropzone;

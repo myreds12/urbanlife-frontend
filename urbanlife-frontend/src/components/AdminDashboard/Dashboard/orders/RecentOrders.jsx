@@ -108,22 +108,6 @@ export default function RecentOrders() {
     "Status",
   ];
 
-  const handleRowSelect = (id) => {
-    setSelectedRows((prev) =>
-      prev.includes(id)
-        ? prev.filter((rowId) => rowId !== id)
-        : [...prev, id]
-    );
-  };
-
-  const handleSort = (key) => {
-    setSortConfig((prev) => {
-      if (prev.key === key && prev.direction === "asc") {
-        return { key, direction: "desc" };
-      }
-      return { key, direction: "asc" };
-    });
-  };
 
   const sortedData = [...tableData].sort((a, b) => {
     if (!sortConfig.key) return 0;

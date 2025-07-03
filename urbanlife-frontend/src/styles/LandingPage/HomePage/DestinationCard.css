@@ -9,7 +9,6 @@
   display: inline-block;
   margin: 0 10px;
   transition: transform 0.3s ease;
-  /* Hapus z-index: 1 atau ubah ke nilai yang lebih rendah */
   z-index: 0;
 }
 
@@ -146,7 +145,6 @@
   margin: 4px 0 0;
 }
 
-/* CSS untuk Modal - Pastikan ada di global CSS atau di ModalDestination.css */
 .modal-overlay {
   position: fixed ;
   top: 0 ;
@@ -157,7 +155,7 @@
   display: flex ;
   align-items: center ;
   justify-content: center ;
-  z-index: 9999 ; /* Z-index sangat tinggi */
+  z-index: 9999 ;
 }
 
 .modal-content {

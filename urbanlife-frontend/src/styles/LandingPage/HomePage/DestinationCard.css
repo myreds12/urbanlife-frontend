@@ -9,6 +9,8 @@
   display: inline-block;
   margin: 0 10px;
   transition: transform 0.3s ease;
+  /* Hapus z-index: 1 atau ubah ke nilai yang lebih rendah */
+  z-index: 0;
 }
 
 .destination-card:hover .card-image img {
@@ -47,37 +49,6 @@
   font-weight: 500;
 }
 
-.heart-icon {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 2;
-}
-
-.heart-icon:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1);
-}
-
-.heart-icon.liked {
-  background: rgba(255, 71, 87, 0.2);
-}
-
-.heart-icon svg {
-  transition: all 0.3s ease;
-}
-
 .book-btn {
   position: absolute;
   top: 85%;
@@ -113,6 +84,43 @@
   width: 30px;
 }
 
+.share-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.share-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.destination-card:hover .share-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.share-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
 .card-body {
   padding: 10px;
   text-align: center;
@@ -136,4 +144,30 @@
   font-size: 14px;
   font-weight: 600;
   margin: 4px 0 0;
+}
+
+/* CSS untuk Modal - Pastikan ada di global CSS atau di ModalDestination.css */
+.modal-overlay {
+  position: fixed ;
+  top: 0 ;
+  left: 0 ;
+  right: 0 ;
+  bottom: 0 ;
+  background: rgba(0, 0, 0, 0.5) ;
+  display: flex ;
+  align-items: center ;
+  justify-content: center ;
+  z-index: 9999 ; /* Z-index sangat tinggi */
+}
+
+.modal-content {
+  background: white ;
+  border-radius: 15px ;
+  padding: 20px ;
+  max-width: 400px ;
+  width: 90% ;
+  max-height: 90vh ;
+  overflow-y: auto ;
+  position: relative ;
+  z-index: 10000 ; /* Lebih tinggi dari overlay */
 }

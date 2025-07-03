@@ -36,47 +36,47 @@ const destinations = [
     title: "Langkawi",
     destinations: "5 Destination",
     price: "1,500,000",
-    image: "/images/LandingPage/Destination/Langkawi.png",
+    image: "/images/LandingPage/Destination/EasternBaliTour.png",
   },
   {
     country: "Thailand",
     title: "Bangkok City Tour",
     destinations: "6 Destination",
     price: "1,000,000",
-    image: "/images/LandingPage/Destination/Bangkok.png",
+    image: "/images/LandingPage/Destination/EasternBaliTour.png",
   },
   {
     country: "Japan",
     title: "Kyoto Tour",
     destinations: "3 Destination",
     price: "2,000,000",
-    image: "/images/LandingPage/Destination/Kyoto.png",
+    image: "/images/LandingPage/Destination/EasternBaliTour.png",
   },
   {
     country: "Singapore",
     title: "City Sightseeing",
     destinations: "5 Destination",
     price: "1,600,000",
-    image: "/images/LandingPage/Destination/Singapore.png",
+    image: "/images/LandingPage/Destination/EasternBaliTour.png",
   },
   {
     country: "Indonesia",
     title: "Bandung Tour",
     destinations: "4 Destination",
     price: "1,100,000",
-    image: "/images/LandingPage/Destination/Bandung.png",
+    image: "/images/LandingPage/Destination/EasternBaliTour.png",
   },
   {
     country: "Vietnam",
     title: "Hanoi Trip",
     destinations: "3 Destination",
     price: "1,250,000",
-    image: "/images/LandingPage/Destination/Hanoi.png",
+    image: "/images/LandingPage/Destination/EasternBaliTour.png",
   },
 ];
 
 const AutoScrollDestinationSlider = () => {
-  const combinedDestinations = [...destinations, ...destinations]; // biar loop
+  const combinedDestinations = [...destinations, ...destinations];
 
   return (
     <div className="auto-scroll-wrapper">

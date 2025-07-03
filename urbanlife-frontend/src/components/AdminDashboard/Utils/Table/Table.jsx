@@ -63,13 +63,15 @@ const Table = ({
     'Nationality': 'nationality',
     'Email': 'email',
     'Phone number': 'phone_number',
-    'Gender': 'gender',
     'Date of birth': 'date_of_birth',
     'Action': null,
+
+    // Orders 
     'Type' : 'type',
     'Detail Order' : 'detail',
     'Date From' : 'datefrom',
     'Date To' : 'dateto',
+
     // WhatsappConnect columns:
     'Name': (row) => row.Name || row.name, // Support both Name and name
     'Category': (row) => row.Category,
@@ -78,14 +80,14 @@ const Table = ({
     'Content': (row) => row.Content,
     'Status': (row) => row.Status || row.status, // Support both Status and status
 
-    // Data Master columns:
 
+    //* Data Master columns:
     // Countries columns:
     'Country ID': 'id',
-    'Country': (row) => row.country || row.name, // For countries page: row.name, for cities page: row.country
+    'Country': (row) => row.country || row.name,
     // City
     'City ID': 'id',
-    'City': 'city', // For cities, the name field represents city name
+    'City': 'city',
     //Car
     'Unit ID': 'id',
     'Brand' : 'brand',
@@ -268,7 +270,7 @@ const Table = ({
                   style={{
                     padding: "10px 24px",
                     fontWeight: "700",
-                    color: "#6b7280",
+                    color: "#595D65",
                     textAlign: "left",
                     fontSize: "11px",
                     textTransform: "uppercase",

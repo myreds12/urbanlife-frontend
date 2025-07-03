@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import Table from '../../../components/AdminDashboard/Utils/Table/Table';
 import Pagination from '../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination';
-import DownloadButton from '../../../components/AdminDashboard/Utils/Ui/button/DownloadButton';
+import Export from '../../../components/AdminDashboard/Utils/Ui/button/Export';
+import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 
 const Customer = () => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -87,45 +88,59 @@ const Customer = () => {
   };
 
   return (
-    <div className="p-5 space-y-4">
-      <h2 className="text-xl font-bold text-gray-800">Customer</h2>
+    <>
+      <div className="p-5">
+        <div style={{ 
+          background: "#ffffff", 
+          borderRadius: "12px",
+          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+          overflow: "hidden",
+        }}>
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
+            <h1 className="text-2xl font-bold text-gray-800">Customer</h1>
+            <div className="flex items-center gap-4">
+              <Search
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                placeholder="Search..."
+              />
+              <Export 
+                data={filteredData} 
+                filename="customers.csv" 
+                buttonText="Download"
+              />
+            </div>
+          </div>
 
-      <div className="flex flex-col sm:flex-row sm:justify-end items-center gap-3">
-      <input
-        type="text"
-        placeholder="Search customer..."
-        className="border border-gray-300 rounded-md px-3 py-2 text-sm w-full sm:w-[250px]"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <DownloadButton data={filteredData} filename="customers.csv" />
-    </div>
-
-
-      <Table
-        data={currentData}
-        columns={columns}
-        selectedRows={selectedRows}
-        onRowSelect={handleRowSelect}
-        onSort={handleSort}
-        sortConfig={sortConfig}
-        startIndex={startIndex}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
-
-      <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of {sortedData.length} customers
+          {/* Table */}
+          <Table
+            data={currentData}
+            columns={columns}
+            selectedRows={selectedRows}
+            onRowSelect={handleRowSelect}
+            onSort={handleSort}
+            sortConfig={sortConfig}
+            startIndex={startIndex}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </div>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          size="base"
-        />
+
+        {/* Data info dan Pagination */}
+        <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="text-sm text-gray-700">
+            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of {sortedData.length} customers
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            size="base"
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

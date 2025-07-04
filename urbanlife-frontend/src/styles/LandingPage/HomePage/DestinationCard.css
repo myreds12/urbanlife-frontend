@@ -172,3 +172,8 @@
   position: relative;
   z-index: 10000; /* Lebih tinggi dari overlay */
 }
+
+/* Hentikan animasi saat modal terbuka */
+.auto-scroll-wrapper.modal-open .auto-scroll-track {
+  animation-play-state: paused;
+}

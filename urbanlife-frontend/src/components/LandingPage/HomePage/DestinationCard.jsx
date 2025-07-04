@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import "../../../styles/LandingPage/HomePage/DestinationCard.css";
@@ -8,6 +8,22 @@ const DestinationCard = ({ country, title, destinations, price, image }) => {
   const navigate = useNavigate();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Menambahkan/menghapus kelas modal-open pada auto-scroll-wrapper
+  useEffect(() => {
+    const wrapper = document.querySelector('.auto-scroll-wrapper');
+    if (isShareModalOpen) {
+      console.log("Adding modal-open class to auto-scroll-wrapper for:", title);
+      wrapper.classList.add('modal-open');
+    } else {
+      console.log("Removing modal-open class from auto-scroll-wrapper for:", title);
+      wrapper.classList.remove('modal-open');
+    }
+    // Cleanup saat component unmount
+    return () => {
+      wrapper.classList.remove('modal-open');
+    };
+  }, [isShareModalOpen, title]);
 
   const handleBookNow = () => {
     const bookingData = {
@@ -55,7 +71,7 @@ const DestinationCard = ({ country, title, destinations, price, image }) => {
           {/* Shared Button - Top Right */}
           <button
             onClick={() => {
-              console.log("Share button clicked for:", title);
+              console.log("Share button clicked for:", title, "Setting isShareModalOpen to true");
               setIsShareModalOpen(true);
               setIsHovered(true); // Pertahankan status hover saat modal terbuka
             }}
@@ -90,7 +106,7 @@ const DestinationCard = ({ country, title, destinations, price, image }) => {
         <ModalDestination
           isOpen={isShareModalOpen}
           onClose={() => {
-            console.log("Modal closed for:", title);
+            console.log("Modal closed for:", title, "Setting isShareModalOpen to false");
             setIsShareModalOpen(false);
             setIsHovered(false); // Reset status hover saat modal ditutup
           }}

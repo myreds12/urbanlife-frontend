@@ -12,7 +12,8 @@
   z-index: 0;
 }
 
-.destination-card:hover .card-image img {
+.destination-card:hover .card-image img,
+.destination-card.hover-active .card-image img {
   transform: scale(1.2);
 }
 
@@ -69,7 +70,8 @@
   transition: opacity 0.3s ease;
 }
 
-.destination-card:hover .book-btn {
+.destination-card:hover .book-btn,
+.destination-card.hover-active .book-btn {
   opacity: 1;
 }
 
@@ -110,7 +112,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.destination-card:hover .share-btn {
+.destination-card:hover .share-btn,
+.destination-card.hover-active .share-btn {
   opacity: 1;
   transform: scale(1);
 }
@@ -146,26 +149,26 @@
 }
 
 .modal-overlay {
-  position: fixed ;
-  top: 0 ;
-  left: 0 ;
-  right: 0 ;
-  bottom: 0 ;
-  background: rgba(0, 0, 0, 0.5) ;
-  display: flex ;
-  align-items: center ;
-  justify-content: center ;
-  z-index: 9999 ;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
 .modal-content {
-  background: white ;
-  border-radius: 15px ;
-  padding: 20px ;
-  max-width: 400px ;
-  width: 90% ;
-  max-height: 90vh ;
-  overflow-y: auto ;
-  position: relative ;
-  z-index: 10000 ; /* Lebih tinggi dari overlay */
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  max-width: 400px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  z-index: 10000; /* Lebih tinggi dari overlay */
 }

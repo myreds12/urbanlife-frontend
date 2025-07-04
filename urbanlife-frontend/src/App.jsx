@@ -39,6 +39,7 @@ import PaymentSuccess from "./pages/LandingPage/PaymentSection/PaymentSuccess";
 import PaymentUnsuccess from "./pages/LandingPage/PaymentSection/PaymentUnsuccess";
 import Services from "./pages/LandingPage/Services/Services";
 import Login from "./components/AdminDashboard/Utils/Ui/Login/Login";
+import DaytourDetail from "./pages/LandingPage/DayTour/DaytourDetail";
 
 
 function App() {
@@ -49,6 +50,10 @@ function App() {
           {/* Website landing page */}
           <Route path="/" element={<HomePage />} />
           
+
+          {/* DayTour detail page */}
+          <Route path="/DaytourDetail" element={<DaytourDetail />} />
+
           {/* Order detail page */}
           <Route path="/OrderDetail" element={<OrderDetail />} />
 

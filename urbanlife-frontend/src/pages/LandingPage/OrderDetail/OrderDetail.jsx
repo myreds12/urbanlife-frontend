@@ -79,7 +79,6 @@ const OrderDetail = () => {
                 />
               </div>
 
-              {/* Terms Agreement */}
               
             </div>
 
@@ -88,6 +87,23 @@ const OrderDetail = () => {
               <div className="sticky top-28 space-y-6">
                 <BookingInfoCard booking={bookingInfo} />
                 <AddServices />
+                {/* Terms Agreement */}
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.agreeToTerms}
+                    onChange={(e) => handleFormChange({ agreeToTerms: e.target.checked })}
+                    className="mt-1 w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
+                  />
+                  <span className="text-sm text-gray-700 leading-relaxed">
+                    I agree to Urbanlife's{' '}
+                    <a href="#" className="text-cyan-600 hover:underline font-medium">
+                      terms and conditions
+                    </a>
+                  </span>
+                </label>
+              </div>
                 <PriceSection 
                   amount={bookingInfo.price}
                   onPayment={handlePayment}

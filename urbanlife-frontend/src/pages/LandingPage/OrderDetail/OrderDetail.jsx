@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import BookingInfoCard from '../../../components/LandingPage/OrderDetail/BookingInfoCard'; 
+import BookingInfoCard from '../../../components/LandingPage/OrderDetail/CardServices'; 
 import ContactForm from '../../../components/LandingPage/OrderDetail/ContactForm';
 import ServiceDescription from '../../../components/LandingPage/OrderDetail/ServiceDescription';
 import CustomerRequest from '../../../components/LandingPage/OrderDetail/CustomerRequest';

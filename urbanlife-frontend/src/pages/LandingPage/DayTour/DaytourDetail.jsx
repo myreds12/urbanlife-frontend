@@ -79,7 +79,10 @@ const DaytourDetail = () => {
                      <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={` px-1 font-medium text-lg navbar-menu-item`}
+                            className={`px-1 font-medium text-lg navbar-menu-item relative ${
+                              activeTab === tab.id ? 'active' : ''
+                            }`}
+                            
                      >
                             {tab.label}
                      </button>

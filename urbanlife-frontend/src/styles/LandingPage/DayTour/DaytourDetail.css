@@ -1,3 +1,8 @@
+.navbar-menu-item {
+  position: relative;
+  transition: all 0.2s ease-out;
+}
+
 .navbar-menu-item:hover {
   color: #0092B8;
   transform: translateY(-1px);
@@ -11,7 +16,16 @@
   width: 0;
   height: 2px;
   background: linear-gradient(90deg, #0092B8, #00c1f1);
-  transition: all 0.2s ease-out;
+  transition: all 0.3s ease;
   transform: translateX(-50%);
   border-radius: 2px;
+}
+
+.navbar-menu-item:hover::after,
+.navbar-menu-item.active::after {
+  width: 100%;
+}
+
+.navbar-menu-item.active {
+  color: #0092B8;
 }

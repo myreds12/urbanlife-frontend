@@ -43,8 +43,9 @@ const TourHeader = ({ title, price }) => {
           size="md"
           endIcon={arrowIcon}
           onClick={handleBookNow}
+          className="rounded-md px-15 font-bold"
         >
-          Book Now
+          BOOK NOW
         </Button>
       </div>
     </div>

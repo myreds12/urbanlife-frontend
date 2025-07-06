@@ -114,7 +114,7 @@ const TourImage = ({ images = [], title = 'Tour Image' }) => {
 
       {/* Gallery Modal */}
       {isGalleryOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-[9999] p-4">
+        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
           {/* Modal Content */}
           <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden">
             {/* Header */}

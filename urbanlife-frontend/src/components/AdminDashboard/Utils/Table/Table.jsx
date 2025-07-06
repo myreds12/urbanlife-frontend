@@ -108,11 +108,10 @@ const Table = ({
     'IDguide' : 'idguide',
     'Fluent English' : 'english',
 
-    
-
-
-
-
+    //DaytourDetail -- TourPrice
+    'Count' : 'count',
+    'Adults' : 'adults',
+    'Kids' : 'kids',
   };
 
   const handleSort = (column) => {

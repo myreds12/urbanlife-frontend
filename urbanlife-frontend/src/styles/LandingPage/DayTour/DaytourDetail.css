@@ -1,0 +1,17 @@
+.navbar-menu-item:hover {
+  color: #0092B8;
+  transform: translateY(-1px);
+}
+
+.navbar-menu-item::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #0092B8, #00c1f1);
+  transition: all 0.2s ease-out;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}

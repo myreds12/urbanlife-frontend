@@ -73,7 +73,7 @@ const TourHeader = ({ title, price }) => {
             </Button>
             <button
               onClick={() => setIsShareModalOpen(true)}
-              className="w-12 h-12 flex items-center justify-center rounded-xl shadow-sm bg-white hover:bg-gray-100 transition"
+              className="w-12 h-12 flex items-center justify-center rounded-xl bg-white border border-gray-200 hover:bg-gray-100 hover:border-gray-300 hover:shadow-lg transition duration-200"
             >
               {shareIcon}
             </button>

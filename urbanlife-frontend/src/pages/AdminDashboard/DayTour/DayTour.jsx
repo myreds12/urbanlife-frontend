@@ -1,108 +1,111 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import DescriptionSection from '../../../components/AdminDashboard/DayTour/DescriptionSection';
-import ImageSection from '../../../components/AdminDashboard/DayTour/ImageSection';
-import ItinerarySection from '../../../components/AdminDashboard/DayTour/ItinerarySection';
-import PriceSection from '../../../components/AdminDashboard/DayTour/PriceSection';
-import '../../../styles/AdminDashboard/DayTour/DayTour.css';
+import React, { useState, useEffect } from "react";
+import Table from "../../../components/AdminDashboard/Utils/Table/Table";
+import Button from "../../../components/AdminDashboard/Utils/Ui/button/Button";
+import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
-function DayTour() {
-  const [formData, setFormData] = useState({
-    packageName: 'Western and Eastern Nusa Penida Tour',
-    englishDescription: '',
-    indonesiaDescription: '',
-    image: '',
-  });
+const DayTour = () => {
+  const navigate = useNavigate();
 
-  const [activeSection, setActiveSection] = useState('description');
-  const [photos, setPhotos] = useState([]);
+  const [dayTourData, setDayTourData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [take] = useState(10);
+  const [total, setTotal] = useState(0);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: files ? files[0] : value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
-
-  const moveSection = (id) => {
-    setActiveSection(id);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const fetchDayTours = async () => {
+    setLoading(true);
+    try {
+      const params = { page, take };
+      const res = await apiClient.get("/travel-package", { params });
+      const { data, total } = res.data;
+      setDayTourData(data);
+      setTotal(total);
+    } catch (err) {
+      console.error("Failed to fetch travel packages", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handlePhotoUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (reader.result) {
-          setPhotos((prev) => [...prev, reader.result]);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
+  useEffect(() => {
+    fetchDayTours();
+  }, [page]);
+
+  const totalPages = Math.ceil(total / take);
+
+  const columns = [
+    "#",
+    "ID",
+    "Nama",
+    "Durasi",
+    "Harga Dewasa",
+    "Harga Anak",
+    "Lokasi",
+    "Negara",
+    "Action",
+  ];
+
+  const mapping = {
+    "#": (row, index) => (page - 1) * take + index + 1,
+    "ID": "id",
+    "Nama": "nama",
+    "Durasi": (row) => `${row.durasi} ${row.tipe_durasi}`,
+    "Harga Dewasa": (row) => `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
+    "Harga Anak": (row) => `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
+    "Lokasi": (row) => row.lokasi?.nama || "-",
+    "Negara": (row) => row.lokasi?.negara?.nama || "-",
+    "Action": null,
   };
 
-  const removePhoto = (index) => {
-    setPhotos((prev) => prev.filter((_, i) => i !== index));
-  };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-600"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex h-screen ">
-      <main className="p-1 flex-1">
-        <div className="p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-            Western and Eastern Nusa Penida Tour
-          </h2>
-          <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-            {['description', 'image', 'itinerary', 'price'].map((section) => (
-              <span
-              key={section}
-              className={`cursor-pointer relative ${
-                activeSection === section ? 'text-cyan-600' : 'text-gray-500'
-              } hover:text-cyan-700 group`}
-              onClick={() => moveSection(section)}
-            >
-              {section.charAt(0).toUpperCase() + section.slice(1)}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-600 group-hover:w-full transition-all duration-200"></span>
-            </span>
-            ))}
-          </div>
+    <div className="p-2">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold text-gray-800">Day Tour / Travel Package</h2>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => navigate("/admin/day-tour/create")}
+        >
+          Add Package
+        </Button>
+      </div>
 
-          <DescriptionSection
-            id="description"
-            isActive={activeSection === 'description'}
-            formData={formData}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-          />
+      <Table
+        data={dayTourData}
+        columns={columns}
+        startIndex={(page - 1) * take}
+        defaultMapping={mapping}
+      />
 
-          <ImageSection
-            id="image"
-            isActive={activeSection === 'image'}
-            photos={photos}
-            handlePhotoUpload={handlePhotoUpload}
-            removePhoto={removePhoto}
-          />
-
-          <ItinerarySection
-            id="itinerary"
-            isActive={activeSection === 'itinerary'}
-          />
-
-          <PriceSection
-            id="price"
-            isActive={activeSection === 'price'}
-          />
+      <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="text-sm text-gray-700">
+          Showing {(page - 1) * take + 1} to {Math.min(page * take, total)} of{" "}
+          {total} travel packages
         </div>
-      </main>
+
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={(newPage) => {
+            if (newPage >= 1 && newPage <= totalPages) {
+              setPage(newPage);
+            }
+          }}
+          size="base"
+        />
+      </div>
     </div>
   );
-}
+};
 
 export default DayTour;

@@ -1,106 +1,182 @@
 import { useDropzone } from "react-dropzone";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { useEffect, useImperativeHandle, useState, forwardRef } from "react";
+import { Trash2, X } from "lucide-react";
 import ComponentCard from "../../common/ComponentCard";
 
-const Dropzone = forwardRef(({ 
-  onFilesChange, 
-  acceptedFileTypes = {
-    "image/png": [],
-    "image/jpeg": [],
-    "image/webp": [],
-    "image/svg+xml": [],
-  },
-  maxFiles = 10,
-  title = "",
-  showTitle = true 
+const Dropzone = forwardRef(({
+  files = [],
+  setFiles,
+  multiple = true,
+  maxFiles = 5,
+  title = "Upload Files",
+  showTitle = true,
+  existingFiles = [],
+  setExistingFiles = () => {},
+  onFilesChange = () => {},
 }, ref) => {
+  const [preview, setPreview] = useState(null);
+  const [existing, setExisting] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
+  useEffect(() => {
+    setExisting(existingFiles || []);
+  }, [existingFiles]);
+
+  useEffect(() => {
+    setUploadedFiles([...existing, ...files]);
+  }, [existing, files]);
+
   const onDrop = (acceptedFiles) => {
-    console.log("Files dropped:", acceptedFiles);
-    
-    // Update internal state
-    setUploadedFiles(prev => [...prev, ...acceptedFiles]);
-    
-    // Call parent callback if provided (untuk Car component)
-    if (onFilesChange) {
-      onFilesChange([...uploadedFiles, ...acceptedFiles]);
+    const withPreview = acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      })
+    );
+
+    const updatedFiles = multiple ? [...files, ...withPreview] : withPreview;
+
+    if (updatedFiles.length <= maxFiles) {
+      setFiles(updatedFiles);
+      setUploadedFiles([...existing, ...updatedFiles]);
+      onFilesChange(updatedFiles);
     }
   };
 
-  // Expose methods to parent via ref
   useImperativeHandle(ref, () => ({
     resetFiles: () => {
+      setFiles([]);
+      setExisting([]);
       setUploadedFiles([]);
-      if (onFilesChange) {
-        onFilesChange([]);
-      }
+      onFilesChange([]);
     },
-    getFiles: () => uploadedFiles
+    getFiles: () => [...existing, ...files],
   }));
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: acceptedFileTypes,
-    maxFiles,
+    accept: {
+      "image/png": [],
+      "image/jpeg": [],
+      "image/webp": [],
+      "image/svg+xml": [],
+    },
+    multiple,
   });
+
+  const handleRemoveNewFile = (index) => {
+    const updated = [...files];
+    updated.splice(index, 1);
+    setFiles(updated);
+  };
+
+  const handleRemoveExistingFile = (index) => {
+    const updated = [...existing];
+    updated.splice(index, 1);
+    setExisting(updated);
+    setExistingFiles(updated);
+  };
 
   return (
     <ComponentCard title={showTitle ? title : ""}>
       <div
         {...getRootProps()}
         className={`border border-dashed rounded-xl transition p-10 cursor-pointer 
-          ${isDragActive ? "border-cyan-600 bg-gray-50" : "border-gray-200 bg-white"}
-        `}
+        ${isDragActive ? "border-cyan-600 bg-gray-50" : "border-gray-200 bg-white"}`}
       >
         <input {...getInputProps()} />
-
         <div className="flex flex-col items-center text-center space-y-4">
-          {/* Icon */}
           <div className="w-[68px] h-[68px] flex items-center justify-center rounded-full bg-gray-100 text-gray-500">
-            <svg
-              className="fill-current"
-              width="29"
-              height="28"
-              viewBox="0 0 29 28"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M14.5019 3.91699C14.2852 3.91699 14.0899 4.00891 13.953 4.15589L8.57363 9.53186C8.28065 9.82466 8.2805 10.2995 8.5733 10.5925C8.8661 10.8855 9.34097 10.8857 9.63396 10.5929L13.7519 6.47752V18.667C13.7519 19.0812 14.0877 19.417 14.5019 19.417C14.9161 19.417 15.2519 19.0812 15.2519 18.667V6.48234L19.3653 10.5929C19.6583 10.8857 20.1332 10.8855 20.426 10.5925C20.7188 10.2995 20.7186 9.82463 20.4256 9.53184L15.0838 4.19378C14.9463 4.02488 14.7367 3.91699 14.5019 3.91699ZM5.91626 18.667C5.91626 18.2528 5.58047 17.917 5.16626 17.917C4.75205 17.917 4.41626 18.2528 4.41626 18.667V21.8337C4.41626 23.0763 5.42362 24.0837 6.66626 24.0837H22.3339C23.5766 24.0837 24.5839 23.0763 24.5839 21.8337V18.667C24.5839 18.2528 24.2482 17.917 23.8339 17.917C23.4197 17.917 23.0839 18.2528 23.0839 18.667V21.8337C23.0839 22.2479 22.7482 22.5837 22.3339 22.5837H6.66626C6.25205 22.5837 5.91626 22.2479 5.91626 21.8337V18.667Z"
-              />
-            </svg>
+            📁
           </div>
-
-          {/* Title */}
           <h4 className="text-lg font-semibold text-gray-800">
             {isDragActive ? "Drop Files Here" : "Drag & Drop Files Here"}
           </h4>
-
-          {/* Description */}
           <p className="text-sm text-gray-500">
             Drag and drop your PNG, JPG, WebP, SVG images here or browse
-            {maxFiles > 1 && ` (Max: ${maxFiles} files)`}
+            {multiple && ` (Max: ${maxFiles} files)`}
           </p>
-
-          {/* Browse */}
-          <span className="font-medium text-cyan-600 underline text-sm">
+          <span className="font-medium text-teal-500 underline text-sm">
             Browse File
           </span>
 
-          {/* Show uploaded files count if any */}
           {uploadedFiles.length > 0 && (
             <div className="mt-2 text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-              {uploadedFiles.length} file{uploadedFiles.length > 1 ? 's' : ''} uploaded
+              {uploadedFiles.length} file{uploadedFiles.length > 1 ? "s" : ""} uploaded
             </div>
           )}
         </div>
       </div>
+
+      {/* FILE BARU */}
+      {files.length > 0 && (
+        <div className="mt-4 space-y-2">
+          {files.map((file, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded"
+            >
+              <button
+                onClick={() => setPreview(file.preview)}
+                className="text-sm text-teal-600 hover:underline truncate max-w-[240px] text-left"
+                title={file.name}
+              >
+                🖼️ {file.name}
+              </button>
+              <button
+                onClick={() => handleRemoveNewFile(idx)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* FILE LAMA */}
+      {existing.length > 0 && (
+        <div className="mt-4 space-y-2">
+          {existing.map((file, idx) => (
+            <div
+              key={file.id || idx}
+              className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded"
+            >
+              <button
+                onClick={() => setPreview(file.url)}
+                className="text-sm text-teal-600 hover:underline truncate max-w-[240px] text-left"
+                title={file.name}
+              >
+                🌐 {file.name}
+              </button>
+              <button
+                onClick={() => handleRemoveExistingFile(idx)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* PREVIEW */}
+      {preview && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-white p-4 rounded-lg relative max-w-xl max-h-[90vh] overflow-auto">
+            <button
+              onClick={() => setPreview(null)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              <X size={20} />
+            </button>
+            <img src={preview} alt="Preview" className="w-full h-auto rounded" />
+          </div>
+        </div>
+      )}
     </ComponentCard>
   );
 });
 
-Dropzone.displayName = 'Dropzone';
+Dropzone.displayName = "Dropzone";
 
 export default Dropzone;

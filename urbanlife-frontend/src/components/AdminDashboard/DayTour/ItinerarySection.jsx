@@ -1,148 +1,76 @@
-import React, { useState } from 'react';
 
-const ItinerarySection = ({ id, isActive }) => {
-  const [itinerary, setItinerary] = useState([
-    { destination: '', description: '' },
-    { destination: '', description: '' },
-  ]);
-
-  const handleChange = (index, field, value) => {
-    const newItinerary = [...itinerary];
-    newItinerary[index][field] = value;
-    setItinerary(newItinerary);
-  };
-
-  const addDestination = () => {
-    setItinerary([...itinerary, { destination: '', description: '' }]);
-  };
-
-  const removeDestination = (index) => {
-    const newItinerary = itinerary.filter((_, i) => i !== index);
-    setItinerary(newItinerary);
-  };
-
-  const handleSubmit = () => {
-    console.log('Itinerary submitted:', itinerary);
-  };
+const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }) => {
+  const pairedItineraries = [];
+  for (let i = 0; i < itinerary.length; i += 2) {
+    const en = itinerary.find((item, idx) => item.bahasa === "ENGLISH" && Math.floor(idx / 2) === i / 2);
+    const idn = itinerary.find((item, idx) => item.bahasa === "INDONESIA" && Math.floor(idx / 2) === i / 2);
+    if (en && idn) {
+      pairedItineraries.push({ en, idn, pairIndex: i / 2 });
+    }
+  }
 
   return (
-    <div id={id} className={isActive ? 'block' : 'hidden'}>
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="space-y-6">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold">Itinerary</h3>
-            <button
-              type="button"
-              onClick={addDestination}
-              className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
-            >
-              Add destination
-            </button>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-8">
-            {/* Left Column - English */}
-            <div>
-              <h4 className="text-sm font-medium mb-4 text-gray-700">English</h4>
-              <div className="space-y-4">
-                {itinerary.map((item, index) => (
-                  <div key={`left-${index}`} className="relative">
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
-                      <div>
-                        <input
-                          type="text"
-                          placeholder={`* Destination ${index + 1}`}
-                          value={item.destination}
-                          onChange={(e) => handleChange(index, 'destination', e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          placeholder={`* Description ${index + 1}`}
-                          value={item.description}
-                          onChange={(e) => handleChange(index, 'description', e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none"
-                        />
-                      </div>
+    <div id={id} className={isActive ? "block" : "hidden"}>
+      <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold">Itinerary</h3>
+          <button
+            type="button"
+            onClick={onAdd}
+            className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
+          >
+            + Add Destination
+          </button>
+        </div>
+        <div className="space-y-8">
+          {pairedItineraries.map(({ en, idn, pairIndex }, index) => (
+            <div key={index} className="grid grid-cols-2 gap-6 relative bg-gray-50 p-4 rounded-lg border">
+              {[{ label: "INDONESIA", data: idn }, { label: "ENGLISH", data: en }].map(({ label, data }, langIndex) => (
+                <div key={langIndex}>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">{label}</h4>
+                  <div className="space-y-3">
+                    <div>
                     </div>
-                    {itinerary.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeDestination(index)}
-                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm hover:bg-red-600 transition-colors"
-                        title="Remove destination"
-                      >
-                        ×
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column - English (duplicate for now) */}
-            <div>
-              <h4 className="text-sm font-medium mb-4 text-gray-700">English</h4>
-              <div className="space-y-4">
-                {itinerary.map((item, index) => (
-                  <div key={`right-${index}`} className="relative">
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
-                      <div>
-                        <input
-                          type="text"
-                          placeholder={`* Destination ${index + 1}`}
-                          value={item.destination}
-                          onChange={(e) => handleChange(index, 'destination', e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          placeholder={`* Description ${index + 1}`}
-                          value={item.description}
-                          onChange={(e) => handleChange(index, 'description', e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none"
-                        />
-                      </div>
+                    <div>
+                      <label className="block text-sm font-medium">Destination</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Pantai Kelingking"
+                        value={data.destination}
+                        onChange={(e) => onChange(itinerary.indexOf(data), "destination", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                        required
+                      />
                     </div>
-                    {itinerary.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeDestination(index)}
-                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm hover:bg-red-600 transition-colors"
-                        title="Remove destination"
-                      >
-                        ×
-                      </button>
-                    )}
+                    <div>
+                      <label className="block text-sm font-medium">Description</label>
+                      <textarea
+                        placeholder="Description"
+                        value={data.description}
+                        onChange={(e) => onChange(itinerary.indexOf(data), "description", e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md h-24"
+                        required
+                      />
+                    </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+              {pairedItineraries.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => onRemove(pairIndex)}
+                  className="absolute top-2 right-2 text-red-600 text-xl hover:text-red-800"
+                >
+                  ×
+                </button>
+              )}
             </div>
-          </div>
-
-          <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
-            <button 
-              type="button" 
-              className="px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
-            >
-              Cancel
-            </button>
-            <button 
-              type="button" 
-              onClick={handleSubmit}
-              className="px-6 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 transition-colors"
-            >
-              Save Template
-            </button>
-          </div>
+          ))}
         </div>
       </div>
     </div>
   );
 };
+
 
 export default ItinerarySection;

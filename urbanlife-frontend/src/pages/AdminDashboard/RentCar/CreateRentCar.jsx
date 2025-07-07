@@ -1,157 +1,283 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
+import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
+import ItinerarySection from "../../../components/AdminDashboard/DayTour/ItinerarySection";
+import PriceSection from "../../../components/AdminDashboard/DayTour/PriceSection";
+import "../../../styles/AdminDashboard/DayTour/DayTour.css";
+import toast from "react-hot-toast";
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import { PopsicleIcon } from "lucide-react";
+import PolicyAndProcedureSection from "../../../components/AdminDashboard/RentCar/PolicyAndProcedureSection";
+import PoliceNumberSection from "../../../components/AdminDashboard/RentCar/PoliceNumberSection";
 
-const CreateAccomodation = ({ isOpen, onClose, onSubmit }) => {
+const CreateRentCarPage = () => {
+  const navigate = useNavigate();
+  const [photos, setPhotos] = useState([]);
+  const [locations, setLocations] = useState([]);
+  console.log(locations, "locations");
+
+  console.log(photos, "photos");
+  const [content, setContent] = useState([
+    { bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
+    { bahasa: "INDONESIA", deskripsi: "", kebijakan: "" },
+  ]);
+
+  const [prices, setPrices] = useState([{ durasi: "", harga: "" }]);
+
+  const handlePriceChange = (index, field, value) => {
+    const updated = [...prices];
+    updated[index][field] = value;
+    setPrices(updated);
+  };
+
+  const handleAddPrice = () => {
+    setPrices([...prices, { duration: "", price: "" }]);
+  };
+
+  const handleDeletePrice = (index) => {
+    const updated = prices.filter((_, i) => i !== index);
+    setPrices(updated);
+  };
+
   const [formData, setFormData] = useState({
-    id: '',
-    location: '',
-    type: '',
-    unit: '',
+    nama: "",
+    lokasi_id: 0,
+    status_pajak: "",
+    status: "TERSEDIA DIPESAN",
+    plat_nomor: "",
+    model: "",
+    tanggal_pajak_berakhir: "",
+    content: content,
+    durasi: prices,
   });
 
+  console.log(formData, "form data");
+
+  console.log(content, "content");
+
+  const [activeSection, setActiveSection] = useState("description");
+
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      content: content,
+    }));
+  }, [content]);
+
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      durasi: prices,
+    }));
+  }, [prices]);
+
+  const fetchLocations = async () => {
+    try {
+      const { data } = await apiClient.get("/lokasi");
+      setLocations(data.data || []);
+    } catch (error) {
+      console.error("❌ Failed to fetch locations", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLocations();
+  }, []);
+
+  const handleChangeContent = (index, field, value) => {
+    const updated = [...content];
+    updated[index][field] = value;
+    setContent(updated);
+  };
+
+
+  const handleChangePolicy = (index, value) => {
+    const updated = [...content];
+    updated[index].kebijakan = value;
+    setContent(updated);
+  };
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: files ? files[0] : value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    setFormData({ id: '', location: '', type: '', unit: '' });
-    onClose();
-  };
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
-    // Cleanup on unmount
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
+    const payload = new FormData();
+    payload.append("nama", formData.nama);
+    payload.append("lokasi_id", formData.lokasi_id);
+    payload.append("plat_nomor", formData.plat_nomor);
+    payload.append("model", formData.model);
+    payload.append("tanggal_pajak_berakhir", formData.tanggal_pajak_berakhir);
+    payload.append("status", "TERSEDIA DIPESAN");
 
-  // Handle ESC key
-  useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.keyCode === 27) {
-        onClose();
+    // Content (deskripsi)
+    content.forEach((item, index) => {
+      payload.append(`content[${index}][bahasa]`, item.bahasa);
+      payload.append(`content[${index}][deskripsi]`, item.deskripsi);
+      payload.append(`content[${index}][kebijakan]`, item.kebijakan || "");
+    });
+
+    // Durasi harga
+    prices.forEach((item, index) => {
+      payload.append(`durasi[${index}][durasi]`, item.duration);
+      payload.append(`durasi[${index}][harga]`, item.price);
+    });
+
+    // Foto
+    photos.forEach((file) => {
+      payload.append("files", file);
+    });
+
+    console.log("=== Payload yang akan dikirim ke API ===");
+    for (let pair of payload.entries()) {
+      if (pair[1] instanceof File) {
+        console.log(pair[0], pair[1].name);
+      } else {
+        console.log(pair[0], pair[1]);
       }
-    };
-    
-    if (isOpen) {
-      document.addEventListener('keydown', handleEsc, false);
     }
-    
-    return () => {
-      document.removeEventListener('keydown', handleEsc, false);
-    };
-  }, [isOpen, onClose]);
+    console.log("========================================");
 
-  // Handle backdrop click
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
+    try {
+      const response = await apiClient.post("/kendaraan", payload);
+      console.log(response, "response");
+
+      if (response.status === 201) {
+        navigate("/admin/rent-car");
+        toast.success("Rent Car created successfully");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.error("Submission Error:", error);
     }
   };
 
-  if (!isOpen) return null;
+  const moveSection = (id) => {
+    setActiveSection(id);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPhotos((prev) => [...prev, file]);
+    }
+  };
+
+  const removePhoto = (index) => {
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
 
   return (
-    <div 
-      className="fixed inset-0 flex items-center justify-center p-4"
-      style={{ 
-        zIndex: 10000,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)'
-      }}
-      onClick={handleBackdropClick}
-    >
-      <div 
-        className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Add New Rent Car</h2>
+    <form onSubmit={handleSubmit}>
+      <div className="flex h-screen ">
+        <main className="p-1 flex-1">
+          <div className="p-6 rounded-lg">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-5">
+              Create Rent Car
+            </h2>
+            <div className="text-sm text-gray-500 mb-6 flex space-x-5">
+              {[
+                "description",
+                "image",
+                "policy and procedure",
+                "police number",
+                "price",
+              ].map((section) => (
+                <span
+                  key={section}
+                  className={`cursor-pointer relative ${
+                    activeSection === section
+                      ? "text-cyan-600"
+                      : "text-gray-500"
+                  } hover:text-cyan-700 group`}
+                  onClick={() => moveSection(section)}
+                >
+                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-600 group-hover:w-full transition-all duration-200"></span>
+                </span>
+              ))}
+            </div>
+
+            <DescriptionSection
+              id="description"
+              isActive={activeSection === "description"}
+              formData={formData}
+              content={formData.content}
+              onChangeContent={handleChangeContent}
+              handleChange={handleChange}
+              locations={locations}
+              type="rentcar"
+            />
+
+            <ImageSection
+              id="image"
+              isActive={activeSection === "image"}
+              photos={photos}
+              handlePhotoUpload={handlePhotoUpload}
+              removePhoto={removePhoto}
+            />
+
+            <PolicyAndProcedureSection
+              id="kebijakan"
+              isActive={activeSection === "policy and procedure"}
+              content={content}
+              onChangePolicy={handleChangePolicy}
+            />
+
+            <PoliceNumberSection
+              id="police"
+              isActive={activeSection === "police number"}
+              formData={formData}
+              content={formData.content}
+              onChangeContent={handleChangeContent}
+              handleChange={handleChange}
+              locations={locations}
+            />
+
+            <PriceSection
+              id="price"
+              isActive={activeSection === "price"}
+              formData={formData}
+              handleChange={handleChange}
+              type="rentcar"
+              prices={prices}
+              handlePriceChange={handlePriceChange}
+              handleAddPrice={handleAddPrice}
+              handleDeletePrice={handleDeletePrice}
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 px-6 pb-6">
+            <Link to="/admin/dashboard">
+              <button
+                type="button"
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+            </Link>
+
             <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors p-1"
-              type="button"
+              type="submit"
+              className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              Save
             </button>
           </div>
-          
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-4">              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-                  placeholder="Enter location"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Type of Services</label>
-                <select
-                  name="type"
-                  value={formData.type}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-                  required
-                >
-                  <option value="">Select Type</option>
-                  <option value="Hotel Stay">Bali Rent Car</option>
-                  <option value="Apartment">Bali Airport Transfer Service</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Unit</label>
-                <input
-                  type="text"
-                  name="unit"
-                  value={formData.unit}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-                  placeholder="Enter unit name"
-                  required
-                />
-              </div>
-              
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="submit"
-                  className="flex-1 px-4 py-3 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors"
-                >
-                  Add Unit
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+        </main>
       </div>
-    </div>
+    </form>
   );
 };
 
-export default CreateAccomodation;
+export default CreateRentCarPage;

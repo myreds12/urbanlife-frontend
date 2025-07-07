@@ -11,6 +11,7 @@ import PartnerSection from "../../../components/LandingPage/HomePage/PartnerSect
 
 // Import CSS file yang terpisah
 import "../../../styles/LandingPage/HomePage/ResponsiveDestination.css";
+import Destination from "./Destination/Destination";
 
 const LandingPage = () => {
   return (
@@ -20,11 +21,27 @@ const LandingPage = () => {
       {/* Hero container */}
       <div className="hero-container">
         <HeroSection />
-      </div>
-
-      {/* Separate Destination Section with reduced margin */}
-      <div className="mb-10 mt-10">
-        <AutoScrollDestinationSlider />
+        
+        {/* Responsive destination cards */}
+        <div
+          className="destination-grid-floating mb-10"
+          style={{
+            position: "absolute",
+            bottom: "-200px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            justifyContent: "center",
+            gap: "24px",
+            flexWrap: "wrap",
+            padding: "0 20px",
+            zIndex: 10,
+            width: "100%",
+            maxWidth: "1200px"
+          }}
+        >
+         <Destination />
+        </div>
       </div>
       
 

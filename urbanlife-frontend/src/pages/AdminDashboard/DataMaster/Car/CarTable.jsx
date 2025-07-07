@@ -1,4 +1,4 @@
-const CarTable = ({ cars }) => {
+const CarTable = ({ cars, onEdit, onDelete }) => {
   return (
     <table className="w-full text-sm text-left">
       <thead className="text-gray-400">
@@ -19,19 +19,22 @@ const CarTable = ({ cars }) => {
           <tr key={car.id} className="last:border-none">
             <td className="py-2">{index + 1}</td>
             <td className="py-2">{car.id}</td>
-            <td className="py-2">{car.brand}</td>
+            <td className="py-2">{car.nama}</td>
             <td className="py-2">{car.model}</td>
-            <td className="py-2">{car.policeNumber}</td>
-            <td className="py-2">{car.taxStatus}</td>
-            <td className="py-2">{car.taxExpiry}</td>
+            <td className="py-2">{car.plat_nomor}</td>
+            <td className="py-2">{car.status_pajak ? "Active" : "Inactive"}</td>
+            <td className="py-2">{car.tanggal_pajak_berakhir}</td>
             <td className="py-2">
-              <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-500 text-white">
-                Active
+             <span
+                className={`inline-block px-3 py-1 text-sm rounded-full 
+                  ${car.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+              >
+                {car.status ? "Active" : "Inactive"}
               </span>
             </td>
             <td className="py-2 space-x-2">
-              <button className="text-blue-500 hover:underline">Edit</button>
-              <button className="text-red-500 hover:underline">Delete</button>
+              <button onClick={() => onEdit(car)} className="text-blue-500 hover:underline">Edit</button>
+              <button onClick={() => onDelete(car.id)} className="text-red-500 hover:underline">Delete</button>
             </td>
           </tr>
         ))}

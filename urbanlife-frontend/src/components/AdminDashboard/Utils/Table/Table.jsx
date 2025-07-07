@@ -1,7 +1,5 @@
-import React from 'react';
-import Button from '../Ui/button/Button';
-import StatusBadge from '../Ui/badge/StatusBadge';
-
+import React from "react";
+import Button from "../Ui/button/Button";
 
 // Komponen SVG Icon Sort
 const SortIcon = ({ direction }) => {
@@ -12,9 +10,9 @@ const SortIcon = ({ direction }) => {
       width="12"
       height="12"
       style={{
-        marginLeft: '6px',
-        transform: direction === 'desc' ? 'rotate(180deg)' : 'none',
-        transition: 'transform 0.2s'
+        marginLeft: "6px",
+        transform: direction === "desc" ? "rotate(180deg)" : "none",
+        transition: "transform 0.2s",
       }}
     >
       <path
@@ -27,14 +25,34 @@ const SortIcon = ({ direction }) => {
 
 // Icon components untuk delete dan edit
 const DeleteIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <polyline points="3,6 5,6 21,6"></polyline>
     <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"></path>
   </svg>
 );
 
 const EditIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
   </svg>
@@ -47,76 +65,15 @@ const Table = ({
   onRowSelect,
   onSort,
   sortConfig,
-  startIndex = 0,
+  defaultMapping = {},
   // New props for custom actions
   actions = null, // Array of action objects: [{ type: 'detail', label: 'Detail', onClick: (row) => {} }]
   onEdit = null, // Function untuk handle edit
-  onDelete = null // Function untuk handle delete
+  onDelete = null, // Function untuk handle delete
 }) => {
-  const defaultMapping = {
-    '#': (row, index) => startIndex + index + 1,
-    'Booking ID': 'id',
-    'Location': 'location',
-    'Type of services': 'type',
-    'Unit': 'unit',
-    'Customer name':(row) => row.customer_name || row.name || row.customer,
-    'Nationality': 'nationality',
-    'Email': 'email',
-    'Phone number': 'phone_number',
-    'Date of birth': 'date_of_birth',
-    'Action': null,
-
-    // Orders 
-    'Type' : 'type',
-    'Detail Order' : 'detail',
-    'Date From' : 'datefrom',
-    'Date To' : 'dateto',
-
-    // WhatsappConnect columns:
-    'Name': (row) => row.Name || row.name, // Support both Name and name
-    'Category': (row) => row.Category,
-    'No Admin 1': (row) => row['No Admin 1'],
-    'No Admin 2': (row) => row['No Admin 2'],
-    'Content': (row) => row.Content,
-    'Status': (row) => row.Status || row.status, // Support both Status and status
-
-
-    //* Data Master columns:
-    // Countries columns:
-    'Country ID': 'id',
-    'Country': (row) => row.country || row.name,
-    // City
-    'City ID': 'id',
-    'City': 'city',
-    //Car
-    'Unit ID': 'id',
-    'Brand' : 'brand',
-    'Model' : 'model',
-    'PoliceNumber' : 'policeNumber',
-    'TaxStatus' : 'taxStatus',
-    'TaxExpiry' : 'taxExpiry',
-    //Driver
-    'Driver ID': 'id',
-    'Driver Name': 'name',
-    'IDdriver': 'iddriver',
-    'Phone Number' : 'phone',
-    'Driving Expiry Period' : 'expiry',
-    'Gender' : 'gender',
-    //Guide
-    'Guide ID' : 'id',
-    'Guide Name' : 'name',
-    'IDguide' : 'idguide',
-    'Fluent English' : 'english',
-
-    //DaytourDetail -- TourPrice
-    'Count' : 'count',
-    'Adults' : 'adults',
-    'Kids' : 'kids',
-  };
-
   const handleSort = (column) => {
     const mappedKey = defaultMapping[column];
-    if (mappedKey && typeof mappedKey === 'string' && onSort) {
+    if (mappedKey && typeof mappedKey === "string" && onSort) {
       onSort(mappedKey);
     }
   };
@@ -134,7 +91,7 @@ const Table = ({
     // Jika ada custom actions, gunakan itu
     if (actions && actions.length > 0) {
       return (
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {actions.map((action, index) => (
             <Button
               key={index}
@@ -143,7 +100,11 @@ const Table = ({
               onClick={() => action.onClick(row)}
               style={action.style}
             >
-              {action.icon && <span style={{ marginRight: action.label ? '4px' : '0' }}>{action.icon}</span>}
+              {action.icon && (
+                <span style={{ marginRight: action.label ? "4px" : "0" }}>
+                  {action.icon}
+                </span>
+              )}
               {action.label}
             </Button>
           ))}
@@ -154,16 +115,7 @@ const Table = ({
     // Jika ada onEdit dan onDelete (untuk Customer dan Countries), tampilkan icon buttons
     if (onEdit || onDelete) {
       return (
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          {onEdit && (
-            <button
-              onClick={() => onEdit(row)}
-              className="action-button edit-button"
-              title="Edit"
-            >
-              <EditIcon />
-            </button>
-          )}
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {onDelete && (
             <button
               onClick={() => onDelete(row)}
@@ -186,12 +138,14 @@ const Table = ({
   };
 
   return (
-    <div style={{
-      background: "#ffffff",
-      borderRadius: "5px",
-      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-      overflow: "hidden"
-    }}>
+    <div
+      style={{
+        background: "#ffffff",
+        borderRadius: "5px",
+        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+        overflow: "hidden",
+      }}
+    >
       <style>
         {`
           .action-button {
@@ -236,30 +190,34 @@ const Table = ({
           <thead>
             <tr style={{ backgroundColor: "#f9fafb" }}>
               {onRowSelect && (
-                <th style={{
-                  padding: "10px 24px",
-                  fontWeight: "500",
-                  color: "#6b7280",
-                  textAlign: "left",
-                  fontSize: "12px",
-                  width: "50px"
-                }}>
-                  <input
-                  type="checkbox"
-                  checked={selectedRows.length === data.length && data.length > 0}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      data.forEach(row => {
-                        if (!selectedRows.includes(row.id)) {
-                          onRowSelect(row.id);
-                        }
-                      });
-                    } else {
-                      selectedRows.forEach(id => onRowSelect(id));
-                    }
+                <th
+                  style={{
+                    padding: "10px 24px",
+                    fontWeight: "500",
+                    color: "#6b7280",
+                    textAlign: "left",
+                    fontSize: "12px",
+                    width: "50px",
                   }}
-                  className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
-                />
+                >
+                  <input
+                    type="checkbox"
+                    checked={
+                      selectedRows.length === data.length && data.length > 0
+                    }
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        data.forEach((row) => {
+                          if (!selectedRows.includes(row.id)) {
+                            onRowSelect(row.id);
+                          }
+                        });
+                      } else {
+                        selectedRows.forEach((id) => onRowSelect(id));
+                      }
+                    }}
+                    className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                  />
                 </th>
               )}
 
@@ -274,80 +232,91 @@ const Table = ({
                     fontSize: "11px",
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
-                    cursor: defaultMapping[column] && typeof defaultMapping[column] === 'string' && onSort ? 'pointer' : 'default'
+                    cursor:
+                      defaultMapping[column] &&
+                      typeof defaultMapping[column] === "string" &&
+                      onSort
+                        ? "pointer"
+                        : "default",
                   }}
                   onClick={() => handleSort(column)}
                 >
-                  <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                  <span
+                    style={{ display: "inline-flex", alignItems: "center" }}
+                  >
                     {column}
-                    {defaultMapping[column] && typeof defaultMapping[column] === 'string' && onSort && getSortIcon(column)}
+                    {defaultMapping[column] &&
+                      typeof defaultMapping[column] === "string" &&
+                      onSort &&
+                      getSortIcon(column)}
                   </span>
                 </th>
               ))}
             </tr>
           </thead>
-<tbody>
-  {data.map((row, rowIndex) => (
-    <tr
-      key={rowIndex}
-      style={{
-        borderBottom: rowIndex < data.length - 1 ? "1px solid #f3f4f6" : "none",
-        transition: "all 0.2s ease",
-        backgroundColor: selectedRows.includes(row.id) ? "#dbeafe" : "transparent",
-        borderLeft: selectedRows.includes(row.id) ? "3px solid #3b82f6" : "3px solid transparent",
-        cursor: "pointer"
-      }}
-      onMouseEnter={(e) => {
-        if (!selectedRows.includes(row.id)) {
-          e.currentTarget.style.backgroundColor = "#f9fafb";
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!selectedRows.includes(row.id)) {
-          e.currentTarget.style.backgroundColor = "transparent";
-        }
-      }}
-    >
-      {onRowSelect && (
-        <td style={{ padding: "10px 24px" }}>
-          <input
-            type="checkbox"
-            checked={selectedRows.includes(row.id)}
-            onChange={() => onRowSelect(row.id)}
-            className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
-          />
-        </td>
-      )}
+          <tbody>
+            {data.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                style={{
+                  borderBottom:
+                    rowIndex < data.length - 1 ? "1px solid #f3f4f6" : "none",
+                  transition: "all 0.2s ease",
+                  backgroundColor: selectedRows.includes(row.id)
+                    ? "#dbeafe"
+                    : "transparent",
+                  borderLeft: selectedRows.includes(row.id)
+                    ? "3px solid #3b82f6"
+                    : "3px solid transparent",
+                  cursor: "pointer",
+                }}
+                onMouseEnter={(e) => {
+                  if (!selectedRows.includes(row.id)) {
+                    e.currentTarget.style.backgroundColor = "#f9fafb";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!selectedRows.includes(row.id)) {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                  }
+                }}
+              >
+                {onRowSelect && (
+                  <td style={{ padding: "10px 24px" }}>
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(row.id)}
+                      onChange={() => onRowSelect(row.id)}
+                      className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                    />
+                  </td>
+                )}
 
-      {columns.map((column) =>
-        column === 'Action' ? (
-          <td key={column} style={{ padding: "5px 24px" }}>
-            {renderActionButtons(row)}
-          </td>
-        ) : (
-          <td
-            key={column}
-            style={{
-              padding: "7px 24px",
-              color: "#6b7280",
-              fontSize: "12px"
-            }}
-          >
-            {column === 'Status' ? (
-              <StatusBadge status={typeof defaultMapping[column] === 'function'
-                ? defaultMapping[column](row, rowIndex)
-                : row[defaultMapping[column]] || ''} />
-            ) : (
-              typeof defaultMapping[column] === 'function'
-                ? defaultMapping[column](row, rowIndex)
-                : row[defaultMapping[column]] || ''
-            )}
-          </td>
-        )
-      )}
-    </tr>
-  ))}
-</tbody>        </table>
+                {columns.map((column) =>
+                  column === "Action" ? (
+                    <td key={column} style={{ padding: "5px 24px" }}>
+                      {renderActionButtons(row)}
+                    </td>
+                  ) : (
+                    <td
+                      key={column}
+                      style={{
+                        padding: "5px 24px",
+                        color: "#6b7280",
+                        fontSize: "12px",
+                      }}
+                    >
+                      {defaultMapping &&
+                      typeof defaultMapping[column] === "function"
+                        ? defaultMapping[column](row, rowIndex)
+                        : row[column?.toLowerCase()?.replace(/\s+/g, "")] ?? ""}
+                    </td>
+                  )
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

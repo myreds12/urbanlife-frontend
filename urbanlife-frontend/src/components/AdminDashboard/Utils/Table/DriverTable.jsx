@@ -1,4 +1,8 @@
-const DriverTable = ({ drivers }) => {
+const DriverTable = ({ drivers, loading, onEdit, onDelete }) => {
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <table className="w-full text-sm text-left">
       <thead className="text-gray-400">
@@ -16,22 +20,29 @@ const DriverTable = ({ drivers }) => {
       </thead>
       <tbody>
         {drivers.map((driver, index) => (
-          <tr key={driver.id} className="last:border-none">
+          <tr key={driver.id} className="border-t last:border-none">
             <td className="py-2">{index + 1}</td>
             <td className="py-2">{driver.id}</td>
-            <td className="py-2">{driver.brand}</td>
-            <td className="py-2">{driver.model}</td>
-            <td className="py-2">{driver.phone}</td>
+            <td className="py-2">{driver.nama}</td>
+            <td className="py-2">{driver.driver_id || "Tidak Ada"}</td>
+            <td className="py-2">{driver.nomor_hp}</td>
             <td className="py-2">{driver.gender}</td>
-            <td className="py-2">{driver.expiry}</td>
+            <td className="py-2">
+              {driver.tanggal_periode_berakhir ? new Date(driver.tanggal_periode_berakhir).toLocaleDateString() : "Tidak Ada"}
+            </td>
             <td className="py-2">
               <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-500 text-white">
                 Active
               </span>
             </td>
-            <td className="py-2 space-x-2">
-              <button className="text-blue-500 hover:underline">Edit</button>
-              <button className="text-red-500 hover:underline">Delete</button>
+             <td className="py-2 space-x-2">
+              <button
+                onClick={() => onEdit(driver)}
+                className="text-blue-500 hover:underline cursor-pointer"
+              >
+                Edit
+              </button>
+              <button onClick={() => onDelete(driver.id)} className="text-red-500 hover:underline">Delete</button>
             </td>
           </tr>
         ))}

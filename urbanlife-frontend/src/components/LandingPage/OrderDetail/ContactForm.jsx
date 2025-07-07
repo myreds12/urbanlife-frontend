@@ -16,37 +16,43 @@ const ContactForm = ({ formData, onFormChange }) => {
     onFormChange({ phoneNumber: "" });
   };
 
-  const handlePhoneNumberChange = (e) => {
-    onFormChange({ phoneNumber: e.target.value });
-  };
-
   return (
     <div className="space-y-6">
       {/* Title Selection */}
       <div className="flex gap-6">
-        {["Mr", "Mrs"].map((title) => (
-          <label key={title} className="flex items-center cursor-pointer">
-            <input
-              type="radio"
-              name="title"
-              value={title}
-              checked={formData.title === title}
-              onChange={(e) => onFormChange({ title: e.target.value })}
-              className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 focus:ring-cyan-600"
-            />
-            <span className="ml-2 text-sm font-medium text-gray-700">{title}</span>
-          </label>
-        ))}
+        <label className="flex items-center cursor-pointer">
+          <input
+            type="radio"
+            name="gender"
+            value="Mr"
+            checked={formData.gender === 'Mr'}
+            onChange={(e) => onFormChange({ gender: e.target.value })}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+          />
+          <span className="ml-2 text-sm font-medium text-gray-700">Mr</span>
+        </label>
+        <label className="flex items-center cursor-pointer">
+          <input
+            type="radio"
+            name="gender"
+            value="Mrs"
+            checked={formData.gender === 'Mrs'}
+            onChange={(e) => onFormChange({ gender: e.target.value })}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+          />
+          <span className="ml-2 text-sm font-medium text-gray-700">Mrs</span>
+        </label>
       </div>
 
       {/* Full Name */}
       <div>
         <input
           type="text"
+          name="nama"
           placeholder="Full Name (as stated in ID/Passport/Driver's License)"
-          value={formData.fullName}
-          onChange={(e) => onFormChange({ fullName: e.target.value })}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-600 focus:border-cyan-600 transition-colors"
+          value={formData.nama}
+          onChange={(e) => onFormChange({ nama: e.target.value })}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
         />
       </div>
 
@@ -68,9 +74,10 @@ const ContactForm = ({ formData, onFormChange }) => {
         <input
           type="tel"
           placeholder="Phone number"
-          value={formData.phoneNumber.replace(/^(\+\d+)/, "")}
-          onChange={handlePhoneNumberChange}
-          className="w-full pl-25 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-600 focus:border-cyan-600 transition-colors"
+          name="nomor_hp"
+          value={formData.nomor_hp.replace('+62', '')}
+          onChange={(e) => onFormChange({ nomor_hp: '+62' + e.target.value })}
+          className="w-full pl-20 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
         />
       </div>
 

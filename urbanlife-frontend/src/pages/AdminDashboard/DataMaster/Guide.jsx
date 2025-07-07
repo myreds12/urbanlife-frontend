@@ -1,52 +1,116 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GuideForm from "../../../components/AdminDashboard/Utils/Form/GuideForm";
-import Table from "../../../components/AdminDashboard/Utils/Table/Table"; // Import reusable table
+import GuideTable from "../../../components/AdminDashboard/Utils/Table/GuideTable";
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Guide = () => {
-  const [guides, setGuides] = useState([
-    {
-      id: "001",
-      name: "David omstein",
-      idguide: "12345678",
-      phone: "081111111",
-      gender: "Male",
-      english: "yes",
-      status: "Active",
-    },
-    {
-      id: "002",
-      name: "David raya",
-      idguide: "12345678",
-      phone: "081111111",
-      gender: "Male",
-      english: "yes",
-      status: "Active",
-    },
-  ]);
+  const [guides, setGuides] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   const formRef = useRef(null);
 
-  const columns = ['#', 'Guide ID', 'Guide Name', 'IDguide', 'Phone Number', 'Gender', 'Fluent English', 'Status', 'Action'];
+  const [searchParams, setSearchParams] = useSearchParams();
+  const editingId = searchParams.get("edit");
+  const isEditing = Boolean(editingId);
 
+  const fetchGuides = async () => {
+    try {
+      const res = await apiClient.get("/guide");
+      setGuides(res.data.data || []);
+    } catch (err) {
+      console.error("Failed to fetch guides", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleSave = () => {
-    const newData = formRef.current?.getFormData?.();
+  const handleSave = async () => {
+    const newData = formRef.current?.getFormData();
+    console.log(newData, 'NEW DATA')
     if (!newData) return;
-    setGuides((prev) => [...prev, { ...newData, status: "Active" }]);
-    formRef.current?.resetForm?.();
+
+    const payload = {
+      nama: newData.nama,
+      nomor_hp: newData.nomor_hp,
+      gender: newData.gender,
+      fluent_english: newData.fluent_english, // true / false
+    };
+    console.log(payload)
+    setSaving(true);
+    try {
+      if (isEditing) {
+        await apiClient.patch(`/guide/${editingId}`, payload);
+        toast.success("Guide berhasil diperbarui");
+      } else {
+        await apiClient.post("/guide", payload);
+        toast.success("Guide berhasil ditambahkan");
+      }
+      await fetchGuides();
+      formRef.current?.resetForm?.();
+      setSearchParams({});
+    } catch (err) {
+      console.error("Failed to create guide", err);
+    }
   };
 
   const handleCancel = () => {
     formRef.current?.resetForm?.();
+    setSearchParams({});
   };
+
+  useEffect(() => {
+    fetchGuides();
+  }, []);
+
+  useEffect(() => {
+    if (editingId && guides.length > 0) {
+      const guide = guides.find((c) => c.id === Number(editingId));
+      if (guide) {
+        formRef.current.setFormData({
+          id: guide.id,
+          negara_id: guide.negara_id,
+          nama: guide.nama,
+        });
+      }
+    } else {
+      formRef.current.resetForm();
+    }
+  }, [editingId, guides]);
 
   const handleEdit = (guide) => {
-    console.log("Edit guide:", guide);
+    if (!guide || !guide.id) {
+      console.warn("Guide ID undefined!", guide);
+      return;
+    }
+    setSearchParams({ edit: guide.id });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = (guide) => {
-    if (window.confirm(`Are you sure you want to delete ${guide.name}?`)) {
-      setGuides((prev) => prev.filter(c => c.id !== guide.id));
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Hapus Kota?",
+      text: "Apakah kamu yakin ingin menghapus kota ini?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#10b981",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, hapus!",
+      cancelButtonText: "Batal",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await apiClient.delete(`/guide/${id}`);
+      fetchGuides();
+      toast.success("Guide berhasil dihapus");
+    } catch (error) {
+      console.error("❌ Failed to delete guide", error);
+      toast.error(error.response?.data?.message || "Gagal menghapus guide");
     }
   };
 
@@ -56,7 +120,7 @@ const Guide = () => {
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
           <h3 className="text-lg font-semibold text-gray-800">Guide</h3>
 
-          <GuideForm ref={formRef} />
+          <GuideForm ref={formRef} editId={editingId} />
 
           <div className="flex justify-end gap-4">
             <button
@@ -67,6 +131,7 @@ const Guide = () => {
             </button>
             <button
               onClick={handleSave}
+              disabled={saving}
               className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
             >
               Save Changes
@@ -74,29 +139,12 @@ const Guide = () => {
           </div>
         </div>
 
-      {/* Table Section */}
-      <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">List Driver Unit</h3>
-          <div className="flex gap-2">
-            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              <i className="fas fa-filter mr-2" />
-              Filter
-            </button>
-            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              See all
-            </button>
-          </div>
-        </div>
-
-        <Table
-          data={guides}
-          columns={columns}
+        <GuideTable
+          guides={guides}
+          loading={loading}
           onEdit={handleEdit}
           onDelete={handleDelete}
-          startIndex={0}
         />
-      </div>
       </div>
     </div>
   );

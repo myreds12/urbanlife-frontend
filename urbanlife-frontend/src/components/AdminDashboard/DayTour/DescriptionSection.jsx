@@ -1,65 +1,157 @@
-import React from 'react';
+import React from "react";
 
 const DescriptionSection = ({
   id,
   isActive,
   formData,
+  content,
+  onChangeContent,
   handleChange,
-  handleSubmit,
+  locations,
+  type,
 }) => {
   return (
-    <div id={id} className={isActive ? 'block' : 'hidden'}>
+    <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex items-center">
-            <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
-              Daytour package name
-            </label>            
-            <input
-              type="text"
-              name="packageName"
-              value={formData.packageName}
-              onChange={handleChange}
-              className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
-            />
-          </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Pilih Lokasi <span className="text-red-500">*</span>
+          </label>
+          <select
+            name="lokasi_id"
+            value={formData.lokasi_id}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-cyan-600"
+            required
+          >
+            <option value="">-- Pilih Lokasi --</option>
+            {locations.map((loc) => (
+              <option key={loc.id} value={loc.id}>
+                {loc.nama}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <div className="flex space-x-4 mt-2">
-            <div className="w-1/2">
-              <label className="block text-sm font-medium text-gray-700">English</label>
-              <div className="mt-3">
-                <span className="text-red-500 mr-1">*</span> Description
+        {type === "daytour" ? (
+          <>
+            <div className="flex items-center p-6">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Daytour package name
+              </label>
+              <input
+                type="text"
+                name="nama"
+                value={formData.nama}
+                onChange={handleChange}
+                required
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+              />
+            </div>
+          </>
+        ) : type === "rentcar" ? (
+          <>
+            <div className="flex items-center">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Unit Name
+              </label>
+              <input
+                type="text"
+                name="nama"
+                value={formData.nama}
+                onChange={handleChange}
+                required
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+              />
+            </div>
+
+            <div className="flex items-center mt-5">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Model
+              </label>
+              <input
+                type="text"
+                name="model"
+                value={formData.model}
+                onChange={handleChange}
+                required
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+              />
+            </div>
+          </>
+        ) : (
+          type === "accommodation" && (
+            <>
+              <div className="flex items-center">
+                <label
+                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                  style={{ minWidth: "190px" }}
+                >
+                  Unit Name
+                </label>
+                <input
+                  type="text"
+                  name="nama"
+                  value={formData.nama}
+                  onChange={handleChange}
+                  required
+                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                />
+              </div>
+
+              <div className="flex items-center mt-5">
+                <label
+                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                  style={{ minWidth: "190px" }}
+                >
+                  Tipe
+                </label>
+                <select
+                  name="tipe"
+                  value={formData.tipe}
+                  onChange={handleChange}
+                  required
+                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                >
+                  <option value="hotel">Hotel</option>
+                  <option value="eco_lodge">Eco Lodge</option>
+                  <option value="guest_house">Guest House</option>
+                </select>
+              </div>
+            </>
+          )
+        )}
+
+        <div className="flex space-x-4 mt-4">
+          {content.map((item, index) => (
+            <div key={item.bahasa} className="w-1/2">
+              <label className="block text-sm font-medium text-gray-700">
+                {item.bahasa}
+              </label>
+              <div className="mt-2">
+                <span className="text-red-500 mr-1">*</span>{" "}
+                {item.bahasa === "ENGLISH" ? "Description" : "Deskripsi"}
               </div>
               <textarea
-                name="englishDescription"
-                value={formData.englishDescription}
-                onChange={handleChange}
+                value={item.deskripsi}
+                name="deskripsi"
+                onChange={(e) =>
+                  onChangeContent(index, "deskripsi", e.target.value)
+                }
                 className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:outline-cyan-600"
               />
             </div>
-            <div className="w-1/2">
-              <label className="block text-sm font-medium text-gray-700">Indonesia</label>
-              <div className="mt-3">
-                <span className="text-red-500 mr-1">*</span> Description
-              </div>
-              <textarea
-                name="indonesiaDescription"
-                value={formData.indonesiaDescription}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:outline-cyan-600"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-end space-x-4 mt-8">
-            <button type="button" className="px-4 py-2 bg-gray-200 rounded-md hover:bg-cyan-700">
-              Cancel
-            </button>
-            <button type="submit" className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
-              Save Template
-            </button>
-          </div>
-        </form>
+          ))}
+        </div>
       </div>
     </div>
   );

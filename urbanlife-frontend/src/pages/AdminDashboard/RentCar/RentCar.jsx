@@ -1,97 +1,116 @@
-import React, { useState } from 'react';
-import Table from '../../../components/AdminDashboard/Utils/Table/Table';
-import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button';
-import Pagination from '../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination';
-import CreateRentCar from './CreateRentCar';
+import React, { useState, useEffect } from "react";
+import Table from "../../../components/AdminDashboard/Utils/Table/Table";
+import Button from "../../../components/AdminDashboard/Utils/Ui/button/Button";
+import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
+import CreateRentCar from "./CreateRentCar";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
 const RentCar = () => {
-  const [rentCarData, setRentCarData] = useState([
-    { id: 'ID001', location: 'Bali', type: 'Bali Airport Transfer Service', unit: '-' },
-    { id: 'ID002', location: 'Bali', type: 'Bali Car Rental', unit: 'Toyota Hiace' },
-    { id: 'ID003', location: 'Bali', type: 'Bali Car Rental', unit: 'Hyundai H-1' },
-    { id: 'ID004', location: 'Bali', type: 'Bali Car Rental', unit: 'Toyota Innova Reborn' },
-    { id: 'ID005', location: 'Bali', type: 'Bali Car Rental', unit: 'All New Honda BR-V' },
-    { id: 'ID006', location: 'Bali', type: 'Bali Motorbike Rental', unit: '-' },
-    { id: 'ID007', location: 'Bali', type: 'Transportation to/from Sanur Pier', unit: '-' },
-    { id: 'ID008', location: 'Jakarta', type: 'Jakarta Car Rental', unit: 'Daihatsu Xenia' },
-    { id: 'ID009', location: 'Jakarta', type: 'Jakarta Car Rental', unit: 'Toyota Avanza' },
-    { id: 'ID010', location: 'Jakarta', type: 'Jakarta Car Rental', unit: 'Wuling Confero' },
-    { id: 'ID011', location: 'Yogyakarta', type: 'Yogya Car Rental', unit: 'Honda Brio' },
-    { id: 'ID012', location: 'Bandung', type: 'Bandung Car Rental', unit: 'Suzuki Ertiga' },
-    { id: 'ID013', location: 'Surabaya', type: 'Surabaya Car Rental', unit: 'Toyota Calya' },
-    { id: 'ID014', location: 'Lombok', type: 'Lombok Car Rental', unit: 'Daihatsu Sigra' },
-    { id: 'ID015', location: 'Malang', type: 'Malang Car Rental', unit: 'Mitsubishi Xpander' },
-    { id: 'ID016', location: 'Semarang', type: 'Semarang Car Rental', unit: 'Toyota Rush' },
-  ]);
+  const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [rentCarData, setRentCarData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [take] = useState(10); // Jumlah data per halaman
+  const [total, setTotal] = useState(0);
+
+  const fetchRentCar = async () => {
+    setLoading(true);
+    try {
+      const params = { page, take };
+      const res = await apiClient.get("/kendaraan", { params });
+      const { data, total } = res.data;
+      setRentCarData(data);
+      setTotal(total);
+    } catch (err) {
+      console.error("Failed to fetch rent car", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRentCar();
+  }, [page]);
+
+  const totalPages = Math.ceil(total / take);
+
+  const columns = [
+    "#",
+    "ID",
+    "Nama",
+    "Model",
+    "Tipe",
+    "Plat Nomor",
+    "Lokasi",
+    "Status",
+    "Pajak Berakhir",
+    "Action",
+  ];
   
-  const itemsPerPage = 5;
-  const columns = ['#', 'Booking ID', 'Location', 'Type of services', 'Unit', 'Action'];
+  const mapping = {
+  "#": (row, index) => index + 1,
+  "ID": "id",
+  "Nama": "nama",
+  "Model": "model",
+  "Tipe": "tipe",
+  "Plat Nomor": "plat_nomor",
+  "Lokasi": (row) => row.lokasi?.nama || "-",
+  "Status": (row) => row.status ? "Aktif" : "Non-Aktif",
+  "Pajak Berakhir": (row) => new Date(row.tanggal_pajak_berakhir).toLocaleDateString(),
+  "Action": null
+};
 
-  // Calculate pagination - langsung pake rentCarData
-  const totalPages = Math.ceil(rentCarData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentData = rentCarData.slice(startIndex, startIndex + itemsPerPage);
+  const currentData = rentCarData;
 
-  // Handle page change
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const handleAddUnit = (newUnit) => {
-    setRentCarData((prev) => [
-      ...prev,
-      {
-        id: `ID${(prev.length + 1).toString().padStart(3, '0')}`,
-        location: newUnit.location,
-        type: newUnit.type,
-        unit: newUnit.unit,
-      },
-    ]);
-    // Reset to first page after adding new data
-    setCurrentPage(1);
-  };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-2">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold text-gray-800">Rent Car</h2>
-        <div className="flex items-center gap-4">
-          <Button variant="primary" size="sm" onClick={() => setIsModalOpen(true)}>
-            Add Unit
-          </Button>
-        </div>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => navigate("/admin/rent-car/create")}
+        >
+          Add Unit
+        </Button>
       </div>
 
-      <Table 
-        data={currentData} 
+      <Table
+        data={currentData}
         columns={columns}
-        startIndex={startIndex}
+        startIndex={(page - 1) * take}
+        defaultMapping={mapping}
       />
 
-      {/* Data info dan Pagination */}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        {/* Data info */}
+        {/* Info data */}
         <div className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, rentCarData.length)} of {rentCarData.length} rent cars
+          Showing {(page - 1) * take + 1} to {Math.min(page * take, total)} of{" "}
+          {total} rent cars
         </div>
-        
+
         {/* Pagination */}
         <Pagination
-          currentPage={currentPage}
+          currentPage={page}
           totalPages={totalPages}
-          onPageChange={handlePageChange}
+          onPageChange={(newPage) => {
+            if (newPage >= 1 && newPage <= totalPages) {
+              setPage(newPage);
+            }
+          }}
           size="base"
         />
       </div>
-
-      <CreateRentCar
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleAddUnit}
-      />
     </div>
   );
 };

@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 
 // Layout & Theme
@@ -11,7 +16,7 @@ import Order from "./pages/AdminDashboard/Order/Order";
 import Calendar from "./pages/AdminDashboard/Calendar/Calendar";
 import DayTour from "./pages/AdminDashboard/DayTour/DayTour";
 import RentCar from "./pages/AdminDashboard/RentCar/RentCar";
-import Accommodation from "./pages/AdminDashboard/Accomodation/Accomodation";
+import Accomodation from "./pages/AdminDashboard/Accomodation/Accomodation";
 import Customer from "./pages/AdminDashboard/Customer/Customer";
 
 // Whasapp Setting Pages
@@ -21,10 +26,9 @@ import Template from "./pages/AdminDashboard/WhatsappSetting/template";
 import Inbox from "./pages/AdminDashboard/Inbox/Inbox";
 
 // Data Master Pages
-import Country from "./pages/AdminDashboard/DataMaster/Country"; // Component
-
-import City from "./pages/AdminDashboard/DataMaster/City";
-import Car from "./pages/AdminDashboard/DataMaster/Car";
+import Country from "./pages/AdminDashboard/DataMaster/Country/Country"; // Component
+import City from "./pages/AdminDashboard/DataMaster/Cities/City";
+import Car from "./pages/AdminDashboard/DataMaster/Car/Car";
 import Driver from "./pages/AdminDashboard/DataMaster/Driver";
 import Guide from "./pages/AdminDashboard/DataMaster/Guide";
 
@@ -41,10 +45,62 @@ import Services from "./pages/LandingPage/Services/Services";
 import Login from "./components/AdminDashboard/Utils/Ui/Login/Login";
 import DaytourDetail from "./pages/LandingPage/DayTour/DaytourDetail";
 
+// Notifications
+import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import axios from "axios";
+import { getToken } from "./components/AdminDashboard/Utils/Auth/Auth";
+import apiClient from "./components/AdminDashboard/Utils/ApiClient/apiClient";
+import ReactModal from "react-modal";
+import CreateRentCarPage from "./pages/AdminDashboard/RentCar/CreateRentCar";
+import CreateAccomodationPage from "./pages/AdminDashboard/Accomodation/CreateAccomodation";
+import CreateDayTourPage from "./pages/AdminDashboard/DayTour/CreateDayTourPage";
 
 function App() {
+  useEffect(() => {
+    const initAuth = async () => {
+      const stored = localStorage.getItem("authToken");
+
+      if (stored) {
+        console.log("🔑 Menggunakan token yang sudah ada");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${stored}`;
+      } else {
+        await getToken();
+      }
+
+      apiClient.interceptors.response.use(
+        (response) => response,
+        async (error) => {
+          const originalRequest = error.config;
+
+          if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            console.log("🔁 Token expired. Mencoba login ulang...");
+
+            const newToken = await getToken();
+
+            if (newToken) {
+              console.log("✅ Token baru didapat:", newToken);
+              originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+              return apiClient(originalRequest);
+            }
+          }
+
+          return Promise.reject(error);
+        }
+      );
+    };
+
+    initAuth();
+  }, []);
+  ReactModal.setAppElement("#root"); // Jika elemen root kamu punya ID "root"
+
+
   return (
     <ThemeProvider>
+    
+      <Toaster position="top-right" reverseOrder={false} />
       <Router>
         <Routes>
           {/* Website landing page */}
@@ -81,16 +137,18 @@ function App() {
             <Route path="order" element={<Order />} />
             <Route path="calendar" element={<Calendar />} />
             <Route path="day-tour" element={<DayTour />} />
+            <Route path="day-tour/create" element={<CreateDayTourPage />} />
             <Route path="rent-car" element={<RentCar />} />
+            <Route path="rent-car/create" element={<CreateRentCarPage />} />
             <Route path="customer" element={<Customer />} />
-            <Route path="accommodation" element={<Accommodation />} />
+            <Route path="accommodation" element={<Accomodation />} />
+            <Route path="accommodation/create" element={<CreateAccomodationPage />} />
 
             {/* WhatsApp Setting */}
             <Route path="whatsapp-connect" element={<WhatsappConnect />} />
             <Route path="template" element={<Template />} />
 
             <Route path="inbox" element={<Inbox />} />
-
 
             {/* Data Master */}
             <Route path="country" element={<Country />} />

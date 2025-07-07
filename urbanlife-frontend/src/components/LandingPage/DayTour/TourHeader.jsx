@@ -52,32 +52,35 @@ const TourHeader = ({ title, price }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between mt-5 rounded-lg">
-        <div className="text-2xl font-semibold text-gray-900">{title}</div>
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-5 gap-4 md:gap-0">
+        <div className="text-xl md:text-2xl font-semibold text-gray-900">{title}</div>
+
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-4">
           <div>
             <p className="text-gray-400 text-sm">Start From</p>
-            <h4 className="text-2xl font-bold text-red-600">
+            <h4 className="text-xl md:text-2xl font-bold text-red-600">
               IDR {price.toLocaleString()}
             </h4>
           </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="primary"
-              size="md"
-              endIcon={arrowIcon}
-              onClick={handleBookNow}
-              className="rounded-md px-10"
-            >
-              Book Now
-            </Button>
-            <button
-              onClick={() => setIsShareModalOpen(true)}
-              className="w-12 h-12 flex items-center justify-center rounded-xl bg-white border border-gray-200 hover:bg-gray-100 hover:border-gray-300 hover:shadow-lg transition duration-200"
-            >
-              {shareIcon}
-            </button>
-          </div>
+
+          <div className="flex items-center gap-2 w-full md:w-auto">
+          <Button
+            variant="primary"
+            size="md"
+            endIcon={arrowIcon}
+            onClick={handleBookNow}
+            className="rounded-md w-full md:w-auto px-4 md:px-10 flex-1"
+          >
+            Book Now
+          </Button>
+          <button
+            onClick={() => setIsShareModalOpen(true)}
+            className="w-11 h-11 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white border border-gray-200 hover:bg-gray-100 hover:border-gray-300 hover:shadow-lg transition duration-200"
+          >
+            {shareIcon}
+          </button>
+        </div>
+
         </div>
       </div>
 

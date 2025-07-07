@@ -56,12 +56,15 @@ const TourHeader = ({ title, price }) => {
         <div className="text-xl md:text-2xl font-semibold text-gray-900">{title}</div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-4">
-          <div>
-            <p className="text-gray-400 text-sm">Start From</p>
-            <h4 className="text-xl md:text-2xl font-bold text-red-600">
-              IDR {price.toLocaleString()}
-            </h4>
-          </div>
+        <div>
+        <p className="text-gray-400 text-sm mb-1">Start From</p>
+        <div className="flex items-baseline space-x-1">
+          <span className="text-sm md:text-base font-semibold text-red-600">IDR</span>
+          <span className="text-xl md:text-2xl font-bold text-red-600">
+            {price.toLocaleString()}
+          </span>
+        </div>
+      </div>
 
           <div className="flex items-center gap-2 w-full md:w-auto">
           <Button

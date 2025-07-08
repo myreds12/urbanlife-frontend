@@ -7,7 +7,7 @@ import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard"
 import ServicenScheduleCard from "../../../components/LandingPage/HomePage/ServicenScheduleCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
 import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
-import PartnerSection from "../../../components/LandingPage/HomePage/PartnerSection";
+import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog";
 
 // Import CSS file yang terpisah
 import "../../../styles/LandingPage/HomePage/ResponsiveDestination.css";
@@ -147,7 +147,7 @@ const LandingPage = () => {
 
       <ServicenScheduleCard />
       <TestimonialSection />
-      <PartnerSection />
+      <NewsnBlog />
       <Footer />
     </div>
   );

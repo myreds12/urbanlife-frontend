@@ -133,7 +133,7 @@
 }
 
 .navbar-menu-item:hover {
-  color: #0d9488;
+  color: #0092B8;
 }
 
 /* Dropdown Arrows */
@@ -157,12 +157,12 @@
 }
 
 .navbar-lang-selector:hover {
-  color: #0d9488;
+  color: #0092B8;
 }
 
 /* Contact Button */
 .navbar-contact-btn {
-  background: #0d9488;
+  background: #0092B8;
   color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 12px;
@@ -174,7 +174,7 @@
 }
 
 .navbar-contact-btn:hover {
-  background: #0f766e;
+  background: #007F9F;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
 }
@@ -349,7 +349,7 @@
 }
 
 .mega-menu-destination:hover .mega-menu-destination-name {
-  color: #0d9488;
+  color: #0092B8;
 }
 
 .mega-menu-destination-location {
@@ -400,7 +400,7 @@
 }
 
 .mega-menu-link:hover {
-  color: #0d9488;
+  color: #0092B8;
 }
 
 /* Mobile Menu Toggle */

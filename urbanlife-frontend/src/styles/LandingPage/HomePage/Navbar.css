@@ -156,6 +156,17 @@
   position: relative;
 }
 
+.navbar-floating {
+  overflow: visible; /* biarkan tombol boleh ‘keluar’ */
+}
+
+.navbar-scrolled {
+  overflow: hidden; /* supaya tidak ada tombol keluar saat scroll */
+}
+
+
+
+
 /* Mega Menu */
 .mega-menu {
   position: absolute;

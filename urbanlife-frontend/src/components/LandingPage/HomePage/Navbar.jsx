@@ -173,10 +173,17 @@ const Navbar = () => {
           </a>
           <a
             href="/contact"
-            className="hidden lg:inline-block h-full px-6 py-5 rounded-r-[16px] bg-[#0092B8] text-white font-semibold hover:bg-[#007F9F] transition-all duration-300 shadow-md -mr-6"
+            className={`hidden lg:inline-block h-full px-6 py-5 
+              ${isScrolled ? 'rounded-none mr-0' : 'rounded-r-[19px] -mr-[31px]'} 
+              bg-[#0092B8] text-white font-semibold hover:bg-[#007F9F] 
+              transition-all duration-500 ease-out shadow-md
+            `}
           >
             Contact Us
           </a>
+
+
+
         </div>
         <button onClick={toggleMobileMenu} className="navbar-mobile-toggle" aria-label="Toggle mobile menu">
           <div className={`hamburger ${isMobileOpen ? 'hamburger-active' : ''}`}>

@@ -163,25 +163,25 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <a href="/news" className="navbar-menu-item">News</a>
-          <a href="/language" className="navbar-lang-selector">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C4.134 15 1 11.866 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.5"/>
-              <path d="M1 8H15M8 1C6.5 3 6.5 13 8 15M8 1C9.5 3 9.5 13 8 15" stroke="currentColor" strokeWidth="1.5"/>
-            </svg>
+          <a href="#news" className="navbar-menu-item">News</a>
+          
+          <a href="/" className="flex items-center gap-1 text-[15px] font-medium text-[#333]">
+            <img src="/images/LandingPage/Navbar/language.png" alt="Lang" className="w-4 h-4 object-contain" />
             <span>Eng</span>
           </a>
           <a
-            href="/contact"
-            className={`hidden lg:inline-block h-full px-6 py-5 
-              ${isScrolled ? 'rounded-none mr-0' : 'rounded-r-[19px] -mr-[31px]'} 
-              bg-[#0092B8] text-white font-semibold hover:bg-[#007F9F] 
-              transition-all duration-500 ease-out shadow-md
-            `}
-          >
-            Contact Us
-          </a>
-
+          href="/contact"
+          className={`hidden lg:inline-block h-full px-6 py-5
+            ${isScrolled 
+              ? 'rounded-r-[10px] rounded-l-[10px] mr-[12px] scale-[0.90]' 
+              : 'rounded-r-[19px] -mr-[31px] scale-100'
+            }
+            bg-[#0092B8] text-white font-semibold hover:bg-[#007F9F]
+            transition-all duration-500 ease-out shadow-md
+          `}
+        >
+          Contact Us
+        </a>
 
 
         </div>

@@ -147,7 +147,9 @@ const LandingPage = () => {
 
       <ServicenScheduleCard />
       <TestimonialSection />
-      <NewsnBlog />
+      <div id="news">
+        <NewsnBlog />
+      </div>
       <Footer />
     </div>
   );

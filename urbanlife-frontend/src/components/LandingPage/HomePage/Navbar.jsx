@@ -79,14 +79,11 @@ const Navbar = () => {
     <>
       <div className={`navbar-spacer ${isScrolled ? 'navbar-spacer-active' : ''}`}></div>
       <nav className={`navbar-container ${isScrolled ? 'navbar-scrolled' : 'navbar-floating'}`}>
-        <div className="navbar-logo">
-          <a href="/" className="logo-link">
-            <div className="logo-content">
-              <span className="logo-text">urbanlife</span>
-              <div className="logo-tagline">Your Leisure Reference</div>
-            </div>
-          </a>
-        </div>
+      <div className="navbar-logo">
+        <a href="/" className="logo-link">
+          <img src="/images/All/Logo.png" alt="UrbanLife Logo" className="logo-image" />
+        </a>
+      </div>
         <div className="navbar-menu-desktop">
           <div className="navbar-dropdown" onMouseEnter={() => setIsDropdownOpen("place")} onMouseLeave={closeDropdown}>
             <button onClick={(e) => toggleDropdown("place", e)} className="navbar-menu-item dropdown-trigger">

@@ -171,7 +171,12 @@ const Navbar = () => {
             </svg>
             <span>Eng</span>
           </a>
-          <a href="/contact" className="navbar-contact-btn">Contact Us</a>
+          <a
+            href="/contact"
+            className="hidden lg:inline-block h-full px-6 py-5 rounded-r-[16px] bg-[#0092B8] text-white font-semibold hover:bg-[#007F9F] transition-all duration-300 shadow-md -mr-6"
+          >
+            Contact Us
+          </a>
         </div>
         <button onClick={toggleMobileMenu} className="navbar-mobile-toggle" aria-label="Toggle mobile menu">
           <div className={`hamburger ${isMobileOpen ? 'hamburger-active' : ''}`}>

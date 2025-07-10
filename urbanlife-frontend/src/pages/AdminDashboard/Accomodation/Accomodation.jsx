@@ -71,6 +71,7 @@ const Accomodation = () => {
             disabled={isLoading}
           >
             {isLoading ? "Loading..." : "Add Unit"}
+            <i class="fa-solid fa-plus"></i>
           </Button>
         </div>
       </div>

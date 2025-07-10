@@ -77,6 +77,7 @@ const DayTour = () => {
           onClick={() => navigate("/admin/day-tour/create")}
         >
           Add Package
+          <i class="fa-solid fa-plus"></i>
         </Button>
       </div>
 

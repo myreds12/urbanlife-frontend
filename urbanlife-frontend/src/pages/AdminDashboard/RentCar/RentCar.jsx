@@ -82,6 +82,7 @@ const RentCar = () => {
           onClick={() => navigate("/admin/rent-car/create")}
         >
           Add Unit
+          <i class="fa-solid fa-plus"></i>
         </Button>
       </div>
 

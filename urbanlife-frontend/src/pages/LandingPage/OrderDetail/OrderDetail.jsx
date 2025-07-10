@@ -382,7 +382,7 @@ const OrderDetail = () => {
           <div className="space-y-8">
             {/* Order Detail Info */}
             <div className="bg-white px-4 py-3 rounded-md shadow-sm text-sm">
-              <h1 className="text-lg font-semibold text-gray-900 mb-1">
+              <h1 className="text-lg font-bold text-gray-900 mb-1">
                 Order Detail
               </h1>
               <p className="text-gray-600 leading-snug">
@@ -423,7 +423,7 @@ const OrderDetail = () => {
                   onChange={(e) =>
                     handleFormChange({ agreeToTerms: e.target.checked })
                   }
-                  className="mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  className="mt-1 w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500"
                 />
                 <span className="text-sm text-gray-700">
                 I agree to Urbanlife's {" "}

@@ -56,6 +56,9 @@ import CreateRentCarPage from "./pages/AdminDashboard/RentCar/CreateRentCar";
 import CreateAccomodationPage from "./pages/AdminDashboard/Accomodation/CreateAccomodation";
 import CreateDayTourPage from "./pages/AdminDashboard/DayTour/CreateDayTourPage";
 
+//404 ERROR NOT FOUND
+import NotFound from "./pages/Others/NotFound";
+
 function App() {
   useEffect(() => {
     const initAuth = async () => {
@@ -105,7 +108,9 @@ function App() {
         <Routes>
           {/* Website landing page */}
           <Route path="/" element={<HomePage />} />
-          
+
+          {/* 404 ERROR NOT FOUND */}
+          <Route path="*" element={<NotFound />} />
 
           {/* DayTour detail page */}
           <Route path="/DaytourDetail" element={<DaytourDetail />} />
@@ -118,6 +123,7 @@ function App() {
 
           {/* Payment success page */}
           <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
+          
           {/* Payment unsuccess page */}
           <Route path="/PaymentUnsuccess" element={<PaymentUnsuccess />} />
 

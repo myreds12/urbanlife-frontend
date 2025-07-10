@@ -434,7 +434,7 @@ const OrderDetail = () => {
                 </span>
               </label>
             </div>
-            {/* Detail Order - NEW */}
+            {/* Detail Order & Price Section - NEW */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <DetailOrder
                 orderItems={orderItems}
@@ -456,6 +456,8 @@ const OrderDetail = () => {
                 onUpdateItem={handleUpdateItem}
               />
             </div>
+
+            {/* Diganti sama detail order mas */}
 
             {/* Price Section */}
             {/* <div className="bg-white p-6 rounded-lg shadow-sm">

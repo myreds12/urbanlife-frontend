@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import Navbar from '../../../components/LandingPage/HomePage/Navbar';
 import ContactForm from "../../../components/LandingPage/OrderDetail/ContactForm";
 import CustomerRequest from "../../../components/LandingPage/OrderDetail/CustomerRequest";
 import ServiceDescription from "../../../components/LandingPage/OrderDetail/ServiceDescription";
@@ -376,7 +377,10 @@ const OrderDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <Navbar />
+      </div>
+      <div className="max-w-6xl mx-auto px-4 mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-8">
           {/* Left Section: Main Content */}
           <div className="space-y-8">

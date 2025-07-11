@@ -116,14 +116,23 @@ const Table = ({
     if (onEdit || onDelete) {
       return (
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          {onEdit && (
+        <button
+          onClick={() => onEdit(row)}
+          className="action-button edit-button"
+          title="Edit"
+        >
+          <EditIcon />
+        </button>
+          )}
           {onDelete && (
-            <button
-              onClick={() => onDelete(row)}
-              className="action-button delete-button"
-              title="Delete"
-            >
-              <DeleteIcon />
-            </button>
+        <button
+          onClick={() => onDelete(row)}
+          className="action-button delete-button"
+          title="Delete"
+        >
+          <DeleteIcon />
+        </button>
           )}
         </div>
       );

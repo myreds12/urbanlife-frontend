@@ -58,6 +58,8 @@ import CreateDayTourPage from "./pages/AdminDashboard/DayTour/CreateDayTourPage"
 
 //404 ERROR NOT FOUND
 import NotFound from "./pages/Others/NotFound";
+import News from "./pages/AdminDashboard/News/News";
+import CreateNews from "./pages/AdminDashboard/News/CreateNews";
 
 function App() {
   useEffect(() => {
@@ -149,6 +151,8 @@ function App() {
             <Route path="customer" element={<Customer />} />
             <Route path="accommodation" element={<Accomodation />} />
             <Route path="accommodation/create" element={<CreateAccomodationPage />} />
+            <Route path="news" element={<News />} />
+            <Route path="news/create" element={<CreateNews />} />
 
             {/* WhatsApp Setting */}
             <Route path="whatsapp-connect" element={<WhatsappConnect />} />

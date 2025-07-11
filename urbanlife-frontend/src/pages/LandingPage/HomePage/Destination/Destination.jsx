@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import DestinationCard from "../../../../components/LandingPage/HomePage/DestinationCard";
 
-const Destination = () => {
+const Destination = ({ children }) => {
   const [orderItem, setOrderItem] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,28 +10,18 @@ const Destination = () => {
   const fetchTravel = async () => {
     setLoading(true);
     try {
-      const response = await apiClient.get(
-        "/pemesanan/items?is_category=false"
-      );
-
+      const response = await apiClient.get("/pemesanan/items?is_category=false");
       console.log(response.data);
-
       const processed = response.data.data.map((item) => {
         const rawUrl = item.file_url;
-
         const imageUrl =
           rawUrl && rawUrl.trim() !== ""
             ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${rawUrl
-                .replace(/\\/g, "/") 
+                .replace(/\\/g, "/")
                 .replace(/^uploads\//, "")}`
             : "/images/default-thumbnail.png";
-
-        return {
-          ...item,
-          image: imageUrl,
-        };
+        return { ...item, image: imageUrl };
       });
-
       setOrderItem(processed);
     } catch (err) {
       setError("❌ Gagal mengambil data paket travel");
@@ -57,13 +47,7 @@ const Destination = () => {
     return <div className="text-red-500 text-center py-4">{error}</div>;
   }
 
-  return (
-    <div className="flex justify-center gap-6 flex-wrap">
-      {orderItem.map((item) => (
-        <DestinationCard key={`${item.item_type}-${item.id}`} travel={item} />
-      ))}
-    </div>
-  );
+  return children ? children(orderItem) : null; // Pass orderItem ke children
 };
 
 export default Destination;

@@ -24,18 +24,18 @@ const Navbar = () => {
       { id: 11, name: 'Taj Mahal Tour', location: 'Agra, India', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=60&h=60&fit=crop&crop=center' },
       { id: 12, name: 'Seoul City Experience', location: 'Seoul, South Korea', image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=60&h=60&fit=crop&crop=center' }
     ],
-    'Europe': [
-      { id: 13, name: 'Eiffel Tower Tours', location: 'Paris, France', image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=60&h=60&fit=crop&crop=center' },
-      { id: 14, name: 'Colosseum Tours', location: 'Rome, Italy', image: 'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=60&h=60&fit=crop&crop=center' },
-      { id: 15, name: 'Santorini Tours', location: 'Santorini, Greece', image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=60&h=60&fit=crop&crop=center' }
-    ],
-    'North America': [
-      { id: 16, name: 'Statue of Liberty Tours', location: 'New York, USA', image: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=60&h=60&fit=crop&crop=center' },
-      { id: 17, name: 'Niagara Falls Tours', location: 'Ontario, Canada', image: 'https://images.unsplash.com/photo-1489447068241-b3490214e879?w=60&h=60&fit=crop&crop=center' }
-    ]
+    // 'Europe': [
+    //   { id: 13, name: 'Eiffel Tower Tours', location: 'Paris, France', image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=60&h=60&fit=crop&crop=center' },
+    //   { id: 14, name: 'Colosseum Tours', location: 'Rome, Italy', image: 'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=60&h=60&fit=crop&crop=center' },
+    //   { id: 15, name: 'Santorini Tours', location: 'Santorini, Greece', image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=60&h=60&fit=crop&crop=center' }
+    // ],
+    // 'North America': [
+    //   { id: 16, name: 'Statue of Liberty Tours', location: 'New York, USA', image: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=60&h=60&fit=crop&crop=center' },
+    //   { id: 17, name: 'Niagara Falls Tours', location: 'Ontario, Canada', image: 'https://images.unsplash.com/photo-1489447068241-b3490214e879?w=60&h=60&fit=crop&crop=center' }
+    // ]
   };
 
-  const categories = ['Top Attractions', 'Asia', 'Europe', 'North America'];
+  const categories = ['Top Attractions', 'Asia'];
 
   useEffect(() => {
     const handleScroll = () => {

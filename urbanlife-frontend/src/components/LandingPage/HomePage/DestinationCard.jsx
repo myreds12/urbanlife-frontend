@@ -107,19 +107,7 @@ const DestinationCard = ({ travel }) => {
 
   return (
     <>
-      <div
-        className={`destination-card ${isShareModalOpen ? "hover-active" : ""}`}
-        onMouseEnter={() => {
-          console.log("Mouse entered card:", travel.nama);
-          setIsHovered(true);
-        }}
-        onMouseLeave={() => {
-          if (!isShareModalOpen) {
-            console.log("Mouse left card:", travel.nama);
-            setIsHovered(false);
-          }
-        }}
-      >
+      <div className="destination-card">
         <div className="card-image">
           <img src={travel.image} alt={travel.nama} />
           <div className="country-label">{travel.lokasi?.negara?.nama}</div>
@@ -131,7 +119,6 @@ const DestinationCard = ({ travel }) => {
                 "Setting isShareModalOpen to true"
               );
               setIsShareModalOpen(true);
-              setIsHovered(true); // Pertahankan status hover saat modal terbuka
             }}
             className="share-btn"
           >
@@ -143,7 +130,7 @@ const DestinationCard = ({ travel }) => {
             </svg>
           </button>
           <button onClick={handleBookNow} className="book-btn">
-            Book now{" "}
+            More Detail{" "}
             <span className="arrow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +187,6 @@ const DestinationCard = ({ travel }) => {
                 "Setting isShareModalOpen to false"
               );
               setIsShareModalOpen(false);
-              setIsHovered(false); // Reset status hover saat modal ditutup
             }}
             shareData={shareData}
           />,

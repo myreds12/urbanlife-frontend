@@ -1,5 +1,5 @@
 import "../../../styles/LandingPage/HomePage/HeroSection.css";
-import CardForm from "./CardForm";
+import CardForm from "./CardForm/CardForm";
 
 const HeroSection = () => {
   return (

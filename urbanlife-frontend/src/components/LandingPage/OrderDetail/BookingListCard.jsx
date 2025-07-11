@@ -82,7 +82,7 @@ const BookingListCard = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 space-y-6">
+    <div className="p-4 space-y-6">
       <h2 className="text-lg font-semibold text-gray-800 mb-2">Your Booking</h2>
 
       {orderItems.length === 0 ? (

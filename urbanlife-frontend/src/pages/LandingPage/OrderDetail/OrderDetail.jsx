@@ -452,7 +452,7 @@ const OrderDetail = () => {
           {/* Right Section: Booking Summary */}
           <div className="space-y-6">
             {/* Booking Items Card */}
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className=" ">
               <BookingListCard
                 orderItems={orderItems}
                 onRemoveItem={handleRemoveItem}

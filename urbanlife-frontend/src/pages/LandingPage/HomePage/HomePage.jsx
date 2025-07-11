@@ -6,7 +6,7 @@ import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesC
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
 import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
-import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog";
+import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
 import Destination from "./Destination/Destination";
 
 const LandingPage = () => {

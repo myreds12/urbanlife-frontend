@@ -1,3 +1,47 @@
+/* AutoScrollDestinationSlider.css */
+.auto-scroll-wrapper {
+  overflow-x: hidden; /* Hindari scroll manual, gunakan animasi */
+  padding: 0 16px;
+  scroll-behavior: smooth;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  margin-top: -150px; /* Sesuaikan dengan posisi di bawah hero */
+  z-index: 10;
+}
+
+.auto-scroll-wrapper:active {
+  cursor: grabbing;
+}
+
+.auto-scroll-wrapper::-webkit-scrollbar {
+  display: none; /* Sembunyikan scrollbar */
+}
+
+.auto-scroll-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: scroll-left 30s linear infinite;
+  padding-bottom: 8px; /* Biar bayangan bawah card tidak terpotong */
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause animation saat disentuh/hover */
+.auto-scroll-wrapper:hover .auto-scroll-track,
+.auto-scroll-wrapper:active .auto-scroll-track {
+  animation-play-state: paused;
+}
+
+/* DestinationCard.css */
 .destination-card {
   width: 240px;
   height: 300px;
@@ -6,10 +50,10 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   background: #fff;
-  display: inline-block;
-  margin: 0 10px;
+  display: inline-block; /* Pastikan inline dengan flex di auto-scroll */
+  margin: 0;
   transition: transform 0.3s ease;
-  z-index: 0;
+  z-index: 1; /* Pastikan di atas wrapper */
 }
 
 .destination-card:hover .card-image img,
@@ -56,11 +100,11 @@
   transform: translate(-50%, -50%);
   background: rgb(205, 203, 203);
   color: rgb(36, 36, 36);
-  padding: 3px 13px;
-  width: 200px;
+  padding: 3px 13px; /* Ubah padding ini nih disini klo nak ubah apapa */
+  width: 200px; /* Kurangin width ni jga */
   border-radius: 50px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 16px; 
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -81,8 +125,22 @@
   padding: 3px;
   border-radius: 50px;
   align-items: center;
-  font-size: 5px;
+  font-size: 5px; /* Periksa ukuran ini */
   width: 30px;
+}
+
+@media (max-width: 768px) {
+  .book-btn {
+    font-size: 12px; /* Kurangi ukuran teks */
+    width: 150px; /* Kurangi lebar tombol */
+    padding: 4px 12px; /* Kurangi padding untuk kompak */
+    top: 85%; /* Sesuaikan posisi jika perlu */
+  }
+
+  .book-btn .arrow {
+    width: 20px; /* Kurangi ukuran container arrow */
+    padding: 2px; /* Kurangi padding arrow */
+  }
 }
 
 .share-btn {
@@ -170,10 +228,21 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  z-index: 10000; /* Lebih tinggi dari overlay */
+  z-index: 10000;
 }
 
 /* Hentikan animasi saat modal terbuka */
 .auto-scroll-wrapper.modal-open .auto-scroll-track {
   animation-play-state: paused;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+  .destination-card {
+    width: 180px;
+    height: 240px;
+  }
+  .auto-scroll-track {
+    gap: 10px;
+  }
 }

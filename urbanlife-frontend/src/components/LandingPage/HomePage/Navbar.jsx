@@ -173,8 +173,8 @@ const Navbar = () => {
           href="/contact"
           className={`hidden lg:inline-block h-full px-6 py-5
             ${isScrolled 
-              ? 'rounded-r-[10px] rounded-l-[10px] mr-[12px] scale-[0.90]' 
-              : 'rounded-r-[19px] -mr-[31px] scale-100'
+              ? 'rounded-r-[20px] rounded-l-[20px] mr-[4px] scale-[0.75] px-4 py-3  relative'
+              : 'rounded-r-[19px] -mr-[31px] scale-100 px-6 py-5'
             }
             bg-[#0092B8] text-white font-semibold hover:bg-[#007F9F]
             transition-all duration-500 ease-out shadow-md

@@ -4,13 +4,9 @@ import HeroSection from "../../../components/LandingPage/HomePage/HeroSection";
 import AutoScrollDestinationSlider from "../../../components/LandingPage/HomePage/AutoScrollDestinationSlider";
 import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
-import ServicenScheduleCard from "../../../components/LandingPage/HomePage/ServicenScheduleCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
 import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog";
-
-// Import CSS file yang terpisah
-import "../../../styles/LandingPage/HomePage/ResponsiveDestination.css";
 import Destination from "./Destination/Destination";
 
 const LandingPage = () => {
@@ -22,33 +18,27 @@ const LandingPage = () => {
       <div className="hero-container">
         <HeroSection />
         
-        {/* Responsive destination cards */}
+        {/* Responsive destination cards dengan autoscroll */}
         <div
-          className="destination-grid-floating mb-10"
+          className="destination-slider-container mt-[-150px] mb-10"
           style={{
-            position: "absolute",
-            bottom: "-200px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            display: "flex",
-            justifyContent: "center",
-            gap: "24px",
-            flexWrap: "wrap",
+            position: "relative",
+            width: "100%",
+            maxWidth: "1200px",
+            margin: "0 auto",
             padding: "0 20px",
             zIndex: 10,
-            width: "100%",
-            maxWidth: "1200px"
           }}
         >
-         <Destination />
+          <Destination>
+            {(orderItem) => <AutoScrollDestinationSlider travelData={orderItem} />}
+          </Destination>
         </div>
       </div>
-      
 
-      <div className="mb-15">
+      <div className="mb-15 mt-10">
         <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
-          {" "}
-          Popular Categories{" "}
+          Popular Categories
         </h1>
         <div
           className="categories-grid mb-10"
@@ -92,8 +82,7 @@ const LandingPage = () => {
 
       <div className="mb-15">
         <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
-          {" "}
-          Discover All Around{" "}
+          Discover All Around
         </h1>
         <div
           className="discover-grid mb-10"
@@ -127,8 +116,7 @@ const LandingPage = () => {
 
       <div>
         <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
-          {" "}
-          Our Partner{" "}
+          Our Partner
         </h1>
         <div
           className="partner1-grid mb-10"
@@ -145,7 +133,6 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <ServicenScheduleCard />
       <TestimonialSection />
       <div id="news">
         <NewsnBlog />

@@ -18,7 +18,7 @@
     display: flex;
     gap: 20px;
     width: max-content;
-    animation: scroll-left 30s linear infinite;
+    animation: scroll-left 70s linear infinite;
     padding-bottom: 8px; /* biar bayangan bawah card gak kepotong */
   }
   

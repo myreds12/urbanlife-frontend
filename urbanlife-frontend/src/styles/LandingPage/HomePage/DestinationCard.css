@@ -100,11 +100,11 @@
   transform: translate(-50%, -50%);
   background: rgb(205, 203, 203);
   color: rgb(36, 36, 36);
-  padding: 3px 13px;
-  width: 200px;
+  padding: 3px 13px; /* Ubah padding ini nih disini klo nak ubah apapa */
+  width: 200px; /* Kurangin width ni jga */
   border-radius: 50px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 16px; 
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -125,8 +125,22 @@
   padding: 3px;
   border-radius: 50px;
   align-items: center;
-  font-size: 5px;
+  font-size: 5px; /* Periksa ukuran ini */
   width: 30px;
+}
+
+@media (max-width: 768px) {
+  .book-btn {
+    font-size: 12px; /* Kurangi ukuran teks */
+    width: 150px; /* Kurangi lebar tombol */
+    padding: 4px 12px; /* Kurangi padding untuk kompak */
+    top: 85%; /* Sesuaikan posisi jika perlu */
+  }
+
+  .book-btn .arrow {
+    width: 20px; /* Kurangi ukuran container arrow */
+    padding: 2px; /* Kurangi padding arrow */
+  }
 }
 
 .share-btn {

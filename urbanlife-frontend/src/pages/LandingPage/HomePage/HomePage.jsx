@@ -36,7 +36,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="mb-15">
+      <div className="mb-15 mt-10">
         <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
           Popular Categories
         </h1>

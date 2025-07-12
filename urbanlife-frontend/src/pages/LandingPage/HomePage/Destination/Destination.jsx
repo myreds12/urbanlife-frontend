@@ -11,7 +11,6 @@ const Destination = ({ children }) => {
     setLoading(true);
     try {
       const response = await apiClient.get("/pemesanan/items?is_category=false");
-      console.log(response.data);
       const processed = response.data.data.map((item) => {
         const rawUrl = item.file_url;
         const imageUrl =

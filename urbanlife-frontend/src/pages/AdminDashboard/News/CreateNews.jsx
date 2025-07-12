@@ -120,23 +120,21 @@ function CreateNews() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
               Create News
             </h2>
-            <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-              {["description", "image"].map((section) => (
-                <span
-                  key={section}
-                  className={`cursor-pointer relative ${
-                    activeSection === section
-                      ? "text-cyan-600"
-                      : "text-gray-500"
-                  } hover:text-cyan-700 group`}
-                  onClick={() => moveSection(section)}
-                >
-                  {section.charAt(0).toUpperCase() + section.slice(1)}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-600 group-hover:w-full transition-all duration-200"></span>
-                </span>
-              ))}
-            </div>
-
+              <div className="text-md text-gray-500 mb-6 flex space-x-5">
+                     {["description", "image"].map((section) => (
+                     <span
+                            key={section}
+                            className={`cursor-pointer px-1 font-medium underline-item relative ${
+                                   activeSection === section
+                                   ? "text-cyan-600 active"
+                                   : "text-gray-500"
+                            }`}
+                            onClick={() => moveSection(section)}
+                            >
+                            {section.charAt(0).toUpperCase() + section.slice(1)}
+                     </span>
+                     ))}
+              </div>
             <DescriptionSection
               id="description"
               isActive={activeSection === "description"}

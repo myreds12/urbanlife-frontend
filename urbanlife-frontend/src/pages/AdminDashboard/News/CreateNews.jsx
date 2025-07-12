@@ -1,43 +1,49 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/News/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/News/ImageSection";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
 function CreateNews() {
+  const navigate = useNavigate();
   const [photos, setPhotos] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [content, setContent] = useState([
-    { bahasa: "ENGLISH", deskripsi: "", subject: "", category: "" },
-    { bahasa: "INDONESIA", deskripsi: "", subject: "", category: "" },
+    { bahasa: "ENGLISH", deskripsi: "", judul: ""},
+    { bahasa: "INDONESIA", deskripsi: "", judul: ""},
   ]);
 
   const [formData, setFormData] = useState({
-    nama: "",
-    news_content: content,
+    category_id: 0,
+    content: content,
   });
+
+  console.log(formData, "formData");
+
+  const fetchCategories = async () => {
+    try {
+      const { data } = await apiClient.get("/news-category");
+      console.log(data, "categories");
+      setCategories(data.data || []);
+    } catch (error) {
+      console.error("❌ Failed to fetch categories", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const [activeSection, setActiveSection] = useState("description");
 
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
-      news_content: content,
+      content: content,
     }));
   }, [content]);
 
-  const fetchLocations = async () => {
-    try {
-      const { data } = await apiClient.get("/lokasi");
-      setLocations(data.data || []);
-    } catch (error) {
-      console.error("❌ Failed to fetch locations", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchLocations();
-  }, []);
 
   const handleChangeContent = (index, field, value) => {
     const updated = [...content];
@@ -54,7 +60,7 @@ function CreateNews() {
     e.preventDefault();
 
     const payload = new FormData();
-    payload.append("nama", formData.nama);
+    payload.append("category_id", formData.category_id);
 
     // Append photos
     photos.forEach((file) => {
@@ -62,11 +68,10 @@ function CreateNews() {
     });
 
     // Append news content
-    formData.news_content.forEach((item, index) => {
-      payload.append(`news_content[${index}][bahasa]`, item.bahasa);
-      payload.append(`news_content[${index}][deskripsi]`, item.deskripsi);
-      payload.append(`news_content[${index}][subject]`, item.subject);
-      payload.append(`news_content[${index}][category]`, item.category);
+    formData.content.forEach((item, index) => {
+      payload.append(`content[${index}][bahasa]`, item.bahasa);
+      payload.append(`content[${index}][deskripsi]`, item.deskripsi);
+      payload.append(`content[${index}][judul]`, item.judul);
     });
 
     console.log("=== Payload yang akan dikirim ke API ===");
@@ -82,11 +87,14 @@ function CreateNews() {
     try {
       const response = await apiClient.post("/news", payload);
 
+      console.log(response, "response");
+
       if (!response.ok && !response.status === 200) {
         throw new Error("Failed to submit form");
       }
 
       toast.success("News created successfully!");
+      navigate("/admin/news");
     } catch (error) {
       toast.error(error.message);
       console.error("Submission Error:", error);
@@ -139,11 +147,10 @@ function CreateNews() {
               id="description"
               isActive={activeSection === "description"}
               formData={formData}
-              content={formData.news_content}
+              content={formData.content}
               onChangeContent={handleChangeContent}
               handleChange={handleChange}
-              locations={[]}
-              type="news"
+              categories={categories}
             />
 
             <ImageSection

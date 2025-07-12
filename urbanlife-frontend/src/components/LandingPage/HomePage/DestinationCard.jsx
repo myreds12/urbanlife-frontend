@@ -14,10 +14,8 @@ const DestinationCard = ({ travel }) => {
   useEffect(() => {
     const wrapper = document.querySelector(".auto-scroll-wrapper");
     if (isShareModalOpen) {
-      console.log("Adding modal-open class to auto-scroll-wrapper for:", travel.nama);
       wrapper?.classList.add("modal-open");
     } else {
-      console.log("Removing modal-open class from auto-scroll-wrapper for:", travel.nama);
       wrapper?.classList.remove("modal-open");
     }
     // Cleanup saat component unmount
@@ -26,7 +24,6 @@ const DestinationCard = ({ travel }) => {
     };
   }, [isShareModalOpen, travel.nama]);
 
-  console.log(travel, "travel Data");
 
   const handleBookNow = () => {
     // Ambil tanggal hari ini dalam format YYYY-MM-DD

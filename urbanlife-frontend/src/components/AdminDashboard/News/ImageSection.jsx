@@ -2,10 +2,12 @@ import React from "react";
 
 const ImageSection = ({
   id,
-  isActive,
-  photos,
+    isActive,
+  existingPhotos = [],
+  newPhotos = [],
   handlePhotoUpload,
-  removePhoto,
+  removeExistingPhoto,
+  removeNewPhoto,
 }) => {
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
@@ -25,23 +27,39 @@ const ImageSection = ({
             Add Photo
           </label>
         </div>
-        <div className="grid grid-cols-5">
-          {photos.map((photo, index) => (
-            <div key={index} className="relative">
-              <img
-                src={URL.createObjectURL(photo)}
-                alt={`Tour photo ${index + 1}`}
-                className="w-40 h-50 mt-2 object-cover rounded-md"
-              />
-              <button
-                onClick={() => removePhoto(index)}
-                className="absolute top-0 right-10 bg-zinc-600 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-gray-400"
-              >
-                ×
-              </button>
-            </div>
-          ))}
-        </div>
+          <div className="grid grid-cols-5 gap-3">
+        {existingPhotos.map((photo, index) => (
+          <div key={`existing-${index}`} className="relative">
+            <img
+              src={photo.fullUrl}
+              alt={`Existing photo ${index + 1}`}
+              className="w-40 h-40 object-cover rounded-md"
+            />
+            <button
+              onClick={() => removeExistingPhoto(index)}
+              className="absolute top-0 right-0 bg-black text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-red-500"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+
+        {newPhotos.map((photo, index) => (
+          <div key={`new-${index}`} className="relative">
+            <img
+              src={URL.createObjectURL(photo)}
+              alt={`New photo ${index + 1}`}
+              className="w-40 h-40 object-cover rounded-md"
+            />
+            <button
+              onClick={() => removeNewPhoto(index)}
+              className="absolute top-0 right-0 bg-black text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-red-500"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
       </div>
     </div>
   );

@@ -27,7 +27,6 @@ const Orders = () => {
       const params = { page, take };
       if (status) params.status = status;
 
-      console.log("Fetching orders with params:", params);
 
       const res = await axios.get(api, { params });
       const { data, total } = res.data;

@@ -4,8 +4,8 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
   if (!isOpen || !article) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100]">
+      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" style={{ marginTop: '90px', marginBottom: '20px' }}>
         <div className="relative">
           {/* Header Image */}
           <div className="relative h-64 md:h-80 overflow-hidden rounded-t-xl">

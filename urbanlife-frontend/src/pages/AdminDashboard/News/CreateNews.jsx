@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/News/DescriptionSection";
-import ImageSection from "../../../components/AdminDashboard/News/ImageSection";
+import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 

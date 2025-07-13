@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../Ui/button/Button";
+import StatusBadge from "../Ui/badge/StatusBadge";
 
 // Komponen SVG Icon Sort
 const SortIcon = ({ direction }) => {
@@ -318,6 +319,8 @@ const Table = ({
                       {defaultMapping &&
                       typeof defaultMapping[column] === "function"
                         ? defaultMapping[column](row, rowIndex)
+                        : column.toLowerCase() === "status" || column.toLowerCase() === "status order"
+                        ? <StatusBadge status={row[column?.toLowerCase()?.replace(/\s+/g, "")] || row.status} />
                         : row[column?.toLowerCase()?.replace(/\s+/g, "")] ?? ""}
                     </td>
                   )
@@ -331,4 +334,4 @@ const Table = ({
   );
 };
 
-export default Table;
+export default Table; 

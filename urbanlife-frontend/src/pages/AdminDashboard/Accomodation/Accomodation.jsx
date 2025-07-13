@@ -6,7 +6,7 @@ import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
-const Accommodation = () => {
+const Accomodation = () => {
   const navigate = useNavigate();
   const [accommodationData, setAccommodationData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -209,4 +209,4 @@ const Accommodation = () => {
   );
 };
 
-export default Accommodation;
+export default Accomodation;

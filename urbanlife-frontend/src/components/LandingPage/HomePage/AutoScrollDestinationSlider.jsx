@@ -47,7 +47,7 @@ const AutoScrollDestinationSlider = ({ travelData }) => {
   const handleMouseLeave = () => setIsAutoPlaying(true);
 
   // Calculate transform
-  const cardWidth = window.innerWidth > 768 ? 300 : window.innerWidth > 480 ? 280 : 260;
+  const cardWidth = window.innerWidth > 768 ? 275 : window.innerWidth > 480 ? 212 : (window.innerWidth - 120);
   const translateX = -currentIndex * cardWidth;
 
   return (

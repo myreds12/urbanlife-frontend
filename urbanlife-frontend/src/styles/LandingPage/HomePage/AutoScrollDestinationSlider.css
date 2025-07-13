@@ -3,15 +3,17 @@
   position: relative;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin: -175px auto 0 auto; /* Tambahkan margin-top negatif */
+  padding: 0px;
+  z-index: 10; /* Pastikan di atas hero section */
 }
 
 .simple-carousel-wrapper {
   position: relative;
   overflow: hidden;
-  padding: 20px 0;
+  padding: 20px 47px; /* Tambahkan padding horizontal untuk tombol */
 }
+
 
 .simple-carousel-track-container {
   overflow: hidden;
@@ -20,13 +22,13 @@
 
 .simple-carousel-track {
   display: flex;
-  gap: 20px;
+  gap: 15px; /* Kurangi dari 20px jadi 15px */
   will-change: transform;
 }
 
 .simple-carousel-slide {
-  flex: 0 0 280px;
-  min-width: 280px;
+  flex: 0 0 260px; /* Kurangi dari 280px jadi 260px */
+  min-width: 260px;
 }
 
 /* Simple Navigation */
@@ -55,11 +57,11 @@
 }
 
 .simple-nav-prev {
-  left: -10px;
+  left: 5px;
 }
 
 .simple-nav-next {
-  right: -10px;
+  right: 5px;
 }
 
 /* Simple Dots */
@@ -88,13 +90,26 @@
   background: #071C4D;
 }
 
-/* Responsive */
+/* Responsive - hanya ubah yang mobile */
 @media (max-width: 768px) {
-  .simple-carousel-slide {
-    flex: 0 0 250px;
-    min-width: 250px;
+  .simple-carousel-container {
+    margin: -120px auto 0 auto; /* Sesuaikan margin untuk tablet */
+    padding: 0 10px;
   }
   
+  .simple-carousel-wrapper {
+    padding: 20px 40px; /* Kurangi padding untuk tablet */
+  }
+  
+  .simple-carousel-slide {
+    flex: 0 0 200px; /* Lebih kecil untuk tablet */
+    min-width: 200px;
+  }
+  
+  .simple-carousel-track {
+    gap: 12px; /* Gap sedang untuk tablet */
+  }
+
   .simple-nav {
     width: 36px;
     height: 36px;
@@ -103,18 +118,27 @@
 }
 
 @media (max-width: 480px) {
+  .simple-carousel-container {
+    margin: -100px auto 0 auto; /* Margin lebih kecil untuk mobile */
+    padding: 0 5px;
+  }
+  
+  .simple-carousel-wrapper {
+    padding: 20px 30px; /* Padding lebih kecil untuk mobile */
+  }
+  
   .simple-carousel-slide {
-    flex: 0 0 calc(100vw - 80px);
-    min-width: calc(100vw - 80px);
+    flex: 0 0 calc(100vw - 120px); /* Beri space yang cukup untuk tombol */
+    min-width: calc(100vw - 120px);
+  }
+  
+  .simple-carousel-track {
+    gap: 8px; /* Gap kecil untuk mobile */
   }
   
   .simple-nav {
     width: 32px;
     height: 32px;
     font-size: 18px;
-  }
-  
-  .simple-carousel-container {
-    padding: 0 10px;
   }
 }

@@ -1,39 +1,120 @@
-.auto-scroll-wrapper {
-    overflow-x: auto;
-    padding: 0 16px;
-    scroll-behavior: smooth;
-    cursor: grab;
-    -webkit-overflow-scrolling: touch;
+/* Simple Carousel Styles */
+.simple-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.simple-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.simple-carousel-track-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.simple-carousel-track {
+  display: flex;
+  gap: 20px;
+  will-change: transform;
+}
+
+.simple-carousel-slide {
+  flex: 0 0 280px;
+  min-width: 280px;
+}
+
+/* Simple Navigation */
+.simple-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 24px;
+  font-weight: bold;
+  color: #071C4D;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.simple-nav:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.simple-nav-prev {
+  left: -10px;
+}
+
+.simple-nav-next {
+  right: -10px;
+}
+
+/* Simple Dots */
+.simple-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.simple-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(7, 28, 77, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.simple-dot.active {
+  background: #071C4D;
+  transform: scale(1.2);
+}
+
+.simple-dot:hover {
+  background: #071C4D;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .simple-carousel-slide {
+    flex: 0 0 250px;
+    min-width: 250px;
   }
   
-  .auto-scroll-wrapper:active {
-    cursor: grabbing;
+  .simple-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .simple-carousel-slide {
+    flex: 0 0 calc(100vw - 80px);
+    min-width: calc(100vw - 80px);
   }
   
-  .auto-scroll-wrapper::-webkit-scrollbar {
-    display: none;
+  .simple-nav {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
   }
   
-  .auto-scroll-track {
-    display: flex;
-    gap: 20px;
-    width: max-content;
-    animation: scroll-left 150s linear infinite;
-    padding-bottom: 8px; /* biar bayangan bawah card gak kepotong */
+  .simple-carousel-container {
+    padding: 0 10px;
   }
-  
-  @keyframes scroll-left {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-  
-  /* Pause animation kalau disentuh/hover */
-  .auto-scroll-wrapper:hover .auto-scroll-track,
-  .auto-scroll-wrapper:active .auto-scroll-track {
-    animation-play-state: paused;
-  }
-  
+}

@@ -17,14 +17,14 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
           <button
             type="button"
             onClick={onAdd}
-            className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
+            className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-6 py-2 rounded-md"
           >
-            + Add Destination
+            Add Destination +
           </button>
         </div>
         <div className="space-y-8">
           {pairedItineraries.map(({ en, idn, pairIndex }, index) => (
-            <div key={index} className="grid grid-cols-2 gap-6 relative bg-gray-50 p-4 rounded-lg border">
+            <div key={index} className="grid grid-cols-2 gap-6 relative bg-gray-50 p-4 rounded-lg shadow-md">
               {[{ label: "INDONESIA", data: idn }, { label: "ENGLISH", data: en }].map(({ label, data }, langIndex) => (
                 <div key={langIndex}>
                   <h4 className="text-sm font-medium text-gray-700 mb-2">{label}</h4>
@@ -59,7 +59,7 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
                 <button
                   type="button"
                   onClick={() => onRemove(pairIndex)}
-                  className="absolute top-2 right-2 text-red-600 text-xl hover:text-red-800"
+                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-red-600"
                 >
                   ×
                 </button>

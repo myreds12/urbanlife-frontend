@@ -174,11 +174,12 @@ const RentCar = () => {
             onDelete={handleDelete}
             defaultMapping={{
               "#": (row, index) => (page - 1) * take + index + 1,
+              "ID": "id",
               "Name": "name",
               "Model": "model",
               "Tipe": "tipe",
-              "Plat Nomor": "plat_nomor",
-              "Lokasi": (row) => row.lokasi?.nama || "-",
+              "Plat Nomor": (row) => row.plat_nomor || '-',
+              "Lokasi": (row) => row.lokasi?.nama || '-',
               "Status": (row) => row.status ? "Aktif" : "Non-Aktif",
               "Pajak Berakhir": (row) => new Date(row.tanggal_pajak_berakhir).toLocaleDateString(),
               "Action": null

@@ -1,118 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Table from '../../Utils/Table/Table';
 
-const tableData = [
-  {
-    id: 1,
-    name: "Angella",
-    date: "03 June 2025",
-    type: "Day tour",
-    detail: "Eastern Bali Tour [B]",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "PAID",
-  },
-  {
-    id: 2,
-    name: "Daniel Mananta",
-    date: "03 June 2025",
-    type: "Rent car",
-    detail: "Toyota Alphard",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "PAID",
-  },
-  {
-    id: 3,
-    name: "Anne Hathaway",
-    date: "03 June 2025",
-    type: "Day tour",
-    detail: "Eastern Bali Tour [B]",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "UNPAID",
-  },
-  {
-    id: 4,
-    name: "Carlos Quireos",
-    date: "03 June 2025",
-    type: "Day tour",
-    detail: "Eastern Bali Tour [B]",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "UNPAID",
-  },
-  {
-    id: 5,
-    name: "Jimmy Buttler",
-    date: "03 June 2025",
-    type: "Day tour",
-    detail: "Eastern Bali Tour [B]",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "CANCELLED",
-  },
-  {
-    id: 6,
-    name: "Marchelino",
-    date: "03 June 2025",
-    type: "Day tour",
-    detail: "Eastern Bali Tour [B]",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "PAID",
-  },
-  {
-    id: 7,
-    name: "Daniela",
-    date: "03 June 2025",
-    type: "Rent car",
-    detail: "Toyota Alphard",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "PAID",
-  },
-  {
-    id: 8,
-    name: "Maulana",
-    date: "03 June 2025",
-    type: "Rent car",
-    detail: "Toyota Alphard",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "PAID",
-  },
-  {
-    id: 9,
-    name: "Maulana",
-    date: "03 June 2025",
-    type: "Rent car",
-    detail: "Toyota Alphard",
-    datefrom: "03 June 2025",
-    dateto: "03 June 2025",
-    status: "PAID",
-  },
-];
+const api = import.meta.env.VITE_API_URL + "/pemesanan";
 
 export default function RecentOrders() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const columns = [
     "#",
     "Customer name",
-    "Type",
+    "Type of Order",
     "Detail Order",
     "Date From",
     "Date To",
     "Status",
   ];
 
+  // Fetch recent orders (limit to 10 most recent)
+  const fetchRecentOrders = async () => {
+    setLoading(true);
+    try {
+      const params = { 
+        page: 1, 
+        take: 10,
+        // You can add sorting by date if your API supports it
+        // sortBy: 'createdAt',
+        // sortOrder: 'desc'
+      };
 
-  const sortedData = [...tableData].sort((a, b) => {
+      const res = await axios.get(api, { params });
+      const { data } = res.data;
+
+      setOrders(data);
+    } catch (err) {
+      console.error("Failed to fetch recent orders", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecentOrders();
+  }, []);
+
+  // Format date helper function
+  const formatDate = (dateString) => {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+  };
+
+  const sortedData = [...orders].sort((a, b) => {
     if (!sortConfig.key) return 0;
-    const aValue = a[sortConfig.key];
-    const bValue = b[sortConfig.key];
+    let aValue = a[sortConfig.key];
+    let bValue = b[sortConfig.key];
+    
+    // Handle nested properties if needed
+    if (sortConfig.key === 'Customer name') {
+      aValue = a.user?.nama || '';
+      bValue = b.user?.nama || '';
+    }
+    
     if (sortConfig.direction === "asc") {
       return aValue > bValue ? 1 : -1;
     }
@@ -161,13 +117,55 @@ export default function RecentOrders() {
         </div>
       </div>
 
-      {/* Reusable Table Component */}
-      <Table
-        data={sortedData}
-        columns={columns}
-        sortConfig={sortConfig}
-        actions={actions}
-      />
+      {/* Loading State */}
+      {loading ? (
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center", 
+          height: "200px" 
+        }}>
+          <div style={{
+            width: "32px",
+            height: "32px",
+            border: "3px solid #f3f4f6",
+            borderTop: "3px solid #0891b2",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite"
+          }}></div>
+        </div>
+      ) : (
+        /* Reusable Table Component */
+        <Table
+          data={sortedData}
+          columns={columns}
+          sortConfig={sortConfig}
+          actions={actions}
+          defaultMapping={{
+            "#": (row, index) => index + 1,
+            "Customer name": (row) => row.user?.nama || '-',
+            "Type of Order": (row) => row.type || '-',
+            "Detail Order": (row) => row.detail || '-',
+            "Date From": (row) => formatDate(row.createdAt),
+            "Date To": (row) => formatDate(row.createdAt),
+          }}
+          onSort={(columnKey) => {
+            let direction = 'asc';
+            if (sortConfig.key === columnKey && sortConfig.direction === 'asc') {
+              direction = 'desc';
+            }
+            setSortConfig({ key: columnKey, direction });
+          }}
+          selectedRows={selectedRows}
+          onRowSelect={(rowId) => {
+            setSelectedRows(prev =>
+              prev.includes(rowId)
+                ? prev.filter(id => id !== rowId)
+                : [...prev, rowId]
+            );
+          }}
+        />
+      )}
     </div>
   );
 }

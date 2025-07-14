@@ -71,7 +71,7 @@ const NewsnBlog = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {newsData.map((article) => (
-              <div key={article.id} className="flex bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-gray-300 group">
+              <div key={article.id} className="flex rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-gray-300 group">
                 <div className="w-60 h-full flex-shrink-0 flex items-center justify-center bg-gray-50 overflow-hidden">
                   <img
                     src={article?.news_file[0]?.url ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}` : ''}

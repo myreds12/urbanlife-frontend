@@ -5,6 +5,7 @@ import AutoScrollDestinationSlider from "../../../components/LandingPage/HomePag
 import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
+import ServiceScheduleCard from "../../../components/LandingPage/HomePage/ServicenScheduleCard";
 import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
 import Destination from "./Destination/Destination";
@@ -131,8 +132,8 @@ const LandingPage = () => {
           <PartnerCard1 image="/images/LandingPage/Partner/PondokSebatu.png" />
           <PartnerCard1 image="/images/LandingPage/Partner/BeachHotel.png" />
         </div>
+        <ServiceScheduleCard />
       </div>
-
       <TestimonialSection />
       <div id="news">
         <NewsnBlog />

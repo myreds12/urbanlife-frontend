@@ -118,17 +118,17 @@ const LandingPage = () => {
         </div>
 
         <div className="flex flex-wrap justify-center gap-14 mb-10">
-          <PartnerCard1 image="/images/LandingPage/Partner/BoutiqueHotel.png" />
+          <PartnerCard1 image="/images/LandingPage/Partner/BoutiqueHotel2.png" />
           <PartnerCard1 image="/images/LandingPage/Partner/PondokSebatu.png" />
-          <PartnerCard1 image="/images/LandingPage/Partner/BeachHotel.png" />
+          <PartnerCard1 image="/images/LandingPage/Partner/BeachHotel2.png" />
         </div>
-
-        <div>
-          <ServiceScheduleCard />
-        </div>
-       
+        
       </div>
 
+      <div>
+          <ServiceScheduleCard />
+      </div>
+      
       {/* === Testimonial Section === */}
       <TestimonialSection />
 

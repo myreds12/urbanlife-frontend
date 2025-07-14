@@ -14,7 +14,6 @@
   padding: 20px 47px; /* Tambahkan padding horizontal untuk tombol */
 }
 
-
 .simple-carousel-track-container {
   overflow: hidden;
   position: relative;
@@ -62,32 +61,6 @@
 
 .simple-nav-next {
   right: 5px;
-}
-
-/* Simple Dots */
-.simple-carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 20px;
-}
-
-.simple-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(7, 28, 77, 0.3);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.simple-dot.active {
-  background: #071C4D;
-  transform: scale(1.2);
-}
-
-.simple-dot:hover {
-  background: #071C4D;
 }
 
 /* Responsive - hanya ubah yang mobile */

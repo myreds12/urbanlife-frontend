@@ -61,10 +61,10 @@ const AutoScrollDestinationSlider = ({ travelData }) => {
         {totalItems > itemsPerView && (
           <>
             <button className="simple-nav simple-nav-prev" onClick={prevSlide}>
-              &#8249;
+              ‹
             </button>
             <button className="simple-nav simple-nav-next" onClick={nextSlide}>
-              &#8250;
+              ›
             </button>
           </>
         )}
@@ -86,19 +86,6 @@ const AutoScrollDestinationSlider = ({ travelData }) => {
           </div>
         </div>
       </div>
-
-      {/* Simple Dots */}
-      {totalItems > itemsPerView && (
-        <div className="simple-carousel-dots">
-          {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-            <span
-              key={index}
-              className={`simple-dot ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 };

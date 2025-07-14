@@ -14,11 +14,11 @@ const LandingPage = () => {
   return (
     <div>
       <Navbar />
-      
+
       {/* Hero container */}
       <div className="hero-container">
         <HeroSection />
-        
+
         {/* Responsive destination cards dengan autoscroll */}
         <div
           className="destination-slider-container mt-[-150px] mb-10"
@@ -37,18 +37,16 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="mb-15 mt-10">
-        <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
-          Popular Categories
-        </h1>
+      {/* === Popular Categories Section === */}
+      <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
+        <div className="max-w-[1200px] mx-auto">
+          <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mt-5 mb-8 ml-5">
+            Popular Categories
+          </h1>
+        </div>
+
         <div
-          className="categories-grid mb-10"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "15px",
-            flexWrap: "wrap",
-          }}
+          className="flex flex-wrap justify-center gap-4"
         >
           <CategoriesCard
             country="Indonesia"
@@ -81,19 +79,15 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="mb-15">
-        <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
-          Discover All Around
-        </h1>
-        <div
-          className="discover-grid mb-10"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "15px",
-            flexWrap: "wrap",
-          }}
-        >
+      {/* === Discover All Around Section === */}
+      <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
+        <div className="max-w-[1200px] mx-auto">
+          <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
+            Discover All Around
+          </h1>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-4">
           <DiscoverCard
             country="Indonesia"
             city="2 Cities"
@@ -115,29 +109,34 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div>
-        <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-center mx-auto mb-8">
-          Our Partner
-        </h1>
-        <div
-          className="partner1-grid mb-10"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "15px",
-            flexWrap: "wrap",
-          }}
-        >
+      {/* === Our Partner Section === */}
+      <div className="w-full px-4 md:px-8 lg:px-10 mb-1">
+        <div className="max-w-[1200px] mx-auto">
+          <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5 ">
+            Our Partner
+          </h1>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-14 mb-10">
           <PartnerCard1 image="/images/LandingPage/Partner/BoutiqueHotel.png" />
           <PartnerCard1 image="/images/LandingPage/Partner/PondokSebatu.png" />
           <PartnerCard1 image="/images/LandingPage/Partner/BeachHotel.png" />
         </div>
-        <ServiceScheduleCard />
+
+        <div>
+          <ServiceScheduleCard />
+        </div>
+       
       </div>
+
+      {/* === Testimonial Section === */}
       <TestimonialSection />
+
+      {/* === News Section === */}
       <div id="news">
         <NewsnBlog />
       </div>
+
       <Footer />
     </div>
   );

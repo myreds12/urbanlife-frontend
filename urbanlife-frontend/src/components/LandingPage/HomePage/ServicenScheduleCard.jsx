@@ -13,7 +13,7 @@ const ServiceScheduleCard = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-4 p-4 max-w-7xl mx-auto">
+    <div className="flex flex-col lg:flex-row gap-4 p-9 max-w-7xl mx-auto">
       {/* Card Kiri - Service Info */}
       <div className="w-full p-6 rounded-lg">
         <h2 className="playfair text-3xl font-bold text-[#071C4D] mb-4 leading-tight">

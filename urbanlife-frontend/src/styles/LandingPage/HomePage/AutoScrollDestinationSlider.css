@@ -38,11 +38,11 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: #0092B8 ;
   border: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 24px;
   font-weight: bold;
-  color: #071C4D;
+  color: #ffffff;
   cursor: pointer;
   z-index: 10;
   transition: all 0.3s ease;

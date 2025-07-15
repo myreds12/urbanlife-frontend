@@ -107,10 +107,17 @@ const DayTour = () => {
     );
   };
 
+  // Handler untuk View
+  const handleView = (row) => {
+    navigate(`/admin/day-tour/view/${row.id}`);
+  };
+
+  // Handler untuk Edit
   const handleEdit = (row) => {
     navigate(`/admin/day-tour/edit/${row.id}`);
   };
 
+  // Handler untuk Delete
   const handleDelete = (row) => {
     const confirmed = window.confirm(`Are you sure you want to delete "${row.nama}"?`);
     if (confirmed) {
@@ -322,6 +329,7 @@ const DayTour = () => {
             onSort={handleSort}
             sortConfig={sortConfig}
             startIndex={startIndex}
+            onView={handleView}
             onEdit={handleEdit}
             onDelete={handleDelete}
             defaultMapping={mapping}

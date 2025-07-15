@@ -119,6 +119,10 @@ const Accomodation = () => {
     );
   };
 
+  const handleView = (row) => {
+    navigate(`/admin/day-tour/view/${row.id}`);
+  };
+
   const handleEdit = (row) => {
     navigate(`/admin/accommodation/edit/${row.id}`);
   };
@@ -313,6 +317,7 @@ const Accomodation = () => {
             onSort={handleSort}
             sortConfig={sortConfig}
             startIndex={startIndex}
+            onView={handleView}
             onEdit={handleEdit}
             onDelete={handleDelete}
             defaultMapping={{

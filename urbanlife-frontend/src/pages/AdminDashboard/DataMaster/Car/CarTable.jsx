@@ -1,45 +1,44 @@
+import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
+
 const CarTable = ({ cars, onEdit, onDelete }) => {
+  const columns = [
+    "#",
+    "Unit ID",
+    "Brand",
+    "Model",
+    "Police number",
+    "Vehicle tax status",
+    "Tax expiry period",
+    "Status",
+    "Action",
+  ];
+
+  const defaultMapping = {
+    "#": (_, index) => index + 1,
+    "Unit ID": "id",
+    "Brand": "nama",
+    "Model": "model",
+    "Police number": "plat_nomor",
+    "Vehicle tax status": (row) => (row.status_pajak ? "Active" : "Inactive"),
+    "Tax expiry period": "tanggal_pajak_berakhir",
+    "Status": (row) => (
+      <span
+        className={`inline-block px-3 py-1 text-sm rounded-full 
+          ${row.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+      >
+        {row.status ? "Active" : "Inactive"}
+      </span>
+    ),
+  };
+
   return (
-    <table className="w-full text-sm text-left">
-      <thead className="text-gray-400">
-        <tr>
-          <th className="py-2">#</th>
-          <th className="py-2">Unit ID</th>
-          <th className="py-2">Brand</th>
-          <th className="py-2">Model</th>
-          <th className="py-2">Police number</th>
-          <th className="py-2">Vehicle tax status</th>
-          <th className="py-2">Tax expiry period</th>
-          <th className="py-2">Status</th>
-          <th className="py-2">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {cars.map((car, index) => (
-          <tr key={car.id} className="last:border-none">
-            <td className="py-2">{index + 1}</td>
-            <td className="py-2">{car.id}</td>
-            <td className="py-2">{car.nama}</td>
-            <td className="py-2">{car.model}</td>
-            <td className="py-2">{car.plat_nomor}</td>
-            <td className="py-2">{car.status_pajak ? "Active" : "Inactive"}</td>
-            <td className="py-2">{car.tanggal_pajak_berakhir}</td>
-            <td className="py-2">
-             <span
-                className={`inline-block px-3 py-1 text-sm rounded-full 
-                  ${car.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
-              >
-                {car.status ? "Active" : "Inactive"}
-              </span>
-            </td>
-            <td className="py-2 space-x-2">
-              <button onClick={() => onEdit(car)} className="text-blue-500 hover:underline">Edit</button>
-              <button onClick={() => onDelete(car.id)} className="text-red-500 hover:underline">Delete</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      data={cars}
+      columns={columns}
+      defaultMapping={defaultMapping}
+      onEdit={onEdit}
+      onDelete={onDelete}
+    />
   );
 };
 

@@ -4,6 +4,7 @@ import OrdersTabs from "./OrderTabs";
 import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
 import Table from "../../../components/AdminDashboard/Utils/Table/Table";
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
+import Export from "../../../components/AdminDashboard/Utils/Ui/button/Export";
 
 const api = import.meta.env.VITE_API_URL + "/pemesanan";
 
@@ -147,6 +148,12 @@ const Orders = () => {
              <div className="flex-1 min-w-[200px]">
               <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Search orders..." />
             </div>
+              <Export 
+                data={filteredData} 
+                filename="customers.csv" 
+                buttonText="Download"
+              />
+
         </div>
 
       </div>
@@ -164,8 +171,8 @@ const Orders = () => {
             <Table
               data={sortedData}
               columns={columns}
-              selectedRows={selectedRows}
-              onRowSelect={handleRowSelect}
+              // selectedRows={selectedRows}
+              // onRowSelect={handleRowSelect}
               onSort={handleSort}
               sortConfig={sortConfig}
               startIndex={startIndex}

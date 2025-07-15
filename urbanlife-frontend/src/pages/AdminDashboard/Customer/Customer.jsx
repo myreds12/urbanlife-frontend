@@ -3,6 +3,7 @@ import Table from '../../../components/AdminDashboard/Utils/Table/Table';
 import Pagination from '../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination';
 import Export from '../../../components/AdminDashboard/Utils/Ui/button/Export';
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
+import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
 
 const Customer = () => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -60,6 +61,54 @@ const Customer = () => {
     }
   };
 
+  const handleBulkDelete = (selectedData) => {
+  const confirmed = window.confirm(`Are you sure you want to delete ${selectedData.length} customers?`);
+  if (confirmed) {
+    const ids = selectedData.map(item => item.id);
+    setCustomerData(prev => prev.filter(item => !ids.includes(item.id)));
+    setSelectedRows([]);
+    alert(`Successfully deleted ${selectedData.length} customers`);
+  }
+};
+
+const handleBulkExport = (selectedData) => {
+  try {
+    const headers = ['ID', 'Customer Name', 'Nationality', 'Email', 'Phone Number', 'Gender', 'Date of Birth'];
+    const csvContent = [
+      headers.join(','),
+      ...selectedData.map(item => [
+        item.id,
+        `"${item.customername}"`,
+        `"${item.nationality}"`,
+        `"${item.email}"`,
+        `"${item.phonenumber}"`,
+        `"${item.gender}"`,
+        `"${item.dateofbirth}"`
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `customers_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    alert(`Successfully exported ${selectedData.length} customers`);
+  } catch (err) {
+    console.error("Export failed", err);
+    alert("Failed to export customers.");
+  }
+};
+
+const handleClearSelection = () => {
+  setSelectedRows([]);
+};
+
+
   const filteredData = useMemo(() => {
     return customerData.filter((customer) =>
       Object.values(customer).some(value =>
@@ -79,6 +128,10 @@ const Customer = () => {
     });
   }, [filteredData, sortConfig]);
 
+  const selectedData = useMemo(() => {
+  return sortedData.filter(item => selectedRows.includes(item.id));
+}, [sortedData, selectedRows]);
+
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = sortedData.slice(startIndex, startIndex + itemsPerPage);
@@ -96,6 +149,18 @@ const Customer = () => {
           boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
           overflow: "hidden",
         }}>
+          {/* Bulk Action Bar - Only show when items are selected */}
+            {selectedRows.length > 0 && (
+              <BulkActionBar
+                selectedCount={selectedRows.length}
+                selectedData={selectedData}
+                onClearSelection={handleClearSelection}
+                onBulkDelete={handleBulkDelete}
+                onExport={handleBulkExport}
+                editableFields={[]}
+              />
+            )}
+
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
             <h1 className="text-2xl font-bold text-gray-800">Customer</h1>

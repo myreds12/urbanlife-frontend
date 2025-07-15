@@ -21,7 +21,7 @@ const DescriptionSection = ({
             name="lokasi_id"
             value={formData.lokasi_id}
             onChange={handleChange}
-            className="w-full py-1 border border-gray-300 rounded-md focus:outline-cyan-600"
+            className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
             required
           >
             <option value="">-- Pilih Lokasi --</option>

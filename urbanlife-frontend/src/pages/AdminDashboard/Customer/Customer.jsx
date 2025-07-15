@@ -12,20 +12,20 @@ const Customer = () => {
   const itemsPerPage = 10;
 
   const [customerData, setCustomerData] = useState([
-    { id: 'C001', customer_name: 'Lindsey Curtis', nationality: 'Indonesia', email: 'lindsey.curtis@gmail.com', phone_number: '6281887766', gender: 'Female', date_of_birth: '12-02-1988' },
-    { id: 'C002', customer_name: 'Baginda Raja', nationality: 'Malaysia', email: 'sangraja@gmail.com', phone_number: '098765432123', gender: 'Lelaki Jantan', date_of_birth: '17-07-1945' },
-    { id: 'C003', customer_name: 'John Doe', nationality: 'Singapore', email: 'john.doe@gmail.com', phone_number: '6581234567', gender: 'Male', date_of_birth: '15-03-1990' },
-    { id: 'C004', customer_name: 'Sarah Wilson', nationality: 'Indonesia', email: 'sarah.wilson@gmail.com', phone_number: '6281234567', gender: 'Female', date_of_birth: '22-11-1985' },
-    { id: 'C005', customer_name: 'Ahmad Rahman', nationality: 'Malaysia', email: 'ahmad.rahman@gmail.com', phone_number: '60123456789', gender: 'Male', date_of_birth: '08-09-1992' },
-    { id: 'C006', customer_name: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phone_number: '6587654321', gender: 'Female', date_of_birth: '03-05-1987' },
-    { id: 'C007', customer_name: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phone_number: '6289876543', gender: 'Male', date_of_birth: '14-12-1989' },
-    { id: 'C008', customer_name: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phone_number: '61423456789', gender: 'Female', date_of_birth: '25-01-1991' },
-    { id: 'C009', customer_name: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phone_number: '6587654321', gender: 'Female', date_of_birth: '03-05-1987' },
-    { id: 'C0010', customer_name: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phone_number: '6289876543', gender: 'Male', date_of_birth: '14-12-1989' },
-    { id: 'C0011', customer_name: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phone_number: '61423456789', gender: 'Female', date_of_birth: '25-01-1991' },
-    { id: 'C0012', customer_name: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phone_number: '6587654321', gender: 'Female', date_of_birth: '03-05-1987' },
-    { id: 'C0013', customer_name: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phone_number: '6289876543', gender: 'Male', date_of_birth: '14-12-1989' },
-    { id: 'C0014', customer_name: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phone_number: '61423456789', gender: 'Female', date_of_birth: '25-01-1991' },
+    { id: 'C001', customername: 'Lindsey Curtis', nationality: 'Indonesia', email: 'lindsey.curtis@gmail.com', phonenumber: '6281887766', gender: 'Female', dateofbirth: '12-02-1988' },
+    { id: 'C002', customername: 'Baginda Raja', nationality: 'Malaysia', email: 'sangraja@gmail.com', phonenumber: '098765432123', gender: 'Lelaki Jantan', dateofbirth: '17-07-1945' },
+    { id: 'C003', customername: 'John Doe', nationality: 'Singapore', email: 'john.doe@gmail.com', phonenumber: '6581234567', gender: 'Male', dateofbirth: '15-03-1990' },
+    { id: 'C004', customername: 'Sarah Wilson', nationality: 'Indonesia', email: 'sarah.wilson@gmail.com', phonenumber: '6281234567', gender: 'Female', dateofbirth: '22-11-1985' },
+    { id: 'C005', customername: 'Ahmad Rahman', nationality: 'Malaysia', email: 'ahmad.rahman@gmail.com', phonenumber: '60123456789', gender: 'Male', dateofbirth: '08-09-1992' },
+    { id: 'C006', customername: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phonenumber: '6587654321', gender: 'Female', dateofbirth: '03-05-1987' },
+    { id: 'C007', customername: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phonenumber: '6289876543', gender: 'Male', dateofbirth: '14-12-1989' },
+    { id: 'C008', customername: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phonenumber: '61423456789', gender: 'Female', dateofbirth: '25-01-1991' },
+    { id: 'C009', customername: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phonenumber: '6587654321', gender: 'Female', dateofbirth: '03-05-1987' },
+    { id: 'C0010', customername: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phonenumber: '6289876543', gender: 'Male', dateofbirth: '14-12-1989' },
+    { id: 'C0011', customername: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phonenumber: '61423456789', gender: 'Female', dateofbirth: '25-01-1991' },
+    { id: 'C0012', customername: 'Lisa Chen', nationality: 'Singapore', email: 'lisa.chen@gmail.com', phonenumber: '6587654321', gender: 'Female', dateofbirth: '03-05-1987' },
+    { id: 'C0013', customername: 'Muhammad Ali', nationality: 'Indonesia', email: 'muhammad.ali@gmail.com', phonenumber: '6289876543', gender: 'Male', dateofbirth: '14-12-1989' },
+    { id: 'C0014', customername: 'Emily Johnson', nationality: 'Australia', email: 'emily.johnson@gmail.com', phonenumber: '61423456789', gender: 'Female', dateofbirth: '25-01-1991' },
   ]);
 
   const columns = ['Customer name', 'Nationality', 'Email', 'Phone number', 'Gender', 'Date of birth', 'Action'];

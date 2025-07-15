@@ -3,6 +3,7 @@ import Table from "../../../components/AdminDashboard/Utils/Table/Table";
 import Button from "../../../components/AdminDashboard/Utils/Ui/button/Button";
 import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
+import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
@@ -16,6 +17,60 @@ const DayTour = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [selectedRows, setSelectedRows] = useState([]);
   const itemsPerPage = 10;
+
+  // Bulk Action Configuration
+  const bulkEditableFields = [
+    {
+      name: 'durasi',
+      label: 'Durasi',
+      type: 'number',
+      placeholder: 'Masukkan durasi',
+      description: 'Durasi paket dalam satuan hari/jam'
+    },
+    {
+      name: 'harga_dewasa',
+      label: 'Harga Dewasa',
+      type: 'number',
+      placeholder: 'Masukkan harga dewasa',
+      description: 'Harga paket untuk dewasa dalam rupiah'
+    },
+    {
+      name: 'harga_anak',
+      label: 'Harga Anak',
+      type: 'number',
+      placeholder: 'Masukkan harga anak',
+      description: 'Harga paket untuk anak dalam rupiah'
+    },
+    {
+      name: 'lokasi_id',
+      label: 'Lokasi',
+      type: 'select',
+      options: [
+        { value: 1, label: 'Jakarta' },
+        { value: 2, label: 'Bandung' },
+        { value: 3, label: 'Surabaya' },
+        { value: 4, label: 'Medan' },
+        { value: 5, label: 'Makassar' },
+        { value: 6, label: 'Yogyakarta' },
+        { value: 7, label: 'Semarang' },
+        { value: 8, label: 'Denpasar' }
+      ],
+      description: 'Lokasi destinasi paket wisata'
+    },
+    {
+      name: 'negara_id',
+      label: 'Negara',
+      type: 'select',
+      options: [
+        { value: 1, label: 'Indonesia' },
+        { value: 2, label: 'Malaysia' },
+        { value: 3, label: 'Singapore' },
+        { value: 4, label: 'Thailand' },
+        { value: 5, label: 'Vietnam' }
+      ],
+      description: 'Negara destinasi paket wisata'
+    }
+  ];
 
   const fetchDayTours = async () => {
     setLoading(true);
@@ -65,6 +120,83 @@ const DayTour = () => {
     }
   };
 
+  // Bulk Action Handlers
+  const handleBulkDelete = (selectedData) => {
+    const confirmed = window.confirm(`Are you sure you want to delete ${selectedData.length} travel packages?`);
+    if (confirmed) {
+      const ids = selectedData.map(item => item.id);
+      console.log('Bulk delete IDs:', ids);
+      setDayTourData(prev => prev.filter(item => !ids.includes(item.id)));
+      setSelectedRows([]);
+      alert(`Successfully deleted ${selectedData.length} travel packages`);
+    }
+  };
+
+  const handleBulkEdit = async (selectedData, editData) => {
+    try {
+      const ids = selectedData.map(item => item.id);
+      console.log('Bulk edit data:', { ids, editData });
+      
+      // API call untuk bulk edit
+      // await apiClient.patch("/travel-package/bulk", { ids, data: editData });
+      
+      // Temporary implementation - update state
+      setDayTourData(prev => prev.map(item => 
+        ids.includes(item.id) ? { ...item, ...editData } : item
+      ));
+      setSelectedRows([]);
+      
+      alert(`Successfully updated ${selectedData.length} travel packages`);
+      
+      // Refresh data
+      fetchDayTours();
+    } catch (err) {
+      console.error("Failed to bulk edit travel packages", err);
+      alert("Failed to update travel packages. Please try again.");
+    }
+  };
+
+  const handleBulkExport = async (selectedData) => {
+    try {
+      console.log('Bulk export data:', selectedData);
+      
+      // Create CSV content
+      const headers = ['ID', 'Nama', 'Durasi', 'Harga Dewasa', 'Harga Anak', 'Lokasi', 'Negara'];
+      const csvContent = [
+        headers.join(','),
+        ...selectedData.map(item => [
+          item.id,
+          `"${item.nama}"`,
+          `${item.durasi} ${item.tipe_durasi}`,
+          item.harga_dewasa,
+          item.harga_anak,
+          `"${item.lokasi?.nama || ''}"`,
+          `"${item.lokasi?.negara?.nama || ''}"`
+        ].join(','))
+      ].join('\n');
+      
+      // Download CSV
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `travel_packages_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      alert(`Successfully exported ${selectedData.length} travel packages`);
+    } catch (err) {
+      console.error("Failed to export travel packages", err);
+      alert("Failed to export travel packages. Please try again.");
+    }
+  };
+
+  const handleClearSelection = () => {
+    setSelectedRows([]);
+  };
+
   const filteredData = useMemo(() => {
     return dayTourData.filter((tour) =>
       Object.values(tour).some(value => {
@@ -97,6 +229,11 @@ const DayTour = () => {
       return 0;
     });
   }, [filteredData, sortConfig]);
+
+  // Get selected data for bulk actions
+  const selectedData = useMemo(() => {
+    return sortedData.filter(item => selectedRows.includes(item.id));
+  }, [sortedData, selectedRows]);
 
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -147,9 +284,23 @@ const DayTour = () => {
           boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
           overflow: "hidden",
         }}>
+          {selectedRows.length > 0 && (
+            <BulkActionBar
+              selectedCount={selectedRows.length}
+              selectedData={selectedData}
+              onClearSelection={handleClearSelection}
+              onBulkDelete={handleBulkDelete}
+              onBulkEdit={handleBulkEdit}
+              onExport={handleBulkExport}
+              editableFields={bulkEditableFields}
+            />
+          )}
+
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
-            <h1 className="text-2xl font-bold text-gray-800">Day Tour / Travel Package</h1>
+            <div className="flex items-center gap-4">
+              <h1 className="text-2xl font-bold text-gray-800">Day Tour / Travel Package</h1>
+            </div>
             
             <div className="flex flex-wrap justify-between items-center gap-4">
               <div className="flex-1 min-w-[200px]">

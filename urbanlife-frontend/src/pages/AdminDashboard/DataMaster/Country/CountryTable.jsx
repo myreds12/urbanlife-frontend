@@ -5,8 +5,8 @@ const CountryTable = ({ countries, onEdit, onDelete }) => {
 
   const defaultMapping = {
     "#": (_, index) => index + 1,
-    "Country ID": "kode",
-    "Country Name": "nama",
+    "Country ID": (row) => row.kode || "-",
+    "Country Name": (row) => row.nama || "-",
     "Status": (row) => (
       <span
         className={`inline-block px-3 py-1 text-sm rounded-full 

@@ -122,7 +122,7 @@ const Country = () => {
       text: "Apakah kamu yakin ingin menghapus negara ini?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#10b981", // warna hijau teal
+      confirmButtonColor: "#0092B8", // warna hijau teal
       cancelButtonColor: "#d33",
       confirmButtonText: "Ya, hapus!",
       cancelButtonText: "Batal",
@@ -172,7 +172,7 @@ const Country = () => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="px-5 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:opacity-50 cursor-pointer"
+              className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 disabled:opacity-50 cursor-pointer"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>

@@ -156,14 +156,6 @@ export default function RecentOrders() {
             }
             setSortConfig({ key: columnKey, direction });
           }}
-          selectedRows={selectedRows}
-          onRowSelect={(rowId) => {
-            setSelectedRows(prev =>
-              prev.includes(rowId)
-                ? prev.filter(id => id !== rowId)
-                : [...prev, rowId]
-            );
-          }}
         />
       )}
     </div>

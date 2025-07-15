@@ -12,9 +12,9 @@ const CityTable = ({ cities, onEdit, onDelete }) => {
 
   const defaultMapping = {
     "#": (_, index) => index + 1,
-    "City ID": "id",
+    "City ID": (row) => row.id || "-",
     "Country name": (row) => row?.negara?.nama ?? "-",
-    "City name": "nama",
+    "City name": (row) => row.nama || "-",
     "Status": (row) => (
       <span
         className={`inline-block px-3 py-1 text-sm rounded-full 

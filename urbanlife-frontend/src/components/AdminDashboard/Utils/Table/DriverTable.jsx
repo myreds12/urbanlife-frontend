@@ -17,11 +17,11 @@ const DriverTable = ({ drivers, loading, onEdit, onDelete }) => {
 
   const defaultMapping = {
     "#": (_, index) => index + 1,
-    "Driver ID": "id",
-    "Driver name": "nama",
-    "ID": (row) => row.driver_id || "Tidak Ada",
-    "Phone number": "nomor_hp",
-    "Gender": "gender",
+    "Driver ID": (row) => row.id || "-",
+    "Driver name": (row) => row.nama || "-",
+    "ID": (row) => row.driver_id || "-",
+    "Phone number": (row) => row.nomor_hp || "-",
+    "Gender": (row) => row.gender || "-",
     "Driving expiry period": (row) =>
       row.tanggal_periode_berakhir
         ? new Date(row.tanggal_periode_berakhir).toLocaleDateString()

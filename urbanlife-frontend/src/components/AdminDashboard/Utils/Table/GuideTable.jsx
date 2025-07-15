@@ -17,11 +17,11 @@ const GuideTable = ({ guides, onEdit, onDelete, loading }) => {
 
   const defaultMapping = {
     "#": (_, index) => index + 1,
-    "Guide ID": "id",
-    "Guide name": "nama",
-    "ID": (row) => row.guide_id ?? "Tidak Ada",
-    "Phone number": "nomor_hp",
-    "Gender": "gender",
+    "Guide ID": (row) => row.id || "-",
+    "Guide name": (row) => row.nama || "-",
+    "ID": (row) => row.guide_id || "-",
+    "Phone number": (row) => row.nomor_hp || "-",
+    "Gender": (row) => row.gender || "-",
     "Fluent english": (row) => (row.fluent_english ? "Yes" : "No"),
     "Status": (row) => (
       <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">

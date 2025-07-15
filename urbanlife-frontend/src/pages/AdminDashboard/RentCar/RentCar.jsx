@@ -116,6 +116,10 @@ const RentCar = () => {
     );
   };
 
+  const handleView = (row) => {
+    navigate(`/admin/day-tour/view/${row.id}`);
+  };
+
   const handleEdit = (row) => {
     navigate(`/admin/rent-car/edit/${row.id}`);
   };
@@ -333,6 +337,7 @@ const RentCar = () => {
             onSort={handleSort}
             sortConfig={sortConfig}
             startIndex={startIndex}
+            onView={handleView}
             onEdit={handleEdit}
             onDelete={handleDelete}
             defaultMapping={{

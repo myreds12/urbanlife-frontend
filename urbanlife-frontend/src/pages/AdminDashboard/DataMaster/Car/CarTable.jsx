@@ -15,12 +15,12 @@ const CarTable = ({ cars, onEdit, onDelete }) => {
 
   const defaultMapping = {
     "#": (_, index) => index + 1,
-    "Unit ID": "id",
-    "Brand": "nama",
-    "Model": "model",
-    "Police number": "plat_nomor",
+    "Unit ID": (row) => row.id || "-",
+    "Brand": (row) => row.nama || "-",
+    "Model": (row) => row.model || "-",
+    "Police number": (row) => row.plat_nomor || "-",
     "Vehicle tax status": (row) => (row.status_pajak ? "Active" : "Inactive"),
-    "Tax expiry period": "tanggal_pajak_berakhir",
+    "Tax expiry period": (row) => row.tanggal_pajak_berakhir || "-",
     "Status": (row) => (
       <span
         className={`inline-block px-3 py-1 text-sm rounded-full 

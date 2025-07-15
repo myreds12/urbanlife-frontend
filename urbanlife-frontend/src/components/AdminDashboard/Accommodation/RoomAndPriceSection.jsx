@@ -2,13 +2,27 @@ const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemo
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
+
+      {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold">Pricing</h3>
+          <button
+            type="button"
+            onClick={onAdd}
+            className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-6 py-2 rounded-md"
+          >
+            Add Price +
+          </button>
+        </div>
+
+      {/* Form */}
         <div className="space-y-4">
           {roomPrices.map((item, index) => (
             <div
               key={index}
-              className="grid grid-cols-[auto_1fr_auto_1fr_auto] gap-3 items-center bg-gray-50 p-3 rounded-lg shadow-sm"
+              className="flex items-center gap-2 border border-gray-100 p-2 rounded-md shadow-sm"
             >
-              <label className="text-sm font-medium text-white bg-gray-400 px-3 py-2 rounded-md">
+              <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[110px] text-center">
                 Room
               </label>
               <input
@@ -18,7 +32,7 @@ const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemo
                 onChange={(e) => onChange(index, "nama", e.target.value)}
                 className="p-2 border border-gray-300 rounded-md w-full"
               />
-              <label className="text-sm font-medium text-white bg-gray-400 px-3 py-2 rounded-md">
+              <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[70px] text-center">
                 Price
               </label>
               <input
@@ -32,7 +46,7 @@ const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemo
               <button
                 type="button"
                 onClick={() => onRemove(index)}
-                className="text-red-600 border border-red-400 hover:bg-red-100 px-4 py-2 rounded-md ml-2"
+                className="text-red-600 border border-red-400 px-3 py-1 rounded-md hover:bg-red-50 text-sm"
               >
                 Delete
               </button>
@@ -40,15 +54,6 @@ const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemo
           ))}
         </div>
 
-        <div className="mt-4 flex justify-end">
-          <button
-            type="button"
-            onClick={onAdd}
-            className="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-6 py-2 rounded-md"
-          >
-            ADD
-          </button>
-        </div>
       </div>
     </div>
   );

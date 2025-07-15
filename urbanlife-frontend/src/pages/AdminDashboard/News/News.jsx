@@ -4,6 +4,7 @@ import Table from "../../../components/AdminDashboard/Utils/Table/Table";
 import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Button from "../../../components/AdminDashboard/Utils/Ui/button/Button";
+import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
 import EditNews from "./EditNews";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
@@ -22,6 +23,28 @@ const News = () => {
   console.log(editingNews, "editingNews");
 
   const [newsData, setNewsData] = useState([]);
+
+  // Bulk Action Configuration - Only news category is editable
+  const bulkEditableFields = [
+    {
+      name: 'news_category_id',
+      label: 'News Category',
+      type: 'select',
+      options: [
+        { value: 1, label: 'Technology' },
+        { value: 2, label: 'Business' },
+        { value: 3, label: 'Sports' },
+        { value: 4, label: 'Entertainment' },
+        { value: 5, label: 'Health' },
+        { value: 6, label: 'Travel' },
+        { value: 7, label: 'Food' },
+        { value: 8, label: 'Politics' },
+        { value: 9, label: 'Education' },
+        { value: 10, label: 'Lifestyle' }
+      ],
+      description: 'Kategori berita'
+    }
+  ];
 
   const fetchNews = async () => {
     setIsLoading(true);
@@ -86,13 +109,87 @@ const News = () => {
 
   const handleDelete = (row) => {
     const confirmed = window.confirm(
-      `Are you sure you want to delete "${row.newssubject}"?`
+      `Are you sure you want to delete "${row.news_content[0]?.judul || 'this news'}"?`
     );
     if (confirmed) {
       setNewsData((prev) => prev.filter((news) => news.id !== row.id));
       setSelectedRows((prev) => prev.filter((id) => id !== row.id));
-      alert(`News "${row.newssubject}" has been deleted.`);
+      alert(`News "${row.news_content[0]?.judul || 'item'}" has been deleted.`);
     }
+  };
+
+  // Bulk Action Handlers
+  const handleBulkDelete = (selectedData) => {
+    const confirmed = window.confirm(`Are you sure you want to delete ${selectedData.length} news items?`);
+    if (confirmed) {
+      const ids = selectedData.map(item => item.id);
+      console.log('Bulk delete IDs:', ids);
+      setNewsData(prev => prev.filter(item => !ids.includes(item.id)));
+      setSelectedRows([]);
+      alert(`Successfully deleted ${selectedData.length} news items`);
+    }
+  };
+
+  const handleBulkEdit = async (selectedData, editData) => {
+    try {
+      const ids = selectedData.map(item => item.id);
+      console.log('Bulk edit data:', { ids, editData });
+      
+      // API call untuk bulk edit
+      // await apiClient.patch("/news/bulk", { ids, data: editData });
+      
+      // Temporary implementation - update state
+      setNewsData(prev => prev.map(item => 
+        ids.includes(item.id) ? { ...item, ...editData } : item
+      ));
+      setSelectedRows([]);
+      
+      alert(`Successfully updated ${selectedData.length} news items`);
+      
+      // Refresh data
+      fetchNews();
+    } catch (err) {
+      console.error("Failed to bulk edit news", err);
+      alert("Failed to update news items. Please try again.");
+    }
+  };
+
+  const handleBulkExport = async (selectedData) => {
+    try {
+      console.log('Bulk export data:', selectedData);
+      
+      // Create CSV content
+      const headers = ['ID', 'News Category', 'News Subject', 'Date Created'];
+      const csvContent = [
+        headers.join(','),
+        ...selectedData.map(item => [
+          item.id,
+          `"${item.news_category?.name || ''}"`,
+          `"${item.news_content[0]?.judul || ''}"`,
+          `"${item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID') : ''}"`
+        ].join(','))
+      ].join('\n');
+      
+      // Download CSV
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `news_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      alert(`Successfully exported ${selectedData.length} news items`);
+    } catch (err) {
+      console.error("Failed to export news", err);
+      alert("Failed to export news items. Please try again.");
+    }
+  };
+
+  const handleClearSelection = () => {
+    setSelectedRows([]);
   };
 
   const filteredData = useMemo(() => {
@@ -132,11 +229,17 @@ const News = () => {
       return 0;
     });
   }, [filteredData, sortConfig]);
+
+  // Get selected data for bulk actions
+  const selectedData = useMemo(() => {
+    return sortedData.filter(item => selectedRows.includes(item.id));
+  }, [sortedData, selectedRows]);
+
   const columns = ["News Category", "News Subject", "Date Created", "Action"];
   const defaultMapping = {
     "News Category": (row) => row.news_category?.name || "",
     "News Subject": (row) =>
-      row.news_content[0].judul ? row.news_content[0].judul : "-",
+      row.news_content[0]?.judul ? row.news_content[0].judul : "-",
     "Date Created": (row) =>
       row.createdAt
         ? new Date(row.createdAt).toLocaleDateString("id-ID", {
@@ -154,6 +257,14 @@ const News = () => {
     setCurrentPage(page);
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-600"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="p-5">
@@ -165,6 +276,18 @@ const News = () => {
             overflow: "hidden",
           }}
         >
+          {selectedRows.length > 0 && (
+            <BulkActionBar
+              selectedCount={selectedRows.length}
+              selectedData={selectedData}
+              onClearSelection={handleClearSelection}
+              onBulkDelete={handleBulkDelete}
+              onBulkEdit={handleBulkEdit}
+              onExport={handleBulkExport}
+              editableFields={bulkEditableFields}
+            />
+          )}
+
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
             <h1 className="text-2xl font-bold text-gray-800">News</h1>

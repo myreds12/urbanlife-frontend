@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../Ui/button/Button";
+import StatusBadge from "../Ui/badge/StatusBadge";
 
 // Komponen SVG Icon Sort
 const SortIcon = ({ direction }) => {
@@ -23,7 +24,7 @@ const SortIcon = ({ direction }) => {
   );
 };
 
-// Icon components untuk delete dan edit
+// Icon components untuk delete, edit, dan view
 const DeleteIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -58,6 +59,23 @@ const EditIcon = () => (
   </svg>
 );
 
+const ViewIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+    <circle cx="12" cy="12" r="3"></circle>
+  </svg>
+);
+
 const Table = ({
   data,
   columns,
@@ -70,6 +88,7 @@ const Table = ({
   actions = null, // Array of action objects: [{ type: 'detail', label: 'Detail', onClick: (row) => {} }]
   onEdit = null, // Function untuk handle edit
   onDelete = null, // Function untuk handle delete
+  onView = null, // Function untuk handle view
 }) => {
   const handleSort = (column) => {
     const mappedKey = defaultMapping[column];
@@ -112,27 +131,36 @@ const Table = ({
       );
     }
 
-    // Jika ada onEdit dan onDelete (untuk Customer dan Countries), tampilkan icon buttons
-    if (onEdit || onDelete) {
+    // Jika ada onView, onEdit, dan onDelete, tampilkan icon buttons
+    if (onView || onEdit || onDelete) {
       return (
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          {onView && (
+            <button
+              onClick={() => onView(row)}
+              className="action-button view-button"
+              title="View"
+            >
+              <ViewIcon />
+            </button>
+          )}
           {onEdit && (
-        <button
-          onClick={() => onEdit(row)}
-          className="action-button edit-button"
-          title="Edit"
-        >
-          <EditIcon />
-        </button>
+            <button
+              onClick={() => onEdit(row)}
+              className="action-button edit-button"
+              title="Edit"
+            >
+              <EditIcon />
+            </button>
           )}
           {onDelete && (
-        <button
-          onClick={() => onDelete(row)}
-          className="action-button delete-button"
-          title="Delete"
-        >
-          <DeleteIcon />
-        </button>
+            <button
+              onClick={() => onDelete(row)}
+              className="action-button delete-button"
+              title="Delete"
+            >
+              <DeleteIcon />
+            </button>
           )}
         </div>
       );
@@ -171,12 +199,12 @@ const Table = ({
             height: 28px;
           }
           
-          .delete-button {
-            color: #ef4444;
+          .view-button {
+            color: #10b981;
           }
           
-          .delete-button:hover {
-            background-color: #fee2e2 !important;
+          .view-button:hover {
+            background-color: #d1fae5 !important;
             transform: scale(1.05);
           }
           
@@ -186,6 +214,15 @@ const Table = ({
           
           .edit-button:hover {
             background-color: #dbeafe !important;
+            transform: scale(1.05);
+          }
+          
+          .delete-button {
+            color: #ef4444;
+          }
+          
+          .delete-button:hover {
+            background-color: #fee2e2 !important;
             transform: scale(1.05);
           }
           
@@ -318,6 +355,8 @@ const Table = ({
                       {defaultMapping &&
                       typeof defaultMapping[column] === "function"
                         ? defaultMapping[column](row, rowIndex)
+                        : column.toLowerCase() === "status" || column.toLowerCase() === "status order"
+                        ? <StatusBadge status={row[column?.toLowerCase()?.replace(/\s+/g, "")] || row.status} />
                         : row[column?.toLowerCase()?.replace(/\s+/g, "")] ?? ""}
                     </td>
                   )

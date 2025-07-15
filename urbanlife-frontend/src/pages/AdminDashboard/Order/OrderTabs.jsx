@@ -1,5 +1,5 @@
 const OrdersTabs = ({ activeTab, setActiveTab }) => {
-  const tabs = ["All Orders", "Open Orders", "Cancelled Order"];
+  const tabs = ["All Orders", "Paid Orders", "Unpaid Orders", "Cancelled Order"];
   
   return (
     <div className="mt-3 space-x-6">

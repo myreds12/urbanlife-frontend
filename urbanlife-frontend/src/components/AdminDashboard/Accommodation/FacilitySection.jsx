@@ -48,12 +48,25 @@ const FacilitySection = ({
       <h3 className="text-xl font-semibold text-gray-800 mb-4">
         Facilities per Room
       </h3>
+
       <div className="space-y-6">
         {facilities.map((group, groupIndex) => (
-          <div key={groupIndex} className="border p-4 rounded-lg shadow">
-            <h4 className="font-semibold text-gray-700 mb-3">
+          <div key={groupIndex} className="bg-white p-4 rounded-lg shadow-md">
+            <div className="flex items-center justify-between mb-5">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">
               {group.nama || `Room ${groupIndex + 1}`}
-            </h4>
+            </h3>
+            <button
+              type="button"
+              onClick={() => addFacility(groupIndex)}
+              className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-6 py-2 rounded-md"
+            >
+              Add Facility +
+            </button>
+
+
+            </div>
+
             <div className="space-y-2">
               {group.fasilitas.map((item, facilityIndex) => (
                 <div key={facilityIndex} className="flex gap-2 items-center">
@@ -69,25 +82,18 @@ const FacilitySection = ({
                         e.target.value
                       )
                     }
-                    className="w-full px-3 py-2 border rounded-md"
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md"
                   />
                   <button
                     type="button"
                     onClick={() => removeFacility(groupIndex, facilityIndex)}
-                    className="text-red-500 hover:text-red-700"
+                    className="text-red-600 border border-red-400 px-3 py-1 rounded-md hover:bg-red-50 text-sm"
                   >
                     Remove
                   </button>
                 </div>
               ))}
             </div>
-            <button
-              type="button"
-              onClick={() => addFacility(groupIndex)}
-              className="mt-3 text-sm text-cyan-600 hover:text-cyan-800"
-            >
-              + Add Facility
-            </button>
           </div>
         ))}
       </div>

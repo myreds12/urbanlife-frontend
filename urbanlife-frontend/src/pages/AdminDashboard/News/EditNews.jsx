@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DescriptionSection from "../../../components/AdminDashboard/News/DescriptionSection";
-import ImageSection from "../../../components/AdminDashboard/News/ImageSection";
+import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
@@ -155,17 +155,14 @@ const EditNews = ({ id, isOpen, onClose, onSave }) => {
                 {["description", "image"].map((section) => (
                   <span
                     key={section}
-                    className={`cursor-pointer relative ${
-                      activeSection === section ? "text-cyan-600" : "text-gray-500"
-                    } hover:text-cyan-700`}
-                    onClick={() => setActiveSection(section)}
+                    className={`cursor-pointer px-1 font-medium underline-item relative ${
+                      activeSection === section
+                        ? "text-cyan-600 active"
+                        : "text-gray-500"
+                    } hover:text-cyan-700 group`}
+                    onClick={() => moveSection(section)}
                   >
                     {section.charAt(0).toUpperCase() + section.slice(1)}
-                    <span
-                      className={`absolute bottom-0 left-0 h-0.5 bg-cyan-600 transition-all duration-200 ${
-                        activeSection === section ? "w-full" : "w-0"
-                      }`}
-                    />
                   </span>
                 ))}
               </div>

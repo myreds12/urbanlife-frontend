@@ -154,7 +154,7 @@ const City = () => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="px-5 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600"
+              className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
             >
               Save Changes
             </button>

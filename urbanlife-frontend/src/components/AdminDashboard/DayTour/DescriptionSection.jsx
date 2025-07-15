@@ -13,15 +13,15 @@ const DescriptionSection = ({
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600 mb-1">
-            Pilih Lokasi <span className="text-red-500">*</span>
+        <div className="mb-4 flex items-center ">
+          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+            Select Location <span className="text-red-500">*</span>
           </label>
           <select
             name="lokasi_id"
             value={formData.lokasi_id}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-cyan-600"
+            className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
             required
           >
             <option value="">-- Pilih Lokasi --</option>
@@ -35,7 +35,7 @@ const DescriptionSection = ({
 
         {type === "daytour" ? (
           <>
-            <div className="flex items-center p-6">
+            <div className="flex items-center ">
               <label
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
@@ -131,7 +131,7 @@ const DescriptionSection = ({
           )
         )}
 
-        <div className="flex space-x-4 mt-4">
+        <div className="flex space-x-4 mt-6">
           {content.map((item, index) => (
             <div key={item.bahasa} className="w-1/2">
               <label className="block text-sm font-medium text-gray-700">

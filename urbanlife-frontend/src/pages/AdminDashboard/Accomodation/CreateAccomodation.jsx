@@ -2,14 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
-import ItinerarySection from "../../../components/AdminDashboard/DayTour/ItinerarySection";
-import PriceSection from "../../../components/AdminDashboard/DayTour/PriceSection";
 import "../../../styles/AdminDashboard/DayTour/DayTour.css";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import { PopsicleIcon } from "lucide-react";
-import PolicyAndProcedureSection from "../../../components/AdminDashboard/RentCar/PolicyAndProcedureSection";
-import PoliceNumberSection from "../../../components/AdminDashboard/RentCar/PoliceNumberSection";
 import RoomAndPriceSection from "../../../components/AdminDashboard/Accommodation/RoomAndPriceSection";
 import FacilitySection from "../../../components/AdminDashboard/Accommodation/FacilitySection";
 
@@ -183,15 +179,14 @@ const CreateAccomodationPage = () => {
                 (section) => (
                   <span
                     key={section}
-                    className={`cursor-pointer relative ${
+                    className={`cursor-pointer px-1 font-medium underline-item relative ${
                       activeSection === section
-                        ? "text-cyan-600"
+                        ? "text-cyan-600 active"
                         : "text-gray-500"
                     } hover:text-cyan-700 group`}
                     onClick={() => moveSection(section)}
                   >
                     {section.charAt(0).toUpperCase() + section.slice(1)}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-600 group-hover:w-full transition-all duration-200"></span>
                   </span>
                 )
               )}

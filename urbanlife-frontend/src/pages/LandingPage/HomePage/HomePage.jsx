@@ -1,4 +1,4 @@
-import Navbar from "../../../components/LandingPage/HomePage/Navbar";
+import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
 import Footer from "../../../components/LandingPage/HomePage/Footer";
 import HeroSection from "../../../components/LandingPage/HomePage/HeroSection";
 import AutoScrollDestinationSlider from "../../../components/LandingPage/HomePage/AutoScrollDestinationSlider";

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "../../../styles/LandingPage/HomePage/Navbar.css";
+import "../../../../styles/LandingPage/HomePage/Navbar.css";
 
 const Navbar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);

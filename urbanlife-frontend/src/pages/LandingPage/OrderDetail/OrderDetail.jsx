@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from '../../../components/LandingPage/HomePage/Navbar';
+import Navbar from '../../../components/LandingPage/HomePage/Navbar/Navbar';
 import ContactForm from "../../../components/LandingPage/OrderDetail/ContactForm";
 import CustomerRequest from "../../../components/LandingPage/OrderDetail/CustomerRequest";
 import ServiceDescription from "../../../components/LandingPage/OrderDetail/ServiceDescription";

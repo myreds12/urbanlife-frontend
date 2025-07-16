@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
-import DriverForm from "../../../components/AdminDashboard/Utils/Form/DriverForm";
-import DriverTable from "../../../components/AdminDashboard/Utils/Table/DriverTable";
-import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import DriverForm from "./DriverForm";
+import DriverTable from "./DriverTable";
+import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -15,7 +15,6 @@ const Driver = () => {
   const editingId = searchParams.get("edit");
   const [searchTerm, setSearchTerm] = useState('');
   const isEditing = Boolean(editingId);
-
   const formRef = useRef(null);
 
   const fetchGuides = async () => {
@@ -94,7 +93,7 @@ const Driver = () => {
 
     try {
       await apiClient.delete(`/driver/${id}`);
-      toast.success("Kota berhasil dihapus");
+      toast.success("Driver berhasil dihapus");
       fetchGuides();
     } catch (error) {
       console.error("❌ Failed to delete driver", error);

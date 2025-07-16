@@ -32,18 +32,17 @@ const City = () => {
   };
   
 
-  const fetchAllData = async () => {
-    setLoading(true);
-    await Promise.all([
-      fetchData("/lokasi", setCities, "cities"),
-      fetchData("/negara", setCountries, "countries"),
-      fetchData("/lokasi/next-code", (data) => setNextId(data.code), "City ID"),
-
-    ]);
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const fetchAllData = async () => {
+      setLoading(true);
+      await Promise.all([
+        fetchData("/lokasi", setCities, "cities"),
+        fetchData("/negara", setCountries, "countries"),
+        fetchData("/lokasi/next-code", (data) => setNextId(data.code), "City ID"),
+      ]);
+      setLoading(false);
+    };
+
     fetchAllData();
   }, []);
 

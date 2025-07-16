@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import GuideForm from "../../../components/AdminDashboard/Utils/Form/GuideForm";
-import GuideTable from "../../../components/AdminDashboard/Utils/Table/GuideTable";
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
-import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
+import GuideForm from "./GuideForm";
+import GuideTable from "./GuideTable";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";

@@ -139,25 +139,25 @@ const Navbar = () => {
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Day Tour</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/day-tours" className="mega-menu-link">Day Tours</a></li>
-                    <li><a href="/cultural-tours" className="mega-menu-link">Cultural Tours</a></li>
-                    <li><a href="/adventure-tours" className="mega-menu-link">Adventure Tours</a></li>
+                    <li><a href="/day-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/daytour.png" className="mega-menu-icon" alt="daytour"/> Day Tours</a></li>
+                    <li><a href="/cultural-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/cultural_tour.png" className="mega-menu-icon" alt="cultural"/> Cultural Tours</a></li>
+                    <li><a href="/adventure-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/adventure_tour.png" className="mega-menu-icon" alt="adventure"/> Adventure Tours</a></li>
                   </ul>
                 </div>
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Transportation</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/rent-car" className="mega-menu-link">Rent Car</a></li>
-                    <li><a href="/airport-transfer" className="mega-menu-link">Airport Transfer</a></li>
-                    <li><a href="/private-driver" className="mega-menu-link">Private Driver</a></li>
+                    <li><a href="/rent-car" className="mega-menu-link"><img src="/images/LandingPage/Navbar/rentcar.png" className="mega-menu-icon" alt="rentcar"/> Rent Car</a></li>
+                    <li><a href="/airport-transfer" className="mega-menu-link"><img src="/images/LandingPage/Navbar/airport_transfer.png" className="mega-menu-icon" alt="airport"/> Airport Transfer</a></li>
+                    <li><a href="/private-driver" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_driver.png" className="mega-menu-icon" alt="driver"/>Private Driver</a></li>
                   </ul>
                 </div>
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Accommodation</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/hotels" className="mega-menu-link">Hotels & Resorts</a></li>
-                    <li><a href="/homestays" className="mega-menu-link">Homestays</a></li>
-                    <li><a href="/villas" className="mega-menu-link">Private Villas</a></li>
+                    <li><a href="/hotels" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>Hotels & Resorts</a></li>
+                    <li><a href="/homestays" className="mega-menu-link"><img src="/images/LandingPage/Navbar/homestay.png" className="mega-menu-icon" alt="airport"/> Homestays</a></li>
+                    <li><a href="/villas" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_villa.png" className="mega-menu-icon" alt="villa"/> Private Villas</a></li>
                   </ul>
                 </div>
               </div>

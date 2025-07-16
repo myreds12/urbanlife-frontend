@@ -16,7 +16,7 @@ const TourHeader = ({ title, price }) => {
       image: 'image-url',
       price: `Rp ${price}`,
     };
-    navigate("/OrderDetail", { state: bookingData });
+    navigate("/daytourdetail/OrderDetail", { state: bookingData });
   };
 
   const shareData = {

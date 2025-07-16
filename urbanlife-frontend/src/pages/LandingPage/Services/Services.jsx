@@ -3,7 +3,7 @@ import FilterSection from '../../../components/LandingPage/Services/FilterSectio
 import ServiceCard from '../../../components/LandingPage/Services/ServiceCard';
 import ServiceHeader from '../../../components/LandingPage/Services/ServiceHeader';
 import '../../../styles/LandingPage/Services/Services.css';
-import Navbar from '../../../components/LandingPage/HomePage/Navbar';
+import Navbar from '../../../components/LandingPage/HomePage/Navbar/Navbar';
 
 const Services = () => {
   const [filters, setFilters] = useState({

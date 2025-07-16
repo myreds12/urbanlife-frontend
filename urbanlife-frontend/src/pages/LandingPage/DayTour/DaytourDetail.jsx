@@ -4,7 +4,7 @@ import TourHeader from '../../../components/LandingPage/DayTour/TourHeader';
 import TourDescription from '../../../components/LandingPage/DayTour/TourDescription';
 import TourItinerary from '../../../components/LandingPage/DayTour/TourItinerary';
 import TourPrice from '../../../components/LandingPage/DayTour/TourPrice';
-import Navbar from '../../../components/LandingPage/HomePage/Navbar';
+import Navbar from '../../../components/LandingPage/HomePage/Navbar/Navbar';
 import '../../../styles/LandingPage/DayTour/DaytourDetail.css'
 
 const DaytourDetail = () => {

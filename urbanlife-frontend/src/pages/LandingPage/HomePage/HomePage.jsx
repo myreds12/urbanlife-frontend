@@ -10,6 +10,7 @@ import TestimonialSection from "../../../components/LandingPage/HomePage/Testimo
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
 import Destination from "./Destination/Destination";
 import PopularCategoriesSection from "./Popular Categoires/PopularCategories";
+import AnimatedSection from "../../../components/LandingPage/Utils/AnimatedSection";
 
 const LandingPage = () => {
   return (

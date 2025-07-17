@@ -23,16 +23,7 @@ const Navbar = () => {
       { id: 10, name: 'Kyoto Cultural Tour', location: 'Kyoto, Japan', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=60&h=60&fit=crop&crop=center' },
       { id: 11, name: 'Taj Mahal Tour', location: 'Agra, India', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=60&h=60&fit=crop&crop=center' },
       { id: 12, name: 'Seoul City Experience', location: 'Seoul, South Korea', image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=60&h=60&fit=crop&crop=center' }
-    ],
-    // 'Europe': [
-    //   { id: 13, name: 'Eiffel Tower Tours', location: 'Paris, France', image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=60&h=60&fit=crop&crop=center' },
-    //   { id: 14, name: 'Colosseum Tours', location: 'Rome, Italy', image: 'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=60&h=60&fit=crop&crop=center' },
-    //   { id: 15, name: 'Santorini Tours', location: 'Santorini, Greece', image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=60&h=60&fit=crop&crop=center' }
-    // ],
-    // 'North America': [
-    //   { id: 16, name: 'Statue of Liberty Tours', location: 'New York, USA', image: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=60&h=60&fit=crop&crop=center' },
-    //   { id: 17, name: 'Niagara Falls Tours', location: 'Ontario, Canada', image: 'https://images.unsplash.com/photo-1489447068241-b3490214e879?w=60&h=60&fit=crop&crop=center' }
-    // ]
+    ]
   };
 
   const categories = ['Top Attractions', 'Asia'];
@@ -79,11 +70,11 @@ const Navbar = () => {
     <>
       <div className={`navbar-spacer ${isScrolled ? 'navbar-spacer-active' : ''}`}></div>
       <nav className={`navbar-container ${isScrolled ? 'navbar-scrolled' : 'navbar-floating'}`}>
-      <div className="navbar-logo">
-        <a href="/" className="logo-link">
-          <img src="/images/All/Logo.png" alt="UrbanLife Logo" className="logo-image" />
-        </a>
-      </div>
+        <div className="navbar-logo">
+          <a href="/" className="logo-link">
+            <img src="/images/All/Logo.png" alt="UrbanLife Logo" className="logo-image" />
+          </a>
+        </div>
         <div className="navbar-menu-desktop">
           <div className="navbar-dropdown" onMouseEnter={() => setIsDropdownOpen("place")} onMouseLeave={closeDropdown}>
             <button onClick={(e) => toggleDropdown("place", e)} className="navbar-menu-item dropdown-trigger">
@@ -182,8 +173,6 @@ const Navbar = () => {
         >
           Contact Us
         </a>
-
-
         </div>
         <button onClick={toggleMobileMenu} className="navbar-mobile-toggle" aria-label="Toggle mobile menu">
           <div className={`hamburger ${isMobileOpen ? 'hamburger-active' : ''}`}>
@@ -193,15 +182,23 @@ const Navbar = () => {
           </div>
         </button>
       </nav>
-      <div className={`navbar-mobile-menu ${isMobileOpen ? 'mobile-menu-active' : ''}`}>
-        <div className="mobile-menu-content">
-          <a href="/place-to-see" onClick={() => setIsMobileOpen(false)} className="mobile-menu-item">Place to see</a>
-          <a href="/services" onClick={() => setIsMobileOpen(false)} className="mobile-menu-item">Services</a>
-          <a href="/news" onClick={() => setIsMobileOpen(false)} className="mobile-menu-item">News</a>
-          <a href="/contact" onClick={() => setIsMobileOpen(false)} className="mobile-menu-item mobile-contact-btn">Contact Us</a>
+      <div className="bottom-sheet-drag-handle" onClick={toggleMobileMenu}></div>
+      <div className={`bottom-sheet ${isMobileOpen ? 'bottom-sheet-open' : ''}`}>
+        <div className="bottom-sheet-header">
+          <h2 className="bottom-sheet-title">Menu</h2>
+          <button className="close-button" onClick={toggleMobileMenu}>×</button>
+        </div>
+        <div className="bottom-sheet-separator"></div>
+        <div className="bottom-sheet-content">
+          <div className="bottom-sheet-menu">
+            <a href="/place-to-see" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">Place to see</a>
+            <a href="/services" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">Services</a>
+            <a href="/news" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">News</a>
+            <a href="/contact" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-contact-btn">Contact Us</a>
+          </div>
         </div>
       </div>
-      {isMobileOpen && <div className="mobile-menu-overlay" onClick={() => setIsMobileOpen(false)}></div>}
+      {isMobileOpen && <div className="mobile-menu-overlay" onClick={toggleMobileMenu}></div>}
     </>
   );
 };

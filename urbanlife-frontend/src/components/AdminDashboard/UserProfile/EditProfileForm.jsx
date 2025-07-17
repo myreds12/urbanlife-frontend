@@ -4,6 +4,7 @@ import Button from "../Utils/Ui/button/Button";
 export default function EditProfileForm({ userInfo, onCancel, onSave }) {
   const [editForm, setEditForm] = useState({ ...userInfo });
   const [errors, setErrors] = useState({});
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleInputChange = (field, value) => {
     setEditForm(prev => ({ ...prev, [field]: value }));
@@ -11,6 +12,11 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }));
     }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
   };
 
   const validateForm = () => {
@@ -44,6 +50,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
   const handleCancel = () => {
     setEditForm({ ...userInfo });
     setErrors({});
+    setSelectedFile(null);
     onCancel();
   };
 
@@ -58,7 +65,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
           <p className="text-gray-600 text-sm">Update your profile information</p>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Column 1 - Basic Info */}
             <div className="space-y-4">
@@ -145,6 +152,19 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Country
+                </label>
+                <input
+                  type="text"
+                  value={editForm.country || ''}
+                  onChange={(e) => handleInputChange('country', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
+                  placeholder="Enter country"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Location
                 </label>
                 <input
@@ -174,11 +194,21 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                   Profile Picture
                 </label>
                 <div className="space-y-2">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
-                  />
+                  <div className="relative">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      id="profile-picture"
+                    />
+                    <div className="flex items-center justify-center w-full px-4 py-3 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer transition-all duration-200">
+                      <i className="fa fa-upload text-gray-400 mr-2"></i>
+                      <span className="text-gray-600">
+                        {selectedFile ? selectedFile.name : 'Choose File'}
+                      </span>
+                    </div>
+                  </div>
                   <p className="text-xs text-gray-500">
                     Max file size: 2MB. Supported formats: JPG, PNG, GIF
                   </p>
@@ -199,12 +229,12 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
             </Button>
             <Button 
               size="sm" 
-              type="submit"
+              onClick={handleSubmit}
             >
               Save Changes
             </Button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

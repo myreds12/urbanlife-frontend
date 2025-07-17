@@ -31,19 +31,6 @@ const GuideTable = ({ guides, onEdit, onDelete, loading }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">List guide</h3>
-        <div className="flex gap-2">
-          <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-            <i className="fas fa-filter mr-2"></i>Filter
-          </button>
-          <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-            See all
-          </button>
-        </div>
-      </div>
-
       <Table
         data={guides}
         columns={columns}
@@ -51,7 +38,6 @@ const GuideTable = ({ guides, onEdit, onDelete, loading }) => {
         onEdit={onEdit}
         onDelete={(row) => onDelete(row.id)}
       />
-    </div>
   );
 };
 

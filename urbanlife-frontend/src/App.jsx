@@ -29,8 +29,8 @@ import Inbox from "./pages/AdminDashboard/Inbox/Inbox";
 import Country from "./pages/AdminDashboard/DataMaster/Country/Country"; // Component
 import City from "./pages/AdminDashboard/DataMaster/Cities/City";
 import Car from "./pages/AdminDashboard/DataMaster/Car/Car";
-import Driver from "./pages/AdminDashboard/DataMaster/Driver";
-import Guide from "./pages/AdminDashboard/DataMaster/Guide";
+import Driver from "./pages/AdminDashboard/DataMaster/Driver/Driver";
+import Guide from "./pages/AdminDashboard/DataMaster/Guide/Guide";
 
 // User Profile
 import UserProfile from "./pages/AdminDashboard/UserProfile/UserProfile";

@@ -12,7 +12,9 @@ export default function UserMetaCard() {
     email: "musharof@example.com",
     phone: "+1234567890",
     bio: "Experienced admin with 5+ years in dashboard management",
-    location: "Jakarta, Indonesia"
+    location: "Jakarta, Indonesia",
+    country:"Indonesia",
+    status:"Active"
   });
 
   const handleUpdateUser = (updatedInfo) => {
@@ -21,81 +23,128 @@ export default function UserMetaCard() {
   };
 
   return (
-    <div className="p-6 border-[1.5px] border-gray-200 shadow-sm rounded-2xl bg-white">
-      {/* Header */}
-      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
-        {/* Left: Avatar + Info */}
-        <div className="flex items-center gap-5">
-          <div className="w-20 h-20 rounded-full overflow-hidden shadow">
-            <img src="/images/user/owner.jpg" alt="user" className="object-cover w-full h-full" />
+    <div className="space-y-6">
+      {/* Profile Header Card */}
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 rounded-full overflow-hidden">
+              <img src="/images/user/owner.jpg" alt="user" className="object-cover w-full h-full" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-900">{userInfo.name}</h2>
+              <span className="flex items-center gap-2">
+                <i class="fa-solid fa-briefcase text-blue-500"></i>
+                <p className="text-gray-600">{userInfo.role}</p>
+              </span>
+              <span className="flex items-center gap-2">
+                <i class="fa-solid fa-location-dot text-red-500"></i>
+                <p className="text-sm text-gray-500">{userInfo.location}</p>
+              </span>
+            </div>
           </div>
-          <div>
-            <h4 className="text-xl font-semibold text-gray-900">{userInfo.name}</h4>
-            <p className="text-gray-500">{userInfo.role}</p>
-          </div>
-        </div>
+            <Button
+              size="sm"
+              variant="outline"
+              isActive={showResetForm}
+              onClick={() => setShowResetForm(!showResetForm)}
+              startIcon={<i className="fa fa-rotate-left" />}
+            >
+              Reset password
+            </Button>
 
-        {/* Right: Buttons */}
-        <div className="flex gap-3 justify-end">
-          <Button
-            size="sm"
-            variant="outline"
-            isActive={showResetForm}
-            onClick={() => setShowResetForm(!showResetForm)}
-            startIcon={<i className="fa fa-rotate-left" />}
-          >
-            Reset password
-          </Button>
-          <Button 
-            size="sm" 
-            variant="outline"
-            isActive={showEditForm}
-            onClick={() => setShowEditForm(!showEditForm)}
-            startIcon={<i className="fa fa-edit" />}
-          >
-            Edit
-          </Button>
         </div>
       </div>
-
-      {/* Reset Password Section */}
       {showResetForm && (
-        <ResetPasswordForm 
-          onCancel={() => setShowResetForm(false)}
-          onSuccess={() => setShowResetForm(false)}
-        />
-      )}
+            <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+              <ResetPasswordForm 
+                onCancel={() => setShowResetForm(false)}
+                onSuccess={() => setShowResetForm(false)}
+              />
+            </div>
+        )}
 
       {/* Edit Profile Section */}
       {showEditForm && (
-        <EditProfileForm 
-          userInfo={userInfo}
-          onCancel={() => setShowEditForm(false)}
-          onSave={handleUpdateUser}
-        />
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+          <EditProfileForm 
+            userInfo={userInfo}
+            onCancel={() => setShowEditForm(false)}
+            onSave={handleUpdateUser}
+          />
+        </div>
       )}
 
-      {/* User Info Display (when not editing) */}
-      {!showEditForm && !showResetForm && (
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-500">Email</label>
-              <p className="text-gray-900">{userInfo.email}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-500">Phone</label>
-              <p className="text-gray-900">{userInfo.phone}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-500">Location</label>
-              <p className="text-gray-900">{userInfo.location}</p>
+      {/* Personal Information Card */}
+      {!showEditForm && (
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+          
+          <div className="flex items-center justify-between p-6 border-b border-gray-100">
+            <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setShowEditForm(true)}
+              startIcon={<i className="fa fa-edit" />}
+            >
+              Edit
+            </Button>
+            
+          </div>
+          
+          
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">First Name</label>
+                <p className="text-gray-900">{userInfo.name.split(' ')[0]}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Last Name</label>
+                <p className="text-gray-900">{userInfo.name.split(' ').slice(1).join(' ')}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Email address</label>
+                <p className="text-gray-900">{userInfo.email}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Phone</label>
+                <p className="text-gray-900">{userInfo.phone}</p>
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-600 mb-1">Bio</label>
+                <p className="text-gray-900">{userInfo.bio}</p>
+              </div>
             </div>
           </div>
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-500">Bio</label>
-              <p className="text-gray-900">{userInfo.bio}</p>
+        </div>
+      )}
+
+      {/* Account Settings Card */}
+      {!showEditForm && (
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+          <div className="flex items-center justify-between p-6 border-b border-gray-100">
+            <h3 className="text-lg font-semibold text-gray-900">Address</h3>
+          </div>
+                  
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">City/State</label>
+                <p className="text-gray-900">{userInfo.location}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Country</label>
+                <p className="text-gray-900">{userInfo.country}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Role</label>
+                <p className="text-gray-900">{userInfo.role}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Status</label>
+                <p className="text-green-600 font-medium">{userInfo.status}</p>
+              </div>
             </div>
           </div>
         </div>

@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState} from "react";
 import CityForm from "./CityForm";
 import CityTable from "./CityTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import { useSearchParams } from "react-router-dom";
 
 const City = () => {
@@ -12,7 +13,7 @@ const City = () => {
   const [nextId, setNextId] = useState(0); // For auto-incrementing IDs
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState('');
 
   const formRef = useRef(null);
 
@@ -31,18 +32,17 @@ const City = () => {
   };
   
 
-  const fetchAllData = async () => {
-    setLoading(true);
-    await Promise.all([
-      fetchData("/lokasi", setCities, "cities"),
-      fetchData("/negara", setCountries, "countries"),
-      fetchData("/lokasi/next-code", (data) => setNextId(data.code), "City ID"),
-
-    ]);
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const fetchAllData = async () => {
+      setLoading(true);
+      await Promise.all([
+        fetchData("/lokasi", setCities, "cities"),
+        fetchData("/negara", setCountries, "countries"),
+        fetchData("/lokasi/next-code", (data) => setNextId(data.code), "City ID"),
+      ]);
+      setLoading(false);
+    };
+
     fetchAllData();
   }, []);
 
@@ -165,12 +165,13 @@ const City = () => {
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-gray-800">List Cities</h3>
             <div className="flex gap-2">
-              <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-                <i className="fas fa-filter mr-2"></i>Filter
-              </button>
-              <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-                See all
-              </button>
+              <div  className="w-64">
+              <Search
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              </div>
             </div>
           </div>
           <CityTable

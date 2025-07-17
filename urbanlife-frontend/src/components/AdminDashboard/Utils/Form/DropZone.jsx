@@ -77,6 +77,7 @@ const Dropzone = forwardRef(({
   };
 
   return (
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
     <ComponentCard title={showTitle ? title : ""}>
       <div
         {...getRootProps()}
@@ -174,6 +175,7 @@ const Dropzone = forwardRef(({
         </div>
       )}
     </ComponentCard>
+  </div>
   );
 });
 

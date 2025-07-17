@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "../../../styles/LandingPage/HomePage/Navbar.css";
+import "../../../../styles/LandingPage/HomePage/Navbar.css";
 
 const Navbar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -23,16 +23,7 @@ const Navbar = () => {
       { id: 10, name: 'Kyoto Cultural Tour', location: 'Kyoto, Japan', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=60&h=60&fit=crop&crop=center' },
       { id: 11, name: 'Taj Mahal Tour', location: 'Agra, India', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=60&h=60&fit=crop&crop=center' },
       { id: 12, name: 'Seoul City Experience', location: 'Seoul, South Korea', image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=60&h=60&fit=crop&crop=center' }
-    ],
-    // 'Europe': [
-    //   { id: 13, name: 'Eiffel Tower Tours', location: 'Paris, France', image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=60&h=60&fit=crop&crop=center' },
-    //   { id: 14, name: 'Colosseum Tours', location: 'Rome, Italy', image: 'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=60&h=60&fit=crop&crop=center' },
-    //   { id: 15, name: 'Santorini Tours', location: 'Santorini, Greece', image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=60&h=60&fit=crop&crop=center' }
-    // ],
-    // 'North America': [
-    //   { id: 16, name: 'Statue of Liberty Tours', location: 'New York, USA', image: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=60&h=60&fit=crop&crop=center' },
-    //   { id: 17, name: 'Niagara Falls Tours', location: 'Ontario, Canada', image: 'https://images.unsplash.com/photo-1489447068241-b3490214e879?w=60&h=60&fit=crop&crop=center' }
-    // ]
+    ]
   };
 
   const categories = ['Top Attractions', 'Asia'];
@@ -79,11 +70,11 @@ const Navbar = () => {
     <>
       <div className={`navbar-spacer ${isScrolled ? 'navbar-spacer-active' : ''}`}></div>
       <nav className={`navbar-container ${isScrolled ? 'navbar-scrolled' : 'navbar-floating'}`}>
-      <div className="navbar-logo">
-        <a href="/" className="logo-link">
-          <img src="/images/All/Logo.png" alt="UrbanLife Logo" className="logo-image" />
-        </a>
-      </div>
+        <div className="navbar-logo">
+          <a href="/" className="logo-link">
+            <img src="/images/All/Logo.png" alt="UrbanLife Logo" className="logo-image" />
+          </a>
+        </div>
         <div className="navbar-menu-desktop">
           <div className="navbar-dropdown" onMouseEnter={() => setIsDropdownOpen("place")} onMouseLeave={closeDropdown}>
             <button onClick={(e) => toggleDropdown("place", e)} className="navbar-menu-item dropdown-trigger">
@@ -139,25 +130,25 @@ const Navbar = () => {
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Day Tour</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/day-tours" className="mega-menu-link">Day Tours</a></li>
-                    <li><a href="/cultural-tours" className="mega-menu-link">Cultural Tours</a></li>
-                    <li><a href="/adventure-tours" className="mega-menu-link">Adventure Tours</a></li>
+                    <li><a href="/day-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/daytour.png" className="mega-menu-icon" alt="daytour"/> Day Tours</a></li>
+                    <li><a href="/cultural-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/cultural_tour.png" className="mega-menu-icon" alt="cultural"/> Cultural Tours</a></li>
+                    <li><a href="/adventure-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/adventure_tour.png" className="mega-menu-icon" alt="adventure"/> Adventure Tours</a></li>
                   </ul>
                 </div>
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Transportation</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/rent-car" className="mega-menu-link">Rent Car</a></li>
-                    <li><a href="/airport-transfer" className="mega-menu-link">Airport Transfer</a></li>
-                    <li><a href="/private-driver" className="mega-menu-link">Private Driver</a></li>
+                    <li><a href="/rent-car" className="mega-menu-link"><img src="/images/LandingPage/Navbar/rentcar.png" className="mega-menu-icon" alt="rentcar"/> Rent Car</a></li>
+                    <li><a href="/airport-transfer" className="mega-menu-link"><img src="/images/LandingPage/Navbar/airport_transfer.png" className="mega-menu-icon" alt="airport"/> Airport Transfer</a></li>
+                    <li><a href="/private-driver" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_driver.png" className="mega-menu-icon" alt="driver"/>Private Driver</a></li>
                   </ul>
                 </div>
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Accommodation</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/hotels" className="mega-menu-link">Hotels & Resorts</a></li>
-                    <li><a href="/homestays" className="mega-menu-link">Homestays</a></li>
-                    <li><a href="/villas" className="mega-menu-link">Private Villas</a></li>
+                    <li><a href="/hotels" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>Hotels & Resorts</a></li>
+                    <li><a href="/homestays" className="mega-menu-link"><img src="/images/LandingPage/Navbar/homestay.png" className="mega-menu-icon" alt="airport"/> Homestays</a></li>
+                    <li><a href="/villas" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_villa.png" className="mega-menu-icon" alt="villa"/> Private Villas</a></li>
                   </ul>
                 </div>
               </div>
@@ -182,8 +173,6 @@ const Navbar = () => {
         >
           Contact Us
         </a>
-
-
         </div>
         <button onClick={toggleMobileMenu} className="navbar-mobile-toggle" aria-label="Toggle mobile menu">
           <div className={`hamburger ${isMobileOpen ? 'hamburger-active' : ''}`}>
@@ -193,15 +182,23 @@ const Navbar = () => {
           </div>
         </button>
       </nav>
-      <div className={`navbar-mobile-menu ${isMobileOpen ? 'mobile-menu-active' : ''}`}>
-        <div className="mobile-menu-content">
-          <a href="/place-to-see" onClick={() => setIsMobileOpen(false)} className="mobile-menu-item">Place to see</a>
-          <a href="/services" onClick={() => setIsMobileOpen(false)} className="mobile-menu-item">Services</a>
-          <a href="/news" onClick={() => setIsMobileOpen(false)} className="mobile-menu-item">News</a>
-          <a href="/contact" onClick={() => setIsMobileOpen(false)} className="mobile-menu-item mobile-contact-btn">Contact Us</a>
+      <div className="bottom-sheet-drag-handle" onClick={toggleMobileMenu}></div>
+      <div className={`bottom-sheet ${isMobileOpen ? 'bottom-sheet-open' : ''}`}>
+        <div className="bottom-sheet-header">
+          <h2 className="bottom-sheet-title">Menu</h2>
+          <button className="close-button" onClick={toggleMobileMenu}>×</button>
+        </div>
+        <div className="bottom-sheet-separator"></div>
+        <div className="bottom-sheet-content">
+          <div className="bottom-sheet-menu">
+            <a href="/place-to-see" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">Place to see</a>
+            <a href="/services" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">Services</a>
+            <a href="/news" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">News</a>
+            <a href="/contact" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-contact-btn">Contact Us</a>
+          </div>
         </div>
       </div>
-      {isMobileOpen && <div className="mobile-menu-overlay" onClick={() => setIsMobileOpen(false)}></div>}
+      {isMobileOpen && <div className="mobile-menu-overlay" onClick={toggleMobileMenu}></div>}
     </>
   );
 };

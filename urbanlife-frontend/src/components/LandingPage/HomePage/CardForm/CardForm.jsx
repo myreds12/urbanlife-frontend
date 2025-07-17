@@ -52,7 +52,7 @@ const CardForm = () => {
   };
 
   return (
-    <div className="w-full max-w-[400px] ml-auto mr-0 space-y-1 px-2 sm:px-0 pt-8">
+    <div className="w-full max-w-[400px] ml-auto mr-10 space-y-1 px-2 sm:px-0 pt-8">
       <div className="bg-white rounded-xl shadow-md p-2">
         <select
           className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"

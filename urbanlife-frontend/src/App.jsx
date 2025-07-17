@@ -115,10 +115,10 @@ function App() {
           <Route path="*" element={<NotFound />} />
 
           {/* DayTour detail page */}
-          <Route path="/DaytourDetail" element={<DaytourDetail />} />
+          <Route path="/daytourdetail" element={<DaytourDetail />} />
 
           {/* Order detail page */}
-          <Route path="/OrderDetail" element={<OrderDetail />} />
+          <Route path="/daytourdetail/OrderDetail" element={<OrderDetail />} />
 
           {/* Payment selection page */}
           <Route path="/PaymentSection" element={<PaymentSection />} />

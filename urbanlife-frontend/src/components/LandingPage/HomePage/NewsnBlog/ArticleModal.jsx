@@ -171,14 +171,11 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100]">
-        <div
-          className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-          style={{ marginTop: "90px", marginBottom: "20px" }}
-        >
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 z-[100] transition-opacity duration-300">
+        <div className="bg-white rounded-2xl shadow-xl max-w-3xl w-full mt-20 max-h-[85vh] overflow-y-auto">
           <div className="relative">
             {/* Header Image */}
-            <div className="relative h-64 md:h-80 overflow-hidden rounded-t-xl">
+            <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden rounded-t-2xl">
               <img
                 src={
                   article?.news_file[0]?.url
@@ -188,66 +185,26 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
                 alt={currentContent.judul}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute top-4 right-4">
-                <button
-                  onClick={onClose}
-                  className="bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 p-2 rounded-full transition-all duration-300 hover:scale-110"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div className="absolute bottom-4 left-4">
-                <span className="bg-[#0092B8] text-white px-4 py-2 rounded-full text-sm font-medium">
-                  {article.news_category.name}
-                </span>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-6 md:p-8">
-              <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-                <span>
-                  {new Date(article.createdAt).toLocaleDateString("id-ID", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </span>
-                <span>•</span>
-                <span>4 Min</span>
-              </div>
-
-              <h1 className="text-2xl md:text-3xl font-bold text-[#071C4D] mb-6 leading-tight">
-                {currentContent.judul}
-              </h1>
-
-              <div className="prose prose-lg max-w-none">
-                <p className="text-gray-700 leading-relaxed mb-6 text-lg">
-                  {currentContent.deskripsi.slice(0, 200)}...
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  {currentContent.deskripsi}
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="absolute top-4 left-4 z-10">
-                <div className="flex bg-white rounded-full shadow-sm border border-gray-200 overflow-hidden">
+              <button
+                onClick={onClose}
+                className="absolute top-3 right-3 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#0092B8]"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              
+              {/* Language Toggle */}
+              <div className="absolute top-3 left-3 z-10">
+                <div className="flex bg-white/90 rounded-full shadow-sm border border-gray-200 overflow-hidden">
                   <button
                     onClick={() => setLanguage("INDONESIA")}
-                    className={`px-4 py-1 text-sm font-medium ${
+                    className={`px-3 py-1 text-sm font-medium ${
                       language === "INDONESIA"
                         ? "bg-[#0092B8] text-white"
                         : "text-gray-700 hover:bg-gray-100"
@@ -257,7 +214,7 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
                   </button>
                   <button
                     onClick={() => setLanguage("ENGLISH")}
-                    className={`px-4 py-1 text-sm font-medium ${
+                    className={`px-3 py-1 text-sm font-medium ${
                       language === "ENGLISH"
                         ? "bg-[#0092B8] text-white"
                         : "text-gray-700 hover:bg-gray-100"
@@ -267,17 +224,53 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
                   </button>
                 </div>
               </div>
+            </div>
 
-              <div className="flex gap-4 mt-8 pt-6 border-t border-gray-200">
+            {/* Content */}
+            <div className="p-4 sm:p-6">
+              <div className="flex justify-between items-center gap-3 text-sm text-gray-500 mb-4">
+                <div className="flex gap-3">
+                  <span>
+                    {new Date(article.createdAt).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </span>
+                  <span>•</span>
+                  <span>4 Min</span>
+                </div>
+                <div>
+                  <span className="bg-[#0092B8] text-white px-3 py-1.5 rounded-full text-sm font-medium">
+                    {article.news_category.name}
+                  </span>
+                </div>
+              </div>
+
+              <h1 className="text-xl sm:text-2xl font-bold text-[#071C4D] mb-4 leading-tight">
+                {currentContent.judul}
+              </h1>
+
+              <div className="prose prose-sm sm:prose-base max-w-none text-gray-700">
+                <p className="leading-relaxed mb-4">
+                  {currentContent.deskripsi.slice(0, 200)}...
+                </p>
+                <p className="leading-relaxed">
+                  {currentContent.deskripsi}
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 mt-6 pt-4 border-t border-gray-200">
                 <button
                   onClick={onClose}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-medium transition-all duration-300"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:brightness-90 focus:outline-none focus:ring-2 focus:ring-[#0092B8]"
                 >
                   Close
                 </button>
                 <button
                   onClick={handleShareClick}
-                  className="flex-1 bg-gradient-to-r from-[#0092B8] to-[#007F9F] hover:from-[#007F9F] hover:to-[#006B85] text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
+                  className="flex-1 bg-gradient-to-r from-[#0092B8] to-[#007F9F] hover:from-[#007F9F] hover:to-[#006B85] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:brightness-90 focus:outline-none focus:ring-2 focus:ring-[#0092B8]"
                 >
                   Share Article
                 </button>
@@ -290,26 +283,25 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
       {/* Share Modal */}
       {showShareModal && (
         <div
-          className="fixed inset-0 flex items-center justify-center p-4"
-          style={{ zIndex: 10001, backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+          className="fixed inset-0 flex items-center justify-center p-4 sm:p-6 z-[1001] bg-black/60 backdrop-blur-sm transition-opacity duration-300"
           onClick={handleCloseShareModal}
         >
           <div
-            className="bg-white rounded-3xl shadow-2xl max-w-sm w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-2xl shadow-xl max-w-xs w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6">
+            <div className="p-4 sm:p-5">
               {/* Header */}
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-bold text-gray-900">
                   {shareData.title}
                 </h2>
                 <button
                   onClick={handleCloseShareModal}
-                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-1 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#0092B8]"
                 >
                   <svg
-                    className="w-6 h-6 text-gray-500"
+                    className="w-5 h-5 text-gray-500"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -325,29 +317,29 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
               </div>
 
               {/* Content Preview */}
-              <div className="flex gap-3 mb-6 p-3 bg-gray-50 rounded-xl">
+              <div className="flex gap-2 mb-4 p-3 bg-gray-50 rounded-lg">
                 <img
                   src={shareData.image}
                   alt={shareData.location}
-                  className="w-16 h-12 object-cover rounded-lg flex-shrink-0"
+                  className="w-14 h-10 object-cover rounded-md"
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 mb-1">
+                  <p className="text-sm font-medium text-gray-900 mb-1 line-clamp-1">
                     {shareData.location}
                   </p>
-                  <p className="text-sm text-gray-600 line-clamp-2">
+                  <p className="text-xs text-gray-600 line-clamp-3">
                     {shareData.description}
                   </p>
                 </div>
               </div>
 
               {/* Share Options */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 {shareOptions.map((option) => (
                   <button
                     key={option.id}
                     onClick={option.action}
-                    className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors text-left"
+                    className="flex items-center gap-2 p-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-left focus:outline-none focus:ring-2 focus:ring-[#0092B8]"
                   >
                     <div className="text-gray-600">{option.icon}</div>
                     <span className="text-sm font-medium text-gray-900">
@@ -359,8 +351,8 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
 
               {/* Copy Success Message */}
               {copied && (
-                <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
-                  <p className="text-sm text-green-800 text-center">
+                <div className="mt-3 p-2 bg-green-50 border border-green-200 rounded-lg text-center">
+                  <p className="text-sm text-green-800">
                     ✓ Berhasil disalin ke clipboard
                   </p>
                 </div>

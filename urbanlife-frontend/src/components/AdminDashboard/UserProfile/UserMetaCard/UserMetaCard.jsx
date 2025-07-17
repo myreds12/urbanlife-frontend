@@ -33,8 +33,14 @@ export default function UserMetaCard() {
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-gray-900">{userInfo.name}</h2>
-              <p className="text-gray-600">{userInfo.role}</p>
-              <p className="text-sm text-gray-500">{userInfo.location}</p>
+              <span className="flex items-center gap-2">
+                <i class="fa-solid fa-briefcase text-blue-500"></i>
+                <p className="text-gray-600">{userInfo.role}</p>
+              </span>
+              <span className="flex items-center gap-2">
+                <i class="fa-solid fa-location-dot text-red-500"></i>
+                <p className="text-sm text-gray-500">{userInfo.location}</p>
+              </span>
             </div>
           </div>
             <Button

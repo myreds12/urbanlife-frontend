@@ -150,30 +150,31 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                 Additional Information
               </h4>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Country
-                </label>
-                <input
-                  type="text"
-                  value={editForm.country || ''}
-                  onChange={(e) => handleInputChange('country', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
-                  placeholder="Enter country"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  value={editForm.location}
-                  onChange={(e) => handleInputChange('location', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
-                  placeholder="Enter location"
-                />
+              <div className="grid grid-cols-2 gap-3 justify-between">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.location}
+                    onChange={(e) => handleInputChange('location', e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
+                    placeholder="Enter location"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.country || ''}
+                    onChange={(e) => handleInputChange('country', e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
+                    placeholder="Enter country"
+                  />
+                </div>
               </div>
               
               <div>

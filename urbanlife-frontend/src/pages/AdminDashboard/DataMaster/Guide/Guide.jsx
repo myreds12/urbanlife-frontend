@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import GuideForm from "../../../components/AdminDashboard/Utils/Form/GuideForm";
-import GuideTable from "../../../components/AdminDashboard/Utils/Table/GuideTable";
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import { useEffect, useRef, useState, useMemo } from "react";
+import GuideForm from "./GuideForm";
+import GuideTable from "./GuideTable";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
+import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10,7 +12,7 @@ const Guide = () => {
   const [guides, setGuides] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState('');
   const formRef = useRef(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -114,9 +116,16 @@ const Guide = () => {
     }
   };
 
+  const filteredData = useMemo(() => {
+      return guides.filter((guide) =>
+        Object.values(guide).some(value =>
+          String(value).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+  }, [guides, searchTerm]);
+
   return (
-    <div className="p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
+      <div className="p-6">
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
           <h3 className="text-lg font-semibold text-gray-800">Guide</h3>
 
@@ -139,6 +148,28 @@ const Guide = () => {
           </div>
         </div>
 
+        {/* Table Section */}
+        <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Guide List</h3>
+            <div className="flex gap-2">
+              <div className="w-64">
+                <Search
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                /> 
+              </div>
+              <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
+                <i className="fa-solid fa-sliders mr-2"></i>Filter
+              </button>
+              <Export 
+                data={filteredData} 
+                filename="guide.csv" 
+                buttonText="Download"
+              />
+            </div>
+        </div>
         <GuideTable
           guides={guides}
           loading={loading}

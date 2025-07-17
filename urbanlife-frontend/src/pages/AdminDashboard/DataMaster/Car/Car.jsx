@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import CarForm from "./CarForm";
 import Dropzone from "../../../../components/AdminDashboard/Utils/Form/DropZone";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
+import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export";
 import CarTable from "./CarTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast/headless";
@@ -172,6 +173,13 @@ const Car = () => {
     );
   }
 
+  const filteredData = useMemo(() => {
+    return cars.filter((car) => 
+      Object.values(car).some(value =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    ));
+  }, [cars, searchTerm]);
+
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -217,9 +225,11 @@ const Car = () => {
             <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
               <i className="fa-solid fa-sliders mr-2"></i>Filter
             </button>
-            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              Download<i className="fa-solid fa-download ml-2"></i>
-            </button>
+            <Export 
+              data={filteredData}
+              filename="car.csv"
+              buttonText="Download"
+            />
           </div>
         </div>
         <CarTable onEdit={handleEdit} onDelete={handleDelete} cars={cars} />

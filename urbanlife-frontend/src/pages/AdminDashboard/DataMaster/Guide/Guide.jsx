@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import GuideForm from "./GuideForm";
 import GuideTable from "./GuideTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
+import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -115,6 +116,14 @@ const Guide = () => {
     }
   };
 
+  const filteredData = useMemo(() => {
+      return guides.filter((guide) =>
+        Object.values(guide).some(value =>
+          String(value).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+  }, [guides, searchTerm]);
+
   return (
       <div className="p-6">
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
@@ -154,9 +163,11 @@ const Guide = () => {
               <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
                 <i className="fa-solid fa-sliders mr-2"></i>Filter
               </button>
-              <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-                Download<i className="fa-solid fa-download ml-2"></i>
-              </button>
+              <Export 
+                data={filteredData} 
+                filename="guide.csv" 
+                buttonText="Download"
+              />
             </div>
         </div>
         <GuideTable

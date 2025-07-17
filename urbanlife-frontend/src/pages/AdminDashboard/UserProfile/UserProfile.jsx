@@ -1,7 +1,7 @@
 import React from 'react';
 import PageBreadcrumb from "../../../components/AdminDashboard/common/PageBreadCrumb";
 import PageMeta from "../../../components/AdminDashboard/common/PageMeta";
-import UserMetaCard from "../../../components/AdminDashboard/UserProfile/UserMetaCard";
+import UserMetaCard from "../../../components/AdminDashboard/UserProfile/UserMetaCard/UserMetaCard";
 
 export default function UserProfiles() {
   return (

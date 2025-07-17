@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import Navbar from '../../../components/LandingPage/HomePage/Navbar/Navbar';
 import ContactForm from "../../../components/LandingPage/OrderDetail/ContactForm";
 import CustomerRequest from "../../../components/LandingPage/OrderDetail/CustomerRequest";
 import ServiceDescription from "../../../components/LandingPage/OrderDetail/ServiceDescription";
+import DetailOrder from "../../../components/LandingPage/OrderDetail/DetailOrder";
 import PriceSection from "../../../components/LandingPage/OrderDetail/PriceSection";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
@@ -112,7 +114,7 @@ const OrderDetail = () => {
         ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${rawUrl
             .replace(/\\/g, "/")
             .replace(/^uploads\//, "")}`
-        : "/images/default-thumbnail.png";
+        : "/public/images/error/No_Image_Available.jpg";
 
     const today = new Date().toISOString().split("T")[0];
 
@@ -200,6 +202,7 @@ const OrderDetail = () => {
     { key: "email", label: "Email", required: true, type: "email" },
     { key: "nomor_hp", label: "Nomor HP", required: true, type: "phone" },
   ];
+
   const handleRemoveItem = (id) => {
     const foundItem = orderItems.find((item) => item.item_id === id);
 
@@ -374,20 +377,23 @@ const OrderDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <Navbar />
+      </div>
+      <div className="max-w-6xl mx-auto px-4 mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-8">
           {/* Left Section: Main Content */}
           <div className="space-y-8">
             {/* Order Detail Info */}
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <div className="bg-white px-4 py-3 rounded-md shadow-sm text-sm">
+              <h1 className="text-lg font-bold text-gray-900 mb-1">
                 Order Detail
               </h1>
-              <p className="text-gray-600">
-                These contact details will be used to send the e-invoice and for
-                rescheduling purposes.
+              <p className="text-gray-600 leading-snug">
+                These contact details will be used to send the e-invoice and for rescheduling purposes.
               </p>
-            </div>
+          </div>
+
 
             {/* Contact Form */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -398,9 +404,9 @@ const OrderDetail = () => {
             </div>
 
             {/* Service Description */}
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            {/* <div className="bg-white p-6 rounded-lg shadow-sm">
               <ServiceDescription contentData={bookingInfo.content} />
-            </div>
+            </div> */}
 
             {/* Customer Request */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -413,7 +419,7 @@ const OrderDetail = () => {
             </div>
 
             {/* Agreement Checkbox */}
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="bg-white p-6 rounded-lg shadow-sm ">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -421,22 +427,32 @@ const OrderDetail = () => {
                   onChange={(e) =>
                     handleFormChange({ agreeToTerms: e.target.checked })
                   }
-                  className="mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  className="mt-1 w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500"
                 />
                 <span className="text-sm text-gray-700">
-                  I agree to Urbanlife's{" "}
-                  <a href="#" className="text-blue-600 hover:underline">
+                I agree to Urbanlife's {" "}
+                  <a href="#" className="text-cyan-600 hover:underline">
                     terms and conditions
                   </a>
+                 
                 </span>
               </label>
+            </div>
+            {/* Detail Order & Price Section - NEW */}
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <DetailOrder
+                orderItems={orderItems}
+                finalAmount={price}
+                onPayment={handlePayment}
+                disabled={!formData.agreeToTerms}
+              />
             </div>
           </div>
 
           {/* Right Section: Booking Summary */}
           <div className="space-y-6">
             {/* Booking Items Card */}
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className=" ">
               <BookingListCard
                 orderItems={orderItems}
                 onRemoveItem={handleRemoveItem}
@@ -445,8 +461,10 @@ const OrderDetail = () => {
               />
             </div>
 
+            {/* Diganti sama detail order mas */}
+
             {/* Price Section */}
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            {/* <div className="bg-white p-6 rounded-lg shadow-sm">
               <PriceSection
                 amount={price}
                 bookingInfo={bookingInfo}
@@ -454,7 +472,7 @@ const OrderDetail = () => {
                 onPayment={handlePayment}
                 disabled={!formData.agreeToTerms}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

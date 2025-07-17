@@ -1,39 +1,116 @@
-.auto-scroll-wrapper {
-    overflow-x: auto;
-    padding: 0 16px;
-    scroll-behavior: smooth;
-    cursor: grab;
-    -webkit-overflow-scrolling: touch;
+/* Simple Carousel Styles */
+.simple-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: -175px auto 0 auto; /* Tambahkan margin-top negatif */
+  padding: 0px;
+  z-index: 10; /* Pastikan di atas hero section */
+}
+
+.simple-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 47px; /* Tambahkan padding horizontal untuk tombol */
+}
+
+.simple-carousel-track-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.simple-carousel-track {
+  display: flex;
+  gap: 15px; /* Kurangi dari 20px jadi 15px */
+  will-change: transform;
+}
+
+.simple-carousel-slide {
+  flex: 0 0 260px; /* Kurangi dari 280px jadi 260px */
+  min-width: 260px;
+}
+
+/* Simple Navigation */
+.simple-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #A0E4ED ;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.simple-nav:hover {
+  background: #00B8DB;
+  transform: translateY(-50%) scale(1.00);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.simple-nav-prev {
+  left: 5px;
+}
+
+.simple-nav-next {
+  right: 5px;
+}
+
+/* Responsive - hanya ubah yang mobile */
+@media (max-width: 768px) {
+  .simple-carousel-container {
+    margin: -120px auto 0 auto; /* Sesuaikan margin untuk tablet */
+    padding: 0 10px;
   }
   
-  .auto-scroll-wrapper:active {
-    cursor: grabbing;
+  .simple-carousel-wrapper {
+    padding: 20px 40px; /* Kurangi padding untuk tablet */
   }
   
-  .auto-scroll-wrapper::-webkit-scrollbar {
-    display: none;
+  .simple-carousel-slide {
+    flex: 0 0 200px; /* Lebih kecil untuk tablet */
+    min-width: 200px;
   }
   
-  .auto-scroll-track {
-    display: flex;
-    gap: 20px;
-    width: max-content;
-    animation: scroll-left 30s linear infinite;
-    padding-bottom: 8px; /* biar bayangan bawah card gak kepotong */
+  .simple-carousel-track {
+    gap: 12px; /* Gap sedang untuk tablet */
+  }
+
+  .simple-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .simple-carousel-container {
+    margin: -100px auto 0 auto; /* Margin lebih kecil untuk mobile */
+    padding: 0 5px;
   }
   
-  @keyframes scroll-left {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
+  .simple-carousel-wrapper {
+    padding: 20px 30px; /* Padding lebih kecil untuk mobile */
   }
   
-  /* Pause animation kalau disentuh/hover */
-  .auto-scroll-wrapper:hover .auto-scroll-track,
-  .auto-scroll-wrapper:active .auto-scroll-track {
-    animation-play-state: paused;
+  .simple-carousel-slide {
+    flex: 0 0 calc(100vw - 120px); /* Beri space yang cukup untuk tombol */
+    min-width: calc(100vw - 120px);
   }
   
+  .simple-carousel-track {
+    gap: 8px; /* Gap kecil untuk mobile */
+  }
+  
+  .simple-nav {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+}

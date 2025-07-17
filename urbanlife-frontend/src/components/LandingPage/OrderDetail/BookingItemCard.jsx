@@ -23,7 +23,7 @@ const BookingItemCard = ({
   const fallbackImage = "https://via.placeholder.com/60?text=No+Image"; 
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 relative space-y-4 w-full max-w-md">
+    <div className="bg-white rounded-xl shadow-md p-6 relative space-y-4 w-full max-w-md">
       {/* Remove Button */}
       <button
         onClick={() => handleRemove(id)}
@@ -54,7 +54,7 @@ const BookingItemCard = ({
       </div>
 
       {/* Duration or Person Count */}
-      <div className="flex justify-between items-end border-b pb-3">
+      <div className="flex justify-between items-end border-b border-gray-300 border-dashed pb-3">
         <div className="text-sm text-gray-600 w-1/2">
           <p className="font-medium mb-1">
             {item_type === "travel_package" ? "Person number" : "Duration"}
@@ -195,7 +195,7 @@ const BookingItemCard = ({
         <img
           src={image}
           alt="Thumbnail"
-          className="w-14 h-14 object-cover rounded-md border aspect-square"
+          className="w-14 h-14 object-cover rounded-md aspect-square"
         />
         <div className="flex-1">
           <p className="text-[11px] text-gray-500 truncate">

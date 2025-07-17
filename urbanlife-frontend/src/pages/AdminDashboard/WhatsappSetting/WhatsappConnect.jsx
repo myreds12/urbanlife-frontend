@@ -1,198 +1,190 @@
-import React, { useState } from 'react';
-import CreateTemplateModal from '../../../components/AdminDashboard/WhatsApp/CreateTemplateModal';
-import Table from '../../../components/AdminDashboard/Utils/Table/Table';
-import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button';
-import '../../../styles/AdminDashboard/WhatsappSetting/WhatsappConnect.css';
+import React, { useState } from "react";
+
+import QRCodeCard from "../../../components/AdminDashboard/WhatsApp/QRCodeCard"; // Import the QRCodeCard component
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+// Temporary QRCodeCard component - nanti dipindah ke file terpisah
 
 const WhatsappConnect = () => {
-  const [templates, setTemplates] = useState([]);
-  const [admin1, setAdmin1] = useState('081122334455');
-  const [admin2, setAdmin2] = useState('081133224466');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [qrCode, setQrCode] = useState(null);
+  console.log(qrCode, "isConnected");
+  console.log(isConnected, "isConnected");
+  console.log(isConnecting, "isConnecting");
 
-  const [newTemplate, setNewTemplate] = useState({
-    name: '',
-    category: '',
-    textToAdmin: '',
-    textToCustomer: '',
-  });
+  const handleConnect = async () => {
+  setIsConnecting(true);
+  try {
+    const result = await apiClient.post("/whatsapp/connect");
+    const { data } = result.data;
 
-  const columns = [
-    'Name',
-    'Category',
-    'No Admin 1',
-    'No Admin 2',
-    'Content',
-    'Status',
-    'Action'
-  ];
+    if (data.status === true && !data.qr) {
+      // Sudah terhubung, tidak perlu tampilkan QR
+      setIsConnected(true);
+      setQrCode(null); // Pastikan QR hilang
+    } else if (data.qr) {
+      // Belum terhubung, tampilkan QR
+      setIsConnected(false);
+      setQrCode(data.qr);
+    } else {
+      console.error("Connect failed: Invalid response", data);
+    }
+  } catch (err) {
+    console.error("Error connecting:", err);
+  } finally {
+    setIsConnecting(false);
+  }
+};
 
-  const tableData = templates.map((t) => ({
-    id: t.id,
-    Name: t.name,
-    Category: t.category,
-    'No Admin 1': t.noAdmin1,
-    'No Admin 2': t.noAdmin2,
-    Content: t.content,
-    Status: (
-      <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-        {t.status}
-      </span>
-    ),
-  }));
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewTemplate((prev) => ({ ...prev, [name]: value }));
+  const handleDisconnect = async () => {
+    try {
+      const response = await fetch("/whatsapp/disconnect", { method: "POST" });
+      const result = await response.json();
+
+      if (response.ok) {
+        setIsConnected(false);
+        setQrCode(null);
+      } else {
+        console.error("Disconnect failed:", result.message);
+      }
+    } catch (err) {
+      console.error("Error disconnecting:", err);
+    }
   };
 
-  const handleAddTemplate = () => {
-    const newId = (templates.length + 1).toString();
-    const newTemplateData = {
-      id: newId,
-      name: newTemplate.name,
-      category: newTemplate.category,
-      noAdmin1: admin1,
-      noAdmin2: admin2,
-      content: newTemplate.textToCustomer,
-      status: 'Active',
-    };
-    setTemplates([...templates, newTemplateData]);
-    resetModal();
-  };
+  const handleRefresh = async () => {
+    try {
+      const result = await apiClient.post("/whatsapp/connect");
+      const { data } = result.data;
 
-  const handleEditTemplate = () => {
-    setTemplates(prev =>
-      prev.map(t =>
-        t.id === editId
-          ? {
-              ...t,
-              name: newTemplate.name,
-              category: newTemplate.category,
-              content: newTemplate.textToCustomer,
-            }
-          : t
-      )
-    );
-    resetModal();
-  };
-
-  const resetModal = () => {
-    setNewTemplate({ name: '', category: '', textToAdmin: '', textToCustomer: '' });
-    setIsModalOpen(false);
-    setEditMode(false);
-    setEditId(null);
-  };
-
-  const handleEdit = (row) => {
-    const template = templates.find((t) => t.id === row.id);
-    if (!template) return;
-
-    setNewTemplate({
-      name: template.name,
-      category: template.category,
-      textToAdmin: '', // Bisa diisi kalau kamu simpan ini
-      textToCustomer: template.content,
-    });
-
-    setAdmin1(template.noAdmin1);
-    setAdmin2(template.noAdmin2);
-    setEditId(template.id);
-    setEditMode(true);
-    setIsModalOpen(true);
-  };
-
-  const handleDeleteTemplate = (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this template?");
-    if (confirmed) {
-      setTemplates(templates.filter((template) => template.id !== id));
+      if (data.status === true && !data.qr) {
+        setIsConnected(true);
+        setQrCode(null);
+      } else if (data.qr) {
+        setIsConnected(false);
+        setQrCode(data.qr);
+      } else {
+        console.error("Refresh failed: Invalid response", data);
+      }
+    } catch (err) {
+      console.error("Error refreshing QR:", err);
     }
   };
 
   return (
-    <div className="p-4">
-      {/* Admin Number Inputs + Button */}
-      <div className="mb-4 flex justify-between items-center">
-        <div className="flex space-x-4">
-          <div className="flex items-center">
-            <label className="text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-16 py-2 rounded-md flex items-center justify-start">
-              No Admin 1
-            </label>
-            <input
-              type="text"
-              placeholder="No Admin 1"
-              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
-              value={admin1}
-              onChange={(e) => setAdmin1(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center">
-            <label className="text-sm font-medium text-gray-600 mr-2 whitespace-nowrap bg-gray-100 px-16 py-2 rounded-md flex items-center justify-start">
-              No Admin 2
-            </label>
-            <input
-              type="text"
-              placeholder="No Admin 2"
-              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
-              value={admin2}
-              onChange={(e) => setAdmin2(e.target.value)}
-            />
-          </div>
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            WhatsApp Integration
+          </h1>
+          <p className="text-gray-600 text-base">
+            Connect your WhatsApp Business account to enable automated messaging
+          </p>
         </div>
-        <Button
-          variant="primary"
-          onClick={() => {
-            setEditMode(false);
-            setEditId(null);
-            setNewTemplate({ name: '', category: '', textToAdmin: '', textToCustomer: '' });
-            setIsModalOpen(true);
-          }}
-        >
-          + New Template
-        </Button>
-      </div>
 
-      {/* Search */}
-      <div className="mb-4 flex items-center">
-        <div className="relative w-60 max-w-md">
-          <input
-            type="text"
-            placeholder="Search template"
-            className="w-full p-2 pr-10 border border-gray-300 rounded-lg text-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-600"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          {/* QR Code Section */}
+          <QRCodeCard
+            isConnected={isConnected}
+            isConnecting={isConnecting}
+            qrCode={qrCode}
+            onConnect={handleConnect}
+            onDisconnect={handleDisconnect}
+            onRefresh={handleRefresh}
           />
-          <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
-            <i className="fas fa-search"></i>
-          </button>
+
+          {/* Instructions Section */}
+          <div className="bg-white rounded-xl shadow-lg p-6 lg:p-8">
+            <h3 className="text-xl font-semibold text-gray-900 mb-6">
+              How to Connect
+            </h3>
+            <div className="space-y-6">
+              {[
+                {
+                  step: 1,
+                  title: "Open WhatsApp Business",
+                  desc: "Make sure you're using WhatsApp Business app, not regular WhatsApp",
+                },
+                {
+                  step: 2,
+                  title: "Go to Linked Devices",
+                  desc: "Tap Menu → Linked Devices → Link a Device",
+                },
+                {
+                  step: 3,
+                  title: "Scan QR Code",
+                  desc: "Point your phone at the QR code on the left",
+                },
+                {
+                  step: 4,
+                  title: "Done!",
+                  desc: "Your WhatsApp Business is now connected to the system",
+                },
+              ].map(({ step, title, desc }) => (
+                <div className="flex items-start gap-4" key={step}>
+                  <div className="w-7 h-7 bg-green-100 text-green-600 font-medium text-sm rounded-full flex items-center justify-center">
+                    {step}
+                  </div>
+                  <div>
+                    <p className="text-gray-800 font-semibold">{title}</p>
+                    <p className="text-gray-500 text-sm">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <div className="flex items-start gap-2">
+                <div className="text-amber-600 mt-1">⚠️</div>
+                <div>
+                  <p className="text-amber-800 font-medium text-sm">
+                    Important Notes:
+                  </p>
+                  <ul className="text-amber-700 text-sm mt-1 space-y-1 list-disc list-inside">
+                    <li>QR code expires in 20 seconds</li>
+                    <li>Make sure your phone has internet connection</li>
+                    <li>Only one device can be connected at a time</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Connection Status */}
+        <div className="mt-12 bg-white rounded-xl shadow-lg p-6 lg:p-8">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Connection Status
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              {
+                label: "WhatsApp",
+                status: isConnected ? "Connected" : "Disconnected",
+              },
+              {
+                label: "API Status",
+                status: isConnected ? "Active" : "Inactive",
+              },
+              { label: "Messages", status: isConnected ? "Ready" : "Pending" },
+            ].map((item, idx) => (
+              <div key={idx} className="text-center p-4 bg-gray-50 rounded-lg">
+                <div
+                  className={`w-3 h-3 rounded-full mx-auto mb-2 ${
+                    isConnected ? "bg-green-500" : "bg-gray-300"
+                  }`}
+                ></div>
+                <p className="text-sm font-medium text-gray-700">
+                  {item.label}
+                </p>
+                <p className="text-xs text-gray-500">{item.status}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <Table
-          data={tableData}
-          columns={columns}
-          onEdit={handleEdit}
-          onDelete={(row) => handleDeleteTemplate(row.id)}
-        />
-      </div>
-
-      {/* Pagination dummy */}
-      <div className="mt-4 flex justify-end">
-        <button className="px-2 py-1 bg-blue-500 text-white rounded">1</button>
-      </div>
-
-      {/* Modal */}
-      <CreateTemplateModal
-        isOpen={isModalOpen}
-        onClose={resetModal}
-        newTemplate={newTemplate}
-        onInputChange={handleInputChange}
-        onSave={editMode ? handleEditTemplate : handleAddTemplate}
-        admin1={admin1}
-        admin2={admin2}
-      />
     </div>
   );
 };

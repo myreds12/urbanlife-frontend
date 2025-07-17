@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -10,6 +11,11 @@ export default function UserDropdown() {
 
   function closeDropdown() {
     setIsOpen(false);
+  }
+
+    function handleSignOut() {
+    localStorage.removeItem("token"); 
+    navigate("/");
   }
 
   return (
@@ -108,7 +114,11 @@ export default function UserDropdown() {
               </a>
             </li>
           </ul>
-          <Link
+          <button
+            onClick={() => {
+              handleSignOut();
+              closeDropdown();
+            }}
             to="#"
             className="flex items-center gap-3 px-3 py-1 mt-2 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 "
           >
@@ -128,7 +138,7 @@ export default function UserDropdown() {
               />
             </svg>
             Sign out
-          </Link>
+          </button>
         </div>
       )}
     </div>

@@ -1,92 +1,92 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DestinationCard from "../../../components/LandingPage/HomePage/DestinationCard";
-import "../../../styles/LandingPage/HomePage/AutoScrollDestinationSlider.css"; // custom animasi
+import "../../../styles/LandingPage/HomePage/AutoScrollDestinationSlider.css";
 
-const destinations = [
-  {
-    country: "Indonesia",
-    title: "Eastern Bali Tour",
-    destinations: "4 Destination",
-    price: "1,200,000",
-    image: "/images/LandingPage/Destination/EasternBaliTour.png",
-  },
-  {
-    country: "Vietnam",
-    title: "Danang",
-    destinations: "4 Destination",
-    price: "1,200,000",
-    image: "/images/LandingPage/Destination/Danang.png",
-  },
-  {
-    country: "Indonesia",
-    title: "Jakarta",
-    destinations: "4 Destination",
-    price: "1,200,000",
-    image: "/images/LandingPage/Destination/Jakarta.png",
-  },
-  {
-    country: "Vietnam",
-    title: "Ho Chi Minh City",
-    destinations: "4 Destination",
-    price: "1,200,000",
-    image: "/images/LandingPage/Destination/HoChiMinhCity.png",
-  },
-  {
-    country: "Malaysia",
-    title: "Langkawi",
-    destinations: "5 Destination",
-    price: "1,500,000",
-    image: "/images/LandingPage/Destination/EasternBaliTour.png",
-  },
-  {
-    country: "Thailand",
-    title: "Bangkok City Tour",
-    destinations: "6 Destination",
-    price: "1,000,000",
-    image: "/images/LandingPage/Destination/EasternBaliTour.png",
-  },
-  {
-    country: "Japan",
-    title: "Kyoto Tour",
-    destinations: "3 Destination",
-    price: "2,000,000",
-    image: "/images/LandingPage/Destination/EasternBaliTour.png",
-  },
-  {
-    country: "Singapore",
-    title: "City Sightseeing",
-    destinations: "5 Destination",
-    price: "1,600,000",
-    image: "/images/LandingPage/Destination/EasternBaliTour.png",
-  },
-  {
-    country: "Indonesia",
-    title: "Bandung Tour",
-    destinations: "4 Destination",
-    price: "1,100,000",
-    image: "/images/LandingPage/Destination/EasternBaliTour.png",
-  },
-  {
-    country: "Vietnam",
-    title: "Hanoi Trip",
-    destinations: "3 Destination",
-    price: "1,250,000",
-    image: "/images/LandingPage/Destination/EasternBaliTour.png",
-  },
-];
+const AutoScrollDestinationSlider = ({ travelData }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const intervalRef = useRef(null);
 
-const AutoScrollDestinationSlider = () => {
-  const combinedDestinations = [...destinations, ...destinations];
+  // Konfigurasi
+  const itemsPerView = window.innerWidth > 768 ? 4 : window.innerWidth > 480 ? 2 : 1;
+  const autoScrollInterval = 4000; // 4 detik
+  const totalItems = travelData.length;
+  const maxIndex = Math.max(0, totalItems - itemsPerView);
+
+  // Auto scroll functionality
+  useEffect(() => {
+    if (isAutoPlaying && totalItems > itemsPerView) {
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = prevIndex + 1;
+          return nextIndex > maxIndex ? 0 : nextIndex;
+        });
+      }, autoScrollInterval);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isAutoPlaying, maxIndex, totalItems, itemsPerView]);
+
+  // Handle navigation
+  const nextSlide = () => {
+    const nextIndex = currentIndex + 1;
+    setCurrentIndex(nextIndex > maxIndex ? 0 : nextIndex);
+  };
+
+  const prevSlide = () => {
+    const prevIndex = currentIndex - 1;
+    setCurrentIndex(prevIndex < 0 ? maxIndex : prevIndex);
+  };
+
+  // Pause on hover
+  const handleMouseEnter = () => setIsAutoPlaying(false);
+  const handleMouseLeave = () => setIsAutoPlaying(true);
+
+  // Calculate transform
+  const cardWidth = window.innerWidth > 768 ? 275 : window.innerWidth > 480 ? 212 : (window.innerWidth - 120);
+  const translateX = -currentIndex * cardWidth;
 
   return (
-    <div className="auto-scroll-wrapper">
-      <div className="auto-scroll-track">
-        {combinedDestinations.map((item, index) => (
-          <DestinationCard key={index} {...item} />
-        ))}
+    <div className="simple-carousel-container">
+      <div 
+        className="simple-carousel-wrapper"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* Navigation Buttons */}
+        {totalItems > itemsPerView && (
+          <>
+            <button className="simple-nav simple-nav-prev" onClick={prevSlide}>
+              ‹
+            </button>
+            <button className="simple-nav simple-nav-next" onClick={nextSlide}>
+              ›
+            </button>
+          </>
+        )}
+
+        {/* Carousel Track */}
+        <div className="simple-carousel-track-container">
+          <div 
+            className="simple-carousel-track"
+            style={{
+              transform: `translateX(${translateX}px)`,
+              transition: 'transform 0.5s ease-in-out'
+            }}
+          >
+            {travelData.map((item, index) => (
+              <div key={`${item.id} - ${index}`} className="simple-carousel-slide">
+                <DestinationCard travel={item} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-    
   );
 };
 

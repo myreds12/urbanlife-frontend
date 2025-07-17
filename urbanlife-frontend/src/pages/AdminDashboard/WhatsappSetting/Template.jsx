@@ -1,190 +1,370 @@
-import React, { useState } from "react";
-
-import QRCodeCard from "../../../components/AdminDashboard/WhatsApp/QRCodeCard"; // Import the QRCodeCard component
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
-// Temporary QRCodeCard component - nanti dipindah ke file terpisah
+import React, { useState } from 'react';
+import CreateTemplateModal from '../../../components/AdminDashboard/WhatsApp/CreateTemplateModal';
+import Table from '../../../components/AdminDashboard/Utils/Table/Table';
+import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button';
+import Pagination from '../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination'; 
+import Search from '../../../components/AdminDashboard/Utils/Ui/button/Search';
 
 const Template = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [qrCode, setQrCode] = useState(null);
-  console.log(qrCode, "isConnected");
-  console.log(isConnected, "isConnected");
-  console.log(isConnecting, "isConnecting");
-
-  const handleConnect = async () => {
-  setIsConnecting(true);
-  try {
-    const result = await apiClient.post("/whatsapp/connect");
-    const { data } = result.data;
-
-    if (data.status === true && !data.qr) {
-      // Sudah terhubung, tidak perlu tampilkan QR
-      setIsConnected(true);
-      setQrCode(null); // Pastikan QR hilang
-    } else if (data.qr) {
-      // Belum terhubung, tampilkan QR
-      setIsConnected(false);
-      setQrCode(data.qr);
-    } else {
-      console.error("Connect failed: Invalid response", data);
+  // sung kita spam dummy
+  const [templates, setTemplates] = useState([
+    {
+      id: '1',
+      name: 'Welcome Template',
+      category: 'Greeting',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Welcome to our service!',
+      status: 'Active'
+    },
+    {
+      id: '2',
+      name: 'Order Confirmation',
+      category: 'Transaction',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Your order has been confirmed',
+      status: 'Active'
+    },
+    {
+      id: '3',
+      name: 'Payment Reminder',
+      category: 'Finance',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Please complete your payment',
+      status: 'Active'
+    },
+    {
+      id: '4',
+      name: 'Thank You',
+      category: 'Greeting',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Thank you for your purchase',
+      status: 'Active'
+    },
+    {
+      id: '5',
+      name: 'Support Info',
+      category: 'Support',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Contact our support team',
+      status: 'Active'
+    },
+    {
+      id: '6',
+      name: 'Promo Alert',
+      category: 'Marketing',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Special promotion just for you!',
+      status: 'Active'
+    },
+    {
+      id: '7',
+      name: 'Delivery Update',
+      category: 'Logistics',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Your package is on the way',
+      status: 'Active'
+    },
+    {
+      id: '8',
+      name: 'Survey Request',
+      category: 'Feedback',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Please rate our service',
+      status: 'Active'
+    },
+    {
+      id: '9',
+      name: 'Holiday Greetings',
+      category: 'Greeting',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Happy holidays from our team!',
+      status: 'Active'
+    },
+    {
+      id: '10',
+      name: 'Account Update',
+      category: 'Account',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Your account has been updated',
+      status: 'Active'
+    },
+    {
+      id: '11',
+      name: 'Newsletter',
+      category: 'Marketing',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Our latest news and updates',
+      status: 'Active'
+    },
+    {
+      id: '12',
+      name: 'Appointment Reminder',
+      category: 'Reminder',
+      noAdmin1: '081122334455',
+      noAdmin2: '081133224466',
+      content: 'Your appointment is tomorrow',
+      status: 'Active'
     }
-  } catch (err) {
-    console.error("Error connecting:", err);
-  } finally {
-    setIsConnecting(false);
-  }
-};
+  ]);
+  const [admin1, setAdmin1] = useState('081122334455');
+  const [admin2, setAdmin2] = useState('081133224466');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); 
 
+  const [newTemplate, setNewTemplate] = useState({
+    name: '',
+    category: '',
+    textToAdmin: '',
+    textToCustomer: '',
+  });
 
-  const handleDisconnect = async () => {
-    try {
-      const response = await fetch("/whatsapp/disconnect", { method: "POST" });
-      const result = await response.json();
+  const columns = [
+    'Name',
+    'Category',
+    'No Admin 1',
+    'No Admin 2',
+    'Content',
+    'Status',
+    'Action'
+  ];
 
-      if (response.ok) {
-        setIsConnected(false);
-        setQrCode(null);
-      } else {
-        console.error("Disconnect failed:", result.message);
-      }
-    } catch (err) {
-      console.error("Error disconnecting:", err);
-    }
+  // Filter templates berdasarkan search term
+  const filteredTemplates = templates.filter(template =>
+    template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    template.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    template.content.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredTemplates.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentTemplates = filteredTemplates.slice(startIndex, endIndex);
+
+  const tableData = currentTemplates.map((t) => ({
+    id: t.id,
+    Name: t.name,
+    Category: t.category,
+    'No Admin 1': t.noAdmin1,
+    'No Admin 2': t.noAdmin2,
+    Content: t.content,
+    Status: (
+      <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+        {t.status}
+      </span>
+    ),
+  }));
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewTemplate((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleRefresh = async () => {
-    try {
-      const result = await apiClient.post("/whatsapp/connect");
-      const { data } = result.data;
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
 
-      if (data.status === true && !data.qr) {
-        setIsConnected(true);
-        setQrCode(null);
-      } else if (data.qr) {
-        setIsConnected(false);
-        setQrCode(data.qr);
-      } else {
-        console.error("Refresh failed: Invalid response", data);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleAddTemplate = () => {
+    const newId = (templates.length + 1).toString();
+    const newTemplateData = {
+      id: newId,
+      name: newTemplate.name,
+      category: newTemplate.category,
+      noAdmin1: admin1,
+      noAdmin2: admin2,
+      content: newTemplate.textToCustomer,
+      status: 'Active',
+    };
+    setTemplates([...templates, newTemplateData]);
+    resetModal();
+    
+    
+    const newTotalPages = Math.ceil((templates.length + 1) / itemsPerPage);
+    setCurrentPage(newTotalPages);
+  };
+
+  const handleEditTemplate = () => {
+    setTemplates(prev =>
+      prev.map(t =>
+        t.id === editId
+          ? {
+              ...t,
+              name: newTemplate.name,
+              category: newTemplate.category,
+              content: newTemplate.textToCustomer,
+            }
+          : t
+      )
+    );
+    resetModal();
+  };
+
+  const resetModal = () => {
+    setNewTemplate({ name: '', category: '', textToAdmin: '', textToCustomer: '' });
+    setIsModalOpen(false);
+    setEditMode(false);
+    setEditId(null);
+  };
+
+  const handleEdit = (row) => {
+    const template = templates.find((t) => t.id === row.id);
+    if (!template) return;
+
+    setNewTemplate({
+      name: template.name,
+      category: template.category,
+      textToAdmin: '', 
+      textToCustomer: template.content,
+    });
+
+    setAdmin1(template.noAdmin1);
+    setAdmin2(template.noAdmin2);
+    setEditId(template.id);
+    setEditMode(true);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteTemplate = (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this template?");
+    if (confirmed) {
+      setTemplates(templates.filter((template) => template.id !== id));
+      
+      const newFilteredTemplates = templates.filter((template) => template.id !== id)
+        .filter(template =>
+          template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          template.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          template.content.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      
+      const newTotalPages = Math.ceil(newFilteredTemplates.length / itemsPerPage);
+      if (currentPage > newTotalPages && newTotalPages > 0) {
+        setCurrentPage(newTotalPages);
       }
-    } catch (err) {
-      console.error("Error refreshing QR:", err);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            WhatsApp Integration
-          </h1>
-          <p className="text-gray-600 text-base">
-            Connect your WhatsApp Business account to enable automated messaging
-          </p>
+      <div className="p-5">
+        <div style={{ 
+          background: "#ffffff", 
+          borderRadius: "12px",
+          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+          overflow: "hidden",
+        }}>
+      {/* Compact Header Layout */}
+      <div className="mb-6 pt-5 pl-5 pr-5 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          {/* No Admin 1 */}
+          <div className="flex items-center gap-2">
+            <label className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+              No Admin 1
+            </label>
+            <input
+              type="text"
+              placeholder="No Admin 1"
+              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
+              value={admin1}
+              onChange={(e) => setAdmin1(e.target.value)}
+            />
+          </div>
+          
+          {/* No Admin 2 */}
+          <div className="flex items-center gap-2">
+            <label className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+              No Admin 2
+            </label>
+            <input
+              type="text"
+              placeholder="No Admin 2"
+              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
+              value={admin2}
+              onChange={(e) => setAdmin2(e.target.value)}
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* QR Code Section */}
-          <QRCodeCard
-            isConnected={isConnected}
-            isConnecting={isConnecting}
-            qrCode={qrCode}
-            onConnect={handleConnect}
-            onDisconnect={handleDisconnect}
-            onRefresh={handleRefresh}
+        {/* Search and Add Button */}
+        <div className="flex items-center gap-3">
+          <Search
+            searchTerm={searchTerm}
+            onSearchChange={handleSearchChange}
+            placeholder="Search template"
+            width="w-[250px]"
           />
-
-          {/* Instructions Section */}
-          <div className="bg-white rounded-xl shadow-lg p-6 lg:p-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">
-              How to Connect
-            </h3>
-            <div className="space-y-6">
-              {[
-                {
-                  step: 1,
-                  title: "Open WhatsApp Business",
-                  desc: "Make sure you're using WhatsApp Business app, not regular WhatsApp",
-                },
-                {
-                  step: 2,
-                  title: "Go to Linked Devices",
-                  desc: "Tap Menu → Linked Devices → Link a Device",
-                },
-                {
-                  step: 3,
-                  title: "Scan QR Code",
-                  desc: "Point your phone at the QR code on the left",
-                },
-                {
-                  step: 4,
-                  title: "Done!",
-                  desc: "Your WhatsApp Business is now connected to the system",
-                },
-              ].map(({ step, title, desc }) => (
-                <div className="flex items-start gap-4" key={step}>
-                  <div className="w-7 h-7 bg-green-100 text-green-600 font-medium text-sm rounded-full flex items-center justify-center">
-                    {step}
-                  </div>
-                  <div>
-                    <p className="text-gray-800 font-semibold">{title}</p>
-                    <p className="text-gray-500 text-sm">{desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 p-4 bg-amber-50 rounded-lg border border-amber-200">
-              <div className="flex items-start gap-2">
-                <div className="text-amber-600 mt-1">⚠️</div>
-                <div>
-                  <p className="text-amber-800 font-medium text-sm">
-                    Important Notes:
-                  </p>
-                  <ul className="text-amber-700 text-sm mt-1 space-y-1 list-disc list-inside">
-                    <li>QR code expires in 20 seconds</li>
-                    <li>Make sure your phone has internet connection</li>
-                    <li>Only one device can be connected at a time</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Connection Status */}
-        <div className="mt-12 bg-white rounded-xl shadow-lg p-6 lg:p-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Connection Status
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              {
-                label: "WhatsApp",
-                status: isConnected ? "Connected" : "Disconnected",
-              },
-              {
-                label: "API Status",
-                status: isConnected ? "Active" : "Inactive",
-              },
-              { label: "Messages", status: isConnected ? "Ready" : "Pending" },
-            ].map((item, idx) => (
-              <div key={idx} className="text-center p-4 bg-gray-50 rounded-lg">
-                <div
-                  className={`w-3 h-3 rounded-full mx-auto mb-2 ${
-                    isConnected ? "bg-green-500" : "bg-gray-300"
-                  }`}
-                ></div>
-                <p className="text-sm font-medium text-gray-700">
-                  {item.label}
-                </p>
-                <p className="text-xs text-gray-500">{item.status}</p>
-              </div>
-            ))}
-          </div>
+          <Button
+            variant="primary" 
+            size="sm" 
+            className="whitespace-nowrap"
+            onClick={() => {
+              setEditMode(false);
+              setEditId(null);
+              setNewTemplate({ name: '', category: '', textToAdmin: '', textToCustomer: '' });
+              setIsModalOpen(true);
+            }}
+          >
+            New Template
+            <i className="fa-solid fa-plus"></i>
+          </Button>
         </div>
       </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <Table
+          data={tableData}
+          columns={columns}
+          onEdit={handleEdit}
+          onDelete={(row) => handleDeleteTemplate(row.id)}
+        />
+      </div>
+
+
+      {/* Modal */}
+      <CreateTemplateModal
+        isOpen={isModalOpen}
+        onClose={resetModal}
+        newTemplate={newTemplate}
+        onInputChange={handleInputChange}
+        onSave={editMode ? handleEditTemplate : handleAddTemplate}
+        admin1={admin1}
+        admin2={admin2}
+      />
+    </div>
+          {/* Data info dan Pagination */}
+      <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="text-sm text-gray-700">
+          Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredTemplates.length)} of {filteredTemplates.length} templates
+        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          size="base"
+        />
+      </div>
+
     </div>
   );
 };

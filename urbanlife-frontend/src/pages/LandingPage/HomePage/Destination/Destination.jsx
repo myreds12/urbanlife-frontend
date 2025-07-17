@@ -2,53 +2,49 @@ import { useEffect, useState } from "react";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import DestinationCard from "../../../../components/LandingPage/HomePage/DestinationCard";
 
-const Destination = () => {
+const Destination = ({ children }) => {
   const [orderItem, setOrderItem] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // langsung true
   const [error, setError] = useState(null);
 
-  const fetchTravel = async () => {
-    setLoading(true);
-    try {
-      const response = await apiClient.get(
-        "/pemesanan/items?is_category=false"
-      );
-
-      console.log(response.data);
-
-      const processed = response.data.data.map((item) => {
-        const rawUrl = item.file_url;
-
-        const imageUrl =
-          rawUrl && rawUrl.trim() !== ""
-            ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${rawUrl
-                .replace(/\\/g, "/") 
-                .replace(/^uploads\//, "")}`
-            : "/images/default-thumbnail.png";
-
-        return {
-          ...item,
-          image: imageUrl,
-        };
-      });
-
-      setOrderItem(processed);
-    } catch (err) {
-      setError("❌ Gagal mengambil data paket travel");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchTravel = async () => {
+      try {
+        const response = await apiClient.get("/pemesanan/items?is_category=false");
+        const rawData = response.data.data;
+
+        if (!rawData || rawData.length === 0) {
+          setOrderItem([]);
+          return;
+        }
+
+        const processed = rawData.map((item) => {
+          const rawUrl = item.file_url;
+          const imageUrl =
+            rawUrl?.trim()
+              ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${rawUrl
+                  .replace(/\\/g, "/")
+                  .replace(/^uploads\//, "")}`
+              : "/public/images/error/No_Image_Available.jpg";
+          return { ...item, image: imageUrl };
+        });
+
+        setOrderItem(processed);
+      } catch (err) {
+        console.error("❌ Gagal mengambil data paket travel", err);
+        setError("Gagal mengambil data paket travel.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchTravel();
   }, []);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-600"></div>
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-cyan-600" />
       </div>
     );
   }
@@ -57,13 +53,15 @@ const Destination = () => {
     return <div className="text-red-500 text-center py-4">{error}</div>;
   }
 
-  return (
-    <div className="flex justify-center gap-6 flex-wrap">
-      {orderItem.map((item) => (
-        <DestinationCard key={`${item.item_type}-${item.id}`} travel={item} />
-      ))}
-    </div>
-  );
+  if (orderItem.length === 0) {
+    return (
+      <div className="text-gray-500 text-center py-10">
+        Tidak ada data paket travel tersedia.
+      </div>
+    );
+  }
+
+  return children ? children(orderItem) : null;
 };
 
 export default Destination;

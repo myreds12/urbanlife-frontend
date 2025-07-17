@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import CarForm from "./CarForm";
 import Dropzone from "../../../../components/AdminDashboard/Utils/Form/DropZone";
+import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
+import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export";
 import CarTable from "./CarTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast/headless";
@@ -12,6 +14,7 @@ const Car = () => {
   const [nextId, setNextId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [files, setFiles] = useState([]);
   const [existingFiles, setExistingFiles] = useState([]);
 
@@ -35,7 +38,7 @@ const Car = () => {
     setLoading(true);
     await Promise.all([
       fetchData("/kendaraan", setCars),
-      fetchData("/kota/next-code", (data) => setNextId(data.code), "City ID"),
+      fetchData("/kendaraan/next-code", (data) => setNextId(data.code), "City ID"),
     ]);
     setLoading(false);
   }, [fetchData]);
@@ -170,6 +173,13 @@ const Car = () => {
     );
   }
 
+  const filteredData = useMemo(() => {
+    return cars.filter((car) => 
+      Object.values(car).some(value =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    ));
+  }, [cars, searchTerm]);
+
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -186,7 +196,7 @@ const Car = () => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="px-5 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600"
+              className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
             >
               Save Changes
             </button>
@@ -203,14 +213,23 @@ const Car = () => {
 
       <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">List car unit</h3>
+          <h3 className="text-lg font-semibold text-gray-800">List Car Unit</h3>
           <div className="flex gap-2">
+            <div className="w-64">
+              <Search
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
             <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              <i className="fas fa-filter mr-2"></i>Filter
+              <i className="fa-solid fa-sliders mr-2"></i>Filter
             </button>
-            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              See all
-            </button>
+            <Export 
+              data={filteredData}
+              filename="car.csv"
+              buttonText="Download"
+            />
           </div>
         </div>
         <CarTable onEdit={handleEdit} onDelete={handleDelete} cars={cars} />

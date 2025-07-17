@@ -32,7 +32,7 @@ const TestimonialSection = () => {
   ];
 
   return (
-    <div className="py-16 bg-gray-50">
+    <div className="pt-6 pb-8 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
@@ -48,27 +48,27 @@ const TestimonialSection = () => {
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial) => (
-            <div key={testimonial.id} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+            <div key={testimonial.id} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow duration-300">
               {/* Profile Section */}
               <div className="flex flex-col items-center mb-6">
-                <div className="w-20 h-20 rounded-full overflow-hidden mb-4">
+              <div className="w-24 h-24 rounded-full overflow-hidden mb-4 shadow-md">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h3 className="text-[#071C4D] font-bold text-xl mb-1">
+                <h3 className="text-[#071C4D] text-lg font-semibold mb-1">
                   {testimonial.name}
                 </h3>
-                <p className="text-gray-500 text-sm">
+                <p className="text-gray-400 text-sm italic">
                   ( {testimonial.role} / {testimonial.location} )
                 </p>
               </div>
 
               {/* Review */}
               <div className="text-center mb-6">
-                <p className="text-gray-700 text-sm leading-relaxed italic">
+                <p className="text-gray-600 text-base italic leading-loose text-center">
                   "{testimonial.review}"
                 </p>
               </div>

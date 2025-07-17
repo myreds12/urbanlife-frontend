@@ -12,3 +12,35 @@
 ::-webkit-scrollbar{
   display: none;
 }
+
+.underline-item {
+  position: relative;
+  transition: all 0.2s ease-out;
+}
+
+.underline-item:hover {
+  color: #0092B8;
+  transform: translateY(-1px);
+}
+
+.underline-item::after {
+  content: '';
+  position: absolute;
+  top: 19px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #0092B8, #00c1f1);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.underline-item:hover::after,
+.underline-item.active::after {
+  width: 100%;
+}
+
+.underline-item.active {
+  color: #0092B8;
+}

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import ArticleModal from './ArticleModal';
-import apiClient from '../../../AdminDashboard/Utils/ApiClient/apiClient';
+import React, { useEffect, useState } from "react";
+import ArticleModal from "./ArticleModal";
+import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
 
 const NewsnBlog = () => {
   const [newsData, setNewsData] = useState([]);
@@ -24,8 +24,8 @@ const NewsnBlog = () => {
   const handleReadMore = (article) => {
     // Update URL with ID
     const url = new URL(window.location);
-    url.searchParams.set('id', article.id);
-    window.history.pushState({}, '', url);
+    url.searchParams.set("id", article.id);
+    window.history.pushState({}, "", url);
 
     setSelectedArticle(article);
     setIsModalOpen(true);
@@ -34,8 +34,8 @@ const NewsnBlog = () => {
   // Handle closing modal and clean URL
   const handleCloseModal = () => {
     const url = new URL(window.location);
-    url.searchParams.delete('id');
-    window.history.replaceState({}, '', url);
+    url.searchParams.delete("id");
+    window.history.replaceState({}, "", url);
 
     setIsModalOpen(false);
     setSelectedArticle(null);
@@ -48,16 +48,22 @@ const NewsnBlog = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const idFromUrl = params.get('id');
+    const idFromUrl = params.get("id");
 
     if (idFromUrl && newsData.length > 0) {
-      const article = newsData.find((item) => String(item.id) === String(idFromUrl));
+      const article = newsData.find(
+        (item) => String(item.id) === String(idFromUrl)
+      );
       if (article) {
         setSelectedArticle(article);
         setIsModalOpen(true);
       }
     }
   }, [newsData]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -71,10 +77,17 @@ const NewsnBlog = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {newsData.map((article) => (
-              <div key={article.id} className="flex rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-gray-300 group">
+              <div
+                key={article.id}
+                className="flex rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-gray-300 group"
+              >
                 <div className="w-60 h-full flex-shrink-0 flex items-center justify-center bg-gray-50 overflow-hidden">
                   <img
-                    src={article?.news_file[0]?.url ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}` : ''}
+                    src={
+                      article?.news_file[0]?.nama_file
+                        ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}`
+                        : "/public/images/error/No_Image_Available.jpg"
+                    }
                     alt={article.news_content[0].judul}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -86,7 +99,11 @@ const NewsnBlog = () => {
                       {article.news_category.name}
                     </span>
                     <span className="text-xs text-gray-500">
-                      {new Date(article.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      {new Date(article.createdAt).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
                     </span>
                   </div>
 
@@ -100,16 +117,28 @@ const NewsnBlog = () => {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <button 
+                    <button
                       onClick={() => handleReadMore(article)}
                       className="bg-[#0092B8] hover:bg-[#007F9F] text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 inline-flex items-center gap-2"
                     >
                       Read More
-                      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      <svg
+                        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </button>
-                    <span className="text-xs text-gray-500">{article.readTime}</span>
+                    <span className="text-xs text-gray-500">
+                      {article.readTime}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -119,7 +148,7 @@ const NewsnBlog = () => {
       </div>
 
       {/* Modal */}
-      <ArticleModal 
+      <ArticleModal
         article={selectedArticle}
         isOpen={isModalOpen}
         onClose={handleCloseModal}

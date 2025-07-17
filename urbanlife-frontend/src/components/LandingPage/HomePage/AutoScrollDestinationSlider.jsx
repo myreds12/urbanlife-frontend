@@ -79,7 +79,7 @@ const AutoScrollDestinationSlider = ({ travelData }) => {
             }}
           >
             {travelData.map((item, index) => (
-              <div key={item.id} className="simple-carousel-slide">
+              <div key={`${item.id} - ${index}`} className="simple-carousel-slide">
                 <DestinationCard travel={item} />
               </div>
             ))}

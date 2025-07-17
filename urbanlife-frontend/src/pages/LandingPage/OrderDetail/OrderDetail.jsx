@@ -114,7 +114,7 @@ const OrderDetail = () => {
         ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${rawUrl
             .replace(/\\/g, "/")
             .replace(/^uploads\//, "")}`
-        : "/images/default-thumbnail.png";
+        : "/public/images/error/No_Image_Available.jpg";
 
     const today = new Date().toISOString().split("T")[0];
 

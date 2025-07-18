@@ -22,7 +22,7 @@ const DescriptionSection = ({
         </label>
         <select
           name="category_id"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
           value={Number(formData.category_id)}
           onChange={handleChange}
         >
@@ -55,7 +55,7 @@ const DescriptionSection = ({
                 onChange={(e) =>
                   onChangeContent(index, "judul", e.target.value)
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 placeholder={
                   item.bahasa === "ENGLISH"
                     ? "Enter subject"

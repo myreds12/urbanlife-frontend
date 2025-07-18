@@ -12,7 +12,7 @@ const ImageSection = ({
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
-        <div className="flex items-center mb-4">
+        <div className="flex items-center justify-end mb-4">
           <input
             type="file"
             accept="image/*"

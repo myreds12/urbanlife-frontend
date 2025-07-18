@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
-import DriverForm from "../../../components/AdminDashboard/Utils/Form/DriverForm";
-import DriverTable from "../../../components/AdminDashboard/Utils/Table/DriverTable";
+import { useEffect, useRef, useState, useMemo } from "react";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import DriverForm from "./DriverForm";
+import DriverTable from "./DriverTable";
+import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
+import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -12,8 +14,8 @@ const Driver = () => {
   const [saving, setSaving] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const editingId = searchParams.get("edit");
+  const [searchTerm, setSearchTerm] = useState('');
   const isEditing = Boolean(editingId);
-
   const formRef = useRef(null);
 
   const fetchGuides = async () => {
@@ -92,7 +94,7 @@ const Driver = () => {
 
     try {
       await apiClient.delete(`/driver/${id}`);
-      toast.success("Kota berhasil dihapus");
+      toast.success("Driver berhasil dihapus");
       fetchGuides();
     } catch (error) {
       console.error("❌ Failed to delete driver", error);
@@ -121,6 +123,15 @@ const Driver = () => {
     }
   }, [editingId, drivers]);
 
+  const filteredData = useMemo(() => {
+        return drivers.filter((driver) =>
+          Object.values(driver).some(value =>
+            String(value).toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        );
+  }, [drivers, searchTerm]);
+  
+
   return (
     <div className="p-6">
       <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
@@ -148,17 +159,23 @@ const Driver = () => {
       {/* Table Section */}
       <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">
-            List Driver Unit
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-800">List Driver Unit</h3>
           <div className="flex gap-2">
+            <div className="w-64">
+              <Search
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
             <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              <i className="fas fa-filter mr-2" />
-              Filter
+              <i className="fa-solid fa-sliders mr-2"></i>Filter
             </button>
-            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              See all
-            </button>
+            <Export
+              data={filteredData}
+              filename="driver.csv"
+              buttonText="Download"
+            />
           </div>
         </div>
         <DriverTable

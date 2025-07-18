@@ -352,12 +352,13 @@ const Table = ({
                         fontSize: "12px",
                       }}
                     >
-                      {defaultMapping &&
-                      typeof defaultMapping[column] === "function"
-                        ? defaultMapping[column](row, rowIndex)
-                        : column.toLowerCase() === "status" || column.toLowerCase() === "status order"
-                        ? <StatusBadge status={row[column?.toLowerCase()?.replace(/\s+/g, "")] || row.status} />
-                        : row[column?.toLowerCase()?.replace(/\s+/g, "")] ?? ""}
+                      {defaultMapping && typeof defaultMapping[column] === "function" ? (
+                        defaultMapping[column](row, rowIndex)
+                      ) : column === "Status" ? (
+                        <StatusBadge status={row[column]} />
+                      ) : (
+                        row[column] ?? ""
+                      )}
                     </td>
                   )
                 )}

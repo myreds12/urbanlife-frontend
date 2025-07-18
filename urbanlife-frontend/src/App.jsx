@@ -21,7 +21,7 @@ import Customer from "./pages/AdminDashboard/Customer/Customer";
 
 // Whasapp Setting Pages
 import WhatsappConnect from "./pages/AdminDashboard/WhatsappSetting/WhatsappConnect";
-import Template from "./pages/AdminDashboard/WhatsappSetting/template";
+import Template from "./pages/AdminDashboard/WhatsappSetting/Template";
 
 import Inbox from "./pages/AdminDashboard/Inbox/Inbox";
 

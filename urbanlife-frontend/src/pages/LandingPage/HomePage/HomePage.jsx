@@ -40,12 +40,12 @@ const LandingPage = () => {
       </AnimatedSection>
 
       {/* === Popular Categories Section === */}
-      <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
-        <div className="max-w-[1200px] mx-auto">
-          <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mt-5 mb-8 ml-5">
-            Popular Categories
-          </h1>
-        </div>
+        <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
+          <div className="max-w-[1200px] mx-auto">
+            <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mt-5 mb-8 ml-5">
+              Popular Categories
+            </h1>
+          </div>
 
         <div
           className="flex flex-wrap justify-center gap-4"
@@ -64,24 +64,7 @@ const LandingPage = () => {
             </h1>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            <DiscoverCard
-              country="Indonesia"
-              city="2 Cities"
-              desc="20 Destination"
-              image="/images/LandingPage/Discover/Monas.png"
-            />
-            <DiscoverCard
-              country="Vietnam"
-              city="2 Cities"
-              desc="20 Unit rental cars"
-              image="/images/LandingPage/Discover/Car.png"
-            />
-            <DiscoverCard
-              country="Indonesia"
-              city="1 City"
-              desc="3 Hotel"
-              image="/images/LandingPage/Discover/Hotel.png"
-            />
+            <DiscoverCard />
           </div>
         </div>
       </AnimatedSection>

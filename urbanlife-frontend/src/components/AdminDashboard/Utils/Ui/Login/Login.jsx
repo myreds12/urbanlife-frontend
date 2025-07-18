@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 import Button from "../../Ui/button/Button";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../../ApiClient/apiClient";
+import axios from "axios";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -44,16 +49,41 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = validateForm();
 
-    if (Object.keys(newErrors).length === 0) {
-      // Handle successful login here
-      console.log("Login data:", formData);
-      alert("Login successful!");
-    } else {
+    // Validasi form
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      toast.error("Please fix the errors before submitting.");
+      console.error("Validation errors:", newErrors);
+      return;
+    }
+
+    try {
+      const response = await apiClient.post("/auth/login", formData);
+
+      const { accessToken } = response.data.data;
+
+
+      // Simpan token & user info ke localStorage
+      localStorage.setItem("authToken", accessToken); // penting!
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`; // penting!
+
+      // Reset form
+      setFormData({ email: "", password: "" });
+      setErrors({});
+      setShowPassword(false);
+
+      // Toast dan redirect
+      toast.success("Login successful!");
+      navigate("/admin/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+      const message =
+        error.response?.data?.message || "Login failed. Please try again.";
+      toast.error(message);
     }
   };
 
@@ -166,7 +196,11 @@ const Login = () => {
               variant="primary"
               size="md"
               className="w-full py-3 sm:py-3.5 text-sm sm:text-base font-medium"
-              disabled={!formData.email || !formData.password || formData.password.length < 6}
+              disabled={
+                !formData.email ||
+                !formData.password ||
+                formData.password.length < 6
+              }
             >
               Sign In
             </Button>{" "}

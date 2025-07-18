@@ -5,8 +5,20 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-6">Pricing</h3>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold">Pricing</h3>
+          {type !== "daytour" && (
+            <button
+              type="button"
+              onClick={handleAddPrice}
+              className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-6 py-2 rounded-md"
+            >
+              Add Price +
+            </button>
+          )}
+        </div>
 
+        
         {type === "daytour" ? (
           <div className="grid grid-cols-2 gap-6">
             <div>
@@ -85,15 +97,6 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
               </div>
             ))}
 
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={handleAddPrice}
-                className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-6 py-2 rounded-md"
-              >
-                ADD
-              </button>
-            </div>
           </div>
         )}
       </div>

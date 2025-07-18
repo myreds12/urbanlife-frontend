@@ -8,7 +8,6 @@ import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 const DestinationCard = ({ travel }) => {
   const navigate = useNavigate();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   // Menambahkan/menghapus kelas modal-open pada auto-scroll-wrapper
   useEffect(() => {
@@ -40,7 +39,7 @@ const DestinationCard = ({ travel }) => {
         ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${travel.file_url
             .replace(/\\/g, "/")
             .replace(/^uploads\//, "")}`
-        : "/images/default-thumbnail.png",
+        : "/public/images/error/No_Image_Available.jpg",
       content: travel.content || [],
       tanggal: tanggalHariIni,
     };
@@ -96,17 +95,18 @@ const DestinationCard = ({ travel }) => {
       ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${travel.file_url
           .replace(/\\/g, "/")
           .replace(/^uploads\//, "")}`
-      : "/images/default-thumbnail.png",
+      : "/public/images/error/No_Image_Available.jpg",
     url: `${window.location.origin}/destination/${travel.nama
       .replace(/\s+/g, "-")
       .toLowerCase()}?id=${travel.id}`,
   };
 
+
   return (
     <>
       <div className="destination-card">
         <div className="card-image">
-          <img src={travel.image} alt={travel.nama} />
+          <img src={travel.image } alt={travel.nama} />
           <div className="country-label">{travel.lokasi?.negara?.nama}</div>
           <button
             onClick={() => {

@@ -1,0 +1,56 @@
+.bulk-action-button {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bulk-action-button:hover {
+  background: #0092b8;
+  color: #fff;
+  border-color: #0092b8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 146, 184, 0.3);
+}
+
+.bulk-action-button.export:hover {
+  background: #10b981;
+  border-color: #10b981;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); 
+}
+
+.bulk-action-button.edit:hover {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.bulk-action-button.delete:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.bulk-action-button.clear:hover {
+  background: #6b7280;
+  border-color: #6b7280;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+.bulk-action-button svg {
+  background: transparent;
+  stroke: currentColor; 
+}

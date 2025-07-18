@@ -1,20 +1,94 @@
-import React, { useState } from "react";
-import { Calendar, MapPin, Search, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Calendar, Search, X } from "lucide-react";
 import SearchResultsModal from "./SearchResultsModal";
-import { dummyResults, countries, cities, services } from "./DummyData";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
 const CardForm = () => {
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
-  const [service, setService] = useState("");
+  const [formData, setFormData] = useState({
+    countryId: "",
+    cityId: "",
+    service: "",
+    fromDate: "",
+    toDate: "",
+  });
+
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
+
+  const [loadingCountries, setLoadingCountries] = useState(false);
+  const [loadingCities, setLoadingCities] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
 
+  console.log(searchResults, "SHOW RESULTS");
+
+  const services = [
+    { label: "Accomodation", value: "AKOMODASI" },
+    { label: "Rent Car", value: "KENDARAAN" },
+    { label: "Day Tour", value: "TRAVEL_PACKAGE" },
+  ];
+
+  // Fetch all countries
+  useEffect(() => {
+    const fetchCountries = async () => {
+      setLoadingCountries(true);
+      try {
+        const res = await apiClient.get("/negara");
+        const mapped = res.data.data.map((n) => ({
+          label: n.nama,
+          value: n.id,
+        }));
+        setCountries(mapped);
+      } catch (err) {
+        console.error("Error fetching countries:", err);
+      } finally {
+        setLoadingCountries(false);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  // Fetch cities when country changes
+  useEffect(() => {
+    if (!formData.countryId) return;
+
+    const fetchCities = async () => {
+      setLoadingCities(true);
+      try {
+        const res = await apiClient.get(
+          `/lokasi?negara_id=${formData.countryId}`
+        );
+        const mapped = res.data.data.map((c) => ({
+          label: c.nama,
+          value: c.id,
+        }));
+        setCities(mapped);
+      } catch (err) {
+        console.error("Error fetching cities:", err);
+        setCities([]);
+      } finally {
+        setLoadingCities(false);
+      }
+    };
+
+    fetchCities();
+  }, [formData.countryId]);
+
+  // Input handler
+  const handleChange = (key, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value,
+      ...(key === "countryId" && { cityId: "" }),
+    }));
+  };
+
   const handleSearch = async () => {
-    if (!country || !city || !service) {
+    const { countryId, cityId, service, fromDate, toDate } = formData;
+
+    if (!countryId || !cityId || !service || !fromDate || !toDate) {
       alert("Please fill in all required fields!");
       return;
     }
@@ -22,21 +96,36 @@ const CardForm = () => {
     setIsSearching(true);
     setShowResults(false);
 
-    // Simulate API call
-    setTimeout(() => {
-      const results = dummyResults[service] || [];
-      setSearchResults(results);
+    try {
+      const res = await apiClient.get("/pemesanan/items", {
+        params: {
+          date_from: fromDate,
+          date_to: toDate,
+          lokasi_id: cityId,
+          negara_id: countryId,
+          type: service,
+        },
+      });
+
+      setSearchResults(res.data?.data || []);
       setShowResults(true);
+    } catch (err) {
+      console.error("Search API error:", err);
+      alert("Failed to fetch search results.");
+    } finally {
       setIsSearching(false);
-    }, 1500);
+    }
   };
 
   const clearForm = () => {
-    setFromDate("");
-    setToDate("");
-    setCountry("");
-    setCity("");
-    setService("");
+    setFormData({
+      countryId: "",
+      cityId: "",
+      service: "",
+      fromDate: "",
+      toDate: "",
+    });
+    setCities([]);
     setSearchResults([]);
     setShowResults(false);
   };
@@ -52,18 +141,16 @@ const CardForm = () => {
   };
 
   return (
-    <div className="w-full max-w-[400px] ml-auto mr-10 space-y-1 px-2 sm:px-0 pt-8">
+    <div className="w-full max-w-[400px] ml-auto mr-0 space-y-1 px-2 sm:px-0 pt-8">
+      {/* Country */}
       <div className="bg-white rounded-xl shadow-md p-2">
         <select
-          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
-          value={country}
-          onChange={(e) => {
-            setCountry(e.target.value);
-            setCity("");
-          }}
+          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          value={formData.countryId}
+          onChange={(e) => handleChange("countryId", e.target.value)}
         >
           <option value="" disabled>
-            Select country
+            {loadingCountries ? "Loading countries..." : "Select country"}
           </option>
           {countries.map((c) => (
             <option key={c.value} value={c.value}>
@@ -73,30 +160,35 @@ const CardForm = () => {
         </select>
       </div>
 
+      {/* City */}
       <div className="bg-white rounded-xl shadow-md p-2">
         <select
-          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          disabled={!country}
+          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          value={formData.cityId}
+          onChange={(e) => handleChange("cityId", e.target.value)}
+          disabled={!formData.countryId || loadingCities}
         >
           <option value="" disabled>
-            {country ? "Select city" : "Select country first"}
+            {loadingCities
+              ? "Loading cities..."
+              : formData.countryId
+              ? "Select city"
+              : "Select country first"}
           </option>
-          {country &&
-            cities[country]?.map((c) => (
-              <option key={c.value} value={c.value}>
-                {c.label}
-              </option>
-            ))}
+          {cities.map((c) => (
+            <option key={c.value} value={c.value}>
+              {c.label}
+            </option>
+          ))}
         </select>
       </div>
 
+      {/* Service, Dates, Buttons */}
       <div className="bg-white rounded-xl shadow-md p-4 space-y-3">
         <select
-          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
-          value={service}
-          onChange={(e) => setService(e.target.value)}
+          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          value={formData.service}
+          onChange={(e) => handleChange("service", e.target.value)}
         >
           <option value="" disabled>
             Select services
@@ -109,6 +201,7 @@ const CardForm = () => {
         </select>
 
         <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
+          {/* From */}
           <div className="w-full">
             <label className="block text-xs font-medium text-gray-500 mb-1">
               From
@@ -117,20 +210,23 @@ const CardForm = () => {
               <input
                 type="date"
                 id="fromDateInput"
-                value={fromDate}
-                onChange={(e) => setFromDate(e.target.value)}
+                value={formData.fromDate}
+                onChange={(e) => handleChange("fromDate", e.target.value)}
                 className="absolute inset-0 opacity-0 cursor-pointer z-10"
               />
               <div
                 className="w-full p-2 bg-gray-100 rounded-md text-gray-700 text-sm flex items-center gap-2"
-                onClick={() => document.getElementById("fromDateInput")?.showPicker()}
+                onClick={() =>
+                  document.getElementById("fromDateInput")?.showPicker()
+                }
               >
                 <Calendar size={14} className="text-gray-400" />
-                {formatDate(fromDate)}
+                {formatDate(formData.fromDate)}
               </div>
             </div>
           </div>
 
+          {/* To */}
           <div className="w-full">
             <label className="block text-xs font-medium text-gray-500 mb-1">
               To
@@ -139,22 +235,25 @@ const CardForm = () => {
               <input
                 type="date"
                 id="toDateInput"
-                value={toDate}
-                onChange={(e) => setToDate(e.target.value)}
-                min={fromDate}
+                value={formData.toDate}
+                onChange={(e) => handleChange("toDate", e.target.value)}
+                min={formData.fromDate}
                 className="absolute inset-0 opacity-0 cursor-pointer z-10"
               />
               <div
                 className="w-full p-2 bg-gray-100 rounded-md text-gray-700 text-sm flex items-center gap-2"
-                onClick={() => document.getElementById("toDateInput")?.showPicker()}
+                onClick={() =>
+                  document.getElementById("toDateInput")?.showPicker()
+                }
               >
                 <Calendar size={14} className="text-gray-400" />
-                {formatDate(toDate)}
+                {formatDate(formData.toDate)}
               </div>
             </div>
           </div>
         </div>
 
+        {/* Buttons */}
         <div className="flex gap-2">
           <button
             onClick={handleSearch}
@@ -174,7 +273,7 @@ const CardForm = () => {
             )}
           </button>
 
-          {(country || city || service || fromDate || toDate) && (
+          {Object.values(formData).some((v) => v) && (
             <button
               onClick={clearForm}
               className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
@@ -186,14 +285,12 @@ const CardForm = () => {
         </div>
       </div>
 
+      {/* Result Modal */}
       <SearchResultsModal
         showResults={showResults}
         setShowResults={setShowResults}
         searchResults={searchResults}
-        country={country}
-        city={city}
-        service={service}
-        cities={cities}
+        service={formData.service}
         services={services}
       />
     </div>

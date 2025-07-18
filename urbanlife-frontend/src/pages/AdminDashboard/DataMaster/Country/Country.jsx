@@ -3,6 +3,7 @@ import Dropzone from "../../../../components/AdminDashboard/Utils/Form/DropZone"
 import CountryForm from "./CountryForm";
 import CountryTable from "./CountryTable";
 import { useSearchParams } from "react-router-dom";
+import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -11,6 +12,7 @@ const Country = () => {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const formRef = useRef(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -122,7 +124,7 @@ const Country = () => {
       text: "Apakah kamu yakin ingin menghapus negara ini?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#10b981", // warna hijau teal
+      confirmButtonColor: "#0092B8", // warna hijau teal
       cancelButtonColor: "#d33",
       confirmButtonText: "Ya, hapus!",
       cancelButtonText: "Batal",
@@ -172,7 +174,7 @@ const Country = () => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="px-5 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:opacity-50 cursor-pointer"
+              className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 disabled:opacity-50 cursor-pointer"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>
@@ -185,6 +187,13 @@ const Country = () => {
             <h3 className="text-lg font-semibold text-gray-800">
               Countries List
             </h3>
+            <div className="w-64">
+              <Search
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
           <CountryTable
             countries={countries}

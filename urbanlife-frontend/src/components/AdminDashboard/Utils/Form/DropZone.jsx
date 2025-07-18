@@ -77,6 +77,7 @@ const Dropzone = forwardRef(({
   };
 
   return (
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
     <ComponentCard title={showTitle ? title : ""}>
       <div
         {...getRootProps()}
@@ -95,7 +96,7 @@ const Dropzone = forwardRef(({
             Drag and drop your PNG, JPG, WebP, SVG images here or browse
             {multiple && ` (Max: ${maxFiles} files)`}
           </p>
-          <span className="font-medium text-teal-500 underline text-sm">
+          <span className="font-medium text-cyan-600 underline text-sm">
             Browse File
           </span>
 
@@ -117,7 +118,7 @@ const Dropzone = forwardRef(({
             >
               <button
                 onClick={() => setPreview(file.preview)}
-                className="text-sm text-teal-600 hover:underline truncate max-w-[240px] text-left"
+                className="text-sm tex-cyan-600 hover:underline truncate max-w-[240px] text-left"
                 title={file.name}
               >
                 🖼️ {file.name}
@@ -143,7 +144,7 @@ const Dropzone = forwardRef(({
             >
               <button
                 onClick={() => setPreview(file.url)}
-                className="text-sm text-teal-600 hover:underline truncate max-w-[240px] text-left"
+                className="text-sm text-cyan-600 hover:underline truncate max-w-[240px] text-left"
                 title={file.name}
               >
                 🌐 {file.name}
@@ -174,6 +175,7 @@ const Dropzone = forwardRef(({
         </div>
       )}
     </ComponentCard>
+  </div>
   );
 });
 

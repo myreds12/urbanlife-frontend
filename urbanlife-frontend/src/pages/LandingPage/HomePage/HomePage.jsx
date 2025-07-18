@@ -9,6 +9,7 @@ import ServiceScheduleCard from "../../../components/LandingPage/HomePage/Servic
 import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
 import Destination from "./Destination/Destination";
+import PopularCategoriesSection from "./Popular Categoires/PopularCategories";
 import AnimatedSection from "../../../components/LandingPage/Utils/AnimatedSection";
 
 const LandingPage = () => {
@@ -38,46 +39,21 @@ const LandingPage = () => {
         </div>
       </AnimatedSection>
 
-      {/* Popular Categories Section */}
-      <AnimatedSection animationType="slideInLeft">
+      {/* === Popular Categories Section === */}
         <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
           <div className="max-w-[1200px] mx-auto">
             <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mt-5 mb-8 ml-5">
               Popular Categories
             </h1>
           </div>
-          <div className="flex flex-wrap justify-center gap-4">
-            <CategoriesCard
-              country="Indonesia"
-              title="Eastern Bali Tour"
-              destinations="4 Destination"
-              price="1,200,000"
-              image="/images/LandingPage/Destination/EasternBaliTour.png"
-            />
-            <CategoriesCard
-              country="Vietnam"
-              title="Toyota Alphard"
-              destinations="1 - 4 hours"
-              price="1,200,000"
-              image="/images/LandingPage/Categories/Alphard.png"
-            />
-            <CategoriesCard
-              country="Indonesia"
-              title="Fourteen Roses Boutique Hotel"
-              destinations="Single Bed"
-              price="1,200,000/night"
-              image="/images/LandingPage/Categories/Fourteenroses.png"
-            />
-            <CategoriesCard
-              country="Vietnam"
-              title="Fourteen Roses Boutique Hotel"
-              destinations="Single Bed"
-              price="1,200,000/night"
-              image="/images/LandingPage/Categories/Fourteenroses.png"
-            />
-          </div>
+
+        <div
+          className="flex flex-wrap justify-center gap-4"
+        >
+        <PopularCategoriesSection />
+         
         </div>
-      </AnimatedSection>
+      </div>
 
       {/* Discover All Around Section */}
       <AnimatedSection animationType="slideInRight">
@@ -88,24 +64,7 @@ const LandingPage = () => {
             </h1>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            <DiscoverCard
-              country="Indonesia"
-              city="2 Cities"
-              desc="20 Destination"
-              image="/images/LandingPage/Discover/Monas.png"
-            />
-            <DiscoverCard
-              country="Vietnam"
-              city="2 Cities"
-              desc="20 Unit rental cars"
-              image="/images/LandingPage/Discover/Car.png"
-            />
-            <DiscoverCard
-              country="Indonesia"
-              city="1 City"
-              desc="3 Hotel"
-              image="/images/LandingPage/Discover/Hotel.png"
-            />
+            <DiscoverCard />
           </div>
         </div>
       </AnimatedSection>

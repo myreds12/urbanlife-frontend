@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import "../../../styles/LandingPage/HomePage/DiscoverCard.css";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
+const dummyImages = [
+  "/public/images/error/No_Image_Available.jpg",
+  "/public/images/error/No_Image_Available_2.jpg", // Tambah variasi kalau ada
+  "/public/images/error/No_Image_Available_3.jpg",
+];
+
+const getRandomDummyImage = () => dummyImages[Math.floor(Math.random() * dummyImages.length)];
+
 const DiscoverCard = () => {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +22,6 @@ const DiscoverCard = () => {
       setError(null);
       const response = await apiClient.get("/negara?take=10&page=1");
       if (response.data.status === 200) {
-        // Filter status: true dan ambil 3 item pertama
         const filteredCountries = response.data.data
           .filter((country) => country.status)
           .slice(0, 3);
@@ -78,18 +85,24 @@ const DiscoverCard = () => {
             <img
               src={
                 country.url
-                  ? `${import.meta.env.VITE_API_URL}/${country.url.replace(
-                      /\\/g,
-                      "/"
-                    )}`
-                  : "/images/LandingPage/Discover/default.png"
+                  ? `${import.meta.env.VITE_API_URL}/${country.url.replace(/\\/g, "/")}`
+                  : getRandomDummyImage()
               }
-              alt={country.nama}
+              alt={country.nama || "Country Image"}
+              onError={(e) => {
+                e.target.src = getRandomDummyImage(); // Fallback kalau gambar gagal load
+              }}
             />
             <div className="description">
-              <div className="country-title">{country.nama}</div>
-              <h2 className="city-title">{`${country.total_lokasi} Cities`}</h2>
-              <p className="desc-text">{`${country.total_lokasi} Destinations, ${country.total_akomodasi} Hotels, ${country.total_kendaraan} Vehicles`}</p>
+              <div className="country-title">{country.nama || "Unknown"}</div>
+              <h2 className="city-title">
+                {`${country.total_lokasi ?? 0} Cities`}
+              </h2>
+              <p className="desc-text">
+                {`${country.total_lokasi ?? 0} Destinations, ${
+                  country.total_akomodasi ?? 0
+                } Hotels, ${country.total_kendaraan ?? 0} Vehicles`}
+              </p>
             </div>
           </div>
         </div>

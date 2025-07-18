@@ -1,0 +1,303 @@
+/* Places Submenu Bottom Sheet */
+.places-submenu-bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1002;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+  max-height: 80vh;
+  overflow-y: auto;
+  will-change: transform;
+}
+
+.places-submenu-bottom-sheet-open {
+  transform: translateY(0);
+}
+
+/* Places Submenu Header */
+.places-submenu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.places-submenu-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.places-submenu-close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #374151;
+  line-height: 1;
+  padding: 0;
+  touch-action: manipulation;
+}
+
+.places-submenu-separator {
+  height: 1px;
+  background: #c5c5c5;
+  flex-shrink: 0;
+}
+
+/* Places Submenu Content */
+.places-submenu-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Places Tabs Container */
+.places-submenu-tabs-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.places-submenu-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  flex-shrink: 0;
+  touch-action: manipulation;
+}
+
+.places-submenu-arrow:hover {
+  background: #e2e8f0;
+  transform: scale(1.1);
+}
+
+.places-submenu-arrow-left {
+  margin-right: 10px;
+}
+
+.places-submenu-arrow-right {
+  margin-left: 10px;
+}
+
+/* Places Tabs Scrollable Container */
+.places-submenu-tabs {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  padding: 2px 0;
+  flex: 1;
+  contain: layout style;
+}
+
+.places-submenu-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual Places Tab */
+.places-submenu-tab {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  min-width: fit-content;
+  touch-action: manipulation;
+}
+
+.places-submenu-tab:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.places-submenu-tab-active {
+  color: #06b6d4;
+  background: #ecfeff;
+  font-weight: 600;
+}
+
+.places-submenu-tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: #06b6d4;
+  border-radius: 1px;
+}
+
+/* Places Destinations Grid */
+.places-submenu-destinations {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+  flex: 1;
+  min-height: 0;
+  contain: layout style;
+}
+
+.places-submenu-destinations::-webkit-scrollbar {
+  width: 4px;
+}
+
+.places-submenu-destinations::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 2px;
+}
+
+.places-submenu-destinations::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.places-submenu-destinations::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Places Destination Item */
+.places-submenu-destination-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  touch-action: manipulation;
+}
+
+.places-submenu-destination-item:hover {
+  background: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: #e2e8f0;
+}
+
+.places-submenu-destination-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.places-submenu-destination-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.places-submenu-destination-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.places-submenu-destination-location {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Places Overlay */
+.places-submenu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .places-submenu-bottom-sheet {
+    margin: 0 20px;
+  }
+  
+  .places-submenu-content {
+    padding: 15px;
+  }
+  
+  .places-submenu-tabs-container {
+    margin-bottom: 15px;
+  }
+  
+  .places-submenu-arrow {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .places-submenu-tab {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .places-submenu-destination-item {
+    padding: 10px;
+  }
+  
+  .places-submenu-destination-image {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .places-submenu-destination-name {
+    font-size: 15px;
+  }
+  
+  .places-submenu-destination-location {
+    font-size: 13px;
+  }
+}

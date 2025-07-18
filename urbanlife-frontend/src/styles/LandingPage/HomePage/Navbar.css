@@ -269,6 +269,9 @@
 .mega-menu-main {
   flex: 1;
   padding: 2rem;
+    max-height: 600px;
+    overflow-y: auto;  /* scroll vertikal */
+
 }
 
 .mega-menu-header {
@@ -323,7 +326,7 @@
 }
 
 .mega-menu-destination-name {
-  font-size: 0.875rem;
+  font-size: 15px;
   font-weight: 600;
   color: #1a1a1a;
   margin-bottom: 0.25rem;
@@ -335,7 +338,7 @@
 }
 
 .mega-menu-destination-location {
-  font-size: 0.75rem;
+  font-size: 13px;
   color: #64748b;
   margin: 0;
 }

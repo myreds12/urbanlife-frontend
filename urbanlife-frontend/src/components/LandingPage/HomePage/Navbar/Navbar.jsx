@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FiChevronRight } from "react-icons/fi";
+import Submenu from './Submenu';
 import "../../../../styles/LandingPage/HomePage/Navbar.css";
 
 const Navbar = () => {
@@ -6,6 +8,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeCategory, setActiveCategory] = useState('Top Attractions');
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
 
   const destinationData = {
     'Top Attractions': [
@@ -65,6 +68,11 @@ const Navbar = () => {
   };
 
   const currentDestinations = destinationData[activeCategory] || [];
+
+  const handlePlacesToSeeClick = () => {
+    setIsMobileOpen(false);
+    setIsSubmenuOpen(true);  
+  };
 
   return (
     <>
@@ -182,24 +190,44 @@ const Navbar = () => {
           </div>
         </button>
       </nav>
-      <div className="bottom-sheet-drag-handle" onClick={toggleMobileMenu}></div>
-      <div className={`bottom-sheet ${isMobileOpen ? 'bottom-sheet-open' : ''}`}>
-        <div className="bottom-sheet-header">
-          <h2 className="bottom-sheet-title">Menu</h2>
-          <button className="close-button" onClick={toggleMobileMenu}>×</button>
-        </div>
-        <div className="bottom-sheet-separator"></div>
-        <div className="bottom-sheet-content">
-          <div className="bottom-sheet-menu">
-            <a href="/place-to-see" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">Place to see</a>
-            <a href="/services" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">Services</a>
-            <a href="/news" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">News</a>
-            <a href="/contact" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-contact-btn">Contact Us</a>
+
+{/* Mobile Menu Overlay */}
+  {isMobileOpen && <div className="mobile-menu-overlay" onClick={toggleMobileMenu}></div>}
+  
+  {/* Bottom Sheet */}
+  <div className={`bottom-sheet ${isMobileOpen ? 'bottom-sheet-open' : ''}`}>
+    <div className="bottom-sheet-header">
+      <h2 className="bottom-sheet-title">Menu</h2>
+      <button className="close-button" onClick={toggleMobileMenu}>×</button>
+    </div>
+    <div className="bottom-sheet-separator"></div>
+    <div className="bottom-sheet-content">
+      <div className="bottom-sheet-menu">
+            <button onClick={handlePlacesToSeeClick} className="bottom-sheet-menu-item">
+              Places to see
+              <FiChevronRight/>
+            </button>
+            <a href="/services" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">
+              Services
+              <FiChevronRight/>
+            </a>
+            <a href="/news" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">
+              News
+              <FiChevronRight/>
+            </a>
+            <a href="/contact" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-contact-btn">
+              Contact Us
+            </a>
           </div>
         </div>
       </div>
-      {isMobileOpen && <div className="mobile-menu-overlay" onClick={toggleMobileMenu}></div>}
-    </>
+      <Submenu 
+        isSubmenuOpen={isSubmenuOpen}
+        setIsSubmenuOpen={setIsSubmenuOpen}
+        destinationData={destinationData}
+      />
+
+      </>
   );
 };
 

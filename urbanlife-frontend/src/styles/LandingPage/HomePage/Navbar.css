@@ -8,6 +8,28 @@
   height: 0;
 }
 
+@media (max-width: 1024px) {
+  .navbar-container,
+  .navbar-floating,
+  .navbar-scrolled {
+    position: fixed;
+    top: 0 !important;
+    background: rgba(255, 255, 255, 0.95) ;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    height: 65px !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  
+  .navbar-spacer,
+  .navbar-spacer-active {
+    height: 0;
+  }
+}
+
 /* Main Navbar Container */
 .navbar-container {
   position: fixed;

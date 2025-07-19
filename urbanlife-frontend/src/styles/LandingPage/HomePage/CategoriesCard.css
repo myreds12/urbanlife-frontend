@@ -12,7 +12,7 @@
 }
 
 .categories-card {
-  width: 280px;
+  width: 377px;
   height: 250px;
   border-radius: 10px;
   overflow: hidden;
@@ -21,6 +21,13 @@
   background: #fff;
   display: inline-block;
   transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .categories-card {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 
 .categories-card:hover .image-categories img {

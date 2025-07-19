@@ -86,7 +86,7 @@ const PopularCategoriesSection = () => {
   const dataToRender = fetchFailed || popularItems.length === 0 ? defaultPopularCategories : popularItems;
 
   return (
-    <section className="py-8 px-4">
+    <section className="">
       <div className="flex flex-wrap justify-center gap-4">
         {dataToRender.map((item) => (
           <CategoriesCard

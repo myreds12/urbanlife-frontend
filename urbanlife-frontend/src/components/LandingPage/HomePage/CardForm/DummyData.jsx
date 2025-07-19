@@ -142,7 +142,7 @@ export const cities = {
 };
 
 export const services = [
-  { value: "day-tour", label: "Day Tour", icon: Camera },
-  { value: "rent-car", label: "Rent Car", icon: Car },
-  { value: "accommodation", label: "Accommodation", icon: Home },
+  { value: "TRAVEL_PACKAGE", label: "Day Tour", icon: Camera },
+  { value: "KENDARAAN", label: "Rent Car", icon: Car },
+  { value: "AKOMODASI", label: "Accommodation", icon: Home },
 ];

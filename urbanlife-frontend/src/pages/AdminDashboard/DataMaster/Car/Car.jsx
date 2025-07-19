@@ -38,7 +38,7 @@ const Car = () => {
     setLoading(true);
     await Promise.all([
       fetchData("/kendaraan", setCars),
-      fetchData("/kota/next-code", (data) => setNextId(data.code), "City ID"),
+      fetchData("/kendaraan/next-code", (data) => setNextId(data.code), "City ID"),
     ]);
     setLoading(false);
   }, [fetchData]);

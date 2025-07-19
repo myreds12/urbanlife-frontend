@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from '../../../components/LandingPage/HomePage/Navbar';
+import Navbar from '../../../components/LandingPage/HomePage/Navbar/Navbar';
 import ContactForm from "../../../components/LandingPage/OrderDetail/ContactForm";
 import CustomerRequest from "../../../components/LandingPage/OrderDetail/CustomerRequest";
 import ServiceDescription from "../../../components/LandingPage/OrderDetail/ServiceDescription";
@@ -114,7 +114,7 @@ const OrderDetail = () => {
         ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${rawUrl
             .replace(/\\/g, "/")
             .replace(/^uploads\//, "")}`
-        : "/images/default-thumbnail.png";
+        : "/public/images/error/No_Image_Available.jpg";
 
     const today = new Date().toISOString().split("T")[0];
 

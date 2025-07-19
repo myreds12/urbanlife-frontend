@@ -11,6 +11,7 @@ import FacilitySection from "../../../components/AdminDashboard/Accommodation/Fa
 
 const CreateAccomodationPage = () => {
   const navigate = useNavigate();
+
   const [photos, setPhotos] = useState([]);
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
@@ -22,16 +23,7 @@ const CreateAccomodationPage = () => {
 
   const [roomPrices, setRoomPrices] = useState([{ nama: "", harga: 0 }]);
 
-  console.log(roomPrices, "roomPrices");
-
-  const [facilities, setFacilities] = useState(
-    roomPrices.map((room) => ({
-      nama: room.nama || "",
-      fasilitas: [{ nama: "" }],
-    }))
-  );
-
-  console.log(facilities, "facilities");
+  const [facilities, setFacilities] = useState([]);
 
   const [formData, setFormData] = useState({
     nama: "",
@@ -39,7 +31,7 @@ const CreateAccomodationPage = () => {
     kategori: "Hotel",
     tipe: "hotel",
     status: true,
-    akomodasi_content: content
+    akomodasi_content: content,
   });
 
   useEffect(() => {
@@ -58,10 +50,7 @@ const CreateAccomodationPage = () => {
   const handleChange = (e) => {
     const { name, value, files, type } = e.target;
     const parsedValue = type === "checkbox" ? e.target.checked : value;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : parsedValue,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: files ? files[0] : parsedValue }));
   };
 
   const handleChangeContent = (index, field, value) => {
@@ -77,7 +66,7 @@ const CreateAccomodationPage = () => {
   };
 
   const handleAddPrice = () => {
-    setRoomPrices([...roomPrices, { nama: "", harga: "" }]);
+    setRoomPrices([...roomPrices, { nama: "", harga: 0 }]);
   };
 
   const handleRemovePrice = (index) => {
@@ -98,72 +87,51 @@ const CreateAccomodationPage = () => {
   const moveSection = (id) => {
     setActiveSection(id);
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    if (element) element.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const payload = new FormData();
-    payload.append("nama", formData.nama);
-    payload.append("lokasi_id", formData.lokasi_id);
-    payload.append("kategori", formData.kategori);
-    payload.append("tipe", formData.tipe);
-    payload.append("status", formData.status);
-
-    // Append akomodasi_content
-    content.forEach((item, index) => {
-      payload.append(`akomodasi_content[${index}][bahasa]`, item.bahasa);
-      payload.append(`akomodasi_content[${index}][deskripsi]`, item.deskripsi);
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== "akomodasi_content") payload.append(key, value);
     });
 
-    // Append akomodasi_room
-    roomPrices.forEach((item, index) => {
-      payload.append(`akomodasi_room[${index}][nama]`, item.nama);
-      payload.append(`akomodasi_room[${index}][harga]`, item.harga);
+    content.forEach((item, i) => {
+      payload.append(`akomodasi_content[${i}][bahasa]`, item.bahasa);
+      payload.append(`akomodasi_content[${i}][deskripsi]`, item.deskripsi);
     });
 
-    // Append akomodasi_facility
+    roomPrices.forEach((item, i) => {
+      payload.append(`akomodasi_room[${i}][nama]`, item.nama);
+      payload.append(`akomodasi_room[${i}][harga]`, item.harga);
+    });
+
     facilities.forEach((facility, i) => {
       payload.append(`akomodasi_facility[${i}][nama]`, facility.nama);
       facility.fasilitas.forEach((f, j) => {
-        payload.append(
-          `akomodasi_facility[${i}][fasilitas][${j}][nama]`,
-          f.nama
-        );
+        payload.append(`akomodasi_facility[${i}][fasilitas][${j}][nama]`, f.nama);
       });
     });
 
-    // Append photos
-    photos.forEach((file) => {
-      payload.append("files", file);
-    });
-
-    console.log("=== Payload yang akan dikirim ke API ===");
-    for (let pair of payload.entries()) {
-      if (pair[1] instanceof File) {
-        console.log(pair[0], pair[1].name);
-      } else {
-        console.log(pair[0], pair[1]);
-      }
-    }
-    console.log("=== Payload yang akan dikirim ke API ===");
+    photos.forEach((file) => payload.append("files", file));
 
     try {
-      const response = await apiClient.post("/akomodasi", payload);
-      if (response.status === 201) {
+      const res = await apiClient.post("/akomodasi", payload);
+      if (res.status === 201) {
         toast.success("Accommodation created successfully");
         navigate("/admin/accommodation");
       } else {
-        toast.error(response.data.message || "Failed to create accommodation");
+        toast.error(res.data.message || "Failed to create accommodation");
       }
-    } catch (error) {
-      toast.error("Submission Error: " + error.message);
-      console.error("Submission Error:", error);
+    } catch (err) {
+      toast.error("Submission Error: " + err.message);
+      console.error("Submission Error:", err);
     }
   };
+
+  const sections = ["description", "image", "room and price", "facility"];
 
   return (
     <form onSubmit={handleSubmit}>
@@ -175,28 +143,24 @@ const CreateAccomodationPage = () => {
             </h2>
 
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-              {["description", "image", "room and price", "facility"].map(
-                (section) => (
-                  <span
-                    key={section}
-                    className={`cursor-pointer px-1 font-medium underline-item relative ${
-                      activeSection === section
-                        ? "text-cyan-600 active"
-                        : "text-gray-500"
-                    } hover:text-cyan-700 group`}
-                    onClick={() => moveSection(section)}
-                  >
-                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                  </span>
-                )
-              )}
+              {sections.map((section) => (
+                <span
+                  key={section}
+                  className={`cursor-pointer px-1 font-medium underline-item relative ${
+                    activeSection === section ? "text-cyan-600 active" : "text-gray-500"
+                  } hover:text-cyan-700 group`}
+                  onClick={() => moveSection(section)}
+                >
+                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                </span>
+              ))}
             </div>
 
             <DescriptionSection
               id="description"
               isActive={activeSection === "description"}
               formData={formData}
-              content={formData.akomodasi_content}
+              content={content}
               onChangeContent={handleChangeContent}
               handleChange={handleChange}
               locations={locations}
@@ -212,7 +176,7 @@ const CreateAccomodationPage = () => {
             />
 
             <RoomAndPriceSection
-              id="room-and-price"
+              id="room and price"
               isActive={activeSection === "room and price"}
               roomPrices={roomPrices}
               onChange={handleChangePrice}

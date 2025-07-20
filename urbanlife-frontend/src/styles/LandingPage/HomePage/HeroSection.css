@@ -1,103 +1,225 @@
+/* Hero Section Container */
 .hero-section {
-  background-image: url('../../../../public/images/LandingPage/Parallax/backgroundimg.svg');
-  background-size: cover;
-  background-position: top;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+  width: 100vw;
   position: relative;
   overflow: hidden;
   z-index: 0;
+  background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 100%);
+  margin: 0;
+  padding: 0;
 }
 
-/* Parallax Layer - Menggabungkan Gedung dan Pesawat ke Background */
-.parallax-layer {
+/* Background Layer - Paling Belakang */
+.parallax-background {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100vw;
+  height: 120vh; /* Lebih tinggi untuk parallax effect */
+  z-index: 1;
+  will-change: transform;
+}
+
+.background-image {
   width: 100%;
   height: 100%;
-  z-index: 1;
-  overflow: hidden;
+  object-fit: cover;
+  object-position: center top;
 }
 
-/* Building Image - Sesuaikan posisi dan ukuran di sini */
-.building-image {
+/* Plane Layer - Layer Tengah */
+.parallax-plane {
   position: absolute;
-  bottom: 0; /* Diturunin dikit dari 10%, ubah jadi 10% atau 20% kalau mau */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40%;
-  max-width: 600px;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
-  opacity: 0.95;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+  will-change: transform;
 }
 
-/* Plane Image - Sesuaikan posisi dan ukuran di sini */
 .plane-image {
   position: absolute;
-  top: 10%; /* Di atas gedung, ubah jadi 5% atau 15% kalau perlu */
+  top: 25%;
   left: 50%;
   transform: translateX(-50%);
-  width: 20%; /* Bisa naikin jadi 25% kalau mau lebih gede */
-  max-width: 300px; /* Lelet-in batasan, ubah jadi 350px kalau mau */
+  width: 15vw;
+  max-width: 350px;
+  min-width: 200px;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
   opacity: 0.9;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+/* Building Layer - Layer Depan */
+.parallax-building {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.building-image {
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50vw;
+  max-width: 800px;
+  min-width: 500px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.15));
+  opacity: 0.95;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
 }
 
 /* Main Content - PALING DEPAN */
 .hero-content {
   position: relative;
   z-index: 100;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   pointer-events: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.hero-text {
+  will-change: transform, opacity;
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+}
+
+.card-form-container {
+  z-index: 101;
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .building-image {
-    width: 70%;
-    bottom: 0; /* Turunin dikit di mobile */
+    width: 105vw;
+    max-width: 450px;
+    min-width: 300px;
+    bottom: -25%;
   }
+  
   .plane-image {
-    width: 30%; /* Lebih gede di mobile */
-    top: 15%;
+    width: 200vw;
+    max-width: 200px;
+    min-width: 200px;
+    top: 25%;
+  }
+  
+  .hero-text {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 2rem;
+  }
+  
+  .hero-text p {
+    font-size: 2.5rem !important;
+    line-height: 1.2 !important;
+    margin-left: 0 !important;
   }
 }
 
 /* Tablet Responsiveness */
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 641px) and (max-width: 1024px) {
   .building-image {
-    width: 45%;
-    bottom: 0;
+    width: 90vw;
+    max-width: 600px;
+    min-width: 400px;
+    bottom: -57%;
   }
+  
   .plane-image {
-    width: 22%;
-    top: 12%;
+    width: 100vw;
+    max-width: 250px;
+    min-width: 150px;
+    top: 23%;
+  }
+  
+  .hero-text p {
+    font-size: 4rem !important;
+    line-height: 1.1 !important;
   }
 }
 
 /* Large Screen Optimizations */
-@media (min-width: 1440px) {
+@media (min-width: 1025px) and (max-width: 1440px) {
   .building-image {
-    width: 35%;
-    bottom: 0;
+    width: 45vw;
+    max-width: 700px;
+    min-width: 500px;
+    bottom: -59%;
   }
+  
   .plane-image {
-    width: 18%;
-    top: 8%;
+    width: 18vw;
+    max-width: 300px;
+    min-width: 200px;
+    top: 40%;
+  }
+}
+
+/* Extra Large Screens */
+@media (min-width: 1441px) {
+  .building-image {
+    width: 40vw;
+    max-width: 900px;
+    min-width: 600px;
+    bottom: -12%;
+  }
+  
+  .plane-image {
+    width: 15vw;
+    max-width: 400px;
+    min-width: 250px;
+    top: 24%;
+  }
+  
+  .hero-text p {
+    font-size: 5.5rem !important;
+  }
+}
+
+/* Performance optimizations */
+.parallax-background,
+.parallax-plane,
+.parallax-building {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth scrolling hint */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-background,
+  .parallax-plane,
+  .parallax-building,
+  .hero-text {
+    transform: none !important;
+    will-change: auto !important;
+    transition: none !important;
   }
 }

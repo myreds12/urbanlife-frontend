@@ -37,8 +37,10 @@ const HeroSection = () => {
         // Text layer - subtle movement with fade
         if (textRef.current) {
           const opacity = Math.max(0.3, 1 - (scrollY / windowHeight) * 1.2);
-          textRef.current.style.opacity = opacity; //
+          textRef.current.style.transform = `translateY(${scrollY * 0.15}px)`;
+          textRef.current.style.opacity = opacity;
         }
+        
         // CardForm layer - subtle movement with fade
         if (formref.current) {
           const opacity = Math.max(0.3, 1 - (scrollY / windowHeight) * 1.2);
@@ -95,10 +97,10 @@ const HeroSection = () => {
 
       {/* Main Content - PALING DEPAN */}
       <div className="hero-content">
-        <div className="max-w-7xl mx-auto mt-[-150px] px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-16 lg:gap-50 py-10 md:py-20">
+        <div className="max-w-7xl mx-auto mt-7 px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-16 lg:gap-50 py-10 md:py-20">
           {/* Hero Text */}
-          <div ref={textRef} className="hero-text hidden md:block" style={{ width: "60%", marginTop: "20px" }}>
-            <p className="playfair text-5xl font-bold text-left text-white py-5 ml-5  leading-tight">
+          <div ref={textRef} className="hero-text hidden md:block" style={{ width: "60%"}}>
+            <p className="playfair hero-title font-bold text-left text-white py-5 ml-5 leading-tight">
               Discover <br />
               the beauty places
               around the world

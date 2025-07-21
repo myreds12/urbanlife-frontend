@@ -157,12 +157,12 @@
   }
 }
 
-/* Desktop/Laptop - Single responsive breakpoint for all laptop sizes */
+/* Desktop/Laptop*/
 @media (min-width: 1025px) {
   .building-image {
     /* Flexible bottom positioning based on viewport height */
     bottom: clamp(-60%, -10vh, -10%);
-    /* Responsive width that works across different laptop screens */
+    /* Responsive width that works across different screens */
     width: clamp(500px, 40vw, 900px);
   }
   
@@ -173,7 +173,7 @@
     width: clamp(250px, 20vw, 500px);
   }
   
-  /* Ensure text is visible on desktop */
+  /* Ensure text is visible */
   .hero-text {
     display: block !important;
   }

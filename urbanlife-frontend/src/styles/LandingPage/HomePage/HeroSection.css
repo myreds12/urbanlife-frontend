@@ -10,17 +10,13 @@
   padding: 0;
 }
 
-.hero-text .playfair {
-  line-height: 1.1; /* Jarak baris lebih rapi */
-}
-
 /* Background Layer - Paling Belakang */
 .parallax-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 120vh; /* Lebih tinggi untuk parallax effect */
+  height: 120vh; 
   z-index: 1;
   will-change: transform;
 }
@@ -49,9 +45,8 @@
   top: 25%;
   left: 50%;
   transform: translateX(-50%);
-  width: 15vw;
-  max-width: 350px;
-  min-width: 200px;
+  /* Flexible sizing using clamp for smooth scaling */
+  width: clamp(250px, 25vw, 450px);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
@@ -77,9 +72,8 @@
   bottom: -10%;
   left: 50%;
   transform: translateX(-50%);
-  width: 50vw;
-  max-width: 800px;
-  min-width: 500px;
+  /* Flexible sizing using clamp for smooth scaling */
+  width: clamp(400px, 45vw, 800px);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.15));
@@ -107,6 +101,12 @@
   transition: transform 0.1s ease-out, opacity 0.1s ease-out;
 }
 
+/* Responsive text sizing using clamp */
+.hero-title {
+  font-size: clamp(3rem, 5vw, 7rem);
+  line-height: 1.1;
+}
+
 .card-form-container {
   z-index: 101;
 }
@@ -114,89 +114,91 @@
 /* Mobile Responsiveness */
 @media (max-width: 640px) {
   .building-image {
-    width: 105vw;
-    max-width: 450px;
-    min-width: 300px;
+    width: clamp(300px, 105vw, 450px);
     bottom: -25%;
   }
   
   .plane-image {
-    width: 200vw;
-    max-width: 200px;
-    min-width: 200px;
-    top: 25%;
+    width: clamp(200px, 40vw, 300px);
+    top: 23%;
   }
   
+  /* Hide hero text on mobile */
   .hero-text {
     display: none !important;
-    width: 100% !important;
-    padding: 0 2rem;
   }
   
-  .hero-text p {
-    font-size: 2.5rem !important;
-    line-height: 1.2 !important;
-    margin-left: 0 !important;
+  /* Move card form up on mobile */
+  .card-form-container {
+    margin-top: -150px;
   }
 }
 
 /* Tablet Responsiveness */
 @media (min-width: 641px) and (max-width: 1024px) {
   .building-image {
-    width: 90vw;
-    max-width: 600px;
-    min-width: 400px;
+    width: clamp(400px, 90vw, 600px);
     bottom: -57%;
   }
   
   .plane-image {
-    width: 100vw;
-    max-width: 250px;
-    min-width: 150px;
+    width: clamp(250px, 30vw, 350px);
     top: 23%;
   }
   
-  .hero-text p {
-    font-size: 4rem !important;
-    line-height: 1.1 !important;
+  /* Hide hero text on tablet */
+  .hero-text {
+    display: none !important;
+  }
+  
+  /* Move card form up on tablet */
+  .card-form-container {
+    margin-top: -150px;
   }
 }
 
-/* Large Screen Optimizations */
-@media (min-width: 1025px) and (max-width: 1440px) {
+/* Desktop/Laptop*/
+@media (min-width: 1025px) {
   .building-image {
-    width: 45vw;
-    max-width: 700px;
-    min-width: 500px;
-    bottom: -59%;
+    /* Flexible bottom positioning based on viewport height */
+    bottom: clamp(-60%, -10vh, -10%);
+    /* Responsive width that works across different screens */
+    width: clamp(500px, 40vw, 900px);
   }
   
   .plane-image {
-    width: 18vw;
-    max-width: 300px;
-    min-width: 200px;
-    top: 40%;
+    /* Flexible top positioning */
+    top: clamp(20%, 25vh, 35%);
+    /* Responsive width for plane */
+    width: clamp(250px, 20vw, 500px);
+  }
+  
+  /* Ensure text is visible */
+  .hero-text {
+    display: block !important;
+  }
+  
+  .card-form-container {
+    margin-top: 0;
   }
 }
 
-/* Extra Large Screens */
-@media (min-width: 1441px) {
-  .building-image {
-    width: 40vw;
-    max-width: 900px;
-    min-width: 600px;
-    bottom: -38%;
+/* Container queries for more precise control (if supported) */
+@supports (container-type: inline-size) {
+  .hero-section {
+    container-type: inline-size;
   }
   
-  .plane-image {
-    width: 50vw;
-    max-width: 700px;
-    min-width: 250px;
-    top: 20%;
-  }
-  
-  .hero-text p {
-    font-size: 5.5rem !important;
+  @container (min-width: 1200px) {
+    .plane-image {
+      top: 30%;
+      width: min(350px, 22vw);
+    }
+    
+    .building-image {
+      bottom: -40%;
+      width: min(700px, 42vw);
+    }
   }
 }
 
@@ -221,17 +223,9 @@
   .parallax-background,
   .parallax-plane,
   .parallax-building,
-  /* Hide hero text on mobile */
-  
   .hero-text {
-    display: none !important;
+    transform: none !important;
+    will-change: auto !important;
+    transition: none !important;
   }
-  
-  /* Move card form up on mobile */
-  .card-form-container {
-    margin-top: -150px;
-  }
-
-
 }
-

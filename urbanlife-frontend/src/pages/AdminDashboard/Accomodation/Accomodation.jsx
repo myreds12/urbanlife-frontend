@@ -177,7 +177,7 @@ const Accomodation = () => {
               onSearchChange={setSearch}
               placeholder="Search accommodations..."
             />
-            <Button onClick={() => navigate("/admin/accommodation/create")}>Add Unit</Button>
+            <Button variant="primary" size="sm" className="whitespace-nowrap" onClick={() => navigate("/admin/accommodation/create")}>Add Unit <i className="fa-solid fa-plus"></i> </Button>
           </div>
         </div>
 
@@ -210,13 +210,13 @@ const Accomodation = () => {
           handlePageChange={setPage}
         />
 
+      </div>
         <div className="mt-4 flex justify-between items-center text-sm text-gray-600 px-5 pb-4">
           <span>
             Showing {(page - 1) * ITEMS_PER_PAGE + 1} to {Math.min(page * ITEMS_PER_PAGE, total)} of {total} accommodations
           </span>
           <Pagination currentPage={page} totalPages={Math.ceil(total / ITEMS_PER_PAGE)} onPageChange={setPage} />
         </div>
-      </div>
     </div>
   );
 };

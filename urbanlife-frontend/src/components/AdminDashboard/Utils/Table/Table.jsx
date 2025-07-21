@@ -240,7 +240,7 @@ const Table = ({
                   style={{
                     padding: "10px 24px",
                     fontWeight: "500",
-                    color: "#6b7280",
+                    color: "#6b280",
                     textAlign: "left",
                     fontSize: "12px",
                     width: "50px",
@@ -248,6 +248,7 @@ const Table = ({
                 >
                   <input
                     type="checkbox"
+                    style={{cursor: "pointer"}}
                     checked={
                       selectedRows.length === data.length && data.length > 0
                     }
@@ -262,7 +263,7 @@ const Table = ({
                         selectedRows.forEach((id) => onRowSelect(id));
                       }
                     }}
-                    className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                    className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300"
                   />
                 </th>
               )}
@@ -312,9 +313,9 @@ const Table = ({
                     ? "#dbeafe"
                     : "transparent",
                   borderLeft: selectedRows.includes(row.id)
-                    ? "3px solid #3b82f6"
+                    ? "3px solid #00BEF0"
                     : "3px solid transparent",
-                  cursor: "pointer",
+                  
                 }}
                 onMouseEnter={(e) => {
                   if (!selectedRows.includes(row.id)) {
@@ -333,7 +334,7 @@ const Table = ({
                       type="checkbox"
                       checked={selectedRows.includes(row.id)}
                       onChange={() => onRowSelect(row.id)}
-                      className="h-4 w-4 text-gray-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                      className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300"
                     />
                   </td>
                 )}

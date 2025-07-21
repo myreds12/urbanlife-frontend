@@ -141,7 +141,7 @@ const CardForm = () => {
   };
 
   return (
-    <div className="w-full max-w-[400px] ml-auto mr-50 space-y-1 px-2 sm:px-0 pt-8">
+    <div className="w-full max-w-[330px] ml-auto mr-50 space-y-1 px-2 sm:px-0 pt-8 sm:max-w-[400px]">
       {/* Country */}
       <div className="bg-white rounded-xl shadow-md p-2">
         <select

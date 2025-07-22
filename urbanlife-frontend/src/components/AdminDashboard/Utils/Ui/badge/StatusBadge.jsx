@@ -11,6 +11,14 @@ const statusColors = {
 };
 
 const StatusBadge = ({ status }) => {
+  if (!status || typeof status !== 'string') {
+    return (
+      <span className="text-white px-2 py-1 rounded-full text-xs capitalize bg-gray-300">
+        Unknown
+      </span>
+    );
+  }
+
   const color = statusColors[status.toLowerCase()] || 'bg-gray-300';
 
   return (

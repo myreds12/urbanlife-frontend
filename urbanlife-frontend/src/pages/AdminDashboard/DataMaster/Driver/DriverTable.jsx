@@ -26,9 +26,9 @@ const DriverTable = ({ drivers, loading, onEdit, onDelete }) => {
       row.tanggal_periode_berakhir
         ? new Date(row.tanggal_periode_berakhir).toLocaleDateString()
         : "Tidak Ada",
-    "Status": () => (
-      <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-500 text-white">
-        Active
+    "Status": (row) => (
+      <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
+        {row.createdAt ? "Active" : "Inactive"}
       </span>
     ),
   };

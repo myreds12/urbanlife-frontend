@@ -165,11 +165,7 @@ const Template = () => {
     'No Admin 1': t.noAdmin1,
     'No Admin 2': t.noAdmin2,
     Content: t.content,
-    Status: (
-      <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-        {t.status}
-      </span>
-    ),
+    Status: t.status, 
   }));
 
   const handleInputChange = (e) => {

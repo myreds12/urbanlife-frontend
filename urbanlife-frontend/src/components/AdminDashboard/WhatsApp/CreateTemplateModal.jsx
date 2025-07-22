@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CreateTemplateModal = ({ isOpen, onClose, newTemplate, onInputChange, onSave, admin1, admin2 }) => {
+const CreateTemplateModal = ({ isOpen, onClose, newTemplate, onInputChange, onSave}) => {
   if (!isOpen) return null;
 
   return (

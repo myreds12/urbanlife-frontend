@@ -1,17 +1,18 @@
 import { useState, useCallback } from "react";
-import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button'; // Import Button untuk konsistensi
+import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button';
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
 const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
   const [showEventModal, setShowEventModal] = useState(false);
   const [currentView, setCurrentView] = useState('month');
-  const [isLoading, setIsLoading] = useState(false); // Tambah loading state
+  const [isLoading, setIsLoading] = useState(false);
   const [eventForm, setEventForm] = useState({
     title: '',
     type: 'accommodation',
     customer: '',
-    location: ''
+    location: '',
   });
 
   const monthNames = [
@@ -125,55 +126,61 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
     setShowEventModal(true);
   };
 
-  const handleAddEvent = useCallback(async (e) => {
-    e.preventDefault();
-    if (!selectedDay || isLoading) return;
-    setIsLoading(true);
-    try {
-      const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
-      const newEvent = {
-        id: Date.now(), // kat sini id 
-        ...eventForm,
-        date: dateKey,
-        dateDisplay: `${String(selectedDay).padStart(2, '0')} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
-      };
+  const handleAddEvent = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (!selectedDay || isLoading) return;
+      setIsLoading(true);
+      try {
+        const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
+        const newEvent = {
+          id: Date.now(),
+          ...eventForm,
+          date: dateKey,
+          dateDisplay: `${String(selectedDay).padStart(2, '0')} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
+        };
 
-      // Kirim ke API
-      const response = await fetch('http://localhost:3000/events', { // kat sini gnti endpoint
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+        // Kirim ke API
+        const response = await apiClient.post('/events', {
           title: newEvent.title,
           customer: newEvent.customer,
           type: newEvent.type,
           location: newEvent.location,
           date: newEvent.date,
-        }),
-      });
+          dateDisplay: newEvent.dateDisplay,
+        });
 
-      if (!response.ok) {
-        throw new Error('Gagal menambahkan event');
+        const savedEvent = response.data.data || response.data;
+        onAddEvent(dateKey, { ...newEvent, id: savedEvent.id || newEvent.id });
+        setShowEventModal(false);
+        setEventForm({ title: '', type: 'accommodation', customer: '', location: '' });
+        setSelectedDay(null);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Gagal menambahkan event');
+        // Tetap simpan lokal sebagai fallback
+        const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
+        const newEvent = {
+          id: Date.now(),
+          ...eventForm,
+          date: dateKey,
+          dateDisplay: `${String(selectedDay).padStart(2, '0')} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
+        };
+        onAddEvent(dateKey, newEvent);
+      } finally {
+        setIsLoading(false);
       }
+    },
+    [selectedDay, currentDate, eventForm, onAddEvent, monthNames, isLoading]
+  );
 
-      const savedEvent = await response.json();
-      onAddEvent(dateKey, { ...newEvent, id: savedEvent.id || newEvent.id });
-      setShowEventModal(false);
-      setEventForm({ title: '', type: 'accommodation', customer: '', location: '' });
-      setSelectedDay(null);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Gagal menambahkan event');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [selectedDay, currentDate, eventForm, onAddEvent, monthNames, isLoading]);
-
-  const handleDeleteEvent = useCallback((day, eventId) => {
-    const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    onDeleteEvent(dateKey, eventId);
-  }, [currentDate, onDeleteEvent]);
+  const handleDeleteEvent = useCallback(
+    (day, eventId) => {
+      const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      onDeleteEvent(dateKey, eventId);
+    },
+    [currentDate, onDeleteEvent]
+  );
 
   const renderMonthView = () => {
     const days = getDaysInMonth(currentDate);
@@ -398,7 +405,7 @@ const Calendar = ({ events = {}, onAddEvent, onDeleteEvent }) => {
                   setShowEventModal(true);
                 }}
                 disabled={isLoading}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium" // Ubah rounded-lg jadi rounded-none
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium"
               >
                 {isLoading ? 'Loading...' : '+ Add Event'}
               </Button>

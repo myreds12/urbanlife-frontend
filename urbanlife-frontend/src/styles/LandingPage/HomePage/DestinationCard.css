@@ -1,46 +1,3 @@
-/* AutoScrollDestinationSlider.css */
-.auto-scroll-wrapper {
-  overflow-x: hidden; /* Hindari scroll manual, gunakan animasi */
-  padding: 0 16px;
-  scroll-behavior: smooth;
-  cursor: grab;
-  -webkit-overflow-scrolling: touch;
-  position: relative;
-  margin-top: -150px; /* Sesuaikan dengan posisi di bawah hero */
-  z-index: 10;
-}
-
-.auto-scroll-wrapper:active {
-  cursor: grabbing;
-}
-
-.auto-scroll-wrapper::-webkit-scrollbar {
-  display: none; /* Sembunyikan scrollbar */
-}
-
-.auto-scroll-track {
-  display: flex;
-  gap: 20px;
-  width: max-content;
-  animation: scroll-left 30s linear infinite;
-  padding-bottom: 8px; /* Biar bayangan bawah card tidak terpotong */
-}
-
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* Pause animation saat disentuh/hover */
-.auto-scroll-wrapper:hover .auto-scroll-track,
-.auto-scroll-wrapper:active .auto-scroll-track {
-  animation-play-state: paused;
-}
-
 /* DestinationCard.css */
 .destination-card {
   width: 240px;
@@ -63,10 +20,10 @@
 
 .card-image {
   position: relative;
-  width: 90%;
-  height: 65%;
+  width: 95%;
+  height: 70%;
   margin: 0 auto;
-  margin-top: 15px;
+  margin-top: 5px;
   border-radius: 10px;
   overflow: hidden;
   background: #fff;
@@ -179,7 +136,7 @@
 
 .card-body {
   padding: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 .card-title {

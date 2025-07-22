@@ -4,6 +4,8 @@ import Button from "../../../components/AdminDashboard/Utils/Ui/button/Button";
 import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
+import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDetail";
+import { dummyAccomodationData } from "./DummyAccomodation";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
@@ -58,6 +60,21 @@ const bulkEditableFields = [
   },
 ];
 
+const accomodationModalCOnfig = {
+  sections: [
+    {
+      fields: [
+        { key: "lokasi", label: "Lokasi" },
+        { key: "nama", label: "Nama Unit" },
+        { key: "tipe", label: "Type" },
+        { key: "description", label: "Deskrpsi", type: "language-toggle" },
+        { key: "price", label: "Harga", type: "language-toggle" },
+        { key: "facility", label: "Facility Name", type: "language-toggle" },
+      ],
+    },
+  ],
+};
+
 const Accomodation = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -67,6 +84,10 @@ const Accomodation = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState({ key: null, direction: "asc" });
   const [selected, setSelected] = useState([]);
+
+  //Modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedModalData, setSelectedModalData] = useState(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -85,8 +106,19 @@ const Accomodation = () => {
       setData(rows);
       setTotal(response.total);
     } catch (e) {
-      console.error(e);
-      alert("Failed to fetch data");
+      console.error(
+        "Failed to fetch accomodation from API, using dummy data",
+        e
+      );
+      // Use dummy data if API fails
+      setTimeout(() => {
+        setData(dummyAccomodationData);
+        setLoading(false);
+      }, 1000);
+      return;
+      // catch (e) {
+      // console.error(e);
+      // alert("Failed to fetch data");
     } finally {
       setLoading(false);
     }
@@ -95,6 +127,17 @@ const Accomodation = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleView = (row) => {
+    const modalData = {
+      ...row,
+      lokasi: row.lokasi?.name || row.location || "-",
+      nama: row.nama || row.name,
+      tipe: row.tipe || row.type,
+    };
+    setSelectedModalData(modalData);
+    setIsModalOpen(true);
+  };
 
   const filtered = useMemo(() => {
     if (!search) return data;
@@ -110,7 +153,9 @@ const Accomodation = () => {
     return [...filtered].sort((a, b) => {
       const valA = String(a[sort.key]);
       const valB = String(b[sort.key]);
-      return sort.direction === "asc" ? valA.localeCompare(valB) : valB.localeCompare(valA);
+      return sort.direction === "asc"
+        ? valA.localeCompare(valB)
+        : valB.localeCompare(valA);
     });
   }, [filtered, sort]);
 
@@ -136,7 +181,9 @@ const Accomodation = () => {
   const handleBulkExport = (rows) => {
     const csv = [
       ["ID", "Name", "Location", "Type", "Category"].join(","),
-      ...rows.map((r) => [r.id, r.name, r.location, r.type, r.category].join(",")),
+      ...rows.map((r) =>
+        [r.id, r.name, r.location, r.type, r.category].join(",")
+      ),
     ].join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
@@ -177,7 +224,14 @@ const Accomodation = () => {
               onSearchChange={setSearch}
               placeholder="Search accommodations..."
             />
-            <Button variant="primary" size="sm" className="whitespace-nowrap" onClick={() => navigate("/admin/accommodation/create")}>Add Unit <i className="fa-solid fa-plus"></i> </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              className="whitespace-nowrap"
+              onClick={() => navigate("/admin/accommodation/create")}
+            >
+              Add Unit <i className="fa-solid fa-plus"></i>{" "}
+            </Button>
           </div>
         </div>
 
@@ -186,15 +240,18 @@ const Accomodation = () => {
           columns={["#", "Name", "Location", "Type", "Category", "Action"]}
           selectedRows={selected}
           onRowSelect={(id) =>
-            setSelected((prev) => (prev.includes(id) ? prev.filter((r) => r !== id) : [...prev, id]))
+            setSelected((prev) =>
+              prev.includes(id) ? prev.filter((r) => r !== id) : [...prev, id]
+            )
           }
           onSort={(key) => {
-            const dir = sort.key === key && sort.direction === "asc" ? "desc" : "asc";
+            const dir =
+              sort.key === key && sort.direction === "asc" ? "desc" : "asc";
             setSort({ key, direction: dir });
           }}
           sortConfig={sort}
           startIndex={(page - 1) * ITEMS_PER_PAGE}
-          onView={(row) => navigate(`/admin/day-tour/view/${row.id}`)}
+          onView={handleView}
           onEdit={(row) => navigate(`/admin/accommodation/edit/${row.id}`)}
           onDelete={(row) => alert(`Delete: ${row.name}`)}
           defaultMapping={{
@@ -209,14 +266,28 @@ const Accomodation = () => {
           totalPages={Math.ceil(total / ITEMS_PER_PAGE)}
           handlePageChange={setPage}
         />
-
       </div>
-        <div className="mt-4 flex justify-between items-center text-sm text-gray-600 px-5 pb-4">
-          <span>
-            Showing {(page - 1) * ITEMS_PER_PAGE + 1} to {Math.min(page * ITEMS_PER_PAGE, total)} of {total} accommodations
-          </span>
-          <Pagination currentPage={page} totalPages={Math.ceil(total / ITEMS_PER_PAGE)} onPageChange={setPage} />
-        </div>
+      <div className="mt-4 flex justify-between items-center text-sm text-gray-600 px-5 pb-4">
+        <span>
+          Showing {(page - 1) * ITEMS_PER_PAGE + 1} to{" "}
+          {Math.min(page * ITEMS_PER_PAGE, total)} of {total} accommodations
+        </span>
+        <Pagination
+          currentPage={page}
+          totalPages={Math.ceil(total / ITEMS_PER_PAGE)}
+          onPageChange={setPage}
+        />
+      </div>
+
+      {/* Modal Detail */}
+      <ModalView
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Detail Unit"
+        data={selectedModalData}
+        config={accomodationModalCOnfig}
+        images={selectedModalData?.images || []}
+      />
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import "../../../styles/LandingPage/HomePage/HeroSection.css";
 import CardForm from "./CardForm/CardForm";
-import backgroundImg from '../../../../public/images/LandingPage/Parallax/backgroundimg.svg';
+import backgroundImg from '../../../../public/images/LandingPage/Parallax/backgroundImg.svg';
 import planeImg from '../../../../public/images/LandingPage/Parallax/planeimg.svg';
-import buildingImg from '../../../../public/images/LandingPage/Parallax/buildingimg.svg';
+import buildingImg from '../../../../public/images/LandingPage/Parallax/buildingImg.svg';
 
 const HeroSection = () => {
   const backgroundRef = useRef(null);

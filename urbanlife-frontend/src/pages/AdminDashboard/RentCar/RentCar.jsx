@@ -412,10 +412,10 @@ const RentCar = () => {
             onDelete={handleDelete}
             defaultMapping={{
               "#": (row, index) => (page - 1) * take + index + 1,
-              ID: "id",
-              Nama: "nama",
-              Model: "model",
-              Tipe: "tipe",
+              ID: (row) => row.id,
+              Nama: (row) => row.nama,
+              Model: (row) => row.model,
+              Tipe: (row) => row.tipe,
               "Plat Nomor": (row) => row.plat_nomor || "-",
               Lokasi: (row) => row.lokasi?.nama || "-",
               Status: (row) => (row.status ? "Aktif" : "Non-Aktif"),

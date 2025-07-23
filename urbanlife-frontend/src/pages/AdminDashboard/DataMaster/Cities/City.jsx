@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import CityForm from "./CityForm";
 import CityTable from "./CityTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -13,7 +13,7 @@ const City = () => {
   const [nextId, setNextId] = useState(0); // For auto-incrementing IDs
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const formRef = useRef(null);
 
@@ -30,7 +30,6 @@ const City = () => {
       console.error(`❌ Failed to fetch ${label}`, error);
     }
   };
-  
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -38,7 +37,11 @@ const City = () => {
       await Promise.all([
         fetchData("/lokasi", setCities, "cities"),
         fetchData("/negara", setCountries, "countries"),
-        fetchData("/lokasi/next-code", (data) => setNextId(data.code), "City ID"),
+        fetchData(
+          "/lokasi/next-code",
+          (data) => setNextId(data.code),
+          "City ID"
+        ),
       ]);
       setLoading(false);
     };
@@ -47,23 +50,25 @@ const City = () => {
   }, []);
 
   useEffect(() => {
+    if (!formRef.current) return;
+
     if (editingId && cities.length > 0) {
       const city = cities.find((c) => c.id === Number(editingId));
       if (city) {
-        formRef.current.setFormData({
+        formRef.current.setFormData?.({
           id: city.id,
           negara_id: city.negara_id,
           nama: city.nama,
         });
       }
     } else {
-      formRef.current.resetForm();
+      formRef.current.resetForm?.();
     }
   }, [editingId, cities]);
 
   const handleSave = async () => {
-    const formData = formRef.current?.getFormData();
-    if (!formData) return;
+   const formData = formRef.current?.getFormData?.();
+  if (!formData) return;
 
     const { nama, negara_id } = formData;
     if (!nama.trim() || !negara_id) {
@@ -74,7 +79,7 @@ const City = () => {
     setSaving(true);
     try {
       if (isEditing) {
-        await apiClient.put(`/lokasi/${editingId}`, formData);
+        await apiClient.patch(`/lokasi/${editingId}`, formData);
         toast.success("Kota berhasil diperbarui");
       } else {
         await apiClient.post("/lokasi", formData);
@@ -94,9 +99,9 @@ const City = () => {
 
   const handleEdit = (city) => {
     if (!city || !city.id) {
-    console.warn("City ID undefined!", city);
-    return;
-  }
+      console.warn("City ID undefined!", city);
+      return;
+    }
     setSearchParams({ edit: city.id });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -126,9 +131,12 @@ const City = () => {
   };
 
   const handleCancel = () => {
-    formRef.current?.resetForm();
-    setSearchParams({});
-  };
+  if (formRef.current?.resetForm) {
+    formRef.current.resetForm();
+  }
+  setSearchParams({});
+};
+
 
   if (loading) {
     return (
@@ -165,12 +173,12 @@ const City = () => {
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-gray-800">List Cities</h3>
             <div className="flex gap-2">
-              <div  className="w-64">
-              <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <div className="w-64">
+                <Search
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
             </div>
           </div>

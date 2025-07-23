@@ -19,16 +19,18 @@ const Car = () => {
   const [existingFiles, setExistingFiles] = useState([]);
 
   const formRef = useRef(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const editingId = searchParams.get("edit");
-
   const isEditing = Boolean(editingId);
 
-  const fetchData = useCallback(async (endpoint, setter) => {
+  const fetchData = useCallback(async (endpoint, setter, direct = false) => {
     try {
       const { data } = await apiClient.get(endpoint);
-      setter(data.data || data.code || []);
+      if (direct) {
+        setter(data);
+      } else {
+        setter(data.data || []);
+      }
     } catch (error) {
       console.error(`❌ Failed to fetch ${endpoint}`, error);
     }
@@ -38,7 +40,7 @@ const Car = () => {
     setLoading(true);
     await Promise.all([
       fetchData("/kendaraan", setCars),
-      fetchData("/kendaraan/next-code", (data) => setNextId(data.code), "City ID"),
+      fetchData("/kendaraan/next-code", (data) => setNextId(data.code), true),
     ]);
     setLoading(false);
   }, [fetchData]);
@@ -61,22 +63,22 @@ const Car = () => {
         status_pajak: car.status_pajak,
       });
 
-      const images = (car.kendaraan_file).map((file) => ({
+      const images = (car.kendaraan_file || []).map((file) => ({
         id: file.id,
         name: file.nama_file,
-        url: `${
-          apiClient.defaults.baseURL
-        }/public/${file.url.replace("uploads\\", "")}`,
+        url: `${apiClient.defaults.baseURL}/public/${file.url.replace("uploads\\", "")}`,
       }));
 
       setExistingFiles(images);
     } else {
-      formRef.current.resetForm();
+      formRef.current.resetForm?.(); // safe call
+      setFiles([]);
+      setExistingFiles([]);
     }
   }, [editingId, cars, isEditing]);
 
   const handleSave = async () => {
-    const data = formRef.current?.getFormData();
+    const data = formRef.current?.getFormData?.();
     if (!data) return;
 
     const formData = new FormData();
@@ -85,10 +87,10 @@ const Car = () => {
       formData.append("files", file);
     });
 
-    if (isEditing && existingFiles?.length > 0) {
+    if (isEditing && existingFiles.length > 0) {
       existingFiles.forEach((file, index) => {
         formData.append(`existingFiles[${index}][id]`, file.id);
-        formData.append(`existingFiles[${index}][nama_file]`, file.name); // atau file.nama_file
+        formData.append(`existingFiles[${index}][nama_file]`, file.name);
         formData.append(`existingFiles[${index}][url]`, file.url);
       });
     }
@@ -96,10 +98,7 @@ const Car = () => {
     formData.append("nama", data.nama);
     formData.append("model", data.model || "");
     formData.append("plat_nomor", data.plat_nomor);
-    formData.append(
-      "tanggal_pajak_berakhir",
-      data.tanggal_pajak_berakhir || ""
-    );
+    formData.append("tanggal_pajak_berakhir", data.tanggal_pajak_berakhir || "");
     formData.append("status_pajak", data.status_pajak ? "true" : "false");
 
     try {
@@ -107,16 +106,13 @@ const Car = () => {
       const endpoint = isEditing ? `/kendaraan/${editingId}` : "/kendaraan";
       const method = isEditing ? apiClient.patch : apiClient.post;
 
-      const response = await method(endpoint, formData, {
+      await method(endpoint, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response, "Response from save operation");
 
-      toast.success(
-        `Kendaraan berhasil ${isEditing ? "diperbarui" : "disimpan"}`
-      );
+      toast.success(`Kendaraan berhasil ${isEditing ? "diperbarui" : "disimpan"}`);
       fetchAllData();
-      formRef.current?.resetForm();
+      formRef.current?.resetForm?.();
       setFiles([]);
       setExistingFiles([]);
       if (isEditing) setSearchParams({});
@@ -129,7 +125,7 @@ const Car = () => {
   };
 
   const handleCancel = () => {
-    formRef.current?.resetForm();
+    formRef.current?.resetForm?.();
     setFiles([]);
     setExistingFiles([]);
     setSearchParams({});
@@ -156,7 +152,6 @@ const Car = () => {
 
     try {
       await apiClient.delete(`/kendaraan/${id}`);
-      console.log(`✅ Kendaraan dengan ID ${id} berhasil dihapus`);
       toast.success("Kendaraan berhasil dihapus");
       fetchData("/kendaraan", setCars);
     } catch (error) {
@@ -165,6 +160,14 @@ const Car = () => {
     }
   };
 
+  const filteredData = useMemo(() => {
+    return cars.filter((car) =>
+      Object.values(car).some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [cars, searchTerm]);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -172,13 +175,6 @@ const Car = () => {
       </div>
     );
   }
-
-  const filteredData = useMemo(() => {
-    return cars.filter((car) => 
-      Object.values(car).some(value =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    ));
-  }, [cars, searchTerm]);
 
   return (
     <div className="p-6">
@@ -225,7 +221,7 @@ const Car = () => {
             <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
               <i className="fa-solid fa-sliders mr-2"></i>Filter
             </button>
-            <Export 
+            <Export
               data={filteredData}
               filename="car.csv"
               buttonText="Download"

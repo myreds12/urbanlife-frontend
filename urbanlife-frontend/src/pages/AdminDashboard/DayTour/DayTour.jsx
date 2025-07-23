@@ -337,8 +337,8 @@ const DayTour = () => {
 
   const mapping = {
     "#": (row, index) => (currentPage - 1) * itemsPerPage + index + 1,
-    "ID": "id",
-    "Nama": "nama",
+    "ID": (row) => row.id,
+    "Nama": (row) => row.nama,
     "Durasi": (row) => `${row.durasi} ${row.tipe_durasi}`,
     "Harga Dewasa": (row) => `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
     "Harga Anak": (row) => `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,

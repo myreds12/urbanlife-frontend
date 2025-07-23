@@ -85,6 +85,8 @@ const Accomodation = () => {
   const [sort, setSort] = useState({ key: null, direction: "asc" });
   const [selected, setSelected] = useState([]);
 
+  console.log(data, "Data Accomodation");
+
   //Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalData, setSelectedModalData] = useState(null);
@@ -256,10 +258,10 @@ const Accomodation = () => {
           onDelete={(row) => alert(`Delete: ${row.name}`)}
           defaultMapping={{
             "#": (row, index) => (page - 1) * ITEMS_PER_PAGE + index + 1,
-            Name: "name",
-            Location: "location",
-            Type: "type",
-            Category: "category",
+            Name: (row) => row.name,
+            Location: (row) => row.location,
+            Type: (row) => row.type,
+            Category: (row) => row.category,
           }}
           itemsPerPage={ITEMS_PER_PAGE}
           currentPage={page}

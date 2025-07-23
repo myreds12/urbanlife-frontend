@@ -56,7 +56,7 @@ const LandingPage = () => {
       </div>
 
       {/* Discover All Around Section */}
-      <AnimatedSection animationType="slideInRight">
+      {/* <AnimatedSection animationType="slideInRight"> */}
         <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
           <div className="max-w-[1200px] mx-auto">
             <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
@@ -67,7 +67,7 @@ const LandingPage = () => {
             <DiscoverCard />
           </div>
         </div>
-      </AnimatedSection>
+      {/* </AnimatedSection> */}
 
       {/* Our Partner Section */}
       <AnimatedSection animationType="scaleIn">

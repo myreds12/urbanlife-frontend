@@ -23,7 +23,7 @@ export default defineConfig({
     port: parseInt(process.env.PORT), // Port for the development server
     proxy: {
       "/api": {
-        target: import.meta.env.VITE_API_URL, // Proxy to the API URL
+        target: parseInt(process.env.VITE_API_URL), // Proxy to the API URL
         changeOrigin: true,
         secure: false,
       },

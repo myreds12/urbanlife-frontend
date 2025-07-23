@@ -40,6 +40,16 @@ const ModalView = ({
       );
     }
 
+    if (field.key === 'facility' && typeof value === 'object' && value[currentLanguage]) {
+      return (
+        <ul className="text-gray-700 list-disc list-inside space-y-2">
+          {value[currentLanguage].map((item, index) => (
+            <li key={index} className="py-1">{item}</li>
+          ))}
+        </ul>
+      );
+    }
+    
     if (field.key === 'price' && typeof value === 'object') {
       const items = [];
       if (value.harga_anak) {

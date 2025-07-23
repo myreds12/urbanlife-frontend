@@ -192,10 +192,16 @@
 /* Responsif */
 @media (max-width: 768px) {
   .destination-card {
-    width: 180px;
-    height: 240px;
+  width: 180px;
+  height: 265px;
   }
   .auto-scroll-track {
     gap: 10px;
   }
+
+  .card-image {
+  height: 60%;
+}
+
+
 }

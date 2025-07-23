@@ -1,6 +1,6 @@
 /* Hero Section Container */
 .hero-section {
-  height: 100vh;
+  height: 120vh;
   width: 100vw;
   position: relative;
   overflow: hidden;
@@ -132,6 +132,11 @@
   .card-form-container {
     margin-top: -150px;
   }
+
+  .hero-section {
+  height: 105vh;
+}
+
 }
 
 /* Tablet Responsiveness */

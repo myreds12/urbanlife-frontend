@@ -134,6 +134,7 @@
 }
 
 .navbar-menu-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -151,6 +152,30 @@
 
 .navbar-menu-item:hover {
   color: #0092B8;
+  transform: translateY(-1px);
+}
+
+.navbar-menu-item::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #0092B8, #00c1f1);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.navbar-dropdown:hover .navbar-menu-item::after,
+.mega-menu-active .navbar-menu-item::after {
+  width: 100%; /* Underline aktif selama hover di dropdown atau mega-menu */
+}
+
+.navbar-dropdown:hover .navbar-menu-item,
+.mega-menu-active .navbar-menu-item {
+  color: #0092B8; /* Warna teks berubah pas hover */
 }
 
 .dropdown-arrow {
@@ -159,50 +184,6 @@
 
 .dropdown-arrow-active {
   transform: rotate(180deg);
-}
-
-.navbar-lang-selector {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #374151;
-  text-decoration: none;
-  padding: 0.5rem 0;
-  transition: color 0.2s ease;
-}
-
-.navbar-lang-selector:hover {
-  color: #0092B8;
-}
-
-.navbar-contact-btn {
-  background: #0092B8;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.navbar-contact-btn:hover {
-  background: #007F9F;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 68, 136, 0.3);
-}
-
-.navbar-dropdown {
-  position: relative;
-}
-
-.navbar-floating {
-  overflow: visible;
-}
-
-.navbar-scrolled {
-  overflow: visible;
 }
 
 /* Mega Menu */

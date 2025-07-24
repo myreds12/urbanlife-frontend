@@ -76,7 +76,7 @@ const Destination = () => {
       loop: true,
       align: "center",
       slidesToScroll: 1,
-      slideSpacing: "1.5rem", // Gap aman (24px) biar nggak ngebug
+      slideSpacing: "1.5rem",
       containScroll: "trimSnaps",
       breakpoints: {
         "(max-width: 640px)": { slidesToShow: 1 },
@@ -141,6 +141,9 @@ const Destination = () => {
           ))}
         </div>
       </div>
+      {/* Overlay untuk opacity sisi kiri-kanan */}
+      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white via-white/70 to-transparent z-10"></div>
+      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white via-white/70 to-transparent z-10"></div>
       <button
         className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
         onClick={scrollPrev}

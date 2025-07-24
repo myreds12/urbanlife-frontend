@@ -3,12 +3,11 @@
   height: 300px;
   border-radius: 15px;
   overflow: hidden;
-  /* Kombinasi: Balikin border putih dari Versi 1, tapi pakai shadow halus dari Versi 2 */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   background: #fff;
-  display: inline-block; /* Kembali ke Versi 1 buat kompatibel Embla */
-  margin: 0 10px; /* Tambah margin kecil biar gap aman */
+  display: inline-block;
+  margin: 0 10px;
   transition: transform 0.3s ease;
   z-index: 1;
 }
@@ -20,14 +19,13 @@
 
 .card-image {
   position: relative;
-  width: 95%; /* Kembali ke Versi 1 buat padding visual */
+  width: 95%;
   height: 70%;
   margin: 0 auto;
-  margin-top: 5px; /* Kembali ke Versi 1 buat jarak atas */
+  margin-top: 5px;
   border-radius: 10px;
   overflow: hidden;
   background: #fff;
-  /* Kombinasi: Balikin border putih dari Versi 1 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -53,16 +51,16 @@
 
 .book-btn {
   position: absolute;
-  top: 85%; /* Kembali ke Versi 1 buat konsisten */
+  top: 85%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Kembali ke Versi 1 */
+  transform: translate(-50%, -50%);
   background: rgb(205, 203, 203);
   color: rgb(36, 36, 36);
-  padding: 3px 13px; /* Kembali ke Versi 1 */
-  width: 200px; /* Kembali ke Versi 1 */
+  padding: 3px 13px;
+  width: 200px;
   border-radius: 50px;
   text-decoration: none;
-  font-size: 16px; /* Kembali ke Versi 1 */
+  font-size: 16px;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -80,11 +78,11 @@
 .book-btn .arrow {
   margin: 0;
   background-color: white;
-  padding: 3px; /* Kembali ke Versi 1 */
+  padding: 3px;
   border-radius: 50px;
   align-items: center;
-  font-size: 5px; /* Kembali ke Versi 1 */
-  width: 30px; /* Kembali ke Versi 1 */
+  font-size: 5px;
+  width: 30px;
 }
 
 @media (max-width: 768px) {
@@ -109,9 +107,8 @@
     height: 60%;
   }
 
-  /* Tambah gap di mobile biar aman */
   .destination-card {
-    margin: 0 5px; /* Kurangi margin di mobile */
+    margin: 0 5px;
   }
 }
 

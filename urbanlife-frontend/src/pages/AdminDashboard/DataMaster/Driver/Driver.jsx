@@ -21,18 +21,18 @@ const Driver = () => {
   const formRef = useRef(null);
   const [selectedStatus, setSelectedStatus] = useState("");
 
-  const fetchGuides = async () => {
+  const fetchDrivers = async () => {
     try {
       const res = await apiClient.get("/driver");
       setDrivers(res.data.data || []);
     } catch (err) {
-      console.error("Failed to fetch guides", err);
+      console.error("Failed to fetch drivers", err);
     } finally {
       setLoading(false);
     }
   };
 
-  // const fetchGuides = async () => {
+  // const fetchDrivers = async () => {
   //   setDrivers(dummyDrivers); // Pake dummy, bukan API
   //   setLoading(false);
   // };
@@ -63,7 +63,7 @@ const Driver = () => {
         }
       }
 
-      await fetchGuides();
+      await fetchDrivers();
       formRef.current?.resetForm?.();
       setSearchParams({});
     } catch (err) {
@@ -103,7 +103,7 @@ const Driver = () => {
     try {
       await apiClient.delete(`/driver/${id}`);
       toast.success("Driver berhasil dihapus");
-      fetchGuides();
+      fetchDrivers();
     } catch (error) {
       console.error("❌ Failed to delete driver", error);
       toast.error(error.response?.data?.message || "Gagal menghapus driver");
@@ -111,7 +111,7 @@ const Driver = () => {
   };
 
   useEffect(() => {
-    fetchGuides();
+    fetchDrivers();
   }, []);
 
   useEffect(() => {

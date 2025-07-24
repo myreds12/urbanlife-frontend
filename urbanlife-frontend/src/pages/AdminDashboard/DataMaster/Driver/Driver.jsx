@@ -8,7 +8,7 @@ import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/Fil
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-//import dummyDrivers from "./dummyDriver"; //untuk testing dummy data
+//import dummyDrivers from "./dummyDriver"; // Uncomment for testing with dummy data
 
 const Driver = () => {
   const [drivers, setDrivers] = useState([]);
@@ -21,6 +21,7 @@ const Driver = () => {
   const formRef = useRef(null);
   const [selectedStatus, setSelectedStatus] = useState("");
 
+  // Fetch drivers from API, comment if testing with dummy data
   const fetchDrivers = async () => {
     try {
       const res = await apiClient.get("/driver");
@@ -32,8 +33,9 @@ const Driver = () => {
     }
   };
 
+  // Uncomment for testing with dummy data
   // const fetchDrivers = async () => {
-  //   setDrivers(dummyDrivers); // Pake dummy, bukan API
+  //   setDrivers(dummyDrivers);
   //   setLoading(false);
   // };
 
@@ -178,9 +180,8 @@ const Driver = () => {
           <div className="flex gap-2">
             <div className="w-64">
               <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                searchTerm={searchTerm}
+                onSearchChange={(value) => setSearchTerm(value)}
               />
             </div>
             <FilterBar

@@ -1,4 +1,5 @@
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
+import StatusBadge from "../../../../components/AdminDashboard/Utils/Ui/badge/StatusBadge";
 
 const CountryTable = ({ countries, onEdit, onDelete }) => {
   const columns = ["#", "Country ID", "Country Name", "Status", "Action"];
@@ -7,14 +8,7 @@ const CountryTable = ({ countries, onEdit, onDelete }) => {
     "#": (_, index) => index + 1,
     "Country ID": (row) => row.kode || "-",
     "Country Name": (row) => row.nama || "-",
-    "Status": (row) => (
-      <span
-        className={`inline-block px-3 py-1 text-sm rounded-full 
-          ${row.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
-      >
-        {row.status ? "Active" : "Inactive"}
-      </span>
-    ),
+    Status: (row) => <StatusBadge status={row.status} />,
   };
 
   return (

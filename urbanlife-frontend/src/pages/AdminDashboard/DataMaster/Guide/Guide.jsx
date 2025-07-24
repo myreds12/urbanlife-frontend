@@ -8,7 +8,7 @@ import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/Fil
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-//import dummyGuides from "./dummyGuide"; //untuk testing dummy data
+//import dummyGuides from "./dummyGuide"; // Uncomment for testing with dummy data
 
 const Guide = () => {
   const [guides, setGuides] = useState([]);
@@ -21,6 +21,7 @@ const Guide = () => {
   const editingId = searchParams.get("edit");
   const isEditing = Boolean(editingId);
 
+  // Fetch guides from API, comment if testing with dummy data
   const fetchGuides = async () => {
     try {
       const res = await apiClient.get("/guide");
@@ -32,8 +33,9 @@ const Guide = () => {
     }
   };
 
+  // Uncomment for testing with dummy data
   // const fetchGuides = async () => {
-  //   setGuides(dummyGuides); // Pake dummy, bukan API
+  //   setGuides(dummyGuides);
   //   setLoading(false);
   // };
 
@@ -168,9 +170,8 @@ const Guide = () => {
           <div className="flex gap-2">
             <div className="w-64">
               <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                searchTerm={searchTerm}
+                onSearchChange={(value) => setSearchTerm(value)}
               />
             </div>
             <FilterBar

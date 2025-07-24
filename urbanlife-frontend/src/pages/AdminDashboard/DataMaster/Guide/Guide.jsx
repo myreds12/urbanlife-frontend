@@ -8,6 +8,7 @@ import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/Fil
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
+//import dummyGuides from "./dummyGuide"; //untuk testing dummy data
 
 const Guide = () => {
   const [guides, setGuides] = useState([]);
@@ -15,9 +16,7 @@ const Guide = () => {
   const [saving, setSaving] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
-
   const formRef = useRef(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const editingId = searchParams.get("edit");
   const isEditing = Boolean(editingId);
@@ -32,6 +31,11 @@ const Guide = () => {
       setLoading(false);
     }
   };
+
+  // const fetchGuides = async () => {
+  //   setGuides(dummyGuides); // Pake dummy, bukan API
+  //   setLoading(false);
+  // };
 
   const handleSave = async () => {
     const newData = formRef.current?.getFormData();
@@ -125,10 +129,9 @@ const Guide = () => {
         String(value).toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-      const matchesStatus =
-        !selectedStatus ||
-        (selectedStatus === "active" && guide.createdAt) ||
-        (selectedStatus === "inactive" && !guide.createdAt);
+      const matchesStatus = selectedStatus
+        ? String(guide.status).toLowerCase() === selectedStatus.toLowerCase()
+        : true;
 
       return matchesSearch && matchesStatus;
     });

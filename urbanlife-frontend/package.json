@@ -21,6 +21,8 @@
     "apexcharts": "^4.7.0",
     "axios": "^1.10.0",
     "dotenv": "^16.6.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "flowbite": "^3.1.2",
     "framer-motion": "^12.23.6",
     "jsvectormap": "^1.7.0",

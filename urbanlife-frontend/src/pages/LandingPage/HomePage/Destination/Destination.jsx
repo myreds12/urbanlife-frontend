@@ -1,6 +1,9 @@
 import { useEffect, useState, useRef } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
-import DestinationCard from "../DestinationCard";
+import DestinationCard from "../../../../components/LandingPage/HomePage/DestinationCard";
+
 
 const dummyDestinations = [
   {
@@ -68,9 +71,24 @@ const dummyDestinations = [
 const Destination = () => {
   const [travelData, setTravelData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const sliderRef = useRef(null);
-  const intervalRef = useRef(null);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "center",
+      slidesToScroll: 1,
+      slideSpacing: "1.5rem", // Gap aman (24px) biar nggak ngebug
+      containScroll: "trimSnaps",
+      breakpoints: {
+        "(max-width: 640px)": { slidesToShow: 1 },
+        "(min-width: 641px) and (max-width: 1024px)": { slidesToShow: 2 },
+        "(min-width: 1025px)": { slidesToShow: 4 },
+      },
+    },
+    [Autoplay({ delay: 4000 })]
+  );
+
+  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
+  const scrollNext = () => emblaApi && emblaApi.scrollNext();
 
   useEffect(() => {
     const fetchTravel = async () => {
@@ -102,23 +120,7 @@ const Destination = () => {
     };
 
     fetchTravel();
-
-    // Auto-scroll setup
-    const itemsPerView = window.innerWidth > 768 ? 4 : window.innerWidth > 480 ? 2 : 1;
-    const totalItems = travelData.length;
-    const maxIndex = Math.max(0, totalItems - itemsPerView);
-
-    if (totalItems > itemsPerView) {
-      intervalRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1 > maxIndex ? 0 : prev + 1));
-      }, 4000);
-    }
-
-    return () => clearInterval(intervalRef.current);
-  }, [travelData.length]);
-
-  const cardWidth = window.innerWidth > 768 ? 275 : window.innerWidth > 480 ? 212 : window.innerWidth - 120;
-  const translateX = -currentIndex * cardWidth;
+  }, []);
 
   if (loading) {
     return (
@@ -130,27 +132,27 @@ const Destination = () => {
 
   return (
     <div className="destination-slider-container mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-4 z-10">
-      <div
-        className="auto-scroll-wrapper overflow-hidden"
-        ref={sliderRef}
-        onMouseEnter={() => clearInterval(intervalRef.current)}
-        onMouseLeave={() =>
-          (intervalRef.current = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1 > maxIndex ? 0 : prev + 1));
-          }, 4000))
-        }
-      >
-        <div
-          className="flex transition-transform duration-500"
-          style={{ transform: `translateX(${translateX}px)` }}
-        >
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
           {travelData.map((item) => (
-            <div key={item.id} className="flex-none w-[275px]">
+            <div key={item.id} className="embla__slide flex-none">
               <DestinationCard travel={item} />
             </div>
           ))}
         </div>
       </div>
+      <button
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
+        onClick={scrollPrev}
+      >
+        ‹
+      </button>
+      <button
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
+        onClick={scrollNext}
+      >
+        ›
+      </button>
     </div>
   );
 };

@@ -131,7 +131,7 @@ const Destination = () => {
   }
 
   return (
-    <div className="destination-slider-container mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-4 z-10">
+    <div className="destination-slider-container mt-[-60px] md:mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-4 md:px-15 z-10">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {travelData.map((item) => (
@@ -141,9 +141,16 @@ const Destination = () => {
           ))}
         </div>
       </div>
-      {/* Overlay untuk opacity sisi kiri-kanan */}
-      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white via-white/70 to-transparent z-10"></div>
-      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white via-white/70 to-transparent z-10"></div>
+
+    {/* Overlay untuk opacity sisi kiri-kanan */}
+      {/* mobile */}
+        <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r  from-white via-white/70 to-transparent z-10 pointer-events-none block md:hidden"></div>
+        <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l  from-white via-white/70 to-transparent z-10 pointer-events-none block md:hidden"></div>
+
+      {/* desktop */}
+        <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
+        <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
+        
       <button
         className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
         onClick={scrollPrev}

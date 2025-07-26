@@ -43,7 +43,6 @@ const DaytourDetail = lazy(() => import("./pages/LandingPage/DayTour/DaytourDeta
 const Login = lazy(() => import("./components/AdminDashboard/Utils/Ui/Login/Login"));
 const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
-
 function App() {
   ReactModal.setAppElement("#root");
 
@@ -56,7 +55,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/DaytourDetail" element={<DaytourDetail />} />
+            <Route path="/DaytourDetail/:id" element={<DaytourDetail />} /> {/* Rute dinamis */}
             <Route path="/OrderDetail" element={<OrderDetail />} />
             <Route path="/PaymentSection" element={<PaymentSection />} />
             <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
@@ -102,6 +101,5 @@ function App() {
     </ThemeProvider>
   );
 }
-
 
 export default App;

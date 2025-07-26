@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Calendar, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { DateInput } from "./DateInput";
 import SearchResultsModal from "./SearchResultsModal";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
@@ -200,56 +201,18 @@ const CardForm = () => {
         </select>
 
         <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0">
-          {/* From */}
-          <div className="w-full">
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">
-              Dari
-            </label>
-            <div className="relative cursor-pointer">
-              <input
-                type="date"
-                id="fromDateInput"
-                value={formData.fromDate}
-                onChange={(e) => handleChange("fromDate", e.target.value)}
-                className="absolute inset-0 opacity-0 cursor-pointer z-10"
-              />
-              <div
-                className="w-full p-2.5 bg-gray-100 rounded-md text-gray-700 text-sm flex items-center gap-2"
-                onClick={() =>
-                  document.getElementById("fromDateInput")?.showPicker()
-                }
-              >
-                <Calendar size={14} className="text-gray-400" />
-                {formatDate(formData.fromDate)}
-              </div>
-            </div>
-          </div>
+            <DateInput
+              label="Dari"
+              selected={formData.fromDate}
+              onChange={(date) => handleChange("fromDate", date)}
+            />
 
-          {/* To */}
-          <div className="w-full">
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">
-              Sampai
-            </label>
-            <div className="relative cursor-pointer">
-              <input
-                type="date"
-                id="toDateInput"
-                value={formData.toDate}
-                onChange={(e) => handleChange("toDate", e.target.value)}
-                min={formData.fromDate}
-                className="absolute inset-0 opacity-0 cursor-pointer z-10"
-              />
-              <div
-                className="w-full p-2.5 bg-gray-100 rounded-md text-gray-700 text-sm flex items-center gap-2"
-                onClick={() =>
-                  document.getElementById("toDateInput")?.showPicker()
-                }
-              >
-                <Calendar size={14} className="text-gray-400" />
-                {formatDate(formData.toDate)}
-              </div>
-            </div>
-          </div>
+            <DateInput
+              label="Sampai"
+              selected={formData.toDate}
+              minDate={formData.fromDate}
+              onChange={(date) => handleChange("toDate", date)}
+            />
         </div>
 
         {/* Buttons */}

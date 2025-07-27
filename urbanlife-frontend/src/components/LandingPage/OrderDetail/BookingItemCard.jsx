@@ -1,4 +1,7 @@
 import { FiChevronRight, FiX } from "react-icons/fi";
+import "react-datepicker/dist/react-datepicker.css";
+import { DateInput } from "../../../components/LandingPage/HomePage/CardForm/DateInput.jsx";
+
 
 const BookingItemCard = ({
   id,
@@ -20,7 +23,7 @@ const BookingItemCard = ({
   handleChange,
   handleRemove,
 }) => {
-  const fallbackImage = "https://via.placeholder.com/60?text=No+Image"; 
+  const fallbackImage = "https://via.placeholder.com/60?text=No+Image";
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 relative space-y-4 w-full max-w-md">
@@ -38,17 +41,17 @@ const BookingItemCard = ({
           Booking date
         </label>
         <div className="space-y-2">
-          <input
-            type="date"
-            value={tanggal_mulai}
-            onChange={(e) => handleChange("tanggal_mulai", e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <DateInput
+            label="Start Date"
+            selected={tanggal_mulai ? new Date(tanggal_mulai) : null}
+            onChange={(date) => handleChange("tanggal_mulai", date)}
+            minDate={new Date()}
           />
-          <input
-            type="date"
-            value={tanggal_selesai}
-            onChange={(e) => handleChange("tanggal_selesai", e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <DateInput
+            label="End Date"
+            selected={tanggal_selesai ? new Date(tanggal_selesai) : null}
+            onChange={(date) => handleChange("tanggal_selesai", date)}
+            minDate={tanggal_mulai ? new Date(tanggal_mulai) : new Date()}
           />
         </div>
       </div>
@@ -123,47 +126,47 @@ const BookingItemCard = ({
               ))}
             </select>
           ) : (
-              item_type === "akomodasi" && (
-                <>
-                  <div>
-                    <select
-                      value={selectedRoom?.room}
-                      onChange={(e) => {
-                        const selected = roomPrice.find(
-                          (d) => d.nama === e.target.value
-                        );
-                        handleChange("selected_room", selected); // Kirim seluruh objek
-                        handleChange("harga", selected?.harga || 0); // Update harga juga
-                      }}
-                      className="w-full border rounded-md px-2 py-1 text-sm"
-                    >
-                      <option value="">Choose duration</option>
-                      {roomPrice.map((d) => (
-                        <option key={d.id} value={d.nama}>
-                          {d.nama}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+            item_type === "akomodasi" && (
+              <>
+                <div>
+                  <select
+                    value={selectedRoom?.room}
+                    onChange={(e) => {
+                      const selected = roomPrice.find(
+                        (d) => d.nama === e.target.value
+                      );
+                      handleChange("selected_room", selected); // Kirim seluruh objek
+                      handleChange("harga", selected?.harga || 0); // Update harga juga
+                    }}
+                    className="w-full border rounded-md px-2 py-1 text-sm"
+                  >
+                    <option value="">Choose duration</option>
+                    {roomPrice.map((d) => (
+                      <option key={d.id} value={d.nama}>
+                        {d.nama}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                  {/* Durasi Menginap */}
-                  <div className="mt-4">
-                    <label className="block text-sm text-gray-600 mb-1">
-                      Duration (Nights)
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={durasi}
-                      onChange={(e) =>
-                        handleChange("durasi", parseInt(e.target.value))
-                      }
-                      className="w-full border rounded-md px-2 py-1 text-sm"
-                    />
-                  </div>
-                </>
-              )
-            )}
+                {/* Durasi Menginap */}
+                <div className="mt-4">
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Duration (Nights)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={durasi}
+                    onChange={(e) =>
+                      handleChange("durasi", parseInt(e.target.value))
+                    }
+                    className="w-full border rounded-md px-2 py-1 text-sm"
+                  />
+                </div>
+              </>
+            )
+          )}
         </div>
 
         <div className="text-sm text-right w-1/2">

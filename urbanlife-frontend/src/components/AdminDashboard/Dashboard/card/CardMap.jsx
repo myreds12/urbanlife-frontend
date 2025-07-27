@@ -67,11 +67,11 @@ const CardMap = () => {
             coords: item.coords,
             name: `${item.country}: ${item.customers} customers`
           })),
-          onRegionTooltipShow: function(event, tooltip, code) {
+          onRegionTooltipShow: function(event, tooltip) {
             // Show country name on hover
             tooltip.text(tooltip.text() || 'Country');
           },
-          onMarkerTooltipShow: function(event, tooltip, code) {
+          onMarkerTooltipShow: function(event, tooltip) {
             const marker = customerData.find(item => 
               tooltip.text().includes(item.country)
             );

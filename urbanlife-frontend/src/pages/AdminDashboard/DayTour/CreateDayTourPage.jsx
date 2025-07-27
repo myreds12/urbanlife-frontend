@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
 import ItinerarySection from "../../../components/AdminDashboard/DayTour/ItinerarySection";
@@ -9,28 +9,22 @@ import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
 function CreateDayTourPage() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
   const [photos, setPhotos] = useState([]);
+  const [existingPhotos, setExistingPhotos] = useState([]);
   const [locations, setLocations] = useState([]);
-  console.log(locations, "locations");
-
-  console.log(photos, "photos");
   const [content, setContent] = useState([
-    { bahasa: "ENGLISH", deskripsi: "" },
-    { bahasa: "INDONESIA", deskripsi: "" },
+    { id: null, bahasa: "ENGLISH", deskripsi: "" },
+    { id: null, bahasa: "INDONESIA", deskripsi: "" },
   ]);
 
   const [itinerary, setItinerary] = useState([
-    {
-      bahasa: "ENGLISH",
-      destination: "",
-      description: "",
-    },
-    {
-      bahasa: "INDONESIA",
-      destination: "",
-      description: "",
-    },
+    { id: null, bahasa: "ENGLISH", nama: "", deskripsi: "" },
+    { id: null, bahasa: "INDONESIA", nama: "", deskripsi: "" },
   ]);
+
   const [formData, setFormData] = useState({
     nama: "Wettern and Eastern Nusa Penida Tour",
     lokasi_id: 1,
@@ -61,25 +55,81 @@ function CreateDayTourPage() {
     }));
   }, [itinerary]);
 
-  const fetchLocations = async () => {
-    try {
-      const { data } = await apiClient.get("/lokasi");
-      setLocations(data.data || []);
-    } catch (error) {
-      console.error("❌ Failed to fetch locations", error);
-    }
-  };
-
   useEffect(() => {
-    fetchLocations();
-  }, []);
+    const fetchInitialData = async () => {
+      try {
+        const [{ data: locationData }, travelData] = await Promise.all([
+          apiClient.get("/lokasi"),
+          isEditMode
+            ? apiClient.get(`/travel-package/${id}`)
+            : Promise.resolve({ data: {} }),
+        ]);
 
-   const handleChangeContent = (index, field, value) => {
+        setLocations(locationData.data || []);
+
+        if (isEditMode) {
+          const travel = travelData.data.data;
+          const {
+            nama,
+            lokasi_id,
+            harga_anak,
+            harga_dewasa,
+            travel_package_content,
+            travel_package_itinerary,
+            travelPackageFile,
+          } = travel;
+
+          // Set form data utama
+          setFormData({
+            nama: nama || "",
+            lokasi_id: lokasi_id || 0,
+            harga_anak: parseInt(harga_anak) || 0,
+            harga_dewasa: parseInt(harga_dewasa) || 0,
+            travel_package_itinerary: travel_package_itinerary || [],
+            travel_package_content: travel_package_content || [],
+          });
+
+          // Set konten deskripsi
+          setContent(
+            travel_package_content || [
+              { id: null, bahasa: "ENGLISH", deskripsi: "" },
+              { id: null, bahasa: "INDONESIA", deskripsi: "" },
+            ]
+          );
+
+          // Set itinerary
+          setItinerary(
+            travel_package_itinerary || [
+              { id: null, bahasa: "ENGLISH", nama: "", deskripsi: "" },
+              { id: null, bahasa: "INDONESIA", nama: "", deskripsi: "" },
+            ]
+          );
+
+          // Set foto yang sudah ada
+          setExistingPhotos(
+            (travelPackageFile || []).map((file) => ({
+              id: file.id,
+              url: `${apiClient.defaults.baseURL}/public/${file.url
+                .replace(/\\/g, "/")
+                .replace(/^uploads\//, "")}`,
+              nama_file: file.nama_file,
+            }))
+          );
+        }
+      } catch (error) {
+        toast.error("Gagal mengambil data awal");
+        console.error(error);
+      }
+    };
+
+    fetchInitialData();
+  }, [isEditMode, id]);
+
+  const handleChangeContent = (index, field, value) => {
     const updated = [...content];
     updated[index][field] = value;
     setContent(updated);
   };
-
 
   const handleItineraryChange = (index, field, value) => {
     const updated = [...itinerary];
@@ -94,16 +144,8 @@ function CreateDayTourPage() {
   const handleAddItineraryPair = () => {
     setItinerary((prev) => [
       ...prev,
-      {
-        bahasa: "ENGLISH",
-        destination: "",
-        description: "",
-      },
-      {
-        bahasa: "INDONESIA",
-        destination: "",
-        description: "",
-      },
+      { id: null, bahasa: "ENGLISH", nama: "", deskripsi: "" },
+      { id: null, bahasa: "INDONESIA", nama: "", deskripsi: "" },
     ]);
   };
 
@@ -142,14 +184,15 @@ function CreateDayTourPage() {
     });
 
     formData.travel_package_itinerary.forEach((item, index) => {
+      if (item.id) payload.append(`travel_package_itinerary[${index}][id]`, item.id);
       payload.append(`travel_package_itinerary[${index}][bahasa]`, item.bahasa);
       payload.append(
         `travel_package_itinerary[${index}][deskripsi]`,
-        item.description
+        item.deskripsi
       );
       payload.append(
         `travel_package_itinerary[${index}][nama]`,
-        item.destination
+        item.nama
       );
     });
 
@@ -165,13 +208,18 @@ function CreateDayTourPage() {
     console.log("========================================");
 
     try {
-      const response = await apiClient.post("/travel-package", payload);
+      const response = isEditMode
+        ? await apiClient.patch(`/travel-package/${id}`, payload)
+        : await apiClient.post("/travel-package", payload);
 
-      if (!response.ok && !response.status === 200) {
-        throw new Error("Failed to submit form");
+      if ([200, 201].includes(response.status)) {
+        toast.success(
+          isEditMode ? "Updated successfully" : "Created successfully"
+        );
+        navigate("/admin/day-tour");
+      } else {
+        toast.error(response.data.message);
       }
-
-      toast.success("Day tour created successfully!");
     } catch (error) {
       toast.error(error.message);
       console.error("Submission Error:", error);
@@ -197,13 +245,16 @@ function CreateDayTourPage() {
     setPhotos((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const removeExistingPhoto = (index) =>
+    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex h-screen ">
         <main className="p-1 flex-1">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-              Create Day Tour
+              {isEditMode ? "Edit Day Tour" : "Create Day Tour"}
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
               {["description", "image", "itinerary", "price"].map((section) => (
@@ -217,10 +268,7 @@ function CreateDayTourPage() {
                   onClick={() => moveSection(section)}
                 >
                   {section.charAt(0).toUpperCase() + section.slice(1)}
-
                 </span>
-
-                
               ))}
             </div>
 
@@ -241,6 +289,8 @@ function CreateDayTourPage() {
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}
+              existingPhotos={existingPhotos}
+              removeExistingPhoto={removeExistingPhoto}
             />
 
             <ItinerarySection

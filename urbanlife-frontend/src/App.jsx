@@ -123,12 +123,18 @@ function App() {
               <Route path="calendar" element={<Calendar />} />
               <Route path="day-tour" element={<DayTour />} />
               <Route path="day-tour/create" element={<CreateDayTourPage />} />
+              <Route path="day-tour/edit/:id" element={<CreateDayTourPage />} />
               <Route path="rent-car" element={<RentCar />} />
               <Route path="rent-car/create" element={<CreateRentCarPage />} />
+              <Route path="rent-car/edit/:id" element={<CreateRentCarPage />} />
               <Route path="customer" element={<Customer />} />
               <Route path="accommodation" element={<Accomodation />} />
               <Route
                 path="accommodation/create"
+                element={<CreateAccomodationPage />}
+              />
+              <Route
+                path="accommodation/edit/:id"
                 element={<CreateAccomodationPage />}
               />
               <Route path="news" element={<News />} />

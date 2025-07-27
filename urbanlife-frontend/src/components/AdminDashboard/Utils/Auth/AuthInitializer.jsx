@@ -12,6 +12,14 @@ export default function AuthInitializer() {
     if (token) {
       try {
         const user = jwtDecode(token);
+        const now = Date.now() / 1000;
+
+        if (user.exp && user.exp < now) {
+          // Token expired
+          setToken(null);
+          setUser(null);
+          return;
+        }
         setUser(user);
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       } catch (err) {

@@ -85,7 +85,6 @@ const Login = lazy(() =>
 );
 const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
-
 function App() {
   // Set the root element for React Modal
   ReactModal.setAppElement("#root");
@@ -100,7 +99,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/DaytourDetail" element={<DaytourDetail />} />
+            <Route path="/DaytourDetail/:id" element={<DaytourDetail />} /> {/* Rute dinamis */}
             <Route path="/OrderDetail" element={<OrderDetail />} />
             <Route path="/PaymentSection" element={<PaymentSection />} />
             <Route path="/PaymentSuccess" element={<PaymentSuccess />} />

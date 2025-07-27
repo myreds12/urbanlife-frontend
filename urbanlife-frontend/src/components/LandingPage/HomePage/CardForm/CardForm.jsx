@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Calendar, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { DateInput } from "./DateInput";
 import SearchResultsModal from "./SearchResultsModal";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
@@ -14,7 +15,6 @@ const CardForm = () => {
 
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
-
   const [loadingCountries, setLoadingCountries] = useState(false);
   const [loadingCities, setLoadingCities] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -131,7 +131,7 @@ const CardForm = () => {
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return "Select date";
+    if (!dateString) return "Pilih tanggal";
     return new Date(dateString).toLocaleDateString("id-ID", {
       weekday: "short",
       day: "numeric",
@@ -141,16 +141,16 @@ const CardForm = () => {
   };
 
   return (
-    <div className="w-full max-w-[330px] ml-auto mr-50 space-y-1 px-2 sm:px-0 pt-8 sm:max-w-[400px]">
+    <div className="w-full max-w-[360px] mr-40 sm:max-w-[400px] mx-auto space-y-2 px-4 sm:px-4 pt-6">
       {/* Country */}
-      <div className="bg-white rounded-xl shadow-md p-2">
+      <div className="bg-white rounded-xl shadow-md p-3">
         <select
-          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          className="w-full p-2.5 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
           value={formData.countryId}
           onChange={(e) => handleChange("countryId", e.target.value)}
         >
           <option value="" disabled>
-            {loadingCountries ? "Loading countries..." : "Select country"}
+            {loadingCountries ? "Memuat negara..." : "Pilih negara"}
           </option>
           {countries.map((c) => (
             <option key={c.value} value={c.value}>
@@ -161,19 +161,19 @@ const CardForm = () => {
       </div>
 
       {/* City */}
-      <div className="bg-white rounded-xl shadow-md p-2">
+      <div className="bg-white rounded-xl shadow-md p-3">
         <select
-          className="w-full p-2 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          className="w-full p-2.5 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
           value={formData.cityId}
           onChange={(e) => handleChange("cityId", e.target.value)}
           disabled={!formData.countryId || loadingCities}
         >
           <option value="" disabled>
             {loadingCities
-              ? "Loading cities..."
+              ? "Memuat kota..."
               : formData.countryId
-              ? "Select city"
-              : "Select country first"}
+              ? "Pilih kota"
+              : "Pilih negara dulu"}
           </option>
           {cities.map((c) => (
             <option key={c.value} value={c.value}>
@@ -184,14 +184,14 @@ const CardForm = () => {
       </div>
 
       {/* Service, Dates, Buttons */}
-      <div className="bg-white rounded-xl shadow-md p-4 space-y-3">
+      <div className="bg-white rounded-xl shadow-md p-4 space-y-4">
         <select
-          className="w-full p-2  bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          className="w-full p-2.5 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
           value={formData.service}
           onChange={(e) => handleChange("service", e.target.value)}
         >
           <option value="" disabled>
-            Select services
+            Pilih layanan
           </option>
           {services.map((s) => (
             <option key={s.value} value={s.value}>
@@ -200,75 +200,37 @@ const CardForm = () => {
           ))}
         </select>
 
-        <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
-          {/* From */}
-          <div className="w-full">
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              From
-            </label>
-            <div className="relative cursor-pointer">
-              <input
-                type="date"
-                id="fromDateInput"
-                value={formData.fromDate}
-                onChange={(e) => handleChange("fromDate", e.target.value)}
-                className="absolute inset-0 opacity-0 cursor-pointer z-10"
-              />
-              <div
-                className="w-full p-2 bg-gray-100 rounded-md text-gray-700 text-sm flex items-center gap-2"
-                onClick={() =>
-                  document.getElementById("fromDateInput")?.showPicker()
-                }
-              >
-                <Calendar size={14} className="text-gray-400" />
-                {formatDate(formData.fromDate)}
-              </div>
-            </div>
-          </div>
+        <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0">
+            <DateInput
+              label="Dari"
+              selected={formData.fromDate}
+              onChange={(date) => handleChange("fromDate", date)}
+            />
 
-          {/* To */}
-          <div className="w-full">
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              To
-            </label>
-            <div className="relative cursor-pointer">
-              <input
-                type="date"
-                id="toDateInput"
-                value={formData.toDate}
-                onChange={(e) => handleChange("toDate", e.target.value)}
-                min={formData.fromDate}
-                className="absolute inset-0 opacity-0 cursor-pointer z-10"
-              />
-              <div
-                className="w-full p-2 bg-gray-100 rounded-md text-gray-700 text-sm flex items-center gap-2"
-                onClick={() =>
-                  document.getElementById("toDateInput")?.showPicker()
-                }
-              >
-                <Calendar size={14} className="text-gray-400" />
-                {formatDate(formData.toDate)}
-              </div>
-            </div>
-          </div>
+            <DateInput
+              label="Sampai"
+              selected={formData.toDate}
+              minDate={formData.fromDate}
+              onChange={(date) => handleChange("toDate", date)}
+            />
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={handleSearch}
             disabled={isSearching}
-            className="flex-1 bg-cyan-600 text-white p-2 rounded-md text-sm font-medium hover:bg-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+            className="flex-1 bg-cyan-600 text-white p-2.5 rounded-md text-sm font-medium hover:bg-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
           >
             {isSearching ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                Searching...
+                Mencari...
               </>
             ) : (
               <>
                 <Search size={16} />
-                Search
+                Cari
               </>
             )}
           </button>
@@ -276,8 +238,8 @@ const CardForm = () => {
           {Object.values(formData).some((v) => v) && (
             <button
               onClick={clearForm}
-              className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
-              title="Clear form"
+              className="p-2.5 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
+              title="Hapus form"
             >
               <X size={16} />
             </button>

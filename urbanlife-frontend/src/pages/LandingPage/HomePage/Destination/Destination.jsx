@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import DestinationCard from "../../../../components/LandingPage/HomePage/DestinationCard";
 
-// Dummy data fallback - copy paste dari kode pertama lu
+
 const dummyDestinations = [
   {
     id: 1,
@@ -10,38 +12,29 @@ const dummyDestinations = [
     item_type: "travel_package",
     harga_dewasa: 1200000,
     durasi_hari: 4,
-    lokasi: {
-      nama: "Bali",
-      negara: { nama: "Indonesia" }
-    },
+    lokasi: { nama: "Bali", negara: { nama: "Indonesia" } },
     file_url: null,
-    image: "/images/LandingPage/Destination/EasternBaliTour.png"
+    image: "/images/LandingPage/Destination/EasternBaliTour.png",
   },
   {
     id: 2,
     nama: "Danang",
-    item_type: "travel_package", 
+    item_type: "travel_package",
     harga_dewasa: 1200000,
     durasi_hari: 4,
-    lokasi: {
-      nama: "Danang",
-      negara: { nama: "Vietnam" }
-    },
+    lokasi: { nama: "Danang", negara: { nama: "Vietnam" } },
     file_url: null,
-    image: "/images/LandingPage/Destination/Danang.png"
+    image: "/images/LandingPage/Destination/Danang.png",
   },
   {
     id: 3,
     nama: "Jakarta",
     item_type: "travel_package",
-    harga_dewasa: 1200000, 
+    harga_dewasa: 1200000,
     durasi_hari: 4,
-    lokasi: {
-      nama: "Jakarta",
-      negara: { nama: "Indonesia" }
-    },
+    lokasi: { nama: "Jakarta", negara: { nama: "Indonesia" } },
     file_url: null,
-    image: "/images/LandingPage/Destination/Jakarta.png"
+    image: "/images/LandingPage/Destination/Jakarta.png",
   },
   {
     id: 4,
@@ -49,25 +42,19 @@ const dummyDestinations = [
     item_type: "travel_package",
     harga_dewasa: 1200000,
     durasi_hari: 4,
-    lokasi: {
-      nama: "Ho Chi Minh City", 
-      negara: { nama: "Vietnam" }
-    },
+    lokasi: { nama: "Ho Chi Minh City", negara: { nama: "Vietnam" } },
     file_url: null,
-    image: "/images/LandingPage/Destination/HoChiMinhCity.png"
+    image: "/images/LandingPage/Destination/HoChiMinhCity.png",
   },
-    {
+  {
     id: 5,
     nama: "Jakarta",
     item_type: "travel_package",
-    harga_dewasa: 1200000, 
+    harga_dewasa: 1200000,
     durasi_hari: 4,
-    lokasi: {
-      nama: "Jakarta",
-      negara: { nama: "Indonesia" }
-    },
+    lokasi: { nama: "Jakarta", negara: { nama: "Indonesia" } },
     file_url: null,
-    image: "/images/LandingPage/Destination/Jakarta.png"
+    image: "/images/LandingPage/Destination/Jakarta.png",
   },
   {
     id: 6,
@@ -75,20 +62,33 @@ const dummyDestinations = [
     item_type: "travel_package",
     harga_dewasa: 1200000,
     durasi_hari: 4,
-    lokasi: {
-      nama: "Ho Chi Minh City", 
-      negara: { nama: "Vietnam" }
-    },
+    lokasi: { nama: "Ho Chi Minh City", negara: { nama: "Vietnam" } },
     file_url: null,
-    image: "/images/LandingPage/Destination/HoChiMinhCity.png"
+    image: "/images/LandingPage/Destination/HoChiMinhCity.png",
   },
-
 ];
 
-const Destination = ({ children }) => {
-  const [orderItem, setOrderItem] = useState([]);
-  const [loading, setLoading] = useState(true); // langsung true
-  const [error, setError] = useState(null);
+const Destination = () => {
+  const [travelData, setTravelData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "center",
+      slidesToScroll: 1,
+      slideSpacing: "1.5rem",
+      containScroll: "trimSnaps",
+      breakpoints: {
+        "(max-width: 640px)": { slidesToShow: 1 },
+        "(min-width: 641px) and (max-width: 1024px)": { slidesToShow: 2 },
+        "(min-width: 1025px)": { slidesToShow: 4 },
+      },
+    },
+    [Autoplay({ delay: 4000 })]
+  );
+
+  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
+  const scrollNext = () => emblaApi && emblaApi.scrollNext();
 
   useEffect(() => {
     const fetchTravel = async () => {
@@ -97,34 +97,23 @@ const Destination = ({ children }) => {
         const rawData = response.data.data;
 
         if (!rawData || rawData.length === 0) {
-          // setOrderItem([]);
-
           console.warn("⚠️ API returned empty data, using dummy fallback");
-          setOrderItem(dummyDestinations);
+          setTravelData(dummyDestinations);
           return;
         }
 
-        const processed = rawData.map((item) => {
-          const rawUrl = item.file_url;
-          const imageUrl =
-            rawUrl?.trim()
-              ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${rawUrl
-                  .replace(/\\/g, "/")
-                  .replace(/^uploads\//, "")}`
-              : "/public/images/error/No_Image_Available.jpg";
-          return { ...item, image: imageUrl };
-        });
-
-        setOrderItem(processed);
-        setError(null); // Reset error state
+        const processed = rawData.map((item) => ({
+          ...item,
+          image: item.file_url
+            ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.file_url
+                .replace(/\\/g, "/")
+                .replace(/^uploads\//, "")}`
+            : "/public/images/error/No_Image_Available.jpg",
+        }));
+        setTravelData(processed);
       } catch (err) {
-        // console.error("❌ Gagal mengambil data paket travel", err);
-        // setError("Gagal mengambil data paket travel.");
-
-
         console.error("❌ API Error - using dummy data fallback:", err);
-        setError("API Error - menggunakan data dummy");
-        setOrderItem(dummyDestinations);
+        setTravelData(dummyDestinations);
       } finally {
         setLoading(false);
       }
@@ -140,23 +129,42 @@ const Destination = ({ children }) => {
       </div>
     );
   }
-  // if (error) {
-  //   return <div className="text-red-500 text-center py-4">{error}</div>;
-  // }
 
-  // if (orderItem.length === 0) {
-  //   return (
-  //     <div className="text-gray-500 text-center py-10">
-  //       Tidak ada data paket travel tersedia.
-  //     </div>
-  //   );
-  // }
+  return (
+    <div className="destination-slider-container mt-[-60px] md:mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-4 md:px-15 z-10">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {travelData.map((item) => (
+            <div key={item.id} className="embla__slide flex-none">
+              <DestinationCard travel={item} />
+            </div>
+          ))}
+        </div>
+      </div>
 
-  // return children ? children(orderItem) : null;
+    {/* Overlay untuk opacity sisi kiri-kanan */}
+      {/* mobile */}
+        <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r  from-white via-white/70 to-transparent z-10 pointer-events-none block md:hidden"></div>
+        <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l  from-white via-white/70 to-transparent z-10 pointer-events-none block md:hidden"></div>
 
-
-  const dataToRender = orderItem.length > 0 ? orderItem : dummyDestinations;
-  return children ? children(dataToRender) : null;
+      {/* desktop */}
+        <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
+        <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
+        
+      <button
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
+        onClick={scrollPrev}
+      >
+        ‹
+      </button>
+      <button
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
+        onClick={scrollNext}
+      >
+        ›
+      </button>
+    </div>
+  );
 };
 
 export default Destination;

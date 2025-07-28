@@ -143,10 +143,6 @@ const Destination = () => {
       </div>
 
     {/* Overlay untuk opacity sisi kiri-kanan */}
-      {/* mobile */}
-        <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r  from-white via-white/70 to-transparent z-10 pointer-events-none block md:hidden"></div>
-        <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l  from-white via-white/70 to-transparent z-10 pointer-events-none block md:hidden"></div>
-
       {/* desktop */}
         <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
         <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>

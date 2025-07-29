@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import Dropzone from "../../../../components/AdminDashboard/Utils/Form/DropZone";
 import CountryForm from "./CountryForm";
 import CountryTable from "./CountryTable";
@@ -7,12 +7,13 @@ import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+//import dummyCountries from "./dummyCountry"; // Uncomment for testing with dummy data
 
 const Country = () => {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const formRef = useRef(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,6 +21,7 @@ const Country = () => {
 
   const isEditing = !!editingId;
 
+  // Fetch countries from API, comment if testing with dummy data
   const fetchCountries = async () => {
     setLoading(true);
     try {
@@ -32,9 +34,23 @@ const Country = () => {
     }
   };
 
+  // Uncomment for testing with dummy data
+  //   const fetchCountries = async () => {
+  //   setCountries(dummyCountries);
+  //   setLoading(false);
+  // };
+
   useEffect(() => {
     fetchCountries();
   }, []);
+
+  const filteredCountries = useMemo(() => {
+    return countries.filter((city) =>
+      Object.values(city).some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [countries, searchTerm]);
 
   useEffect(() => {
     if (editingId && countries.length > 0) {
@@ -56,7 +72,6 @@ const Country = () => {
   const handleSave = async () => {
     const formDataState = formRef.current?.getFormData();
     if (!formDataState) return;
-
 
     const { nama, kode, file } = formDataState;
 
@@ -189,14 +204,13 @@ const Country = () => {
             </h3>
             <div className="w-64">
               <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                searchTerm={searchTerm}
+                onSearchChange={(value) => setSearchTerm(value)}
               />
             </div>
           </div>
           <CountryTable
-            countries={countries}
+            countries={filteredCountries}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />

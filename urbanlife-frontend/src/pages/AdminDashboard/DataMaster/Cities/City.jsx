@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import CityForm from "./CityForm";
 import CityTable from "./CityTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import { useSearchParams } from "react-router-dom";
+//import dummyCities from "./dummyCity"; // Uncomment for testing with dummy data
+//import dummyCountries from "../Country/dummyCountry"; // Uncomment for testing with dummy data
 
 const City = () => {
   const [cities, setCities] = useState([]);
@@ -13,15 +15,13 @@ const City = () => {
   const [nextId, setNextId] = useState(0); // For auto-incrementing IDs
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState("");
   const formRef = useRef(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const editingId = searchParams.get("edit");
   const isEditing = Boolean(editingId);
 
-  // Helpers
+  //Helpers
   const fetchData = async (endpoint, setter, label) => {
     try {
       const { data } = await apiClient.get(endpoint);
@@ -30,21 +30,57 @@ const City = () => {
       console.error(`❌ Failed to fetch ${label}`, error);
     }
   };
-  
 
+  // Fetch initial data, comment if testing with dummy data
   useEffect(() => {
     const fetchAllData = async () => {
       setLoading(true);
       await Promise.all([
         fetchData("/lokasi", setCities, "cities"),
         fetchData("/negara", setCountries, "countries"),
-        fetchData("/lokasi/next-code", (data) => setNextId(data.code), "City ID"),
+        fetchData(
+          "/lokasi/next-code",
+          (data) => setNextId(data.code),
+          "City ID"
+        ),
       ]);
       setLoading(false);
     };
 
     fetchAllData();
   }, []);
+
+  // Uncomment for testing with dummy data
+  // useEffect(() => {
+  //   const fetchAllData = async () => {
+  //     setLoading(true);
+
+  //     await Promise.all([
+  //       (async () => setCities(dummyCities))(),
+  //       (async () => setCountries(dummyCountries))(),
+  //       (async () => setNextId("CTY-001"))(),
+  //     ]);
+
+  //     setLoading(false);
+  //   };
+
+  //   fetchAllData();
+  // }, []);
+
+  const filteredCities = useMemo(() => {
+    return cities.filter((city) => {
+      const valuesToSearch = [
+        city.id,
+        city.nama,
+        city.status,
+        city?.negara?.nama,
+      ];
+
+      return valuesToSearch.some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  }, [cities, searchTerm]);
 
   useEffect(() => {
     if (editingId && cities.length > 0) {
@@ -94,9 +130,9 @@ const City = () => {
 
   const handleEdit = (city) => {
     if (!city || !city.id) {
-    console.warn("City ID undefined!", city);
-    return;
-  }
+      console.warn("City ID undefined!", city);
+      return;
+    }
     setSearchParams({ edit: city.id });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -165,17 +201,16 @@ const City = () => {
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-gray-800">List Cities</h3>
             <div className="flex gap-2">
-              <div  className="w-64">
-              <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <div className="w-64">
+                <Search
+                  searchTerm={searchTerm}
+                  onSearchChange={(value) => setSearchTerm(value)}
+                />
               </div>
             </div>
           </div>
           <CityTable
-            cities={cities}
+            cities={filteredCities}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const blogPosts = [
   { title: "Ubud Art Market - time to shop for local souvenirs", href: "#" },
@@ -16,13 +16,81 @@ const blogPosts = [
 ];
 
 const Footer = () => {
+  // Array warna-warna yang akan bergantian
+  const colors = [
+    { text: 'text-blue-300', border: 'border-blue-300', gradient: 'from-blue-400 to-blue-600' },
+    { text: 'text-purple-300', border: 'border-purple-300', gradient: 'from-purple-400 to-purple-600' },
+    { text: 'text-pink-300', border: 'border-pink-300', gradient: 'from-pink-400 to-pink-600' },
+    { text: 'text-green-300', border: 'border-green-300', gradient: 'from-green-400 to-green-600' },
+    { text: 'text-orange-300', border: 'border-orange-300', gradient: 'from-orange-400 to-orange-600' },
+    { text: 'text-red-300', border: 'border-red-300', gradient: 'from-red-400 to-red-600' },
+    { text: 'text-cyan-300', border: 'border-cyan-300', gradient: 'from-cyan-400 to-cyan-600' },
+    { text: 'text-yellow-300', border: 'border-yellow-300', gradient: 'from-yellow-400 to-yellow-600' },
+  ];
+
+  const [companyColorIndex, setCompanyColorIndex] = useState(0);
+  const [categoriesColorIndex, setCategoriesColorIndex] = useState(1);
+  const [blogColorIndex, setBlogColorIndex] = useState(2);
+
+  const handleCompanyHover = () => {
+    setCompanyColorIndex((prev) => (prev + 1) % colors.length);
+  };
+
+  const handleCategoriesHover = () => {
+    setCategoriesColorIndex((prev) => (prev + 1) % colors.length);
+  };
+
+  const handleBlogHover = () => {
+    setBlogColorIndex((prev) => (prev + 1) % colors.length);
+  };
+
+  const handleCompanyClick = () => {
+    console.log('Company button clicked');
+    // Nanti bisa ditambahkan navigasi ke halaman company
+  };
+
+  const handleCategoriesClick = () => {
+    console.log('Categories button clicked');
+    // Nanti bisa ditambahkan navigasi ke halaman categories
+  };
+
+  const handleBlogPostClick = () => {
+    console.log('Blog Post button clicked');
+    // Nanti bisa ditambahkan navigasi ke halaman blog
+  };
+
   return (
     <footer className="bg-[#071C4D] text-white pt-16 pb-6 px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 mb-12">
           {/* Company Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">COMPANY</h3>
+            <button 
+              onClick={handleCompanyClick}
+              onMouseEnter={handleCompanyHover}
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+                ${companyColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
+                ${companyColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
+                ${companyColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
+                ${companyColorIndex === 3 ? 'hover:text-green-300 hover:border-green-300' : ''}
+                ${companyColorIndex === 4 ? 'hover:text-orange-300 hover:border-orange-300' : ''}
+                ${companyColorIndex === 5 ? 'hover:text-red-300 hover:border-red-300' : ''}
+                ${companyColorIndex === 6 ? 'hover:text-cyan-300 hover:border-cyan-300' : ''}
+                ${companyColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
+              `}
+            >
+              COMPANY
+              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
+                ${companyColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
+                ${companyColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
+                ${companyColorIndex === 2 ? 'bg-gradient-to-r from-pink-400 to-pink-600' : ''}
+                ${companyColorIndex === 3 ? 'bg-gradient-to-r from-green-400 to-green-600' : ''}
+                ${companyColorIndex === 4 ? 'bg-gradient-to-r from-orange-400 to-orange-600' : ''}
+                ${companyColorIndex === 5 ? 'bg-gradient-to-r from-red-400 to-red-600' : ''}
+                ${companyColorIndex === 6 ? 'bg-gradient-to-r from-cyan-400 to-cyan-600' : ''}
+                ${companyColorIndex === 7 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' : ''}
+              `}></span>
+            </button>
             <ul className="space-y-3">
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
@@ -38,7 +106,32 @@ const Footer = () => {
 
           {/* Categories Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">CATEGORIES</h3>
+            <button 
+              onClick={handleCategoriesClick}
+              onMouseEnter={handleCategoriesHover}
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+                ${categoriesColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
+                ${categoriesColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
+                ${categoriesColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
+                ${categoriesColorIndex === 3 ? 'hover:text-green-300 hover:border-green-300' : ''}
+                ${categoriesColorIndex === 4 ? 'hover:text-orange-300 hover:border-orange-300' : ''}
+                ${categoriesColorIndex === 5 ? 'hover:text-red-300 hover:border-red-300' : ''}
+                ${categoriesColorIndex === 6 ? 'hover:text-cyan-300 hover:border-cyan-300' : ''}
+                ${categoriesColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
+              `}
+            >
+              CATEGORIES
+              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
+                ${categoriesColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
+                ${categoriesColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
+                ${categoriesColorIndex === 2 ? 'bg-gradient-to-r from-pink-400 to-pink-600' : ''}
+                ${categoriesColorIndex === 3 ? 'bg-gradient-to-r from-green-400 to-green-600' : ''}
+                ${categoriesColorIndex === 4 ? 'bg-gradient-to-r from-orange-400 to-orange-600' : ''}
+                ${categoriesColorIndex === 5 ? 'bg-gradient-to-r from-red-400 to-red-600' : ''}
+                ${categoriesColorIndex === 6 ? 'bg-gradient-to-r from-cyan-400 to-cyan-600' : ''}
+                ${categoriesColorIndex === 7 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' : ''}
+              `}></span>
+            </button>
             <ul className="space-y-3">
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Art Market</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Beach</a></li>
@@ -57,7 +150,32 @@ const Footer = () => {
 
           {/* Blog Post Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">BLOG POST</h3>
+            <button 
+              onClick={handleBlogPostClick}
+              onMouseEnter={handleBlogHover}
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+                ${blogColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
+                ${blogColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
+                ${blogColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
+                ${blogColorIndex === 3 ? 'hover:text-green-300 hover:border-green-300' : ''}
+                ${blogColorIndex === 4 ? 'hover:text-orange-300 hover:border-orange-300' : ''}
+                ${blogColorIndex === 5 ? 'hover:text-red-300 hover:border-red-300' : ''}
+                ${blogColorIndex === 6 ? 'hover:text-cyan-300 hover:border-cyan-300' : ''}
+                ${blogColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
+              `}
+            >
+              BLOG POST
+              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
+                ${blogColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
+                ${blogColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
+                ${blogColorIndex === 2 ? 'bg-gradient-to-r from-pink-400 to-pink-600' : ''}
+                ${blogColorIndex === 3 ? 'bg-gradient-to-r from-green-400 to-green-600' : ''}
+                ${blogColorIndex === 4 ? 'bg-gradient-to-r from-orange-400 to-orange-600' : ''}
+                ${blogColorIndex === 5 ? 'bg-gradient-to-r from-red-400 to-red-600' : ''}
+                ${blogColorIndex === 6 ? 'bg-gradient-to-r from-cyan-400 to-cyan-600' : ''}
+                ${blogColorIndex === 7 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' : ''}
+              `}></span>
+            </button>
             <ul className="space-y-3">
               {blogPosts.map((post, index) => (
                 <li key={index}>

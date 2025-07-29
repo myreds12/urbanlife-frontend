@@ -1,5 +1,20 @@
 import React from 'react';
 
+const blogPosts = [
+  { title: "Ubud Art Market - time to shop for local souvenirs", href: "#" },
+  { title: "Padang Padang Beach - a hidden beach", href: "#" },
+  { title: "Garuda Wisnu Kencana Cultural Park - a center of cultural activities", href: "#" },
+  { title: "Barong Dance - a battle between good and evil", href: "#" },
+  { title: "Banjar Hot Spring - a great spot to relax", href: "#" },
+  { title: "Ubud Monkey Forest - a sacred monkey forest", href: "#" },
+  { title: "Jatiluwih Rice Terraces - an introduction to Subak", href: "#" },
+  { title: "Tanah Lot Temple - a beautiful sea temple", href: "#" },
+  { title: "Mount Batur Volcano - a popular trekking destination", href: "#" },
+  { title: "Tirta Gangga Water Palace - a stunning water garden", href: "#" },
+  { title: "Gitgit Waterfall - a majestic waterfall in the north", href: "#" },
+  { title: "Tegenungan Waterfall - a popular waterfall near Ubud", href: "#" },
+];
+
 const Footer = () => {
   return (
     <footer className="bg-[#071C4D] text-white pt-16 pb-6 px-8">
@@ -44,20 +59,16 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6">BLOG POST</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Ubud Art Market - time to shop for local souvenirs</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Padang Padang Beach - a hidden beach</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Garuda Wisnu Kencana Cultural Park - a center of cultural activities</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Barong Dance - a battle between good and evil</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Banjar Hot Spring - a great spot to relax</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Ubud Monkey Forest - a sacred monkey forest</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Jatiluwih Rice Terraces - an introduction to Subak</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Tanah Lot Temple - a guardian snake underneath</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Batur Volcano View and Lake - hike for the sunrise</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Tirta Gangga Water Palace - a water garden sanctuary</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Water sports at Nusa Dua - your holiday activities</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Tegenungan Waterfall - time to freshen up</a></li>
-            </ul>
+              {blogPosts.map((post, index) => (
+                <li key={index}>
+                  <a href={post.href} className="text-gray-300 hover:text-white transition-colors">
+                    {post.title}
+                  </a>
+                </li>
+              ))}
+            </ul> 
           </div>
+
 
           {/* Contact Section */}
           <div>

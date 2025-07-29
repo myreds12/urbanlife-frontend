@@ -1,4 +1,5 @@
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
+import StatusBadge from "../../../../components/AdminDashboard/Utils/Ui/badge/StatusBadge";
 
 const DriverTable = ({ drivers, loading, onEdit, onDelete }) => {
   if (loading) return <p>Loading...</p>;
@@ -19,18 +20,14 @@ const DriverTable = ({ drivers, loading, onEdit, onDelete }) => {
     "#": (_, index) => index + 1,
     "Driver ID": (row) => row.id || "-",
     "Driver name": (row) => row.nama || "-",
-    "ID": (row) => row.driver_id || "-",
+    ID: (row) => row.driver_id || "-",
     "Phone number": (row) => row.nomor_hp || "-",
-    "Gender": (row) => row.gender || "-",
+    Gender: (row) => row.gender || "-",
     "Driving expiry period": (row) =>
       row.tanggal_periode_berakhir
         ? new Date(row.tanggal_periode_berakhir).toLocaleDateString()
         : "Tidak Ada",
-    "Status": (row) => (
-      <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
-        {row.createdAt ? "Active" : "Inactive"}
-      </span>
-    ),
+    Status: (row) => <StatusBadge status={row.status} />,
   };
 
   return (

@@ -4,26 +4,26 @@ import CarForm from "./CarForm";
 import Dropzone from "../../../../components/AdminDashboard/Utils/Form/DropZone";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export";
+import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/FilterBar";
 import CarTable from "./CarTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast/headless";
 import Swal from "sweetalert2";
+//import dummyCars from "./dummyCar"; // Uncomment for testing with dummy data
 
 const Car = () => {
   const [cars, setCars] = useState([]);
   const [nextId, setNextId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [files, setFiles] = useState([]);
   const [existingFiles, setExistingFiles] = useState([]);
-
   const formRef = useRef(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const editingId = searchParams.get("edit");
-
   const isEditing = Boolean(editingId);
+  const [selectedStatus, setSelectedStatus] = useState("");
 
   const fetchData = useCallback(async (endpoint, setter) => {
     try {
@@ -34,18 +34,45 @@ const Car = () => {
     }
   }, []);
 
+  // Fetch initial data, comment if testing with dummy data
   const fetchAllData = useCallback(async () => {
     setLoading(true);
     await Promise.all([
       fetchData("/kendaraan", setCars),
-      fetchData("/kendaraan/next-code", (data) => setNextId(data.code), "City ID"),
+      fetchData(
+        "/kendaraan/next-code",
+        (data) => setNextId(data.code),
+        "City ID"
+      ),
     ]);
     setLoading(false);
   }, [fetchData]);
 
-  useEffect(() => {
-    fetchAllData();
-  }, [fetchAllData]);
+  // Uncomment for testing with dummy data
+  // const fetchAllData = useCallback(async () => {
+  //   setLoading(true);
+  //   setCars(dummyCars);
+  //   setNextId("U005");
+  //   setLoading(false);
+  // }, []);
+
+  // useEffect(() => {
+  //   fetchAllData();
+  // }, [fetchAllData]);
+
+  const filteredData = useMemo(() => {
+    return cars.filter((car) => {
+      const matchesSearch = Object.values(car).some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      const matchesStatus = selectedStatus
+        ? String(car.status).toLowerCase() === selectedStatus.toLowerCase()
+        : true;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [cars, searchTerm, selectedStatus]);
 
   useEffect(() => {
     if (!formRef.current) return;
@@ -61,12 +88,13 @@ const Car = () => {
         status_pajak: car.status_pajak,
       });
 
-      const images = (car.kendaraan_file).map((file) => ({
+      const images = car.kendaraan_file.map((file) => ({
         id: file.id,
         name: file.nama_file,
-        url: `${
-          apiClient.defaults.baseURL
-        }/public/${file.url.replace("uploads\\", "")}`,
+        url: `${apiClient.defaults.baseURL}/public/${file.url.replace(
+          "uploads\\",
+          ""
+        )}`,
       }));
 
       setExistingFiles(images);
@@ -173,13 +201,6 @@ const Car = () => {
     );
   }
 
-  const filteredData = useMemo(() => {
-    return cars.filter((car) => 
-      Object.values(car).some(value =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    ));
-  }, [cars, searchTerm]);
-
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -217,22 +238,36 @@ const Car = () => {
           <div className="flex gap-2">
             <div className="w-64">
               <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                searchTerm={searchTerm}
+                onSearchChange={(value) => setSearchTerm(value)}
               />
             </div>
-            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              <i className="fa-solid fa-sliders mr-2"></i>Filter
-            </button>
-            <Export 
+            <FilterBar
+              filters={[
+                {
+                  type: "select",
+                  value: selectedStatus,
+                  onChange: setSelectedStatus,
+                  options: [
+                    { value: "", label: "All Statuses" },
+                    { value: "active", label: "Active" },
+                    { value: "inactive", label: "Inactive" },
+                  ],
+                },
+              ]}
+            />
+            <Export
               data={filteredData}
               filename="car.csv"
               buttonText="Download"
             />
           </div>
         </div>
-        <CarTable onEdit={handleEdit} onDelete={handleDelete} cars={cars} />
+        <CarTable
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          cars={filteredData}
+        />
       </div>
     </div>
   );

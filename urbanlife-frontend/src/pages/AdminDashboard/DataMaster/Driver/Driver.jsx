@@ -4,9 +4,11 @@ import DriverForm from "./DriverForm";
 import DriverTable from "./DriverTable";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export";
+import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/FilterBar";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
+//import dummyDrivers from "./dummyDriver"; // Uncomment for testing with dummy data
 
 const Driver = () => {
   const [drivers, setDrivers] = useState([]);
@@ -14,20 +16,28 @@ const Driver = () => {
   const [saving, setSaving] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const editingId = searchParams.get("edit");
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const isEditing = Boolean(editingId);
   const formRef = useRef(null);
+  const [selectedStatus, setSelectedStatus] = useState("");
 
-  const fetchGuides = async () => {
+  // Fetch drivers from API, comment if testing with dummy data
+  const fetchDrivers = async () => {
     try {
       const res = await apiClient.get("/driver");
       setDrivers(res.data.data || []);
     } catch (err) {
-      console.error("Failed to fetch guides", err);
+      console.error("Failed to fetch drivers", err);
     } finally {
       setLoading(false);
     }
   };
+
+  // Uncomment for testing with dummy data
+  // const fetchDrivers = async () => {
+  //   setDrivers(dummyDrivers);
+  //   setLoading(false);
+  // };
 
   const handleSave = async () => {
     const newData = formRef.current?.getFormData();
@@ -55,7 +65,7 @@ const Driver = () => {
         }
       }
 
-      await fetchGuides();
+      await fetchDrivers();
       formRef.current?.resetForm?.();
       setSearchParams({});
     } catch (err) {
@@ -95,7 +105,7 @@ const Driver = () => {
     try {
       await apiClient.delete(`/driver/${id}`);
       toast.success("Driver berhasil dihapus");
-      fetchGuides();
+      fetchDrivers();
     } catch (error) {
       console.error("❌ Failed to delete driver", error);
       toast.error(error.response?.data?.message || "Gagal menghapus driver");
@@ -103,7 +113,7 @@ const Driver = () => {
   };
 
   useEffect(() => {
-    fetchGuides();
+    fetchDrivers();
   }, []);
 
   useEffect(() => {
@@ -124,13 +134,18 @@ const Driver = () => {
   }, [editingId, drivers]);
 
   const filteredData = useMemo(() => {
-        return drivers.filter((driver) =>
-          Object.values(driver).some(value =>
-            String(value).toLowerCase().includes(searchTerm.toLowerCase())
-          )
-        );
-  }, [drivers, searchTerm]);
-  
+    return drivers.filter((driver) => {
+      const matchesSearch = Object.values(driver).some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      const matchesStatus = selectedStatus
+        ? String(driver.status).toLowerCase() === selectedStatus.toLowerCase()
+        : true;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [drivers, searchTerm, selectedStatus]);
 
   return (
     <div className="p-6">
@@ -159,18 +174,30 @@ const Driver = () => {
       {/* Table Section */}
       <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">List Driver Unit</h3>
+          <h3 className="text-lg font-semibold text-gray-800">
+            List Driver Unit
+          </h3>
           <div className="flex gap-2">
             <div className="w-64">
               <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                searchTerm={searchTerm}
+                onSearchChange={(value) => setSearchTerm(value)}
               />
             </div>
-            <button className="px-4 py-1 text-sm border rounded-lg text-gray-600 hover:bg-gray-100">
-              <i className="fa-solid fa-sliders mr-2"></i>Filter
-            </button>
+            <FilterBar
+              filters={[
+                {
+                  type: "select",
+                  value: selectedStatus,
+                  onChange: setSelectedStatus,
+                  options: [
+                    { value: "", label: "All Statuses" },
+                    { value: "active", label: "Active" },
+                    { value: "inactive", label: "Inactive" },
+                  ],
+                },
+              ]}
+            />
             <Export
               data={filteredData}
               filename="driver.csv"
@@ -179,7 +206,7 @@ const Driver = () => {
           </div>
         </div>
         <DriverTable
-          drivers={drivers}
+          drivers={filteredData}
           loading={loading}
           onEdit={handleEdit}
           onDelete={handleDelete}

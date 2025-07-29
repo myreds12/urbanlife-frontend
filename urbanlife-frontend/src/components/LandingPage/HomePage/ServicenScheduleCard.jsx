@@ -13,7 +13,7 @@ const ServiceScheduleCard = () => {
   ];
 
   return (
-    <div className="max-w-[1200px] mx-auto px-5 py-10">
+    <div className="max-w-[1200px] mx-auto px-5 max-sm:px-10 py-10">
       <div className="flex flex-col lg:flex-row items-start gap-y-10 lg:gap-x-12">
         {/* Kiri - Teks */}
         <div className="w-full lg:w-[60%]">

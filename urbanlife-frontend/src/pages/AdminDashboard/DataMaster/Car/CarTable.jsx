@@ -1,4 +1,5 @@
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
+import StatusBadge from "../../../../components/AdminDashboard/Utils/Ui/badge/StatusBadge";
 
 const CarTable = ({ cars, onEdit, onDelete }) => {
   const columns = [
@@ -16,19 +17,12 @@ const CarTable = ({ cars, onEdit, onDelete }) => {
   const defaultMapping = {
     "#": (_, index) => index + 1,
     "Unit ID": (row) => row.id || "-",
-    "Brand": (row) => row.nama || "-",
-    "Model": (row) => row.model || "-",
+    Brand: (row) => row.nama || "-",
+    Model: (row) => row.model || "-",
     "Police number": (row) => row.plat_nomor || "-",
     "Vehicle tax status": (row) => (row.status_pajak ? "Active" : "Inactive"),
     "Tax expiry period": (row) => row.tanggal_pajak_berakhir || "-",
-    "Status": (row) => (
-      <span
-        className={`inline-block px-3 py-1 text-sm rounded-full 
-          ${row.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
-      >
-        {row.status ? "Active" : "Inactive"}
-      </span>
-    ),
+    Status: (row) => <StatusBadge status={row.status} />,
   };
 
   return (

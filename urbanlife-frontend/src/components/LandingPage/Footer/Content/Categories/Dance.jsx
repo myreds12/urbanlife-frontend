@@ -7,9 +7,10 @@ const Dance = () => {
       backgroundImage="/images/LandingPage/Footer/content/Dance.png"
       title="Barong Dance"
       subtitle="Dance"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/Dance.png"
       rightTitle="Southern Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/barong-dance"
     />
   );
 };

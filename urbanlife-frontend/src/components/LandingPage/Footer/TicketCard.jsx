@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './TicketCard.css';
 
 const TicketCard = ({ 
@@ -8,7 +9,8 @@ const TicketCard = ({
   icon, 
   rightTitle, 
   buttonText = "See more",
-  barcodeImage 
+  barcodeImage,
+  linkTo
 }) => {
   return (
     <div className="ticket-card-container">
@@ -39,8 +41,10 @@ const TicketCard = ({
                 <img src={barcodeImage} alt="barcode" className="barcode-image" />
               </div>
               <h3 className="right-title">{rightTitle}</h3>
-              <button className="see-more-btn">{buttonText}</button>
-            </div>
+              <Link to={linkTo}>
+                  <button className="see-more-btn">{buttonText}</button>
+              </Link>            
+              </div>
           </div>
           <div className="perforation-right"></div>
         </div>

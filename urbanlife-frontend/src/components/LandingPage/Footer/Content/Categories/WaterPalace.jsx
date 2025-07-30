@@ -7,9 +7,10 @@ const WaterPalace = () => {
       backgroundImage="/images/LandingPage/Footer/content/WaterPalace.png"
       title="Tirta Gangga Water Palace"
       subtitle="Water Palace"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/WaterPalace.png"
       rightTitle="Eastern Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/tirta-gangga"      
     />
   );
 };

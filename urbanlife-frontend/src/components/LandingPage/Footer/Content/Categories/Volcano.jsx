@@ -7,9 +7,10 @@ const Volcano = () => {
       backgroundImage="/images/LandingPage/Footer/content/Volcano.png"
       title="Batur Volcano View and Lake"
       subtitle="Volcano"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/Volcano.png"
       rightTitle="North-eastern Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/batur-volcano"      
     />
   );
 };

@@ -7,9 +7,10 @@ const RiceTerraces = () => {
       backgroundImage="/images/LandingPage/Footer/content/RiceTerraces.png"
       title="Jatiluwuh Rice Terraces"
       subtitle="Rice Terraces"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/RiceTerraces.png"
       rightTitle="North-western Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/jatiluwih-rice-terraces"      
     />
   );
 };

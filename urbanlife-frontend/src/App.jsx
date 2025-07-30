@@ -43,7 +43,9 @@ const DaytourDetail = lazy(() => import("./pages/LandingPage/DayTour/DaytourDeta
 const Login = lazy(() => import("./components/AdminDashboard/Utils/Ui/Login/Login"));
 const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
+// Footer Pages
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
+const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/CompanyFooter"));
 
 function App() {
   ReactModal.setAppElement("#root");
@@ -65,7 +67,9 @@ function App() {
             <Route path="/Services" element={<Services />} />
             <Route path="/login" element={<Login />} />
 
+            {/* Footer */}
             <Route path="/Footer-categories" element={<CategoriesFooter />} />
+            <Route path="/Footer-company" element={<CompanyFooter />} />
 
 
             {/* Admin */}

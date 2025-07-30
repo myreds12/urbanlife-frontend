@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import CityForm from "./CityForm";
 import CityTable from "./CityTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import { useSearchParams } from "react-router-dom";
+//import dummyCities from "./dummyCity"; // Uncomment for testing with dummy data
+//import dummyCountries from "../Country/dummyCountry"; // Uncomment for testing with dummy data
 
 const City = () => {
   const [cities, setCities] = useState([]);
@@ -14,14 +16,12 @@ const City = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
   const formRef = useRef(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const editingId = searchParams.get("edit");
   const isEditing = Boolean(editingId);
 
-  // Helpers
+  //Helpers
   const fetchData = async (endpoint, setter, label) => {
     try {
       const { data } = await apiClient.get(endpoint);
@@ -31,6 +31,7 @@ const City = () => {
     }
   };
 
+  // Fetch initial data, comment if testing with dummy data
   useEffect(() => {
     const fetchAllData = async () => {
       setLoading(true);
@@ -42,12 +43,49 @@ const City = () => {
           (data) => setNextId(data.code),
           "City ID"
         ),
+        fetchData(
+          "/lokasi/next-code",
+          (data) => setNextId(data.code),
+          "City ID"
+        ),
       ]);
       setLoading(false);
     };
 
     fetchAllData();
   }, []);
+
+  // Uncomment for testing with dummy data
+  // useEffect(() => {
+  //   const fetchAllData = async () => {
+  //     setLoading(true);
+
+  //     await Promise.all([
+  //       (async () => setCities(dummyCities))(),
+  //       (async () => setCountries(dummyCountries))(),
+  //       (async () => setNextId("CTY-001"))(),
+  //     ]);
+
+  //     setLoading(false);
+  //   };
+
+  //   fetchAllData();
+  // }, []);
+
+  const filteredCities = useMemo(() => {
+    return cities.filter((city) => {
+      const valuesToSearch = [
+        city.id,
+        city.nama,
+        city.status,
+        city?.negara?.nama,
+      ];
+
+      return valuesToSearch.some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  }, [cities, searchTerm]);
 
   useEffect(() => {
     if (!formRef.current) return;
@@ -99,6 +137,9 @@ const City = () => {
 
   const handleEdit = (city) => {
     if (!city || !city.id) {
+      console.warn("City ID undefined!", city);
+      return;
+    }
       console.warn("City ID undefined!", city);
       return;
     }
@@ -183,7 +224,7 @@ const City = () => {
             </div>
           </div>
           <CityTable
-            cities={cities}
+            cities={filteredCities}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />

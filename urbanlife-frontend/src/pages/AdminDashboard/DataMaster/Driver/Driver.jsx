@@ -8,6 +8,7 @@ import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/Fil
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
+//import dummyDrivers from "./dummyDriver"; // Uncomment for testing with dummy data
 
 const Driver = () => {
   const [drivers, setDrivers] = useState([]);
@@ -20,16 +21,23 @@ const Driver = () => {
   const formRef = useRef(null);
   const [selectedStatus, setSelectedStatus] = useState("");
 
-  const fetchGuides = async () => {
+  // Fetch drivers from API, comment if testing with dummy data
+  const fetchDrivers = async () => {
     try {
       const res = await apiClient.get("/driver");
       setDrivers(res.data.data || []);
     } catch (err) {
-      console.error("Failed to fetch guides", err);
+      console.error("Failed to fetch drivers", err);
     } finally {
       setLoading(false);
     }
   };
+
+  // Uncomment for testing with dummy data
+  // const fetchDrivers = async () => {
+  //   setDrivers(dummyDrivers);
+  //   setLoading(false);
+  // };
 
   const handleSave = async () => {
     const newData = formRef.current?.getFormData();
@@ -57,7 +65,7 @@ const Driver = () => {
         }
       }
 
-      await fetchGuides();
+      await fetchDrivers();
       formRef.current?.resetForm?.();
       setSearchParams({});
     } catch (err) {
@@ -97,7 +105,7 @@ const Driver = () => {
     try {
       await apiClient.delete(`/driver/${id}`);
       toast.success("Driver berhasil dihapus");
-      fetchGuides();
+      fetchDrivers();
     } catch (error) {
       console.error("❌ Failed to delete driver", error);
       toast.error(error.response?.data?.message || "Gagal menghapus driver");
@@ -105,7 +113,7 @@ const Driver = () => {
   };
 
   useEffect(() => {
-    fetchGuides();
+    fetchDrivers();
   }, []);
 
   useEffect(() => {
@@ -172,9 +180,8 @@ const Driver = () => {
           <div className="flex gap-2">
             <div className="w-64">
               <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                searchTerm={searchTerm}
+                onSearchChange={(value) => setSearchTerm(value)}
               />
             </div>
             <FilterBar

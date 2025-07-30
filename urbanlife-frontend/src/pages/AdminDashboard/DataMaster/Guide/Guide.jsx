@@ -8,6 +8,7 @@ import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/Fil
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
+//import dummyGuides from "./dummyGuide"; // Uncomment for testing with dummy data
 
 const Guide = () => {
   const [guides, setGuides] = useState([]);
@@ -15,13 +16,12 @@ const Guide = () => {
   const [saving, setSaving] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
-
   const formRef = useRef(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const editingId = searchParams.get("edit");
   const isEditing = Boolean(editingId);
 
+  // Fetch guides from API, comment if testing with dummy data
   const fetchGuides = async () => {
     try {
       const res = await apiClient.get("/guide");
@@ -32,6 +32,12 @@ const Guide = () => {
       setLoading(false);
     }
   };
+
+  // Uncomment for testing with dummy data
+  // const fetchGuides = async () => {
+  //   setGuides(dummyGuides);
+  //   setLoading(false);
+  // };
 
   const handleSave = async () => {
     const newData = formRef.current?.getFormData();
@@ -125,10 +131,9 @@ const Guide = () => {
         String(value).toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-      const matchesStatus =
-        !selectedStatus ||
-        (selectedStatus === "active" && guide.createdAt) ||
-        (selectedStatus === "inactive" && !guide.createdAt);
+      const matchesStatus = selectedStatus
+        ? String(guide.status).toLowerCase() === selectedStatus.toLowerCase()
+        : true;
 
       return matchesSearch && matchesStatus;
     });
@@ -165,9 +170,8 @@ const Guide = () => {
           <div className="flex gap-2">
             <div className="w-64">
               <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                searchTerm={searchTerm}
+                onSearchChange={(value) => setSearchTerm(value)}
               />
             </div>
             <FilterBar

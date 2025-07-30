@@ -1,4 +1,5 @@
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
+import StatusBadge from "../../../../components/AdminDashboard/Utils/Ui/badge/StatusBadge";
 
 const GuideTable = ({ guides, onEdit, onDelete, loading }) => {
   if (loading) return <p>Loading...</p>;
@@ -19,25 +20,21 @@ const GuideTable = ({ guides, onEdit, onDelete, loading }) => {
     "#": (_, index) => index + 1,
     "Guide ID": (row) => row.id || "-",
     "Guide name": (row) => row.nama || "-",
-    "ID": (row) => row.guide_id || "-",
+    ID: (row) => row.guide_id || "-",
     "Phone number": (row) => row.nomor_hp || "-",
-    "Gender": (row) => row.gender || "-",
+    Gender: (row) => row.gender || "-",
     "Fluent english": (row) => (row.fluent_english ? "Yes" : "No"),
-    "Status": (row) => (
-      <span className="inline-block px-3 py-1 text-sm rounded-full bg-green-100 text-green-700">
-        {row.createdAt ? "Active" : "Inactive"}
-      </span>
-    ),
+    Status: (row) => <StatusBadge status={row.status} />,
   };
 
   return (
-      <Table
-        data={guides}
-        columns={columns}
-        defaultMapping={defaultMapping}
-        onEdit={onEdit}
-        onDelete={(row) => onDelete(row.id)}
-      />
+    <Table
+      data={guides}
+      columns={columns}
+      defaultMapping={defaultMapping}
+      onEdit={onEdit}
+      onDelete={(row) => onDelete(row.id)}
+    />
   );
 };
 

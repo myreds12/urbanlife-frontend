@@ -3,86 +3,98 @@ import Calendar from "../../../components/AdminDashboard/Calendar/Calendar";
 import CurrentOrderList from "../../../components/AdminDashboard/Calendar/CurrentOrderList";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import dummyEvents from "../../../components/AdminDashboard/Calendar/dummyEvents";
+import OrderItem from "../../../components/AdminDashboard/Calendar/OrderItem";
+
+const normalizeType = (category) => {
+  switch (category) {
+    case "TRAVEL_PACKAGE":
+      return "day tour";
+    case "AKOMODASI":
+      return "accommodation";
+    case "VEHICLE":
+    case "KENDARAAN":
+      return "rent car";
+    default:
+      return "other";
+  }
+};
 
 const CalendarPage = () => {
   const [events, setEvents] = useState({});
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentView, setCurrentView] = useState("month");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedOrders, setSelectedOrders] = useState([]);
 
-  // Fetch events dari API saat komponen dimount
+  console.log(selectedOrders, "selectedOrders");
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await apiClient.get("/events");
-        const data = response.data.data || response.data;
-        // Transformasi data API ke format events
-        const formattedEvents = data.reduce((acc, event) => {
-          const dateKey = event.date;
-          if (!acc[dateKey]) {
-            acc[dateKey] = [];
-          }
-          acc[dateKey].push({
-            id: event.id,
-            title: event.title,
-            type: event.type,
-            customer: event.customer,
-            location: event.location,
-            date: event.date,
-            dateDisplay: event.dateDisplay || new Date(event.date).toLocaleDateString("en-GB", {
+        const viewStart = new Date(currentDate);
+        const viewEnd = new Date(currentDate);
+
+        if (currentView === "month") {
+          viewStart.setDate(1);
+          viewEnd.setMonth(viewEnd.getMonth() + 1);
+          viewEnd.setDate(0);
+        } else if (currentView === "week") {
+          const day = viewStart.getDay();
+          viewStart.setDate(viewStart.getDate() - day);
+          viewEnd.setDate(viewEnd.getDate() + (6 - day));
+        }
+
+        const formatDate = (d) => d.toISOString().split("T")[0];
+
+        const response = await apiClient.get("/pemesanan/calender", {
+          params: {
+            date_from: formatDate(viewStart),
+            date_to: formatDate(viewEnd),
+          },
+        });
+
+        const rawData = response.data.data || [];
+
+        const mapped = rawData.reduce((acc, item) => {
+          const dateKey = item.date;
+          const types = item.categories || [];
+
+          acc[dateKey] = types.map((type) => ({
+            id: `${dateKey}-${type}`,
+            type: normalizeType(type),
+            customer: null,
+            title: null,
+            location: null,
+            date: dateKey,
+            dateDisplay: new Date(dateKey).toLocaleDateString("en-GB", {
               day: "2-digit",
               month: "long",
               year: "numeric",
             }),
-          });
+          }));
+
           return acc;
         }, {});
-        setEvents(formattedEvents);
+
+        setEvents(mapped);
       } catch (error) {
-        console.error("Failed to fetch events, using dummy data:", error);
-        setEvents(dummyEvents); // Fallback ke dummy data
+        console.error("Error fetching calendar data:", error);
       }
     };
 
     fetchEvents();
-  }, []);
+  }, [currentDate, currentView]);
 
-  const handleAddEvent = async (dateKey, newEvent) => {
+  const handleDateClick = async (dateString) => {
     try {
-      const response = await apiClient.post("/events", {
-        title: newEvent.title,
-        customer: newEvent.customer,
-        type: newEvent.type,
-        location: newEvent.location,
-        date: newEvent.date,
-        dateDisplay: newEvent.dateDisplay,
-      });
-      const savedEvent = response.data.data || response.data;
-      setEvents((prev) => ({
-        ...prev,
-        [dateKey]: [...(prev[dateKey] || []), { ...newEvent, id: savedEvent.id }],
-      }));
-    } catch (error) {
-      console.error("Failed to add event:", error);
-      setEvents((prev) => ({
-        ...prev,
-        [dateKey]: [...(prev[dateKey] || []), newEvent],
-      }));
-      alert("Failed to add event to server, saved locally.");
-    }
-  };
+      setSelectedDate(dateString);
+      const response = await apiClient.get(`/pemesanan/get-by-date/${dateString}`);
+      const data = response.data.data || [];
 
-  const handleDeleteEvent = async (dateKey, eventId) => {
-    try {
-      await apiClient.delete(`/events/${eventId}`);
-      setEvents((prev) => ({
-        ...prev,
-        [dateKey]: prev[dateKey]?.filter((event) => event.id !== eventId) || [],
-      }));
-    } catch (error) {
-      console.error("Failed to delete event:", error);
-      setEvents((prev) => ({
-        ...prev,
-        [dateKey]: prev[dateKey]?.filter((event) => event.id !== eventId) || [],
-      }));
-      alert("Failed to delete event from server, deleted locally.");
+      console.log(data, "Pemesnana berdasarkan tanggal");
+      setSelectedOrders(data);
+    } catch (err) {
+      console.error("Gagal fetch data tanggal:", err);
     }
   };
 
@@ -108,21 +120,42 @@ const CalendarPage = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <Calendar events={events} onAddEvent={handleAddEvent} onDeleteEvent={handleDeleteEvent} />
+            <Calendar
+              initialEvents={events}
+              onDateClick={handleDateClick}
+              onAddEvent={() => alert("Tambah event dinonaktifkan.")}
+              onDeleteEvent={() => alert("Hapus event dinonaktifkan.")}
+              onNavigate={(date) => setCurrentDate(date)}
+              onViewChange={(view) => setCurrentView(view)}
+            />
           </div>
           <div className="lg:col-span-1">
             <CurrentOrderList orders={getAllOrders()} />
           </div>
         </div>
-        <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <h3 className="font-semibold text-blue-900 mb-2">How to use:</h3>
-          <ul className="text-sm text-blue-800 space-y-1">
-            <li>• Click on any date in the calendar to add a new event</li>
-            <li>• Events will automatically appear in the "Current order list"</li>
-            <li>• You can delete events by clicking on a date and selecting delete</li>
-            <li>• Different event types are color-coded with indicators</li>
-          </ul>
-        </div>
+
+        {selectedDate && (
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold mb-3 text-gray-800">
+              Detail Orders on {selectedDate}
+            </h3>
+            <div className="space-y-3">
+              {selectedOrders.length > 0 ? (
+                selectedOrders.map((order, index) => (
+                  <OrderItem
+                    key={index}
+                    customerName={order.customer || "Unknown"}
+                    location={order.lokasi || "-"}
+                    date={selectedDate}
+                    status={normalizeType(order.type)}
+                  />
+                ))
+              ) : (
+                <p className="text-gray-500 text-sm">Tidak ada order pada tanggal ini.</p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

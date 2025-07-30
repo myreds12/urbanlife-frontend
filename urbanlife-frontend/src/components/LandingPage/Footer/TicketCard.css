@@ -243,7 +243,7 @@
   top: 0;
   bottom: 0;
   width: 10px;
-  background: white;
+  background: #FAF9FF;
   z-index: 10;
   clip-path: polygon(
     0% 0%, 100% 10%, 0% 20%, 100% 30%,
@@ -251,6 +251,7 @@
     0% 80%, 100% 90%, 0% 100%
   );
 }
+
 .perforation-right {
   position: absolute;
   right: -8px;

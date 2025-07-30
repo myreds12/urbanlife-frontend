@@ -44,6 +44,9 @@ const Login = lazy(() => import("./components/AdminDashboard/Utils/Ui/Login/Logi
 const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
+const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));
+const BlogDetail = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogDetail"));
+
 
 function App() {
   ReactModal.setAppElement("#root");
@@ -66,6 +69,8 @@ function App() {
             <Route path="/login" element={<Login />} />
 
             <Route path="/Footer-categories" element={<CategoriesFooter />} />
+            <Route path="/blog" element={<BlogPostMain />} />
+            <Route path="/blog/:slug" element={<BlogDetail />} />
 
 
             {/* Admin */}

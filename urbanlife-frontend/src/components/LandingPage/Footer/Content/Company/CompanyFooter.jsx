@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
+import Navbar from "../../../HomePage/Navbar/Navbar";
 import './CompanyFooter.css';
 import { useEffect } from 'react';
-import AboutUs from './Content/Company/AboutUs';
+import AboutUs from './Content/aboutus';
 
 const CompanyFooter = () => {
 

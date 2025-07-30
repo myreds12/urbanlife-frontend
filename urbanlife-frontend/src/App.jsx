@@ -85,6 +85,8 @@ const Login = lazy(() =>
 );
 const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
+const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
+
 function App() {
   // Set the root element for React Modal
   ReactModal.setAppElement("#root");
@@ -106,6 +108,9 @@ function App() {
             <Route path="/PaymentUnsuccess" element={<PaymentUnsuccess />} />
             <Route path="/Services" element={<Services />} />
             <Route path="/login" element={<Login />} />
+
+            <Route path="/Footer-categories" element={<CategoriesFooter />} />
+
 
             {/* Admin */}
             <Route

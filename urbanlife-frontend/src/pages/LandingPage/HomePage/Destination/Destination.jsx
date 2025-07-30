@@ -1,9 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import DestinationCard from "../../../../components/LandingPage/HomePage/DestinationCard";
-
 
 const dummyDestinations = [
   {
@@ -71,21 +69,18 @@ const dummyDestinations = [
 const Destination = () => {
   const [travelData, setTravelData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "center",
-      slidesToScroll: 1,
-      slideSpacing: "1.5rem",
-      containScroll: "trimSnaps",
-      breakpoints: {
-        "(max-width: 640px)": { slidesToShow: 1 },
-        "(min-width: 641px) and (max-width: 1024px)": { slidesToShow: 2 },
-        "(min-width: 1025px)": { slidesToShow: 4 },
-      },
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "center",
+    slidesToScroll: 1,
+    slideSpacing: "1.5rem",
+    containScroll: "trimSnaps",
+    breakpoints: {
+      "(max-width: 640px)": { slidesToShow: 1 },
+      "(min-width: 641px) and (max-width: 1024px)": { slidesToShow: 2 },
+      "(min-width: 1025px)": { slidesToShow: 4 },
     },
-    [Autoplay({ delay: 4000 })]
-  );
+  });
 
   const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
   const scrollNext = () => emblaApi && emblaApi.scrollNext();
@@ -142,15 +137,11 @@ const Destination = () => {
         </div>
       </div>
 
-    {/* Overlay untuk opacity sisi kiri-kanan */}
-      {/* mobile */}
-        <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r  from-white via-white/70 to-transparent z-10 pointer-events-none block md:hidden"></div>
-        <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l  from-white via-white/70 to-transparent z-10 pointer-events-none block md:hidden"></div>
-
+      {/* Overlay untuk opacity sisi kiri-kanan */}
       {/* desktop */}
-        <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
-        <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
-        
+      <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
+      <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
+
       <button
         className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
         onClick={scrollPrev}

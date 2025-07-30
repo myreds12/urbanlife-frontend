@@ -45,6 +45,7 @@ const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
 // Footer Pages
 const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content/Company/CompanyFooter"));
+const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AboutUs"));
 
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
 const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));
@@ -73,6 +74,7 @@ function App() {
 
             {/* Footer */}
             <Route path="/Footer-company" element={<CompanyFooter />} />
+            <Route path="/Footer-aboutus" element={<AboutUs />} />
 
             <Route path="/categories" element={<CategoriesFooter />} />
             <Route path="/blog" element={<BlogPostMain />} />

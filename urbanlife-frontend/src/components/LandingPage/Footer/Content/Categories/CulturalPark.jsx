@@ -7,9 +7,10 @@ const CulturalPark = () => {
       backgroundImage="/images/LandingPage/Footer/content/CulturalPark.png"
       title="Garuda Wisnu Kencana"
       subtitle="Cultural Park"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/CulturalPark.png"
       rightTitle="Southern Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/garuda-wisnu-kencana"
     />
   );
 };

@@ -7,9 +7,10 @@ const MonkeyForest = () => {
       backgroundImage="/images/LandingPage/Footer/content/MonkeyForest.png"
       title="Ubud Monkey Forest"
       subtitle="Monkey Forest"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/MonkeyForest.png"
       rightTitle="North-eastern Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/ubud-monkey-forest"
     />
   );
 };

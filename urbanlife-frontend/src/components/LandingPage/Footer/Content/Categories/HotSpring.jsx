@@ -7,9 +7,10 @@ const HotSpring = () => {
       backgroundImage="/images/LandingPage/Footer/content/HotSpring.png"
       title="Banjar Hot Spring"
       subtitle="Hot Spring"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/HotSpring.png"
       rightTitle="Northern Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/banjar-hot-spring"      
     />
   );
 };

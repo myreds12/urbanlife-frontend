@@ -7,9 +7,10 @@ const Waterfall = () => {
       backgroundImage="/images/LandingPage/Footer/content/Waterfall.png"
       title="Tegenungan Waterfall"
       subtitle="Waterfall"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/Waterfall.png"
       rightTitle="North-eastern Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/tegenungan-waterfall"
     />
   );
 };

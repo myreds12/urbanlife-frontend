@@ -7,9 +7,10 @@ const Temple = () => {
       backgroundImage="/images/LandingPage/Footer/content/Temple.png"
       title="Tanah Lot Temple"
       subtitle="Temple"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/Temple.png"
       rightTitle="North-western Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/tanah-lot-temple"      
     />
   );
 };

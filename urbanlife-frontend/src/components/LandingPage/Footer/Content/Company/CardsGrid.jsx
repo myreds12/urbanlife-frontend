@@ -19,7 +19,7 @@ const CardsGrid = ({ cards }) => {
           key={card.id}
           image={card.image}
           category={card.category}
-          difficulty={card.difficulty}
+        //   difficulty={card.difficulty}
           title={card.title}
           description={card.description}
           buttonText={card.buttonText}

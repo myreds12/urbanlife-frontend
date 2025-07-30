@@ -4,12 +4,12 @@ import './CardItem.css';
 const CardItem = ({ 
   image, 
   category, 
-  difficulty, 
+//   difficulty, 
   title, 
   description, 
   buttonText,
   categoryColor = "#f59e0b",
-  difficultyColor = "#ef4444"
+//   difficultyColor = "#ef4444"
 }) => {
   return (
     <div className="card-item">
@@ -25,12 +25,12 @@ const CardItem = ({
           >
             {category}
           </span>
-          <span 
+          {/* <span 
             className="card-tag difficulty-tag"
             style={{ backgroundColor: difficultyColor }}
           >
             {difficulty}
-          </span>
+          </span> */}
         </div>
         
         <h3 className="card-title">{title}</h3>

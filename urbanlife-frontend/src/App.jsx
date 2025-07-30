@@ -45,7 +45,9 @@ const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
 // Footer Pages
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
-const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/CompanyFooter"));
+const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));
+const BlogDetail = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogDetail"));
+
 
 function App() {
   ReactModal.setAppElement("#root");
@@ -69,7 +71,8 @@ function App() {
 
             {/* Footer */}
             <Route path="/Footer-categories" element={<CategoriesFooter />} />
-            <Route path="/Footer-company" element={<CompanyFooter />} />
+            <Route path="/blog" element={<BlogPostMain />} />
+            <Route path="/blog/:slug" element={<BlogDetail />} />
 
 
             {/* Admin */}

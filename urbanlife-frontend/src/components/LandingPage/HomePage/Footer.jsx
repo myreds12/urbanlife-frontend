@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 
 const blogPosts = [
-  { title: "Ubud Art Market - time to shop for local souvenirs", href: "#" },
-  { title: "Padang Padang Beach - a hidden beach", href: "#" },
-  { title: "Garuda Wisnu Kencana Cultural Park - a center of cultural activities", href: "#" },
-  { title: "Barong Dance - a battle between good and evil", href: "#" },
-  { title: "Banjar Hot Spring - a great spot to relax", href: "#" },
-  { title: "Ubud Monkey Forest - a sacred monkey forest", href: "#" },
-  { title: "Jatiluwih Rice Terraces - an introduction to Subak", href: "#" },
-  { title: "Tanah Lot Temple - a beautiful sea temple", href: "#" },
-  { title: "Mount Batur Volcano - a popular trekking destination", href: "#" },
-  { title: "Tirta Gangga Water Palace - a stunning water garden", href: "#" },
-  { title: "Gitgit Waterfall - a majestic waterfall in the north", href: "#" },
-  { title: "Tegenungan Waterfall - a popular waterfall near Ubud", href: "#" },
+  { title: "Ubud Art Market - time to shop for local souvenirs", slug: "ubud-art-market" },
+  { title: "Padang Padang Beach - a hidden beach", slug: "padang-padang-beach" },
+  { title: "Garuda Wisnu Kencana Cultural Park - a center of cultural activities", slug: "garuda-wisnu-kencana" },
+  { title: "Barong Dance - a battle between good and evil", slug: "barong-dance" },
+  { title: "Banjar Hot Spring - a great spot to relax", slug: "banjar-hot-spring" },
+  { title: "Ubud Monkey Forest - a sacred monkey forest", slug: "ubud-monkey-forest" },
+  { title: "Jatiluwih Rice Terraces - an introduction to Subak", slug: "jatiluwih-rice-terraces" },
+  { title: "Tanah Lot Temple - a guardian snake underneath", slug: "tanah-lot-temple" },
+  { title: "Batur Volcano View - hike for the sunrise", slug: "batur-volcano" },
+  { title: "Tirta Gangga Water Palace - a water garden sanctuary", slug: "tirta-gangga" },
+  { title: "Water Sports at Nusa Dua - your holiday activities", slug: "nusa-dua-water-sports" },
+  { title: "Tegenungan Waterfall - time to freshen up", slug: "tegenungan-waterfall" },
 ];
 
 const Footer = () => {
@@ -179,7 +179,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {blogPosts.map((post, index) => (
                 <li key={index}>
-                  <a href={post.href} className="text-gray-300 hover:text-white transition-colors">
+                  <a href={`/blog/${post.slug}`} className="text-gray-300 hover:text-white transition-colors">
                     {post.title}
                   </a>
                 </li>

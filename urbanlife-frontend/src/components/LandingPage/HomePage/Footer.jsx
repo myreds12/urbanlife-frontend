@@ -68,7 +68,7 @@ const Footer = () => {
             <button 
               onClick={handleCompanyClick}
               onMouseEnter={handleCompanyHover}
-              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
                 ${companyColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
                 ${companyColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
                 ${companyColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
@@ -109,7 +109,7 @@ const Footer = () => {
             <button 
               onClick={handleCategoriesClick}
               onMouseEnter={handleCategoriesHover}
-              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
                 ${categoriesColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
                 ${categoriesColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
                 ${categoriesColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
@@ -153,7 +153,7 @@ const Footer = () => {
             <button 
               onClick={handleBlogPostClick}
               onMouseEnter={handleBlogHover}
-              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
                 ${blogColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
                 ${blogColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
                 ${blogColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}

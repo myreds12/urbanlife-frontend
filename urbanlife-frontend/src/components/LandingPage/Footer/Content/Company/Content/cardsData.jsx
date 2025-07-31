@@ -7,7 +7,8 @@ export const cardsData = [
     title: "Learn About Our Company Mission and Values",
     description: "Discover our journey, mission, and commitment to providing exceptional services. We are dedicated to delivering quality solutions that meet your needs and exceed expectations.",
     buttonText: "Read More",
-    categoryColor: "#0891b2"
+    categoryColor: "#0891b2",
+    link: "/Footer-aboutus"
   },
   {
     id: 2,

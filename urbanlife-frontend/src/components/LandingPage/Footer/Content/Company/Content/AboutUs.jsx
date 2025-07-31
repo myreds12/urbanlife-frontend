@@ -226,7 +226,7 @@ const services = [
       {/* Footer */}
       <footer className="bg-gray-50 border-t border-gray-100 py-8 mt-20">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-gray-500 text-sm">© 2025 Travel Services. Professional transportation across Indonesia.</p>
+          <p className="text-gray-500 text-sm">© 2025 UrbanLife. Discover the beauty places around the world.</p>
         </div>
       </footer>
     </div>

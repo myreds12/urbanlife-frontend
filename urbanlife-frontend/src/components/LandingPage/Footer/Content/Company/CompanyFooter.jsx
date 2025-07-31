@@ -46,11 +46,11 @@ const CompanyFooter = () => {
       {/* Hero Section */}
       <div className="hero-section">
         <div className="hero-content">
-          <h1 className="hero-title playfair">Categories</h1>
+          <h1 className="hero-title playfair">Company</h1>
           <div className="breadcrumb">
             <span>Home</span>
             <span className="separator">/</span>
-            <span>Categories</span>
+            <span>Company</span>
           </div>
         </div>
       </div>

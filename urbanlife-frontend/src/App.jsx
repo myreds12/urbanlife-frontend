@@ -87,8 +87,8 @@ const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
 // Footer Pages
 const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content/Company/CompanyFooter"));
-const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/aboutus"));
-const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy"));
+const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AboutUs.jsx"));
+const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy.jsx"));
 const CarRental = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/CarRental"));
 
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));

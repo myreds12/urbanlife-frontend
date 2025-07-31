@@ -60,19 +60,6 @@ const Car = () => {
   //   fetchAllData();
   // }, [fetchAllData]);
 
-  const filteredData = useMemo(() => {
-    return cars.filter((car) => {
-      const matchesSearch = Object.values(car).some((value) =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
-      const matchesStatus = selectedStatus
-        ? String(car.status).toLowerCase() === selectedStatus.toLowerCase()
-        : true;
-
-      return matchesSearch && matchesStatus;
-    });
-  }, [cars, searchTerm, selectedStatus]);
 
   useEffect(() => {
     if (!formRef.current) return;

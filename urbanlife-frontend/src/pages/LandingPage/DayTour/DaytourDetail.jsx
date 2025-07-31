@@ -76,27 +76,27 @@ const DaytourDetail = () => {
     fetchTourData();
   }, [id, state]);
 
-  const handleBookNow = () => {
-    const bookingData = {
-      id: tourData.id,
-      title: tourData.title,
-      type: tourData.type || "travel_package",
-      country: tourData.country || "Unknown",
-      location: tourData.location || "Unknown",
-      image: tourData.images[0],
-      content: tourData.content || [],
-      tanggal: new Date().toISOString().split("T")[0],
-      price: tourData.price || 0,
-      harga_dewasa: tourData.price,
-      harga_anak: tourData.harga_anak || 0,
-      durasi_hari: tourData.durasi_hari || 0,
-    };
+  // const handleBookNow = () => {
+  //   const bookingData = {
+  //     id: tourData.id,
+  //     title: tourData.title,
+  //     type: tourData.type || "travel_package",
+  //     country: tourData.country || "Unknown",
+  //     location: tourData.location || "Unknown",
+  //     image: tourData.images[0],
+  //     content: tourData.content || [],
+  //     tanggal: new Date().toISOString().split("T")[0],
+  //     price: tourData.price || 0,
+  //     harga_dewasa: tourData.price,
+  //     harga_anak: tourData.harga_anak || 0,
+  //     durasi_hari: tourData.durasi_hari || 0,
+  //   };
 
-    console.log("Navigating to OrderDetail with data:", bookingData);
-    navigate(`/OrderDetail?type=${bookingData.type}&id=${bookingData.id}`, {
-      state: bookingData,
-    });
-  };
+  //   console.log("Navigating to OrderDetail with data:", bookingData);
+  //   navigate(`/OrderDetail?type=${bookingData.type}&id=${bookingData.id}`, {
+  //     state: bookingData,
+  //   });
+  // };
 
   const tabs = [
     { id: "description", label: "Description" },

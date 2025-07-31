@@ -17,6 +17,8 @@ const OrderDetail = () => {
   const bookingFromState = location.state;
   const bookingInfo = bookingFromState;
 
+  console.log("Booking info:", bookingInfo);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [availableServices, setAvailableServices] = useState([]);
   const [selectedType, setSelectedType] = useState("");

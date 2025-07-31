@@ -130,15 +130,15 @@ const CardForm = () => {
     setShowResults(false);
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "Pilih tanggal";
-    return new Date(dateString).toLocaleDateString("id-ID", {
-      weekday: "short",
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  };
+  // const formatDate = (dateString) => {
+  //   if (!dateString) return "Pilih tanggal";
+  //   return new Date(dateString).toLocaleDateString("id-ID", {
+  //     weekday: "short",
+  //     day: "numeric",
+  //     month: "short",
+  //     year: "numeric",
+  //   });
+  // };
 
   return (
     <div className="w-full max-w-[360px] mr-40 sm:max-w-[400px] mx-auto space-y-2 px-4 sm:px-4 pt-6">

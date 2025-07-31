@@ -5,6 +5,7 @@ import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/P
 import Table from "../../../components/AdminDashboard/Utils/Table/Table";
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Export from "../../../components/AdminDashboard/Utils/Ui/button/Export";
+import StatusBadge from "../../../components/AdminDashboard/Utils/Ui/badge/StatusBadge";
 
 const api = import.meta.env.VITE_API_URL + "/pemesanan";
 
@@ -22,9 +23,8 @@ const Orders = () => {
   const [take] = useState(10);
   const [total, setTotal] = useState(0);
   const [activeTab, setActiveTab] = useState("All Orders");
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   const columns = [
     "#",
@@ -61,40 +61,36 @@ const Orders = () => {
   }, [page, activeTab]);
 
   const handleSort = (columnKey) => {
-    let direction = 'asc';
-    if (sortConfig.key === columnKey && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortConfig.key === columnKey && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key: columnKey, direction });
-    setPage(1); 
+    setPage(1);
   };
 
-  const handleRowSelect = (rowId) => {
-    setSelectedRows(prev =>
-      prev.includes(rowId)
-        ? prev.filter(id => id !== rowId)
-        : [...prev, rowId]
-    );
-  };
+
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return orders;
-    
+
     return orders.filter((order) => {
       const searchLower = searchTerm.toLowerCase();
-      
+
       // Search in direct properties
-      const directMatch = Object.values(order).some(value => 
+      const directMatch = Object.values(order).some((value) =>
         String(value).toLowerCase().includes(searchLower)
       );
-      
+
       // Search in nested objects - disesuaikan dengan struktur data Orders
-      const nestedMatch = 
-        (order.user?.nama && order.user.nama.toLowerCase().includes(searchLower)) ||
-        (order.user?.email && order.user.email.toLowerCase().includes(searchLower)) ||
+      const nestedMatch =
+        (order.user?.nama &&
+          order.user.nama.toLowerCase().includes(searchLower)) ||
+        (order.user?.email &&
+          order.user.email.toLowerCase().includes(searchLower)) ||
         (order.detail && order.detail.toLowerCase().includes(searchLower)) ||
         (order.id && String(order.id).toLowerCase().includes(searchLower));
-      
+
       return directMatch || nestedMatch;
     });
   }, [orders, searchTerm]);
@@ -102,30 +98,30 @@ const Orders = () => {
   // Client-side sorting (on current page data)
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filteredData;
-    
+
     return [...filteredData].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
-      
+
       // Handle nested objects
-      if (sortConfig.key === 'Amount') {
-        aValue = a.lokasi?.nama || '';
-        bValue = b.lokasi?.nama || '';
+      if (sortConfig.key === "Amount") {
+        aValue = a.lokasi?.nama || "";
+        bValue = b.lokasi?.nama || "";
       }
-      
+
       // Convert to string for comparison
       aValue = String(aValue);
       bValue = String(bValue);
-      
-      if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+
+      if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
   }, [filteredData, sortConfig]);
 
   const totalPages = Math.ceil(total / take);
   const startIndex = (page - 1) * take;
-  
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
@@ -138,26 +134,30 @@ const Orders = () => {
 
       <div className="flex justify-between items-center">
         {/* Tabs */}
-        <OrdersTabs activeTab={activeTab} setActiveTab={(tab) => {
-          setActiveTab(tab);
-          setPage(1); // Reset to page 1 on tab change
-        }} />
+        <OrdersTabs
+          activeTab={activeTab}
+          setActiveTab={(tab) => {
+            setActiveTab(tab);
+            setPage(1); // Reset to page 1 on tab change
+          }}
+        />
 
         {/* Search */}
         <div className="flex flex-wrap justify-between items-center gap-4">
-             <div className="flex-1 min-w-[200px]">
-              <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Search orders..." />
-            </div>
-              <Export 
-                data={filteredData} 
-                filename="customers.csv" 
-                buttonText="Download"
-              />
-
+          <div className="flex-1 min-w-[200px]">
+            <Search
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              placeholder="Search orders..."
+            />
+          </div>
+          <Export
+            data={filteredData}
+            filename="customers.csv"
+            buttonText="Download"
+          />
         </div>
-
       </div>
-      
 
       {/* Loading Spinner */}
       {loading ? (
@@ -179,11 +179,12 @@ const Orders = () => {
               defaultMapping={{
                 "#": (row, index) => (page - 1) * take + index + 1,
                 "Booking ID": (row) => row.id,
-                "Customer": (row) => row.user.nama || '-',
-                "Type": "type",
-                "Detail": (row) => row.detail || '-',
-                "Date": (row) => row.createdAt || '-',
-                "Amount": (row) => row.total_harga || '-',
+                Customer: (row) => row.user.nama || "-",
+                Type: "type",
+                Detail: (row) => row.detail || "-",
+                Date: (row) => row.createdAt || "-",
+                Amount: (row) => row.total_harga || "-",
+                Status: (row) => <StatusBadge status={row.status} />,
               }}
               take={take}
               currentPage={page}

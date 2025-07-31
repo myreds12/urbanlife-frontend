@@ -17,7 +17,8 @@ export const cardsData = [
     title: "Privacy Policy and Data Protection",
     description: "Understanding how we collect, use, and protect your personal information. Our comprehensive privacy policy ensures your data security and transparency in our operations.",
     buttonText: "View Policy",
-    categoryColor: "#059669"
+    categoryColor: "#059669",
+    link: "/PrivacyPolicy"
   },
   {
     id: 3,

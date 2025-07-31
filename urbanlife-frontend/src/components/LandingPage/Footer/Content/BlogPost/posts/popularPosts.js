@@ -6,10 +6,22 @@ export const popularPosts = [
   },
   {
     id: 2,
-    title: "Banjar Hot Spring – A Great Spot to Relax",
+    title: "Padang Padang Beach – Surfing and Relaxation",
+    slug: "padang-padang-beach",
+  },
+  {
+    id: 3,
+    title: "Garuda Wisnu Kencana – Cultural Center in Bali",
+    slug: "garuda-wisnu-kencana",
+  },
+  {
+    id: 4,
+    title: "Banjar Hot Springs – Relaxing in Natural Hot Springs",
     slug: "banjar-hot-spring",
   },
-  { id: 3, title: "Tirta Gangga Water Palace", slug: "tirta-gangga" },
-  { id: 4, title: "Jatiluwih Rice Terraces", slug: "jatiluwih-rice" },
-  { id: 5, title: "GWK – Cultural Center in Bali", slug: "gwk-park" },
+  {
+    id: 5,
+    title: "Tanah Lot Temple – Iconic Sea Temple",
+    slug: "tanah-lot-temple",
+  },
 ];

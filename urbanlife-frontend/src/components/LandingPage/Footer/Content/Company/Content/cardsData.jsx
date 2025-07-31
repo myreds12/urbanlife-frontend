@@ -61,7 +61,8 @@ export const cardsData = [
     title: "Car Rental Services in Bali",
     description: "Rent a car in Bali for maximum flexibility during your vacation. Wide selection of vehicles from economy to luxury cars with competitive rates and full insurance.",
     buttonText: "Rent Car",
-    categoryColor: "#2563eb"
+    categoryColor: "#2563eb",
+    linkTo: "/unit-car"
   },
   {
     id: 8,

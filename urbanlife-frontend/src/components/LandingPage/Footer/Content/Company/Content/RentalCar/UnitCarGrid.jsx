@@ -1,8 +1,8 @@
 import React from 'react';
-import CardItem from './CardItem';
-import './CardsGrid.css';
+import UnitCarItem from './UnitCarItem';
+import './UnitCarGrid.css';
 
-const CardsGrid = ({ cards }) => {
+const UnitCarGrid = ({ cards }) => {
   if (!cards || cards.length === 0) {
     return (
       <div className="no-cards">
@@ -15,21 +15,18 @@ const CardsGrid = ({ cards }) => {
   return (
     <div className="cards-grid">
       {cards.map((card) => (
-        <CardItem
+        <UnitCarItem
           key={card.id}
           image={card.image}
-          category={card.category}
-        //   difficulty={card.difficulty}
+          unit={card.unit}
+          people={card.people}
           title={card.title}
-          description={card.description}
-          buttonText={card.buttonText}
-          categoryColor={card.categoryColor}
-          difficultyColor={card.difficultyColor}
-          linkTo={card.linkTo}
+          price={card.price}        
+          description={card.description}                 
         />
       ))}
     </div>
   );
 };
 
-export default CardsGrid;
+export default UnitCarGrid;

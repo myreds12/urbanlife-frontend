@@ -1,17 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './CardItem.css';
 
 const CardItem = ({ 
   image, 
   category, 
-//   difficulty, 
   title, 
   description, 
   buttonText,
   categoryColor = "#f59e0b",
-//   difficultyColor = "#ef4444"
+  linkTo
 }) => {
-  return (
+  const cardContent = (
     <div className="card-item">
       <div className="card-image">
         <img src={image} alt={title} />
@@ -25,12 +25,6 @@ const CardItem = ({
           >
             {category}
           </span>
-          {/* <span 
-            className="card-tag difficulty-tag"
-            style={{ backgroundColor: difficultyColor }}
-          >
-            {difficulty}
-          </span> */}
         </div>
         
         <h3 className="card-title">{title}</h3>
@@ -43,6 +37,12 @@ const CardItem = ({
       </div>
     </div>
   );
+
+  return linkTo ? (
+    <Link to={linkTo} className="card-link-wrapper" style={{ textDecoration: 'none', color: 'inherit' }}>
+      {cardContent}
+    </Link>
+  ) : cardContent;
 };
 
 export default CardItem;

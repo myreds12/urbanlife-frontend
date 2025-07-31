@@ -47,6 +47,7 @@ const NotFound = lazy(() => import("./pages/Others/NotFound"));
 const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content/Company/CompanyFooter"));
 const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/aboutus"));
 const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy"));
+const CarRental = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/CarRental"));
 
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
 const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));
@@ -82,6 +83,7 @@ function App() {
             <Route path="/blog" element={<BlogPostMain />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
 
+            <Route path="/unit-car" element={<CarRental />} />
 
             {/* Admin */}
             <Route

@@ -5,15 +5,13 @@ import './CardItem.css';
 const CardItem = ({ 
   image, 
   category, 
-//   difficulty, 
   title, 
   description, 
   buttonText,
   categoryColor = "#f59e0b",
-  link = "#"
-  //   difficultyColor = "#ef4444"
+  linkTo
 }) => {
-  return (
+  const cardContent = (
     <div className="card-item">
       <div className="card-image">
         <img src={image} alt={title} />
@@ -27,23 +25,24 @@ const CardItem = ({
           >
             {category}
           </span>
-          {/* <span 
-            className="card-tag difficulty-tag"
-            style={{ backgroundColor: difficultyColor }}
-          >
-            {difficulty}
-          </span> */}
         </div>
         
         <h3 className="card-title">{title}</h3>
         <p className="card-description">{description}</p>
 
-        <Link to={link} className="card-button">
+        <Link to={linkTo} className="card-button">
           {buttonText}
         </Link>
       </div>
     </div>
   );
+
+  return linkTo ? (
+    <Link to={linkTo} className="card-link-wrapper" style={{ textDecoration: 'none', color: 'inherit' }}>
+      {cardContent}
+    </Link>
+  ) : cardContent;
 };
 
 export default CardItem;
+

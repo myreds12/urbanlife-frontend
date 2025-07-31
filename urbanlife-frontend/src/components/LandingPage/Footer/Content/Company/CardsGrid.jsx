@@ -25,6 +25,7 @@ const CardsGrid = ({ cards }) => {
           buttonText={card.buttonText}
           categoryColor={card.categoryColor}
           difficultyColor={card.difficultyColor}
+          link={card.link}
         />
       ))}
     </div>

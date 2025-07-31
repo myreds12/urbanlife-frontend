@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './CardItem.css';
 
 const CardItem = ({ 
@@ -9,7 +10,8 @@ const CardItem = ({
   description, 
   buttonText,
   categoryColor = "#f59e0b",
-//   difficultyColor = "#ef4444"
+  link = "#"
+  //   difficultyColor = "#ef4444"
 }) => {
   return (
     <div className="card-item">
@@ -34,12 +36,11 @@ const CardItem = ({
         </div>
         
         <h3 className="card-title">{title}</h3>
-        
         <p className="card-description">{description}</p>
-        
-        <button className="card-button">
+
+        <Link to={link} className="card-button">
           {buttonText}
-        </button>
+        </Link>
       </div>
     </div>
   );

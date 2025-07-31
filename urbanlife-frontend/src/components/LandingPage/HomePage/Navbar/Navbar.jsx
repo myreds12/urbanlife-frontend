@@ -29,12 +29,12 @@ const Navbar = () => {
       { id: 4, name: 'Ho Chi Minh City Tour', location: 'Ho Chi Minh, Vietnam', image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=60&h=60&fit=crop&crop=center' },
     ],
     'Asia': [
-      { id: 20, name: 'Mount Fuji Tour', location: 'Tokyo, Japan', image: 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=60&h=60&fit=crop&crop=center' },
-      { id: 21, name: 'Great Wall of China', location: 'Beijing, China', image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=60&h=60&fit=crop&crop=center' },
-      { id: 23, name: 'Angkor Wat Temple', location: 'Siem Reap, Cambodia', image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73c6e?w=60&h=60&fit=crop&crop=center' },
-      { id: 24, name: 'Kyoto Cultural Tour', location: 'Kyoto, Japan', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=60&h=60&fit=crop&crop=center' },
-      { id: 25, name: 'Taj Mahal Tour', location: 'Agra, India', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=60&h=60&fit=crop&crop=center' },
-      { id: 26, name: 'Seoul City Experience', location: 'Seoul, South Korea', image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=60&h=60&fit=crop&crop=center' }
+      // { id: 20, name: 'Mount Fuji Tour', location: 'Tokyo, Japan', image: 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=60&h=60&fit=crop&crop=center' },
+      // { id: 21, name: 'Great Wall of China', location: 'Beijing, China', image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=60&h=60&fit=crop&crop=center' },
+      // { id: 23, name: 'Angkor Wat Temple', location: 'Siem Reap, Cambodia', image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73c6e?w=60&h=60&fit=crop&crop=center' },
+      // { id: 24, name: 'Kyoto Cultural Tour', location: 'Kyoto, Japan', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=60&h=60&fit=crop&crop=center' },
+      // { id: 25, name: 'Taj Mahal Tour', location: 'Agra, India', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=60&h=60&fit=crop&crop=center' },
+      // { id: 26, name: 'Seoul City Experience', location: 'Seoul, South Korea', image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=60&h=60&fit=crop&crop=center' }
     ]
   };
 
@@ -42,18 +42,15 @@ const Navbar = () => {
   const serviceData = {
     'Day Tour': [
       { title: 'Day Tours', image: 'daytour.png' },
-      { title: 'Cultural Tours', image: 'cultural_tour.png' },
-      { title: 'Adventure Tours', image: 'adventure_tour.png' },
+      
     ],
     'Rent Car': [
       { title: 'Rent Car', image: 'rentcar.png' },
-      { title: 'Airport Transfer', image: 'airport_transfer.png' },
-      { title: 'Private Driver', image: 'private_driver.png' },
+      
     ],
     'Accomodation': [
       { title: 'Hotel & Resorts', image: 'hotel_resort.png' },
-      { title: 'Homestays', image: 'homestay.png' },
-      { title: 'Private Villas', image: 'private_villa.png' },
+      
     ],
   };
 
@@ -62,7 +59,7 @@ const Navbar = () => {
     const fetchTopAttractions = async () => {
       setIsLoading(true);
       try {
-        const response = await apiClient.get('/pemesanan/popular-items?take=4');
+        const response = await apiClient.get('/pemesanan/items?is_category=false');
         const rawData = response.data.data;
         console.log("API Response:", rawData); // New comment: Debug raw API response
 
@@ -243,24 +240,24 @@ const Navbar = () => {
                   <h4 className="mega-menu-section-title">Day Tour</h4>
                   <ul className="mega-menu-list">
                     <li><a href="/day-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/daytour.png" className="mega-menu-icon" alt="daytour"/> Day Tours</a></li>
-                    <li><a href="/cultural-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/cultural_tour.png" className="mega-menu-icon" alt="cultural"/> Cultural Tours</a></li>
-                    <li><a href="/adventure-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/adventure_tour.png" className="mega-menu-icon" alt="adventure"/> Adventure Tours</a></li>
+                    {/* <li><a href="/cultural-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/cultural_tour.png" className="mega-menu-icon" alt="cultural"/> Cultural Tours</a></li>
+                    <li><a href="/adventure-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/adventure_tour.png" className="mega-menu-icon" alt="adventure"/> Adventure Tours</a></li> */}
                   </ul>
                 </div>
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Transportation</h4>
                   <ul className="mega-menu-list">
                     <li><a href="/rent-car" className="mega-menu-link"><img src="/images/LandingPage/Navbar/rentcar.png" className="mega-menu-icon" alt="rentcar"/> Rent Car</a></li>
-                    <li><a href="/airport-transfer" className="mega-menu-link"><img src="/images/LandingPage/Navbar/airport_transfer.png" className="mega-menu-icon" alt="airport"/> Airport Transfer</a></li>
-                    <li><a href="/private-driver" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_driver.png" className="mega-menu-icon" alt="driver"/>Private Driver</a></li>
+                    {/* <li><a href="/airport-transfer" className="mega-menu-link"><img src="/images/LandingPage/Navbar/airport_transfer.png" className="mega-menu-icon" alt="airport"/> Airport Transfer</a></li>
+                    <li><a href="/private-driver" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_driver.png" className="mega-menu-icon" alt="driver"/>Private Driver</a></li> */}
                   </ul>
                 </div>
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Accommodation</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/hotels" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>Hotels & Resorts</a></li>
+                    {/* <li><a href="/hotels" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>Hotels & Resorts</a></li>
                     <li><a href="/homestays" className="mega-menu-link"><img src="/images/LandingPage/Navbar/homestay.png" className="mega-menu-icon" alt="homestay"/> Homestays</a></li>
-                    <li><a href="/villas" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_villa.png" className="mega-menu-icon" alt="villa"/> Private Villas</a></li>
+                    <li><a href="/villas" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_villa.png" className="mega-menu-icon" alt="villa"/> Private Villas</a></li> */}
                   </ul>
                 </div>
               </div>

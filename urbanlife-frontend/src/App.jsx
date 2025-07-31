@@ -45,7 +45,7 @@ const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
 // Footer Pages
 const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content/Company/CompanyFooter"));
-const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AboutUs"));
+const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/aboutus"));
 
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
 const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));

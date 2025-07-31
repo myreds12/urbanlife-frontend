@@ -113,61 +113,51 @@ const SearchResultsModal = ({
               <X size={24} />
             </button>
           </div>
-
           <div className="p-6 overflow-y-auto max-h-[60vh]">
             {searchResults.length > 0 ? (
               <div className="space-y-4">
-                {searchResults.map((item) => (
+                {searchResults.map((result) => (
                   <div
-                    key={item.id}
-                    className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow flex gap-4"
+                    key={result.id}
+                    className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow"
                   >
-                    {/* Image */}
-                    {getImageSrc(item.file_url) ? (
-                      <img
-                        src={getImageSrc(item.file_url)}
-                        alt={item.nama}
-                        className="w-32 h-32 object-cover rounded-md flex-shrink-0"
-                      />
-                    ) : (
-                      <div className="w-32 h-32 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-sm">
-                        No image
-                      </div>
-                    )}
-
-                    {/* Content */}
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div>
-                        <h4 className="text-lg font-semibold text-gray-800">
-                          {item.nama}
-                        </h4>
-                        <p className="text-sm text-gray-500">
-                          Lokasi: {item.lokasi?.nama},{" "}
-                          {item.lokasi?.negara?.nama}
-                        </p>
-
-                        {/* Detail sesuai item_type */}
-                        <div className="mt-2">{renderItemDetails(item)}</div>
-                      </div>
-
-                      <div className="flex justify-between items-end mt-3">
-                        <div className="text-sm text-gray-500">
-                          {item.item_type === "KENDARAAN"
-                            ? `Kapasitas: ${item.kapasitas || "-"}`
-                            : item.item_type === "AKOMODASI"
-                            ? `Kategori: ${item.kategori}`
-                            : `Durasi: ${item.durasi_hari || 1} hari`}
+                    <div className="flex items-start gap-4">
+                      {getImageSrc(result.file_url) ? (
+                        <img
+                          src={getImageSrc(result.file_url)}
+                          alt={result.nama}
+                          className="w-32 h-32 object-cover rounded-md flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="text-4xl w-32 h-32 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-sm">
+                          No image
                         </div>
-                        <div className="text-right">
-                          <div className="font-bold text-cyan-600">
-                            {formatPrice(getItemPrice(item))}
+                      )}
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h4 className="font-semibold text-lg text-gray-800 mb-1">
+                              {result.nama}
+                            </h4>
+                            <p className="text-gray-600 text-sm mb-2">
+                              Lokasi: {result.lokasi?.nama},{" "}
+                              {result.lokasi?.negara?.nama}
+                            </p>
+                            <div className="text-sm text-gray-500">
+                              {renderItemDetails(result)}
+                            </div>
                           </div>
-                          <div className="flex items-center justify-end gap-1 text-sm text-gray-500">
-                            <Star
-                              size={16}
-                              className="text-yellow-500 fill-current"
-                            />
-                            <span>5.0</span>
+                          <div className="text-right">
+                            <div className="font-bold text-lg text-cyan-600">
+                              {formatPrice(getItemPrice(result))}
+                            </div>
+                            <div className="flex items-center gap-1 text-sm text-gray-500">
+                              <Star
+                                size={16}
+                                className="text-yellow-500 fill-current"
+                              />
+                              <span>5.0</span>
+                            </div>
                           </div>
                         </div>
                       </div>

@@ -133,7 +133,6 @@
   margin: 0 2px;
 }
 
-
 .star-row {
   display: flex;
   align-items: center;
@@ -243,7 +242,7 @@
   top: 0;
   bottom: 0;
   width: 10px;
-  background: white;
+  background: #FAF9FF;
   z-index: 10;
   clip-path: polygon(
     0% 0%, 100% 10%, 0% 20%, 100% 30%,
@@ -251,6 +250,7 @@
     0% 80%, 100% 90%, 0% 100%
   );
 }
+
 .perforation-right {
   position: absolute;
   right: -8px;
@@ -332,3 +332,362 @@
   opacity: 1;
 }
 
+
+
+
+
+/** RESPONSIVE */
+/*! Tablet breakpoint */
+@media (max-width: 768px) {
+  .ticket-card-container {
+    margin: 10px 5px;
+    perspective: none;
+  }
+
+  .ticket-card {
+    width: 100%;
+    max-width: 320px;
+    height: 140px;
+    margin: 0 auto;
+  }
+
+  .ticket-card:hover {
+    width: 100%;
+    max-width: 320px;
+    transform: translateY(-2px);
+  }
+
+  .card-left {
+    min-width: auto;
+    flex: 1;
+  }
+
+  .card-overlay {
+    padding: 0 0 6px 12px;
+  }
+
+  .card-title {
+    font-size: 18px;
+    letter-spacing: -0.3px;
+  }
+
+  .card-subtitle {
+    font-size: 11px;
+  }
+
+  .card-right {
+    width: 100px;
+    padding: 10px 8px;
+    background: white;
+  }
+
+  .ticket-card:hover .card-right {
+    width: 80px;
+    padding: 10px 8px;
+  }
+
+  .right-content {
+    opacity: 1;
+    transform: translateX(0);
+    padding: 15px 0;
+    transition: none;
+  }
+
+  .card-icon {
+    width: 24px;
+    height: 24px;
+    margin: 0 2px 3px 2px;
+  }
+
+  .star-image {
+    width: 8px;
+    margin: 0 1px;
+  }
+
+  .star-image2 {
+    width: 6px;
+    margin: 0 1px;
+  }
+
+  .barcode-image {
+    width: 60px;
+    max-height: 18px;
+  }
+
+  .right-title {
+    font-size: 9px;
+    margin: 2px 0;
+    line-height: 1.1;
+  }
+
+  .see-more-btn {
+    padding: 3px 8px;
+    margin-top: 6px;
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .perforation-right {
+    opacity: 1;
+    right: -4px;
+    top: -4px;
+    bottom: -4px;
+    width: 12px;
+    background: radial-gradient(circle at 7px 75px, transparent 3px, #0092B8 3px);
+  }
+
+  .separation-line {
+    left: calc(100% - 95px);
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      #0092B8 0px,
+      #0092B8 3px,
+      transparent 3px,
+      transparent 6px
+    );
+    opacity: 1;
+  }
+
+  .separation-line::before,
+  .separation-line::after {
+    width: 20px;
+    height: 20px;
+  }
+
+  .separation-line::before {
+    top: -8px;
+  }
+
+  .separation-line::after {
+    bottom: -8px;
+  }
+}
+
+
+
+
+/*! Mobile breakpoint */
+@media (max-width: 480px) {
+  .ticket-card-container {
+    margin: 10px 5px;
+    perspective: none;
+  }
+
+  .ticket-card {
+    width: 100%;
+    max-width: 320px;
+    height: 140px;
+    margin: 0 auto;
+  }
+
+  .ticket-card:hover {
+    width: 100%;
+    max-width: 320px;
+    transform: translateY(-2px); /* dikit biar ada feedback, tapi no expand */
+  }
+
+  .card-left {
+    min-width: auto;
+    flex: 1;
+  }
+
+  .card-overlay {
+    padding: 0 0 6px 12px;
+  }
+
+  .card-title {
+    font-size: 18px;
+    letter-spacing: -0.3px;
+  }
+
+  .card-subtitle {
+    font-size: 11px;
+  }
+
+  .card-right {
+    width: 100px;
+    padding: 10px 8px;
+    background: white;
+  }
+
+  .ticket-card:hover .card-right {
+    width: 100px;
+    padding: 10px 8px;
+  }
+
+  .right-content {
+    opacity: 1;
+    transform: translateX(0);
+    padding: 20px 0;
+    transition: none;
+  }
+
+  .card-icon {
+    width: 24px;
+    height: 24px;
+    margin: 0 2px 3px 2px;
+  }
+
+  .star-image {
+    width: 8px;
+    margin: 0 1px;
+  }
+
+  .star-image2 {
+    width: 6px;
+    margin: 0 1px;
+  }
+
+  .barcode-image {
+    width: 60px;
+    max-height: 18px;
+  }
+
+  .right-title {
+    font-size: 9px;
+    margin: 2px 0;
+    line-height: 1.1;
+  }
+
+  .see-more-btn {
+    padding: 3px 8px;
+    margin-top: 6px;
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .perforation-right {
+    opacity: 1;
+    right: -4px;
+    top: -4px;
+    bottom: -4px;
+    width: 12px;
+    background: radial-gradient(circle at 7px 75px, transparent 3px, #0092B8 3px);
+  }
+
+  .separation-line {
+    left: calc(100% - 95px);
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      #0092B8 0px,
+      #0092B8 3px,
+      transparent 3px,
+      transparent 6px
+    );
+    opacity: 1;
+  }
+
+  .separation-line::before,
+  .separation-line::after {
+    width: 20px;
+    height: 20px;
+  }
+
+  .separation-line::before {
+    top: -8px;
+  }
+
+  .separation-line::after {
+    bottom: -8px;
+  }
+}
+
+
+
+/*! Extra small mobile */
+@media (max-width: 360px) {
+  .ticket-card {
+    max-width: 280px;
+    height: 120px;
+  }
+  
+  .ticket-card:hover {
+    max-width: 280px;
+  }
+  
+  .card-title {
+    font-size: 16px;
+  }
+  
+  .card-subtitle {
+    font-size: 10px;
+  }
+
+  .right-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+  
+  .card-right {
+    width: 90px;
+    padding: 8px 6px;
+  }
+  
+  .ticket-card:hover .card-right {
+    width: 90px;
+    padding: 8px 6px;
+  }
+  
+  .card-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .barcode-image {
+    width: 50px;
+    max-height: 15px;
+  }
+  
+  .right-title {
+    font-size: 8px;
+  }
+  
+  .see-more-btn {
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+
+  .perforation-right {
+    opacity: 1;
+    right: -4px;
+    top: -4px;
+    bottom: -4px;
+    width: 12px;
+    background: radial-gradient(circle at 8px 65px, transparent 4px, #0092B8 3px);
+  }
+
+  
+  .separation-line {
+    left: calc(100% - 85px);
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      #0092B8 0px,
+      #0092B8 3px,
+      transparent 3px,
+      transparent 6px
+    );
+    opacity: 1;
+  }
+  
+  .separation-line::before,
+  .separation-line::after {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .separation-line::before {
+    top: -8px;
+  }
+  
+  .separation-line::after {
+    bottom: -8px;
+  }
+}

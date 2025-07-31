@@ -7,9 +7,10 @@ const Beach = () => {
       backgroundImage="/images/LandingPage/Footer/content/Beach.png"
       title="Padang Padang Beach"
       subtitle="Beach"
-      icon="https://cdn-icons-png.flaticon.com/128/2990/2990507.png"
+      icon="/images/LandingPage/Footer/iconTicket/Beach.png"
       rightTitle="Southern Bali"
       barcodeImage="/images/LandingPage/Footer/barcode.png"
+      linkTo="/blog/padang-padang-beach"
     />
   );
 };

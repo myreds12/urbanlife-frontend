@@ -67,10 +67,9 @@
 }
 
 .category-tab:hover {
-  border-color: #7dd3fc;
   color: #0891b2;
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 3px 2px #bebebe, -3px -3px 6px #ffffff;
 }
 
 .category-tab.active {

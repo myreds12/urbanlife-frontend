@@ -252,7 +252,10 @@ const CardForm = () => {
         showResults={showResults}
         setShowResults={setShowResults}
         searchResults={searchResults}
+        country={formData.countryId}
+        city={formData.cityId}
         service={formData.service}
+        cities={{ [formData.countryId]: cities }}
         services={services}
       />
     </div>

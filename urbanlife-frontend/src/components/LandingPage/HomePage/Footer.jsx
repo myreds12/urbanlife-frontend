@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 
+
 const blogPosts = [
-  { title: "Ubud Art Market - time to shop for local souvenirs", href: "#" },
-  { title: "Padang Padang Beach - a hidden beach", href: "#" },
-  { title: "Garuda Wisnu Kencana Cultural Park - a center of cultural activities", href: "#" },
-  { title: "Barong Dance - a battle between good and evil", href: "#" },
-  { title: "Banjar Hot Spring - a great spot to relax", href: "#" },
-  { title: "Ubud Monkey Forest - a sacred monkey forest", href: "#" },
-  { title: "Jatiluwih Rice Terraces - an introduction to Subak", href: "#" },
-  { title: "Tanah Lot Temple - a beautiful sea temple", href: "#" },
-  { title: "Mount Batur Volcano - a popular trekking destination", href: "#" },
-  { title: "Tirta Gangga Water Palace - a stunning water garden", href: "#" },
-  { title: "Gitgit Waterfall - a majestic waterfall in the north", href: "#" },
-  { title: "Tegenungan Waterfall - a popular waterfall near Ubud", href: "#" },
+  { title: "Ubud Art Market - time to shop for local souvenirs", slug: "ubud-art-market" },
+  { title: "Padang Padang Beach - a hidden beach", slug: "padang-padang-beach" },
+  { title: "Garuda Wisnu Kencana Cultural Park - a center of cultural activities", slug: "garuda-wisnu-kencana" },
+  { title: "Barong Dance - a battle between good and evil", slug: "barong-dance" },
+  { title: "Banjar Hot Spring - a great spot to relax", slug: "banjar-hot-spring" },
+  { title: "Ubud Monkey Forest - a sacred monkey forest", slug: "ubud-monkey-forest" },
+  { title: "Jatiluwih Rice Terraces - an introduction to Subak", slug: "jatiluwih-rice-terraces" },
+  { title: "Tanah Lot Temple - a guardian snake underneath", slug: "tanah-lot-temple" },
+  { title: "Batur Volcano View - hike for the sunrise", slug: "batur-volcano" },
+  { title: "Tirta Gangga Water Palace - a water garden sanctuary", slug: "tirta-gangga" },
+  { title: "Water Sports at Nusa Dua - your holiday activities", slug: "nusa-dua-water-sports" },
+  { title: "Tegenungan Waterfall - time to freshen up", slug: "tegenungan-waterfall" },
 ];
 
 const Footer = () => {
@@ -45,19 +46,15 @@ const Footer = () => {
   };
 
   const handleCompanyClick = () => {
-    console.log('Company button clicked');
-    // Nanti bisa ditambahkan navigasi ke halaman company
+  window.location.href = '/Company';
   };
-
   const handleCategoriesClick = () => {
-    console.log('Categories button clicked');
-    // Nanti bisa ditambahkan navigasi ke halaman categories
+    window.location.href = '/categories';
+  };
+  const handleBlogPostClick = () => {
+    window.location.href = '/blog';
   };
 
-  const handleBlogPostClick = () => {
-    console.log('Blog Post button clicked');
-    // Nanti bisa ditambahkan navigasi ke halaman blog
-  };
 
   return (
     <footer className="bg-[#071C4D] text-white pt-16 pb-6 px-8">
@@ -68,7 +65,7 @@ const Footer = () => {
             <button 
               onClick={handleCompanyClick}
               onMouseEnter={handleCompanyHover}
-              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
                 ${companyColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
                 ${companyColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
                 ${companyColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
@@ -92,7 +89,7 @@ const Footer = () => {
               `}></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
+              <li><a href="/AboutUs" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Terms and Conditions</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
@@ -109,7 +106,7 @@ const Footer = () => {
             <button 
               onClick={handleCategoriesClick}
               onMouseEnter={handleCategoriesHover}
-              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
                 ${categoriesColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
                 ${categoriesColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
                 ${categoriesColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
@@ -153,7 +150,7 @@ const Footer = () => {
             <button 
               onClick={handleBlogPostClick}
               onMouseEnter={handleBlogHover}
-              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full border-b-2 border-transparent pb-2 relative group
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
                 ${blogColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
                 ${blogColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
                 ${blogColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
@@ -179,7 +176,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {blogPosts.map((post, index) => (
                 <li key={index}>
-                  <a href={post.href} className="text-gray-300 hover:text-white transition-colors">
+                  <a href={`/blog/${post.slug}`} className="text-gray-300 hover:text-white transition-colors">
                     {post.title}
                   </a>
                 </li>

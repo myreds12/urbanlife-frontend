@@ -46,19 +46,15 @@ const Footer = () => {
   };
 
   const handleCompanyClick = () => {
-    console.log('Company button clicked');
-    // Nanti bisa ditambahkan navigasi ke halaman company
+  window.location.href = '/Company';
   };
-
   const handleCategoriesClick = () => {
-    console.log('Categories button clicked');
-    // Nanti bisa ditambahkan navigasi ke halaman categories
+    window.location.href = '/categories';
+  };
+  const handleBlogPostClick = () => {
+    window.location.href = '/blog';
   };
 
-  const handleBlogPostClick = () => {
-      window.location.href = '/blog';
-    console.log('Blog Post button clicked');
-  };
 
   return (
     <footer className="bg-[#071C4D] text-white pt-16 pb-6 px-8">
@@ -93,7 +89,7 @@ const Footer = () => {
               `}></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
+              <li><a href="/AboutUs" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Terms and Conditions</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>

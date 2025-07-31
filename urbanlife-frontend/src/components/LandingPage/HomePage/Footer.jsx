@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const blogPosts = [
   { title: "Ubud Art Market - time to shop for local souvenirs", slug: "ubud-art-market" },
   { title: "Padang Padang Beach - a hidden beach", slug: "padang-padang-beach" },
@@ -55,8 +56,8 @@ const Footer = () => {
   };
 
   const handleBlogPostClick = () => {
+      window.location.href = '/blog';
     console.log('Blog Post button clicked');
-    // Nanti bisa ditambahkan navigasi ke halaman blog
   };
 
   return (

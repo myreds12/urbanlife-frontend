@@ -3,69 +3,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import DestinationCard from "../../../../components/LandingPage/HomePage/DestinationCard";
 
-const dummyDestinations = [
-  {
-    id: 1,
-    nama: "Eastern Bali Tour",
-    item_type: "travel_package",
-    harga_dewasa: 1200000,
-    durasi_hari: 4,
-    lokasi: { nama: "Bali", negara: { nama: "Indonesia" } },
-    file_url: null,
-    image: "/images/LandingPage/Destination/EasternBaliTour.png",
-  },
-  {
-    id: 2,
-    nama: "Danang",
-    item_type: "travel_package",
-    harga_dewasa: 1200000,
-    durasi_hari: 4,
-    lokasi: { nama: "Danang", negara: { nama: "Vietnam" } },
-    file_url: null,
-    image: "/images/LandingPage/Destination/Danang.png",
-  },
-  {
-    id: 3,
-    nama: "Jakarta",
-    item_type: "travel_package",
-    harga_dewasa: 1200000,
-    durasi_hari: 4,
-    lokasi: { nama: "Jakarta", negara: { nama: "Indonesia" } },
-    file_url: null,
-    image: "/images/LandingPage/Destination/Jakarta.png",
-  },
-  {
-    id: 4,
-    nama: "Ho Chi Minh City",
-    item_type: "travel_package",
-    harga_dewasa: 1200000,
-    durasi_hari: 4,
-    lokasi: { nama: "Ho Chi Minh City", negara: { nama: "Vietnam" } },
-    file_url: null,
-    image: "/images/LandingPage/Destination/HoChiMinhCity.png",
-  },
-  {
-    id: 5,
-    nama: "Jakarta",
-    item_type: "travel_package",
-    harga_dewasa: 1200000,
-    durasi_hari: 4,
-    lokasi: { nama: "Jakarta", negara: { nama: "Indonesia" } },
-    file_url: null,
-    image: "/images/LandingPage/Destination/Jakarta.png",
-  },
-  {
-    id: 6,
-    nama: "Ho Chi Minh City",
-    item_type: "travel_package",
-    harga_dewasa: 1200000,
-    durasi_hari: 4,
-    lokasi: { nama: "Ho Chi Minh City", negara: { nama: "Vietnam" } },
-    file_url: null,
-    image: "/images/LandingPage/Destination/HoChiMinhCity.png",
-  },
-];
-
 const Destination = () => {
   const [travelData, setTravelData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,12 +28,6 @@ const Destination = () => {
         const response = await apiClient.get("/pemesanan/items?is_category=false");
         const rawData = response.data.data;
 
-        if (!rawData || rawData.length === 0) {
-          console.warn("⚠️ API returned empty data, using dummy fallback");
-          setTravelData(dummyDestinations);
-          return;
-        }
-
         const processed = rawData.map((item) => ({
           ...item,
           image: item.file_url
@@ -105,10 +36,10 @@ const Destination = () => {
                 .replace(/^uploads\//, "")}`
             : "/public/images/error/No_Image_Available.jpg",
         }));
+
         setTravelData(processed);
       } catch (err) {
-        console.error("❌ API Error - using dummy data fallback:", err);
-        setTravelData(dummyDestinations);
+        console.error("❌ API Error:", err);
       } finally {
         setLoading(false);
       }
@@ -137,8 +68,6 @@ const Destination = () => {
         </div>
       </div>
 
-      {/* Overlay untuk opacity sisi kiri-kanan */}
-      {/* desktop */}
       <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
       <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
 

@@ -7,7 +7,8 @@ export const cardsData = [
     title: "Learn About Our Company Mission and Values",
     description: "Discover our journey, mission, and commitment to providing exceptional services. We are dedicated to delivering quality solutions that meet your needs and exceed expectations.",
     buttonText: "Read More",
-    categoryColor: "#0891b2"
+    categoryColor: "#0891b2",
+    link: "/AboutUs"
   },
   {
     id: 2,
@@ -16,7 +17,8 @@ export const cardsData = [
     title: "Privacy Policy and Data Protection",
     description: "Understanding how we collect, use, and protect your personal information. Our comprehensive privacy policy ensures your data security and transparency in our operations.",
     buttonText: "View Policy",
-    categoryColor: "#059669"
+    categoryColor: "#059669",
+    link: "/PrivacyPolicy"
   },
   {
     id: 3,

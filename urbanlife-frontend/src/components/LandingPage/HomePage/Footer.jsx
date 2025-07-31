@@ -90,8 +90,8 @@ const Footer = () => {
             </button>
             <ul className="space-y-3">
               <li><a href="/AboutUs" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Terms and Conditions</a></li>
+              <li><a href="/PrivacyPolicy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="/TermsAndConditions" className="text-gray-300 hover:text-white transition-colors">Terms and Conditions</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Day Tours</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Bali Airport Transfer Service</a></li>

@@ -8,7 +8,7 @@ export const cardsData = [
     description: "Discover our journey, mission, and commitment to providing exceptional services. We are dedicated to delivering quality solutions that meet your needs and exceed expectations.",
     buttonText: "Read More",
     categoryColor: "#0891b2",
-    link: "/Footer-aboutus"
+    link: "/AboutUs"
   },
   {
     id: 2,

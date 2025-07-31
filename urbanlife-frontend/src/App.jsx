@@ -73,8 +73,8 @@ function App() {
             <Route path="/login" element={<Login />} />
 
             {/* Footer */}
-            <Route path="/Footer-company" element={<CompanyFooter />} />
-            <Route path="/Footer-aboutus" element={<AboutUs />} />
+            <Route path="/Company" element={<CompanyFooter />} />
+            <Route path="/AboutUs" element={<AboutUs />} />
 
             <Route path="/categories" element={<CategoriesFooter />} />
             <Route path="/blog" element={<BlogPostMain />} />

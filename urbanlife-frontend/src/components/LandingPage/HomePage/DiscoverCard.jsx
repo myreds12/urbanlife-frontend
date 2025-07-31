@@ -9,7 +9,8 @@ const dummyImages = [
   "/public/images/error/No_Image_Available_3.jpg",
 ];
 
-const getRandomDummyImage = () => dummyImages[Math.floor(Math.random() * dummyImages.length)];
+const getRandomDummyImage = () =>
+  dummyImages[Math.floor(Math.random() * dummyImages.length)];
 
 const DiscoverCard = () => {
   const [countries, setCountries] = useState([]);
@@ -85,7 +86,9 @@ const DiscoverCard = () => {
             <img
               src={
                 country.url
-                  ? `${import.meta.env.VITE_API_URL}/${country.url.replace(/\\/g, "/")}`
+                  ? `${import.meta.env.VITE_API_URL}/${country.url
+                      .replace(/\\/g, "/")
+                      .replace(/^uploads\//, "")}`
                   : getRandomDummyImage()
               }
               alt={country.nama || "Country Image"}
@@ -93,6 +96,7 @@ const DiscoverCard = () => {
                 e.target.src = getRandomDummyImage(); // Fallback kalau gambar gagal load
               }}
             />
+
             <div className="description">
               <div className="country-title">{country.nama || "Unknown"}</div>
               <h2 className="city-title">

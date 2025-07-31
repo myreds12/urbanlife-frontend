@@ -86,7 +86,7 @@ const DiscoverCard = () => {
             <img
               src={
                 country.url
-                  ? `${import.meta.env.VITE_API_URL}/${country.url
+                  ? `${import.meta.env.VITE_API_URL}/public/${country.url
                       .replace(/\\/g, "/")
                       .replace(/^uploads\//, "")}`
                   : getRandomDummyImage()

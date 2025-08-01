@@ -28,7 +28,7 @@ export const cardsData = [
     description: "Welcome to our Terms of Service. By using our platform, you agree to the following terms and conditions. Please review them carefully.",
     buttonText: "View Policy",
     categoryColor: "#f43f5e",
-    linkTo: "/TermsAndConditions"
+    link: "/TermsAndConditions"
   },
   {
     id: 4,
@@ -38,7 +38,7 @@ export const cardsData = [
     description: "We're here to help you. Whether you have questions, feedback, or need assistance, feel free to contact us. Our dedicated team is ready to provide you with the support you need.",
     buttonText: "Contact Now",
     categoryColor: "#f43f5e",
-    linkTo: "/ContactUs"
+    link: "/ContactUs"
   },
   {
     id: 5,
@@ -47,7 +47,8 @@ export const cardsData = [
     title: "Explore Bali's Best Day Tour Packages",
     description: "Experience the beauty of Bali with our curated day tour packages. From cultural sites to natural wonders, discover the island's hidden gems with professional guides.",
     buttonText: "Book Now",
-    categoryColor: "#dc2626"
+    categoryColor: "#dc2626",
+    linkTo: "/DayTour"
   },
   {
     id: 6,

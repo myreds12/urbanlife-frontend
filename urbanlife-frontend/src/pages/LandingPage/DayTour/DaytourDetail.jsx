@@ -31,17 +31,25 @@ const DaytourDetail = () => {
             price: data.harga_dewasa || 0,
             rating: 4.8, // Bisa diganti dengan data dari API jika ada
             reviews: 142, // Bisa diganti dengan data dari API jika ada
-            duration: data.durasi_hari ? `${data.durasi_hari} Days` : "Full Day",
+            duration: data.durasi_hari
+              ? `${data.durasi_hari} Days`
+              : "Full Day",
             maxGuests: 8, // Bisa diganti dengan data dari API jika ada
-            location: `${data.lokasi?.nama || "Unknown"}, ${data.lokasi?.negara?.nama || "Unknown"}`,
+            location: `${data.lokasi?.nama || "Unknown"}, ${
+              data.lokasi?.negara?.nama || "Unknown"
+            }`,
             images: data.file_url
               ? [
-                  `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${data.file_url
+                  `${apiClient.defaults.baseURL.replace(
+                    /\/$/,
+                    ""
+                  )}/public/${data.file_url
                     .replace(/\\/g, "/")
                     .replace(/^uploads\//, "")}`,
                 ]
               : ["/public/images/error/No_Image_Available.jpg"],
-            description: data.content?.description || "No description available.",
+            description:
+              data.content?.description || "No description available.",
             policies: data.content?.policies || [],
             itinerary: data.content?.itinerary || [],
             priceTable: data.content?.priceTable || [], // Jika ada data priceTable
@@ -50,8 +58,11 @@ const DaytourDetail = () => {
           // Fallback ke data dari state jika API gagal
           setTourData({
             ...state,
-            images: state.image ? [state.image] : ["/public/images/error/No_Image_Available.jpg"],
-            description: state.content?.description || "No description available.",
+            images: state.image
+              ? [state.image]
+              : ["/public/images/error/No_Image_Available.jpg"],
+            description:
+              state.content?.description || "No description available.",
             policies: state.content?.policies || [],
             itinerary: state.content?.itinerary || [],
             priceTable: state.content?.priceTable || [],
@@ -62,8 +73,11 @@ const DaytourDetail = () => {
         // Gunakan data dari state sebagai fallback
         setTourData({
           ...state,
-          images: state.image ? [state.image] : ["/public/images/error/No_Image_Available.jpg"],
-          description: state.content?.description || "No description available.",
+          images: state.image
+            ? [state.image]
+            : ["/public/images/error/No_Image_Available.jpg"],
+          description:
+            state.content?.description || "No description available.",
           policies: state.content?.policies || [],
           itinerary: state.content?.itinerary || [],
           priceTable: state.content?.priceTable || [],
@@ -123,7 +137,11 @@ const DaytourDetail = () => {
         <TourImage images={tourData.images} title={tourData.title} />
 
         {/* Tour Header */}
-        <TourHeader title={tourData.title} price={tourData.price} location={tourData.location} />
+        <TourHeader
+          title={tourData.title}
+          price={tourData.price}
+          location={tourData.location}
+        />
 
         {/* Tabs Navigation */}
         <div className="mt-5 mb-1">
@@ -145,13 +163,27 @@ const DaytourDetail = () => {
         {/* Tab Content */}
         <div className="min-h-96">
           {activeTab === "description" && (
-            <TourDescription description={tourData.description} policies={tourData.policies} />
+            <TourDescription
+              description={tourData.description}
+              policies={tourData.policies}
+            />
           )}
-          {activeTab === "itinerary" && <TourItinerary itinerary={tourData.itinerary} />}
-          {activeTab === "price" && <TourPrice priceTable={tourData.priceTable} />}
+          {activeTab === "itinerary" && (
+            <TourItinerary itinerary={tourData.itinerary} />
+          )}
+          {activeTab === "price" && (
+            <TourPrice priceTable={tourData.priceTable} />
+          )}
         </div>
 
-        
+        <div className="text-center mt-8">
+          <button
+            onClick={handleBookNow}
+            className="px-6 py-3 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition"
+          >
+            Book Now
+          </button>
+        </div>
       </div>
     </div>
   );

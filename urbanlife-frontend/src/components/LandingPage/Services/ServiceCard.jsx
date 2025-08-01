@@ -104,17 +104,17 @@ const ServiceCard = ({ service, onOrderClick, onDetailClick }) => {
     }
   };
 
-  const handleDetailClick = () => {
-    // TODO: Navigate to service detail page
-    // This will integrate with routing system
-    if (onDetailClick) {
-      onDetailClick(service);
-    } else {
-      console.log('Detail clicked for service:', service.id);
-      // Temporary alert for testing  
-      alert(`Detail page for ${service.title} will be implemented with routing`);
-    }
-  };
+  // const handleDetailClick = () => {
+  //   // TODO: Navigate to service detail page
+  //   // This will integrate with routing system
+  //   if (onDetailClick) {
+  //     onDetailClick(service);
+  //   } else {
+  //     console.log('Detail clicked for service:', service.id);
+  //     // Temporary alert for testing  
+  //     alert(`Detail page for ${service.title} will be implemented with routing`);
+  //   }
+  // };
 
   return (
     <div className="bg-white rounded-xl shadow-md border border-gray-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1 max-w-5xl mx-auto flex flex-col lg:flex-row overflow-hidden">
@@ -202,12 +202,12 @@ const ServiceCard = ({ service, onOrderClick, onDetailClick }) => {
             >
               Order
             </button>
-            <button 
+            {/* <button 
               onClick={handleDetailClick}
               className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2.5 rounded-full text-sm transition-colors"
             >
               Detail
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -81,6 +81,9 @@ function App() {
             <Route path="/Company" element={<CompanyFooter />} />
             <Route path="/AboutUs" element={<AboutUs />} />
             <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+            <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
+            <Route path="/ContactUs" element={<ContactUs />} /> 
+            
             <Route path="/DayTour" element={<DayTourPage />} />
             <Route path="/DayTour/:slug" element={<DaytourDetail />} />
             <Route path="/categories" element={<CategoriesFooter />} />

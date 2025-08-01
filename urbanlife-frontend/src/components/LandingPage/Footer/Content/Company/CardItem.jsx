@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import './CardItem.css';
 
 const CardItem = ({ 
@@ -31,7 +30,7 @@ const CardItem = ({
         <h3 className="card-title">{title}</h3>
         <p className="card-description">{description}</p>
 
-        <Link to={link} className="card-button">
+        <Link to={linkTo} className="card-button">
           {buttonText}
         </Link>
       </div>

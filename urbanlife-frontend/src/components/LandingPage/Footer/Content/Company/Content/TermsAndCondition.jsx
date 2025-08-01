@@ -5,11 +5,12 @@ import Footer from '../../../../HomePage/Footer';
 
 const TermsAndConditions = () => {
   const [activeSection, setActiveSection] = useState('');
+  const [isVisible, setIsVisible] = useState({});
 
   // Scroll spy effect
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['intro', 'usage', 'privacy', 'content', 'liability'];
+      const sections = ['intro', 'usage', 'privacy', 'content', 'liability', 'cta'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -24,6 +25,28 @@ const TermsAndConditions = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Intersection Observer for animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible((prev) => ({
+              ...prev,
+              [entry.target.id]: true,
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = document.querySelectorAll('[data-animate]');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   // Smooth scroll to section
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ 
@@ -36,7 +59,13 @@ const TermsAndConditions = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-b from-cyan-50/50 to-white overflow-hidden">
+      <section
+        id="hero"
+        data-animate
+        className={`relative py-20 bg-gradient-to-b from-cyan-50/50 to-white overflow-hidden transition-all duration-700 ${
+          isVisible.hero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
+      >
         {/* Subtle background elements */}
         <div className="absolute top-20 left-10 w-32 h-32 bg-cyan-100/30 rounded-full blur-3xl"></div>
         <div className="absolute bottom-10 right-20 w-48 h-48 bg-cyan-50/40 rounded-full blur-3xl"></div>
@@ -107,7 +136,13 @@ const TermsAndConditions = () => {
           <div className="lg:col-span-2 space-y-16">
             
             {/* Introduction */}
-            <section id="intro" className="scroll-mt-32">
+            <section
+              id="intro"
+              data-animate
+              className={`scroll-mt-32 transition-all duration-700 ${
+                isVisible.intro ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <div className="flex items-start space-x-4 mb-8">
                 <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
                   <Globe className="w-6 h-6 text-cyan-600" />
@@ -151,7 +186,13 @@ const TermsAndConditions = () => {
             </section>
 
             {/* Terms of Use */}
-            <section id="usage" className="scroll-mt-32">
+            <section
+              id="usage"
+              data-animate
+              className={`scroll-mt-32 transition-all duration-700 ${
+                isVisible.usage ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <div className="flex items-start space-x-4 mb-8">
                 <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
                   <Users className="w-6 h-6 text-cyan-600" />
@@ -246,7 +287,13 @@ const TermsAndConditions = () => {
             </section>
 
             {/* Privacy Policy */}
-            <section id="privacy" className="scroll-mt-32">
+            <section
+              id="privacy"
+              data-animate
+              className={`scroll-mt-32 transition-all duration-700 ${
+                isVisible.privacy ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <div className="flex items-start space-x-4 mb-8">
                 <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
                   <Lock className="w-6 h-6 text-cyan-600" />
@@ -298,7 +345,7 @@ const TermsAndConditions = () => {
                         10
                       </div>
                       <p className="text-gray-700 text-sm leading-relaxed">
-                        From time to time, this website may also include links to other website(s) and/or social media. These links are provided to give you further information. They do not signify that we endorse the website(s) and/or social media. We have no responsibility for the content of the linked website(s) and/or social media.
+                        From time to time, this website may also include links to other website(s) and/or social media. These links are provided to give you further information. They do not signify that we endorse the website(s) and/or social media. They have no responsibility for the content of the linked website(s) and/or social media.
                       </p>
                     </div>
                   </div>
@@ -316,18 +363,24 @@ const TermsAndConditions = () => {
                 </div>
 
                 {/* Image placeholder in content */}
-                <div class="mt-8 bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-3">
+                <div className="mt-8 bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-3">
                   <img
                     src="/images/LandingPage/Footer/content/Volcano.png"
                     alt="Terms and conditions documentation"
-                    class="w-full h-48 object-cover rounded-lg"
+                    className="w-full h-48 object-cover rounded-lg"
                   />
                 </div>
               </div>
             </section>
 
             {/* Content Guidelines */}
-            <section id="content" className="scroll-mt-32">
+            <section
+              id="content"
+              data-animate
+              className={`scroll-mt-32 transition-all duration-700 ${
+                isVisible.content ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <div className="flex items-start space-x-4 mb-8">
                 <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
                   <Eye className="w-6 h-6 text-cyan-600" />
@@ -374,7 +427,13 @@ const TermsAndConditions = () => {
             </section>
 
             {/* Liability */}
-            <section id="liability" className="scroll-mt-32">
+            <section
+              id="liability"
+              data-animate
+              className={`scroll-mt-32 transition-all duration-700 ${
+                isVisible.liability ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <div className="flex items-start space-x-4 mb-8">
                 <div className="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
                   <Shield className="w-6 h-6 text-cyan-600" />
@@ -407,7 +466,13 @@ const TermsAndConditions = () => {
       </div>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-b from-white to-cyan-50/30 py-20">
+      <section
+        id="cta"
+        data-animate
+        className={`bg-gradient-to-b from-white to-cyan-50/30 py-20 transition-all duration-700 ${
+          isVisible.cta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
+      >
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h3 className="text-2xl font-semibold text-gray-900 mb-4">
             Need Clarification?

@@ -48,6 +48,7 @@ const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content
 const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/aboutus"));
 const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/TermsAndCondition"));
+const ContactUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/ContactUs"));
 
 const CarRental = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/CarRental"));
 
@@ -81,6 +82,7 @@ function App() {
             <Route path="/AboutUs" element={<AboutUs />} />
             <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
+            <Route path="/ContactUs" element={<ContactUs />} />
 
             <Route path="/categories" element={<CategoriesFooter />} />
             <Route path="/blog" element={<BlogPostMain />} />

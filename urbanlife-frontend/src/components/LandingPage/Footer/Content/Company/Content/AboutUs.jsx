@@ -88,14 +88,15 @@ const AboutUs = () => {
 
         {/* Hero Section */}
         <div className="relative z-10 container mx-auto px-4 py-16 text-center sm:px-6 sm:py-20 mt-15">
-          <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-6 leading-tight">
+          <h1 className="font-playfair text-5xl sm:text-6xl md:text-7xl text-white font-bold mb-6 leading-tight drop-shadow-md">
             About Us
           </h1>
-          <p className="font-inter text-lg sm:text-xl text-white max-w-2xl mx-auto leading-relaxed">
+          <p className="font-inter text-xl sm:text-2xl text-white max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
             Discover the beauty places around the world.
           </p>
           <div className="mt-6 w-20 h-1 bg-white/60 mx-auto rounded-full"></div>
         </div>
+
       </div>
 
       {/* Main Content */}
@@ -245,7 +246,7 @@ const AboutUs = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/booking"
+                href="/"
                 className="font-inter bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-700 transition-colors flex items-center justify-center shadow-sm hover:shadow-md"
                 aria-label="Book Your Trip"
               >
@@ -253,7 +254,7 @@ const AboutUs = () => {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </a>
               <a
-                href="/contact"
+                href="/ContactUs"
                 className="font-inter border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:border-gray-400 hover:bg-gray-50 transition-colors shadow-sm hover:shadow-md"
                 aria-label="Contact Us"
               >

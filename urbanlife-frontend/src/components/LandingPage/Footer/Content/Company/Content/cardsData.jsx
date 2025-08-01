@@ -45,7 +45,8 @@ export const cardsData = [
     title: "Explore Bali's Best Day Tour Packages",
     description: "Experience the beauty of Bali with our curated day tour packages. From cultural sites to natural wonders, discover the island's hidden gems with professional guides.",
     buttonText: "Book Now",
-    categoryColor: "#dc2626"
+    categoryColor: "#dc2626",
+    linkTo: "/day-tour"
   },
   {
     id: 6,

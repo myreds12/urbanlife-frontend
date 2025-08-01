@@ -48,7 +48,7 @@ const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content
 const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/aboutus"));
 const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy"));
 const CarRental = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/CarRental"));
-
+const DayTourPage = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/DayTourPage"));
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
 const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));
 const BlogDetail = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogDetail"));
@@ -78,7 +78,8 @@ function App() {
             <Route path="/Company" element={<CompanyFooter />} />
             <Route path="/AboutUs" element={<AboutUs />} />
             <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
-
+            <Route path="/day-tour" element={<DayTourPage />} />
+            <Route path="/day-tour/:slug" element={<DaytourDetail />} />
             <Route path="/categories" element={<CategoriesFooter />} />
             <Route path="/blog" element={<BlogPostMain />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />

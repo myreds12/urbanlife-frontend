@@ -2,20 +2,19 @@ import React, { useState } from 'react';
 
 
 const blogPosts = [
-  { title: "Ubud Art Market - time to shop for local souvenirs", slug: "ubud-art-market" },
-  { title: "Padang Padang Beach - a hidden beach", slug: "padang-padang-beach" },
-  { title: "Garuda Wisnu Kencana Cultural Park - a center of cultural activities", slug: "garuda-wisnu-kencana" },
-  { title: "Barong Dance - a battle between good and evil", slug: "barong-dance" },
-  { title: "Banjar Hot Spring - a great spot to relax", slug: "banjar-hot-spring" },
-  { title: "Ubud Monkey Forest - a sacred monkey forest", slug: "ubud-monkey-forest" },
-  { title: "Jatiluwih Rice Terraces - an introduction to Subak", slug: "jatiluwih-rice-terraces" },
-  { title: "Tanah Lot Temple - a guardian snake underneath", slug: "tanah-lot-temple" },
-  { title: "Batur Volcano View - hike for the sunrise", slug: "batur-volcano" },
-  { title: "Tirta Gangga Water Palace - a water garden sanctuary", slug: "tirta-gangga" },
-  { title: "Water Sports at Nusa Dua - your holiday activities", slug: "nusa-dua-water-sports" },
-  { title: "Tegenungan Waterfall - time to freshen up", slug: "tegenungan-waterfall" },
+  { title: "Ubud Art Market ", slug: "ubud-art-market" },
+  { title: "Padang Padang Beach ", slug: "padang-padang-beach" },
+  { title: "Garuda Wisnu Kencana Cultural Park ", slug: "garuda-wisnu-kencana" },
+  { title: "Barong Dance ", slug: "barong-dance" },
+  { title: "Banjar Hot Spring ", slug: "banjar-hot-spring" },
+  { title: "Ubud Monkey Forest ", slug: "ubud-monkey-forest" },
+  { title: "Jatiluwih Rice Terraces ", slug: "jatiluwih-rice-terraces" },
+  { title: "Tanah Lot Temple ", slug: "tanah-lot-temple" },
+  { title: "Batur Volcano View  ", slug: "batur-volcano" },
+  { title: "Tirta Gangga Water Palace ", slug: "tirta-gangga" },
+  { title: "Water Sports at Nusa Dua ", slug: "nusa-dua-water-sports" },
+  { title: "Tegenungan Waterfall ", slug: "tegenungan-waterfall" },
 ];
-
 const Footer = () => {
   // Array warna-warna yang akan bergantian
   const colors = [
@@ -90,12 +89,12 @@ const Footer = () => {
             </button>
             <ul className="space-y-3">
               <li><a href="/AboutUs" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Terms and Conditions</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Day Tours</a></li>
+              <li><a href="/PrivacyPolicy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="/TermsAndConditions" className="text-gray-300 hover:text-white transition-colors">Terms and Conditions</a></li>
+              <li><a href="/ContactUs" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
+              <li><a href="/DayTour" className="text-gray-300 hover:text-white transition-colors">Day Tours</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Bali Airport Transfer Service</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Car Rental</a></li>
+              <li><a href="/unit-car" className="text-gray-300 hover:text-white transition-colors">Car Rental</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Bali Motorbike Rental</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Transportation to/from Sanur Pier</a></li>
             </ul>
@@ -130,18 +129,18 @@ const Footer = () => {
               `}></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Art Market</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Beach</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Cultural Park</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Dance</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Hot Spring</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Monkey Forest</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Rice Terraces</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Temple</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Volcano</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Water Palace</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Water Sports</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Waterfall</a></li>
+              <li><a href="ubud-art-market" className="text-gray-300 hover:text-white transition-colors">Art Market</a></li>
+              <li><a href="padang-padang-beach" className="text-gray-300 hover:text-white transition-colors">Beach</a></li>
+              <li><a href="garuda-wisnu-kencana" className="text-gray-300 hover:text-white transition-colors">Cultural Park</a></li>
+              <li><a href="barong-dance" className="text-gray-300 hover:text-white transition-colors">Dance</a></li>
+              <li><a href="banjar-hot-spring" className="text-gray-300 hover:text-white transition-colors">Hot Spring</a></li>
+              <li><a href="ubud-monkey-forest" className="text-gray-300 hover:text-white transition-colors">Monkey Forest</a></li>
+              <li><a href="jatiluwih-rice-terraces" className="text-gray-300 hover:text-white transition-colors">Rice Terraces</a></li>
+              <li><a href="tanah-lot-temple" className="text-gray-300 hover:text-white transition-colors">Temple</a></li>
+              <li><a href="batur-volcano" className="text-gray-300 hover:text-white transition-colors">Volcano</a></li>
+              <li><a href="tirta-gangga" className="text-gray-300 hover:text-white transition-colors">Water Palace</a></li>
+              <li><a href="nusa-dua-water-sports" className="text-gray-300 hover:text-white transition-colors">Water Sports</a></li>
+              <li><a href="tegenungan-waterfall" className="text-gray-300 hover:text-white transition-colors">Waterfall</a></li>
             </ul>
           </div>
 
@@ -176,7 +175,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {blogPosts.map((post, index) => (
                 <li key={index}>
-                  <a href={`/blog/${post.slug}`} className="text-gray-300 hover:text-white transition-colors">
+                  <a href={`/${post.slug}`} className="text-gray-300 hover:text-white transition-colors">
                     {post.title}
                   </a>
                 </li>

@@ -239,7 +239,7 @@ const Navbar = () => {
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">Day Tour</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/day-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/daytour.png" className="mega-menu-icon" alt="daytour"/> Day Tours</a></li>
+                    <li><a href="/DayTour" className="mega-menu-link"><img src="/images/LandingPage/Navbar/daytour.png" className="mega-menu-icon" alt="daytour"/> Day Tours</a></li>
                     {/* <li><a href="/cultural-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/cultural_tour.png" className="mega-menu-icon" alt="cultural"/> Cultural Tours</a></li>
                     <li><a href="/adventure-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/adventure_tour.png" className="mega-menu-icon" alt="adventure"/> Adventure Tours</a></li> */}
                   </ul>

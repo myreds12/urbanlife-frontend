@@ -6,8 +6,11 @@ export const UnitCar = [
     unit: "Toyota Avanza",
     people: "4 - 6 people",
     title: "Starts from :",
-    price: "IDR 900,000",
-    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area."
+    startsPrice: "IDR 900,000",
+    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area.",
+    duration: [
+          { duration: "1 - 12 hours", price: "IDR 900,000" },
+        ]
   },
   {
     id: 2,
@@ -15,8 +18,11 @@ export const UnitCar = [
     unit: "Toyota Alphard",
     people: "4 people",
     title: "Starts from :",
-    price: "IDR 4,000,000",
-    description: "A high-end SUV (Sport Utility Vehicle) that comes with luxurious interior design and excellent comfort. Suitable for traveling with a small group. This car can accommodate up to 4 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area."
+    startsPrice: "IDR 4,000,000",
+    description: "A high-end SUV (Sport Utility Vehicle) that comes with luxurious interior design and excellent comfort. Suitable for traveling with a small group. This car can accommodate up to 4 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area.",
+    duration: [
+          { duration: "1 - 12 hours", price: "IDR 4,000,000" },
+        ]
   },
   {
     id: 3,
@@ -24,8 +30,11 @@ export const UnitCar = [
     unit: "Toyota Innova Reborn",
     people: "4 - 6 people",
     title: "Starts from :",
-    price: "IDR 1,050,000",
-    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area."
+    startsPrice: "IDR 1,050,000",
+    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area.",
+    duration: [
+          { duration: "1 - 12 hours", price: "IDR 1,050,000" },
+        ]
   },
   {
     id: 4,
@@ -33,8 +42,11 @@ export const UnitCar = [
     unit: "Wuling Confero",
     people: "4 - 6 people",
     title: "Starts from :",
-    price: "IDR 900,000",
-    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area"
+    startsPrice: "IDR 900,000",
+    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area",
+    duration: [
+          { duration: "1 - 12 hours", price: "IDR 900,000" },
+        ]
   },
   {
     id: 5,
@@ -42,8 +54,11 @@ export const UnitCar = [
     unit: "Daihatsu Sigra",
     people: "4 - 6 people",
     title: "Starts from :",
-    price: "IDR 750,000",
-    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area."
+    startsPrice: "IDR 750,000",
+    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package and to be used within Jakarta area only. We do not provide car rental with no driver included and to be used outside Jakarta area.",
+    duration: [
+          { duration: "1 - 12 hours", price: "IDR 750,000" },
+        ]
   },
   {
     id: 6,
@@ -51,8 +66,13 @@ export const UnitCar = [
     unit: "All New Honda BR-V",
     people: "4 - 6 people",
     title: "Starts from :",
-    price: "IDR 600,000",
-    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package. We do not provide car rental with no driver included."
+    startsPrice: "IDR 600,000",
+    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package. We do not provide car rental with no driver included.",
+    duration: [
+          { duration: "4 - 6 hours", price: "IDR 600,000" },
+          { duration: "7 - 9 hours", price: "IDR 700,000" },
+          { duration: "10 - 12 hours", price: "IDR 800,000" },
+        ]
   },
   {
     id: 7,
@@ -60,8 +80,13 @@ export const UnitCar = [
     unit: "Toyota Innova Reborn",
     people: "4 - 6 people",
     title: "Starts from :",
-    price: "IDR 800,000",
-    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package. We do not provide car rental with no driver included."
+    startsPrice: "IDR 800,000",
+    description: "Suitable for traveling with a small group. This car can accommodate 4 – 6 passengers. The service that we offer is the car with driver included as a package. We do not provide car rental with no driver included.",
+    duration: [
+          { duration: "4 - 6 hours", price: "IDR 800,000" },
+          { duration: "7 - 9 hours", price: "IDR 900,000" },
+          { duration: "10 - 12 hours", price: "IDR 1,000,000" },
+        ]
   },
   {
     id: 8,
@@ -69,8 +94,13 @@ export const UnitCar = [
     unit: "Hyundai H-1",
     people: "8 - 11 people",
     title: "Starts from :",
-    price: "IDR 1,000,000",
-    description: "Suitable for traveling with a medium-sized group. This car can accommodate 8 – 11 passengers. The service that we offer is the car with driver included as a package. We do not provide car rental with no driver included."
+    startsPrice: "IDR 1,000,000",
+    description: "Suitable for traveling with a medium-sized group. This car can accommodate 8 – 11 passengers. The service that we offer is the car with driver included as a package. We do not provide car rental with no driver included.",
+    duration: [
+          { duration: "4 - 6 hours", price: "IDR 1,000,000" },
+          { duration: "7 - 9 hours", price: "IDR 1,100,000" },
+          { duration: "10 - 12 hours", price: "IDR 1,200,000" },
+        ]    
   },
   {
     id: 9,
@@ -78,8 +108,13 @@ export const UnitCar = [
     unit: "Toyota Hiace",
     people: "11 - 15 people",
     title: "Starts from :",
-    price: "IDR 1,100,000",
-    description: "Suitable for traveling with a large group. This car can accommodate 11 – 15 passengers. The service that we offer is the car with driver included as a package. We do not provide car rental with no driver included."
+    startsPrice: "IDR 1,100,000",
+    description: "Suitable for traveling with a large group. This car can accommodate 11 – 15 passengers. The service that we offer is the car with driver included as a package. We do not provide car rental with no driver included.",
+    duration: [
+          { duration: "4 - 6 hours", price: "IDR 1,100,000" },
+          { duration: "7 - 9 hours", price: "IDR 1,200,000" },
+          { duration: "10 - 12 hours", price: "IDR 1,300,000" },
+        ]    
   },
 
 ];

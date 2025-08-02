@@ -21,8 +21,9 @@ const UnitCarGrid = ({ cards }) => {
           unit={card.unit}
           people={card.people}
           title={card.title}
-          price={card.price}        
-          description={card.description}                 
+          startsPrice={card.startsPrice}        
+          description={card.description}        
+          duration={card.duration}        
         />
       ))}
     </div>

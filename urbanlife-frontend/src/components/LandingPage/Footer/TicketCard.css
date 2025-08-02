@@ -236,7 +236,7 @@
   }
 }
 
-.perforation-left {
+/* .perforation-left {
   position: absolute;
   left: 0;
   top: 0;
@@ -249,7 +249,29 @@
     0% 40%, 100% 50%, 0% 60%, 100% 70%,
     0% 80%, 100% 90%, 0% 100%
   );
+} */
+
+.perforation-left::before,
+.perforation-left::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  transform: translateX(-62%);
+  width: 34px;
+  height: 34px;
+  background: #FAF9FF;
+  border-radius: 50%;
+  z-index: 11;
 }
+
+.perforation-left::before {
+  top: -12px;
+}
+
+.perforation-left::after {
+  bottom: -12px;
+}
+
 
 .perforation-right {
   position: absolute;
@@ -462,6 +484,20 @@
   .separation-line::after {
     bottom: -8px;
   }
+
+  .perforation-left::before,
+  .perforation-left::after {
+    width: 20px;
+    height: 20px;
+  }
+
+  .perforation-left::before {
+    top: -8px;
+  }
+
+  .perforation-left::after {
+    bottom: -8px;
+  }
 }
 
 
@@ -592,6 +628,20 @@
   .separation-line::after {
     bottom: -8px;
   }
+
+  .perforation-left::before,
+  .perforation-left::after {
+    width: 20px;
+    height: 20px;
+  }
+
+  .perforation-left::before {
+    top: -8px;
+  }
+
+  .perforation-left::after {
+    bottom: -8px;
+  }
 }
 
 
@@ -688,6 +738,20 @@
   }
   
   .separation-line::after {
+    bottom: -8px;
+  }
+
+  .perforation-left::before,
+  .perforation-left::after {
+    width: 20px;
+    height: 20px;
+  }
+
+  .perforation-left::before {
+    top: -8px;
+  }
+
+  .perforation-left::after {
     bottom: -8px;
   }
 }

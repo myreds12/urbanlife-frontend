@@ -29,11 +29,16 @@ const Footer = () => {
   ];
 
   const [companyColorIndex, setCompanyColorIndex] = useState(0);
+  const [servicesColorIndex, setServicesColorIndex] = useState(0);
   const [categoriesColorIndex, setCategoriesColorIndex] = useState(1);
   const [blogColorIndex, setBlogColorIndex] = useState(2);
 
   const handleCompanyHover = () => {
     setCompanyColorIndex((prev) => (prev + 1) % colors.length);
+  };
+
+  const handleServicesHover = () => {
+    setServicesColorIndex((prev) => (prev + 1) % colors.length);
   };
 
   const handleCategoriesHover = () => {
@@ -47,6 +52,9 @@ const Footer = () => {
   const handleCompanyClick = () => {
   window.location.href = '/Company';
   };
+  const handleServicesClick = () => {
+  window.location.href = '/Services';
+  };
   const handleCategoriesClick = () => {
     window.location.href = '/categories';
   };
@@ -58,7 +66,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#071C4D] text-white pt-16 pb-6 px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-40 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
           {/* Company Section */}
           <div>
             <button 
@@ -92,6 +100,38 @@ const Footer = () => {
               <li><a href="/PrivacyPolicy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
               <li><a href="/TermsAndConditions" className="text-gray-300 hover:text-white transition-colors">Terms and Conditions</a></li>
               <li><a href="/ContactUs" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
+            </ul>
+          </div>
+
+          {/* Services Section */}
+          <div>
+            <button 
+              onClick={handleServicesClick}
+              onMouseEnter={handleServicesHover}
+              className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
+                ${servicesColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
+                ${servicesColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
+                ${servicesColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
+                ${servicesColorIndex === 3 ? 'hover:text-green-300 hover:border-green-300' : ''}
+                ${servicesColorIndex === 4 ? 'hover:text-orange-300 hover:border-orange-300' : ''}
+                ${servicesColorIndex === 5 ? 'hover:text-red-300 hover:border-red-300' : ''}
+                ${servicesColorIndex === 6 ? 'hover:text-cyan-300 hover:border-cyan-300' : ''}
+                ${servicesColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
+              `}
+            >
+              SERVICES
+              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
+                ${servicesColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
+                ${servicesColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
+                ${servicesColorIndex === 2 ? 'bg-gradient-to-r from-pink-400 to-pink-600' : ''}
+                ${servicesColorIndex === 3 ? 'bg-gradient-to-r from-green-400 to-green-600' : ''}
+                ${servicesColorIndex === 4 ? 'bg-gradient-to-r from-orange-400 to-orange-600' : ''}
+                ${servicesColorIndex === 5 ? 'bg-gradient-to-r from-red-400 to-red-600' : ''}
+                ${servicesColorIndex === 6 ? 'bg-gradient-to-r from-cyan-400 to-cyan-600' : ''}
+                ${servicesColorIndex === 7 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' : ''}
+              `}></span>
+            </button>
+            <ul className="space-y-3">
               <li><a href="/DayTour" className="text-gray-300 hover:text-white transition-colors">Day Tours</a></li>
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Bali Airport Transfer Service</a></li>
               <li><a href="/unit-car" className="text-gray-300 hover:text-white transition-colors">Car Rental</a></li>
@@ -99,6 +139,7 @@ const Footer = () => {
               <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Transportation to/from Sanur Pier</a></li>
             </ul>
           </div>
+
 
           {/* Categories Section */}
           <div>
@@ -199,7 +240,7 @@ const Footer = () => {
             </div>
 
             <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
-            <div className="flex space-x-4 mb-3">
+            <div className="flex space-x-6 mb-3">
               {/* TikTok */}
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -213,7 +254,7 @@ const Footer = () => {
                 </svg>
               </a>
               {/* Instagram */}
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <a href="https://www.instagram.com/urban.life.id/" className="text-gray-300 hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                 </svg>
@@ -227,7 +268,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-8">
+        <div className="border-t border-gray-600 pt-6">
           <p className="text-center text-gray-400">
             2025 Copyright Urbanlife • All rights reserved • Made in Jakarta
           </p>

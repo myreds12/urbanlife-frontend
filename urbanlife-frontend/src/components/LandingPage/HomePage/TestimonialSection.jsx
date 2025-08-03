@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const TestimonialSection = () => {
+  const { t } = useTranslation();
   const testimonials = [
     {
       id: 1,
@@ -37,11 +39,10 @@ const TestimonialSection = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="playfair text-[#071C4D] text-[32px] font-bold mb-4">
-            They Are Loving Us
+            {t('testimonial.title')}
           </h2>
           <p className="text-gray-600 text-lg">
-            Moments were giving them<br />
-            the best experience
+            {t('testimonial.subtitle')}
           </p>
         </div>
 
@@ -69,14 +70,14 @@ const TestimonialSection = () => {
               {/* Review */}
               <div className="text-center mb-6">
                 <p className="text-gray-600 text-base italic leading-loose text-center">
-                  "{testimonial.review}"
+                  "{t(`testimonial.review${testimonial.id}`)}"
                 </p>
               </div>
 
               {/* Tour Info */}
               <div className="text-center">
                 <p className="text-gray-600 font-medium">
-                  {testimonial.tour}
+                  {t(`testimonial.tour${testimonial.id}`)}
                 </p>
               </div>
             </div>

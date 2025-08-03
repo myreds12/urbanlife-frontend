@@ -5,6 +5,9 @@ import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/api
 import Submenu from './Submenu';
 import "../../../../styles/LandingPage/HomePage/Navbar.css";
 
+import { useTranslation } from 'react-i18next';
+
+
 // Original comment: Main Navbar component
 const Navbar = () => {
   // Original comment: State for mobile menu and dropdown
@@ -18,6 +21,8 @@ const Navbar = () => {
   const [topAttractions, setTopAttractions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); // New comment: Hook for programmatic navigation
+  const { t, i18n } = useTranslation();
+
 
   // Original comment: Static destination data
   const destinationData = {
@@ -29,12 +34,12 @@ const Navbar = () => {
       { id: 4, name: 'Ho Chi Minh City Tour', location: 'Ho Chi Minh, Vietnam', image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=60&h=60&fit=crop&crop=center' },
     ],
     'Asia': [
-      { id: 20, name: 'Mount Fuji Tour', location: 'Tokyo, Japan', image: 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=60&h=60&fit=crop&crop=center' },
-      { id: 21, name: 'Great Wall of China', location: 'Beijing, China', image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=60&h=60&fit=crop&crop=center' },
-      { id: 23, name: 'Angkor Wat Temple', location: 'Siem Reap, Cambodia', image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73c6e?w=60&h=60&fit=crop&crop=center' },
-      { id: 24, name: 'Kyoto Cultural Tour', location: 'Kyoto, Japan', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=60&h=60&fit=crop&crop=center' },
-      { id: 25, name: 'Taj Mahal Tour', location: 'Agra, India', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=60&h=60&fit=crop&crop=center' },
-      { id: 26, name: 'Seoul City Experience', location: 'Seoul, South Korea', image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=60&h=60&fit=crop&crop=center' }
+      // { id: 20, name: 'Mount Fuji Tour', location: 'Tokyo, Japan', image: 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=60&h=60&fit=crop&crop=center' },
+      // { id: 21, name: 'Great Wall of China', location: 'Beijing, China', image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=60&h=60&fit=crop&crop=center' },
+      // { id: 23, name: 'Angkor Wat Temple', location: 'Siem Reap, Cambodia', image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73c6e?w=60&h=60&fit=crop&crop=center' },
+      // { id: 24, name: 'Kyoto Cultural Tour', location: 'Kyoto, Japan', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=60&h=60&fit=crop&crop=center' },
+      // { id: 25, name: 'Taj Mahal Tour', location: 'Agra, India', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=60&h=60&fit=crop&crop=center' },
+      // { id: 26, name: 'Seoul City Experience', location: 'Seoul, South Korea', image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=60&h=60&fit=crop&crop=center' }
     ]
   };
 
@@ -42,18 +47,15 @@ const Navbar = () => {
   const serviceData = {
     'Day Tour': [
       { title: 'Day Tours', image: 'daytour.png' },
-      { title: 'Cultural Tours', image: 'cultural_tour.png' },
-      { title: 'Adventure Tours', image: 'adventure_tour.png' },
+      
     ],
     'Rent Car': [
       { title: 'Rent Car', image: 'rentcar.png' },
-      { title: 'Airport Transfer', image: 'airport_transfer.png' },
-      { title: 'Private Driver', image: 'private_driver.png' },
+      
     ],
     'Accomodation': [
       { title: 'Hotel & Resorts', image: 'hotel_resort.png' },
-      { title: 'Homestays', image: 'homestay.png' },
-      { title: 'Private Villas', image: 'private_villa.png' },
+      
     ],
   };
 
@@ -62,7 +64,7 @@ const Navbar = () => {
     const fetchTopAttractions = async () => {
       setIsLoading(true);
       try {
-        const response = await apiClient.get('/pemesanan/popular-items?take=4');
+        const response = await apiClient.get('/pemesanan/items?is_category=false');
         const rawData = response.data.data;
         console.log("API Response:", rawData); // New comment: Debug raw API response
 
@@ -179,7 +181,7 @@ const Navbar = () => {
         <div className="navbar-menu-desktop">
           <div className="navbar-dropdown" onMouseEnter={() => setIsDropdownOpen("place")} onMouseLeave={closeDropdown}>
             <button onClick={(e) => toggleDropdown("place", e)} className="navbar-menu-item dropdown-trigger">
-              Place to see
+              {t("navbar.placetosee")}
               <svg className={`dropdown-arrow ${isDropdownOpen === "place" ? "dropdown-arrow-active" : ""}`} width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -187,7 +189,7 @@ const Navbar = () => {
             <div className={`mega-menu ${isDropdownOpen === "place" ? 'mega-menu-active' : ''}`}>
               <div className="mega-menu-content">
                 <div className="mega-menu-sidebar">
-                  <h3 className="mega-menu-sidebar-title">Categories</h3>
+                  <h3 className="mega-menu-sidebar-title">{t("navbar.categories")}</h3>
                   <div className="mega-menu-categories">
                     {['Top Attractions', 'Asia'].map((category) => (
                       <div key={category} className={`mega-menu-category ${activeCategory === category ? 'mega-menu-category-active' : ''}`} onMouseEnter={() => handleCategoryHover(category)}>
@@ -202,7 +204,7 @@ const Navbar = () => {
                 <div className="mega-menu-main">
                   <div className="mega-menu-header">
                     <h3 className="mega-menu-title">{activeCategory}</h3>
-                    <p className="mega-menu-subtitle">Discover amazing destinations and experiences</p>
+                    <p className="mega-menu-subtitle">{t("navbar.subtitle")}</p>
                   </div>
                   {/* New comment: Show loading or error state */}
                   {isLoading ? (
@@ -232,7 +234,7 @@ const Navbar = () => {
           </div>
           <div className="navbar-dropdown" onMouseEnter={() => setIsDropdownOpen("services")} onMouseLeave={closeDropdown}>
             <button onClick={(e) => toggleDropdown("services", e)} className="navbar-menu-item dropdown-trigger">
-              Services
+              {t("navbar.services")}
               <svg className={`dropdown-arrow ${isDropdownOpen === "services" ? "dropdown-arrow-active" : ""}`} width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -240,38 +242,47 @@ const Navbar = () => {
             <div className={`mega-menu services-menu ${isDropdownOpen === "services" ? 'mega-menu-active' : ''}`}>
               <div className="mega-menu-content services-content">
                 <div className="mega-menu-section">
-                  <h4 className="mega-menu-section-title">Day Tour</h4>
+                  <h4 className="mega-menu-section-title">{t("navbar.daytour")}</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/day-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/daytour.png" className="mega-menu-icon" alt="daytour"/> Day Tours</a></li>
-                    <li><a href="/cultural-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/cultural_tour.png" className="mega-menu-icon" alt="cultural"/> Cultural Tours</a></li>
-                    <li><a href="/adventure-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/adventure_tour.png" className="mega-menu-icon" alt="adventure"/> Adventure Tours</a></li>
+                    <li><a href="/DayTour" className="mega-menu-link"><img src="/images/LandingPage/Navbar/daytour.png" className="mega-menu-icon" alt="daytour"/>{t("navbar.daytour")}</a></li>
+                    {/* <li><a href="/cultural-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/cultural_tour.png" className="mega-menu-icon" alt="cultural"/> Cultural Tours</a></li>
+                    <li><a href="/adventure-tours" className="mega-menu-link"><img src="/images/LandingPage/Navbar/adventure_tour.png" className="mega-menu-icon" alt="adventure"/> Adventure Tours</a></li> */}
                   </ul>
                 </div>
                 <div className="mega-menu-section">
-                  <h4 className="mega-menu-section-title">Transportation</h4>
+                  <h4 className="mega-menu-section-title">{t("navbar.transportation")}</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/rent-car" className="mega-menu-link"><img src="/images/LandingPage/Navbar/rentcar.png" className="mega-menu-icon" alt="rentcar"/> Rent Car</a></li>
-                    <li><a href="/airport-transfer" className="mega-menu-link"><img src="/images/LandingPage/Navbar/airport_transfer.png" className="mega-menu-icon" alt="airport"/> Airport Transfer</a></li>
-                    <li><a href="/private-driver" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_driver.png" className="mega-menu-icon" alt="driver"/>Private Driver</a></li>
+                    <li><a href="/unit-car" className="mega-menu-link"><img src="/images/LandingPage/Navbar/rentcar.png" className="mega-menu-icon" alt="rentcar"/>{t("navbar.rentcar")}</a></li>
+                    {/* <li><a href="/airport-transfer" className="mega-menu-link"><img src="/images/LandingPage/Navbar/airport_transfer.png" className="mega-menu-icon" alt="airport"/> Airport Transfer</a></li>
+                    <li><a href="/private-driver" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_driver.png" className="mega-menu-icon" alt="driver"/>Private Driver</a></li> */}
                   </ul>
                 </div>
                 <div className="mega-menu-section">
-                  <h4 className="mega-menu-section-title">Accommodation</h4>
+                  <h4 className="mega-menu-section-title">{t("navbar.accomodation")}</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/hotels" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>Hotels & Resorts</a></li>
+                    {/* <li><a href="/hotels" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>Hotels & Resorts</a></li>
                     <li><a href="/homestays" className="mega-menu-link"><img src="/images/LandingPage/Navbar/homestay.png" className="mega-menu-icon" alt="homestay"/> Homestays</a></li>
-                    <li><a href="/villas" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_villa.png" className="mega-menu-icon" alt="villa"/> Private Villas</a></li>
+                    <li><a href="/villas" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_villa.png" className="mega-menu-icon" alt="villa"/> Private Villas</a></li> */}
                   </ul>
                 </div>
               </div>
             </div>
           </div>
-          <a href="#news" className="navbar-menu-item">News</a>
-          <a href="/" className="flex items-center gap-1 text-[15px] font-medium text-[#333]">
-            <img src="/images/LandingPage/Navbar/language.png" alt="Lang" className="w-4 h-4 object-contain" />
-            <span>Eng</span>
-          </a>
-          {/* Original comment: Contact Us button */}
+          <a href="#news" className="navbar-menu-item">{t("navbar.news")}</a>
+<div
+  className="flex items-center gap-2 text-[15px] font-medium text-[#333] cursor-pointer"
+  onClick={() => {
+    const newLang = i18n.language === 'en' ? 'id' : 'en';
+    i18n.changeLanguage(newLang);
+  }}
+>
+  <img
+    src="/images/LandingPage/Navbar/language.png"
+    alt="Lang"
+    className="w-4 h-4 object-contain"
+  />
+  <span>{i18n.language === 'en' ? 'Eng' : 'Ind'}</span>
+</div>          {/* Original comment: Contact Us button */}
           <a
             href="/contact"
             className={`hidden lg:inline-block h-full px-6 py-5
@@ -283,7 +294,7 @@ const Navbar = () => {
               transition-all duration-500 ease-out shadow-md
             `}
           >
-            Contact Us
+            {t("navbar.contactus")}
           </a>
         </div>
         {/* Original comment: Mobile toggle button */}
@@ -309,19 +320,19 @@ const Navbar = () => {
         <div className="bottom-sheet-content">
           <div className="bottom-sheet-menu">
             <button onClick={handlePlacesToSeeClick} className="bottom-sheet-menu-item">
-              Places to see
+              {t("navbar.placetosee")}
               <FiChevronRight/>
             </button>
             <button onClick={handleServicesClick} className="bottom-sheet-menu-item">
-              Services
+              {t("navbar.services")}
               <FiChevronRight/>
             </button>
             <a href="#news" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-menu-item">
-              News
+              {t("navbar.news")}
               <FiChevronRight/>
             </a>
             <a href="/contact" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-contact-btn">
-              Contact Us
+              {t("navbar.contactus")}
             </a>
           </div>
         </div>
@@ -331,7 +342,7 @@ const Navbar = () => {
         isSubmenuOpen={isPlacesSubmenuOpen}
         setIsSubmenuOpen={setIsPlacesSubmenuOpen}
         data={destinationData}
-        title="Places to See"
+        title={t("navbar.placetosee")}
         isServices={false}
       />
       {/* Original comment: Services Submenu */}
@@ -339,7 +350,7 @@ const Navbar = () => {
         isSubmenuOpen={isServicesSubmenuOpen}
         setIsSubmenuOpen={setIsServicesSubmenuOpen}
         data={serviceData}
-        title="Services"
+        title={t("navbar.services")}
         isServices={true}
       />
     </>

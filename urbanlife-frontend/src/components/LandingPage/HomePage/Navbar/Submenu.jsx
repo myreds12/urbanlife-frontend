@@ -1,18 +1,30 @@
 import React, { useState, useRef } from 'react';
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { useNavigate } from "react-router-dom"; // New comment: Added for navigation
+import { useNavigate } from "react-router-dom";
 import "../../../../styles/LandingPage/HomePage/Submenu.css";
 
-// Original comment: Submenu component for mobile
 const Submenu = ({ isSubmenuOpen, setIsSubmenuOpen, data, title, isServices }) => {
   const [activeCategory, setActiveCategory] = useState(Object.keys(data)[0] || '');
   const tabsRef = useRef(null);
-  const navigate = useNavigate(); // New comment: Hook for programmatic navigation
+  const navigate = useNavigate();
 
   const categories = Object.keys(data);
   const currentItems = data[activeCategory] || [];
 
-  // Original comment: Scroll tabs left or right
+  // Service navigation mapping
+  const serviceNavigationMap = {
+    'Day Tours': '/DayTour',
+    'Rent Car': '/unit-car',
+    'Hotel & Resorts': '/hotels',
+    'Cultural Tours': '/cultural-tours',
+    'Adventure Tours': '/adventure-tours',
+    'Airport Transfer': '/airport-transfer',
+    'Private Driver': '/private-driver',
+    'Homestays': '/homestays',
+    'Private Villas': '/villas'
+  };
+
+  // Scroll tabs left or right
   const scrollTabs = (direction) => {
     if (tabsRef.current) {
       const scrollAmount = 150;
@@ -24,40 +36,54 @@ const Submenu = ({ isSubmenuOpen, setIsSubmenuOpen, data, title, isServices }) =
     }
   };
 
-  // Original comment: Handle category click
+  // Handle category click
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
   };
 
-  // Original comment: Close submenu
+  // Close submenu
   const closeSubmenu = () => {
     setIsSubmenuOpen(false);
   };
 
-  // New comment: Handle destination click to navigate to DaytourDetail
+  // Handle item click with proper navigation
   const handleItemClick = (item) => {
+    // Close submenu first
+    closeSubmenu();
+    
     if (!isServices) {
+      // Handle destinations (places to see)
       const detailData = {
         id: item.id,
         title: item.name,
         location: item.location,
         image: item.image,
       };
-      console.log("Navigating to DaytourDetail from Submenu:", detailData); // New comment: Debug navigation
+      console.log("Navigating to DaytourDetail from Submenu:", detailData);
       navigate(`/DaytourDetail?id=${item.id}`, { state: detailData });
     } else {
-      navigate(`/${item.title.toLowerCase().replace(/\s+/g, '-')}`);
+      // Handle services navigation
+      const servicePath = serviceNavigationMap[item.title];
+      if (servicePath) {
+        console.log("Navigating to service:", item.title, "->", servicePath);
+        navigate(servicePath);
+      } else {
+        // Fallback: create path from title
+        const fallbackPath = `/${item.title.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`;
+        console.log("Using fallback navigation:", item.title, "->", fallbackPath);
+        navigate(fallbackPath);
+      }
     }
   };
 
   return (
     <>
-      {/* Original comment: Overlay */}
+      {/* Overlay */}
       {isSubmenuOpen && (
         <div className="places-submenu-overlay" onClick={closeSubmenu}></div>
       )}
       
-      {/* Original comment: Submenu Bottom Sheet */}
+      {/* Submenu Bottom Sheet */}
       <div className={`places-submenu-bottom-sheet ${isSubmenuOpen ? 'places-submenu-bottom-sheet-open' : ''}`}>
         <div className="places-submenu-header">
           <h2 className="places-submenu-title">{title}</h2>
@@ -67,7 +93,7 @@ const Submenu = ({ isSubmenuOpen, setIsSubmenuOpen, data, title, isServices }) =
         <div className="places-submenu-separator"></div>
         
         <div className="places-submenu-content">
-          {/* Original comment: Tabs Navigation */}
+          {/* Tabs Navigation */}
           <div className="places-submenu-tabs-container">
             <button 
               className="places-submenu-arrow places-submenu-arrow-left"
@@ -96,25 +122,42 @@ const Submenu = ({ isSubmenuOpen, setIsSubmenuOpen, data, title, isServices }) =
             </button>
           </div>
           
-          {/* Original comment: Content Area */}
+          {/* Content Area */}
           <div className="places-submenu-destinations">
-            {currentItems.map((item, index) => (
-              <button
-                key={isServices ? index : item.id}
-                onClick={() => handleItemClick(item)}
-                className="places-submenu-destination-item"
-              >
-                <img 
-                  src={isServices ? `/images/LandingPage/Navbar/${item.image}` : item.image} 
-                  alt={isServices ? item.title : item.name} 
-                  className="places-submenu-destination-image"
-                />
-                <div className="places-submenu-destination-content">
-                  <h4 className="places-submenu-destination-name">{isServices ? item.title : item.name}</h4>
-                  <p className="places-submenu-destination-location">{isServices ? item.subtitle : item.location}</p>
-                </div>
-              </button>
-            ))}
+            {currentItems.length > 0 ? (
+              currentItems.map((item, index) => (
+                <button
+                  key={isServices ? `${item.title}-${index}` : item.id}
+                  onClick={() => handleItemClick(item)}
+                  className="places-submenu-destination-item hover:bg-gray-50 transition-colors duration-200"
+                >
+                  <img 
+                    src={isServices ? `/images/LandingPage/Navbar/${item.image}` : item.image} 
+                    alt={isServices ? item.title : item.name} 
+                    className="places-submenu-destination-image"
+                    onError={(e) => {
+                      e.target.src = '/public/images/error/No_Image_Available.jpg';
+                    }}
+                  />
+                  <div className="places-submenu-destination-content">
+                    <h4 className="places-submenu-destination-name">
+                      {isServices ? item.title : item.name}
+                    </h4>
+                    {!isServices && (
+                      <p className="places-submenu-destination-location">{item.location}</p>
+                    )}
+                    {isServices && item.subtitle && (
+                      <p className="places-submenu-destination-location">{item.subtitle}</p>
+                    )}
+                  </div>
+                </button>
+              ))
+            ) : (
+              <div className="flex flex-col items-center justify-center py-8 text-gray-500">
+                <div className="text-4xl mb-2">📍</div>
+                <p>No items available in this category</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

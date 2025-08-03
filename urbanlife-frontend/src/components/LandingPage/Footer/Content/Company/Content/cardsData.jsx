@@ -8,7 +8,7 @@ export const cardsData = [
     description: "Discover our journey, mission, and commitment to providing exceptional services. We are dedicated to delivering quality solutions that meet your needs and exceed expectations.",
     buttonText: "Read More",
     categoryColor: "#0891b2",
-    link: "/AboutUs"
+    linkTo: "/AboutUs"
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ export const cardsData = [
     description: "Understanding how we collect, use, and protect your personal information. Our comprehensive privacy policy ensures your data security and transparency in our operations.",
     buttonText: "View Policy",
     categoryColor: "#059669",
-    link: "/PrivacyPolicy"
+    linkTo: "/PrivacyPolicy"
   },
   {
     id: 3,
@@ -27,7 +27,8 @@ export const cardsData = [
     title: "Terms of Service",
     description: "Welcome to our Terms of Service. By using our platform, you agree to the following terms and conditions. Please review them carefully.",
     buttonText: "View Policy",
-    categoryColor: "#f43f5e"
+    categoryColor: "#f43f5e",
+    link: "/TermsAndConditions"
   },
   {
     id: 4,
@@ -36,7 +37,8 @@ export const cardsData = [
     title: "Contact Us",
     description: "We're here to help you. Whether you have questions, feedback, or need assistance, feel free to contact us. Our dedicated team is ready to provide you with the support you need.",
     buttonText: "Contact Now",
-    categoryColor: "#f43f5e"
+    categoryColor: "#f43f5e",
+    link: "/ContactUs"
   },
   {
     id: 5,
@@ -45,7 +47,8 @@ export const cardsData = [
     title: "Explore Bali's Best Day Tour Packages",
     description: "Experience the beauty of Bali with our curated day tour packages. From cultural sites to natural wonders, discover the island's hidden gems with professional guides.",
     buttonText: "Book Now",
-    categoryColor: "#dc2626"
+    categoryColor: "#dc2626",
+    linkTo: "/DayTour"
   },
   {
     id: 6,

@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import "../../../styles/LandingPage/HomePage/DestinationCard.css";
 import ModalDestination from "../Utils/modal/ModalDestination";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
+import { formatBookingData } from "../../AdminDashboard/Utils/FormatData/bookingFormatData";
 
 const DestinationCard = ({ travel }) => {
   const navigate = useNavigate();
@@ -20,46 +21,15 @@ const DestinationCard = ({ travel }) => {
   }, [isShareModalOpen, travel.nama]);
 
   const handleBookNow = () => {
-    const tanggalHariIni = new Date().toISOString().split("T")[0];
-    let bookingData = {
-      id: travel.id,
-      title: travel.nama,
-      type: travel.item_type?.toLowerCase(),
-      country: travel.lokasi?.negara?.nama || "Unknown",
-      location: travel.lokasi?.nama || "Unknown",
-      image: travel.file_url
-        ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${travel.file_url
-            .replace(/\\/g, "/")
-            .replace(/^uploads\//, "")}`
-        : "/public/images/error/No_Image_Available.jpg",
-      content: travel.content || [],
-      tanggal: tanggalHariIni,
-    };
+      const bookingData = formatBookingData(travel);
 
-    switch (travel.item_type?.toLowerCase()) {
-      case "travel_package":
-        bookingData.price = travel.harga_dewasa ?? 0;
-        bookingData.harga_dewasa = travel.harga_dewasa;
-        bookingData.harga_anak = travel.harga_anak;
-        bookingData.durasi_hari = travel.durasi_hari;
-        break;
-      case "akomodasi":
-        bookingData.room_and_price = travel.room_and_price || [];
-        bookingData.price = travel.room_and_price?.[0]?.harga ?? 0;
-        break;
-      case "kendaraan":
-        bookingData.durasi = travel.durasi || [];
-        bookingData.tipe = travel.tipe;
-        bookingData.price = travel.durasi?.[0]?.harga ? parseInt(travel.durasi[0].harga) : 0;
-        break;
-      default:
-        bookingData.price = 0;
-    }
 
     console.log("Handle Booking Data:", bookingData);
-    navigate(`/OrderDetail?type=${travel.item_type?.toLowerCase()}&id=${travel.id}`, {
-      state: bookingData,
-    });
+    navigate(`/DaytourDetail/${travel.id}`, { state: bookingData });
+
+    // navigate(`/OrderDetail?type=${travel.item_type?.toLowerCase()}&id=${travel.id}`, {
+    //   state: bookingData,
+    // });
   };
 
   const shareData = {

@@ -1,0 +1,134 @@
+{
+  "navbar": {
+    "placetosee": "Tempat untuk dilihat",
+    "categories": "Kategori",
+    "subtitle": "Temukan destinasi dan pengalaman yang menakjubkan",
+    "services": "Layanan",
+    "daytour": "Tur Harian",
+    "rentcar": "Sewa Mobil",
+    "topattraction": "Atraksi Terpopuler",
+    "transportation": "Transportasi",
+    "accomodation": "Akomodasi",
+    "news": "Berita",
+    "contactus": "Hubungi Kami"
+  },
+
+  "hero": {
+    "title": "Temukan tempat-tempat indah di seluruh dunia"
+  },
+
+  "cardform": {
+    "select_country": "Pilih negara",
+    "select_city": "Pilih kota",
+    "select_city_first": "Pilih negara dulu",
+    "loading_countries": "Memuat negara...",
+    "loading_cities": "Memuat kota...",
+    "select_services": "Pilih layanan",
+    "search": "Cari",
+    "searching": "Mencari...",
+    "clear_form": "Hapus form",
+    "from": "Dari",
+    "to": "Sampai",
+    "accomodation": "Akomodasi",
+    "rent_car": "Sewa Mobil",
+    "day_tour": "Tur Harian",
+    "form_incomplete_alert": "Mohon lengkapi semua kolom!",
+    "search_failed": "Gagal mengambil hasil pencarian."
+  },
+
+  "searchmodal": {
+    "results": "Hasil Pencarian",
+    "noimage": "Tidak Ada Gambar",
+    "order": "Pesan",
+    "noresults": "Tidak ditemukan hasil untuk kriteria pencarian Anda."
+  },
+
+  "dateinput": {
+    "input": "Pilih tanggal"
+  },
+
+  "categories": {
+       "title": "Kategori Populer"
+  },
+
+  "discover": {
+    "title": "Temukan di sekitar",
+    "try": "Coba lagi"
+  },
+
+  "partner": {
+    "title": "Mitra Kami"
+  },
+
+  "servicenschedule": {
+    "title": "Pesan Sekarang dan Coba Layanan Kami!",
+    "desc": "Selain layanan transportasi di Bali yang kami sediakan, kami juga menawarkan paket tur harian yang memberi Anda kesempatan untuk mengunjungi berbagai bagian pulau, menikmati keindahannya, dan juga mempelajari budaya lokal secara bersamaan.",
+    "monday": "SENIN",
+    "tuesday": "SELASA",
+    "wednesday": "RABU",
+    "thursday": "KAMIS",
+    "friday": "JUMAT",
+    "saturday": "SABTU",
+    "sunday": "MINGGU",
+    "button": "Hubungi Kami"
+  },
+
+  "testimonial": {
+    "title": "Mereka Menyukai Kami",
+    "subtitle": "Momen-momen yang memberi mereka\npengalaman terbaik",
+    "review1": "Sangat puas dengan layanan, sopirnya sangat mendukung dan membantu, dan mobilnya juga bagus, sangat baik.",
+    "review2": "Sangat puas dengan layanan, sopirnya sangat mendukung dan membantu, dan mobilnya juga bagus, sangat baik.",
+    "review3": "urbanlife membuat hidup saya lebih mudah, hotelnya luar biasa, mobilnya bersih, dan sopirnya sangat baik serta membantu. Saya pasti akan merekomendasikan urbanlife ke teman dan keluarga saya.",
+    "tour1": "Tur Bali Timur",
+    "tour2": "Tur Bali Timur",
+    "tour3": "Tur Nusa Penida Barat"
+  },
+
+  "newsnblog": {
+    "title": "Berita dan Blog",
+    "readmore": "Baca Selengkapnya"
+  },
+
+  "footer": {
+    "company": "PERUSAHAAN",
+        "aboutus": "Tentang Kami",
+        "privacypolicy": "Kebijakan Privasi",
+        "termsncondition": "Syarat dan Ketentuan",
+        "contactus": "Hubungi Kami",
+    "services": "LAYANAN",
+        "daytour": "Paket Wisata Harian",
+        "baliairport": "Layanan Antar Jemput Bandara Bali",
+        "carrental": "Sewa Mobil",
+        "balimotorbike": "Sewa Motor di Bali",
+        "transportsanur": "Transportasi ke/dari Pelabuhan Sanur",
+    "categories": "KATEGORI",
+        "artmarket": "Pasar Seni",
+        "beach": "Pantai",
+        "culturalpark": "Taman Budaya",
+        "dance": "Tarian",
+        "hotspring": "Pemandian Air Panas",
+        "monkeyforest": "Hutan Monyet",
+        "riceterraces": "Sawah Bertingkat",
+        "temple": "Pura",
+        "volcano": "Gunung Berapi",
+        "waterpalace": "Istana Air",
+        "watersports": "Olahraga Air",
+        "waterfall": "Air Terjun",
+    "blogpost": "POSTINGAN BLOG",
+        "ubudartmarket": "Pasar Seni Ubud",
+        "padangbeach": "Pantai Padang Padang",
+        "garudawisnu": "Taman Budaya Garuda Wisnu Kencana",
+        "barongdance": "Tari Barong",
+        "banjarhotspring": "Pemandian Air Panas Banjar",
+        "ubudmonkeyforest": "Hutan Monyet Ubud",
+        "jatiluwihriceerraces": "Sawah Bertingkat Jatiluwih",
+        "baturvolcano": "Pemandangan Gunung Batur",
+        "tirtagangga": "Istana Air Tirta Gangga",
+        "nusadua": "Olahraga Air di Nusa Dua",
+        "tegenunganwaterfall": "Air Terjun Tegenungan",
+    "followus": "Ikuti Kami",
+    "paymentpartner": "Mitra Pembayaran"
+  }
+
+
+}

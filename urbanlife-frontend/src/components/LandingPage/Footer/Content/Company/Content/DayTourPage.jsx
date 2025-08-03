@@ -1,12 +1,32 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../../HomePage/Navbar/Navbar";
-import Footer from "../../../HomePage/Footer";
-import "./BlogPostMain.css";
-import { blogPosts } from "./posts/allPosts";
+import Navbar from "../../../../HomePage/Navbar/Navbar";
+import DayTourGrid from "./DayTour/DayTourGrid";
+import { DayTour } from "./DayTour/DayTourData";
+import Footer from "../../../../HomePage/Footer";
+import "./DayTour/DayTourPage.css";
 
-const BlogPostMain = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+const categories = [
+  "All",
+  "Beach",
+  "Mountain",
+  "Temple",
+  "Waterfall",
+  "Cultural",
+  "Adventure",
+];
+
+const DayTourPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredTours =
+    activeCategory === "All"
+      ? DayTour
+      : DayTour.filter((item) => item.category === activeCategory);
+
+  const handleHomeClick = () => {
+    window.location.href = "/";
+  };
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -27,33 +47,8 @@ const BlogPostMain = () => {
     }
   }, []);
 
-  const categories = [
-    "All",
-    "Art Market",
-    "Beach",
-    "Cultural Park",
-    "Dance",
-    "Hot Spring",
-    "Monkey Forest",
-    "Rice Terrace",
-    "Temple",
-    "Volcano",
-    "Waterfall",
-    "Water Palace",
-    "Water Sport",
-  ];
-
-  const filteredPosts =
-    activeCategory === "All"
-      ? blogPosts
-      : blogPosts.filter((post) => post.category === activeCategory);
-
-  const handleHomeClick = () => {
-    window.location.href = "/";
-  };
-
   return (
-    <div className="blog-main-page">
+    <div className="categories-page">
       {/* Navbar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <Navbar />
@@ -66,34 +61,24 @@ const BlogPostMain = () => {
           background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, #00A5CC 0%, #007F9F 40%, #0092B8 100%)`,
         }}
       >
-        {/* Animated Decorative Elements */}
         <div className="hero-decorations">
-          {/* Floating Diamonds */}
           <div className="floating-element diamond diamond-1"></div>
           <div className="floating-element diamond diamond-2"></div>
           <div className="floating-element diamond diamond-3"></div>
-
-          {/* Floating Triangles */}
           <div className="floating-element triangle triangle-1"></div>
           <div className="floating-element triangle triangle-2"></div>
           <div className="floating-element triangle triangle-3"></div>
-
-          {/* Floating Hexagons */}
           <div className="floating-element hexagon hexagon-1"></div>
           <div className="floating-element hexagon hexagon-2"></div>
-
-          {/* Floating Lines */}
           <div className="floating-line line-1"></div>
           <div className="floating-line line-2"></div>
           <div className="floating-line line-3"></div>
-
-          {/* Floating Dots Pattern */}
           <div className="dots-pattern dots-1"></div>
           <div className="dots-pattern dots-2"></div>
         </div>
 
         <div className="hero-content">
-          <h1 className="hero-title playfair">Blog</h1>
+          <h1 className="hero-title playfair">Day Tour Packages</h1>
           <div className="breadcrumb">
             <button
               className="breadcrumb-link cursor-pointer"
@@ -102,12 +87,11 @@ const BlogPostMain = () => {
               Home
             </button>
             <span className="separator">/</span>
-            <span>Blog</span>
+            <span>Day Tour</span>
           </div>
         </div>
       </div>
-
-      {/* Category Tabs */}
+      {/* Categories */}
       <div className="categories-container">
         <div className="categories-tabs">
           {categories.map((category) => (
@@ -124,34 +108,12 @@ const BlogPostMain = () => {
         </div>
       </div>
 
-      {/* Blog List */}
-      <div className="blog-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-        {filteredPosts.map((post) => (
-          <a
-            key={post.id}
-            href={`/blog/${post.slug}`}
-            className="blog-card shadow-lg rounded-lg overflow-hidden bg-white hover:shadow-xl transition-shadow block"
-          >
-            <img
-              src={post.thumbnail}
-              alt={post.title}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <p className="text-sm text-gray-500">{post.date}</p>
-              <h2 className="text-lg font-bold mt-1">{post.title}</h2>
-              <p className="text-gray-700 mt-2">{post.excerpt}</p>
-              <span className="text-blue-600 hover:underline mt-3 inline-block">
-                Read More →
-              </span>
-            </div>
-          </a>
-        ))}
-      </div>
+      {/* Day Tour Cards */}
+      <DayTourGrid cards={filteredTours} />
 
       <Footer />
     </div>
   );
 };
 
-export default BlogPostMain;
+export default DayTourPage;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
+import Footer from '../HomePage/Footer';
 import './CategoriesFooter.css';
 
 import ArtMarket from './Content/Categories/ArtMarket';
@@ -183,6 +184,8 @@ const CategoriesFooter = () => {
       <div className="content-area">
         {renderCategoryContent()}
       </div>
+
+      <Footer />
     </div>
   );
 };

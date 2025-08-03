@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import QRCodeCard from "../../../components/AdminDashboard/WhatsApp/QRCodeCard"; // Import the QRCodeCard component
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -11,6 +11,38 @@ const WhatsappConnect = () => {
   console.log(qrCode, "isConnected");
   console.log(isConnected, "isConnected");
   console.log(isConnecting, "isConnecting");
+
+  // Block navigation saat sudah connected
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isConnected) {
+        e.preventDefault();
+        e.returnValue = 'WhatsApp masih terhubung. Yakin ingin meninggalkan halaman?';
+        return 'WhatsApp masih terhubung. Yakin ingin meninggalkan halaman?';
+      }
+    };
+
+    const handlePopState = (e) => {
+      if (isConnected) {
+        const confirmLeave = window.confirm('WhatsApp masih terhubung. Yakin ingin meninggalkan halaman?');
+        if (!confirmLeave) {
+          window.history.pushState(null, '', window.location.href);
+        }
+      }
+    };
+
+    if (isConnected) {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+      window.addEventListener('popstate', handlePopState);
+      // Push state untuk mencegah back button
+      window.history.pushState(null, '', window.location.href);
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isConnected]);
 
   const handleConnect = async () => {
   setIsConnecting(true);
@@ -35,7 +67,6 @@ const WhatsappConnect = () => {
     setIsConnecting(false);
   }
 };
-
 
   const handleDisconnect = async () => {
     try {
@@ -74,6 +105,8 @@ const WhatsappConnect = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+
+
       <div className="max-w-6xl mx-auto">
         <div className="mb-10">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">

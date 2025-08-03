@@ -85,31 +85,127 @@
   padding: 0 8px;
 }
 
-/* Hover Description */
-.card-item::before {
-  content: attr(data-description);
+/* Hover Content */
+.hover-content {
   position: absolute;
   inset: 0;
-  background: rgba(198, 198, 198, 0.05);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(173, 173, 173, 0.05);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   color: white;
-  font-size: 13px;
-  padding: 15px;
+  padding: 20px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: start;
+  flex-direction: column;
   opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
   transform: translateY(20px);
   z-index: 3;
-  line-height: 1.6;
 }
 
-.card-item:hover::before {
+.card-item:hover .hover-content {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Scrollable Content Area */
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding-right: 8px;
+}
+
+/* Custom Scrollbar */
+.scrollable-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: #007f9f;
+  border-radius: 2px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: #005f7a;
+}
+
+.hover-description {
+  margin-bottom: 15px;
+}
+
+.hover-description p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  color: #f0f0f0;
+}
+
+/* Duration List */
+.duration-list {
+  margin-bottom: 0;
+}
+
+.duration-list h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #007f9f;
+}
+
+.duration-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.duration-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 6px 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid #007f9f;
+}
+
+.duration-time {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+.duration-price {
+  font-size: 13px;
+  font-weight: 600;
+  color: #007f9f;
+}
+
+/* More Detail Button */
+.more-detail-btn {
+  background: linear-gradient(135deg, #007f9f, #005f7a);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 127, 159, 0.3);
+}
+
+.more-detail-btn:hover {
+  background: linear-gradient(135deg, #005f7a, #004a5c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 127, 159, 0.4);
 }
 
 /* Hide Text + Badge on Hover */
@@ -147,9 +243,31 @@
     padding: 4px 8px;
   }
 
-  .card-item::before {
-    font-size: 14px;
-    padding: 20px;
+  .hover-content {
+    padding: 18px;
+  }
+
+  .scrollable-content {
+    margin-bottom: 12px;
+    padding-right: 6px;
+  }
+
+  .hover-description p {
+    font-size: 13px;
+  }
+
+  .duration-list h4 {
+    font-size: 15px;
+  }
+
+  .duration-time,
+  .duration-price {
+    font-size: 12px;
+  }
+
+  .more-detail-btn {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }
 
@@ -175,9 +293,37 @@
     padding: 3px 7px;
   }
 
-  .card-item::before {
-    font-size: 13px;
-    padding: 18px;
+  .hover-content {
+    padding: 16px;
+  }
+
+  .scrollable-content {
+    margin-bottom: 10px;
+    padding-right: 5px;
+  }
+
+  .hover-description p {
+    font-size: 12px;
+  }
+
+  .duration-list h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .duration-list li {
+    padding: 6px 10px;
+    margin: 4px 0;
+  }
+
+  .duration-time,
+  .duration-price {
+    font-size: 11px;
+  }
+
+  .more-detail-btn {
+    padding: 8px 16px;
+    font-size: 12px;
   }
 }
 
@@ -203,8 +349,44 @@
     padding: 2px 6px;
   }
 
-  .card-item::before {
-    font-size: 12px;
+  .hover-content {
     padding: 14px;
+  }
+
+  .scrollable-content {
+    margin-bottom: 8px;
+    padding-right: 4px;
+  }
+
+  .hover-description {
+    margin-bottom: 12px;
+  }
+
+  .hover-description p {
+    font-size: 11px;
+  }
+
+  .duration-list {
+    margin-bottom: 15px;
+  }
+
+  .duration-list h4 {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .duration-list li {
+    padding: 5px 8px;
+    margin: 3px 0;
+  }
+
+  .duration-time,
+  .duration-price {
+    font-size: 10px;
+  }
+
+  .more-detail-btn {
+    padding: 8px 14px;
+    font-size: 11px;
   }
 }

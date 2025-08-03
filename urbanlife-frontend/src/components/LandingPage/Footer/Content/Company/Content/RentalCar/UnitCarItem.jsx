@@ -6,11 +6,12 @@ const UnitCarItem = ({
   unit,
   people, 
   title, 
-  price, 
-  description
+  startsPrice, 
+  description,
+  duration = []
 }) => {
   return (
-    <div className="card-item" data-description={description}>
+    <div className="card-item">
       <div className="card-image">
         <img src={image} alt={unit} />
         <span className="people-badge">{people}</span>
@@ -19,8 +20,33 @@ const UnitCarItem = ({
          <h3 className="car-unit">{unit}</h3>
          <div className="price">
               <h3 className="car-title">{title}</h3>
-              <p className="car-price">{price}</p>
+              <p className="car-price">{startsPrice}</p>
          </div>
+        </div>
+
+        {/* Hover Content */}
+        <div className="hover-content">
+          <div className="scrollable-content">
+            <div className="hover-description">
+              <p>{description}</p>
+            </div>
+            
+            {duration.length > 0 && (
+              <div className="duration-list">
+                <h4>Duration & Pricing:</h4>
+                <ul>
+                  {duration.map((item, index) => (
+                    <li key={index}>
+                      <span className="duration-time">{item.duration}</span>
+                      <span className="duration-price">{item.price}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          
+          <button className="more-detail-btn">More Detail</button>
         </div>
       </div>
     </div>

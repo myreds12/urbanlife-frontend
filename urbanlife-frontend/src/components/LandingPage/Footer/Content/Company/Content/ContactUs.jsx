@@ -1,16 +1,25 @@
+// src/pages/LandingPage/ContactUs/ContactUsPage.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Clock, Send, MessageSquare, Users, Car, Home, Sparkles, Globe } from 'lucide-react';
 import Navbar from '../../../../HomePage/Navbar/Navbar';
 import Footer from '../../../../HomePage/Footer';
+import { useTranslation } from 'react-i18next';
 
 const ContactUsPage = () => {
+const { t, i18n } = useTranslation();
+  console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  useEffect(() => {
+    console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
+  }, [i18n.language]);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
-    inquiryType: 'general'
+    inquiryType: 'general',
   });
 
   const [isVisible, setIsVisible] = useState({});
@@ -38,18 +47,17 @@ const ContactUsPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
+    alert(t('contactus.form_success', 'Fallback: Form submission success'));
   };
-
   return (
     <div>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 relative overflow-hidden">
@@ -72,27 +80,25 @@ const ContactUsPage = () => {
           <div className="max-w-6xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/40 backdrop-blur-lg border border-blue-200/30 rounded-full text-slate-700 text-sm mb-6 shadow-lg">
               <Sparkles className="w-4 h-4 text-blue-600" />
-              <span>Let's Create Something Amazing Together</span>
+              <span>{t('contactus.cta_tagline')}</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-500 mb-6 leading-tight">
-              Ready to
-              <br />
-              <span className="bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Connect?</span>
+              {t('contactus.hero_title')}
             </h1>
             
             <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-8">
-              Your next adventure starts with a conversation. Drop us a line and let's make magic happen.
+              {t('contactus.hero_subtitle')}
             </p>
             
             <div className="flex items-center justify-center gap-6 text-sm text-slate-500">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span>Online Now</span>
+                <span>{t('contactus.hero_status_online')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Globe className="w-4 h-4" />
-                <span>Global Support</span>
+                <span>{t('contactus.hero_status_global')}</span>
               </div>
             </div>
           </div>
@@ -109,10 +115,8 @@ const ContactUsPage = () => {
                   isVisible['contact-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
               >
-                <h2 className="text-2xl font-bold text-slate-800 mb-4">Get In Touch</h2>
-                <p className="text-slate-600 mb-6">
-                  Multiple ways to reach us - choose what works best for you
-                </p>
+                <h2 className="text-2xl font-bold text-slate-800 mb-4">{t('contactus.get_in_touch')}</h2>
+                <p className="text-slate-600 mb-6">{t('contactus.get_in_touch_desc')}</p>
 
                 <div className="space-y-4">
                   {/* General Inquiries */}
@@ -122,7 +126,7 @@ const ContactUsPage = () => {
                         <MessageSquare className="w-5 h-5 text-blue-600" />
                       </div>
                       <div>
-                        <h3 className="text-slate-800 font-semibold">General Inquiries</h3>
+                        <h3 className="text-slate-800 font-semibold">{t('contactus.general_inquiries')}</h3>
                         <div className="flex items-center space-x-4 text-sm text-slate-600 mt-1">
                           <span>info@urbanlife.id</span>
                           <span>+62 816 919 812</span>
@@ -138,7 +142,7 @@ const ContactUsPage = () => {
                         <Users className="w-5 h-5 text-cyan-600" />
                       </div>
                       <div>
-                        <h3 className="text-slate-800 font-semibold">Advertisements</h3>
+                        <h3 className="text-slate-800 font-semibold">{t('contactus.advertisements')}</h3>
                         <div className="flex items-center space-x-4 text-sm text-slate-600 mt-1">
                           <span>ads@urbanlife.id</span>
                           <span>+62 816 919 812</span>
@@ -157,19 +161,19 @@ const ContactUsPage = () => {
                   isVisible.services ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
               >
-                <h3 className="text-xl font-bold text-slate-800 mb-4">What We Do</h3>
+                <h3 className="text-xl font-bold text-slate-800 mb-4">{t('contactus.services_title')}</h3>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center p-3 bg-blue-50/50 backdrop-blur-sm rounded-xl hover:bg-blue-100/50 transition-colors border border-blue-100/50">
                     <MapPin className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                    <div className="text-sm text-slate-700 font-medium">Destinations</div>
+                    <div className="text-sm text-slate-700 font-medium">{t('contactus.destinations')}</div>
                   </div>
                   <div className="text-center p-3 bg-cyan-50/50 backdrop-blur-sm rounded-xl hover:bg-cyan-100/50 transition-colors border border-cyan-100/50">
                     <Car className="w-6 h-6 text-cyan-600 mx-auto mb-2" />
-                    <div className="text-sm text-slate-700 font-medium">Car Rental</div>
+                    <div className="text-sm text-slate-700 font-medium">{t('contactus.car_rental')}</div>
                   </div>
                   <div className="text-center p-3 bg-sky-50/50 backdrop-blur-sm rounded-xl hover:bg-sky-100/50 transition-colors border border-sky-100/50">
                     <Home className="w-6 h-6 text-sky-600 mx-auto mb-2" />
-                    <div className="text-sm text-slate-700 font-medium">Hotels</div>
+                    <div className="text-sm text-slate-700 font-medium">{t('contactus.hotels')}</div>
                   </div>
                 </div>
               </div>
@@ -184,20 +188,20 @@ const ContactUsPage = () => {
               >
                 <div className="flex items-center space-x-2 mb-4">
                   <Clock className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-xl font-bold text-slate-800">We're Available</h3>
+                  <h3 className="text-xl font-bold text-slate-800">{t('contactus.business_hours')}</h3>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between text-slate-600">
-                    <span>Mon - Fri</span>
-                    <span className="text-slate-800 font-medium">9AM - 6PM</span>
+                    <span>{t('contactus.mon_fri')}</span>
+                    <span className="text-slate-800 font-medium">{t('contactus.mon_fri_time')}</span>
                   </div>
                   <div className="flex justify-between text-slate-600">
-                    <span>Saturday</span>
-                    <span className="text-slate-800 font-medium">9AM - 4PM</span>
+                    <span>{t('contactus.saturday')}</span>
+                    <span className="text-slate-800 font-medium">{t('contactus.saturday_time')}</span>
                   </div>
                   <div className="flex justify-between text-slate-500">
-                    <span>Sunday</span>
-                    <span>Closed</span>
+                    <span>{t('contactus.sunday')}</span>
+                    <span>{t('contactus.sunday_closed')}</span>
                   </div>
                 </div>
               </div>
@@ -212,14 +216,14 @@ const ContactUsPage = () => {
               }`}
             >
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">Send Message</h2>
-                <p className="text-slate-600">Tell us about your project and we'll get back to you within 24 hours.</p>
+                <h2 className="text-2xl font-bold text-slate-800 mb-2">{t('contactus.send_message')}</h2>
+                <p className="text-slate-600">{t('contactus.send_message_desc')}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Name *</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">{t('contactus.name')} *</label>
                     <input
                       type="text"
                       name="name"
@@ -227,11 +231,11 @@ const ContactUsPage = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-blue-200/50 rounded-xl text-slate-800 placeholder-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-200/50 transition-all shadow-sm"
-                      placeholder="Your name"
+                      placeholder={t('contactus.name')}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Email *</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">{t('contactus.email')} *</label>
                     <input
                       type="email"
                       name="email"
@@ -239,29 +243,29 @@ const ContactUsPage = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-blue-200/50 rounded-xl text-slate-800 placeholder-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-200/50 transition-all shadow-sm"
-                      placeholder="your@email.com"
+                      placeholder={t('contactus.email')}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Inquiry Type</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">{t('contactus.inquiry_type')}</label>
                   <select
                     name="inquiryType"
                     value={formData.inquiryType}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-blue-200/50 rounded-xl text-slate-800 focus:border-blue-400 focus:ring-2 focus:ring-blue-200/50 transition-all shadow-sm"
                   >
-                    <option value="general">General Inquiry</option>
-                    <option value="destination">Travel Destinations</option>
-                    <option value="rental">Car Rental</option>
-                    <option value="accommodation">Accommodation</option>
-                    <option value="advertisement">Advertisement</option>
+                    <option value="general">{t('contactus.inquiry_general')}</option>
+                    <option value="destination">{t('contactus.inquiry_destination')}</option>
+                    <option value="rental">{t('contactus.inquiry_rental')}</option>
+                    <option value="accommodation">{t('contactus.inquiry_accommodation')}</option>
+                    <option value="advertisement">{t('contactus.inquiry_advertisement')}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Subject *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">{t('contactus.subject')} *</label>
                   <input
                     type="text"
                     name="subject"
@@ -269,12 +273,12 @@ const ContactUsPage = () => {
                     value={formData.subject}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-blue-200/50 rounded-xl text-slate-800 placeholder-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-200/50 transition-all shadow-sm"
-                    placeholder="What's this about?"
+                    placeholder={t('contactus.subject')}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Message *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">{t('contactus.message')} *</label>
                   <textarea
                     name="message"
                     required
@@ -282,7 +286,7 @@ const ContactUsPage = () => {
                     value={formData.message}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-blue-200/50 rounded-xl text-slate-800 placeholder-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-200/50 transition-all resize-none shadow-sm"
-                    placeholder="Tell us more..."
+                    placeholder={t('contactus.message')}
                   />
                 </div>
 
@@ -292,7 +296,7 @@ const ContactUsPage = () => {
                   className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 group shadow-xl hover:shadow-2xl hover:scale-[1.02]"
                 >
                   <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  <span>Send Message</span>
+                  <span>{t('contactus.submit')}</span>
                 </button>
               </div>
             </div>
@@ -311,26 +315,24 @@ const ContactUsPage = () => {
             <div className="bg-gradient-to-r from-white/20 via-blue-50/30 to-cyan-50/30 backdrop-blur-xl border border-white/30 rounded-3xl p-8 text-center shadow-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/50 backdrop-blur-sm border border-blue-200/30 rounded-full text-sm text-blue-700 mb-4 shadow-sm">
                 <Sparkles className="w-4 h-4 text-cyan-600" />
-                <span>Every journey begins with a single message</span>
+                <span>{t('contactus.cta_tagline')}</span>
               </div>
               
-              <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-3">Your Adventure Awaits</h3>
-              <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
-                From exotic destinations to luxury accommodations - we've got everything covered for your perfect getaway.
-              </p>
+              <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-3">{t('contactus.cta_title')}</h3>
+              <p className="text-slate-600 mb-6 max-w-2xl mx-auto">{t('contactus.cta_desc')}</p>
               
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
                   to="/"
                   className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-center"
                 >
-                  Explore Destinations
+                  {t('contactus.cta_explore')}
                 </Link>
                 <Link
                   to="/Services"
                   className="border border-blue-300/50 hover:border-blue-400 bg-white/30 backdrop-blur-sm text-slate-700 hover:text-slate-800 font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-white/50 shadow-sm hover:shadow-lg text-center"
                 >
-                  View Services
+                  {t('contactus.cta_services')}
                 </Link>
               </div>
             </div>

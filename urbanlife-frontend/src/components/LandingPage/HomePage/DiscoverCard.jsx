@@ -23,10 +23,10 @@ const DiscoverCard = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await apiClient.get("/negara?take=10&page=1");
+      const response = await apiClient.get("/negara?take=10&page=1&orderByMostItems=true");
       if (response.data.status === 200) {
+        console.log(response.data.data)
         const filteredCountries = response.data.data
-          .filter((country) => country.status)
           .slice(0, 3);
         setCountries(filteredCountries);
       } else {

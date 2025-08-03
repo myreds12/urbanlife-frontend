@@ -127,7 +127,7 @@ const Submenu = ({ isSubmenuOpen, setIsSubmenuOpen, data, title, isServices }) =
             {currentItems.length > 0 ? (
               currentItems.map((item, index) => (
                 <button
-                  key={isServices ? `${item.title}-${index}` : item.id}
+                  key={isServices ? `${item.title}-${index}` : `${item.id} -${index}`}
                   onClick={() => handleItemClick(item)}
                   className="places-submenu-destination-item hover:bg-gray-50 transition-colors duration-200"
                 >

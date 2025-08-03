@@ -102,7 +102,7 @@ const DestinationCard = ({ travel }) => {
                 ? travel?.durasi[0]?.harga ?? 0
                 : travel.item_type?.toLowerCase() === "travel_package"
                 ? travel.harga_dewasa
-                : travel.harga
+                : travel.room_and_price[0].harga
             ).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
           </p>
         </div>

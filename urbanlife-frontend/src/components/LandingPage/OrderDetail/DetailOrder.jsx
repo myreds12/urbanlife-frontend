@@ -1,6 +1,7 @@
 import React from 'react';
 
 const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled = false }) => {
+  console.log(orderItems, finalAmount, 'detailorder');
   const formatCurrency = (amount) => {
     if (!amount) return 'Rp. 0';
     return new Intl.NumberFormat('id-ID', {
@@ -37,7 +38,7 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
               </div>
               <div className="flex justify-between items-center text-gray-600 ml-4">
                 <span>Sub total</span>
-                <span>{formatCurrency(item.total_harga || item.harga)}</span>
+                <span>{formatCurrency(item.total_harga || finalAmount)}</span>
               </div>
             </div>
           ))}

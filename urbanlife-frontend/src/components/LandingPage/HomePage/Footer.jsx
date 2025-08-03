@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 const blogPosts = [
@@ -32,6 +33,7 @@ const Footer = () => {
   const [servicesColorIndex, setServicesColorIndex] = useState(0);
   const [categoriesColorIndex, setCategoriesColorIndex] = useState(1);
   const [blogColorIndex, setBlogColorIndex] = useState(2);
+  const { t } = useTranslation();
 
   const handleCompanyHover = () => {
     setCompanyColorIndex((prev) => (prev + 1) % colors.length);
@@ -83,7 +85,7 @@ const Footer = () => {
                 ${companyColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
               `}
             >
-              COMPANY
+              {t("footer.company")}
               <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
                 ${companyColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
                 ${companyColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
@@ -96,10 +98,10 @@ const Footer = () => {
               `}></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="/AboutUs" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
-              <li><a href="/PrivacyPolicy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="/TermsAndConditions" className="text-gray-300 hover:text-white transition-colors">Terms and Conditions</a></li>
-              <li><a href="/ContactUs" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
+              <li><a href="/AboutUs" className="text-gray-300 hover:text-white transition-colors">{t("footer.aboutus")}</a></li>
+              <li><a href="/PrivacyPolicy" className="text-gray-300 hover:text-white transition-colors">{t("footer.privacypolicy")}</a></li>
+              <li><a href="/TermsAndConditions" className="text-gray-300 hover:text-white transition-colors">{t("footer.termsncondition")}</a></li>
+              <li><a href="/ContactUs" className="text-gray-300 hover:text-white transition-colors">{t("footer.contactus")}</a></li>
             </ul>
           </div>
 
@@ -119,7 +121,7 @@ const Footer = () => {
                 ${servicesColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
               `}
             >
-              SERVICES
+              {t("footer.services")}
               <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
                 ${servicesColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
                 ${servicesColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
@@ -132,11 +134,11 @@ const Footer = () => {
               `}></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="/DayTour" className="text-gray-300 hover:text-white transition-colors">Day Tours</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Bali Airport Transfer Service</a></li>
-              <li><a href="/unit-car" className="text-gray-300 hover:text-white transition-colors">Car Rental</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Bali Motorbike Rental</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Transportation to/from Sanur Pier</a></li>
+              <li><a href="/DayTour" className="text-gray-300 hover:text-white transition-colors">{t("footer.daytour")}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t("footer.baliairport")}</a></li>
+              <li><a href="/unit-car" className="text-gray-300 hover:text-white transition-colors">{t("footer.carrental")}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t("footer.balimotorbike")}</a></li>
+              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t("footer.transportsanur")}</a></li>
             </ul>
           </div>
 
@@ -157,7 +159,7 @@ const Footer = () => {
                 ${categoriesColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
               `}
             >
-              CATEGORIES
+              {t("footer.categories")}
               <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
                 ${categoriesColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
                 ${categoriesColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
@@ -170,18 +172,18 @@ const Footer = () => {
               `}></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="ubud-art-market" className="text-gray-300 hover:text-white transition-colors">Art Market</a></li>
-              <li><a href="padang-padang-beach" className="text-gray-300 hover:text-white transition-colors">Beach</a></li>
-              <li><a href="garuda-wisnu-kencana" className="text-gray-300 hover:text-white transition-colors">Cultural Park</a></li>
-              <li><a href="barong-dance" className="text-gray-300 hover:text-white transition-colors">Dance</a></li>
-              <li><a href="banjar-hot-spring" className="text-gray-300 hover:text-white transition-colors">Hot Spring</a></li>
-              <li><a href="ubud-monkey-forest" className="text-gray-300 hover:text-white transition-colors">Monkey Forest</a></li>
-              <li><a href="jatiluwih-rice-terraces" className="text-gray-300 hover:text-white transition-colors">Rice Terraces</a></li>
-              <li><a href="tanah-lot-temple" className="text-gray-300 hover:text-white transition-colors">Temple</a></li>
-              <li><a href="batur-volcano" className="text-gray-300 hover:text-white transition-colors">Volcano</a></li>
-              <li><a href="tirta-gangga" className="text-gray-300 hover:text-white transition-colors">Water Palace</a></li>
-              <li><a href="nusa-dua-water-sports" className="text-gray-300 hover:text-white transition-colors">Water Sports</a></li>
-              <li><a href="tegenungan-waterfall" className="text-gray-300 hover:text-white transition-colors">Waterfall</a></li>
+              <li><a href="ubud-art-market" className="text-gray-300 hover:text-white transition-colors">{t("footer.artmarket")}</a></li>
+              <li><a href="padang-padang-beach" className="text-gray-300 hover:text-white transition-colors">{t("footer.beach")}</a></li>
+              <li><a href="garuda-wisnu-kencana" className="text-gray-300 hover:text-white transition-colors">{t("footer.culturalpark")}</a></li>
+              <li><a href="barong-dance" className="text-gray-300 hover:text-white transition-colors">{t("footer.dance")}</a></li>
+              <li><a href="banjar-hot-spring" className="text-gray-300 hover:text-white transition-colors">{t("footer.hotspring")}</a></li>
+              <li><a href="ubud-monkey-forest" className="text-gray-300 hover:text-white transition-colors">{t("footer.monkeyforest")}</a></li>
+              <li><a href="jatiluwih-rice-terraces" className="text-gray-300 hover:text-white transition-colors">{t("footer.riceterraces")}</a></li>
+              <li><a href="tanah-lot-temple" className="text-gray-300 hover:text-white transition-colors">{t("footer.temple")}</a></li>
+              <li><a href="batur-volcano" className="text-gray-300 hover:text-white transition-colors">{t("footer.volcano")}</a></li>
+              <li><a href="tirta-gangga" className="text-gray-300 hover:text-white transition-colors">{t("footer.waterpalace")}</a></li>
+              <li><a href="nusa-dua-water-sports" className="text-gray-300 hover:text-white transition-colors">{t("footer.watersports")}</a></li>
+              <li><a href="tegenungan-waterfall" className="text-gray-300 hover:text-white transition-colors">{t("footer.waterfall")}</a></li>
             </ul>
           </div>
 
@@ -201,7 +203,7 @@ const Footer = () => {
                 ${blogColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
               `}
             >
-              BLOG POST
+              {t("footer.blogpost")}
               <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
                 ${blogColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
                 ${blogColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
@@ -239,7 +241,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
+            <h3 className="text-lg font-semibold mb-2">{t("footer.followus")}</h3>
             <div className="flex space-x-6 mb-3">
               {/* TikTok */}
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
@@ -261,7 +263,7 @@ const Footer = () => {
               </a>
             </div>
 
-            <h3 className="text-lg font-semibold mb-2">Payment Partner</h3>
+            <h3 className="text-lg font-semibold mb-2">{t("footer.paymentpartner")}</h3>
             <div className="bg-white text-slate-900 px-6 py-2 rounded inline-block mb-4 mt-1">
               <img src="/images/All/Xendit.png" alt="Payment Partner" className="h-10" />
             </div>

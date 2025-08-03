@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ArticleModal from "./ArticleModal";
 import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
+import { useTranslation } from "react-i18next";
 
 // Dummy data untuk testing
 const dummyNewsData = [
@@ -125,6 +126,7 @@ const NewsnBlog = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { t }  = useTranslation();
 
   const fetchNews = async () => {
     setIsLoading(true);
@@ -196,7 +198,7 @@ const NewsnBlog = () => {
         <div className="max-w-7xl mx-auto p-4 border border-gray-200 rounded-xl">
           <div className="mb-9 border-b border-gray-200">
             <h2 className="playfair mb-4 text-[#071C4D] text-[35px] font-bold text-center">
-              News and Blog
+              {t("newsnblog.title")}
             </h2>
           </div>
 
@@ -246,7 +248,7 @@ const NewsnBlog = () => {
                       onClick={() => handleReadMore(article)}
                       className="bg-[#0092B8] hover:bg-[#007F9F] text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 inline-flex items-center gap-2"
                     >
-                      Read More
+                      {t("newsnblog.readmore")}
                       <svg
                         className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
                         fill="none"

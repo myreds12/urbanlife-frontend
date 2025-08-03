@@ -3,8 +3,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "lucide-react";
 import "../../../../styles/LandingPage/HomePage/DateInput.css";
+import { useTranslation } from 'react-i18next';
 
 export const DateInput = ({ label, selected, onChange, minDate }) => {
+    const { t } = useTranslation();
+  
   const CustomInput = forwardRef(({ value, onClick, placeholder }, ref) => (
     <button
       type="button"
@@ -28,7 +31,7 @@ export const DateInput = ({ label, selected, onChange, minDate }) => {
         onChange={onChange}
         dateFormat="dd-MM-yyyy"
         minDate={minDate}
-        placeholderText="Pilih tanggal"
+        placeholderText={t("dateinput.input")}
         customInput={<CustomInput />}
         popperClassName="custom-datepicker"
       />

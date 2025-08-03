@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../../../styles/LandingPage/HomePage/DiscoverCard.css";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import { useTranslation } from 'react-i18next';
 
 const dummyImages = [
   "/public/images/error/No_Image_Available.jpg",
@@ -15,6 +16,7 @@ const DiscoverCard = () => {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   const fetchCountries = async () => {
     try {
@@ -67,7 +69,7 @@ const DiscoverCard = () => {
           onClick={fetchCountries}
           className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
         >
-          Try Again
+          {t("discover.try")}
         </button>
       </div>
     );

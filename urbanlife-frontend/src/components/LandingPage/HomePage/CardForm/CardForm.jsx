@@ -3,6 +3,8 @@ import { Search, X } from "lucide-react";
 import { DateInput } from "./DateInput";
 import SearchResultsModal from "./SearchResultsModal";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import { useTranslation } from 'react-i18next';
+
 
 const CardForm = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +22,7 @@ const CardForm = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const { t } = useTranslation();
 
   console.log(searchResults, "SHOW RESULTS");
 
@@ -150,7 +153,7 @@ const CardForm = () => {
           onChange={(e) => handleChange("countryId", e.target.value)}
         >
           <option value="" disabled>
-            {loadingCountries ? "Memuat negara..." : "Pilih negara"}
+            {loadingCountries ? t("cardform.loading_countries") : t("cardform.select_country")}
           </option>
           {countries.map((c) => (
             <option key={c.value} value={c.value}>
@@ -170,10 +173,10 @@ const CardForm = () => {
         >
           <option value="" disabled>
             {loadingCities
-              ? "Memuat kota..."
+              ? t("cardform.loading_city")
               : formData.countryId
-              ? "Pilih kota"
-              : "Pilih negara dulu"}
+              ? t("cardform.select_city")
+              : t("cardform.select_city_first")}
           </option>
           {cities.map((c) => (
             <option key={c.value} value={c.value}>
@@ -191,7 +194,7 @@ const CardForm = () => {
           onChange={(e) => handleChange("service", e.target.value)}
         >
           <option value="" disabled>
-            Pilih layanan
+            {t("cardform.select_services")}
           </option>
           {services.map((s) => (
             <option key={s.value} value={s.value}>
@@ -202,13 +205,13 @@ const CardForm = () => {
 
         <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0">
             <DateInput
-              label="Dari"
+              label={t("cardform.from")}
               selected={formData.fromDate}
               onChange={(date) => handleChange("fromDate", date)}
             />
 
             <DateInput
-              label="Sampai"
+              label={t("cardform.to")}
               selected={formData.toDate}
               minDate={formData.fromDate}
               onChange={(date) => handleChange("toDate", date)}
@@ -225,12 +228,12 @@ const CardForm = () => {
             {isSearching ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                Mencari...
+                {t("cardform.searching")}
               </>
             ) : (
               <>
                 <Search size={16} />
-                Cari
+                {t("cardform.search")}
               </>
             )}
           </button>
@@ -239,7 +242,7 @@ const CardForm = () => {
             <button
               onClick={clearForm}
               className="p-2.5 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
-              title="Hapus form"
+              title={t("cardform.clear_form")}
             >
               <X size={16} />
             </button>

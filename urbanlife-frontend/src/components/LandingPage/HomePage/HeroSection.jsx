@@ -1,7 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import "../../../styles/LandingPage/HomePage/HeroSection.css";
 import CardForm from "./CardForm/CardForm";
 
 const HeroSection = () => {
+  const { t } = useTranslation();
+
   return (
     <div
       className="hero-section"
@@ -12,9 +15,7 @@ const HeroSection = () => {
         {/* Hero Text - Only visible on desktop */}
         <div className="hidden lg:block flex-1 max-w-2xl">
           <h1 className="playfair text-4xl sm:text-5xl lg:text-7xl font-bold text-left text-white leading-tight">
-            Discover <br />
-            the beauty places <br />
-            around the world
+            {t('hero.title')}
           </h1>
         </div>
 

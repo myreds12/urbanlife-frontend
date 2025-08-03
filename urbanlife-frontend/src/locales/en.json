@@ -1,0 +1,133 @@
+{
+  "navbar": {
+    "placetosee": "Place to see",
+    "categories": "Categories",
+    "subtitle": "Discover amazing destinations and experiences",
+    "services": "Services",
+    "daytour": "Day Tours",
+    "rentcar": "Rent Car",
+    "topattraction": "Top Attractions",
+    "transportation": "Transportations",
+    "accomodation": "Accommodations",
+    "news": "News",
+    "contactus": "Contact Us"
+  },
+
+  "hero": {
+    "title": "Discover the beauty places around the world"
+  },
+
+  "cardform": {
+    "select_country": "Select country",
+    "select_city": "Select city",
+    "select_city_first": "Select a country first",
+    "loading_countries": "Loading countries...",
+    "loading_cities": "Loading cities...",
+    "select_services": "Select service",
+    "search": "Search",
+    "searching": "Searching...",
+    "clear_form": "Clear form",
+    "from": "From",
+    "to": "To",
+    "accomodation": "Accommodation",
+    "rent_car": "Rent Car",
+    "day_tour": "Day Tour",
+    "form_incomplete_alert": "Please fill in all required fields!",
+    "search_failed": "Failed to fetch search results."
+  },
+
+  "searchmodal": {
+    "results": "Search Results",
+    "noimage": "No Image",
+    "order": "Order",
+    "noresults": "No results found for your search criteria."
+  },
+
+  "dateinput": {
+    "input": "Select date"
+  },
+
+  "categories": {
+    "title": "Popular Categories"
+  },
+
+  "discover": {
+    "title": "Discover All Around",
+    "try": "Try Again"
+  },
+
+  "partner": {
+    "title": "Our Partner"
+  },
+
+  "servicenschedule": {
+    "title": "Order Now and Try Our Services!",
+    "desc": "In addition to the transportation services in Bali that we provide, we also offer day tour packages that could give you an opportunity to visit different parts of the island, enjoy its beauty and also learn local culture at the same time.",
+    "monday": "MONDAY",
+    "tuesday": "TUESDAY",
+    "wednesday": "WEDNESDAY",
+    "thursday": "THURSDAY",
+    "friday": "FRIDAY",
+    "saturday": "SATURDAY",
+    "sunday": "SUNDAY",
+    "button": "Contact Us"
+  },
+
+  "testimonial": {
+    "title": "They Are Loving Us",
+    "subtitle": "Moments were giving them\nthe best experience",
+    "review1": "Really satisfied with the service, the driver was so supportive and helpful and the car was also nice, very good.",
+    "review2": "Really satisfied with the service, the driver was so supportive and helpful and the car was also nice, very good.",
+    "review3": "urbanlife made my life easier, the hotel was wonderful, the car was clean and the driver was so nice and helpful. I will definitely recommend urbanlife to my friends and family.",
+    "tour1": "Eastern Bali Tour",
+    "tour2": "Eastern Bali Tour",
+    "tour3": "Western Nusa Penida Tour"
+  },
+
+  "newsnblog": {
+    "title": "News and Blog",
+    "readmore": "Read More"
+  },
+  "footer": {
+    "company": "COMPANY",
+        "aboutus": "About Us",
+        "privacypolicy": "Privacy Policy",
+        "termsncondition": "Terms and Conditions",
+        "contactus": "Contact Us",
+    "services": "SERVICES",
+        "daytour": "Day Tours",
+        "baliairport": "Bali Airport Transfer Service",
+        "carrental": "Car Rental",
+        "balimotorbike": "Bali Motorbike Rental",
+        "transportsanur": "Transportation to/from Sanur Pier",
+    "categories": "CATEGORIES",
+        "artmarket": "Art Market",
+        "beach": "Beach",
+        "culturalpark": "Cultural Park",
+        "dance": "Dance",
+        "hotspring": "Hot Spring",
+        "monkeyforest": "Monkey Forest",
+        "riceterraces": "Rice Terraces",
+        "temple": "Temple",
+        "volcano": "Volcano",
+        "waterpalace": "Water Palace",
+        "watersports": "Water Sports",
+        "waterfall": "Waterfall",
+    "blogpost": "BLOG POSTS",
+        "ubudartmarket": "Ubud Art Market",
+        "padangbeach": "Padang Padang Beach",
+        "garudawisnu": "Garuda Wisnu Kencana Cultural Park",
+        "barongdance": "Barong Dance",
+        "banjarhotspring": "Banjar Hot Spring",
+        "ubudmonkeyforest": "Ubud Monkey Forest",
+        "jatiluwihriceerraces": "Jatiluwih Rice Terraces",
+        "baturvolcano": "Batur Volcano View",
+        "tirtagangga": "Tirta Gangga Water Palace",
+        "nusadua": "Water Sports at Nusa Dua",
+        "tegenunganwaterfall": "Tegenungan Waterfall",
+    "followus": "Follow Us",
+    "paymentpartner": "Payment Partner"
+  }
+
+
+}

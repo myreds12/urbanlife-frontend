@@ -10,8 +10,11 @@ import TestimonialSection from "../../../components/LandingPage/HomePage/Testimo
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
 import PopularCategoriesSection from "./Popular Categoires/PopularCategories";
 import AnimatedSection from "../../../components/LandingPage/Utils/AnimatedSection";
+import { useTranslation } from 'react-i18next';
 
 const LandingPage = () => {
+    const { t } = useTranslation();
+  
   return (
     <div>
       <Navbar />
@@ -28,7 +31,7 @@ const LandingPage = () => {
       <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
         <div className="max-w-[1200px] mx-auto">
           <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mt-5 mb-8 ml-5">
-            Popular Categories
+            {t("categories.title")}
           </h1>
         </div>
         <div className="flex flex-wrap justify-center gap-4">
@@ -40,7 +43,7 @@ const LandingPage = () => {
       <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
         <div className="max-w-[1200px] mx-auto">
           <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
-            Discover All Around
+           {t('discover.title')}
           </h1>
         </div>
         <div className="flex flex-wrap justify-center gap-4">
@@ -53,7 +56,7 @@ const LandingPage = () => {
         <div className="w-full px-4 md:px-8 lg:px-10 mb-1">
           <div className="max-w-[1200px] mx-auto">
             <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
-              Our Partner
+              {t('partner.title')}
             </h1>
           </div>
           <div className="flex flex-wrap justify-center gap-14 mb-10">

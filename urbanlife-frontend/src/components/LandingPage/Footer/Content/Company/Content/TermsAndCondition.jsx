@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FileText, Shield, Globe, Users, Eye, Lock } from 'lucide-react';
 import Navbar from '../../../../HomePage/Navbar/Navbar';
 import Footer from '../../../../HomePage/Footer';
@@ -483,13 +484,18 @@ const TermsAndConditions = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-cyan-600 text-white px-8 py-3 rounded-xl font-medium hover:bg-cyan-700 transition-colors shadow-sm">
-              Contact Support
-            </button>
-            <button className="border border-gray-300 text-gray-700 px-8 py-3 rounded-xl font-medium hover:border-gray-400 hover:bg-gray-50 transition-colors">
-              View Services
-            </button>
+            <Link to="/ContactUs">
+              <button className="bg-cyan-600 text-white px-8 py-3 rounded-xl font-medium hover:bg-cyan-700 transition-colors shadow-sm">
+                Contact Support
+              </button>
+            </Link>
+            <Link to="/Services">
+              <button className="border border-gray-300 text-gray-700 px-8 py-3 rounded-xl font-medium hover:border-gray-400 hover:bg-gray-50 transition-colors">
+                View Services
+              </button>
+            </Link>
           </div>
+
           
           <p className="text-gray-500 text-sm mt-8">
             Governed by the laws of the Republic of Indonesia

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Clock, Send, MessageSquare, Users, Car, Home, Sparkles, Globe } from 'lucide-react';
 import Navbar from '../../../../HomePage/Navbar/Navbar';
 import Footer from '../../../../HomePage/Footer';
@@ -319,12 +320,18 @@ const ContactUsPage = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
+                <Link
+                  to="/"
+                  className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-center"
+                >
                   Explore Destinations
-                </button>
-                <button className="border border-blue-300/50 hover:border-blue-400 bg-white/30 backdrop-blur-sm text-slate-700 hover:text-slate-800 font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-white/50 shadow-sm hover:shadow-lg">
+                </Link>
+                <Link
+                  to="/Services"
+                  className="border border-blue-300/50 hover:border-blue-400 bg-white/30 backdrop-blur-sm text-slate-700 hover:text-slate-800 font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-white/50 shadow-sm hover:shadow-lg text-center"
+                >
                   View Services
-                </button>
+                </Link>
               </div>
             </div>
           </div>

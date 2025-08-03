@@ -132,7 +132,7 @@ const NewsnBlog = () => {
     setIsLoading(true);
     try {
       // Uncomment baris di bawah untuk menggunakan API asli
-      // const response = await apiClient.get("/news");
+      const response = await apiClient.get("/news");
       // setNewsData(response.data.data);
       
       // Simulasi loading delay untuk dummy data

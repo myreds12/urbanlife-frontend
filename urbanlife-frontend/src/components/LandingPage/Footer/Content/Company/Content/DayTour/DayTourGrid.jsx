@@ -1,6 +1,6 @@
 import React from 'react';
 import DayTourCard from './DayTourCard';
-import './DayTourGrid.css';
+import './DaytourGrid.css';
 
 const DayTourGrid = ({ cards }) => {
   if (!cards || cards.length === 0) {

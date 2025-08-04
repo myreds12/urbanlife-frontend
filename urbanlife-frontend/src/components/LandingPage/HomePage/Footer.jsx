@@ -1,21 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-
-const blogPosts = [
-  { title: "Ubud Art Market ", slug: "ubud-art-market" },
-  { title: "Padang Padang Beach ", slug: "padang-padang-beach" },
-  { title: "Garuda Wisnu Kencana Cultural Park ", slug: "garuda-wisnu-kencana" },
-  { title: "Barong Dance ", slug: "barong-dance" },
-  { title: "Banjar Hot Spring ", slug: "banjar-hot-spring" },
-  { title: "Ubud Monkey Forest ", slug: "ubud-monkey-forest" },
-  { title: "Jatiluwih Rice Terraces ", slug: "jatiluwih-rice-terraces" },
-  { title: "Tanah Lot Temple ", slug: "tanah-lot-temple" },
-  { title: "Batur Volcano View  ", slug: "batur-volcano" },
-  { title: "Tirta Gangga Water Palace ", slug: "tirta-gangga" },
-  { title: "Water Sports at Nusa Dua ", slug: "nusa-dua-water-sports" },
-  { title: "Tegenungan Waterfall ", slug: "tegenungan-waterfall" },
-];
 const Footer = () => {
   // Array warna-warna yang akan bergantian
   const colors = [
@@ -172,18 +157,18 @@ const Footer = () => {
               `}></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="ubud-art-market" className="text-gray-300 hover:text-white transition-colors">{t("footer.artmarket")}</a></li>
-              <li><a href="padang-padang-beach" className="text-gray-300 hover:text-white transition-colors">{t("footer.beach")}</a></li>
-              <li><a href="garuda-wisnu-kencana" className="text-gray-300 hover:text-white transition-colors">{t("footer.culturalpark")}</a></li>
-              <li><a href="barong-dance" className="text-gray-300 hover:text-white transition-colors">{t("footer.dance")}</a></li>
-              <li><a href="banjar-hot-spring" className="text-gray-300 hover:text-white transition-colors">{t("footer.hotspring")}</a></li>
-              <li><a href="ubud-monkey-forest" className="text-gray-300 hover:text-white transition-colors">{t("footer.monkeyforest")}</a></li>
-              <li><a href="jatiluwih-rice-terraces" className="text-gray-300 hover:text-white transition-colors">{t("footer.riceterraces")}</a></li>
-              <li><a href="tanah-lot-temple" className="text-gray-300 hover:text-white transition-colors">{t("footer.temple")}</a></li>
-              <li><a href="batur-volcano" className="text-gray-300 hover:text-white transition-colors">{t("footer.volcano")}</a></li>
-              <li><a href="tirta-gangga" className="text-gray-300 hover:text-white transition-colors">{t("footer.waterpalace")}</a></li>
-              <li><a href="nusa-dua-water-sports" className="text-gray-300 hover:text-white transition-colors">{t("footer.watersports")}</a></li>
-              <li><a href="tegenungan-waterfall" className="text-gray-300 hover:text-white transition-colors">{t("footer.waterfall")}</a></li>
+              <li><a href="blog/ubud-art-market" className="text-gray-300 hover:text-white transition-colors">{t("footer.artmarket")}</a></li>
+              <li><a href="blog/padang-padang-beach" className="text-gray-300 hover:text-white transition-colors">{t("footer.beach")}</a></li>
+              <li><a href="blog/garuda-wisnu-kencana" className="text-gray-300 hover:text-white transition-colors">{t("footer.culturalpark")}</a></li>
+              <li><a href="blog/barong-dance" className="text-gray-300 hover:text-white transition-colors">{t("footer.dance")}</a></li>
+              <li><a href="blog/banjar-hot-spring" className="text-gray-300 hover:text-white transition-colors">{t("footer.hotspring")}</a></li>
+              <li><a href="blog/ubud-monkey-forest" className="text-gray-300 hover:text-white transition-colors">{t("footer.monkeyforest")}</a></li>
+              <li><a href="blog/jatiluwih-rice-terraces" className="text-gray-300 hover:text-white transition-colors">{t("footer.riceterraces")}</a></li>
+              <li><a href="blog/tanah-lot-temple" className="text-gray-300 hover:text-white transition-colors">{t("footer.temple")}</a></li>
+              <li><a href="blog/batur-volcano" className="text-gray-300 hover:text-white transition-colors">{t("footer.volcano")}</a></li>
+              <li><a href="blog/tirta-gangga" className="text-gray-300 hover:text-white transition-colors">{t("footer.waterpalace")}</a></li>
+              <li><a href="blog/nusa-dua-water-sports" className="text-gray-300 hover:text-white transition-colors">{t("footer.watersports")}</a></li>
+              <li><a href="blog/tegenungan-waterfall" className="text-gray-300 hover:text-white transition-colors">{t("footer.waterfall")}</a></li>
             </ul>
           </div>
 
@@ -216,14 +201,19 @@ const Footer = () => {
               `}></span>
             </button>
             <ul className="space-y-3">
-              {blogPosts.map((post, index) => (
-                <li key={index}>
-                  <a href={`/${post.slug}`} className="text-gray-300 hover:text-white transition-colors">
-                    {post.title}
-                  </a>
-                </li>
-              ))}
-            </ul> 
+              <li><a href="blog/ubud-art-market" className="text-gray-300 hover:text-white transition-colors">{t("footer.ubudartmarket")}</a></li>
+              <li><a href="blog/padang-padang-beach" className="text-gray-300 hover:text-white transition-colors">{t("footer.padangbeach")}</a></li>
+              <li><a href="blog/garuda-wisnu-kencana" className="text-gray-300 hover:text-white transition-colors">{t("footer.garudawisnu")}</a></li>
+              <li><a href="blog/barong-dance" className="text-gray-300 hover:text-white transition-colors">{t("footer.barongdance")}</a></li>
+              <li><a href="blog/banjar-hot-spring" className="text-gray-300 hover:text-white transition-colors">{t("footer.banjarhotspring")}</a></li>
+              <li><a href="blog/ubud-monkey-forest" className="text-gray-300 hover:text-white transition-colors">{t("footer.ubudmonkeyforest")}</a></li>
+              <li><a href="blog/jatiluwih-rice-terraces" className="text-gray-300 hover:text-white transition-colors">{t("footer.jatiluwihricerraces")}</a></li>
+              <li><a href="blog/tanah-lot-temple" className="text-gray-300 hover:text-white transition-colors">{t("footer.tanahlottemple")}</a></li>
+              <li><a href="blog/batur-volcano" className="text-gray-300 hover:text-white transition-colors">{t("footer.baturvolcano")}</a></li>
+              <li><a href="blog/tirta-gangga" className="text-gray-300 hover:text-white transition-colors">{t("footer.tirtagangga")}</a></li>
+              <li><a href="blog/nusa-dua-water-sports" className="text-gray-300 hover:text-white transition-colors">{t("footer.nusadua")}</a></li>
+              <li><a href="blog/tegenungan-waterfall" className="text-gray-300 hover:text-white transition-colors">{t("footer.tegenunganwaterfall")}</a></li>
+            </ul>
           </div>
 
 

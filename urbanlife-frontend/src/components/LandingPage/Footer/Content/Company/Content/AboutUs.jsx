@@ -3,8 +3,10 @@ import { Home, MapPin, Calendar, Car, Bike, Ship, ArrowRight } from 'lucide-reac
 import templeImage from '/images/LandingPage/Footer/content/Temple.png'; // Adjust path based on your project structure
 import Navbar from '../../../../HomePage/Navbar/Navbar';
 import Footer from '../../../../HomePage/Footer';
+import { useTranslation } from 'react-i18next';
 
 const AboutUs = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState({});
 
   useEffect(() => {
@@ -27,41 +29,6 @@ const AboutUs = () => {
 
     return () => observer.disconnect();
   }, []);
-
-  const services = [
-    {
-      id: 'day-tour',
-      icon: <Calendar className="w-5 h-5" />,
-      title: 'Explore Our Day Tour Packages',
-      description:
-        'Experience top-rated day tours across Indonesia. From cultural landmarks to nature escapes, enjoy curated journeys with professional local guides.',
-      location: 'Various regions available',
-    },
-    {
-      id: 'car-rental',
-      icon: <Car className="w-5 h-5" />,
-      title: 'Car Rental Services',
-      description:
-        'Rent a car easily for your trip—whether it’s for business or leisure. Wide selection from economy to luxury vehicles, with full insurance coverage.',
-      location: 'Available in major cities',
-    },
-    {
-      id: 'motorbike-rental',
-      icon: <Bike className="w-5 h-5" />,
-      title: 'Motorbike Rentals',
-      description:
-        'Navigate urban and island areas with ease using our flexible motorbike rental services. Daily, weekly, or monthly options available.',
-      location: 'City & island coverage',
-    },
-    {
-      id: 'ferry-transfers',
-      icon: <Ship className="w-5 h-5" />,
-      title: 'Pier & Ferry Transfers',
-      description:
-        'Seamless transport to and from main ports and terminals for your island-hopping adventures or daily commutes.',
-      location: 'Popular coastal areas',
-    },
-  ];
 
   return (
     <div className="bg-white min-h-screen font-sans">
@@ -89,14 +56,13 @@ const AboutUs = () => {
         {/* Hero Section */}
         <div className="relative z-10 container mx-auto px-4 py-16 text-center sm:px-6 sm:py-20 mt-15">
           <h1 className="font-playfair text-5xl sm:text-6xl md:text-7xl text-white font-bold mb-6 leading-tight drop-shadow-md">
-            About Us
+            {t('aboutus.hero_title')}
           </h1>
           <p className="font-inter text-xl sm:text-2xl text-white max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
-            Discover the beauty places around the world.
+            {t('aboutus.hero_subtitle')}
           </p>
           <div className="mt-6 w-20 h-1 bg-white/60 mx-auto rounded-full"></div>
         </div>
-
       </div>
 
       {/* Main Content */}
@@ -115,17 +81,17 @@ const AboutUs = () => {
                 <MapPin className="w-6 h-6 text-cyan-600" />
               </div>
               <h2 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">
-                Your Trusted Travel Partner
+                {t('aboutus.intro_title')}
               </h2>
               <p className="font-inter text-gray-600 leading-relaxed mb-4 text-base sm:text-lg">
-                We provide comprehensive transportation services in Bali and Jakarta, designed to make your Indonesian journey seamless and memorable.
+                {t('aboutus.intro_description_1')}
               </p>
               <p className="font-inter text-gray-600 leading-relaxed text-base sm:text-lg">
-                From airport transfers to cultural explorations, our professional team ensures safe, comfortable, and reliable transportation solutions for every traveler.
+                {t('aboutus.intro_description_2')}
               </p>
             </div>
             <div className="relative">
-              <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-2 shadow-lg">
+              <div className="bg-gradient-to-br from-cyan-100 to-blue-100 rounded-2xl p-2 shadow-lg">
                 <img
                   src={templeImage}
                   alt="Cultural Temple in Bali"
@@ -140,15 +106,15 @@ const AboutUs = () => {
         <div className="mb-16">
           <div className="text-center mb-12">
             <h3 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-4">
-              Our Services
+              {t('aboutus.services_title')}
             </h3>
             <p className="font-inter text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
-              Comprehensive transportation solutions tailored for your travel needs
+              {t('aboutus.services_subtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {services.map((service) => (
+            {t('aboutus.services', { returnObjects: true }).map((service) => (
               <div
                 key={service.id}
                 id={`service-${service.id}`}
@@ -159,7 +125,14 @@ const AboutUs = () => {
               >
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center text-cyan-600 group-hover:bg-cyan-200/50 transition-colors">
-                    {service.icon}
+                    {
+                      {
+                        'day-tour': <Calendar className="w-5 h-5" />,
+                        'car-rental': <Car className="w-5 h-5" />,
+                        'motorbike-rental': <Bike className="w-5 h-5" />,
+                        'ferry-transfers': <Ship className="w-5 h-5" />,
+                      }[service.id]
+                    }
                   </div>
                   <div className="flex-1">
                     <h4 className="font-playfair text-lg font-semibold text-gray-900 mb-2">
@@ -189,41 +162,29 @@ const AboutUs = () => {
           <div className="bg-gray-50 rounded-2xl p-6 sm:p-8">
             <div className="text-center mb-8">
               <h3 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-4">
-                Complete Travel Solutions
+                {t('aboutus.additional_title')}
               </h3>
               <p className="font-inter text-gray-600 text-base sm:text-lg">
-                Beyond transportation, we offer comprehensive travel planning
+                {t('aboutus.additional_subtitle')}
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
-                  <Calendar className="w-5 h-5 text-cyan-600" />
+              {t('aboutus.additional_services', { returnObjects: true }).map((service, index) => (
+                <div key={index} className="flex items-start space-x-4">
+                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                    {index === 0 ? <Calendar className="w-5 h-5 text-cyan-600" /> : <Home className="w-5 h-5 text-cyan-600" />}
+                  </div>
+                  <div>
+                    <h4 className="font-playfair text-lg font-semibold text-gray-900 mb-2">
+                      {service.title}
+                    </h4>
+                    <p className="font-inter text-gray-600 text-sm">
+                      {service.description}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-playfair text-lg font-semibold text-gray-900 mb-2">
-                    Day Tour Packages
-                  </h4>
-                  <p className="font-inter text-gray-600 text-sm">
-                    Curated Bali experiences featuring cultural sites, natural attractions, and local insights for comprehensive island exploration.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
-                  <Home className="w-5 h-5 text-cyan-600" />
-                </div>
-                <div>
-                  <h4 className="font-playfair text-lg font-semibold text-gray-900 mb-2">
-                    Accommodation Booking
-                  </h4>
-                  <p className="font-inter text-gray-600 text-sm">
-                    Partner accommodations available through our platform, enabling complete itinerary planning from a single source.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -238,32 +199,32 @@ const AboutUs = () => {
         >
           <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-8 sm:p-12 relative shadow-lg">
             <h3 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">
-              Ready to Start Your Journey?
+              {t('aboutus.cta_title')}
             </h3>
             <p className="font-inter text-gray-600 mb-8 max-w-2xl mx-auto text-base sm:text-lg">
-              Experience Indonesia with confidence. Professional service, local expertise, and reliable transportation for your perfect trip.
+              {t('aboutus.cta_subtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/"
                 className="font-inter bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-700 transition-colors flex items-center justify-center shadow-sm hover:shadow-md"
-                aria-label="Book Your Trip"
+                aria-label={t('aboutus.cta_book_button')}
               >
-                Book Your Trip
+                {t('aboutus.cta_book_button')}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </a>
               <a
-                href="/ContactUs"
+                href="/contact"
                 className="font-inter border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:border-gray-400 hover:bg-gray-50 transition-colors shadow-sm hover:shadow-md"
-                aria-label="Contact Us"
+                aria-label={t('aboutus.cta_contact_button')}
               >
-                Contact Us
+                {t('aboutus.cta_contact_button')}
               </a>
             </div>
 
             <p className="font-inter text-gray-500 mt-6 text-sm">
-              Have a safe trip and enjoy your holidays!
+              {t('aboutus.cta_footer')}
             </p>
           </div>
         </div>

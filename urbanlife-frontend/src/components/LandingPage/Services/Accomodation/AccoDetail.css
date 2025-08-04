@@ -436,3 +436,92 @@
   box-shadow: 0 2px 6px rgba(0,127,159,0.3);
   transform: scale(1.02);
 }
+
+
+
+
+
+@media (max-width: 768px) {
+ .hero-section{
+   margin-top: 30px;
+   background: linear-gradient(135deg, #007F9F 0%, #0092B8 100%);
+   color: white;
+   padding: 0;
+   height: 230px;
+ }
+
+  .hero-content {
+  padding: 140px 20px;
+  }
+  .hero-title {
+    font-size: 35px;
+  }
+
+  .breadcrumb {
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+
+  .acco-container {
+    padding: 1rem;
+  }
+
+  .thumbnail-slider {
+    max-width: 100%;
+  }
+
+  .gallery-thumb {
+    width: 160px;
+    height: 140px;
+  }
+
+  .slider-arrow {
+    display: none;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .info-label {
+    font-size: 18px;
+  }
+
+  .pricing-facility-section {
+    margin-top: 1.5rem;
+  }
+
+  .room-card {
+    flex-direction: column;
+  }
+
+  .room-image-box {
+    width: 100%;
+  }
+
+  .room-main-image {
+    height: auto;
+    max-height: 220px;
+  }
+
+  .room-header {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .room-name {
+    font-size: 1rem;
+  }
+
+  .room-price {
+    font-size: 14px;
+    align-self: flex-start;
+  }
+
+  .room-thumb {
+    width: 50px;
+    height: 40px;
+  }
+}

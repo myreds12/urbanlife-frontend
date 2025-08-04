@@ -91,6 +91,8 @@ const DayTourPage = lazy(() => import("./components/LandingPage/Footer/Content/C
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
 const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));
 const BlogDetail = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogDetail"));
+const AccomodationPage = lazy(() => import("./components/LandingPage/Services/Accomodation/Accomodation"));
+const AccoDetail = lazy(() => import("./components/LandingPage/Services/Accomodation/AccoDetail"))
 
 function App() {
   // Set the root element for React Modal
@@ -126,6 +128,8 @@ function App() {
             <Route path="/blog" element={<BlogPostMain />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/unit-car" element={<CarRental />} />
+            <Route path="/accomodation" element={<AccomodationPage />} />
+            <Route path="/accomodation/detail" element={<AccoDetail />} />
 
             {/* Admin */}
             <Route

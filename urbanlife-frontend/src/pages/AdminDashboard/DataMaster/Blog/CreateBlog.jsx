@@ -1,9 +1,10 @@
+// CreateBlog.jsx
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import slugify from "slugify";
 import { BlogContext } from "./BlogProvider";
-import DescriptionSection from "../../../../components/AdminDashboard/News/DescriptionSection";
-import ImageSection from "../../../../components/AdminDashboard/DayTour/ImageSection";
+import BlogDescriptionSection from "./BlogDescriptionSection";
+import BlogImageSection from "./BlogImageSection";
 
 const CreateBlog = () => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ const CreateBlog = () => {
       id: Date.now(),
       category: formData.category,
       content: content,
-      files: photos.map((file, index) => ({
+      files: photos.map((file) => ({
         nama_file: file.name,
         fullUrl: URL.createObjectURL(file),
       })),
@@ -107,7 +108,7 @@ const CreateBlog = () => {
           </div>
 
           <form onSubmit={handleSubmit}>
-            <DescriptionSection
+            <BlogDescriptionSection
               id="description"
               isActive={activeSection === "description"}
               formData={formData}
@@ -116,52 +117,60 @@ const CreateBlog = () => {
               handleChange={handleChange}
               categories={categories}
             />
-            <ImageSection
+            <BlogImageSection
               id="image"
               isActive={activeSection === "image"}
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}
             />
-            <div className="space-y-4 mt-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Tanggal</label>
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600"
-                  required
-                />
+            {activeSection === "description" && (
+              <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mt-6 space-y-4">
+                <div className="flex items-center gap-5">
+                  <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+                    Tanggal
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    required
+                  />
+                </div>
+                <div className="flex items-center gap-5">
+                  <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+                    Slug
+                  </label>
+                  <input
+                    type="text"
+                    name="slug"
+                    value={formData.slug}
+                    onChange={handleChange}
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    placeholder="Masukkan slug blog"
+                    required
+                    pattern="[a-z0-9-]+"
+                  />
+                </div>
+                <div className="flex items-center gap-5">
+                  <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+                    Lokasi (Opsional)
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    placeholder="Masukkan lokasi"
+                    maxLength={100}
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Slug</label>
-                <input
-                  type="text"
-                  name="slug"
-                  value={formData.slug}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600"
-                  placeholder="Masukkan slug blog"
-                  required
-                  pattern="[a-z0-9-]+"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Lokasi (Opsional)</label>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600"
-                  placeholder="Masukkan lokasi"
-                  maxLength={100}
-                />
-              </div>
-            </div>
-            <div className="flex justify-end gap-3 px-6 pb-6">
+            )}
+            <div className="flex justify-end gap-3 px-6 pb-6 mt-5">
               <Link to="/admin/blog">
                 <button
                   type="button"

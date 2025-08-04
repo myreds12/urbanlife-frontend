@@ -1,3 +1,4 @@
+// BlogProvider.jsx
 import React, { createContext, useState } from "react";
 
 export const BlogContext = createContext();
@@ -47,9 +48,5 @@ const categories = [
 export const BlogProvider = ({ children }) => {
   const [blogData, setBlogData] = useState(initialBlogData);
 
-  return (
-    <BlogContext.Provider value={{ blogData, setBlogData, categories }}>
-      {children}
-    </BlogContext.Provider>
-  );
+  return <BlogContext.Provider value={{ blogData, setBlogData, categories }}>{children}</BlogContext.Provider>;
 };

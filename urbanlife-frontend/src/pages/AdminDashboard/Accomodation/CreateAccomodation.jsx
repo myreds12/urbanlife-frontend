@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
+import RoomAndPriceSection from "../../../components/AdminDashboard/Accommodation/RoomAndPriceSection";
+import FacilitySection from "../../../components/AdminDashboard/Accommodation/FacilitySection";
 import "../../../styles/AdminDashboard/DayTour/DayTour.css";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
-import { PopsicleIcon } from "lucide-react";
-import RoomAndPriceSection from "../../../components/AdminDashboard/Accommodation/RoomAndPriceSection";
-import FacilitySection from "../../../components/AdminDashboard/Accommodation/FacilitySection";
 
 const CreateAccomodationPage = () => {
   const navigate = useNavigate();
@@ -19,7 +18,6 @@ const CreateAccomodationPage = () => {
 
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
-
   const [content, setContent] = useState([
     {
       id: null,
@@ -36,23 +34,8 @@ const CreateAccomodationPage = () => {
       kebijakan: "",
     },
   ]);
-
-  const [roomPrices, setRoomPrices] = useState([
-    { id: null, nama: "", harga: 0 },
-  ]);
-
-  const [facilities, setFacilities] = useState([
-    {
-      id: null,
-      nama: "",
-      fasilitas: [
-        {
-          id: null,
-          nama: "",
-        },
-      ],
-    },
-  ]);
+  const [roomPrices, setRoomPrices] = useState([{ nama: "", harga: 0, images: [] }]);
+  const [facilities, setFacilities] = useState([]);
 
   const [formData, setFormData] = useState({
     nama: "",
@@ -185,12 +168,12 @@ const CreateAccomodationPage = () => {
 
   const handleChangePrice = (index, field, value) => {
     const updated = [...roomPrices];
-    updated[index][field] = value;
+    updated[index][field] = field === "images" ? value : value;
     setRoomPrices(updated);
   };
 
   const handleAddPrice = () => {
-    setRoomPrices([...roomPrices, { nama: "", harga: 0 }]);
+    setRoomPrices([...roomPrices, { nama: "", harga: 0, images: [] }]);
   };
 
   const handleRemovePrice = (index) => {
@@ -244,6 +227,9 @@ const CreateAccomodationPage = () => {
       if (item.id) payload.append(`akomodasi_room[${i}][id]`, item.id);
       payload.append(`akomodasi_room[${i}][nama]`, item.nama);
       payload.append(`akomodasi_room[${i}][harga]`, item.harga);
+      item.images?.forEach((image) => {
+        payload.append(`akomodasi_room[${i}][images][]`, image);
+      });
     });
 
     // facilities

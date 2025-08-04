@@ -1,3 +1,4 @@
+// BlogAdmin.jsx
 import React, { useState, useMemo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
@@ -20,13 +21,7 @@ const BlogAdmin = () => {
   const itemsPerPage = 10;
 
   const bulkEditableFields = [
-    {
-      name: "category",
-      label: "Kategori",
-      type: "select",
-      options: categories,
-      description: "Kategori blog",
-    },
+    { name: "category", label: "Kategori", type: "select", options: categories, description: "Kategori blog" },
   ];
 
   const handleSort = (columnKey) => {
@@ -39,9 +34,7 @@ const BlogAdmin = () => {
   };
 
   const handleRowSelect = (rowId) => {
-    setSelectedRows((prev) =>
-      prev.includes(rowId) ? prev.filter((id) => id !== rowId) : [...prev, rowId]
-    );
+    setSelectedRows((prev) => (prev.includes(rowId) ? prev.filter((id) => id !== rowId) : [...prev, rowId]));
   };
 
   const handleEdit = (row) => {
@@ -55,18 +48,16 @@ const BlogAdmin = () => {
   };
 
   const handleModalSave = (updatedData) => {
-    setBlogData((prev) =>
-      prev.map((blog) => (blog.id === updatedData.id ? updatedData : blog))
-    );
+    setBlogData((prev) => prev.map((blog) => (blog.id === updatedData.id ? updatedData : blog)));
     handleModalClose();
   };
 
   const handleDelete = (row) => {
-    const confirmed = window.confirm(`Yakin mau hapus "${row.content[0]?.judul || 'blog ini'}"?`);
+    const confirmed = window.confirm(`Yakin mau hapus "${row.content[0]?.judul || "blog ini"}"?`);
     if (confirmed) {
       setBlogData((prev) => prev.filter((blog) => blog.id !== row.id));
       setSelectedRows((prev) => prev.filter((id) => id !== row.id));
-      alert(`Blog "${row.content[0]?.judul || 'item'}" berhasil dihapus.`);
+      alert(`Blog "${row.content[0]?.judul || "item"}" berhasil dihapus.`);
     }
   };
 
@@ -95,9 +86,7 @@ const BlogAdmin = () => {
   const filteredData = useMemo(() => {
     return blogData.filter((blog) => {
       const categoryName = blog.category?.toLowerCase() || "";
-      const contentTitles = blog.content
-        .map((c) => c.judul?.toLowerCase() || "")
-        .join(" ");
+      const contentTitles = blog.content.map((c) => c.judul?.toLowerCase() || "").join(" ");
       const combinedText = `${categoryName} ${contentTitles}`;
       return combinedText.includes(searchTerm.toLowerCase());
     });
@@ -135,6 +124,12 @@ const BlogAdmin = () => {
     Kategori: (row) => row.category || "-",
     Judul: (row) => row.content[0]?.judul || "-",
     Tanggal: (row) => (row.date ? new Date(row.date).toLocaleDateString("id-ID") : "-"),
+    Aksi: (row) => (
+      <div>
+        <span onClick={() => handleEdit(row)} style={{ cursor: "pointer", color: "blue" }}>Edit</span> | 
+        <span onClick={() => handleDelete(row)} style={{ cursor: "pointer", color: "red" }}>Delete</span>
+      </div>
+    ),
   };
 
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
@@ -163,11 +158,7 @@ const BlogAdmin = () => {
           <h1 className="text-2xl font-bold text-gray-800">Blog</h1>
           <div className="flex flex-wrap justify-between items-center gap-4">
             <div className="flex-1 min-w-[200px]">
-              <Search
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                placeholder="Cari blog..."
-              />
+              <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Cari blog..." />
             </div>
             <Button
               variant="primary"
@@ -175,8 +166,7 @@ const BlogAdmin = () => {
               className="whitespace-nowrap"
               onClick={() => navigate("/admin/blogs/create")}
             >
-              Tambah Blog
-              <i className="fa-solid fa-plus ml-2"></i>
+              Tambah Blog <i className="fa-solid fa-plus ml-2"></i>
             </Button>
           </div>
         </div>
@@ -196,7 +186,8 @@ const BlogAdmin = () => {
 
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-            Menampilkan {startIndex + 1} sampai {Math.min(startIndex + itemsPerPage, sortedData.length)} dari {sortedData.length} blog
+            Menampilkan {startIndex + 1} sampai {Math.min(startIndex + itemsPerPage, sortedData.length)} dari{" "}
+            {sortedData.length} blog
           </div>
           <Pagination
             currentPage={currentPage}

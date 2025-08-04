@@ -3,6 +3,37 @@ import jsVectorMap from 'jsvectormap';
 import 'jsvectormap/dist/jsvectormap.css';
 import 'jsvectormap/dist/maps/world';
 
+const FlagIcon = ({ countryCode, className = "w-6 h-4" }) => {
+  const flagStyles = {
+    ID: {
+      background: 'linear-gradient(to bottom, #ff0000 0%, #ff0000 50%, #ffffff 50%, #ffffff 100%)'
+    },
+    VN: {
+      background: '#da020e',
+      position: 'relative'
+    }
+  };
+
+  if (countryCode === 'VN') {
+    return (
+      <div className={`${className} rounded-sm border border-gray-300 relative overflow-hidden`} style={flagStyles.VN}>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" className="w-3 h-3 fill-yellow-400">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className={`${className} rounded-sm border border-gray-300`}
+      style={flagStyles[countryCode] || { background: '#ccc' }}
+    />
+  );
+};
+
 const CardMap = () => {
   const mapRef = useRef(null);
 
@@ -13,7 +44,7 @@ const CardMap = () => {
       customers: 1500,
       percentage: 60,
       coords: [ -6.1751, 106.8272],
-      flag: '🇮🇩'
+      flag: 'ID'
     },
     {
       country: 'Vietnam',
@@ -21,7 +52,7 @@ const CardMap = () => {
       customers: 1000,
       percentage: 40,
       coords: [21.0278, 105.8520],
-      flag: '🇻🇳'
+      flag: 'VN'
     }
   ];
 
@@ -138,7 +169,7 @@ const CardMap = () => {
           <div key={index} className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-2">
-                <span className="text-lg">{item.flag}</span>
+                <FlagIcon countryCode={item.flag} className="w-6 h-4" />
                 <div>
                   <div className="font-medium text-gray-900">{item.country}</div>
                   <div className="text-sm text-gray-500">

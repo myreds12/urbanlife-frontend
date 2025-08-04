@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { accommodations } from "./AccoDummy";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import Navbar from "../../HomePage/Navbar/Navbar";
 import Footer from "../../HomePage/Footer";
 import "./AccoDetail.css";
@@ -77,6 +77,15 @@ const AccoDetail = () => {
   const handleHomeClick = () => {
     window.location.href = "/";
   };
+
+  const handleOrderClick = (item) => {
+    if (onOrderClick) {
+      onOrderClick(item);
+    } else {
+      console.log("Order clicked for:", item.nama);
+    }
+  };
+
 
   const openModal = (index = 0) => {
     setCurrentImageIndex(index);
@@ -168,7 +177,7 @@ const AccoDetail = () => {
               className="slider-arrow left"
               onClick={() => scrollThumbnail("left")}
             >
-              <FiChevronLeft />
+              <ChevronLeft />
             </button>
 
             <div className="thumbnail-slider" ref={thumbnailSliderRef}>
@@ -187,14 +196,17 @@ const AccoDetail = () => {
               className="slider-arrow right"
               onClick={() => scrollThumbnail("right")}
             >
-              <FiChevronRight />
+              <ChevronRight />
             </button>
           </div>
 
           <div className="info-basic">
             <div className="info-row">
               <span className="info-label">{accommodation.unit}</span>
-              <span className="info-location">{accommodation.location}</span>
+              <button onClick={() => handleOrderClick(result)} className="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap">
+                     <ShoppingCart size={14} className="sm:w-4 sm:h-4" />
+                     Order
+              </button>
             </div>
             <div className="info-description">
               <p>{accommodation.description}</p>

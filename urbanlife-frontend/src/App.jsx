@@ -15,6 +15,7 @@ import ThemeProvider from "./components/AdminDashboard/Utils/Context/ThemeContex
 import ProtectedRoute from "./components/AdminDashboard/Utils/Auth/ProtectedRoute";
 import AuthInitializer from "./components/AdminDashboard/Utils/Auth/AuthInitializer";
 import { BlogProvider } from "./pages/AdminDashboard/DataMaster/Blog/BlogProvider";
+import { CategoryProvider } from "./pages/AdminDashboard/DataMaster/Category/CategoryProvider"; // Tambahkan import ini
 
 // Lazy loaded Pages
 const Dashboard = lazy(() =>
@@ -51,6 +52,7 @@ const Driver = lazy(() => import("./pages/AdminDashboard/DataMaster/Driver/Drive
 const Guide = lazy(() => import("./pages/AdminDashboard/DataMaster/Guide/Guide"));
 const BlogAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/BlogAdmin"));
 const CreateBlog = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/CreateBlog"));
+const CategoryAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Category/CategoryAdmin")); // Tambahkan import ini
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
 const News = lazy(() => import("./pages/AdminDashboard/News/News"));
 const CreateNews = lazy(() => import("./pages/AdminDashboard/News/CreateNews"));
@@ -166,6 +168,7 @@ function App() {
               <Route path="guide" element={<Guide />} />
               <Route path="blog" element={<BlogProvider><BlogAdmin /></BlogProvider>} />
               <Route path="blogs/create" element={<BlogProvider><CreateBlog /></BlogProvider>} />
+              <Route path="category" element={<CategoryProvider><CategoryAdmin /></CategoryProvider>} />
               <Route path="profile" element={<UserProfile />} />
             </Route>
           </Routes>

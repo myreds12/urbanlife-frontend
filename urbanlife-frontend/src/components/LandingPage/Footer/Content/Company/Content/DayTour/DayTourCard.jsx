@@ -16,7 +16,7 @@ const DayTourCard = ({ image, title, price, description, linkTo }) => {
         <div className="price-and-button">
           <div className="card-price">From IDR {price.toLocaleString()}</div>
           <Link to={linkTo} className="card-button">
-            Lihat Detail
+            Read More
           </Link>
         </div>
       </div>

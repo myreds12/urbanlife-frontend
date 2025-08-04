@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
+import RoomAndPriceSection from "../../../components/AdminDashboard/Accommodation/RoomAndPriceSection";
+import FacilitySection from "../../../components/AdminDashboard/Accommodation/FacilitySection";
 import "../../../styles/AdminDashboard/DayTour/DayTour.css";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
-import { PopsicleIcon } from "lucide-react";
-import RoomAndPriceSection from "../../../components/AdminDashboard/Accommodation/RoomAndPriceSection";
-import FacilitySection from "../../../components/AdminDashboard/Accommodation/FacilitySection";
 
 const CreateAccomodationPage = () => {
   const navigate = useNavigate();
@@ -15,14 +14,11 @@ const CreateAccomodationPage = () => {
   const [photos, setPhotos] = useState([]);
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
-
   const [content, setContent] = useState([
     { bahasa: "INDONESIA", deskripsi: "" },
     { bahasa: "ENGLISH", deskripsi: "" },
   ]);
-
-  const [roomPrices, setRoomPrices] = useState([{ nama: "", harga: 0 }]);
-
+  const [roomPrices, setRoomPrices] = useState([{ nama: "", harga: 0, images: [] }]);
   const [facilities, setFacilities] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -61,12 +57,12 @@ const CreateAccomodationPage = () => {
 
   const handleChangePrice = (index, field, value) => {
     const updated = [...roomPrices];
-    updated[index][field] = value;
+    updated[index][field] = field === "images" ? value : value;
     setRoomPrices(updated);
   };
 
   const handleAddPrice = () => {
-    setRoomPrices([...roomPrices, { nama: "", harga: 0 }]);
+    setRoomPrices([...roomPrices, { nama: "", harga: 0, images: [] }]);
   };
 
   const handleRemovePrice = (index) => {
@@ -106,6 +102,9 @@ const CreateAccomodationPage = () => {
     roomPrices.forEach((item, i) => {
       payload.append(`akomodasi_room[${i}][nama]`, item.nama);
       payload.append(`akomodasi_room[${i}][harga]`, item.harga);
+      item.images?.forEach((image) => {
+        payload.append(`akomodasi_room[${i}][images][]`, image);
+      });
     });
 
     facilities.forEach((facility, i) => {

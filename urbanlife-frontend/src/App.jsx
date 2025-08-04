@@ -8,6 +8,7 @@ import ReactModal from "react-modal";
 import AppLayout from "./layouts/AdminDashboard/AppLayout";
 import ThemeProvider from "./components/AdminDashboard/Utils/Context/ThemeContext";
 import ProtectedRoute from "./components/AdminDashboard/Utils/Auth/ProtectedRoute";
+import { BlogProvider } from "./pages/AdminDashboard/DataMaster/Blog/BlogProvider";
 
 // Lazy loaded Pages
 const Dashboard = lazy(() => import("./pages/AdminDashboard/Dashboard/Dashboard"));
@@ -28,6 +29,8 @@ const City = lazy(() => import("./pages/AdminDashboard/DataMaster/Cities/City"))
 const Car = lazy(() => import("./pages/AdminDashboard/DataMaster/Car/Car"));
 const Driver = lazy(() => import("./pages/AdminDashboard/DataMaster/Driver/Driver"));
 const Guide = lazy(() => import("./pages/AdminDashboard/DataMaster/Guide/Guide"));
+const BlogAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/BlogAdmin"));
+const CreateBlog = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/CreateBlog"));
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
 const News = lazy(() => import("./pages/AdminDashboard/News/News"));
 const CreateNews = lazy(() => import("./pages/AdminDashboard/News/CreateNews"));
@@ -49,13 +52,11 @@ const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Compa
 const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/TermsAndCondition"));
 const ContactUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/ContactUs"));
-
 const CarRental = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/CarRental"));
 const DayTourPage = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/DayTourPage"));
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
 const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));
 const BlogDetail = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogDetail"));
-
 
 function App() {
   ReactModal.setAppElement("#root");
@@ -69,7 +70,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/DaytourDetail/:id" element={<DaytourDetail />} /> {/* Rute dinamis */}
+            <Route path="/DaytourDetail/:id" element={<DaytourDetail />} />
             <Route path="/OrderDetail" element={<OrderDetail />} />
             <Route path="/PaymentSection" element={<PaymentSection />} />
             <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
@@ -82,14 +83,12 @@ function App() {
             <Route path="/AboutUs" element={<AboutUs />} />
             <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
-            <Route path="/ContactUs" element={<ContactUs />} /> 
-            
+            <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="/DayTour" element={<DayTourPage />} />
             <Route path="/DayTour/:slug" element={<DaytourDetail />} />
             <Route path="/categories" element={<CategoriesFooter />} />
             <Route path="/blog" element={<BlogPostMain />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
-
             <Route path="/unit-car" element={<CarRental />} />
 
             {/* Admin */}
@@ -122,6 +121,8 @@ function App() {
               <Route path="car" element={<Car />} />
               <Route path="driver" element={<Driver />} />
               <Route path="guide" element={<Guide />} />
+              <Route path="blog" element={<BlogProvider><BlogAdmin /></BlogProvider>} />
+              <Route path="blogs/create" element={<BlogProvider><CreateBlog /></BlogProvider>} />
               <Route path="profile" element={<UserProfile />} />
             </Route>
           </Routes>

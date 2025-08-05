@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../../../HomePage/Navbar/Navbar';
+import Footer from '../../../../HomePage/Footer';
 import UnitCarGrid from './RentalCar/UnitCarGrid';
 import { UnitCar } from './RentalCar/UnitCar';
 import './RentalCar/CarRental.css';
@@ -78,6 +79,8 @@ const CarRental = () => {
 
       {/* Content Area */}
       <div className="content-area">{renderCategoryContent()}</div>
+
+      <Footer />
     </div>
   );
 };

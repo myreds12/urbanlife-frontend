@@ -15,8 +15,6 @@ const CompanyFooter = () => {
     'Privacy Policy',
     'Terms and Conditions',
     'Contact Us',
-    'Day Tours',
-    'Car Rental',
   ];
 
   const handleCategoryClick = (category) => {

@@ -40,27 +40,6 @@ export const cardsData = [
     categoryColor: "#f43f5e",
     linkTo: "/ContactUs"
   },
-  {
-    id: 5,
-    image: "./images/LandingPage/Footer/content/company/DayTour.png",
-    category: "Day Tours",
-    title: "Explore Bali's Best Day Tour Packages",
-    description: "Experience the beauty of Bali with our curated day tour packages. From cultural sites to natural wonders, discover the island's hidden gems with professional guides.",
-    buttonText: "Book Now",
-    categoryColor: "#dc2626",
-    linkTo: "/DayTour"
-  },
-  {
-    id: 6,
-    image: "./images/LandingPage/Footer/content/company/CarRental.png",
-    category: "Car Rental",
-    title: "Car Rental Services in Bali",
-    description: "Rent a car in Bali for maximum flexibility during your vacation. Wide selection of vehicles from economy to luxury cars with competitive rates and full insurance.",
-    buttonText: "Rent Car",
-    categoryColor: "#2563eb",
-    linkTo: "/unit-car"
-  },
-
 ];
 
 // Filter functions
@@ -80,10 +59,6 @@ export const getCardsByCategory = (category) => {
         return cat.includes('terms') || title.includes('terms') || title.includes('conditions');
       case 'Contact Us':
         return cat.includes('contact') || title.includes('contact');
-      case 'Day Tours':
-        return cat.includes('day tour') || title.includes('day tour');
-      case 'Car Rental':
-        return cat.includes('car rental') || title.includes('car rental');
       default:
         return false;
     }

@@ -258,7 +258,7 @@ const Navbar = () => {
                 <div className="mega-menu-section">
                   <h4 className="mega-menu-section-title">{t("navbar.accomodation")}</h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/hotels" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>Hotels & Resorts</a></li>
+                    <li><a href="/accomodation" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>{t("navbar.hotel")}</a></li>
                     {/*  <li><a href="/homestays" className="mega-menu-link"><img src="/images/LandingPage/Navbar/homestay.png" className="mega-menu-icon" alt="homestay"/> Homestays</a></li>
                     <li><a href="/villas" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_villa.png" className="mega-menu-icon" alt="villa"/> Private Villas</a></li> */}
                   </ul>

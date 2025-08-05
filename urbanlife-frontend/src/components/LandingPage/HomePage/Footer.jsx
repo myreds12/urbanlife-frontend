@@ -120,10 +120,8 @@ const Footer = () => {
             </button>
             <ul className="space-y-3">
               <li><a href="/DayTour" className="text-gray-300 hover:text-white transition-colors">{t("footer.daytour")}</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t("footer.baliairport")}</a></li>
               <li><a href="/unit-car" className="text-gray-300 hover:text-white transition-colors">{t("footer.carrental")}</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t("footer.balimotorbike")}</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">{t("footer.transportsanur")}</a></li>
+              <li><a href="/accomodation" className="text-gray-300 hover:text-white transition-colors">{t("footer.accomodation")}</a></li>
             </ul>
           </div>
 

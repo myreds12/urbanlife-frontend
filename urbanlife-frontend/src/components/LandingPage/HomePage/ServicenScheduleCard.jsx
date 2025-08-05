@@ -1,6 +1,7 @@
 import React from "react";
 import { Clock } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const ServiceScheduleCard = () => {
   const { t } = useTranslation();
@@ -44,13 +45,14 @@ const ServiceScheduleCard = () => {
               </div>
             ))}
           </div>
-          <button className="w-full bg-[#0092B8] hover:bg-[#007F9F] text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-300">
-            {t('servicenschedule.button')}
-          </button>
+          <Link to="/ContactUs">
+            <button className="w-full bg-[#0092B8] hover:bg-[#007F9F] text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-300">
+              {t('servicenschedule.button')}
+            </button>
+          </Link>
         </div>
       </div>
     </div>
-
   );
 };
 

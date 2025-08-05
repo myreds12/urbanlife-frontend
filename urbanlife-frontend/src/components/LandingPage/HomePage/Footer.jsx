@@ -226,8 +226,8 @@ const Footer = () => {
               <div className="space-y-2">
                 <p className="text-gray-300">Jakarta Selatan</p>
                 <p className="text-gray-300">Indonesia</p>
-                <p className="text-gray-300">0821 - 2222 - 8888</p>
-                <p className="text-gray-300">support@urbanlife.id</p>
+                <p className="text-gray-300">+62 (0) 816 919 812</p>
+                <p className="text-gray-300"> info@urbanlife.id </p>
               </div>
             </div>
 

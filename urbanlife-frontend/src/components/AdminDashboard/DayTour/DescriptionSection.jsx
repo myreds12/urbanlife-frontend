@@ -51,6 +51,47 @@ const DescriptionSection = ({
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
               />
             </div>
+
+            <div className="flex items-center mt-5">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Select Category <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="category_id"
+                value={formData.category_id || ""}
+                onChange={handleChange}
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                required
+              >
+                <option value="">-- Pilih Kategori --</option>
+                {formData.categories && formData.categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex items-center mt-5">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Durasi <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="durasi"
+                value={formData.durasi || ""}
+                onChange={handleChange}
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                placeholder="e.g. 1 - 4 jam/hours"
+                required
+              />
+            </div>
           </>
         ) : type === "rentcar" ? (
           <>

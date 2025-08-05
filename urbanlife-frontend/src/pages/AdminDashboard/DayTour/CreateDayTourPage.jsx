@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
@@ -34,6 +34,8 @@ function CreateDayTourPage() {
   const [formData, setFormData] = useState({
     nama: "Wettern and Eastern Nusa Penida Tour",
     lokasi_id: 1,
+    category_id: "",
+    durasi: "",
     harga_anak: 0,
     harga_dewasa: 0,
     travel_package_itinerary: itinerary,
@@ -74,12 +76,24 @@ function CreateDayTourPage() {
     fetchLocations();
   }, []);
 
-   const handleChangeContent = (index, field, value) => {
+  const fetchCategories = async () => {
+    try {
+      const { data } = await apiClient.get("/category");
+      setFormData((prev) => ({ ...prev, categories: data.data || [] }));
+    } catch (error) {
+      console.error("❌ Failed to fetch categories", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const handleChangeContent = (index, field, value) => {
     const updated = [...content];
     updated[index][field] = value;
     setContent(updated);
   };
-
 
   const handleItineraryChange = (index, field, value) => {
     const updated = [...itinerary];
@@ -126,6 +140,8 @@ function CreateDayTourPage() {
     const payload = new FormData();
     payload.append("nama", formData.nama);
     payload.append("lokasi_id", formData.lokasi_id);
+    payload.append("category_id", formData.category_id);
+    payload.append("durasi", formData.durasi);
     payload.append("harga_anak", formData.harga_anak);
     payload.append("harga_dewasa", formData.harga_dewasa);
 
@@ -217,10 +233,7 @@ function CreateDayTourPage() {
                   onClick={() => moveSection(section)}
                 >
                   {section.charAt(0).toUpperCase() + section.slice(1)}
-
                 </span>
-
-                
               ))}
             </div>
 

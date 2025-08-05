@@ -3,145 +3,20 @@ import ArticleModal from "./ArticleModal";
 import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
 import { useTranslation } from "react-i18next";
 
-// Dummy data untuk testing
-const dummyNewsData = [
-  {
-    id: 1,
-    createdAt: "2024-07-15T10:30:00Z",
-    readTime: "5 min read",
-    news_category: {
-      name: "Technology"
-    },
-    news_content: [
-      {
-        judul: "Breakthrough in AI Technology Revolutionizes Healthcare",
-        deskripsi: "A new artificial intelligence system has been developed that can diagnose diseases with 95% accuracy, potentially transforming the healthcare industry and improving patient outcomes worldwide."
-      }
-    ],
-    news_file: [
-      {
-        nama_file: "ai-healthcare.jpg"
-      }
-    ]
-  },
-  {
-    id: 2,
-    createdAt: "2024-07-20T14:15:00Z",
-    readTime: "3 min read",
-    news_category: {
-      name: "Business"
-    },
-    news_content: [
-      {
-        judul: "Startup Ecosystem Shows Strong Growth in Southeast Asia",
-        deskripsi: "Investment in Southeast Asian startups reached a record high this quarter, with fintech and e-commerce leading the charge in innovation and market expansion."
-      }
-    ],
-    news_file: [
-      {
-        nama_file: "startup-growth.jpg"
-      }
-    ]
-  },
-  {
-    id: 3,
-    createdAt: "2024-07-25T09:45:00Z",
-    readTime: "7 min read",
-    news_category: {
-      name: "Environment"
-    },
-    news_content: [
-      {
-        judul: "Renewable Energy Projects Gain Momentum Globally",
-        deskripsi: "Countries worldwide are accelerating their renewable energy initiatives, with solar and wind power installations reaching unprecedented levels as nations work toward carbon neutrality."
-      }
-    ],
-    news_file: [
-      {
-        nama_file: "renewable-energy.jpg"
-      }
-    ]
-  },
-  {
-    id: 4,
-    createdAt: "2024-07-28T16:20:00Z",
-    readTime: "4 min read",
-    news_category: {
-      name: "Education"
-    },
-    news_content: [
-      {
-        judul: "Digital Learning Platforms Transform Traditional Education",
-        deskripsi: "Educational institutions are embracing digital transformation, with online learning platforms showing remarkable success in student engagement and learning outcomes."
-      }
-    ],
-    news_file: [
-      {
-        nama_file: "digital-education.jpg"
-      }
-    ]
-  },
-  {
-    id: 5,
-    createdAt: "2024-07-30T11:10:00Z",
-    readTime: "6 min read",
-    news_category: {
-      name: "Sports"
-    },
-    news_content: [
-      {
-        judul: "Olympic Athletes Prepare for Upcoming International Games",
-        deskripsi: "Athletes from around the world are in final preparations for the upcoming international games, showcasing dedication and excellence in their respective sports disciplines."
-      }
-    ],
-    news_file: [
-      {
-        nama_file: "olympic-preparation.jpg"
-      }
-    ]
-  },
-  {
-    id: 6,
-    createdAt: "2024-08-01T08:30:00Z",
-    readTime: "5 min read",
-    news_category: {
-      name: "Culture"
-    },
-    news_content: [
-      {
-        judul: "Traditional Arts Festival Celebrates Cultural Heritage",
-        deskripsi: "An international festival showcasing traditional arts and crafts brings together artists from diverse cultures, promoting cultural exchange and heritage preservation."
-      }
-    ],
-    news_file: [
-      {
-        nama_file: "arts-festival.jpg"
-      }
-    ]
-  }
-];
-
 const NewsnBlog = () => {
   const [newsData, setNewsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { t }  = useTranslation();
+  const { t } = useTranslation();
 
   const fetchNews = async () => {
     setIsLoading(true);
     try {
-      // Uncomment baris di bawah untuk menggunakan API asli
-      // const response = await apiClient.get("/news");
-      // setNewsData(response.data.data);
-      
-      // Simulasi loading delay untuk dummy data
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setNewsData(dummyNewsData);
+      const response = await apiClient.get("/news");
+      setNewsData(response.data.data);
     } catch (error) {
       console.error("Error fetching news:", error);
-      // Fallback ke dummy data jika API gagal
-      setNewsData(dummyNewsData);
     } finally {
       setIsLoading(false);
     }

@@ -7,7 +7,6 @@ import "../../../../styles/LandingPage/HomePage/Navbar.css";
 
 import { useTranslation } from 'react-i18next';
 
-
 // Original comment: Main Navbar component
 const Navbar = () => {
   // Original comment: State for mobile menu and dropdown
@@ -22,7 +21,6 @@ const Navbar = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); // New comment: Hook for programmatic navigation
   const { t, i18n } = useTranslation();
-
 
   // Original comment: Static destination data
   const destinationData = {
@@ -269,22 +267,23 @@ const Navbar = () => {
             </div>
           </div>
           <a href="#news" className="navbar-menu-item">{t("navbar.news")}</a>
-<div
-  className="flex items-center gap-2 text-[15px] font-medium text-[#333] cursor-pointer"
-  onClick={() => {
-    const newLang = i18n.language === 'en' ? 'id' : 'en';
-    i18n.changeLanguage(newLang);
-  }}
->
-  <img
-    src="/images/LandingPage/Navbar/language.png"
-    alt="Lang"
-    className="w-4 h-4 object-contain"
-  />
-  <span>{i18n.language === 'en' ? 'Eng' : 'Ind'}</span>
-</div>          {/* Original comment: Contact Us button */}
+          <div
+            className="flex items-center gap-2 text-[15px] font-medium text-[#333] cursor-pointer"
+            onClick={() => {
+              const newLang = i18n.language === 'en' ? 'id' : 'en';
+              i18n.changeLanguage(newLang);
+            }}
+          >
+            <img
+              src="/images/LandingPage/Navbar/language.png"
+              alt="Lang"
+              className="w-4 h-4 object-contain"
+            />
+            <span>{i18n.language === 'en' ? 'Eng' : 'Ind'}</span>
+          </div>          
+          {/* Original comment: Contact Us button */}
           <a
-            href="/contact"
+            href="https://wa.me/+62816919812"
             className={`hidden lg:inline-block h-full px-6 py-5
               ${isScrolled 
                 ? 'rounded-r-[20px] rounded-l-[20px] mr-[4px] scale-[0.75] px-4 py-3 relative'
@@ -331,7 +330,7 @@ const Navbar = () => {
               {t("navbar.news")}
               <FiChevronRight/>
             </a>
-            <a href="/contact" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-contact-btn">
+            <a href="https://wa.me/+62816919812" onClick={() => setIsMobileOpen(false)} className="bottom-sheet-contact-btn">
               {t("navbar.contactus")}
             </a>
           </div>

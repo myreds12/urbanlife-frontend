@@ -140,7 +140,7 @@ const BookingItemCard = ({
                     }}
                     className="w-full border rounded-md px-2 py-1 text-sm"
                   >
-                    <option value="">Choose duration</option>
+                    <option value="">Choose Room</option>
                     {roomPrice.map((d) => (
                       <option key={d.id} value={d.nama}>
                         {d.nama}

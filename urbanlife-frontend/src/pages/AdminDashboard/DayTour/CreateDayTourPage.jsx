@@ -28,6 +28,8 @@ function CreateDayTourPage() {
   const [formData, setFormData] = useState({
     nama: "Wettern and Eastern Nusa Penida Tour",
     lokasi_id: 1,
+    category_id: "",
+    durasi: "",
     harga_anak: 0,
     harga_dewasa: 0,
     travel_package_itinerary: itinerary,
@@ -126,6 +128,7 @@ function CreateDayTourPage() {
   }, [isEditMode, id]);
 
   const handleChangeContent = (index, field, value) => {
+  const handleChangeContent = (index, field, value) => {
     const updated = [...content];
     updated[index][field] = value;
     setContent(updated);
@@ -168,6 +171,8 @@ function CreateDayTourPage() {
     const payload = new FormData();
     payload.append("nama", formData.nama);
     payload.append("lokasi_id", formData.lokasi_id);
+    payload.append("category_id", formData.category_id);
+    payload.append("durasi", formData.durasi);
     payload.append("harga_anak", formData.harga_anak);
     payload.append("harga_dewasa", formData.harga_dewasa);
 

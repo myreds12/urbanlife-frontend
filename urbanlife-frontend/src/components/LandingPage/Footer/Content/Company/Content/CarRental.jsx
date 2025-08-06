@@ -97,6 +97,8 @@ const CarRental = () => {
 
       {/* Content Area */}
       <div className="content-area">{renderCategoryContent()}</div>
+
+      <Footer />
     </div>
   );
 };

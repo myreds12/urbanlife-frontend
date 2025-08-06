@@ -394,7 +394,7 @@ const Navbar = () => {
                     {t("navbar.accomodation")}
                   </h4>
                   <ul className="mega-menu-list">
-                    <li><a href="/hotels" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>Hotels & Resorts</a></li>
+                    <li><a href="/accomodation" className="mega-menu-link"><img src="/images/LandingPage/Navbar/hotel_resort.png" className="mega-menu-icon" alt="hotel"/>{t("navbar.hotel")}</a></li>
                     {/*  <li><a href="/homestays" className="mega-menu-link"><img src="/images/LandingPage/Navbar/homestay.png" className="mega-menu-icon" alt="homestay"/> Homestays</a></li>
                     <li><a href="/villas" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_villa.png" className="mega-menu-icon" alt="villa"/> Private Villas</a></li> */}
                   </ul>
@@ -421,7 +421,7 @@ const Navbar = () => {
           </div>{" "}
           {/* Original comment: Contact Us button */}
           <a
-            href="/contact"
+            href="https://wa.me/+62816919812"
             className={`hidden lg:inline-block h-full px-6 py-5
               ${
                 isScrolled

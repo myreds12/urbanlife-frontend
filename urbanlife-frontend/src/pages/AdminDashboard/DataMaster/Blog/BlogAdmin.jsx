@@ -1,28 +1,53 @@
 // BlogAdmin.jsx
-import React, { useState, useMemo, useContext } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
 import Pagination from "../../../../components/Pagination/Pagination";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 import BulkActionBar from "../../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
-import EditBlog from "./EditBlog";
 import { BlogContext } from "./BlogProvider";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import { useDebounce } from "../../../../hooks/useDebounce";
+import toast from "react-hot-toast";
 
 const BlogAdmin = () => {
   const navigate = useNavigate();
-  const { blogData, setBlogData, categories } = useContext(BlogContext);
+  const [blogData, setBlogData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingBlog, setEditingBlog] = useState(null);
   const itemsPerPage = 10;
+  const debouncedSearch = useDebounce(searchTerm, 500);
 
-  const bulkEditableFields = [
-    { name: "category", label: "Kategori", type: "select", options: categories, description: "Kategori blog" },
-  ];
+  const fetchBlogData = async () => {
+    try {
+      setLoading(true);
+      const params = {
+        take: itemsPerPage,
+        page: currentPage,
+      };
+      if (debouncedSearch.trim()) {
+        params.search = debouncedSearch.trim();
+      }
+
+      const response = await apiClient.get("/blog", { params });
+      const { data, total } = response.data;
+      setBlogData(data);
+      setTotalItems(total);
+    } catch (error) {
+      console.error("Error fetching blog data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogData();
+  }, [debouncedSearch, currentPage]);
 
   const handleSort = (columnKey) => {
     let direction = "asc";
@@ -34,35 +59,47 @@ const BlogAdmin = () => {
   };
 
   const handleRowSelect = (rowId) => {
-    setSelectedRows((prev) => (prev.includes(rowId) ? prev.filter((id) => id !== rowId) : [...prev, rowId]));
+    setSelectedRows((prev) =>
+      prev.includes(rowId)
+        ? prev.filter((id) => id !== rowId)
+        : [...prev, rowId]
+    );
   };
 
   const handleEdit = (row) => {
-    setEditingBlog(row);
-    setIsModalOpen(true);
+    navigate(`/admin/blogs/edit/${row.id}`);
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setEditingBlog(null);
-  };
+  const handleDelete = async (row) => {
+    const judul = row.content?.[0]?.judul || "blog ini";
+    const confirmed = window.confirm(`Yakin ingin menghapus "${judul}"?`);
+    if (!confirmed) return;
 
-  const handleModalSave = (updatedData) => {
-    setBlogData((prev) => prev.map((blog) => (blog.id === updatedData.id ? updatedData : blog)));
-    handleModalClose();
-  };
+    const deletePromise = apiClient.delete(`/blog`, {
+      data: {
+        ids: [row.id],
+      },
+    });
 
-  const handleDelete = (row) => {
-    const confirmed = window.confirm(`Yakin mau hapus "${row.content[0]?.judul || "blog ini"}"?`);
-    if (confirmed) {
+    try {
+      await toast.promise(deletePromise, {
+        loading: "Menghapus blog...",
+        success: `Blog "${judul}" berhasil dihapus.`,
+        error: "Terjadi kesalahan saat menghapus.",
+      });
+
+      // Hapus dari state lokal jika berhasil
       setBlogData((prev) => prev.filter((blog) => blog.id !== row.id));
       setSelectedRows((prev) => prev.filter((id) => id !== row.id));
-      alert(`Blog "${row.content[0]?.judul || "item"}" berhasil dihapus.`);
+    } catch (err) {
+      console.error("Gagal menghapus blog:", err);
     }
   };
 
   const handleBulkDelete = (selectedData) => {
-    const confirmed = window.confirm(`Yakin mau hapus ${selectedData.length} blog?`);
+    const confirmed = window.confirm(
+      `Yakin mau hapus ${selectedData.length} blog?`
+    );
     if (confirmed) {
       const ids = selectedData.map((item) => item.id);
       setBlogData((prev) => prev.filter((item) => !ids.includes(item.id)));
@@ -71,38 +108,17 @@ const BlogAdmin = () => {
     }
   };
 
-  const handleBulkEdit = (selectedData, editData) => {
-    const confirmed = window.confirm(`Yakin mau update ${selectedData.length} blog?`);
-    if (confirmed) {
-      const ids = selectedData.map((item) => item.id);
-      setBlogData((prev) =>
-        prev.map((item) => (ids.includes(item.id) ? { ...item, ...editData } : item))
-      );
-      setSelectedRows([]);
-      alert(`Berhasil update ${selectedData.length} blog.`);
-    }
-  };
-
-  const filteredData = useMemo(() => {
-    return blogData.filter((blog) => {
-      const categoryName = blog.category?.toLowerCase() || "";
-      const contentTitles = blog.content.map((c) => c.judul?.toLowerCase() || "").join(" ");
-      const combinedText = `${categoryName} ${contentTitles}`;
-      return combinedText.includes(searchTerm.toLowerCase());
-    });
-  }, [blogData, searchTerm]);
-
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return filteredData;
-    return [...filteredData].sort((a, b) => {
+    if (!sortConfig.key) return blogData;
+    return [...blogData].sort((a, b) => {
       const getFieldValue = (item) => {
         switch (sortConfig.key) {
           case "Kategori":
-            return item.category || "";
+            return item.blog_category?.name?.toLowerCase() || "";
           case "Judul":
-            return item.content[0]?.judul || "";
+            return item.blog_content[0]?.judul?.toLowerCase() || "";
           case "Tanggal":
-            return item.date || "";
+            return item.createdAt || "";
           default:
             return "";
         }
@@ -113,7 +129,7 @@ const BlogAdmin = () => {
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [filteredData, sortConfig]);
+  }, [blogData, sortConfig]);
 
   const selectedData = useMemo(() => {
     return sortedData.filter((item) => selectedRows.includes(item.id));
@@ -121,36 +137,60 @@ const BlogAdmin = () => {
 
   const columns = ["Kategori", "Judul", "Tanggal", "Aksi"];
   const defaultMapping = {
-    Kategori: (row) => row.category || "-",
-    Judul: (row) => row.content[0]?.judul || "-",
-    Tanggal: (row) => (row.date ? new Date(row.date).toLocaleDateString("id-ID") : "-"),
+    Kategori: (row) => row.blog_category.name || "-",
+    Judul: (row) => row.blog_content[0]?.judul || "-",
+    Tanggal: (row) =>
+      row.createdAt ? new Date(row.createdAt).toLocaleDateString("id-ID") : "-",
     Aksi: (row) => (
-      <div>
-        <span onClick={() => handleEdit(row)} style={{ cursor: "pointer", color: "blue" }}>Edit</span> | 
-        <span onClick={() => handleDelete(row)} style={{ cursor: "pointer", color: "red" }}>Delete</span>
+      <div className="flex gap-2 text-sm">
+        <button
+          onClick={() => handleEdit(row)}
+          className="text-blue-600 hover:underline"
+        >
+          Edit
+        </button>
+        <span>|</span>
+        <button
+          onClick={() => handleDelete(row)}
+          className="text-red-600 hover:underline"
+        >
+          Delete
+        </button>
       </div>
     ),
   };
 
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const currentData = blogData;
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  // const handlePageChange = (page) => {
+  //   setCurrentPage(page);
+  // };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-5">
-      <div style={{ background: "#ffffff", borderRadius: "12px", boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)" }}>
+      <div
+        style={{
+          background: "#ffffff",
+          borderRadius: "12px",
+          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+        }}
+      >
         {selectedRows.length > 0 && (
           <BulkActionBar
             selectedCount={selectedRows.length}
             selectedData={selectedData}
             onClearSelection={() => setSelectedRows([])}
             onBulkDelete={handleBulkDelete}
-            onBulkEdit={handleBulkEdit}
-            editableFields={bulkEditableFields}
           />
         )}
 
@@ -158,7 +198,12 @@ const BlogAdmin = () => {
           <h1 className="text-2xl font-bold text-gray-800">Blog</h1>
           <div className="flex flex-wrap justify-between items-center gap-4">
             <div className="flex-1 min-w-[200px]">
-              <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Cari blog..." />
+              <Search
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                placeholder="Cari blog..."
+                isLoading={loading}
+              />
             </div>
             <Button
               variant="primary"
@@ -178,7 +223,7 @@ const BlogAdmin = () => {
           onRowSelect={handleRowSelect}
           onSort={handleSort}
           sortConfig={sortConfig}
-          startIndex={startIndex}
+          startIndex={(currentPage - 1) * itemsPerPage}
           onEdit={handleEdit}
           onDelete={handleDelete}
           defaultMapping={defaultMapping}
@@ -186,26 +231,18 @@ const BlogAdmin = () => {
 
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-            Menampilkan {startIndex + 1} sampai {Math.min(startIndex + itemsPerPage, sortedData.length)} dari{" "}
+            Menampilkan {startIndex + 1} sampai{" "}
+            {Math.min(startIndex + itemsPerPage, sortedData.length)} dari{" "}
             {sortedData.length} blog
           </div>
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={handlePageChange}
+            onPageChange={setCurrentPage}
             size="base"
           />
         </div>
       </div>
-
-      <EditBlog
-        id={editingBlog?.id}
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-        blogData={editingBlog}
-        onSave={handleModalSave}
-        categories={categories}
-      />
     </div>
   );
 };

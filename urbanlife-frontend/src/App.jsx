@@ -170,8 +170,9 @@ function App() {
               <Route path="car" element={<Car />} />
               <Route path="driver" element={<Driver />} />
               <Route path="guide" element={<Guide />} />
-              <Route path="blog" element={<BlogProvider><BlogAdmin /></BlogProvider>} />
+              <Route path="blogs" element={<BlogProvider><BlogAdmin /></BlogProvider>} />
               <Route path="blogs/create" element={<BlogProvider><CreateBlog /></BlogProvider>} />
+              <Route path="blogs/edit/:id" element={<BlogProvider><CreateBlog /></BlogProvider>} />
               <Route path="category" element={<CategoryProvider><CategoryAdmin /></CategoryProvider>} />
               <Route path="profile" element={<UserProfile />} />
             </Route>

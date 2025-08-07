@@ -1,13 +1,22 @@
 import React from "react";
 
-const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemove }) => {
-  const handleImageUpload = (index, files) => {
-    const newImages = Array.from(files);
-    onChange(index, "images", [...(roomPrices[index].images || []), ...newImages]);
+const RoomAndPriceSection = ({
+  id,
+  isActive,
+  roomPrices,
+  onChange,
+  onAdd,
+  onRemove,
+}) => {
+  const handleImageUpload = (roomIndex) => (e) => {
+    const files = Array.from(e.target.files || []);
+    const updatedImages = [...(roomPrices[roomIndex].images || []), ...files];
+    onChange(roomIndex, "images", updatedImages);
   };
 
   const removeImage = (roomIndex, imageIndex) => {
-    const updatedImages = roomPrices[roomIndex].images.filter((_, i) => i !== imageIndex);
+    const updatedImages =
+      roomPrices[roomIndex].images?.filter((_, i) => i !== imageIndex) || [];
     onChange(roomIndex, "images", updatedImages);
   };
 
@@ -40,7 +49,7 @@ const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemo
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => handleImageUpload(index, e.target.files)}
+                  onChange={handleImageUpload(index)}
                   className="hidden"
                   id={`imageUpload-${index}`}
                 />

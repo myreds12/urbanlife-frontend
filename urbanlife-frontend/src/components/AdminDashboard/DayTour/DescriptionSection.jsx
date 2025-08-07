@@ -8,6 +8,7 @@ const DescriptionSection = ({
   onChangeContent,
   handleChange,
   locations,
+  category,
   type,
 }) => {
   return (
@@ -67,7 +68,7 @@ const DescriptionSection = ({
                 required
               >
                 <option value="">-- Pilih Kategori --</option>
-                {formData.categories && formData.categories.map((cat) => (
+                {category && category.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
                   </option>

@@ -4,6 +4,7 @@ import UnitCarGrid from "./RentalCar/UnitCarGrid";
 import { UnitCar } from "./RentalCar/UnitCar";
 import "./RentalCar/CarRental.css";
 import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
+import Footer from "../../../../HomePage/Footer";
 
 const CarRental = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

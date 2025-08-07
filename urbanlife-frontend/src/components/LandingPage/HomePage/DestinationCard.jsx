@@ -92,6 +92,8 @@ const DestinationCard = ({ travel }) => {
             {travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
               ? `${travel.durasi[0].durasi}`
               : travel.item_type?.toLowerCase() !== "kendaraan"
+              // TODO : PERBAIKI STYLE KETIKA MENGGUNAKAN travel.durasi, KARENA UNTUK HARGA NYA TIDAK TERLIHAT 
+              // ? travel.durasi
               ? `Durasi akan dipilih ketika pemesanan`
               : "1 - 12 hours"}
           </p>

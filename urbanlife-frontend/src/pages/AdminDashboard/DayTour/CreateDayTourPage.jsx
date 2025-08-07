@@ -15,6 +15,7 @@ function CreateDayTourPage() {
   const [photos, setPhotos] = useState([]);
   const [existingPhotos, setExistingPhotos] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [category, setCategory] = useState([]);
   const [content, setContent] = useState([
     { id: null, bahasa: "ENGLISH", deskripsi: "" },
     { id: null, bahasa: "INDONESIA", deskripsi: "" },
@@ -28,7 +29,7 @@ function CreateDayTourPage() {
   const [formData, setFormData] = useState({
     nama: "Wettern and Eastern Nusa Penida Tour",
     lokasi_id: 1,
-    category_id: "",
+    category_id: 0,
     durasi: "",
     harga_anak: 0,
     harga_dewasa: 0,
@@ -60,20 +61,24 @@ function CreateDayTourPage() {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const [{ data: locationData }, travelData] = await Promise.all([
+        const [{ data: locationData }, {data: categoryData}, travelData] = await Promise.all([
           apiClient.get("/lokasi"),
+          apiClient.get("/category"),
           isEditMode
             ? apiClient.get(`/travel-package/${id}`)
             : Promise.resolve({ data: {} }),
         ]);
 
         setLocations(locationData.data || []);
+        setCategory(categoryData.data || []);
 
         if (isEditMode) {
           const travel = travelData.data.data;
           const {
             nama,
             lokasi_id,
+            category_id,
+            durasi,
             harga_anak,
             harga_dewasa,
             travel_package_content,
@@ -85,6 +90,8 @@ function CreateDayTourPage() {
           setFormData({
             nama: nama || "",
             lokasi_id: lokasi_id || 0,
+            category_id: category_id || 0,
+            durasi: durasi || "",
             harga_anak: parseInt(harga_anak) || 0,
             harga_dewasa: parseInt(harga_dewasa) || 0,
             travel_package_itinerary: travel_package_itinerary || [],
@@ -127,7 +134,6 @@ function CreateDayTourPage() {
     fetchInitialData();
   }, [isEditMode, id]);
 
-  const handleChangeContent = (index, field, value) => {
   const handleChangeContent = (index, field, value) => {
     const updated = [...content];
     updated[index][field] = value;
@@ -214,8 +220,16 @@ function CreateDayTourPage() {
 
     try {
       const response = isEditMode
-        ? await apiClient.patch(`/travel-package/${id}`, payload)
-        : await apiClient.post("/travel-package", payload);
+        ? await apiClient.patch(`/travel-package/${id}`, payload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        : await apiClient.post("/travel-package", payload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
       if ([200, 201].includes(response.status)) {
         toast.success(
@@ -285,6 +299,7 @@ function CreateDayTourPage() {
               onChangeContent={handleChangeContent}
               handleChange={handleChange}
               locations={locations}
+              category={category}
               type="daytour"
             />
 
@@ -338,5 +353,6 @@ function CreateDayTourPage() {
     </form>
   );
 }
+
 
 export default CreateDayTourPage;

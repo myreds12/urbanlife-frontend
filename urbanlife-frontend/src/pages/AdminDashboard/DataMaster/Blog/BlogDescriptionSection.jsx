@@ -2,6 +2,8 @@
 import React from "react";
 
 const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeContent, handleChange, categories }) => {
+
+  console.log(content, "categories");
   if (!isActive) return null;
 
   return (
@@ -16,15 +18,15 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
             Category
           </label>
           <select
-            name="category"
+            name="category_id"
             className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
-            value={formData.category}
+            value={formData.category_id}
             onChange={handleChange}
           >
             <option value="">Choose</option>
             {categories.map((cat) => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
               </option>
             ))}
           </select>

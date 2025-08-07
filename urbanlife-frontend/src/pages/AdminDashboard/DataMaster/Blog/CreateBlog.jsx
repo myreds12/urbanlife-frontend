@@ -128,43 +128,43 @@ const CreateBlog = () => {
               <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mt-6 space-y-4">
                 <div className="flex items-center gap-5">
                   <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
-                    Tanggal
+                    Date <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="date"
                     name="date"
                     value={formData.date}
                     onChange={handleChange}
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-cyan-500"
                     required
                   />
                 </div>
                 <div className="flex items-center gap-5">
                   <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
-                    Slug
+                    Slug <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     name="slug"
                     value={formData.slug}
                     onChange={handleChange}
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    placeholder="Masukkan slug blog"
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-cyan-500"
+                    placeholder="Enter blog slug"
                     required
                     pattern="[a-z0-9-]+"
                   />
                 </div>
                 <div className="flex items-center gap-5">
                   <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
-                    Lokasi (Opsional)
+                    Location
                   </label>
                   <input
                     type="text"
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    placeholder="Masukkan lokasi"
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-cyan-500"
+                    placeholder="Enter location"
                     maxLength={100}
                   />
                 </div>
@@ -176,14 +176,14 @@ const CreateBlog = () => {
                   type="button"
                   className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                 >
-                  Batal
+                  Cancel
                 </button>
               </Link>
               <button
                 type="submit"
                 className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
               >
-                Simpan
+                Save
               </button>
             </div>
           </form>

@@ -27,12 +27,12 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
             <div key={index} className="grid grid-cols-2 gap-6 relative bg-gray-50 p-4 rounded-lg shadow-md">
               {[{ label: "INDONESIA", data: idn }, { label: "ENGLISH", data: en }].map(({ label, data }, langIndex) => (
                 <div key={langIndex}>
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">{label}</h4>
+                  <h4 className="text-sm font-medium text-gray-700 mb-4">{label}</h4>
                   <div className="space-y-3">
                     <div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium">Destination</label>
+                      <label className="block text-sm font-medium mb-2"><span className="text-red-500">*</span> Destination</label>
                       <input
                         type="text"
                         placeholder="e.g. Pantai Kelingking"
@@ -43,7 +43,7 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium">Description</label>
+                      <label className="block text-sm font-medium mb-2"><span className="text-red-500">*</span> Description</label>
                       <textarea
                         placeholder="Description"
                         value={data.description}

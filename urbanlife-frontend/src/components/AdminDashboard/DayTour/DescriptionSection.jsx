@@ -40,7 +40,7 @@ const DescriptionSection = ({
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
               >
-                Daytour package name
+                Daytour package name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -66,7 +66,7 @@ const DescriptionSection = ({
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
                 required
               >
-                <option value="">-- Pilih Kategori --</option>
+                <option value="">-- Choose category --</option>
                 {formData.categories && formData.categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
@@ -100,7 +100,7 @@ const DescriptionSection = ({
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
               >
-                Unit Name
+                Unit Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -117,7 +117,7 @@ const DescriptionSection = ({
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
               >
-                Model
+                Model <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -137,7 +137,7 @@ const DescriptionSection = ({
                   className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                   style={{ minWidth: "190px" }}
                 >
-                  Unit Name
+                  Unit Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -154,7 +154,7 @@ const DescriptionSection = ({
                   className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                   style={{ minWidth: "190px" }}
                 >
-                  Tipe
+                  Tipe <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="tipe"

@@ -70,21 +70,23 @@ const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemo
               </div>
               <div className="flex items-center gap-2">
                 <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[110px] text-center">
-                  Room
+                  Room <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   placeholder="Deluxe"
+                  required
                   value={item.nama}
                   onChange={(e) => onChange(index, "nama", e.target.value)}
                   className="p-2 border border-gray-300 rounded-md w-full"
                 />
-                <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[70px] text-center">
-                  Price
+                <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[74px] text-center">
+                  Price <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   placeholder="IDR 1,000,000"
+                  required
                   value={item.harga}
                   onChange={(e) => onChange(index, "harga", e.target.value)}
                   className="p-2 border border-gray-300 rounded-md w-full"

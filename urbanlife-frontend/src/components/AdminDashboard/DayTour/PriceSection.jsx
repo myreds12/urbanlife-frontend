@@ -60,12 +60,13 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                 className="flex items-center gap-2 border border-gray-100 p-2 rounded-md shadow-sm"
               >
                 <span className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[110px] text-center">
-                  Description
+                  Description <span className="text-red-500">*</span>
                 </span>
 
                 <input
                   type="text"
                   placeholder="e.g. 4 - 6 hours"
+                  required
                   value={item.durasi}
                   onChange={(e) =>
                     handlePriceChange(index, "durasi", e.target.value)
@@ -74,12 +75,13 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                 />
 
                 <span className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[70px] text-center">
-                  Price
+                  Price <span className="text-red-500">*</span>
                 </span>
 
                 <input
                   type="text"
                   placeholder="IDR 1,000,000"
+                  required
                   value={item.harga}
                   onChange={(e) =>
                     handlePriceChange(index, "harga", e.target.value)

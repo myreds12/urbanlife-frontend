@@ -78,7 +78,7 @@ const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemo
                   required
                   value={item.nama}
                   onChange={(e) => onChange(index, "nama", e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md w-full"
+                  className="py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md w-full"
                 />
                 <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[74px] text-center">
                   Price <span className="text-red-500">*</span>
@@ -89,7 +89,7 @@ const RoomAndPriceSection = ({ id, isActive, roomPrices, onChange, onAdd, onRemo
                   required
                   value={item.harga}
                   onChange={(e) => onChange(index, "harga", e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md w-full"
+                  className="py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md w-full"
                 />
                 <button
                   type="button"

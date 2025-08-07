@@ -86,7 +86,7 @@ const FacilitySection = ({
                         e.target.value
                       )
                     }
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md"
+                    className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md"
                   />
                   <button
                     type="button"

@@ -23,14 +23,14 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
           <div className="grid grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Harga Anak <span className="text-red-500">*</span>
+                Child Price <span className="text-red-500">*</span>
               </label>
               <input
                 type="number"
                 name="harga_anak"
                 value={formData.harga_anak}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md"
                 placeholder="e.g. 500000"
                 required
                 min={0}
@@ -38,14 +38,14 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Harga Dewasa <span className="text-red-500">*</span>
+                Adult Price <span className="text-red-500">*</span>
               </label>
               <input
                 type="number"
                 name="harga_dewasa"
                 value={formData.harga_dewasa}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md"
                 placeholder="e.g. 1200000"
                 required
                 min={0}
@@ -71,7 +71,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                   onChange={(e) =>
                     handlePriceChange(index, "durasi", e.target.value)
                   }
-                  className="flex-1 py-2 px-3 rounded-md border border-gray-300"
+                  className="flex-1 py-1 px-3 rounded-md border border-gray-300 focus:ring-cyan-500"
                 />
 
                 <span className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[70px] text-center">
@@ -86,7 +86,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                   onChange={(e) =>
                     handlePriceChange(index, "harga", e.target.value)
                   }
-                  className="flex-1 py-2 px-3 rounded-md border border-gray-300"
+                  className="flex-1 py-1 px-3 rounded-md border border-gray-300 focus:ring-cyan-500"
                 />
 
                 <button

@@ -17,12 +17,12 @@ const PolicyAndProcedureSection = ({
                 {item.bahasa}
               </label>
               <div className="mt-2">
-                <span className="text-red-500 mr-1">*</span> Policy
+                <span className="text-red-500 mr-1">*</span> Policy & Procedure
               </div>
               <textarea
                 value={item.kebijakan || ""}
                 onChange={(e) => onChangePolicy(index, e.target.value)}
-                className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:outline-cyan-600"
+                className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:ring-cyan-500"
               />
             </div>
           ))}

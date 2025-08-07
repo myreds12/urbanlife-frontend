@@ -11,7 +11,7 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
             className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
             style={{ minWidth: "190px" }}
           >
-            Police number <span className="text-red-500">*</span>
+            License Plate <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -19,8 +19,8 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
             required
             value={formData.plat_nomor || ""}
             onChange={handleChange}
-            placeholder="Enter police number"
-            className="py-2 px-3 w-full rounded-md border border-gray-300"
+            placeholder="Enter license plate"
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
           />
         </div>
 
@@ -44,9 +44,9 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
                 },
               })
             }
-            className="py-2 px-3 w-full rounded-md border border-gray-300"
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
           >
-            <option value="">Choose</option>
+            <option value="">Choose status</option>
             <option value="true">Active</option>
             <option value="false">Expired</option>
           </select>
@@ -66,7 +66,7 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
             required
             value={formData.tanggal_pajak_berakhir || ""}
             onChange={handleChange}
-            className="py-2 px-3 w-full rounded-md border border-gray-300"
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
           />
         </div>
       </div>

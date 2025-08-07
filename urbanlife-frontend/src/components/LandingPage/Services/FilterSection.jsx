@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Filter } from 'lucide-react';
-import '../../../styles/LandingPage/Services/FilterSection.css';
+import React, { useEffect, useState } from "react";
+import { ChevronDown, ChevronUp, Filter } from "lucide-react";
+import "../../../styles/LandingPage/Services/FilterSection.css";
+import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 
 const FilterSection = ({ filters, setFilters, onSearch }) => {
   const [expandedSections, setExpandedSections] = useState({
@@ -10,27 +11,38 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
     price: true,
   });
 
+  const [filterOptions, setFilterOptions] = useState({
+    countries: [],
+    cities: [],
+    services: [],
+  });
+
   const [localPriceRange, setLocalPriceRange] = useState(filters.priceRange);
-  const MIN = 1000000;
-  const MAX = 5000000;
+  const MIN = 0;
+  const MAX = 50000000;
   const STEP = 50000;
 
-  const filterOptions = {
-    countries: [
-      { name: 'All', count: 100 },
-      { name: 'Indonesia', count: 70 },
-      { name: 'Vietnam', count: 30 },
-    ],
-    cities: [
-      { name: 'Jakarta', count: 1543 },
-      { name: 'Bali', count: 923 },
-    ],
-    services: [
-      { name: 'Day tour', count: 20 },
-      { name: 'Rent car', count: 3 },
-      { name: 'Accommodation', count: 3 },
-    ],
-  };
+  // 🔥 Ambil data filter dari API
+  useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        const response = await apiClient.get("/pemesanan/get-filters");
+        const data = response.data?.data;
+
+        if (data) {
+          setFilterOptions({
+            countries: data.countries || [],
+            cities: data.cities || [],
+            services: data.services || [],
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch filter options:", error);
+      }
+    };
+
+    fetchFilters();
+  }, []);
 
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({
@@ -39,11 +51,21 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
     }));
   };
 
-  const handleFilterChange = (type, value) => {
+  const handleFilterChange = (type, item) => {
+    let value;
+
+    if (type === "countries" || type === "cities") {
+      value = item.id;
+    } else if (type === "services") {
+      value = item.type;
+    } else {
+      return;
+    }
+
     setFilters((prev) => ({
       ...prev,
       [type]: prev[type].includes(value)
-        ? prev[type].filter((item) => item !== value)
+        ? prev[type].filter((v) => v !== value)
         : [...prev[type], value],
     }));
   };
@@ -77,21 +99,27 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
       </button>
       {expanded && (
         <div className="space-y-2">
-          {items.map((item) => (
-            <label
-              key={item.name}
-              className="flex items-center space-x-2 cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                checked={filters[type].includes(item.name)}
-                onChange={() => handleFilterChange(type, item.name)}
-                className="w-4 h-4 text-cyan-600 border-gray-300 rounded"
-              />
-              <span className="text-sm text-gray-600 flex-1">{item.name}</span>
-              <span className="text-xs text-gray-400">{item.count}</span>
-            </label>
-          ))}
+          {items.map((item) => {
+            const value = type === "services" ? item.type : item.id;
+
+            return (
+              <label
+                key={item.id || item.name}
+                className="flex items-center space-x-2 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={filters[type].includes(value)}
+                  onChange={() => handleFilterChange(type, item)}
+                  className="w-4 h-4 text-cyan-600 border-gray-300 rounded"
+                />
+                <span className="text-sm text-gray-600 flex-1">
+                  {item.name}
+                </span>
+                <span className="text-xs text-gray-400">{item.count}</span>
+              </label>
+            );
+          })}
         </div>
       )}
     </div>
@@ -135,11 +163,15 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
         {/* Price Range */}
         <div className="mb-6">
           <button
-            onClick={() => toggleSection('price')}
+            onClick={() => toggleSection("price")}
             className="flex items-center justify-between w-full text-left font-medium text-gray-800 mb-3"
           >
             Price
-            {expandedSections.price ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            {expandedSections.price ? (
+              <ChevronUp size={16} />
+            ) : (
+              <ChevronDown size={16} />
+            )}
           </button>
           {expandedSections.price && (
             <div>
@@ -169,8 +201,14 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
                 <div
                   className="absolute h-2 bg-gray-800 z-10 rounded-full"
                   style={{
-                    left: `${((localPriceRange[0] - MIN) / (MAX - MIN)) * 100}%`,
-                    width: `${((localPriceRange[1] - localPriceRange[0]) / (MAX - MIN)) * 100}%`,
+                    left: `${
+                      ((localPriceRange[0] - MIN) / (MAX - MIN)) * 100
+                    }%`,
+                    width: `${
+                      ((localPriceRange[1] - localPriceRange[0]) /
+                        (MAX - MIN)) *
+                      100
+                    }%`,
                   }}
                 />
               </div>
@@ -179,13 +217,13 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
         </div>
 
         <button
-        className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg font-medium transition-colors"
-        onClick={() => {
-          if (typeof onSearch === 'function') onSearch();
-        }}
-      >
-        Search
-      </button>
+          className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg font-medium transition-colors"
+          onClick={() => {
+            if (typeof onSearch === "function") onSearch();
+          }}
+        >
+          Search
+        </button>
       </div>
     </div>
   );

@@ -1,16 +1,16 @@
 // CategoryAdmin.jsx
-import React, { useState, useContext, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext, useMemo, useEffect } from "react";
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
 import Pagination from "../../../../components/Pagination/Pagination";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 import ModalEdit from "../../../../components/AdminDashboard/Utils/Ui/modal/ModalEdit";
 import { CategoryContext } from "./CategoryProvider";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import toast from "react-hot-toast";
 
 const CategoryAdmin = () => {
-  const navigate = useNavigate();
-  const { categories, setCategories } = useContext(CategoryContext);
+  const {categories, setCategories} = useContext(CategoryContext);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,6 +18,20 @@ const CategoryAdmin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const itemsPerPage = 10;
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await apiClient.get("/category");
+        setCategories(response.data.data || []);
+      } catch (error) {
+        console.error("Gagal mengambil kategori:", error);
+        toast.error("Gagal memuat data kategori");
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSort = (columnKey) => {
     let direction = "asc";
@@ -42,37 +56,82 @@ const CategoryAdmin = () => {
     setEditingCategory(null);
   };
 
-  const handleModalSave = (updatedData) => {
-    setCategories((prev) =>
-      prev.map((cat) => (cat.id === updatedData.id ? updatedData : cat))
-    );
-    handleModalClose();
-  };
+ const handleModalSave = async (updatedData) => {
+  try {
+    if (categories.some((cat) => cat.id === updatedData.id)) {
+      // Edit
+      await apiClient.put(`/category/${updatedData.id}`, updatedData);
+    } else {
+      // Create
+      await apiClient.post("/category", updatedData);
+    }
 
-  const handleDelete = (row) => {
-    const confirmed = window.confirm(`Yakin mau hapus "${row.name}"?`);
-    if (confirmed) {
+    // Setelah create/update, ambil ulang data dari server
+    const refreshed = await apiClient.get("/category");
+    setCategories(refreshed.data.data || []);
+
+    handleModalClose();
+    toast.success("Kategori berhasil disimpan.");
+  } catch (err) {
+    console.error("Gagal menyimpan:", err);
+    toast.error("Gagal menyimpan kategori.");
+  }
+};
+
+
+  const handleDelete = async (row) => {
+    const confirmed = window.confirm(`Yakin ingin menghapus kategori "${row.name}"?`);
+    if (!confirmed) return;
+
+    const deletePromise = apiClient.delete(`/category`, {
+      data: { ids: [row.id] },
+    });
+
+    try {
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kategori...",
+        success: `Kategori "${row.name}" berhasil dihapus.`,
+        error: "Gagal menghapus kategori.",
+      });
+
       setCategories((prev) => prev.filter((cat) => cat.id !== row.id));
       setSelectedRows((prev) => prev.filter((id) => id !== row.id));
-      alert(`Kategori "${row.name}" berhasil dihapus.`);
+    } catch (err) {
+      console.error("Delete gagal:", err);
     }
   };
 
-  const handleBulkDelete = (selectedData) => {
-    const confirmed = window.confirm(`Yakin mau hapus ${selectedData.length} kategori?`);
-    if (confirmed) {
-      const ids = selectedData.map((item) => item.id);
+  const handleBulkDelete = async (selectedData) => {
+    const confirmed = window.confirm(`Yakin ingin menghapus ${selectedData.length} kategori?`);
+    if (!confirmed) return;
+
+    const ids = selectedData.map((item) => item.id);
+
+    const deletePromise = apiClient.delete("/category", {
+      data: { ids },
+    });
+
+    try {
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kategori...",
+        success: `${selectedData.length} kategori berhasil dihapus.`,
+        error: "Gagal menghapus kategori.",
+      });
+
       setCategories((prev) => prev.filter((item) => !ids.includes(item.id)));
       setSelectedRows([]);
-      alert(`Berhasil hapus ${selectedData.length} kategori.`);
+    } catch (err) {
+      console.error("Bulk delete gagal:", err);
     }
   };
 
   const filteredData = useMemo(() => {
-    return categories.filter((cat) =>
-      cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [categories, searchTerm]);
+  return categories.filter((cat) => {
+    const name = (cat.name || "").toLowerCase(); // fallback ke string kosong
+    return name.includes(searchTerm.toLowerCase());
+  });
+}, [categories, searchTerm]);
+
 
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filteredData;
@@ -159,8 +218,7 @@ const CategoryAdmin = () => {
 
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-            Menampilkan {startIndex + 1} sampai {Math.min(startIndex + itemsPerPage, sortedData.length)} dari{" "}
-            {sortedData.length} kategori
+            Menampilkan {startIndex + 1} sampai {Math.min(startIndex + itemsPerPage, sortedData.length)} dari {sortedData.length} kategori
           </div>
           <Pagination
             currentPage={currentPage}

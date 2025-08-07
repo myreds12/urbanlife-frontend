@@ -248,7 +248,7 @@ const Table = ({
                 >
                   <input
                     type="checkbox"
-                    style={{cursor: "pointer"}}
+                    style={{ cursor: "pointer" }}
                     checked={
                       selectedRows.length === data.length && data.length > 0
                     }
@@ -315,7 +315,6 @@ const Table = ({
                   borderLeft: selectedRows.includes(row.id)
                     ? "3px solid #00BEF0"
                     : "3px solid transparent",
-                  
                 }}
                 onMouseEnter={(e) => {
                   if (!selectedRows.includes(row.id)) {
@@ -353,13 +352,10 @@ const Table = ({
                         fontSize: "12px",
                       }}
                     >
-                      {defaultMapping && typeof defaultMapping[column] === "function" ? (
-                        defaultMapping[column](row, rowIndex)
-                      ) : column === "Status" ? (
-                        <StatusBadge status={row[column]} />
-                      ) : (
-                        row[column] ?? ""
-                      )}
+                      {defaultMapping &&
+                      typeof defaultMapping[column] === "function"
+                        ? defaultMapping[column](row, rowIndex)
+                        : row[column] ?? ""}
                     </td>
                   )
                 )}

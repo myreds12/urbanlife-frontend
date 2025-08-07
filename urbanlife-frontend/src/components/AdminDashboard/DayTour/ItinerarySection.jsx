@@ -36,8 +36,8 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
                       <input
                         type="text"
                         placeholder="e.g. Pantai Kelingking"
-                        value={data.destination}
-                        onChange={(e) => onChange(itinerary.indexOf(data), "destination", e.target.value)}
+                        value={data.nama}
+                        onChange={(e) => onChange(itinerary.indexOf(data), "nama", e.target.value)}
                         className="w-full p-2 border border-gray-300 rounded-md"
                         required
                       />
@@ -46,8 +46,8 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
                       <label className="block text-sm font-medium">Description</label>
                       <textarea
                         placeholder="Description"
-                        value={data.description}
-                        onChange={(e) => onChange(itinerary.indexOf(data), "description", e.target.value)}
+                        value={data.deskripsi}
+                        onChange={(e) => onChange(itinerary.indexOf(data), "deskripsi", e.target.value)}
                         className="w-full p-2 border border-gray-300 rounded-md h-24"
                         required
                       />

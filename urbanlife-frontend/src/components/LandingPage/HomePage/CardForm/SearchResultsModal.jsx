@@ -1,4 +1,6 @@
 import { X, Star, ShoppingCart } from "lucide-react";
+import { formatBookingData } from "../../../AdminDashboard/Utils/FormatData/bookingFormatData";
+import { useNavigate } from "react-router-dom";
 
 const SearchResultsModal = ({
   showResults,
@@ -9,8 +11,8 @@ const SearchResultsModal = ({
   service,
   cities,
   services,
-  onOrderClick,
 }) => {
+  const navigate = useNavigate();
   const formatPrice = (harga) => {
     const parsed = parseInt(harga);
     return parsed > 0 ? `Rp ${parsed.toLocaleString("id-ID")}` : "Gratis";
@@ -36,11 +38,10 @@ const SearchResultsModal = ({
   };
 
   const handleOrderClick = (item) => {
-    if (onOrderClick) {
-      onOrderClick(item);
-    } else {
-      console.log("Order clicked for:", item.nama);
-    }
+    console.log(item, "clicked");
+    const bookingData = formatBookingData(item);
+
+    navigate(`/DaytourDetail/${item.id}`, { state: bookingData });
   };
 
   const renderItemDetails = (item) => {
@@ -60,7 +61,9 @@ const SearchResultsModal = ({
       case "AKOMODASI":
         return (
           <>
-            <p className="text-xs sm:text-sm text-gray-500 mb-1 font-semibold">Ruangan:</p>
+            <p className="text-xs sm:text-sm text-gray-500 mb-1 font-semibold">
+              Ruangan:
+            </p>
             <ul className="text-xs sm:text-sm text-gray-500 list-disc list-inside mb-1">
               {item.room_and_price?.map((room) => (
                 <li key={room.id}>
@@ -68,7 +71,9 @@ const SearchResultsModal = ({
                 </li>
               ))}
             </ul>
-            <p className="text-xs sm:text-sm text-gray-500 mb-1 font-semibold">Fasilitas:</p>
+            <p className="text-xs sm:text-sm text-gray-500 mb-1 font-semibold">
+              Fasilitas:
+            </p>
             <ul className="text-xs sm:text-sm text-gray-500 list-disc list-inside">
               {item.facility_group?.flatMap((group) =>
                 group.fasilitas?.map((fasilitas) => (
@@ -182,7 +187,10 @@ const SearchResultsModal = ({
                               onClick={() => handleOrderClick(result)}
                               className="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap"
                             >
-                              <ShoppingCart size={14} className="sm:w-4 sm:h-4" />
+                              <ShoppingCart
+                                size={14}
+                                className="sm:w-4 sm:h-4"
+                              />
                               Order
                             </button>
                           </div>

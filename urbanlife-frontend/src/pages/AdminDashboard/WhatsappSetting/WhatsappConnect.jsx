@@ -70,14 +70,14 @@ const WhatsappConnect = () => {
 
   const handleDisconnect = async () => {
     try {
-      const response = await fetch("/whatsapp/disconnect", { method: "POST" });
-      const result = await response.json();
+      const response = await apiClient.post("/whatsapp/logout");
+      console.log(response.status, "response");
 
-      if (response.ok) {
+      if (response.status === 201) {
         setIsConnected(false);
         setQrCode(null);
       } else {
-        console.error("Disconnect failed:", result.message);
+        console.error("Disconnect failed:", response.message);
       }
     } catch (err) {
       console.error("Error disconnecting:", err);

@@ -17,6 +17,8 @@ const OrderDetail = () => {
   const bookingFromState = location.state;
   const bookingInfo = bookingFromState;
 
+  console.log("Booking info:", bookingInfo);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [availableServices, setAvailableServices] = useState([]);
   const [selectedType, setSelectedType] = useState("");
@@ -506,7 +508,7 @@ const OrderDetail = () => {
           <ul className="space-y-3 overflow-y-auto max-h-[50vh] pr-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {availableServices.map((item) => (
               <li
-                key={item.id}
+                key={`${item.id} ${item.name}`}
                 onClick={() => handleSelectServiceItem(item)}
                 className="border border-gray-200 rounded-lg p-4 hover:bg-blue-50 transition cursor-pointer"
               >

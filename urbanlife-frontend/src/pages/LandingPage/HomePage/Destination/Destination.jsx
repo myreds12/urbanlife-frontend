@@ -60,8 +60,8 @@ const Destination = () => {
     <div className="destination-slider-container mt-[-130px] md:mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-4 md:px-15 z-10">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
-          {travelData.map((item) => (
-            <div key={item.id} className="embla__slide flex-none">
+          {travelData.map((item, index) => (
+            <div key={index} className="embla__slide flex-none">
               <DestinationCard travel={item} />
             </div>
           ))}

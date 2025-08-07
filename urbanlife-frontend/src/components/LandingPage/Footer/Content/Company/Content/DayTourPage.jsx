@@ -4,30 +4,63 @@ import DayTourGrid from "./DayTour/DayTourGrid";
 import { DayTour } from "./DayTour/DayTourData";
 import Footer from "../../../../HomePage/Footer";
 import "./DayTour/DayTourPage.css";
-
-const categories = [
-  "All",
-  "Beach",
-  "Mountain",
-  "Temple",
-  "Waterfall",
-  "Cultural",
-  "Adventure",
-];
+import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
 
 const DayTourPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [activeCategory, setActiveCategory] = useState("All");
-
-  const filteredTours =
-    activeCategory === "All"
-      ? DayTour
-      : DayTour.filter((item) => item.category === activeCategory);
+  const [categories, setCategories] = useState([{ id: "all", name: "All" }]);
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [tours, setTours] = useState([]);
 
   const handleHomeClick = () => {
     window.location.href = "/";
   };
 
+  // FETCH categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await apiClient.get(`/category`);
+        const apiCategories = res.data.data || [];
+        setCategories([{ id: "all", name: "All" }, ...apiCategories]);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // FETCH items (by category)
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const params = {
+          take: 10,
+          page: 1,
+          type: "TRAVEL_PACKAGE",
+        };
+
+        if (activeCategory !== "all") {
+          params.category_id = activeCategory;
+        }
+
+        console.log("Fetching tours with params:", params);
+
+        const res = await apiClient.get(`/pemesanan/items`, {
+          params,
+        });
+
+        setTours(res.data.data || []);
+      } catch (error) {
+        console.error("Failed to fetch tours:", error);
+      }
+    };
+
+    fetchTours();
+  }, [activeCategory]);
+
+  // Mouse move effect
   useEffect(() => {
     const handleMouseMove = (e) => {
       const heroSection = document.querySelector(".hero-section");
@@ -42,8 +75,7 @@ const DayTourPage = () => {
     const heroSection = document.querySelector(".hero-section");
     if (heroSection) {
       heroSection.addEventListener("mousemove", handleMouseMove);
-      return () =>
-        heroSection.removeEventListener("mousemove", handleMouseMove);
+      return () => heroSection.removeEventListener("mousemove", handleMouseMove);
     }
   }, []);
 
@@ -62,21 +94,8 @@ const DayTourPage = () => {
         }}
       >
         <div className="hero-decorations">
-          <div className="floating-element diamond diamond-1"></div>
-          <div className="floating-element diamond diamond-2"></div>
-          <div className="floating-element diamond diamond-3"></div>
-          <div className="floating-element triangle triangle-1"></div>
-          <div className="floating-element triangle triangle-2"></div>
-          <div className="floating-element triangle triangle-3"></div>
-          <div className="floating-element hexagon hexagon-1"></div>
-          <div className="floating-element hexagon hexagon-2"></div>
-          <div className="floating-line line-1"></div>
-          <div className="floating-line line-2"></div>
-          <div className="floating-line line-3"></div>
-          <div className="dots-pattern dots-1"></div>
-          <div className="dots-pattern dots-2"></div>
+          {/* Dekorasi jika ada */}
         </div>
-
         <div className="hero-content">
           <h1 className="hero-title playfair">Day Tour Packages</h1>
           <div className="breadcrumb">
@@ -91,26 +110,28 @@ const DayTourPage = () => {
           </div>
         </div>
       </div>
-      {/* Categories */}
+
+      {/* Categories Tabs */}
       <div className="categories-container">
         <div className="categories-tabs">
           {categories.map((category) => (
             <button
-              key={category}
+              key={category.id}
               className={`category-tab ${
-                activeCategory === category ? "active" : ""
+                activeCategory === category.id ? "active" : ""
               }`}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => setActiveCategory(category.id)}
             >
-              {category}
+              {category.name}
             </button>
           ))}
         </div>
       </div>
 
       {/* Day Tour Cards */}
-      <DayTourGrid cards={filteredTours} />
+      <DayTourGrid cards={tours} />
 
+      {/* Footer */}
       <Footer />
     </div>
   );

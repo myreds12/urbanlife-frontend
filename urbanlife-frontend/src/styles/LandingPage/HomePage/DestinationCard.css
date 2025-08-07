@@ -1,6 +1,6 @@
 .destination-card {
   width: 240px;
-  height: 300px;
+  height: 320px;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -20,7 +20,7 @@
 .card-image {
   position: relative;
   width: 95%;
-  height: 70%;
+  height: 65%;
   margin: 0 auto;
   margin-top: 5px;
   border-radius: 10px;

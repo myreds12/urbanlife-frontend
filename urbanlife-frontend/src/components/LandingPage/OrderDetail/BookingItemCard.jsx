@@ -60,7 +60,8 @@ const BookingItemCard = ({
       <div className="flex justify-between items-end border-b border-gray-300 border-dashed pb-3">
         <div className="text-sm text-gray-600 w-1/2">
           <p className="font-medium mb-1">
-            {item_type === "travel_package" ? "Person number" : "Duration"}
+            {item_type === "travel_package" ? "Person number" :
+             item_type === "akomodasi" ? "Room" : "Duration"}
           </p>
           {item_type === "travel_package" ? (
             <div className="space-y-5">

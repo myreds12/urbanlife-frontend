@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
-import Pagination from "../../../../components/Pagination/Pagination";
+import Pagination from "../../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 import BulkActionBar from "../../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
@@ -135,7 +135,7 @@ const BlogAdmin = () => {
     return sortedData.filter((item) => selectedRows.includes(item.id));
   }, [sortedData, selectedRows]);
 
-  const columns = ["Kategori", "Judul", "Tanggal", "Aksi"];
+  const columns = ["Category", "Title", "Date", "Action"];
   const defaultMapping = {
     Kategori: (row) => row.blog_category.name || "-",
     Judul: (row) => row.blog_content[0]?.judul || "-",
@@ -211,7 +211,7 @@ const BlogAdmin = () => {
               className="whitespace-nowrap"
               onClick={() => navigate("/admin/blogs/create")}
             >
-              Tambah Blog <i className="fa-solid fa-plus ml-2"></i>
+              Add Blog <i className="fa-solid fa-plus ml-2"></i>
             </Button>
           </div>
         </div>
@@ -227,8 +227,10 @@ const BlogAdmin = () => {
           onEdit={handleEdit}
           onDelete={handleDelete}
           defaultMapping={defaultMapping}
-        />
+        />        
+      </div>
 
+      {/* Data info dan Pagination */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
             Menampilkan {startIndex + 1} sampai{" "}

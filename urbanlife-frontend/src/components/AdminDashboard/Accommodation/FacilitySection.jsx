@@ -70,9 +70,13 @@ const FacilitySection = ({
             <div className="space-y-2">
               {group.fasilitas.map((item, facilityIndex) => (
                 <div key={facilityIndex} className="flex gap-2 items-center">
+                <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[90px] text-center">
+                  Facility <span className="text-red-500">*</span>
+                </label>
                   <input
                     type="text"
                     placeholder="Facility name"
+                    required
                     name="nama"
                     value={item.nama}
                     onChange={(e) =>
@@ -82,7 +86,7 @@ const FacilitySection = ({
                         e.target.value
                       )
                     }
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md"
+                    className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md"
                   />
                   <button
                     type="button"

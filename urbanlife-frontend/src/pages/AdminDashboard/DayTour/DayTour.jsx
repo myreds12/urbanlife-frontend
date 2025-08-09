@@ -389,27 +389,25 @@ const DayTour = () => {
   const columns = [
     "#",
     "ID",
-    "Nama",
-    "Durasi",
-    "Harga Dewasa",
-    "Harga Anak",
-    "Lokasi",
-    "Negara",
+    "Name",
+    "Duration",
+    "Adult Price",
+    "Child Price",
+    "Location",
+    "Country",
     "Action",
   ];
 
   const mapping = {
     "#": (row, index) => (currentPage - 1) * itemsPerPage + index + 1,
-    ID: (row) => row.id,
-    Nama: (row) => row.nama,
-    Durasi: (row) => `${row.durasi} ${row.tipe_durasi}`,
-    "Harga Dewasa": (row) =>
-      `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
-    "Harga Anak": (row) =>
-      `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
-    Lokasi: (row) => row.lokasi?.nama || "-",
-    Negara: (row) => row.lokasi?.negara?.nama || "-",
-    Action: null,
+    "ID": "id",
+    "Name": (row) => row.nama || "-",
+    "Duration": (row) => `${row.durasi} ${row.tipe_durasi}`,
+    "Adult Price": (row) => `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
+    "Child Price": (row) => `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
+    "Location": (row) => row.lokasi?.nama || "-",
+    "Country": (row) => row.lokasi?.negara?.nama || "-",
+    "Action": null,
   };
 
   if (loading) {

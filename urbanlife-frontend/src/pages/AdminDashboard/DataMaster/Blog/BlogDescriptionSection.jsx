@@ -42,13 +42,13 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
                   className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md"
                   style={{ minWidth: "90px" }}
                 >
-                  {item.bahasa === "ENGLISH" ? "Subject" : "Subjek"}
+                  {item.bahasa === "ENGLISH" ? "Subject" : "Subjek"} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={item.judul}
                   onChange={(e) => onChangeContent(index, "judul", e.target.value)}
-                  className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-non focus:ring-cyan-500"
                   placeholder={item.bahasa === "ENGLISH" ? "Enter subject" : "Masukkan subjek"}
                   required
                 />
@@ -69,7 +69,7 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
                   value={item.deskripsi || ""}
                   onChange={(e) => onChangeContent(index, "deskripsi", e.target.value)}
                   rows={12}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-cyan-500 resize-none"
                   placeholder={
                     item.bahasa === "ENGLISH"
                       ? "Enter description in English..."

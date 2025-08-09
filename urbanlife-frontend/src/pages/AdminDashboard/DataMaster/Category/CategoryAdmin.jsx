@@ -1,7 +1,7 @@
 // CategoryAdmin.jsx
 import React, { useState, useContext, useMemo, useEffect } from "react";
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
-import Pagination from "../../../../components/Pagination/Pagination";
+import Pagination from "../../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 import ModalEdit from "../../../../components/AdminDashboard/Utils/Ui/modal/ModalEdit";
@@ -148,10 +148,10 @@ const CategoryAdmin = () => {
     return sortedData.filter((item) => selectedRows.includes(item.id));
   }, [sortedData, selectedRows]);
 
-  const columns = ["Name", "Aksi"];
+  const columns = ["Name", "Action"];
   const defaultMapping = {
     Name: (row) => row.name || "-",
-    Aksi: (row) => (
+    Action: (row) => (
       <div>
         <span onClick={() => handleEdit(row)} style={{ cursor: "pointer", color: "blue" }}>Edit</span> | 
         <span onClick={() => handleDelete(row)} style={{ cursor: "pointer", color: "red" }}>Delete</span>
@@ -187,10 +187,10 @@ const CategoryAdmin = () => {
         )}
 
         <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
-          <h1 className="text-2xl font-bold text-gray-800">Data Master - Category</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Category</h1>
           <div className="flex flex-wrap justify-between items-center gap-4">
             <div className="flex-1 min-w-[200px]">
-              <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Cari kategori..." />
+              <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Search category..." />
             </div>
             <Button
               variant="primary"
@@ -198,27 +198,28 @@ const CategoryAdmin = () => {
               className="whitespace-nowrap"
               onClick={handleCreate}
             >
-              Tambah Kategori <i className="fa-solid fa-plus ml-2"></i>
+              Add Category <i className="fa-solid fa-plus ml-2"></i>
             </Button>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
           <Table
             data={currentData}
             columns={columns}
             selectedRows={selectedRows}
             onRowSelect={handleRowSelect}
             onSort={handleSort}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
             sortConfig={sortConfig}
             startIndex={startIndex}
             defaultMapping={defaultMapping}
           />
-        </div>
-
+      </div>
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-            Menampilkan {startIndex + 1} sampai {Math.min(startIndex + itemsPerPage, sortedData.length)} dari {sortedData.length} kategori
+            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of{" "}
+            {sortedData.length} category
           </div>
           <Pagination
             currentPage={currentPage}
@@ -227,7 +228,7 @@ const CategoryAdmin = () => {
             size="base"
           />
         </div>
-      </div>
+
 
       <ModalEdit
         isOpen={isModalOpen}

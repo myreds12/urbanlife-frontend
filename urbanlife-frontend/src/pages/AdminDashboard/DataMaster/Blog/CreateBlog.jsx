@@ -221,7 +221,7 @@ const CreateBlog = () => {
               <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mt-6 space-y-4">
                 <div className="flex items-center gap-5">
                   <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
-                    Slug
+                    Slug <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"

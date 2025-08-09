@@ -245,7 +245,6 @@ const BlogAdmin = () => {
           />
         </div>
       </div>
-    </div>
   );
 };
 

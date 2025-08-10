@@ -56,19 +56,19 @@ export default function CardWelcome() {
     <div className="h-full w-full">
       <div className="inline-flex justify-between h-full w-full rounded-2xl border border-gray-200 bg-white p-5">
         <div className="flex flex-col space-y-2">
-          <h1 className="text-2xl font-bold">
-            Welcome Back, <span className="text-cyan-600">{userName}</span>!
+          <h1 className="text-2xl font-bold darktitle">
+            Welcome Back, <span className="text-cyan-600 dark-cyan">{userName}</span>!
           </h1>
           <span className="flex items-center space-x-1">
-            <p className="text-gray-600">
+            <p className="text-gray-600 darksubtitle">
               Great to see you again! Your Admin Dashboard awaits
             </p>
           </span>
         </div>
 
         <div className="flex flex-col space-y-2">
-          <h1 className="text-xl font-bold">{currentDate}</h1>
-          <span className="flex items-center space-x-3 justify-end">
+          <h1 className="text-xl font-bold darktitle">{currentDate}</h1>
+          <span className="flex items-center space-x-3 justify-end dark-cyan">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 555 500"
@@ -77,7 +77,7 @@ export default function CardWelcome() {
             >
               <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
             </svg>
-            <p className="text-xl font-bold">{currentTime}</p>
+            <p className="text-xl font-bold darksubtitle">{currentTime}</p>
           </span>
         </div>
       </div>

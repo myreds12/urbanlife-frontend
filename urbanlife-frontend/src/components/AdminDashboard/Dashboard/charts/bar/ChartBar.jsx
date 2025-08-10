@@ -95,7 +95,7 @@ export default function ChartBar() {
   return (
     <div className="overflow-hidden rounded-2xl bg-white px-5 pt-5 border border-gray-200 sm:px-6 sm:pt-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-800">Monthly Sales</h3>
+        <h3 className="text-lg font-semibold text-gray-800 darktitle">Monthly Sales</h3>
         <div className="relative inline-block">
           <button className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

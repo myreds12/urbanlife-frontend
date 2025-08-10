@@ -232,9 +232,9 @@ const Table = ({
         `}
       </style>
       <div style={{ overflow: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <table className="w-full border-collapse">
           <thead>
-            <tr style={{ backgroundColor: "#f9fafb" }}>
+            <tr className="bg-gray-50">
               {onRowSelect && (
                 <th
                   style={{

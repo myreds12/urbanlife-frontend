@@ -11,7 +11,6 @@ import ReactModal from "react-modal";
 
 // Layout & Context
 import AppLayout from "./layouts/AdminDashboard/AppLayout";
-import ThemeProvider from "./components/AdminDashboard/Utils/Context/ThemeContext";
 import ProtectedRoute from "./components/AdminDashboard/Utils/Auth/ProtectedRoute";
 import AuthInitializer from "./components/AdminDashboard/Utils/Auth/AuthInitializer";
 import { BlogProvider } from "./pages/AdminDashboard/DataMaster/Blog/BlogProvider";
@@ -99,7 +98,7 @@ function App() {
   ReactModal.setAppElement("#root");
 
   return (
-    <ThemeProvider>
+    <>
       <Toaster position="top-right" reverseOrder={false} />
       <AuthInitializer /> {/* ✅ Tambahkan ini */}
       <Router>
@@ -179,7 +178,7 @@ function App() {
           </Routes>
         </Suspense>
       </Router>
-    </ThemeProvider>
+    </>
   );
 }
 

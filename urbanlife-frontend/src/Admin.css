@@ -1,0 +1,57 @@
+body {
+  background-color: #FAF9FF; /* light mode */
+  /* transition: background-color 0.3s ease; */
+}
+
+.dark body {
+  background-color: #28282a;
+}
+
+/* app.css */
+.main-content {
+  margin-left: 16rem;
+  margin-top: 4.5rem;
+  padding: 1rem;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+
+.dark .main-content {
+  background-color: #1f2937;
+}
+
+.admin .main-content {
+  background-color: #FAF9FF;
+}
+
+.dark .admin .main-content {
+  background-color: #1f2937;
+}
+
+.dark .bg-white {
+  background-color: #181818; 
+}
+
+
+
+
+.dark .darktitle{
+  color: #f8f8f8;
+}
+
+.dark .darksubtitle{
+  color: #aaaaaa;
+}
+
+.dark .dark-cyan{
+  color: #1dbbdb;
+}
+
+.dark .dark-gray{
+  color: #28282a;
+}
+
+.dark .darkbg{
+  color: #181818;
+}

@@ -150,8 +150,8 @@ const CardMap = () => {
   return (
     <div className="">
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-1">Customer Demographic</h3>
-        <p className="text-sm text-gray-500">Number of customer based on country</p>
+        <h3 className="text-lg font-semibold text-gray-900 mb-1 darktitle">Customer Demographic</h3>
+        <p className="text-sm text-gray-500 darksubtitle">Number of customer based on country</p>
       </div>
       
       {/* Map Container */}
@@ -168,11 +168,11 @@ const CardMap = () => {
         {customerData.map((item, index) => (
           <div key={index} className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-4">
                 <FlagIcon countryCode={item.flag} className="w-6 h-4" />
                 <div>
-                  <div className="font-medium text-gray-900">{item.country}</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="font-medium text-gray-900 darktitle">{item.country}</div>
+                  <div className="text-sm text-gray-500 darksubtitle">
                     {item.customers.toLocaleString()} Customers
                   </div>
                 </div>
@@ -181,11 +181,11 @@ const CardMap = () => {
             <div className="flex items-center space-x-3">
               <div className="w-24 bg-gray-200 rounded-full h-2">
                 <div 
-                  className="bg-blue-600 h-2 rounded-full" 
+                  className="bg-cyan-600 h-2 rounded-full" 
                   style={{ width: `${item.percentage}%` }}
                 ></div>
               </div>
-              <span className="text-sm font-medium text-gray-900 w-8">
+              <span className="text-sm font-medium text-gray-900 w-8 darktitle">
                 {item.percentage}%
               </span>
             </div>

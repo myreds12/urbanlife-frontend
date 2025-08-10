@@ -89,7 +89,7 @@ function StatCard({ title, count, icon, trendIcon, trendValue }) {
   );
 
   return (
-    <div className="flex flex-col col-span-2 justify-between h-full rounded-2xl border border-gray-200 bg-white">
+    <div className="flex flex-col col-span-2 justify-between h-full rounded-2xl border border-gray-200 bg-white ">
       <div className="flex justify-between items-center p-5">
         <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl">{icon}</div>
         <span className={`flex items-center text-sm ${trendColor} px-2 py-1 rounded-full`}>
@@ -99,11 +99,11 @@ function StatCard({ title, count, icon, trendIcon, trendValue }) {
       </div>
 
       <div className="flex flex-col items-center">
-        <span className="text-md text-gray-500">{title}</span>
-        <h4 className="text-3xl font-bold text-gray-800">{count}</h4>
+        <span className="text-md text-gray-500 darksubtitle">{title}</span>
+        <h4 className="text-3xl font-bold text-gray-800 darktitle">{count}</h4>
       </div>
 
-      <div className="flex flex-col items-center py-2 mt-5 bg-gray-100 w-full rounded-b-2xl">
+      <div className="flex flex-col items-center py-2 mt-5 bg-gray-100 w-full rounded-b-2xl dark-gray">
         <span className="text-sm text-gray-500">From last month</span>
       </div>
     </div>

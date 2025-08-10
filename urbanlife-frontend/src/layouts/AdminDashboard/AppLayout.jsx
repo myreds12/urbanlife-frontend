@@ -2,11 +2,15 @@ import { Outlet } from "react-router-dom";
 import AppHeader from "./AppHeader";
 import AppSidebar from "./AppSidebar";
 import React from "react";
+import { ThemeProvider } from "../../components/AdminDashboard/Utils/Context/ThemeContext";
+import "./../../../src/Admin.css";
+
 
 
 const AppLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <ThemeProvider>
+          <div className="min-h-screen flex flex-col">
       <AppHeader />
       <div className="flex flex-1">
         <AppSidebar />
@@ -16,6 +20,8 @@ const AppLayout = () => {
         </main>
       </div>
     </div>
+
+    </ThemeProvider>
   );
 };
 

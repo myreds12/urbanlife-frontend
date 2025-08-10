@@ -90,27 +90,11 @@ export default function RecentOrders() {
   ];
 
   return (
-    <div style={{ 
-      background: "#ffffff", 
-      borderRadius: "12px",
-      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-      overflow: "hidden"
-    }}>
+    <div className="bg-white rounded-[12px] shadow overflow-hidden">
       {/* Header */}
-      <div style={{ 
-        display: "flex", 
-        alignItems: "center", 
-        justifyContent: "space-between",
-        padding: "20px 24px",
-        borderBottom: "1px solid #f3f4f6"
-      }}>
+      <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 darkbg">
         <div>
-          <h3 style={{ 
-            fontSize: "18px", 
-            fontWeight: "600", 
-            color: "#111827",
-            margin: "0"
-          }}>
+          <h3 className="text-lg font-semibold text-gray-800 darktitle">
             Recent Orders
           </h3>
         </div>

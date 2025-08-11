@@ -20,7 +20,6 @@ const News = () => {
   const [isLoading, setIsLoading] = useState(false);
   const itemsPerPage = 10;
 
-  console.log(editingNews, "editingNews");
 
   const [newsData, setNewsData] = useState([]);
 

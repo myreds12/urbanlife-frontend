@@ -35,7 +35,7 @@ const othersItems = [
         { name: "Car", path: "/admin/car" },
         { name: "Driver", path: "/admin/driver" },
         { name: "Guide", path: "/admin/guide" },
-        { name: "Blog", path: "/admin/blog" },
+        { name: "Blog", path: "/admin/blogs" },
         { name: "Category", path: "/admin/category" },
       ],
     },

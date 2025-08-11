@@ -20,8 +20,6 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
     setEvents(initialEvents);
   }, [initialEvents]);
 
-  console.log(initialEvents, "initialEvents");
-  console.log(events, "events");
 
   const monthNames = [
     "January",

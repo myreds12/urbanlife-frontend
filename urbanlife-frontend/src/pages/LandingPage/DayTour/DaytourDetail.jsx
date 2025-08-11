@@ -1,124 +1,165 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import TourImage from "../../../components/LandingPage/DayTour/TourImage";
 import TourHeader from "../../../components/LandingPage/DayTour/TourHeader";
 import TourDescription from "../../../components/LandingPage/DayTour/TourDescription";
 import TourItinerary from "../../../components/LandingPage/DayTour/TourItinerary";
 import TourPrice from "../../../components/LandingPage/DayTour/TourPrice";
 import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import "../../../styles/LandingPage/DayTour/DaytourDetail.css";
+import TourRoomAndPrice from "../../../components/LandingPage/DayTour/TourRoomAndPrice";
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import TourDurasi from "../../../components/LandingPage/DayTour/TourDurasi";
 
 const DaytourDetail = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { id } = useParams(); // Ambil ID dari URL
-  const { state } = useLocation(); // Ambil data dari state
+  const { state } = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchTourData = async () => {
-      try {
-        // Coba ambil data dari API berdasarkan ID
-        const response = await apiClient.get(`/pemesanan/items/${id}`);
-        const data = response.data.data;
+  console.log(state, "state detail");
 
-        if (data) {
-          setTourData({
-            id: data.id,
-            title: data.nama,
-            price: data.harga_dewasa || 0,
-            rating: 4.8, // Bisa diganti dengan data dari API jika ada
-            reviews: 142, // Bisa diganti dengan data dari API jika ada
-            duration: data.durasi_hari
-              ? `${data.durasi_hari} Days`
-              : "Full Day",
-            maxGuests: 8, // Bisa diganti dengan data dari API jika ada
-            location: `${data.lokasi?.nama || "Unknown"}, ${
-              data.lokasi?.negara?.nama || "Unknown"
-            }`,
-            images: data.file_url
-              ? [
-                  `${apiClient.defaults.baseURL.replace(
-                    /\/$/,
-                    ""
-                  )}/public/${data.file_url
-                    .replace(/\\/g, "/")
-                    .replace(/^uploads\//, "")}`,
-                ]
-              : ["/public/images/error/No_Image_Available.jpg"],
-            description:
-              data.content?.description || "No description available.",
-            policies: data.content?.policies || [],
-            itinerary: data.content?.itinerary || [],
-            priceTable: data.content?.priceTable || [], // Jika ada data priceTable
-          });
-        } else {
-          // Fallback ke data dari state jika API gagal
-          setTourData({
-            ...state,
-            images: state.image
-              ? [state.image]
-              : ["/public/images/error/No_Image_Available.jpg"],
-            description:
-              state.content?.description || "No description available.",
-            policies: state.content?.policies || [],
-            itinerary: state.content?.itinerary || [],
-            priceTable: state.content?.priceTable || [],
-          });
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!state?.item_type || !state?.id) {
+        console.log("Invalid state");
+        navigate("/not-found");
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const endpointType =
+          state.item_type === "travel_package" ? "travel-package" : state.item_type.toLowerCase();
+
+        const response = await apiClient.get(`/${endpointType}/${state.id}`);
+        const data = response.data?.data;
+
+
+        let images = [];
+        let description = "No description available.";
+        let policies = [];
+        let itinerary = [];
+        let priceTable = [];
+        let roomAndPrice = [];
+        let durasi = [];
+        let price = data.harga || "0";
+        let location = data.location || data.lokasi?.nama || "";
+
+        if (state.item_type === "kendaraan") {
+          images = data.kendaraan_file?.map(
+            (file) =>
+              `${apiClient.defaults.baseURL.replace(
+                /\/$/,
+                ""
+              )}/public/${file.url
+                .replace(/\\/g, "/")
+                .replace(/^uploads\//, "")}`
+          ) || ["/public/images/error/No_Image_Available.jpg"];
+
+          durasi = data.kendaraan_durasi || [];
+          price = durasi[0]?.harga || "0";
         }
+
+        if (state.item_type === "akomodasi") {
+          images = data.akomodasi_file?.map(
+            (file) =>
+              `${apiClient.defaults.baseURL.replace(
+                /\/$/,
+                ""
+              )}/public/${file.url
+                .replace(/\\/g, "/")
+                .replace(/^uploads\//, "")}`
+          ) || ["/public/images/error/No_Image_Available.jpg"];
+
+          roomAndPrice = data.akomodasi_room_and_price || [];
+          description = data.akomodasi_content?.[0]?.deskripsi || description;
+          price = roomAndPrice[0]?.harga || price;
+        }
+
+        if (state.item_type === "travel_package") {
+          // Parsing image
+          images = data.travelPackageFile?.map(
+            (file) =>
+              `${apiClient.defaults.baseURL.replace(
+                /\/$/,
+                ""
+              )}/public/${file.url
+                .replace(/\\/g, "/")
+                .replace(/^uploads\//, "")}`
+          ) || ["/public/images/error/No_Image_Available.jpg"];
+
+          // Deskripsi
+          description =
+            data.travel_package_content?.[0]?.deskripsi || description;
+
+          // Itinerary
+          itinerary = data.travel_package_itinerary || [];
+
+          // Harga anak & dewasa
+          priceTable = [
+            {
+              id: 1,
+              label: "Dewasa",
+              harga: data.harga_dewasa || "0",
+            },
+            {
+              id: 2,
+              label: "Anak-anak",
+              harga: data.harga_anak || "0",
+            },
+          ];
+
+          // Gunakan harga dewasa sebagai default harga utama
+          price = data.harga_dewasa || "0";
+        }
+
+        const fallbackData = {
+          ...data,
+          images,
+          title: data.nama || data.title,
+          price,
+          location,
+          durasi,
+          type: state.item_type,
+          description,
+          policies,
+          itinerary,
+          priceTable,
+          room_and_price: roomAndPrice,
+        };
+
+        setTourData(fallbackData);
       } catch (error) {
-        console.error("Error fetching tour data:", error);
-        // Gunakan data dari state sebagai fallback
-        setTourData({
-          ...state,
-          images: state.image
-            ? [state.image]
-            : ["/public/images/error/No_Image_Available.jpg"],
-          description:
-            state.content?.description || "No description available.",
-          policies: state.content?.policies || [],
-          itinerary: state.content?.itinerary || [],
-          priceTable: state.content?.priceTable || [],
-        });
+        console.log("Error fetching detail:", error);
+        // navigate("/not-found");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTourData();
-  }, [id, state]);
-
-  const handleBookNow = () => {
-    const bookingData = {
-      id: tourData.id,
-      title: tourData.title,
-      type: tourData.type || "travel_package",
-      country: tourData.country || "Unknown",
-      location: tourData.location || "Unknown",
-      image: tourData.images[0],
-      content: tourData.content || [],
-      tanggal: new Date().toISOString().split("T")[0],
-      price: tourData.price || 0,
-      harga_dewasa: tourData.price,
-      harga_anak: tourData.harga_anak || 0,
-      durasi_hari: tourData.durasi_hari || 0,
-    };
-
-    console.log("Navigating to OrderDetail with data:", bookingData);
-    navigate(`/OrderDetail?type=${bookingData.type}&id=${bookingData.id}`, {
-      state: bookingData,
-    });
-  };
+    fetchData();
+  }, [state, navigate]);
 
   const tabs = [
     { id: "description", label: "Description" },
-    { id: "itinerary", label: "Itinerary" },
-    { id: "price", label: "Price" },
+    ...(tourData?.type === "travel_package" && tourData.itinerary.length > 0
+      ? [{ id: "itinerary", label: "Itinerary" }]
+      : []),
+    ...(tourData?.type === "travel_package" && tourData.priceTable.length > 0
+      ? [{ id: "price", label: "Price (Adult & Child)" }]
+      : []),
+    ...(tourData?.type === "akomodasi" && tourData.room_and_price.length > 0
+      ? [{ id: "room_and_price", label: "Room & Price" }]
+      : []),
+    ...(tourData?.type === "kendaraan" && tourData.durasi.length > 0
+      ? [{ id: "durasi", label: "Durasi" }]
+      : []),
   ];
 
-  if (loading) {
+  if (loading || !tourData) {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-cyan-600" />
@@ -132,18 +173,29 @@ const DaytourDetail = () => {
         <Navbar />
       </div>
 
-      <div className="mt-25">
-        {/* Tour Images */}
+      <div className="mt-24">
         <TourImage images={tourData.images} title={tourData.title} />
-
-        {/* Tour Header */}
         <TourHeader
           title={tourData.title}
           price={tourData.price}
           location={tourData.location}
+          id={tourData.id}
+          type={tourData.type}
+          image={tourData.images?.[0]}
+          content={{
+            description: tourData.description,
+            policies: tourData.policies,
+            itinerary: tourData.itinerary,
+            priceTable: tourData.priceTable,
+          }}
+          harga_dewasa={tourData.harga_dewasa}
+          harga_anak={tourData.harga_anak}
+          durasi_hari={tourData.durasi_hari}
+          room_and_price={tourData.room_and_price}
+          durasi={tourData.durasi}
+          tipe={tourData.tipe}
         />
 
-        {/* Tabs Navigation */}
         <div className="mt-5 mb-1">
           <nav className="flex space-x-7">
             {tabs.map((tab) => (
@@ -160,7 +212,6 @@ const DaytourDetail = () => {
           </nav>
         </div>
 
-        {/* Tab Content */}
         <div className="min-h-96">
           {activeTab === "description" && (
             <TourDescription
@@ -174,15 +225,10 @@ const DaytourDetail = () => {
           {activeTab === "price" && (
             <TourPrice priceTable={tourData.priceTable} />
           )}
-        </div>
-
-        <div className="text-center mt-8">
-          <button
-            onClick={handleBookNow}
-            className="px-6 py-3 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition"
-          >
-            Book Now
-          </button>
+          {activeTab === "room_and_price" && (
+            <TourRoomAndPrice roomAndPrice={tourData.room_and_price} />
+          )}
+          {activeTab === "durasi" && <TourDurasi durasi={tourData.durasi} />}
         </div>
       </div>
     </div>

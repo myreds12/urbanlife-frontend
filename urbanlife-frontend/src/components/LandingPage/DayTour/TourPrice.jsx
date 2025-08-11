@@ -1,27 +1,53 @@
-import React, {useState} from 'react';
-import Table from '../../AdminDashboard/Utils/Table/Table';
+import React from 'react';
+import { FaChild, FaUser } from 'react-icons/fa';
 
-const TourPrice = () => {
-  const [TourPriceData] = useState([
-    {count : '1 Person', adults : '1.400.000', kids : '1.400.000'},
-    {count : '2 Person', adults : '2.400.000', kids : '2.400.000'},
-    {count : '3 Person', adults : '3.400.000', kids : '3.400.000'},
-    {count : '4 Person', adults : '4.400.000', kids : '4.400.000'},
-    {count : '5 Person', adults : '5.400.000', kids : '5.400.000'},
-    {count : '6 Person', adults : '6.400.000', kids : '6.400.000'},
-  ]);
+const iconForLabel = (label) => {
+  if (label.toLowerCase().includes("anak")) return <FaChild className="inline mr-1 text-blue-500" />;
+  if (label.toLowerCase().includes("dewasa")) return <FaUser className="inline mr-1 text-green-500" />;
+  return null;
+};
 
-  const columns = ['Count', 'Adults', 'Kids'];
-
-  return(
-    <div className="space-y-4 bg-white p-4 rounded-md shadow-sm">
-      <div className="overflow-x-auto">
-        <Table
-          data={TourPriceData}
-          columns={columns}
-        />
+const TourPrice = ({ priceTable }) => {
+  if (!priceTable || priceTable.length === 0) {
+    return (
+      <div className="space-y-4 bg-white p-6 rounded-xl shadow-md">
+        <p className="text-gray-500 text-center">No price information available.</p>
       </div>
-   </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4 bg-white p-6 rounded-xl shadow-md">
+      <h2 className="text-lg font-semibold text-gray-700 mb-4">Harga Paket</h2>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm border border-gray-200 rounded-md">
+          <thead>
+            <tr className="bg-cyan-50 text-cyan-700 uppercase text-xs tracking-wider">
+              <th className="p-3 border-b">Kategori</th>
+              <th className="p-3 border-b text-right">Harga (Rp)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {priceTable.map((row) => (  
+              <tr
+                key={row.id}
+                className="hover:bg-cyan-50 transition-colors duration-150"
+              >
+                <td className="p-3 border-b font-medium text-gray-700">
+                  {iconForLabel(row.label)} {row.label}
+                </td>
+                <td className="p-3 border-b text-right font-semibold text-gray-800">
+                  {Number(row.harga).toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

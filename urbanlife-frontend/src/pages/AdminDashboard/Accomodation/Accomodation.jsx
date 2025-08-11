@@ -8,6 +8,7 @@ import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDe
 import { dummyAccomodationData } from "./DummyAccomodation";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import toast from "react-hot-toast";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -60,16 +61,73 @@ const bulkEditableFields = [
   },
 ];
 
-const accomodationModalCOnfig = {
+const mapContent = (contentArray = []) => {
+  const result = {
+    deskripsi: { indonesia: "-", english: "-" },
+  };
+
+  contentArray.forEach((item) => {
+    const lang = item.bahasa?.toLowerCase();
+    if (lang === "indonesia" || lang === "english") {
+      result.deskripsi[lang] = item.deskripsi?.trim() || "-";
+    }
+  });
+
+  return result;
+};
+
+const mapRoomAndPrice = (roomArray = []) => {
+  return roomArray.map((room) => ({
+    destination: room.nama || "-",
+    description: `Rp${Number(room.harga).toLocaleString("id-ID")}`,
+  }));
+};
+
+const mapFacilities = (facilityGroups = []) => {
+  return facilityGroups.flatMap((group) => group.fasilitas.map((f) => f.nama));
+};
+
+const useDebouncedValue = (value, delay = 500) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
+const akomodasiModalConfig = {
   sections: [
     {
       fields: [
         { key: "lokasi", label: "Lokasi" },
-        { key: "nama", label: "Nama Unit" },
-        { key: "tipe", label: "Type" },
-        { key: "description", label: "Deskrpsi", type: "language-toggle" },
-        { key: "price", label: "Harga", type: "language-toggle" },
-        { key: "facility", label: "Facility Name", type: "language-toggle" },
+        { key: "nama", label: "Nama Akomodasi" },
+        { key: "kategori", label: "Kategori" },
+        { key: "tipe", label: "Tipe" },
+        {
+          key: "deskripsi",
+          label: "Deskripsi",
+          type: "language-toggle",
+          languageKey: "deskripsi",
+        },
+        {
+          key: "facility",
+          label: "Fasilitas",
+        },
+        {
+          key: "room_and_price",
+          label: "Room & Harga",
+        },
+        {
+          key: "status",
+          label: "Status",
+          type: "boolean",
+        },
       ],
     },
   ],
@@ -84,59 +142,82 @@ const Accomodation = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState({ key: null, direction: "asc" });
   const [selected, setSelected] = useState([]);
+  const debouncedSearch = useDebouncedValue(search);
+
+  console.log(data, "Data Accomodation");
 
   //Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalData, setSelectedModalData] = useState(null);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data: response } = await apiClient.get("/akomodasi", {
-        params: { page, take: ITEMS_PER_PAGE },
-      });
-      const rows = response.data.map((item) => ({
-        id: item.id,
-        name: item.nama,
-        location: item.lokasi?.nama || "-",
-        type: item.tipe,
-        category: item.kategori,
-        rawData: item,
-      }));
-      setData(rows);
-      setTotal(response.total);
-    } catch (e) {
-      console.error(
-        "Failed to fetch accomodation from API, using dummy data",
-        e
-      );
-      // Use dummy data if API fails
-      setTimeout(() => {
-        setData(dummyAccomodationData);
+  const fetchData = useCallback(
+    async (search = "") => {
+      setLoading(true);
+      try {
+        const { data: response } = await apiClient.get("/akomodasi", {
+          params: {
+            page,
+            take: ITEMS_PER_PAGE,
+            ...(search.trim() && { search: search.trim() }),
+          },
+        });
+        const rows = response.data.map((item) => ({
+          id: item.id,
+          name: item.nama,
+          location: item.lokasi?.nama || "-",
+          type: item.tipe,
+          category: item.kategori,
+          rawData: item,
+        }));
+        setData(rows);
+        setTotal(response.total);
+      } catch (e) {
+        console.error(
+          "Failed to fetch accomodation from API, using dummy data",
+          e
+        );
+        // Use dummy data if API fails
+        setTimeout(() => {
+          setData(dummyAccomodationData);
+          setLoading(false);
+        }, 1000);
+        return;
+        // catch (e) {
+        // console.error(e);
+        // alert("Failed to fetch data");
+      } finally {
         setLoading(false);
-      }, 1000);
-      return;
-      // catch (e) {
-      // console.error(e);
-      // alert("Failed to fetch data");
-    } finally {
-      setLoading(false);
-    }
-  }, [page]);
+      }
+    },
+    [page]
+  );
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [fetchData, debouncedSearch, page]);
 
-  const handleView = (row) => {
+  const handleView = async (row) => {
+    const { data } = await apiClient.get(`/akomodasi/${row.id}`);
+
+    const deskripsiMapped = mapContent(data.data.akomodasi_content);
+    const facilityMapped = mapFacilities(data.data.akomodasi_facility_group);
+    const rooms = mapRoomAndPrice(data.data.akomodasi_room_and_price);
+
     const modalData = {
-      ...row,
-      lokasi: row.lokasi?.name || row.location || "-",
-      nama: row.nama || row.name,
-      tipe: row.tipe || row.type,
+      ...data.data,
+      deskripsi: deskripsiMapped.deskripsi,
+      facility: facilityMapped,
+      room_and_price: rooms,
     };
+
+    console.log(modalData, "modalData");
+
     setSelectedModalData(modalData);
     setIsModalOpen(true);
+  };
+
+  const handleEdit = (row) => {
+    navigate(`/admin/accommodation/edit/${row.id}`);
   };
 
   const filtered = useMemo(() => {
@@ -163,19 +244,58 @@ const Accomodation = () => {
     return sorted.filter((item) => selected.includes(item.id));
   }, [sorted, selected]);
 
-  const handleBulkEdit = async (rows) => {
-    const ids = rows.map((r) => r.id);
-    // await apiClient.patch("/akomodasi/bulk", { ids, data: changes });
-    alert(`Updated ${ids.length} rows`);
-    setSelected([]);
-    fetchData();
+  const handleBulkDelete = async (selectedData) => {
+    const confirmed = window.confirm(
+      `Yakin ingin menghapus ${selectedData.length} akomodasi terpilih?`
+    );
+    if (!confirmed) return;
+
+    const ids = selectedData.map((item) => item.id);
+
+    const deletePromise = apiClient.delete("/akomodasi", {
+      data: { ids },
+    });
+
+    try {
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kendaraan...",
+        success: `Berhasil menghapus ${selectedData.length} kendaraan.`,
+        error: "Gagal menghapus kendaraan. Silakan coba lagi.",
+      });
+
+      // Update state lokal setelah sukses
+      setData((prev) => prev.filter((item) => !ids.includes(item.id)));
+      setSelected([]);
+    } catch (err) {
+      console.error("Bulk delete gagal:", err);
+      // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
+    }
   };
 
-  const handleBulkDelete = (rows) => {
-    const ids = rows.map((r) => r.id);
-    setData((prev) => prev.filter((d) => !ids.includes(d.id)));
-    setSelected([]);
-    alert(`Deleted ${ids.length} rows`);
+  const handleDelete = async (row) => {
+    const confirmed = window.confirm(`Yakin ingin menghapus "${row.nama}"?`);
+    if (!confirmed) return;
+
+    const deletePromise = apiClient.delete(`/akomodasi`, {
+      data: {
+        ids: [row.id],
+      },
+    });
+
+    try {
+      const result = await deletePromise;
+      console.log(result, "result");
+      await toast.promise(deletePromise, {
+        loading: "Menghapus akomodasi...",
+        success: `Akomodasi "${row.nama}" berhasil dihapus.`,
+        error: "Terjadi kesalahan saat menghapus.",
+      });
+
+      // TODO: Refresh list data jika perlu
+      fetchData();
+    } catch (err) {
+      console.error("Delete gagal:", err);
+    }
   };
 
   const handleBulkExport = (rows) => {
@@ -210,7 +330,6 @@ const Accomodation = () => {
             selectedData={selectedData}
             onClearSelection={() => setSelected([])}
             onBulkDelete={handleBulkDelete}
-            onBulkEdit={handleBulkEdit}
             onExport={handleBulkExport}
             editableFields={bulkEditableFields}
           />
@@ -252,14 +371,14 @@ const Accomodation = () => {
           sortConfig={sort}
           startIndex={(page - 1) * ITEMS_PER_PAGE}
           onView={handleView}
-          onEdit={(row) => navigate(`/admin/accommodation/edit/${row.id}`)}
-          onDelete={(row) => alert(`Delete: ${row.name}`)}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
           defaultMapping={{
             "#": (row, index) => (page - 1) * ITEMS_PER_PAGE + index + 1,
-            Name: "name",
-            Location: "location",
-            Type: "type",
-            Category: "category",
+            Name: (row) => row.name,
+            Location: (row) => row.location,
+            Type: (row) => row.type,
+            Category: (row) => row.category,
           }}
           itemsPerPage={ITEMS_PER_PAGE}
           currentPage={page}
@@ -285,7 +404,7 @@ const Accomodation = () => {
         onClose={() => setIsModalOpen(false)}
         title="Detail Unit"
         data={selectedModalData}
-        config={accomodationModalCOnfig}
+        config={akomodasiModalConfig}
         images={selectedModalData?.images || []}
       />
     </div>

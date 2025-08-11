@@ -1,7 +1,7 @@
-import { FiChevronRight, FiX } from "react-icons/fi";
+import { useState } from "react";
+import { FiChevronRight, FiX, FiChevronDown } from "react-icons/fi";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateInput } from "../../../components/LandingPage/HomePage/CardForm/DateInput.jsx";
-
 
 const BookingItemCard = ({
   id,
@@ -24,13 +24,97 @@ const BookingItemCard = ({
   handleRemove,
 }) => {
   const fallbackImage = "https://via.placeholder.com/60?text=No+Image";
+  
+  // State untuk dropdown
+  const [showAdultDropdown, setShowAdultDropdown] = useState(false);
+  const [showChildDropdown, setShowChildDropdown] = useState(false);
+  const [showDurationDropdown, setShowDurationDropdown] = useState(false);
+  const [showRoomDropdown, setShowRoomDropdown] = useState(false);
+
+  // Custom Dropdown Component
+  const CustomDropdown = ({ 
+    label, 
+    value, 
+    options, 
+    onChange, 
+    placeholder,
+    showDropdown,
+    setShowDropdown,
+    displayValue,
+    isOpen
+  }) => (
+    <div className="relative">
+      <label className="block text-sm text-gray-600 mb-1">
+        {label}
+      </label>
+      <button
+        onClick={() => setShowDropdown(!showDropdown)}
+        className={`
+          w-full py-2 px-3 rounded-md shadow-sm border transition-all duration-200 ease-in-out
+          flex items-center justify-between text-sm text-left
+          ${showDropdown 
+            ? 'border-cyan-600 bg-cyan-50 ring-1 ring-cyan-500' 
+            : 'border-gray-300 bg-white hover:border-blue-300 hover:bg-gray-50'
+          }
+          focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200
+        `}
+      >
+        <span className={`${value ? 'text-gray-900' : 'text-gray-500'} flex-1 min-w-0`}>
+          {typeof displayValue === 'object' ? displayValue : (displayValue || placeholder)}
+        </span>
+        <FiChevronDown 
+          className={`ml-2 transition-transform duration-200 text-gray-400 ${
+            showDropdown ? 'rotate-180' : ''
+          }`} 
+        />
+      </button>
+
+      {/* Dropdown Menu */}
+      {showDropdown && (
+        <div className="absolute left-0 right-0 mt-1 border border-blue-200 bg-white rounded-lg shadow-lg z-30 overflow-hidden animate-in slide-in-from-top-2 duration-200">
+          <div className="py-1 max-h-48 overflow-y-auto">
+            {options.map((option, index) => (
+              <button
+                key={option.value}
+                onClick={() => {
+                  onChange(option.value);
+                  setShowDropdown(false);
+                }}
+                className={`
+                  w-full text-left px-3 py-2 transition-all duration-150
+                  hover:bg-blue-50 focus:outline-none focus:bg-blue-50
+                  flex items-center justify-between text-sm
+                  ${value === option.value ? 'bg-blue-100 text-blue-800 font-medium' : 'text-gray-700'}
+                `}
+              >
+                <span>{option.label}</span>
+                {option.price && (
+                  <span className="text-xs text-gray-500 ml-2">
+                    Rp {option.price.toLocaleString("id-ID")}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {/* Close dropdown when clicking outside */}
+      {showDropdown && (
+        <div 
+          className="fixed inset-0 z-20" 
+          onClick={() => setShowDropdown(false)}
+        />
+      )}
+    </div>
+  );
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 relative space-y-4 w-full max-w-md">
       {/* Remove Button */}
       <button
         onClick={() => handleRemove(id)}
-        className="absolute top-2 right-2 text-red-500 hover:text-red-600"
+        className="absolute top-2 right-2 text-red-500 hover:text-red-600 transition-colors"
       >
         <FiX className="w-5 h-5" />
       </button>
@@ -40,7 +124,7 @@ const BookingItemCard = ({
         <label className="block text-sm font-medium text-gray-500 mb-1">
           Booking date
         </label>
-        <div className="space-y-2">
+        <div className="grid grid-cols-2 gap-2">
           <DateInput
             label="Start Date"
             selected={tanggal_mulai ? new Date(tanggal_mulai) : null}
@@ -57,100 +141,98 @@ const BookingItemCard = ({
       </div>
 
       {/* Duration or Person Count */}
-      <div className="flex justify-between items-end border-b border-gray-300 border-dashed pb-3">
-        <div className="text-sm text-gray-600 w-1/2">
-          <p className="font-medium mb-1">
-            {item_type === "travel_package" ? "Person number" : "Duration"}
+      <div className="space-y-3">
+        <div>
+          <p className="font-medium mb-3 text-sm text-gray-600">
+            {item_type === "travel_package" ? "Person number" :
+             item_type === "akomodasi" ? "Room & Duration" : "Duration"}
           </p>
+          
           {item_type === "travel_package" ? (
-            <div className="space-y-5">
-              {/* Dewasa */}
-              <div className="space-y-2">
-                <label className="block text-sm text-gray-600 mb-1">
-                  Adults
-                </label>
-                <select
-                  value={adultCount}
-                  onChange={(e) =>
-                    handleChange("jumlah_dewasa", parseInt(e.target.value))
-                  }
-                  className="w-full border rounded-md px-2 py-1 text-sm"
-                >
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>
-                      {n} Adult – Rp{" "}
-                      {((hargaDewasa || 0) * n).toLocaleString("id-ID")}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div className="grid grid-cols-2 gap-2">
+              {/* Adults Dropdown */}
+              <CustomDropdown
+                label="Adults"
+                value={adultCount}
+                options={[1, 2, 3, 4, 5].map(n => ({
+                  value: n,
+                  label: `${n} Adult`,
+                  price: (hargaDewasa || 0) * n
+                }))}
+                onChange={(value) => handleChange("jumlah_dewasa", value)}
+                placeholder="Select adults"
+                showDropdown={showAdultDropdown}
+                setShowDropdown={setShowAdultDropdown}
+                displayValue={adultCount ? (
+                  <div className="leading-tight">
+                    <div>{adultCount} Adult</div>
+                    <div className="text-xs text-gray-500">Rp {((hargaDewasa || 0) * adultCount).toLocaleString("id-ID")}</div>
+                  </div>
+                ) : ''}
+              />
 
-              {/* Anak */}
-              <div>
-                <label className="block text-sm text-gray-600 mb-1">
-                  Children
-                </label>
-                <select
-                  value={childCount}
-                  onChange={(e) =>
-                    handleChange("jumlah_anak", parseInt(e.target.value))
-                  }
-                  className="w-full border rounded-md px-2 py-1 text-sm"
-                >
-                  {[0, 1, 2, 3].map((n) => (
-                    <option key={n} value={n}>
-                      {n} Child – Rp{" "}
-                      {((hargaAnak || 0) * n).toLocaleString("id-ID")}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {/* Children Dropdown */}
+              <CustomDropdown
+                label="Children"
+                value={childCount}
+                options={[0, 1, 2, 3].map(n => ({
+                  value: n,
+                  label: `${n} Child`,
+                  price: (hargaAnak || 0) * n
+                }))}
+                onChange={(value) => handleChange("jumlah_anak", value)}
+                placeholder="Select children"
+                showDropdown={showChildDropdown}
+                setShowDropdown={setShowChildDropdown}
+                displayValue={childCount !== undefined ? (
+                  <div className="leading-tight">
+                    <div>{childCount} Child</div>
+                    <div className="text-xs text-gray-500">Rp {((hargaAnak || 0) * childCount).toLocaleString("id-ID")}</div>
+                  </div>
+                ) : ''}
+              />
             </div>
           ) : item_type === "kendaraan" ? (
-            <select
+            <CustomDropdown
+              label="Duration"
               value={selectedDuration?.durasi}
-              onChange={(e) => {
-                const selected = durasi.find(
-                  (d) => d.durasi === e.target.value
-                );
-                handleChange("selected_durasi", selected); // Kirim seluruh objek
-                handleChange("harga", selected?.harga || 0); // Update harga juga
+              options={durasi.map(d => ({
+                value: d.durasi,
+                label: d.durasi
+              }))}
+              onChange={(value) => {
+                const selected = durasi.find(d => d.durasi === value);
+                handleChange("selected_durasi", selected);
+                handleChange("harga", selected?.harga || 0);
               }}
-              className="w-full border rounded-md px-2 py-1 text-sm"
-            >
-              <option value="">Choose duration</option>
-              {durasi.map((d) => (
-                <option key={d.id} value={d.durasi}>
-                  {d.durasi}
-                </option>
-              ))}
-            </select>
+              placeholder="Choose duration"
+              showDropdown={showDurationDropdown}
+              setShowDropdown={setShowDurationDropdown}
+              displayValue={selectedDuration?.durasi}
+            />
           ) : (
             item_type === "akomodasi" && (
-              <>
-                <div>
-                  <select
-                    value={selectedRoom?.room}
-                    onChange={(e) => {
-                      const selected = roomPrice.find(
-                        (d) => d.nama === e.target.value
-                      );
-                      handleChange("selected_room", selected); // Kirim seluruh objek
-                      handleChange("harga", selected?.harga || 0); // Update harga juga
-                    }}
-                    className="w-full border rounded-md px-2 py-1 text-sm"
-                  >
-                    <option value="">Choose duration</option>
-                    {roomPrice.map((d) => (
-                      <option key={d.id} value={d.nama}>
-                        {d.nama}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className="grid grid-cols-2 gap-2">
+                <CustomDropdown
+                  label="Room"
+                  value={selectedRoom?.nama}
+                  options={roomPrice.map(d => ({
+                    value: d.nama,
+                    label: d.nama
+                  }))}
+                  onChange={(value) => {
+                    const selected = roomPrice.find(d => d.nama === value);
+                    handleChange("selected_room", selected);
+                    handleChange("harga", selected?.harga || 0);
+                  }}
+                  placeholder="Choose Room"
+                  showDropdown={showRoomDropdown}
+                  setShowDropdown={setShowRoomDropdown}
+                  displayValue={selectedRoom?.nama}
+                />
 
                 {/* Durasi Menginap */}
-                <div className="mt-4">
+                <div>
                   <label className="block text-sm text-gray-600 mb-1">
                     Duration (Nights)
                   </label>
@@ -161,37 +243,26 @@ const BookingItemCard = ({
                     onChange={(e) =>
                       handleChange("durasi", parseInt(e.target.value))
                     }
-                    className="w-full border rounded-md px-2 py-1 text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 shadow-sm transition-all duration-200"
                   />
                 </div>
-              </>
+              </div>
             )
           )}
         </div>
 
-        <div className="text-sm text-right w-1/2">
-          <p className="text-gray-500 font-medium">Price</p>
-          <p className="font-bold text-gray-800 mt-1">
-            Rp. {Number(totalHarga).toLocaleString("id-ID")}
-          </p>
+        {/* Price Section - Separate Row */}
+        <div className="border-t border-gray-300 border-dashed pt-3">
+          <div className="flex justify-end">
+            <div className="text-sm text-right">
+              <p className="text-gray-500 font-medium">Price</p>
+              <p className="font-bold text-gray-800 mt-1">
+                Rp. {Number(totalHarga).toLocaleString("id-ID")}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Tambah Anak */}
-      {item_type === "TRAVEL_PACKAGE" && (
-        <div className="flex justify-end text-sm text-blue-600">
-          <label className="mr-2">+ Add Children:</label>
-          <input
-            type="number"
-            value={childCount}
-            min={0}
-            onChange={(e) =>
-              handleChange("jumlah_anak", parseInt(e.target.value))
-            }
-            className="w-16 border rounded px-2 py-1"
-          />
-        </div>
-      )}
 
       {/* Image and Info */}
       <div className="flex items-center gap-3">
@@ -209,7 +280,7 @@ const BookingItemCard = ({
       </div>
 
       {/* Change Package / Unit */}
-      <div className="flex items-center text-sm text-red-500 font-medium cursor-pointer hover:underline">
+      <div className="flex items-center text-sm text-red-500 font-medium cursor-pointer hover:underline transition-all">
         {item_type === "TRAVEL_PACKAGE" ? "Change package" : "Change unit"}
         <FiChevronRight className="ml-1 w-4 h-4" />
       </div>

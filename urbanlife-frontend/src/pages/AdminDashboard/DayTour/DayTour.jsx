@@ -8,6 +8,56 @@ import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDe
 import { dummyDayTourData } from "./DummyDaytour";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import toast from "react-hot-toast";
+
+const mapContent = (contentArray = []) => {
+  const result = {
+    deskripsi: { indonesia: "-", english: "-" },
+  };
+
+  contentArray.forEach((item) => {
+    const lang = item.bahasa?.toLowerCase();
+    if (lang === "indonesia" || lang === "english") {
+      result.deskripsi[lang] = item.deskripsi?.trim() || "-";
+    }
+  });
+
+  return result;
+};
+
+const mapItinerary = (itineraryArray = []) => {
+  const result = {
+    indonesia: [],
+    english: [],
+  };
+
+  itineraryArray.forEach((item) => {
+    const lang = item.bahasa?.toLowerCase();
+    if (lang === "indonesia" || lang === "english") {
+      result[lang].push({
+        destination: item.nama || "-",
+        description: item.deskripsi?.trim() || "-",
+      });
+    }
+  });
+
+  return result;
+};
+
+
+const useDebouncedValue = (value, delay = 500) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 const DayTour = () => {
   const navigate = useNavigate();
@@ -15,120 +65,127 @@ const DayTour = () => {
   const [dayTourData, setDayTourData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [take] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [selectedRows, setSelectedRows] = useState([]);
-  
+
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalData, setSelectedModalData] = useState(null);
-  
+
   const itemsPerPage = 10;
 
   // Modal configuration untuk day tour
   const dayTourModalConfig = {
-    sections: [
-      {
-        fields: [
-          { key: 'lokasi_display', label: 'Location' },
-          { key: 'nama', label: 'Day tour package name' }
-        ]
-      },
-      {
-        fields: [
-          { 
-            key: 'description', 
-            label: 'Description',
-            type: 'language-toggle'
-          }
-        ]
-      },
-      {
-        title: 'Itinerary',
-        fields: [
-          { 
-            key: 'itinerary', 
-            label: 'Itinerary',
-            type: 'language-toggle'
-          }
-        ]
-      },
-      {
-        title: 'Price',
-        fields: [
-          { 
-            key: 'price', 
-            label: 'Price',
-            type: 'language-toggle'
-          }
-        ]
-      }
-    ]
-  };
+  sections: [
+    {
+      fields: [
+        { key: "lokasi", label: "Lokasi" },
+        { key: "nama", label: "Day tour package name" },
+        {
+          key: "deskripsi",
+          label: "Deskripsi",
+          type: "language-toggle",
+          languageKey: "deskripsi",
+        },
+        {
+          key: "itinerary",
+          label: "Itinerary",
+          type: "language-toggle",
+          languageKey: "itinerary",
+        },
+        {
+          key: "harga_anak",
+          label: "Harga Anak",
+        },
+        {
+          key: "harga_dewasa",
+          label: "Harga Dewasa",
+        },
+      ],
+    },
+  ],
+};
+
 
   // Bulk Action Configuration
   const bulkEditableFields = [
     {
-      name: 'durasi',
-      label: 'Durasi',
-      type: 'number',
-      placeholder: 'Masukkan durasi',
-      description: 'Durasi paket dalam satuan hari/jam'
+      name: "durasi",
+      label: "Durasi",
+      type: "number",
+      placeholder: "Masukkan durasi",
+      description: "Durasi paket dalam satuan hari/jam",
     },
     {
-      name: 'harga_dewasa',
-      label: 'Harga Dewasa',
-      type: 'number',
-      placeholder: 'Masukkan harga dewasa',
-      description: 'Harga paket untuk dewasa dalam rupiah'
+      name: "harga_dewasa",
+      label: "Harga Dewasa",
+      type: "number",
+      placeholder: "Masukkan harga dewasa",
+      description: "Harga paket untuk dewasa dalam rupiah",
     },
     {
-      name: 'harga_anak',
-      label: 'Harga Anak',
-      type: 'number',
-      placeholder: 'Masukkan harga anak',
-      description: 'Harga paket untuk anak dalam rupiah'
+      name: "harga_anak",
+      label: "Harga Anak",
+      type: "number",
+      placeholder: "Masukkan harga anak",
+      description: "Harga paket untuk anak dalam rupiah",
     },
     {
-      name: 'lokasi_id',
-      label: 'Lokasi',
-      type: 'select',
+      name: "lokasi_id",
+      label: "Lokasi",
+      type: "select",
       options: [
-        { value: 1, label: 'Jakarta' },
-        { value: 2, label: 'Bandung' },
-        { value: 3, label: 'Surabaya' },
-        { value: 4, label: 'Medan' },
-        { value: 5, label: 'Makassar' },
-        { value: 6, label: 'Yogyakarta' },
-        { value: 7, label: 'Semarang' },
-        { value: 8, label: 'Denpasar' }
+        { value: 1, label: "Jakarta" },
+        { value: 2, label: "Bandung" },
+        { value: 3, label: "Surabaya" },
+        { value: 4, label: "Medan" },
+        { value: 5, label: "Makassar" },
+        { value: 6, label: "Yogyakarta" },
+        { value: 7, label: "Semarang" },
+        { value: 8, label: "Denpasar" },
       ],
-      description: 'Lokasi destinasi paket wisata'
+      description: "Lokasi destinasi paket wisata",
     },
     {
-      name: 'negara_id',
-      label: 'Negara',
-      type: 'select',
+      name: "negara_id",
+      label: "Negara",
+      type: "select",
       options: [
-        { value: 1, label: 'Indonesia' },
-        { value: 2, label: 'Malaysia' },
-        { value: 3, label: 'Singapore' },
-        { value: 4, label: 'Thailand' },
-        { value: 5, label: 'Vietnam' }
+        { value: 1, label: "Indonesia" },
+        { value: 2, label: "Malaysia" },
+        { value: 3, label: "Singapore" },
+        { value: 4, label: "Thailand" },
+        { value: 5, label: "Vietnam" },
       ],
-      description: 'Negara destinasi paket wisata'
-    }
+      description: "Negara destinasi paket wisata",
+    },
   ];
 
-  const fetchDayTours = async () => {
+  const debouncedSearch = useDebouncedValue(searchTerm);
+
+  const fetchDayTours = async (search = "") => {
     setLoading(true);
     try {
+      const params = {
+        page: currentPage,
+        take,
+        ...(search.trim() && { search: search.trim() }),
+      };
       // Try to fetch from API first
-      const res = await apiClient.get("/travel-package", { params: { page: 1, take: 1000 } });
-      const { data } = res.data;
+      const res = await apiClient.get("/travel-package", {
+        params,
+      });
+      const { data, total } = res.data;
       setDayTourData(data);
+      setTotal(total);
     } catch (err) {
-      console.error("Failed to fetch travel packages from API, using dummy data", err);
+      console.error(
+        "Failed to fetch travel packages from API, using dummy data",
+        err
+      );
       // Use dummy data if API fails
       setTimeout(() => {
         setDayTourData(dummyDayTourData);
@@ -140,50 +197,47 @@ const DayTour = () => {
     }
   };
 
-    // const fetchDayTours = async () => {
-    //   setLoading(true);
-    //   try {
-    //     const res = await apiClient.get("/travel-package", { params: { page: 1, take: 1000 } });
-    //     const { data } = res.data;
-    //     setDayTourData(data);
-    //   } catch (err) {
-    //     console.error("Failed to fetch travel packages", err);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-  
-
   useEffect(() => {
-    fetchDayTours();
-  }, []);
+    fetchDayTours(debouncedSearch);
+  }, [debouncedSearch, currentPage]);
 
   const handleSort = (columnKey) => {
-    let direction = 'asc';
-    if (sortConfig.key === columnKey && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortConfig.key === columnKey && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key: columnKey, direction });
     setCurrentPage(1);
   };
 
   const handleRowSelect = (rowId) => {
-    setSelectedRows(prev =>
+    setSelectedRows((prev) =>
       prev.includes(rowId)
-        ? prev.filter(id => id !== rowId)
+        ? prev.filter((id) => id !== rowId)
         : [...prev, rowId]
     );
   };
 
-  const handleView = (row) => {
-    // Prepare data for modal
-    const modalData = {
-      ...row,
-      lokasi_display: row.lokasi?.nama || "-"
+  const handleView = async (row) => {
+  try {
+    const { data } = await apiClient.get(`/travel-package/${row.id}`);
+
+    const deskripsiMapped = mapContent(data.data.travel_package_content);
+    const itineraryMapped = mapItinerary(data.data.travel_package_itinerary);
+
+    const mappedData = {
+      ...data.data,
+      deskripsi: deskripsiMapped.deskripsi,
+      itinerary: itineraryMapped,
     };
-    setSelectedModalData(modalData);
+
+    setSelectedModalData(mappedData);
     setIsModalOpen(true);
-  };
+  } catch (error) {
+    console.error("Gagal mengambil detail:", error);
+    toast.error("Gagal memuat detail paket.");
+  }
+};
 
   // Handler untuk Edit
   const handleEdit = (row) => {
@@ -191,81 +245,103 @@ const DayTour = () => {
   };
 
   // Handler untuk Delete
-  const handleDelete = (row) => {
-    const confirmed = window.confirm(`Are you sure you want to delete "${row.nama}"?`);
-    if (confirmed) {
-      // Add your delete API call here
-      console.log('Delete:', row.id);
-      alert(`Package "${row.nama}" has been deleted.`);
+  const handleDelete = async (row) => {
+    const confirmed = window.confirm(`Yakin ingin menghapus "${row.nama}"?`);
+    if (!confirmed) return;
+
+    const deletePromise = apiClient.delete(`/travel-package`, {
+      data: {
+        ids: [row.id],
+      },
+    });
+
+    try {
+      const result = await deletePromise;
+      console.log(result, "result");
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kendaraan...",
+        success: `Kendaraan "${row.nama}" berhasil dihapus.`,
+        error: "Terjadi kesalahan saat menghapus.",
+      });
+
+      // TODO: Refresh list data jika perlu
+      fetchDayTours();
+    } catch (err) {
+      console.error("Delete gagal:", err);
     }
   };
 
   // Bulk Action Handlers
-  const handleBulkDelete = (selectedData) => {
-    const confirmed = window.confirm(`Are you sure you want to delete ${selectedData.length} travel packages?`);
-    if (confirmed) {
-      const ids = selectedData.map(item => item.id);
-      console.log('Bulk delete IDs:', ids);
-      setDayTourData(prev => prev.filter(item => !ids.includes(item.id)));
-      setSelectedRows([]);
-      alert(`Successfully deleted ${selectedData.length} travel packages`);
-    }
-  };
+  const handleBulkDelete = async (selectedData) => {
+    const confirmed = window.confirm(
+      `Yakin ingin menghapus ${selectedData.length} kendaraan terpilih?`
+    );
+    if (!confirmed) return;
 
-  const handleBulkEdit = async (selectedData, editData) => {
+    const ids = selectedData.map((item) => item.id);
+
+    const deletePromise = apiClient.delete("/kendaraan", {
+      data: { ids },
+    });
+
     try {
-      const ids = selectedData.map(item => item.id);
-      console.log('Bulk edit data:', { ids, editData });
-      
-      // API call untuk bulk edit
-      // await apiClient.patch("/travel-package/bulk", { ids, data: editData });
-      
-      // Temporary implementation - update state
-      setDayTourData(prev => prev.map(item => 
-        ids.includes(item.id) ? { ...item, ...editData } : item
-      ));
-      setSelectedRows([]);
-      
-      alert(`Successfully updated ${selectedData.length} travel packages`);
-      
-      // Refresh data
-      fetchDayTours();
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kendaraan...",
+        success: `Berhasil menghapus ${selectedData.length} kendaraan.`,
+        error: "Gagal menghapus kendaraan. Silakan coba lagi.",
+      });
+
+      // Update state lokal setelah sukses
+      setDayTourData((prev) => prev.filter((item) => !ids.includes(item.id)));
     } catch (err) {
-      console.error("Failed to bulk edit travel packages", err);
-      alert("Failed to update travel packages. Please try again.");
+      console.error("Bulk delete gagal:", err);
+      // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
     }
   };
 
   const handleBulkExport = async (selectedData) => {
     try {
-      console.log('Bulk export data:', selectedData);
-      
+      console.log("Bulk export data:", selectedData);
+
       // Create CSV content
-      const headers = ['ID', 'Nama', 'Durasi', 'Harga Dewasa', 'Harga Anak', 'Lokasi', 'Negara'];
+      const headers = [
+        "ID",
+        "Nama",
+        "Durasi",
+        "Harga Dewasa",
+        "Harga Anak",
+        "Lokasi",
+        "Negara",
+      ];
       const csvContent = [
-        headers.join(','),
-        ...selectedData.map(item => [
-          item.id,
-          `"${item.nama}"`,
-          `${item.durasi} ${item.tipe_durasi}`,
-          item.harga_dewasa,
-          item.harga_anak,
-          `"${item.lokasi?.nama || ''}"`,
-          `"${item.lokasi?.negara?.nama || ''}"`
-        ].join(','))
-      ].join('\n');
-      
+        headers.join(","),
+        ...selectedData.map((item) =>
+          [
+            item.id,
+            `"${item.nama}"`,
+            `${item.durasi} ${item.tipe_durasi}`,
+            item.harga_dewasa,
+            item.harga_anak,
+            `"${item.lokasi?.nama || ""}"`,
+            `"${item.lokasi?.negara?.nama || ""}"`,
+          ].join(",")
+        ),
+      ].join("\n");
+
       // Download CSV
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
       const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', `travel_packages_${new Date().toISOString().split('T')[0]}.csv`);
-      link.style.visibility = 'hidden';
+      link.setAttribute("href", url);
+      link.setAttribute(
+        "download",
+        `travel_packages_${new Date().toISOString().split("T")[0]}.csv`
+      );
+      link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       alert(`Successfully exported ${selectedData.length} travel packages`);
     } catch (err) {
       console.error("Failed to export travel packages", err);
@@ -277,42 +353,29 @@ const DayTour = () => {
     setSelectedRows([]);
   };
 
-  const filteredData = useMemo(() => {
-    return dayTourData.filter((tour) =>
-      Object.values(tour).some(value => {
-        if (value && typeof value === 'object') {
-          return Object.values(value).some(nestedValue =>
-            String(nestedValue).toLowerCase().includes(searchTerm.toLowerCase())
-          );
-        }
-        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
-      })
-    );
-  }, [dayTourData, searchTerm]);
-
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return filteredData;
-    return [...filteredData].sort((a, b) => {
+    if (!sortConfig.key) return dayTourData;
+    return [...dayTourData].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
-      
-      if (sortConfig.key === 'lokasi') {
-        aValue = a.lokasi?.nama || '';
-        bValue = b.lokasi?.nama || '';
-      } else if (sortConfig.key === 'negara') {
-        aValue = a.lokasi?.negara?.nama || '';
-        bValue = b.lokasi?.negara?.nama || '';
+
+      if (sortConfig.key === "lokasi") {
+        aValue = a.lokasi?.nama || "";
+        bValue = b.lokasi?.nama || "";
+      } else if (sortConfig.key === "negara") {
+        aValue = a.lokasi?.negara?.nama || "";
+        bValue = b.lokasi?.negara?.nama || "";
       }
-      
-      if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+
+      if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [filteredData, sortConfig]);
+  }, [dayTourData, sortConfig]);
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
-    return sortedData.filter(item => selectedRows.includes(item.id));
+    return sortedData.filter((item) => selectedRows.includes(item.id));
   }, [sortedData, selectedRows]);
 
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
@@ -337,14 +400,16 @@ const DayTour = () => {
 
   const mapping = {
     "#": (row, index) => (currentPage - 1) * itemsPerPage + index + 1,
-    "ID": "id",
-    "Name": (row) => row.nama || "-",
-    "Duration": (row) => `${row.durasi} ${row.tipe_durasi}`,
-    "Adult Price": (row) => `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
-    "Child Price": (row) => `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
-    "Location": (row) => row.lokasi?.nama || "-",
-    "Country": (row) => row.lokasi?.negara?.nama || "-",
-    "Action": null,
+    ID: (row) => row.id,
+    Nama: (row) => row.nama,
+    Durasi: (row) => `${row.durasi} ${row.tipe_durasi}`,
+    "Harga Dewasa": (row) =>
+      `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
+    "Harga Anak": (row) =>
+      `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
+    Lokasi: (row) => row.lokasi?.nama || "-",
+    Negara: (row) => row.lokasi?.negara?.nama || "-",
+    Action: null,
   };
 
   if (loading) {
@@ -358,19 +423,20 @@ const DayTour = () => {
   return (
     <>
       <div className="p-5">
-        <div style={{ 
-          background: "#ffffff", 
-          borderRadius: "12px",
-          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-          overflow: "hidden",
-        }}>
+        <div
+          style={{
+            background: "#ffffff",
+            borderRadius: "12px",
+            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+            overflow: "hidden",
+          }}
+        >
           {selectedRows.length > 0 && (
             <BulkActionBar
               selectedCount={selectedRows.length}
               selectedData={selectedData}
               onClearSelection={handleClearSelection}
               onBulkDelete={handleBulkDelete}
-              onBulkEdit={handleBulkEdit}
               onExport={handleBulkExport}
               editableFields={bulkEditableFields}
             />
@@ -379,14 +445,25 @@ const DayTour = () => {
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
             <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-gray-800">Day Tour / Travel Package</h1>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Day Tour / Travel Package
+              </h1>
             </div>
-            
+
             <div className="flex flex-wrap justify-between items-center gap-4">
               <div className="flex-1 min-w-[200px]">
-                <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Search packages..." />
+                <Search
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  placeholder="Search packages..."
+                />
               </div>
-              <Button variant="primary" size="sm" className="whitespace-nowrap" onClick={() => navigate("/admin/day-tour/create")}>
+              <Button
+                variant="primary"
+                size="sm"
+                className="whitespace-nowrap"
+                onClick={() => navigate("/admin/day-tour/create")}
+              >
                 Add Package
                 <i className="fa-solid fa-plus"></i>
               </Button>
@@ -412,7 +489,8 @@ const DayTour = () => {
         {/* Data info dan Pagination */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of {sortedData.length} packages
+            Showing {startIndex + 1} to {Math.min(startIndex + take, total)} of{" "}
+            {total} rent cars
           </div>
           <Pagination
             currentPage={currentPage}
@@ -430,7 +508,7 @@ const DayTour = () => {
         title="Detail Package"
         data={selectedModalData}
         config={dayTourModalConfig}
-        images={selectedModalData?.images || []}
+        images={selectedModalData?.travel_package_file || []}
       />
     </>
   );

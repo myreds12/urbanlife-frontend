@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Table from '../../Utils/Table/Table';
+import apiClient from "../../Utils/ApiClient/apiClient";
+import StatusBadge from "../../Utils/Ui/badge/StatusBadge";
 
-const api = import.meta.env.VITE_API_URL + "/pemesanan";
 
 export default function RecentOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const columns = [
@@ -32,7 +31,7 @@ export default function RecentOrders() {
         // sortOrder: 'desc'
       };
 
-      const res = await axios.get(api, { params });
+      const res = await apiClient.get("/pemesanan", { params });
       const { data } = res.data;
 
       setOrders(data);
@@ -148,6 +147,7 @@ export default function RecentOrders() {
             "Detail Order": (row) => row.detail || '-',
             "Date From": (row) => formatDate(row.createdAt),
             "Date To": (row) => formatDate(row.createdAt),
+            "Status": (row) => <StatusBadge status={row.status} />,
           }}
           onSort={(columnKey) => {
             let direction = 'asc';

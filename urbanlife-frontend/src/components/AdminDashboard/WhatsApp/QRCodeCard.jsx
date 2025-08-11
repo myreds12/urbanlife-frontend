@@ -8,6 +8,7 @@ export default function QRCodeCard({
   onDisconnect,
   onRefresh,
 }) {
+  console.log(onRefresh, "onRefresh");
   return (
     <div className="max-w-md w-full mx-auto p-6 border rounded-xl shadow-md text-center">
       {!isConnected ? (
@@ -19,13 +20,13 @@ export default function QRCodeCard({
                 alt="WhatsApp QR Code"
                 className="w-48 h-48 mx-auto border-2 border-gray-200 rounded-lg"
               />
-              <button
+              {/* <button
                 onClick={onRefresh}
                 className="absolute -top-2 -right-2 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-shadow"
                 title="Refresh QR Code"
               >
                 <RefreshCw className="w-5 h-5 text-gray-600" />
-              </button>
+              </button> */}
             </div>
           )}
 

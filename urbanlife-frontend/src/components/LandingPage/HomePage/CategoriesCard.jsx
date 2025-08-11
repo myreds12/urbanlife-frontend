@@ -3,6 +3,7 @@ import "../../../styles/LandingPage/HomePage/CategoriesCard.css";
 
 
 const CategoriesCard = ({ country, title, destinations, price, image }) => {
+  console.log(image)
   return (
     <>
       <div className="categories-card">

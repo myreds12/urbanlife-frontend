@@ -8,6 +8,38 @@ import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDe
 import dummyRentCarData from "./DummyRentcar";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import toast from "react-hot-toast";
+
+const mapKendaraanContent = (contentArray = []) => {
+  const result = {
+    deskripsi: { indonesia: "-", english: "-" },
+    kebijakan: { indonesia: "-", english: "-" },
+  };
+
+  contentArray.forEach((item) => {
+    const lang = item.bahasa?.toLowerCase();
+    if (lang === "indonesia" || lang === "english") {
+      result.deskripsi[lang] = item.deskripsi?.trim() || "-";
+      result.kebijakan[lang] = item.kebijakan?.trim() || "-";
+    }
+  });
+
+  return result;
+};
+
+const useDebouncedValue = (value, delay = 500) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 const RentCar = () => {
   const navigate = useNavigate();
@@ -20,6 +52,8 @@ const RentCar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [selectedRows, setSelectedRows] = useState([]);
+
+  console.log(rentCarData, "rentCarData");
 
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -106,37 +140,31 @@ const RentCar = () => {
     },
   ];
 
-  const fetchRentCar = async () => {
+  const debouncedSearch = useDebouncedValue(searchTerm);
+
+  const fetchRentCar = async (search = "") => {
     setLoading(true);
     try {
-      const params = { page, take };
+      const params = {
+        page,
+        take,
+        ...(search.trim() && { search: search.trim() }),
+      };
       const res = await apiClient.get("/kendaraan", { params });
       const { data, total } = res.data;
       setRentCarData(data);
       setTotal(total);
     } catch (err) {
-      console.error("Failed to fetch rentcar from API, using dummy data", err);
-      // Use dummy data if API fails
-      setTimeout(() => {
-        setRentCarData(dummyRentCarData);
-        setLoading(false);
-      }, 1000);
-      return;
+      console.error("API Error:", err);
+      setRentCarData(dummyRentCarData);
     } finally {
       setLoading(false);
     }
-
-    // catch (err) {
-    //   console.error("Failed to fetch rent car", err);
-    // } finally {
-    //   setLoading(false);
-    // }
-
   };
 
   useEffect(() => {
-    fetchRentCar();
-  }, [page]);
+    fetchRentCar(debouncedSearch);
+  }, [debouncedSearch, page]);
 
   const handleSort = (columnKey) => {
     let direction = "asc";
@@ -155,68 +183,84 @@ const RentCar = () => {
     );
   };
 
-  const handleView = (row) => {
-    // navigate(`/admin/day-tour/view/${row.id}`);
+  const handleView = async (row) => {
+    try {
+      const { data } = await apiClient.get(`/kendaraan/${row.id}`);
 
-    const modalData = {
-      ...row,
-      lokasi: row.lokasi?.nama || "-",
-      status: row.status ? "Aktif" : "Non-Aktif",
-    };
-    setSelectedModalData(modalData);
-    setIsModalOpen(true);
+      const kendaraanContentMapped = mapKendaraanContent(
+        data.data.kendaraan_content
+      );
+
+      const mappedData = {
+        ...data.data,
+        deskripsi: kendaraanContentMapped.deskripsi,
+        kebijakan: kendaraanContentMapped.kebijakan,
+      };
+
+      console.log(mappedData, "mappedData");
+
+      setSelectedModalData(mappedData);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Gagal mengambil data kendaraan:", error);
+    }
   };
 
   const handleEdit = (row) => {
     navigate(`/admin/rent-car/edit/${row.id}`);
   };
 
-  const handleDelete = (row) => {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${row.nama}"?`
-    );
-    if (confirmed) {
-      console.log("Delete:", row.id);
-      alert(`Rent car "${row.nama}" has been deleted.`);
+  const handleDelete = async (row) => {
+    const confirmed = window.confirm(`Yakin ingin menghapus "${row.nama}"?`);
+    if (!confirmed) return;
+
+    const deletePromise = apiClient.delete(`/kendaraan`, {
+      data: {
+        ids: [row.id],
+      },
+    });
+
+    try {
+      const result = await deletePromise;
+      console.log(result, "result");
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kendaraan...",
+        success: `Kendaraan "${row.nama}" berhasil dihapus.`,
+        error: "Terjadi kesalahan saat menghapus.",
+      });
+
+      // TODO: Refresh list data jika perlu
+      fetchRentCar();
+    } catch (err) {
+      console.error("Delete gagal:", err);
     }
   };
 
   // Bulk Action Handlers : coba yg apus lokal
-  const handleBulkDelete = (selectedData) => {
+  const handleBulkDelete = async (selectedData) => {
     const confirmed = window.confirm(
-      `Are you sure you want to delete ${selectedData.length} rent cars?`
+      `Yakin ingin menghapus ${selectedData.length} kendaraan terpilih?`
     );
-    if (confirmed) {
-      const ids = selectedData.map((item) => item.id);
-      console.log("Bulk delete IDs:", ids);
-      setRentCarData((prev) => prev.filter((item) => !ids.includes(item.id)));
-      setSelectedRows([]);
-      alert(`Successfully deleted ${selectedData.length} rent cars`);
-    }
-  };
-  const handleBulkEdit = async (selectedData, editData) => {
+    if (!confirmed) return;
+
+    const ids = selectedData.map((item) => item.id);
+
+    const deletePromise = apiClient.delete("/kendaraan", {
+      data: { ids },
+    });
+
     try {
-      const ids = selectedData.map((item) => item.id);
-      console.log("Bulk edit data:", { ids, editData });
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kendaraan...",
+        success: `Berhasil menghapus ${selectedData.length} kendaraan.`,
+        error: "Gagal menghapus kendaraan. Silakan coba lagi.",
+      });
 
-      // API call untuk bulk edit
-      // await apiClient.patch("/kendaraan/bulk", { ids, data: editData });
-
-      // Temporary implementation - update state
-      setRentCarData((prev) =>
-        prev.map((item) =>
-          ids.includes(item.id) ? { ...item, ...editData } : item
-        )
-      );
-      setSelectedRows([]);
-
-      alert(`Successfully updated ${selectedData.length} rent cars`);
-
-      // Refresh data
-      fetchRentCar();
+      // Update state lokal setelah sukses
+      setRentCarData((prev) => prev.filter((item) => !ids.includes(item.id)));
     } catch (err) {
-      console.error("Failed to bulk edit rent cars", err);
-      alert("Failed to update rent cars. Please try again.");
+      console.error("Bulk delete gagal:", err);
+      // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
     }
   };
 
@@ -276,26 +320,10 @@ const RentCar = () => {
     setSelectedRows([]);
   };
 
-  const filteredData = useMemo(() => {
-    if (!searchTerm) return rentCarData;
-
-    return rentCarData.filter((car) => {
-      const directMatch = Object.values(car).some((value) =>
-        String(value).toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
-      const nestedMatch =
-        car.lokasi?.nama &&
-        car.lokasi.nama.toLowerCase().includes(searchTerm.toLowerCase());
-
-      return directMatch || nestedMatch;
-    });
-  }, [rentCarData, searchTerm]);
-
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return filteredData;
+    if (!sortConfig.key) return rentCarData;
 
-    return [...filteredData].sort((a, b) => {
+    return [...rentCarData].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
 
@@ -304,14 +332,14 @@ const RentCar = () => {
         bValue = b.lokasi?.nama || "";
       }
 
-      aValue = String(aValue);
-      bValue = String(bValue);
+      aValue = String(aValue).toLowerCase();
+      bValue = String(bValue).toLowerCase();
 
       if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [filteredData, sortConfig]);
+  }, [rentCarData, sortConfig]);
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
@@ -366,7 +394,6 @@ const RentCar = () => {
               selectedData={selectedData}
               onClearSelection={handleClearSelection}
               onBulkDelete={handleBulkDelete}
-              onBulkEdit={handleBulkEdit}
               onExport={handleBulkExport}
               editableFields={bulkEditableFields}
             />
@@ -452,7 +479,7 @@ const RentCar = () => {
         title="Detail Unit"
         data={selectedModalData}
         config={rentCarModalConfig}
-        images={selectedModalData?.images || []}
+        images={selectedModalData?.kendaraan_file || []}
       />
     </>
   );

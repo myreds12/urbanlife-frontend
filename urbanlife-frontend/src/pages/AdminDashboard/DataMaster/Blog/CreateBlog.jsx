@@ -221,6 +221,19 @@ const CreateBlog = () => {
               <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mt-6 space-y-4">
                 <div className="flex items-center gap-5">
                   <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+                    Date <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-cyan-500"
+                    required
+                  />
+                </div>
+                <div className="flex items-center gap-5">
+                  <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
                     Slug <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -228,14 +241,15 @@ const CreateBlog = () => {
                     name="slug"
                     value={formData.slug}
                     onChange={handleChange}
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-cyan-500"
+                    placeholder="Enter blog slug"
                     required
                     pattern="[a-z0-9-]+"
                   />
                 </div>
                 <div className="flex items-center gap-5">
                   <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
-                    Lokasi
+                    Location
                   </label>
                   <select
                     name="lokasi_id"
@@ -243,7 +257,7 @@ const CreateBlog = () => {
                     onChange={handleChange}
                     className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
                   >
-                    <option value="">-- Pilih Lokasi --</option>
+                    <option value="">-- Enter location --</option>
                     {locations.map((loc) => (
                       <option key={loc.id} value={loc.id}>
                         {loc.nama}
@@ -257,11 +271,11 @@ const CreateBlog = () => {
             <div className="flex justify-end gap-3 px-6 pb-6 mt-5">
               <Link to="/admin/blog">
                 <button type="button" className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
-                  Batal
+                  Cancel
                 </button>
               </Link>
               <button type="submit" className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
-                {isEditMode ? "Perbarui" : "Simpan"}
+                {isEditMode ? "Perbarui" : "Save"}
               </button>
             </div>
           </form>

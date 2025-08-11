@@ -137,11 +137,11 @@ const BlogAdmin = () => {
 
   const columns = ["Category", "Title", "Date", "Action"];
   const defaultMapping = {
-    Kategori: (row) => row.blog_category.name || "-",
-    Judul: (row) => row.blog_content[0]?.judul || "-",
-    Tanggal: (row) =>
+    Category: (row) => row.blog_category.name || "-",
+    Title: (row) => row.blog_content[0]?.judul || "-",
+    Date: (row) =>
       row.createdAt ? new Date(row.createdAt).toLocaleDateString("id-ID") : "-",
-    Aksi: (row) => (
+    Action: (row) => (
       <div className="flex gap-2 text-sm">
         <button
           onClick={() => handleEdit(row)}
@@ -201,7 +201,7 @@ const BlogAdmin = () => {
               <Search
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
-                placeholder="Cari blog..."
+                placeholder="Search blog..."
                 isLoading={loading}
               />
             </div>
@@ -244,7 +244,17 @@ const BlogAdmin = () => {
             size="base"
           />
         </div>
-      </div>
+
+
+      <EditBlog
+        id={editingBlog?.id}
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        blogData={editingBlog}
+        onSave={handleModalSave}
+        categories={categories}
+      />
+    </div>
   );
 };
 

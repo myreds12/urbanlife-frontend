@@ -38,7 +38,7 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
                         placeholder="e.g. Pantai Kelingking"
                         value={data.nama}
                         onChange={(e) => onChange(itinerary.indexOf(data), "nama", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
+                        className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md"
                         required
                       />
                     </div>
@@ -48,7 +48,7 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
                         placeholder="Description"
                         value={data.deskripsi}
                         onChange={(e) => onChange(itinerary.indexOf(data), "deskripsi", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md h-24"
+                        className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md h-24"
                         required
                       />
                     </div>

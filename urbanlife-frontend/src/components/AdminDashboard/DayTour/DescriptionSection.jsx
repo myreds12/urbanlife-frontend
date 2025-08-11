@@ -67,7 +67,7 @@ const DescriptionSection = ({
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
                 required
               >
-                <option value="">-- Pilih Kategori --</option>
+                <option value="">-- Choose category --</option>
                 {category && category.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}

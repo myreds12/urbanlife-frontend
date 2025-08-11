@@ -19,7 +19,7 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
           </label>
           <select
             name="category_id"
-            className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
+            className="input input-bordered w-full py-1 rounded-lg border border-gray-300 focus:ring-cyan-500"
             value={formData.category_id}
             onChange={handleChange}
           >

@@ -44,7 +44,6 @@ const mapItinerary = (itineraryArray = []) => {
   return result;
 };
 
-
 const useDebouncedValue = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -79,36 +78,35 @@ const DayTour = () => {
 
   // Modal configuration untuk day tour
   const dayTourModalConfig = {
-  sections: [
-    {
-      fields: [
-        { key: "lokasi", label: "Lokasi" },
-        { key: "nama", label: "Day tour package name" },
-        {
-          key: "deskripsi",
-          label: "Deskripsi",
-          type: "language-toggle",
-          languageKey: "deskripsi",
-        },
-        {
-          key: "itinerary",
-          label: "Itinerary",
-          type: "language-toggle",
-          languageKey: "itinerary",
-        },
-        {
-          key: "harga_anak",
-          label: "Harga Anak",
-        },
-        {
-          key: "harga_dewasa",
-          label: "Harga Dewasa",
-        },
-      ],
-    },
-  ],
-};
-
+    sections: [
+      {
+        fields: [
+          { key: "lokasi", label: "Lokasi" },
+          { key: "nama", label: "Day tour package name" },
+          {
+            key: "deskripsi",
+            label: "Deskripsi",
+            type: "language-toggle",
+            languageKey: "deskripsi",
+          },
+          {
+            key: "itinerary",
+            label: "Itinerary",
+            type: "language-toggle",
+            languageKey: "itinerary",
+          },
+          {
+            key: "harga_anak",
+            label: "Harga Anak",
+          },
+          {
+            key: "harga_dewasa",
+            label: "Harga Dewasa",
+          },
+        ],
+      },
+    ],
+  };
 
   // Bulk Action Configuration
   const bulkEditableFields = [
@@ -219,25 +217,25 @@ const DayTour = () => {
   };
 
   const handleView = async (row) => {
-  try {
-    const { data } = await apiClient.get(`/travel-package/${row.id}`);
+    try {
+      const { data } = await apiClient.get(`/travel-package/${row.id}`);
 
-    const deskripsiMapped = mapContent(data.data.travel_package_content);
-    const itineraryMapped = mapItinerary(data.data.travel_package_itinerary);
+      const deskripsiMapped = mapContent(data.data.travel_package_content);
+      const itineraryMapped = mapItinerary(data.data.travel_package_itinerary);
 
-    const mappedData = {
-      ...data.data,
-      deskripsi: deskripsiMapped.deskripsi,
-      itinerary: itineraryMapped,
-    };
+      const mappedData = {
+        ...data.data,
+        deskripsi: deskripsiMapped.deskripsi,
+        itinerary: itineraryMapped,
+      };
 
-    setSelectedModalData(mappedData);
-    setIsModalOpen(true);
-  } catch (error) {
-    console.error("Gagal mengambil detail:", error);
-    toast.error("Gagal memuat detail paket.");
-  }
-};
+      setSelectedModalData(mappedData);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Gagal mengambil detail:", error);
+      toast.error("Gagal memuat detail paket.");
+    }
+  };
 
   // Handler untuk Edit
   const handleEdit = (row) => {
@@ -427,6 +425,8 @@ const DayTour = () => {
             borderRadius: "12px",
             boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
             overflow: "hidden",
+            maxWidth: "1050px",
+            margin: "0 auto",
           }}
         >
           {selectedRows.length > 0 && (
@@ -469,26 +469,28 @@ const DayTour = () => {
           </div>
 
           {/* Table */}
-          <Table
-            data={currentData}
-            columns={columns}
-            selectedRows={selectedRows}
-            onRowSelect={handleRowSelect}
-            onSort={handleSort}
-            sortConfig={sortConfig}
-            startIndex={startIndex}
-            onView={handleView}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            defaultMapping={mapping}
-          />
+          <div style={{ overflowX: "auto" }}>
+            <Table
+              data={currentData}
+              columns={columns}
+              selectedRows={selectedRows}
+              onRowSelect={handleRowSelect}
+              onSort={handleSort}
+              sortConfig={sortConfig}
+              startIndex={startIndex}
+              onView={handleView}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              defaultMapping={mapping}
+            />
+          </div>
         </div>
 
         {/* Data info dan Pagination */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
             Showing {startIndex + 1} to {Math.min(startIndex + take, total)} of{" "}
-            {total} rent cars
+            {total} packages
           </div>
           <Pagination
             currentPage={currentPage}

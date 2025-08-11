@@ -84,9 +84,10 @@ const RoomAndPriceSection = ({
                 <input
                   type="text"
                   placeholder="Deluxe"
+                  required
                   value={item.nama}
                   onChange={(e) => onChange(index, "nama", e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md w-full darklabel"
+                  className="py-1 px-3 border border-gray-300 rounded-md w-full darklabel"
                 />
                 <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[70px] text-center darklabel">
                   Price
@@ -94,9 +95,10 @@ const RoomAndPriceSection = ({
                 <input
                   type="text"
                   placeholder="IDR 1,000,000"
+                  required
                   value={item.harga}
                   onChange={(e) => onChange(index, "harga", e.target.value)}
-                  className="p-2 border border-gray-300 rounded-md w-full darklabel"
+                  className="py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md w-full darklabel"
                 />
                 <button
                   type="button"

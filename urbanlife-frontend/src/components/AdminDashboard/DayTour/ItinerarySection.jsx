@@ -27,28 +27,28 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
             <div key={index} className="grid grid-cols-2 gap-6 relative bg-gray-100 p-4 rounded-lg shadow-md">
               {[{ label: "INDONESIA", data: idn }, { label: "ENGLISH", data: en }].map(({ label, data }, langIndex) => (
                 <div key={langIndex}>
-                  <h4 className="text-sm font-medium text-gray-700 mb-2 ">{label}</h4>
+                  <h4 className="text-sm font-medium text-gray-700 mb-4">{label}</h4>
                   <div className="space-y-3">
                     <div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium ">Destination</label>
+                      <label className="block text-sm font-medium mb-2"><span className="text-red-500">*</span> Destination</label>
                       <input
                         type="text"
                         placeholder="e.g. Pantai Kelingking"
                         value={data.nama}
                         onChange={(e) => onChange(itinerary.indexOf(data), "nama", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md darklabel"
+                        className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md darklabel"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium ">Description</label>
+                      <label className="block text-sm font-medium mb-2"><span className="text-red-500">*</span> Description</label>
                       <textarea
                         placeholder="Description"
                         value={data.deskripsi}
                         onChange={(e) => onChange(itinerary.indexOf(data), "deskripsi", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md h-24 darklabel"
+                        className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md h-24 darklabel"
                         required
                       />
                     </div>

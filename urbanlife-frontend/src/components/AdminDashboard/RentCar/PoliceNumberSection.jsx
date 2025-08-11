@@ -11,15 +11,16 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
             className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
             style={{ minWidth: "190px" }}
           >
-            Police number
+            License Plate <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             name="plat_nomor"
+            required
             value={formData.plat_nomor || ""}
             onChange={handleChange}
-            placeholder="Enter police number"
-            className="py-2 px-3 w-full rounded-md border border-gray-300 darklabel"
+            placeholder="Enter license plate"
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 darklabel"
           />
         </div>
 
@@ -29,10 +30,11 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
             className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
             style={{ minWidth: "190px" }}
           >
-            Tax Status
+            Tax Status <span className="text-red-500">*</span>
           </label>
           <select
             name="status_pajak"
+            required
             value={formData.status_pajak === true ? "true" : formData.status_pajak === false ? "false" : ""}
             onChange={(e) =>
               handleChange({
@@ -42,9 +44,9 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
                 },
               })
             }
-            className="py-2 px-3 w-full rounded-md border border-gray-300 darklabel"
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 darklabel"
           >
-            <option value="">Choose</option>
+            <option value="">Choose status</option>
             <option value="true">Active</option>
             <option value="false">Expired</option>
           </select>
@@ -56,14 +58,15 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
             className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
             style={{ minWidth: "190px" }}
           >
-            Tax expiry period
+            Tax expiry period <span className="text-red-500">*</span>
           </label>
           <input
             type="date"
             name="tanggal_pajak_berakhir"
+            required
             value={formData.tanggal_pajak_berakhir || ""}
             onChange={handleChange}
-            className="py-2 px-3 w-full rounded-md border border-gray-300 darklabel"
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 darklabel"
           />
         </div>
       </div>

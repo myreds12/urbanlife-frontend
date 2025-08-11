@@ -16,7 +16,7 @@ export const dummyRentCarData = [
       english:
         "Honda Civic Type R is a sports car that combines high performance with driving comfort. Equipped with a powerful turbocharged engine and advanced features for an unforgettable driving experience.",
     },
-    tipe: "000",
+    capacity: "4 - 6 people",
     policy_and_procedure: {
       indonesia: "blablabla",
       english: "bliblibli",

@@ -64,10 +64,10 @@ const RentCar = () => {
     sections: [
       {
         fields: [
-          { key: "lokasi", label: "Lokasi" }, // lokasi.nama
-          { key: "nama", label: "Nama Unit" },
+          { key: "lokasi", label: "Location" }, // lokasi.nama
+          { key: "nama", label: "Unit Name" },
           { key: "model", label: "Model" },
-          { key: "tipe", label: "Tipe" },
+          { key: "capacity", label: "Capacity" },
           { key: "plat_nomor", label: "Plat Nomor" },
           { key: "kapasitas", label: "Kapasitas" },
           { key: "tanggal_pajak_berakhir", label: "Tanggal Pajak Berakhir" },
@@ -292,7 +292,7 @@ const RentCar = () => {
         "ID",
         "Nama",
         "Model",
-        "Tipe",
+        "Capacity",
         "Plat Nomor",
         "Lokasi",
         "Status",
@@ -305,7 +305,7 @@ const RentCar = () => {
             item.id,
             `"${item.nama}"`,
             `"${item.model}"`,
-            `"${item.tipe}"`,
+            `"${item.capacity}"`,
             `"${item.plat_nomor || ""}"`,
             `"${item.lokasi?.nama || ""}"`,
             item.status ? "Aktif" : "Non-Aktif",
@@ -371,13 +371,13 @@ const RentCar = () => {
   const columns = [
     "#",
     "ID",
-    "Nama",
+    "Name",
     "Model",
-    "Tipe",
-    "Plat Nomor",
-    "Lokasi",
+    "Capacity",
+    "License Plate",
+    "Location",
     "Status",
-    "Pajak Berakhir",
+    "Tax Expiry",
     "Action",
   ];
 
@@ -453,14 +453,14 @@ const RentCar = () => {
             onDelete={handleDelete}
             defaultMapping={{
               "#": (row, index) => (page - 1) * take + index + 1,
-              ID: (row) => row.id,
-              Nama: (row) => row.nama,
-              Model: (row) => row.model,
-              Tipe: (row) => row.tipe,
-              "Plat Nomor": (row) => row.plat_nomor || "-",
-              Lokasi: (row) => row.lokasi?.nama || "-",
+              ID: "id",
+              Nama: "nama",
+              Model: "model",
+              "Capacity": (row) => row.capacity || "-",
+              "License Plate": (row) => row.plat_nomor || "-",
+              Location: (row) => row.lokasi?.nama || "-",
               Status: (row) => (row.status ? "Aktif" : "Non-Aktif"),
-              "Pajak Berakhir": (row) =>
+              "Tax Expiry": (row) =>
                 new Date(row.tanggal_pajak_berakhir).toLocaleDateString(),
               Action: null,
             }}

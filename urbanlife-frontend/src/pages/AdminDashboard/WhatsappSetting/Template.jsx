@@ -1,327 +1,195 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CreateTemplateModal from '../../../components/AdminDashboard/WhatsApp/CreateTemplateModal';
 import Table from '../../../components/AdminDashboard/Utils/Table/Table';
 import Button from '../../../components/AdminDashboard/Utils/Ui/button/Button';
 import Pagination from '../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination'; 
 import Search from '../../../components/AdminDashboard/Utils/Ui/button/Search';
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+
 
 const Template = () => {
-  // sung kita spam dummy
-  const [templates, setTemplates] = useState([
-    {
-      id: '1',
-      name: 'Welcome Template',
-      category: 'Greeting',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Welcome to our service!',
-      status: 'Active'
-    },
-    {
-      id: '2',
-      name: 'Order Confirmation',
-      category: 'Transaction',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Your order has been confirmed',
-      status: 'Active'
-    },
-    {
-      id: '3',
-      name: 'Payment Reminder',
-      category: 'Finance',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Please complete your payment',
-      status: 'Active'
-    },
-    {
-      id: '4',
-      name: 'Thank You',
-      category: 'Greeting',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Thank you for your purchase',
-      status: 'Active'
-    },
-    {
-      id: '5',
-      name: 'Support Info',
-      category: 'Support',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Contact our support team',
-      status: 'Active'
-    },
-    {
-      id: '6',
-      name: 'Promo Alert',
-      category: 'Marketing',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Special promotion just for you!',
-      status: 'Active'
-    },
-    {
-      id: '7',
-      name: 'Delivery Update',
-      category: 'Logistics',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Your package is on the way',
-      status: 'Active'
-    },
-    {
-      id: '8',
-      name: 'Survey Request',
-      category: 'Feedback',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Please rate our service',
-      status: 'Active'
-    },
-    {
-      id: '9',
-      name: 'Holiday Greetings',
-      category: 'Greeting',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Happy holidays from our team!',
-      status: 'Active'
-    },
-    {
-      id: '10',
-      name: 'Account Update',
-      category: 'Account',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Your account has been updated',
-      status: 'Active'
-    },
-    {
-      id: '11',
-      name: 'Newsletter',
-      category: 'Marketing',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Our latest news and updates',
-      status: 'Active'
-    },
-    {
-      id: '12',
-      name: 'Appointment Reminder',
-      category: 'Reminder',
-      noAdmin1: '081122334455',
-      noAdmin2: '081133224466',
-      content: 'Your appointment is tomorrow',
-      status: 'Active'
-    }
-  ]);
-  const [admin1, setAdmin1] = useState('081122334455');
-  const [admin2, setAdmin2] = useState('081133224466');
+  const [templates, setTemplates] = useState([]);
+  const [admin1, setAdmin1] = useState("081122334455");
+  const [admin2, setAdmin2] = useState("081133224466");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  
-  // Pagination state
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10); 
+  const itemsPerPage = 10;
+  const [totalItems, setTotalItems] = useState(0);
 
   const [newTemplate, setNewTemplate] = useState({
-    name: '',
-    category: '',
-    textToAdmin: '',
-    textToCustomer: '',
+    name: "",
+    category: "",
+    textToAdmin: "",
+    textToCustomer: "",
   });
 
+  // GET data from API
+  const fetchTemplates = async () => {
+    try {
+      const res = await apiClient.get(`/whatsapp`, {
+        params: {
+          take: itemsPerPage,
+          page: currentPage,
+        },
+      });
+      setTemplates(res.data.data);
+      setTotalItems(res.data.total);
+    } catch (error) {
+      console.error("Error fetching templates:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTemplates();
+  }, [currentPage]);
+
   const columns = [
-    'Name',
-    'Category',
-    'No Admin 1',
-    'No Admin 2',
-    'Content',
-    'Status',
-    'Action'
+    "Name",
+    "Category",
+    "No Admin 1",
+    "No Admin 2",
+    "Content",
+    "Status",
+    "Action",
   ];
 
-  // Filter templates berdasarkan search term
-  const filteredTemplates = templates.filter(template =>
-    template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    template.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    template.content.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredTemplates.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentTemplates = filteredTemplates.slice(startIndex, endIndex);
-
-  const tableData = currentTemplates.map((t) => ({
-    id: t.id,
-    Name: t.name,
-    Category: t.category,
-    'No Admin 1': t.noAdmin1,
-    'No Admin 2': t.noAdmin2,
-    Content: t.content,
-    Status: t.status, 
-  }));
+  const tableData = templates
+    .filter(
+      (t) =>
+        t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        t.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        t.text_to_customer
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+    )
+    .map((t) => ({
+      id: t.id,
+      Name: t.name,
+      Category: t.category,
+      "No Admin 1": admin1,
+      "No Admin 2": admin2,
+      Content: t.text_to_customer,
+      Status: t.is_active ? "Active" : "Inactive",
+    }));
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewTemplate((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSearchChange = (value) => {
-    setSearchTerm(value);
-    setCurrentPage(1);
+  const handleAddTemplate = async () => {
+    try {
+      await apiClient.post("/whatsapp", {
+        category: newTemplate.category,
+        name: newTemplate.name,
+        text_to_admin: newTemplate.textToAdmin,
+        text_to_customer: newTemplate.textToCustomer,
+      });
+      resetModal();
+      fetchTemplates();
+    } catch (error) {
+      console.error("Error adding template:", error);
+    }
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const handleAddTemplate = () => {
-    const newId = (templates.length + 1).toString();
-    const newTemplateData = {
-      id: newId,
-      name: newTemplate.name,
-      category: newTemplate.category,
-      noAdmin1: admin1,
-      noAdmin2: admin2,
-      content: newTemplate.textToCustomer,
-      status: 'Active',
-    };
-    setTemplates([...templates, newTemplateData]);
-    resetModal();
-    
-    
-    const newTotalPages = Math.ceil((templates.length + 1) / itemsPerPage);
-    setCurrentPage(newTotalPages);
-  };
-
-  const handleEditTemplate = () => {
-    setTemplates(prev =>
-      prev.map(t =>
-        t.id === editId
-          ? {
-              ...t,
-              name: newTemplate.name,
-              category: newTemplate.category,
-              content: newTemplate.textToCustomer,
-            }
-          : t
-      )
-    );
-    resetModal();
-  };
-
-  const resetModal = () => {
-    setNewTemplate({ name: '', category: '', textToAdmin: '', textToCustomer: '' });
-    setIsModalOpen(false);
-    setEditMode(false);
-    setEditId(null);
+  const handleEditTemplate = async () => {
+    try {
+      await apiClient.patch(`/whatsapp/${editId}`, {
+        category: newTemplate.category,
+        name: newTemplate.name,
+        text_to_admin: newTemplate.textToAdmin,
+        text_to_customer: newTemplate.textToCustomer,
+      });
+      resetModal();
+      fetchTemplates();
+    } catch (error) {
+      console.error("Error editing template:", error);
+    }
   };
 
   const handleEdit = (row) => {
     const template = templates.find((t) => t.id === row.id);
     if (!template) return;
-
     setNewTemplate({
       name: template.name,
       category: template.category,
-      textToAdmin: '', 
-      textToCustomer: template.content,
+      textToAdmin: template.text_to_admin,
+      textToCustomer: template.text_to_customer,
     });
-
-    setAdmin1(template.noAdmin1);
-    setAdmin2(template.noAdmin2);
     setEditId(template.id);
     setEditMode(true);
     setIsModalOpen(true);
   };
 
-  const handleDeleteTemplate = (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this template?");
-    if (confirmed) {
-      setTemplates(templates.filter((template) => template.id !== id));
-      
-      const newFilteredTemplates = templates.filter((template) => template.id !== id)
-        .filter(template =>
-          template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          template.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          template.content.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-      
-      const newTotalPages = Math.ceil(newFilteredTemplates.length / itemsPerPage);
-      if (currentPage > newTotalPages && newTotalPages > 0) {
-        setCurrentPage(newTotalPages);
-      }
+  const handleDeleteTemplate = async (id) => {
+    const confirmed = window.confirm("Are you sure?");
+    if (!confirmed) return;
+    try {
+      await apiClient.delete(`/whatsapp/${id}`);
+      fetchTemplates();
+    } catch (error) {
+      console.error("Error deleting template:", error);
     }
   };
 
+  const resetModal = () => {
+    setNewTemplate({ name: "", category: "", textToAdmin: "", textToCustomer: "" });
+    setIsModalOpen(false);
+    setEditMode(false);
+    setEditId(null);
+  };
+
   return (
-      <div className="p-5">
-        <div style={{ 
-          background: "#ffffff", 
-          borderRadius: "12px",
-          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-          overflow: "hidden",
-        }}>
-      {/* Compact Header Layout */}
-      <div className="mb-6 pt-5 pl-5 pr-5 flex items-center justify-between gap-4">
+    <div className="p-5">
+      {/* Header */}
+      <div className="mb-6 flex items-center justify-between gap-4">
+        {/* Admin Numbers */}
         <div className="flex items-center gap-4">
-          {/* No Admin 1 */}
           <div className="flex items-center gap-2">
-            <label className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+            <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md">
               No Admin 1
             </label>
             <input
               type="text"
-              placeholder="No Admin 1"
-              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
               value={admin1}
               onChange={(e) => setAdmin1(e.target.value)}
+              className="py-1 px-3 border border-gray-300 rounded-md"
             />
           </div>
-          
-          {/* No Admin 2 */}
           <div className="flex items-center gap-2">
-            <label className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+            <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md">
               No Admin 2
             </label>
             <input
               type="text"
-              placeholder="No Admin 2"
-              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
               value={admin2}
               onChange={(e) => setAdmin2(e.target.value)}
+              className="py-1 px-3 border border-gray-300 rounded-md"
             />
           </div>
         </div>
-
-        {/* Search and Add Button */}
+        {/* Search & Add */}
         <div className="flex items-center gap-3">
           <Search
             searchTerm={searchTerm}
-            onSearchChange={handleSearchChange}
+            onSearchChange={(value) => setSearchTerm(value)}
             placeholder="Search template"
             width="w-[250px]"
           />
           <Button
-            variant="primary" 
-            size="sm" 
-            className="whitespace-nowrap"
+            variant="primary"
+            size="sm"
             onClick={() => {
               setEditMode(false);
               setEditId(null);
-              setNewTemplate({ name: '', category: '', textToAdmin: '', textToCustomer: '' });
+              setNewTemplate({ name: "", category: "", textToAdmin: "", textToCustomer: "" });
               setIsModalOpen(true);
             }}
           >
             New Template
-            <i className="fa-solid fa-plus"></i>
           </Button>
         </div>
       </div>
@@ -336,7 +204,6 @@ const Template = () => {
         />
       </div>
 
-
       {/* Modal */}
       <CreateTemplateModal
         isOpen={isModalOpen}
@@ -347,20 +214,20 @@ const Template = () => {
         admin1={admin1}
         admin2={admin2}
       />
-    </div>
-          {/* Data info dan Pagination */}
+
+      {/* Pagination */}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredTemplates.length)} of {filteredTemplates.length} templates
+          Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} templates
         </div>
         <Pagination
           currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
+          totalPages={Math.ceil(totalItems / itemsPerPage)}
+          onPageChange={setCurrentPage}
           size="base"
         />
       </div>
-
     </div>
   );
 };

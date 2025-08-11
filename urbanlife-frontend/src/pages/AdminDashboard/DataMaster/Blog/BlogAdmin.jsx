@@ -140,7 +140,11 @@ const BlogAdmin = () => {
     Category: (row) => row.blog_category.name || "-",
     Title: (row) => row.blog_content[0]?.judul || "-",
     Date: (row) =>
+    Category: (row) => row.blog_category.name || "-",
+    Title: (row) => row.blog_content[0]?.judul || "-",
+    Date: (row) =>
       row.createdAt ? new Date(row.createdAt).toLocaleDateString("id-ID") : "-",
+    Action: (row) => (
     Action: (row) => (
       <div className="flex gap-2 text-sm">
         <button
@@ -197,6 +201,7 @@ const BlogAdmin = () => {
               <Search
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
+                placeholder="Search blog..."
                 placeholder="Search blog..."
                 isLoading={loading}
               />

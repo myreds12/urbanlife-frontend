@@ -69,30 +69,15 @@ const RentCar = () => {
           { key: "model", label: "Model" },
           { key: "capacity", label: "Capacity" },
           { key: "plat_nomor", label: "Plat Nomor" },
-          { key: "kapasitas", label: "Kapasitas" },
           { key: "tanggal_pajak_berakhir", label: "Tanggal Pajak Berakhir" },
+          { key: "status", label: "Status" },
+          { key: "description", label: "Deskripsi", type: "language-toggle" },
           {
-            key: "status",
-            label: "Status Pajak Aktif",
-            type: "boolean",
-          },
-          {
-            key: "deskripsi",
-            label: "Deskripsi",
-            type: "language-toggle",
-            languageKey: "deskripsi",
-          },
-          {
-            key: "kebijakan",
+            key: "policy_and_procedure",
             label: "Policy and Procedure",
             type: "language-toggle",
-            languageKey: "kebijakan",
           },
-          {
-            key: "kendaraan_durasi",
-            label: "Harga Durasi",
-            type: "custom",
-          },
+          { key: "price", label: "Harga", type: "language-toggle" },
         ],
       },
     ],
@@ -399,9 +384,16 @@ const RentCar = () => {
     <>
       <div className="p-5">
         <div
-          className="bg-white rounded-[12px] shadow-[0_1px_3px_rgba(0,0,0,0.1)] overflow-hidden"
+          style={{
+            background: "#ffffff",
+            borderRadius: "12px",
+            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+            overflow: "hidden",
+            maxWidth: "1050px",
+            margin: "0 auto",
+          }}
         >
-          {/* Bulk Action Bar - Only show when items are selected */}
+          {/* Bulk Action Bar */}
           {selectedRows.length > 0 && (
             <BulkActionBar
               selectedCount={selectedRows.length}
@@ -440,35 +432,37 @@ const RentCar = () => {
           </div>
 
           {/* Table */}
-          <Table
-            data={sortedData}
-            columns={columns}
-            selectedRows={selectedRows}
-            onRowSelect={handleRowSelect}
-            onSort={handleSort}
-            sortConfig={sortConfig}
-            startIndex={startIndex}
-            onView={handleView}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            defaultMapping={{
-              "#": (row, index) => (page - 1) * take + index + 1,
-              ID: "id",
-              Nama: "nama",
-              Model: "model",
-              "Capacity": (row) => row.capacity || "-",
-              "License Plate": (row) => row.plat_nomor || "-",
-              Location: (row) => row.lokasi?.nama || "-",
-              Status: (row) => (row.status ? "Aktif" : "Non-Aktif"),
-              "Tax Expiry": (row) =>
-                new Date(row.tanggal_pajak_berakhir).toLocaleDateString(),
-              Action: null,
-            }}
-            take={take}
-            currentPage={page}
-            totalPages={Math.ceil(totalPages / take)}
-            handlePageChange={handlePageChange}
-          />
+          <div style={{ overflowX: "auto" }}>
+            <Table
+              data={sortedData}
+              columns={columns}
+              selectedRows={selectedRows}
+              onRowSelect={handleRowSelect}
+              onSort={handleSort}
+              sortConfig={sortConfig}
+              startIndex={startIndex}
+              onView={handleView}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              defaultMapping={{
+                "#": (row, index) => (page - 1) * take + index + 1,
+                ID: "id",
+                Nama: "nama",
+                Model: "model",
+                Capacity: (row) => row.capacity || "-",
+                "License Plate": (row) => row.plat_nomor || "-",
+                Location: (row) => row.lokasi?.nama || "-",
+                Status: (row) => (row.status ? "Aktif" : "Non-Aktif"),
+                "Tax Expiry": (row) =>
+                  new Date(row.tanggal_pajak_berakhir).toLocaleDateString(),
+                Action: null,
+              }}
+              take={take}
+              currentPage={page}
+              totalPages={Math.ceil(totalPages / take)}
+              handlePageChange={handlePageChange}
+            />
+          </div>
         </div>
 
         {/* Data info dan Pagination */}

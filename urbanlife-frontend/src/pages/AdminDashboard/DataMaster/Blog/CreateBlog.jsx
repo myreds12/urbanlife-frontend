@@ -271,10 +271,12 @@ const CreateBlog = () => {
             <div className="flex justify-end gap-3 px-6 pb-6 mt-5">
               <Link to="/admin/blog">
                 <button type="button" className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                <button type="button" className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
                   Cancel
                 </button>
               </Link>
               <button type="submit" className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                {isEditMode ? "Perbarui" : "Save"}
                 {isEditMode ? "Perbarui" : "Save"}
               </button>
             </div>

@@ -34,7 +34,7 @@ const DayTourGrid = ({ cards }) => {
             duration={card.durasi_hari}
             price={card.harga_dewasa}
             description={description}
-            linkTo={`/day-tour/${card.id}`} // Sesuaikan jika pakai slug
+            linkTo={`/day-tour/${card.id}`}  //TODO: Ubah rute ke OrderDetail langsung . Sesuaikan jika pakai slug
           />
         );
       })}

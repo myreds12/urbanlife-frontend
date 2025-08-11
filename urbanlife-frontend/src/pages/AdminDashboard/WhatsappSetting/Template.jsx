@@ -263,24 +263,19 @@ const Template = () => {
 
   return (
       <div className="p-5">
-        <div style={{ 
-          background: "#ffffff", 
-          borderRadius: "12px",
-          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-          overflow: "hidden",
-        }}>
+        <div className="bg-white rounded-xl shadow overflow-hidden">
       {/* Compact Header Layout */}
       <div className="mb-6 pt-5 pl-5 pr-5 flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           {/* No Admin 1 */}
           <div className="flex items-center gap-2">
-            <label className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+            <label className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md darklabel" style={{ minWidth: "90px" }}>
               No Admin 1
             </label>
             <input
               type="text"
               placeholder="No Admin 1"
-              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
+              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600 darklabel"
               value={admin1}
               onChange={(e) => setAdmin1(e.target.value)}
             />
@@ -288,13 +283,13 @@ const Template = () => {
           
           {/* No Admin 2 */}
           <div className="flex items-center gap-2">
-            <label className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+            <label className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md darklabel" style={{ minWidth: "90px" }}>
               No Admin 2
             </label>
             <input
               type="text"
               placeholder="No Admin 2"
-              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600"
+              className="py-1 px-3 w-32 border border-gray-300 rounded-md focus:outline-cyan-600 darklabel"
               value={admin2}
               onChange={(e) => setAdmin2(e.target.value)}
             />
@@ -350,7 +345,7 @@ const Template = () => {
     </div>
           {/* Data info dan Pagination */}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="text-sm text-gray-700">
+        <div className="text-sm text-gray-700 darksubtitle">
           Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredTemplates.length)} of {filteredTemplates.length} templates
         </div>
         <Pagination

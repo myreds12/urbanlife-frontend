@@ -70,47 +70,47 @@ const GuideForm = forwardRef((_, ref) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Guide ID</label>
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">Guide ID</label>
         <input
           type="text"
           value={!form.id ? guideId : form.id}
           disabled
           readOnly
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm bg-gray-100 text-gray-600"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm bg-gray-100 text-gray-600 darklabel"
         />
       </div>
 
       <div className="lg:col-span-1">
-        <label className="block text-sm text-gray-600 mb-1">Guide Name</label>
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">Guide Name</label>
         <input
           type="text"
           name="nama"
           value={form.nama}
           onChange={handleChange}
           placeholder="Enter guide name"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         />
       </div>
 
       <div className="lg:col-span-1">
-        <label className="block text-sm text-gray-600 mb-1">Phone Number</label>
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">Phone Number</label>
         <input
           type="text"
           name="nomor_hp"
           value={form.nomor_hp}
           onChange={handleChange}
           placeholder="Enter phone number"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         />
       </div>
 
       <div className="lg:col-span-1">
-        <label className="block text-sm text-gray-600 mb-1">Gender</label>
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">Gender</label>
         <select
           name="gender"
           value={form.gender}
           onChange={handleChange}
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         >
           <option value="">Choose</option>
           <option value="Laki - laki">Laki - laki</option>
@@ -119,14 +119,14 @@ const GuideForm = forwardRef((_, ref) => {
       </div>
 
       <div className="lg:col-span-1">
-        <label className="block text-sm text-gray-600 mb-1">
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">
           Fluent in English
         </label>
         <select
           name="fluent_english"
           value={form.fluent_english}
           onChange={handleChange}
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         >
           <option value="">Choose</option>
           <option value="yes">Yes</option>

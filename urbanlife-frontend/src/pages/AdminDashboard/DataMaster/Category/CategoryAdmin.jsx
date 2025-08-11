@@ -174,7 +174,7 @@ const CategoryAdmin = () => {
 
   return (
     <div className="p-5">
-      <div style={{ background: "#ffffff", borderRadius: "12px", boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)" }}>
+      <div className="bg-white rounded-xl shadow overflow-hidden">
         {selectedRows.length > 0 && (
           <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mb-6">
             <button
@@ -187,7 +187,7 @@ const CategoryAdmin = () => {
         )}
 
         <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
-          <h1 className="text-2xl font-bold text-gray-800">Data Master - Category</h1>
+          <h1 className="text-2xl font-bold text-gray-800 darktitle">Data Master - Category</h1>
           <div className="flex flex-wrap justify-between items-center gap-4">
             <div className="flex-1 min-w-[200px]">
               <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Cari kategori..." />
@@ -217,7 +217,7 @@ const CategoryAdmin = () => {
         </div>
 
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-gray-700 darksubtitle">
             Menampilkan {startIndex + 1} sampai {Math.min(startIndex + itemsPerPage, sortedData.length)} dari {sortedData.length} kategori
           </div>
           <Pagination

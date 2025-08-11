@@ -81,7 +81,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                   type="text"
                   value={editForm.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200 darklabel ${
                     errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                   }`}
                   placeholder="Enter full name"
@@ -98,7 +98,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                 <select
                   value={editForm.role}
                   onChange={(e) => handleInputChange('role', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200 darklabel"
                 >
                   <option value="Admin">Admin</option>
                   <option value="Super Admin">Super Admin</option>
@@ -115,7 +115,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                   type="email"
                   value={editForm.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200 darklabel ${
                     errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                   }`}
                   placeholder="Enter email address"
@@ -133,7 +133,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                   type="tel"
                   value={editForm.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200 darklabel ${
                     errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                   }`}
                   placeholder="Enter phone number"
@@ -159,7 +159,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                     type="text"
                     value={editForm.location}
                     onChange={(e) => handleInputChange('location', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200 darklabel"
                     placeholder="Enter location"
                   />
                 </div>
@@ -171,7 +171,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                     type="text"
                     value={editForm.country || ''}
                     onChange={(e) => handleInputChange('country', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white transition-all duration-200 darklabel"
                     placeholder="Enter country"
                   />
                 </div>
@@ -185,7 +185,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                   value={editForm.bio}
                   onChange={(e) => handleInputChange('bio', e.target.value)}
                   rows="4"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 resize-none bg-white transition-all duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 resize-none bg-white transition-all duration-200 darklabel"
                   placeholder="Tell us about yourself..."
                 />
               </div>
@@ -203,7 +203,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                       id="profile-picture"
                     />
-                    <div className="flex items-center justify-center w-full px-4 py-3 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer transition-all duration-200">
+                    <div className="flex items-center justify-center w-full px-4 py-3 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 cursor-pointer transition-all duration-200 darklabel">
                       <i className="fa fa-upload text-gray-400 mr-2"></i>
                       <span className="text-gray-600">
                         {selectedFile ? selectedFile.name : 'Choose File'}

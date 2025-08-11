@@ -8,7 +8,7 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
         {/* Police Number */}
         <div className="flex items-center">
           <label
-            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
             style={{ minWidth: "190px" }}
           >
             Police number
@@ -19,14 +19,14 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
             value={formData.plat_nomor || ""}
             onChange={handleChange}
             placeholder="Enter police number"
-            className="py-2 px-3 w-full rounded-md border border-gray-300"
+            className="py-2 px-3 w-full rounded-md border border-gray-300 darklabel"
           />
         </div>
 
         {/* Tax Status */}
         <div className="flex items-center">
           <label
-            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
             style={{ minWidth: "190px" }}
           >
             Tax Status
@@ -42,7 +42,7 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
                 },
               })
             }
-            className="py-2 px-3 w-full rounded-md border border-gray-300"
+            className="py-2 px-3 w-full rounded-md border border-gray-300 darklabel"
           >
             <option value="">Choose</option>
             <option value="true">Active</option>
@@ -53,7 +53,7 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
         {/* Tax Expiry Date */}
         <div className="flex items-center">
           <label
-            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
             style={{ minWidth: "190px" }}
           >
             Tax expiry period
@@ -63,7 +63,7 @@ const PoliceNumberSection = ({ id, isActive, formData, handleChange }) => {
             name="tanggal_pajak_berakhir"
             value={formData.tanggal_pajak_berakhir || ""}
             onChange={handleChange}
-            className="py-2 px-3 w-full rounded-md border border-gray-300"
+            className="py-2 px-3 w-full rounded-md border border-gray-300 darklabel"
           />
         </div>
       </div>

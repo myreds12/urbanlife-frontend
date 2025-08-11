@@ -45,7 +45,7 @@ const FacilitySection = ({
         isActive ? "opacity-100" : "opacity-0 h-0 overflow-hidden"
       }`}
     >
-      <h3 className="text-xl font-semibold text-gray-800 mb-4">
+      <h3 className="text-xl font-semibold text-gray-800 mb-4 darktitle">
         Facilities per Room
       </h3>
 
@@ -53,7 +53,7 @@ const FacilitySection = ({
         {facilities.map((group, groupIndex) => (
           <div key={groupIndex} className="bg-white p-4 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-5">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3 darktitle">
               {group.nama || `Room ${groupIndex + 1}`}
             </h3>
             <button
@@ -82,7 +82,7 @@ const FacilitySection = ({
                         e.target.value
                       )
                     }
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md darklabel"
                   />
                   <button
                     type="button"

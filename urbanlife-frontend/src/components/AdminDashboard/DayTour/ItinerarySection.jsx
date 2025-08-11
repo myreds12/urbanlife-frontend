@@ -13,7 +13,7 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold">Itinerary</h3>
+          <h3 className="text-lg font-semibold darktitle">Itinerary</h3>
           <button
             type="button"
             onClick={onAdd}
@@ -24,31 +24,31 @@ const ItinerarySection = ({ id, isActive, itinerary, onChange, onAdd, onRemove }
         </div>
         <div className="space-y-8">
           {pairedItineraries.map(({ en, idn, pairIndex }, index) => (
-            <div key={index} className="grid grid-cols-2 gap-6 relative bg-gray-50 p-4 rounded-lg shadow-md">
+            <div key={index} className="grid grid-cols-2 gap-6 relative bg-gray-100 p-4 rounded-lg shadow-md">
               {[{ label: "INDONESIA", data: idn }, { label: "ENGLISH", data: en }].map(({ label, data }, langIndex) => (
                 <div key={langIndex}>
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">{label}</h4>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2 ">{label}</h4>
                   <div className="space-y-3">
                     <div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium">Destination</label>
+                      <label className="block text-sm font-medium ">Destination</label>
                       <input
                         type="text"
                         placeholder="e.g. Pantai Kelingking"
                         value={data.nama}
                         onChange={(e) => onChange(itinerary.indexOf(data), "nama", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
+                        className="w-full p-2 border border-gray-300 rounded-md darklabel"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium">Description</label>
+                      <label className="block text-sm font-medium ">Description</label>
                       <textarea
                         placeholder="Description"
                         value={data.deskripsi}
                         onChange={(e) => onChange(itinerary.indexOf(data), "deskripsi", e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md h-24"
+                        className="w-full p-2 border border-gray-300 rounded-md h-24 darklabel"
                         required
                       />
                     </div>

@@ -321,7 +321,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
               {day && (
                 <div className="h-full flex flex-col justify-between">
                   <div
-                    className={`font-medium ${
+                    className={`font-medium darkday ${
                       isToday(day) ? "text-white" : "text-gray-900"
                     }`}
                   >
@@ -434,7 +434,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
         <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-2">
             <h3
-              className={`text-2xl font-bold ${
+              className={`text-2xl font-bold darktitle ${
                 isTodayDate ? "text-cyan-700" : "text-gray-900"
               }`}
             >
@@ -447,7 +447,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
             )}
           </div>
           <p
-            className={`text-lg ${
+            className={`text-lg darksubtitle ${
               isTodayDate ? "text-cyan-600" : "text-gray-600"
             }`}
           >
@@ -503,7 +503,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
               </div>
             ))
           ) : (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-gray-500 darksubtitle">
               <p>No events scheduled for this day</p>
               <button
                 onClick={() => {
@@ -555,7 +555,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
         <div className="bg-white rounded-xl border border-gray-200 shadow-lg">
           <div className="p-6 border-b border-gray-200">
             <div className="text-center mb-4">
-              <h2 className="text-xl font-bold text-gray-900 mb-3">
+              <h2 className="text-xl font-bold text-gray-900 mb-3 darktitle">
                 {getViewTitle()}
               </h2>
             </div>
@@ -563,7 +563,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleNavigation(-1)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900 darktitle"
                 >
                   <svg
                     className="w-5 h-5"
@@ -581,7 +581,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
                 </button>
                 <button
                   onClick={() => handleNavigation(1)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900 darktitle"
                 >
                   <svg
                     className="w-5 h-5"
@@ -603,7 +603,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
                   <button
                     key={view}
                     onClick={() => setCurrentView(view)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 dark-gray ${
                       currentView === view
                         ? "bg-cyan-500 text-white shadow-md"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -677,15 +677,15 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
               <div className="flex gap-6 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <span className="text-gray-600">Accommodation</span>
+                  <span className="text-gray-600 darksubtitle">Accommodation</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-600">Day tour</span>
+                  <span className="text-gray-600 darksubtitle">Day tour</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-cyan-500 rounded-full"></div>
-                  <span className="text-gray-600">Rent car</span>
+                  <span className="text-gray-600 darksubtitle">Rent car</span>
                 </div>
               </div>
             </div>
@@ -704,7 +704,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-gray-900">
+                <h3 className="text-xl font-bold text-gray-900 darktitle">
                   Events for {selectedDay} {monthNames[currentDate.getMonth()]}
                 </h3>
                 <button
@@ -784,13 +784,13 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
                 </div>
               )}
               <div>
-                <h4 className="font-semibold mb-2 text-gray-700">
+                <h4 className="font-semibold mb-2 text-gray-700 darktitle">
                   Add New Event:
                 </h4>
                 <form onSubmit={handleAddEvent}>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2 darksubtitle">
                         Customer Name
                       </label>
                       <input
@@ -810,7 +810,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2 darksubtitle">
                         Event Type
                       </label>
                       <select
@@ -831,7 +831,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2 darksubtitle">
                         Location
                       </label>
                       <input
@@ -861,7 +861,7 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
                       <button
                         type="button"
                         onClick={() => setShowEventModal(false)}
-                        className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+                        className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors darkbtn"
                         disabled={isLoading}
                       >
                         Cancel

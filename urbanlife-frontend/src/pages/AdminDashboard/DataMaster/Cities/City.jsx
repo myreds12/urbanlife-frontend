@@ -153,7 +153,7 @@ const City = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Form */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
-          <h3 className="text-lg font-semibold text-gray-800">Cities</h3>
+          <h3 className="text-lg font-semibold text-gray-80 darktitle">Cities</h3>
           <CityForm ref={formRef} countries={countries} cityId={nextId} />
           <div className="flex justify-end gap-4">
             <button
@@ -175,7 +175,7 @@ const City = () => {
         {/* Table + Search */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">List Cities</h3>
+            <h3 className="text-lg font-semibold text-gray-800 darktitle">List Cities</h3>
             <div className="w-64">
               <Search
                 placeholder="Search..."

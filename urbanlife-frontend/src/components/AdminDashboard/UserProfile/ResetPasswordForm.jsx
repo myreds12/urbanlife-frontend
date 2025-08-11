@@ -74,7 +74,7 @@ export default function ResetPasswordForm({ onCancel, onSuccess }) {
                   type={showPassword.newPassword ? "text" : "password"}
                   value={formData.newPassword}
                   onChange={(e) => handleInputChange('newPassword', e.target.value)}
-                  className={`w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ${
+                  className={`w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 darklabel ${
                     errors.newPassword ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                   }`}
                   placeholder="Enter new password"
@@ -101,7 +101,7 @@ export default function ResetPasswordForm({ onCancel, onSuccess }) {
                   type={showPassword.confirmPassword ? "text" : "password"}
                   value={formData.confirmPassword}
                   onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                  className={`w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ${
+                  className={`w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 darklabel ${
                     errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                   }`}
                   placeholder="Confirm new password"

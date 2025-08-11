@@ -55,43 +55,43 @@ const CarForm = forwardRef(({ carId }, ref) => {
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {/* Auto ID */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Unit ID</label>
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">Unit ID</label>
         <input
           type="text"
           disabled
           value={!form.id ? carId : form.id}
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         />
       </div>
 
       {/* Brand */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Brand</label>
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">Brand</label>
         <input
           type="text"
           name="nama"
           value={form.nama}
           onChange={handleChange}
           placeholder="Enter brand"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         />
       </div>
 
       {/* Model */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Model</label>
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">Model</label>
         <input
           type="text"
           name="model"
           value={form.model}
           onChange={handleChange}
           placeholder="Enter model"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-600 mb-1">
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">
           Police number
         </label>
         <input
@@ -100,13 +100,13 @@ const CarForm = forwardRef(({ carId }, ref) => {
           value={form.plat_nomor}
           onChange={handleChange}
           placeholder="Enter police number"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         />
       </div>
 
       {/* Tax Status */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">
           Vehicle tax status
         </label>
         <select
@@ -124,7 +124,7 @@ const CarForm = forwardRef(({ carId }, ref) => {
               status_pajak: e.target.value === "true" ? true : false,
             }))
           }
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         >
           <option value="">Choose</option>
           <option value="true">Active</option>
@@ -134,7 +134,7 @@ const CarForm = forwardRef(({ carId }, ref) => {
 
       {/* Tax Expiry */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">
           Tax expiry period
         </label>
         <input
@@ -142,7 +142,7 @@ const CarForm = forwardRef(({ carId }, ref) => {
           name="tanggal_pajak_berakhir"
           value={form.tanggal_pajak_berakhir}
           onChange={handleChange}
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         />
       </div>
     </div>

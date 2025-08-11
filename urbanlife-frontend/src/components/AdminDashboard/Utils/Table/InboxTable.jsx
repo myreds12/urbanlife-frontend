@@ -49,8 +49,8 @@ const InboxTable = ({ messages, searchTerm, onSearchChange, activeFilter }) => {
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Inbox Messages</h2>
-          <span className="text-sm text-gray-500">{filteredMessages.length} messages</span>
+          <h2 className="text-xl font-semibold text-gray-800 darktitle">Inbox Messages</h2>
+          <span className="text-sm text-gray-500 darksubtitle">{filteredMessages.length} messages</span>
         </div>
 
         <div className="relative">
@@ -72,7 +72,7 @@ const InboxTable = ({ messages, searchTerm, onSearchChange, activeFilter }) => {
 
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 darkthinbox">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer Name</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
@@ -97,7 +97,7 @@ const InboxTable = ({ messages, searchTerm, onSearchChange, activeFilter }) => {
               </tr>
             ) : (
               filteredMessages.map((message) => (
-                <tr key={message.id} className="hover:bg-gray-50 transition">
+                <tr key={message.id} className="hover:bg-gray-50 transition darkthinbox">
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <div className="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center">
@@ -106,13 +106,13 @@ const InboxTable = ({ messages, searchTerm, onSearchChange, activeFilter }) => {
                         </span>
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-gray-900 darktitle">
                           {message.customerName}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900 max-w-xs">
+                  <td className="px-6 py-4 text-sm text-gray-900 max-w-xs darksubtitle">
                     {truncateMessage(message.message)}
                   </td>
                   <td className="px-6 py-4">
@@ -155,9 +155,9 @@ const InboxTable = ({ messages, searchTerm, onSearchChange, activeFilter }) => {
       </div>
 
       {filteredMessages.length > 0 && (
-        <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+        <div className="px-6 py-3 bg-gray-50 border-t border-gray-20 darkth">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-700">
+            <div className="text-sm text-gray-700 darksubtitle">
               Showing <span className="font-medium">{filteredMessages.length}</span> results
             </div>
           </div>

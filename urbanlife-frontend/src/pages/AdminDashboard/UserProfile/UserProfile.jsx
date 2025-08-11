@@ -12,7 +12,7 @@ export default function UserProfiles() {
       />
       <PageBreadcrumb pageTitle="Profile" />
       <div className="p-6 border-[1.5px] border-gray-200 shadow-sm rounded-2xl bg-white">
-        <h3 className="mb-6 text-lg font-semibold text-gray-900">Profile</h3>
+        <h3 className="mb-6 text-lg font-semibold text-gray-900 darktitle">Profile</h3>
         <UserMetaCard />
       </div>
     </>

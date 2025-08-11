@@ -26,7 +26,7 @@
 .underline-item::after {
   content: '';
   position: absolute;
-  top: 19px;
+  top: 22px;
   left: 50%;
   width: 0;
   height: 2px;

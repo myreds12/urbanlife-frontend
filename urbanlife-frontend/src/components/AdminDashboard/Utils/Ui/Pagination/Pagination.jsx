@@ -14,7 +14,7 @@ const Pagination = ({
     ? 'px-3 h-8 text-sm' 
     : 'px-4 h-10 text-base';
 
-  const activeClasses = `z-10 flex items-center justify-center ${sizeClasses} leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700`;
+  const activeClasses = `z-10 flex items-center justify-center ${sizeClasses} leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 darkselected`;
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages && page !== currentPage) {

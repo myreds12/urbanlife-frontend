@@ -29,12 +29,12 @@ export default function UserDropdown() {
         className="flex items-center dropdown-toggle text-gray-700 "
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <img src="./profile.png" alt="User" />
+          <img src="/images/user/User.png" alt="User" />
         </span>
 
-        <span className="block mr-1 font-medium text-medium">Admin</span>
+        <span className="block mr-1 font-medium text-medium darktitle">Admin</span>
         <svg
-          className={`stroke-gray-500  transition-transform duration-200 ${
+          className={`stroke-gray-500  transition-transform duration-200 darksubtitle ${
             isOpen ? "rotate-180" : ""
           }`}
           width="18"
@@ -60,10 +60,10 @@ export default function UserDropdown() {
           onMouseLeave={closeDropdown}
         >
           <div>
-            <span className="block font-medium text-gray-700 text-medium ">
+            <span className="block font-medium text-gray-700 text-medium darktitle">
               Admin 1
             </span>
-            <span className="mt-0.5 block text-sm text-gray-500 ">
+            <span className="mt-0.5 block text-sm text-gray-500 darksubtitle">
               admin1@gmail.com
             </span>
           </div>
@@ -73,7 +73,7 @@ export default function UserDropdown() {
               <a
                 onClick={closeDropdown}
                 href="/admin/profile" // Mengganti 'to' dengan 'href' karena bukan Link
-                className="flex items-center gap-3 px-3 py-1 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 "
+                className="flex items-center gap-3 px-3 py-1 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 darksubtitle"
               >
                 <svg
                   className="fill-gray-500 group-hover:fill-gray-700 "
@@ -97,7 +97,7 @@ export default function UserDropdown() {
               <a
                 onClick={closeDropdown}
                 href="/admin/profile"
-                className="flex items-center gap-3 px-3 py-1 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 "
+                className="flex items-center gap-3 px-3 py-1 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 darksubtitle"
               >
                 <svg
                   className="fill-gray-500 group-hover:fill-gray-700 "
@@ -124,7 +124,7 @@ export default function UserDropdown() {
               closeDropdown();
             }}
             to="#"
-            className="flex items-center gap-3 px-3 py-1 mt-2 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 "
+            className="flex items-center gap-3 px-3 py-1 mt-2 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 darksubtitle"
           >
             <svg
               className="fill-gray-500 group-hover:fill-gray-700 "

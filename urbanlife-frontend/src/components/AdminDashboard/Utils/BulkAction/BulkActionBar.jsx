@@ -114,30 +114,16 @@ const BulkActionBar = ({
 
   return (
     <>
-      <div
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-          background: "#ffff",
-          color: "#6b7280",
-          padding: "12px 24px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderRadius: "8px 8px 0 0",
-          marginBottom: "1px",
-        }}
-      >
+      <div className="sticky top-0 z-10 bg-white text-gray-500 px-6 py-3 flex items-center justify-between rounded-t-lg mb-px">
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <span className="text-sm text-gray-500 bg-cyan-500/20 px-3 py-1 rounded-full">
+          <span className="text-sm text-gray-500 bg-cyan-500/20 px-3 py-1 rounded-full darkselected">
             {selectedCount} items selected
           </span>
         </div>
 
         <div style={{ display: "flex", gap: "8px" }}>
           <button
-            className="bulk-action-button export"
+            className="bulk-action-button export darkth"
             onClick={() => handleActionClick({ type: "export" })}
           >
             <ExportIcon />
@@ -153,7 +139,7 @@ const BulkActionBar = ({
           </button> */}
 
           <button
-            className="bulk-action-button delete"
+            className="bulk-action-button delete darkth"
             onClick={() => handleActionClick({ type: "delete" })}
           >
             <DeleteIcon />
@@ -161,7 +147,7 @@ const BulkActionBar = ({
           </button>
 
           <button
-            className="bulk-action-button clear"
+            className="bulk-action-button clear darkth"
             onClick={onClearSelection}
           >
             <ClearIcon />

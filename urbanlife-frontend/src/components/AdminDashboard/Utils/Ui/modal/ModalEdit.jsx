@@ -190,7 +190,7 @@ const ModalEdit = ({
           {/* Header */}
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+              <h2 className="text-xl font-semibold text-gray-800 darktitle">{title}</h2>
               <button
                 onClick={handleClose}
                 className="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none"
@@ -206,7 +206,7 @@ const ModalEdit = ({
             <form onSubmit={handleSubmit} className="space-y-4">
               {fields.map((field) => (
                 <div key={field.name} className="space-y-1">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 darksubtitle">
                     {field.label}
                     {field.required && <span className="text-red-500 ml-1">*</span>}
                   </label>
@@ -220,7 +220,7 @@ const ModalEdit = ({
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 darkth">
             <div className="flex justify-end space-x-3">
               <button
                 type="button"

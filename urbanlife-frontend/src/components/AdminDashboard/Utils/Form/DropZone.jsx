@@ -89,10 +89,10 @@ const Dropzone = forwardRef(({
           <div className="w-[68px] h-[68px] flex items-center justify-center rounded-full bg-gray-100 text-gray-500">
             📁
           </div>
-          <h4 className="text-lg font-semibold text-gray-800">
+          <h4 className="text-lg font-semibold text-gray-800 darktitle">
             {isDragActive ? "Drop Files Here" : "Drag & Drop Files Here"}
           </h4>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 darksubtitle">
             Drag and drop your PNG, JPG, WebP, SVG images here or browse
             {multiple && ` (Max: ${maxFiles} files)`}
           </p>

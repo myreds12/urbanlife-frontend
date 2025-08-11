@@ -7,7 +7,7 @@ const OrdersTabs = ({ activeTab, setActiveTab }) => {
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`cursor-pointer px-1 font-medium underline-item relative ${
+          className={`cursor-pointer px-1 font-medium underline-item relative darksubtitle darkunderline ${
             activeTab === tab ? "text-cyan-600 active" : "text-gray-500"
           }`}
         >

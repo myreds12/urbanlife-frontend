@@ -336,7 +336,7 @@ const Accomodation = () => {
         )}
 
         <div className="flex justify-between items-center p-5">
-          <h1 className="text-2xl font-bold">Accommodation</h1>
+          <h1 className="text-2xl font-bold darktitle">Accommodation</h1>
           <div className="flex gap-4">
             <Search
               searchTerm={search}
@@ -387,7 +387,7 @@ const Accomodation = () => {
         />
       </div>
       <div className="mt-4 flex justify-between items-center text-sm text-gray-600 px-5 pb-4">
-        <span>
+        <span className="darksubtitle">
           Showing {(page - 1) * ITEMS_PER_PAGE + 1} to{" "}
           {Math.min(page * ITEMS_PER_PAGE, total)} of {total} accommodations
         </span>

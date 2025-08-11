@@ -3,7 +3,7 @@ import OrderItem from './OrderItem';
 const CurrentOrderList = ({ orders = [] }) => {
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 h-full">
-      <h3 className="text-lg font-semibold mb-4">Current order list</h3>
+      <h3 className="text-lg font-semibold mb-4 darktitle">Current order list</h3>
       <div className="space-y-2 max-h-185 overflow-y-auto">
         {orders.length > 0 ? (
           orders.map((order, index) => (
@@ -17,7 +17,7 @@ const CurrentOrderList = ({ orders = [] }) => {
             />
           ))
         ) : (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-gray-500 darksubtitle">
             <div className="mb-2">📋</div>
             <p>No orders found</p>
             <p className="text-sm">Orders will appear here when added to calendar</p>

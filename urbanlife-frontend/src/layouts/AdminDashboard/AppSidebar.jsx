@@ -62,21 +62,21 @@ const AppSidebar = () => {
   );
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 p-4 overflow-y-auto">
+    <aside className="fixed top-0 left-0 h-screen w-64 bg-[#ffff] shadow-lg z-50 p-4 overflow-y-auto">
       <div className="mb-6">
-      <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="h-12" />
+      <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="h-12 darkimage" />
       </div>
       <nav>
         <div className="mb-4">
-          <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Menu</h2>
+          <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider darksubtitle">Menu</h2>
           {renderMenuItems(navItems)}
         </div>
         <div className="mb-4">  
-          <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Content Management</h2>
+          <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider darksubtitle">Content Management</h2>
           {renderMenuItems(contentItems)}
         </div>
         <div>
-          <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Others</h2>
+          <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider darksubtitle">Others</h2>
           {renderMenuItems(othersItems)}
         </div>
       </nav>

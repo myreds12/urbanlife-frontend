@@ -6,7 +6,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold">Pricing</h3>
+          <h3 className="text-lg font-semibold darktitle">Pricing</h3>
           {type !== "daytour" && (
             <button
               type="button"
@@ -22,7 +22,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
         {type === "daytour" ? (
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 darktitle">
                 Harga Anak <span className="text-red-500">*</span>
               </label>
               <input
@@ -30,14 +30,14 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                 name="harga_anak"
                 value={formData.harga_anak}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md darklabel"
                 placeholder="e.g. 500000"
                 required
                 min={0}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 darktitle">
                 Harga Dewasa <span className="text-red-500">*</span>
               </label>
               <input
@@ -45,7 +45,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                 name="harga_dewasa"
                 value={formData.harga_dewasa}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md darklabel"
                 placeholder="e.g. 1200000"
                 required
                 min={0}
@@ -59,7 +59,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                 key={index}
                 className="flex items-center gap-2 border border-gray-100 p-2 rounded-md shadow-sm"
               >
-                <span className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[110px] text-center">
+                <span className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[110px] text-center darklabel">
                   Description
                 </span>
 
@@ -70,10 +70,10 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                   onChange={(e) =>
                     handlePriceChange(index, "durasi", e.target.value)
                   }
-                  className="flex-1 py-2 px-3 rounded-md border border-gray-300"
+                  className="flex-1 py-2 px-3 rounded-md border border-gray-300 darklabel"
                 />
 
-                <span className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[70px] text-center">
+                <span className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[70px] text-center darklabel">
                   Price
                 </span>
 
@@ -84,7 +84,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
                   onChange={(e) =>
                     handlePriceChange(index, "harga", e.target.value)
                   }
-                  className="flex-1 py-2 px-3 rounded-md border border-gray-300"
+                  className="flex-1 py-2 px-3 rounded-md border border-gray-300 darklabel"
                 />
 
                 <button

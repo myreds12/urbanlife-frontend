@@ -39,25 +39,25 @@ const CityForm = forwardRef(({ countries = [], cityId }, ref) => {
     <div className="grid grid-cols-3 gap-4">
       {/* City ID - Readonly */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1 darksubtitle">
           City ID
         </label>
         <input
           type="text"
           value={!form.id ? cityId : form.id}
           disabled
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
         />
       </div>
 
       {/* Country Select */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1 darksubtitle">
           Country
         </label>
         <select
           name="negara_id"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
           value={form.negara_id}
           onChange={handleChange}
         >
@@ -72,14 +72,14 @@ const CityForm = forwardRef(({ countries = [], cityId }, ref) => {
 
       {/* City name */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1 darksubtitle">
           City name
         </label>
         <input
           type="text"
           name="nama"
           placeholder="Enter city name"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
           value={form.nama}
           onChange={handleChange}
         />

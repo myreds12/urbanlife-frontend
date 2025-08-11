@@ -120,13 +120,13 @@ const Inbox = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Inbox</h1>
-              <p className="text-gray-600 mt-1">
+              <h1 className="text-2xl font-bold text-gray-900 darktitle">Inbox</h1>
+              <p className="text-gray-600 mt-1 darksubtitle">
                 Manage your customer messages and communications
               </p>
             </div>

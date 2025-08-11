@@ -65,7 +65,7 @@ const CountryForm = forwardRef((_, ref) => {
     <div className="grid grid-cols-1 gap-6">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1 darksubtitle">
             Country Name
           </label>
           <input
@@ -74,11 +74,11 @@ const CountryForm = forwardRef((_, ref) => {
             placeholder="Enter country name"
             value={form.nama}
             onChange={handleChange}
-            className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+            className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1 darksubtitle">
             Country Code
           </label>
           <input
@@ -87,7 +87,7 @@ const CountryForm = forwardRef((_, ref) => {
             placeholder="Enter country code"
             value={form.kode}
             onChange={handleChange}
-            className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+            className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm darklabel"
           />
         </div>
       </div>

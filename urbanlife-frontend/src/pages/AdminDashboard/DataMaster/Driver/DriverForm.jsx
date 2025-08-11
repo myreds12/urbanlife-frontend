@@ -63,50 +63,50 @@ const DriverForm = forwardRef((_, ref) => {
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
       {/* Driver ID */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Driver ID</label>
+        <label className="block text-sm text-gray-600 mb-1 darksubtitle">Driver ID</label>
         <input
           type="text"
           value={guideId}
           disabled
           readOnly
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm bg-gray-100 text-gray-600"
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm bg-gray-100 text-gray-600 darklabel"
         />
       </div>
 
       {/* Nama */}
       <div>
-        <label className="text-sm text-gray-600 mb-1 block">Name</label>
+        <label className="text-sm text-gray-600 mb-1 block darksubtitle">Name</label>
         <input
           type="text"
           name="nama"
           value={form.nama}
           onChange={handleChange}
-          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
+          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm darklabel"
           placeholder="Driver Name"
         />
       </div>
 
       {/* Nomor HP */}
       <div>
-        <label className="text-sm text-gray-600 mb-1 block">Phone</label>
+        <label className="text-sm text-gray-600 mb-1 block darksubtitle">Phone</label>
         <input
           type="text"
           name="nomor_hp"
           value={form.nomor_hp}
           onChange={handleChange}
-          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
+          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm darklabel"
           placeholder="08xxxxxxxx"
         />
       </div>
 
       {/* Gender */}
       <div>
-        <label className="text-sm text-gray-600 mb-1 block">Gender</label>
+        <label className="text-sm text-gray-600 mb-1 block darksubtitle">Gender</label>
         <select
           name="gender"
           value={form.gender}
           onChange={handleChange}
-          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
+          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm darklabel"
         >
           <option value="">Select</option>
           <option value="Laki - laki">Laki - laki</option>
@@ -116,13 +116,13 @@ const DriverForm = forwardRef((_, ref) => {
 
       {/* Expiry Date */}
       <div>
-        <label className="text-sm text-gray-600 mb-1 block">Expired Date</label>
+        <label className="text-sm text-gray-600 mb-1 block darksubtitle">Expired Date</label>
         <input
           type="date"
           name="tanggal_periode_berakhir"
           value={form.tanggal_periode_berakhir}
           onChange={handleChange}
-          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
+          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm darklabel"
         />
       </div>
     </div>

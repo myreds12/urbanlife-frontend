@@ -178,7 +178,7 @@ const CreateBlog = () => {
     <div className="flex h-screen">
       <main className="p-1 flex-1">
         <div className="p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-5">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-5 darktitle">
             {isEditMode ? "Edit Blog" : "Buat Blog"}
           </h2>
           <div className="text-md text-gray-500 mb-6 flex space-x-5">
@@ -186,7 +186,7 @@ const CreateBlog = () => {
               <span
                 key={section}
                 onClick={() => moveSection(section)}
-                className={`cursor-pointer px-1 font-medium underline-item relative ${
+                className={`cursor-pointer px-1 font-medium underline-item relative darksubtitle darkunderline ${
                   activeSection === section
                     ? "text-cyan-600 active"
                     : "text-gray-500"
@@ -220,7 +220,7 @@ const CreateBlog = () => {
             {activeSection === "description" && (
               <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mt-6 space-y-4">
                 <div className="flex items-center gap-5">
-                  <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+                  <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md darklabel" style={{ minWidth: "90px" }}>
                     Slug
                   </label>
                   <input
@@ -228,20 +228,20 @@ const CreateBlog = () => {
                     name="slug"
                     value={formData.slug}
                     onChange={handleChange}
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 darklabel"
                     required
                     pattern="[a-z0-9-]+"
                   />
                 </div>
                 <div className="flex items-center gap-5">
-                  <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "90px" }}>
+                  <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md darklabel" style={{ minWidth: "90px" }}>
                     Lokasi
                   </label>
                   <select
                     name="lokasi_id"
                     value={formData.lokasi_id}
                     onChange={handleChange}
-                    className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
+                    className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm darklabel"
                   >
                     <option value="">-- Pilih Lokasi --</option>
                     {locations.map((loc) => (

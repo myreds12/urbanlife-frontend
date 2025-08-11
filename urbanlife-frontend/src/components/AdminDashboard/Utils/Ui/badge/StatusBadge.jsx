@@ -10,6 +10,8 @@ const statusColors = {
   true: 'bg-green-500',
   false: 'bg-red-500',
   suspended: 'bg-gray-500',
+  Perempuan: 'bg-red-200',
+  Lakilaki: 'bg-blue-500'
 };
 
 const StatusBadge = ({ status }) => {

@@ -130,7 +130,7 @@ const Orders = () => {
 
   return (
     <div className="p-4 ml-6">
-      <h1 className="text-2xl font-bold text-gray-900">Orders</h1>
+      <h1 className="text-2xl font-bold text-gray-900 darktitle">Orders</h1>
 
       <div className="flex justify-between items-center">
         {/* Tabs */}
@@ -196,7 +196,7 @@ const Orders = () => {
           {/* Data info dan Pagination */}
           {totalPages >= 1 && (
             <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="text-sm text-gray-700">
+              <div className="text-sm text-gray-700 darksubtitle">
                 Showing {(page - 1) * take + 1} to{" "}
                 {Math.min(page * take, total)} of {total} orders
               </div>

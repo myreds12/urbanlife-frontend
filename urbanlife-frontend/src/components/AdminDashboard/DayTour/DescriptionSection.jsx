@@ -15,14 +15,14 @@ const DescriptionSection = ({
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
         <div className="mb-4 flex items-center ">
-          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel" style={{ minWidth: "190px" }}>
             Select Location <span className="text-red-500">*</span>
           </label>
           <select
             name="lokasi_id"
             value={formData.lokasi_id}
             onChange={handleChange}
-            className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
+            className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm darklabel"
             required
           >
             <option value="">-- Pilih Lokasi --</option>
@@ -38,10 +38,10 @@ const DescriptionSection = ({
           <>
             <div className="flex items-center ">
               <label
-                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
                 style={{ minWidth: "190px" }}
               >
-                Daytour package name
+                Daytour package name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -49,13 +49,13 @@ const DescriptionSection = ({
                 value={formData.nama}
                 onChange={handleChange}
                 required
-                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600 darklabel"
               />
             </div>
 
             <div className="flex items-center mt-5">
               <label
-                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
                 style={{ minWidth: "190px" }}
               >
                 Select Category <span className="text-red-500">*</span>
@@ -64,7 +64,7 @@ const DescriptionSection = ({
                 name="category_id"
                 value={formData.category_id || ""}
                 onChange={handleChange}
-                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600 darklabel"
                 required
               >
                 <option value="">-- Pilih Kategori --</option>
@@ -78,7 +78,7 @@ const DescriptionSection = ({
 
             <div className="flex items-center mt-5">
               <label
-                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
                 style={{ minWidth: "190px" }}
               >
                 Durasi <span className="text-red-500">*</span>
@@ -88,7 +88,7 @@ const DescriptionSection = ({
                 name="durasi"
                 value={formData.durasi || ""}
                 onChange={handleChange}
-                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600 darklabel"
                 placeholder="e.g. 1 - 4 jam/hours"
                 required
               />
@@ -98,7 +98,7 @@ const DescriptionSection = ({
           <>
             <div className="flex items-center">
               <label
-                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
                 style={{ minWidth: "190px" }}
               >
                 Unit Name
@@ -109,13 +109,13 @@ const DescriptionSection = ({
                 value={formData.nama}
                 onChange={handleChange}
                 required
-                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600 darklabel"
               />
             </div>
 
             <div className="flex items-center mt-5">
               <label
-                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
                 style={{ minWidth: "190px" }}
               >
                 Model
@@ -126,7 +126,7 @@ const DescriptionSection = ({
                 value={formData.model}
                 onChange={handleChange}
                 required
-                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600 darklabel"
               />
             </div>
           </>
@@ -135,7 +135,7 @@ const DescriptionSection = ({
             <>
               <div className="flex items-center">
                 <label
-                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
                   style={{ minWidth: "190px" }}
                 >
                   Unit Name
@@ -146,13 +146,13 @@ const DescriptionSection = ({
                   value={formData.nama}
                   onChange={handleChange}
                   required
-                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600 darklabel"
                 />
               </div>
 
               <div className="flex items-center mt-5">
                 <label
-                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md darklabel"
                   style={{ minWidth: "190px" }}
                 >
                   Tipe
@@ -162,7 +162,7 @@ const DescriptionSection = ({
                   value={formData.tipe}
                   onChange={handleChange}
                   required
-                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600"
+                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:outline-cyan-600 darklabel"
                 >
                   <option value="hotel">Hotel</option>
                   <option value="eco_lodge">Eco Lodge</option>
@@ -176,10 +176,10 @@ const DescriptionSection = ({
         <div className="flex space-x-4 mt-6">
           {content.map((item, index) => (
             <div key={item.bahasa} className="w-1/2">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 darklabel">
                 {item.bahasa}
               </label>
-              <div className="mt-2">
+              <div className="mt-2 darksubtitle">
                 <span className="text-red-500 mr-1">*</span>{" "}
                 {item.bahasa === "ENGLISH" ? "Description" : "Deskripsi"}
               </div>
@@ -189,7 +189,7 @@ const DescriptionSection = ({
                 onChange={(e) =>
                   onChangeContent(index, "deskripsi", e.target.value)
                 }
-                className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:outline-cyan-600"
+                className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:outline-cyan-600 darklabel"
               />
             </div>
           ))}

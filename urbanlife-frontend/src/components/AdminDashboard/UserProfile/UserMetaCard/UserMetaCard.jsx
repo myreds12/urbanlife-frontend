@@ -32,14 +32,14 @@ export default function UserMetaCard() {
               <img src="/images/user/owner.jpg" alt="user" className="object-cover w-full h-full" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900">{userInfo.name}</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 darktitle">{userInfo.name}</h2>
               <span className="flex items-center gap-2">
                 <i class="fa-solid fa-briefcase text-blue-500"></i>
-                <p className="text-gray-600">{userInfo.role}</p>
+                <p className="text-gray-600 darksubtitle">{userInfo.role}</p>
               </span>
               <span className="flex items-center gap-2">
                 <i class="fa-solid fa-location-dot text-red-500"></i>
-                <p className="text-sm text-gray-500">{userInfo.location}</p>
+                <p className="text-sm text-gray-500 darksubtitle">{userInfo.location}</p>
               </span>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default function UserMetaCard() {
         <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
           
           <div className="flex items-center justify-between p-6 border-b border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+            <h3 className="text-lg font-semibold text-gray-900 darktitle">Personal Information</h3>
             <Button
               size="sm"
               variant="outline"
@@ -96,24 +96,24 @@ export default function UserMetaCard() {
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">First Name</label>
-                <p className="text-gray-900">{userInfo.name.split(' ')[0]}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">First Name</label>
+                <p className="text-gray-900 darktitle">{userInfo.name.split(' ')[0]}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Last Name</label>
-                <p className="text-gray-900">{userInfo.name.split(' ').slice(1).join(' ')}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">Last Name</label>
+                <p className="text-gray-900 darktitle">{userInfo.name.split(' ').slice(1).join(' ')}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Email address</label>
-                <p className="text-gray-900">{userInfo.email}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">Email address</label>
+                <p className="text-gray-900 darktitle">{userInfo.email}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Phone</label>
-                <p className="text-gray-900">{userInfo.phone}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">Phone</label>
+                <p className="text-gray-900 darktitle">{userInfo.phone}</p>
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-600 mb-1">Bio</label>
-                <p className="text-gray-900">{userInfo.bio}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">Bio</label>
+                <p className="text-gray-900 darktitle">{userInfo.bio}</p>
               </div>
             </div>
           </div>
@@ -124,26 +124,26 @@ export default function UserMetaCard() {
       {!showEditForm && (
         <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
           <div className="flex items-center justify-between p-6 border-b border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-900">Address</h3>
+            <h3 className="text-lg font-semibold text-gray-900 darktitle">Address</h3>
           </div>
                   
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">City/State</label>
-                <p className="text-gray-900">{userInfo.location}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">City/State</label>
+                <p className="text-gray-900 darktitle">{userInfo.location}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Country</label>
-                <p className="text-gray-900">{userInfo.country}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">Country</label>
+                <p className="text-gray-900 darktitle">{userInfo.country}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Role</label>
-                <p className="text-gray-900">{userInfo.role}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">Role</label>
+                <p className="text-gray-900 darktitle">{userInfo.role}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Status</label>
-                <p className="text-green-600 font-medium">{userInfo.status}</p>
+                <label className="block text-sm font-medium text-gray-600 mb-1 darksubtitle">Status</label>
+                <p className="text-green-600 font-medium ">{userInfo.status}</p>
               </div>
             </div>
           </div>

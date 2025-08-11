@@ -12,14 +12,14 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
         {/* Category Field */}
         <div className="flex items-center gap-5 mb-6">
           <label
-            className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md"
+            className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md  darklabel"
             style={{ minWidth: "90px" }}
           >
             Category
           </label>
           <select
             name="category_id"
-            className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm"
+            className="input input-bordered w-full py-1 rounded-lg border border-gray-200 shadow-sm darklabel"
             value={formData.category_id}
             onChange={handleChange}
           >
@@ -39,7 +39,7 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
               {/* Subject Field */}
               <div className="flex items-center gap-5">
                 <label
-                  className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md"
+                  className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md darklabel"
                   style={{ minWidth: "90px" }}
                 >
                   {item.bahasa === "ENGLISH" ? "Subject" : "Subjek"}
@@ -48,7 +48,7 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
                   type="text"
                   value={item.judul}
                   onChange={(e) => onChangeContent(index, "judul", e.target.value)}
-                  className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 darklabel"
                   placeholder={item.bahasa === "ENGLISH" ? "Enter subject" : "Masukkan subjek"}
                   required
                 />
@@ -56,12 +56,12 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
 
               {/* Language Label and Description */}
               <div>
-                <label className="block text-md font-medium mb-1">
+                <label className="block text-md font-medium mb-1 darklabel">
                   {item.bahasa === "ENGLISH" ? "English" : "Indonesia"}
                 </label>
                 <div className="mb-1">
                   <span className="text-red-500">*</span>
-                  <span className="text-sm text-gray-600 ml-1">
+                  <span className="text-sm text-gray-600 ml-1 darksubtitle">
                     {item.bahasa === "ENGLISH" ? "Description" : "Deskripsi"}
                   </span>
                 </div>
@@ -69,7 +69,7 @@ const BlogDescriptionSection = ({ id, isActive, formData, content, onChangeConte
                   value={item.deskripsi || ""}
                   onChange={(e) => onChangeContent(index, "deskripsi", e.target.value)}
                   rows={12}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none darklabel"
                   placeholder={
                     item.bahasa === "ENGLISH"
                       ? "Enter description in English..."

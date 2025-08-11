@@ -245,6 +245,7 @@ const Table = ({
                     fontSize: "12px",
                     width: "50px",
                   }}
+                  className="darkth"
                 >
                   <input
                     type="checkbox"
@@ -263,7 +264,7 @@ const Table = ({
                         selectedRows.forEach((id) => onRowSelect(id));
                       }
                     }}
-                    className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                    className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300 darkcheckbox"
                   />
                 </th>
               )}
@@ -287,6 +288,7 @@ const Table = ({
                         : "default",
                   }}
                   onClick={() => handleSort(column)}
+                  className="darkth"
                 >
                   <span
                     style={{ display: "inline-flex", alignItems: "center" }}
@@ -302,19 +304,21 @@ const Table = ({
             </tr>
           </thead>
           <tbody>
+            {/* border data &selected row */}
             {data.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
+                className="darktd"
                 style={{
                   borderBottom:
-                    rowIndex < data.length - 1 ? "1px solid #f3f4f6" : "none",
+                    rowIndex < data.length - 1 ? "" : "none",
                   transition: "all 0.2s ease",
                   backgroundColor: selectedRows.includes(row.id)
-                    ? "#dbeafe"
+                    ? ""
                     : "transparent",
                   borderLeft: selectedRows.includes(row.id)
                     ? "3px solid #00BEF0"
-                    : "3px solid transparent",
+                    : "",
                 }}
                 onMouseEnter={(e) => {
                   if (!selectedRows.includes(row.id)) {
@@ -328,24 +332,27 @@ const Table = ({
                 }}
               >
                 {onRowSelect && (
-                  <td style={{ padding: "10px 24px" }}>
+                  <td style={{ padding: "10px 24px" }} className="darktd">
+                    {/* checkbox masing-masing data */}
                     <input
                       type="checkbox"
                       checked={selectedRows.includes(row.id)}
                       onChange={() => onRowSelect(row.id)}
-                      className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                      className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300 darkcheckbox"
                     />
                   </td>
                 )}
 
                 {columns.map((column) =>
                   column === "Action" ? (
-                    <td key={column} style={{ padding: "5px 24px" }}>
+                    <td key={column} style={{ padding: "5px 24px" }} className="darktd">
                       {renderActionButtons(row)}
                     </td>
                   ) : (
+                    // td inti
                     <td
                       key={column}
+                      className="darktd"
                       style={{
                         padding: "5px 24px",
                         color: "#6b7280",

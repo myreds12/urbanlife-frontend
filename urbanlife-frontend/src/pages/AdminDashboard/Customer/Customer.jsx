@@ -143,12 +143,7 @@ const handleClearSelection = () => {
   return (
     <>
       <div className="p-5">
-        <div style={{ 
-          background: "#ffffff", 
-          borderRadius: "12px",
-          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-          overflow: "hidden",
-        }}>
+        <div className="bg-white rounded-xl shadow overflow-hidden">
           {/* Bulk Action Bar - Only show when items are selected */}
             {selectedRows.length > 0 && (
               <BulkActionBar
@@ -163,7 +158,7 @@ const handleClearSelection = () => {
 
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
-            <h1 className="text-2xl font-bold text-gray-800">Customer</h1>
+            <h1 className="text-2xl font-bold text-gray-800 darktitle">Customer</h1>
             <div className="flex items-center gap-4">
               <Search
                 searchTerm={searchTerm}
@@ -194,7 +189,7 @@ const handleClearSelection = () => {
 
         {/* Data info dan Pagination */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-gray-700 darksubtitle">
             Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of {sortedData.length} customers
           </div>
           <Pagination

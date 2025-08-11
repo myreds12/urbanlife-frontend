@@ -192,7 +192,7 @@ const Car = () => {
     <div className="p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
-          <h3 className="text-lg font-semibold text-gray-800">Car</h3>
+          <h3 className="text-lg font-semibold text-gray-800 darktitle">Car</h3>
           <CarForm ref={formRef} carId={nextId} />
           <div className="flex justify-end gap-4">
             <button
@@ -221,7 +221,7 @@ const Car = () => {
 
       <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">List Car Unit</h3>
+          <h3 className="text-lg font-semibold text-gray-800 darktitle">List Car Unit</h3>
           <div className="flex gap-2">
             <div className="w-64">
               <Search

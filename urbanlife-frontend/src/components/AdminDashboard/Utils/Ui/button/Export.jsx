@@ -70,7 +70,7 @@ const Export = ({
     <button
       onClick={handleExport}
       disabled={disabled}
-      className={`bg-white border border-gray-300 rounded-md px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 ${className}`}>
+      className={`bg-white border border-gray-300 rounded-md px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 darkth ${className}`}>
       Download
       <i className="fa-solid fa-download" />
     </button>

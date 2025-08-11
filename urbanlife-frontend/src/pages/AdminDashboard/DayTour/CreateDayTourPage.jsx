@@ -272,14 +272,14 @@ function CreateDayTourPage() {
       <div className="flex h-screen ">
         <main className="p-1 flex-1">
           <div className="p-6 rounded-lg">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-5">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-5 darktitle">
               {isEditMode ? "Edit Day Tour" : "Create Day Tour"}
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
               {["description", "image", "itinerary", "price"].map((section) => (
                 <span
                   key={section}
-                  className={`cursor-pointer px-1 font-medium underline-item relative ${
+                  className={`cursor-pointer px-1 font-medium underline-item relative darksubtitle darkunderline ${
                     activeSection === section
                       ? "text-cyan-600 active"
                       : "text-gray-500"

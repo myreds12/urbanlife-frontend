@@ -9,11 +9,11 @@ const Search = ({
 }) => {
   return (
     <div className={`relative ${width}`}>
-      <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 " />
       <input
         type="text"
         placeholder={placeholder}
-        className={`pl-10 border border-gray-300 rounded-md px-3 py-2 text-sm w-full ${className}`}
+        className={`pl-10 border border-gray-300 rounded-md px-3 py-2 text-sm w-full darkth ${className}`}
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
       />

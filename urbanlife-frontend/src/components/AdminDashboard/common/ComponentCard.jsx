@@ -11,7 +11,7 @@
         {(title || desc) && (
           <div className="px-4 pt-3 pb-1">
             {title && (
-              <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+              <h3 className="text-lg font-semibold text-gray-800 darktitle">{title}</h3>
             )}
             {desc && (
               <p className="mt-1 text-sm text-gray-500">

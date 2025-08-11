@@ -104,15 +104,15 @@ const WhatsappConnect = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen p-6">
 
 
       <div className="max-w-6xl mx-auto">
         <div className="mb-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2 darktitle">
             WhatsApp Integration
           </h1>
-          <p className="text-gray-600 text-base">
+          <p className="text-gray-600 text-base darksubtitle">
             Connect your WhatsApp Business account to enable automated messaging
           </p>
         </div>
@@ -130,7 +130,7 @@ const WhatsappConnect = () => {
 
           {/* Instructions Section */}
           <div className="bg-white rounded-xl shadow-lg p-6 lg:p-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">
+            <h3 className="text-xl font-semibold text-gray-900 mb-6 darktitle">
               How to Connect
             </h3>
             <div className="space-y-6">
@@ -161,21 +161,21 @@ const WhatsappConnect = () => {
                     {step}
                   </div>
                   <div>
-                    <p className="text-gray-800 font-semibold">{title}</p>
-                    <p className="text-gray-500 text-sm">{desc}</p>
+                    <p className="text-gray-800 font-semibold darktitle">{title}</p>
+                    <p className="text-gray-500 text-sm darksubtitle">{desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8 p-4 bg-amber-50 rounded-lg border border-amber-200">
+            <div className="mt-8 p-4 bg-amber-50 rounded-lg border border-amber-200 darkcard-wa">
               <div className="flex items-start gap-2">
                 <div className="text-amber-600 mt-1">⚠️</div>
                 <div>
-                  <p className="text-amber-800 font-medium text-sm">
+                  <p className="text-amber-800 font-medium text-sm darkcard-wa">
                     Important Notes:
                   </p>
-                  <ul className="text-amber-700 text-sm mt-1 space-y-1 list-disc list-inside">
+                  <ul className="text-amber-700 text-sm mt-1 space-y-1 list-disc list-inside darkcard-wa">
                     <li>QR code expires in 20 seconds</li>
                     <li>Make sure your phone has internet connection</li>
                     <li>Only one device can be connected at a time</li>
@@ -188,7 +188,7 @@ const WhatsappConnect = () => {
 
         {/* Connection Status */}
         <div className="mt-12 bg-white rounded-xl shadow-lg p-6 lg:p-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 darktitle">
             Connection Status
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -203,16 +203,16 @@ const WhatsappConnect = () => {
               },
               { label: "Messages", status: isConnected ? "Ready" : "Pending" },
             ].map((item, idx) => (
-              <div key={idx} className="text-center p-4 bg-gray-50 rounded-lg">
+              <div key={idx} className="text-center p-4 bg-gray-50 rounded-lg darkcard">
                 <div
                   className={`w-3 h-3 rounded-full mx-auto mb-2 ${
                     isConnected ? "bg-green-500" : "bg-gray-300"
                   }`}
                 ></div>
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-sm font-medium text-gray-700 darktitle">
                   {item.label}
                 </p>
-                <p className="text-xs text-gray-500">{item.status}</p>
+                <p className="text-xs text-gray-500 darksubtitle">{item.status}</p>
               </div>
             ))}
           </div>

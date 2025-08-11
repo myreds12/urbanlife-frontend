@@ -60,7 +60,7 @@ const DriverForm = forwardRef((_, ref) => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
       {/* Driver ID */}
       <div>
         <label className="block text-sm text-gray-600 mb-1">Driver ID</label>
@@ -115,16 +115,19 @@ const DriverForm = forwardRef((_, ref) => {
       </div>
 
       {/* Expiry Date */}
-      <div>
-        <label className="text-sm text-gray-600 mb-1 block">Expired Date</label>
-        <input
-          type="date"
-          name="tanggal_periode_berakhir"
-          value={form.tanggal_periode_berakhir}
-          onChange={handleChange}
-          className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
-        />
-      </div>
+<div className="w-full flex flex-col justify-end">
+  <label className="text-sm text-gray-600 mb-1 leading-tight">
+    Driver's license<br />validity period
+  </label>
+  <input
+    type="date"
+    name="tanggal_periode_berakhir"
+    value={form.tanggal_periode_berakhir}
+    onChange={handleChange}
+    className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
+  />
+</div>
+
     </div>
   );
 });

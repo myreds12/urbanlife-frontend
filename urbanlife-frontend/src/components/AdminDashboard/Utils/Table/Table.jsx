@@ -229,10 +229,33 @@ const Table = ({
           .action-button:active {
             transform: scale(0.95);
           }
+
+          .table-scroll-container {
+            overflow-x: hidden;
+            transition: overflow 0.2s ease;
+          }
+
+          .table-scroll-container:hover {
+            overflow-x: auto;
+          }
+
+          .table-scroll-container::-webkit-scrollbar {
+            height: 8px;
+          }
+
+          .table-scroll-container::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+          }
+
+          .table-scroll-container:not(:hover)::-webkit-scrollbar {
+            display: none;
+          }
+
         `}
       </style>
-      <div style={{ overflow: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div className="table-scroll-container">
+        <table style={{ width: "100%", borderCollapse: "collapse",minWidth: "300px" }}>
           <thead>
             <tr style={{ backgroundColor: "#f9fafb" }}>
               {onRowSelect && (

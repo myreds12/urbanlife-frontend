@@ -37,8 +37,8 @@ const UnitCarItem = ({
                 <ul>
                   {duration.map((item, index) => (
                     <li key={index}>
-                      <span className="duration-time">{item.duration}</span>
-                      <span className="duration-price">{item.price}</span>
+                      <span className="duration-time">{item.durasi}</span>
+                      <span className="duration-price">{item.harga}</span>
                     </li>
                   ))}
                 </ul>

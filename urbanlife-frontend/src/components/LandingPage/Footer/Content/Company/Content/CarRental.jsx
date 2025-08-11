@@ -1,23 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../../../HomePage/Navbar/Navbar';
-import UnitCarGrid from './RentalCar/UnitCarGrid';
-import { UnitCar } from './RentalCar/UnitCar';
-import './RentalCar/CarRental.css';
+import React, { useState, useEffect } from "react";
+import Navbar from "../../../../HomePage/Navbar/Navbar";
+import UnitCarGrid from "./RentalCar/UnitCarGrid";
+import { UnitCar } from "./RentalCar/UnitCar";
+import "./RentalCar/CarRental.css";
+import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
+import Footer from "../../../../HomePage/Footer";
 
 const CarRental = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
+  const [data, setData] = useState([]);
+  console.log(data, "data");
   const handleHomeClick = () => {
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
+  const fetchData = async () => {
+    try {
+      const { data } = await apiClient.get("/pemesanan/items?type=KENDARAAN");
+      setData(data.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const renderCategoryContent = () => {
-    return <UnitCarGrid cards={UnitCar} />;
+    return <UnitCarGrid cards={data} />;
   };
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      const heroSection = document.querySelector('.hero-section');
+      const heroSection = document.querySelector(".hero-section");
       if (heroSection) {
         const rect = heroSection.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -26,10 +42,11 @@ const CarRental = () => {
       }
     };
 
-    const heroSection = document.querySelector('.hero-section');
+    const heroSection = document.querySelector(".hero-section");
     if (heroSection) {
-      heroSection.addEventListener('mousemove', handleMouseMove);
-      return () => heroSection.removeEventListener('mousemove', handleMouseMove);
+      heroSection.addEventListener("mousemove", handleMouseMove);
+      return () =>
+        heroSection.removeEventListener("mousemove", handleMouseMove);
     }
   }, []);
 
@@ -67,7 +84,10 @@ const CarRental = () => {
         <div className="hero-content">
           <h1 className="hero-title playfair">Car Rental</h1>
           <div className="breadcrumb">
-            <button className="breadcrumb-link cursor-pointer" onClick={handleHomeClick}>
+            <button
+              className="breadcrumb-link cursor-pointer"
+              onClick={handleHomeClick}
+            >
               Home
             </button>
             <span className="separator">/</span>
@@ -78,6 +98,8 @@ const CarRental = () => {
 
       {/* Content Area */}
       <div className="content-area">{renderCategoryContent()}</div>
+
+      <Footer />
     </div>
   );
 };

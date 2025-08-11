@@ -5,7 +5,9 @@ import Button from "../../Ui/button/Button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../ApiClient/apiClient";
+import { useAuthStore } from "../../Auth/AuthStore";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +15,10 @@ const Login = () => {
     email: "",
     password: "",
   });
+  // Auth Store (dari Zustand)
+  const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser); // Optional jika kamu decode user dari token
+
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -66,10 +72,12 @@ const Login = () => {
 
       const { accessToken } = response.data.data;
 
-
       // Simpan token & user info ke localStorage
-      localStorage.setItem("authToken", accessToken); // penting!
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`; // penting!
+      // Saat berhasil login
+      setToken(accessToken);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      setUser(jwtDecode(accessToken));
+
 
       // Reset form
       setFormData({ email: "", password: "" });

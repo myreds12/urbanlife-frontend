@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import "../../../styles/LandingPage/HomePage/DestinationCard.css";
 import ModalDestination from "../Utils/modal/ModalDestination";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
+import { formatBookingData } from "../../AdminDashboard/Utils/FormatData/bookingFormatData";
 
 const DestinationCard = ({ travel }) => {
   const navigate = useNavigate();
@@ -19,37 +20,26 @@ const DestinationCard = ({ travel }) => {
     return () => wrapper?.classList.remove("modal-open");
   }, [isShareModalOpen, travel.nama]);
 
-  const handleMoreDetail = () => {
-    const detailData = {
-      id: travel.id,
-      title: travel.nama,
-      type: travel.item_type?.toLowerCase(),
-      country: travel.lokasi?.negara?.nama || "Unknown",
-      location: travel.lokasi?.nama || "Unknown",
-      image: travel.file_url
-        ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${travel.file_url
-            .replace(/\\/g, "/")
-            .replace(/^uploads\//, "")}`
-        : "/public/images/error/No_Image_Available.jpg",
-      price: travel.harga_dewasa || 0,
-      durasi_hari: travel.durasi_hari || 0,
-      content: travel.content || [],
-    };
+  const handleBookNow = () => {
+      const bookingData = formatBookingData(travel);
 
-    console.log("Navigating to DaytourDetail with data:", detailData);
-    navigate(`/DaytourDetail/${travel.id}`, { state: detailData });
+
+    console.log("Handle Booking Data:", bookingData);
+    navigate(`/DaytourDetail/${travel.id}`, { state: bookingData });
+
+    // navigate(`/OrderDetail?type=${travel.item_type?.toLowerCase()}&id=${travel.id}`, {
+    //   state: bookingData,
+    // });
   };
 
   const shareData = {
     title: "Bagikan Destinasi",
     location: travel.lokasi?.negara?.nama || "Unknown",
-    description: `${travel.nama} - ${
-      travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
-        ? `${travel.durasi[0].durasi}`
-        : travel.item_type?.toLowerCase() !== "kendaraan"
-        ? `Durasi akan dipilih ketika pemesanan`
-        : "1 - 12 hours"
-    }`,
+    description: `${travel.nama} - ${travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
+      ? `${travel.durasi[0].durasi}`
+      : travel.item_type?.toLowerCase() !== "kendaraan"
+      ? `Durasi akan dipilih ketika pemesanan`
+      : "1 - 12 hours"}`,
     image: travel.file_url
       ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${travel.file_url
           .replace(/\\/g, "/")
@@ -68,7 +58,7 @@ const DestinationCard = ({ travel }) => {
           <div className="country-label">{travel.lokasi?.negara?.nama}</div>
           <button
             onClick={() => {
-              console.log("Share button clicked for:", travel.nama);
+              console.log("Share button clicked for:", travel.nama, "Setting isShareModalOpen to true");
               setIsShareModalOpen(true);
             }}
             className="share-btn"
@@ -77,7 +67,7 @@ const DestinationCard = ({ travel }) => {
               <path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z" />
             </svg>
           </button>
-          <button onClick={handleMoreDetail} className="book-btn">
+          <button onClick={handleBookNow} className="book-btn">
             More Detail{" "}
             <span className="arrow">
               <svg
@@ -102,6 +92,8 @@ const DestinationCard = ({ travel }) => {
             {travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
               ? `${travel.durasi[0].durasi}`
               : travel.item_type?.toLowerCase() !== "kendaraan"
+              // TODO : PERBAIKI STYLE KETIKA MENGGUNAKAN travel.durasi, KARENA UNTUK HARGA NYA TIDAK TERLIHAT 
+              // ? travel.durasi
               ? `Durasi akan dipilih ketika pemesanan`
               : "1 - 12 hours"}
           </p>
@@ -112,7 +104,7 @@ const DestinationCard = ({ travel }) => {
                 ? travel?.durasi[0]?.harga ?? 0
                 : travel.item_type?.toLowerCase() === "travel_package"
                 ? travel.harga_dewasa
-                : travel.harga
+                : travel.room_and_price[0].harga
             ).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
           </p>
         </div>
@@ -122,7 +114,7 @@ const DestinationCard = ({ travel }) => {
           <ModalDestination
             isOpen={isShareModalOpen}
             onClose={() => {
-              console.log("Modal closed for:", travel.nama);
+              console.log("Modal closed for:", travel.nama, "Setting isShareModalOpen to false");
               setIsShareModalOpen(false);
             }}
             shareData={shareData}

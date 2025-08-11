@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
@@ -8,22 +13,37 @@ import ReactModal from "react-modal";
 import AppLayout from "./layouts/AdminDashboard/AppLayout";
 import ThemeProvider from "./components/AdminDashboard/Utils/Context/ThemeContext";
 import ProtectedRoute from "./components/AdminDashboard/Utils/Auth/ProtectedRoute";
+import AuthInitializer from "./components/AdminDashboard/Utils/Auth/AuthInitializer";
 import { BlogProvider } from "./pages/AdminDashboard/DataMaster/Blog/BlogProvider";
 import { CategoryProvider } from "./pages/AdminDashboard/DataMaster/Category/CategoryProvider"; // Tambahkan import ini
 
 // Lazy loaded Pages
-const Dashboard = lazy(() => import("./pages/AdminDashboard/Dashboard/Dashboard"));
+const Dashboard = lazy(() =>
+  import("./pages/AdminDashboard/Dashboard/Dashboard")
+);
 const Order = lazy(() => import("./pages/AdminDashboard/Order/Order"));
 const Calendar = lazy(() => import("./pages/AdminDashboard/Calendar/Calendar"));
 const DayTour = lazy(() => import("./pages/AdminDashboard/DayTour/DayTour"));
-const CreateDayTourPage = lazy(() => import("./pages/AdminDashboard/DayTour/CreateDayTourPage"));
+const CreateDayTourPage = lazy(() =>
+  import("./pages/AdminDashboard/DayTour/CreateDayTourPage")
+);
 const RentCar = lazy(() => import("./pages/AdminDashboard/RentCar/RentCar"));
-const CreateRentCarPage = lazy(() => import("./pages/AdminDashboard/RentCar/CreateRentCar"));
-const Accomodation = lazy(() => import("./pages/AdminDashboard/Accomodation/Accomodation"));
-const CreateAccomodationPage = lazy(() => import("./pages/AdminDashboard/Accomodation/CreateAccomodation"));
+const CreateRentCarPage = lazy(() =>
+  import("./pages/AdminDashboard/RentCar/CreateRentCar")
+);
+const Accomodation = lazy(() =>
+  import("./pages/AdminDashboard/Accomodation/Accomodation")
+);
+const CreateAccomodationPage = lazy(() =>
+  import("./pages/AdminDashboard/Accomodation/CreateAccomodation")
+);
 const Customer = lazy(() => import("./pages/AdminDashboard/Customer/Customer"));
-const WhatsappConnect = lazy(() => import("./pages/AdminDashboard/WhatsappSetting/WhatsappConnect"));
-const Template = lazy(() => import("./pages/AdminDashboard/WhatsappSetting/Template"));
+const WhatsappConnect = lazy(() =>
+  import("./pages/AdminDashboard/WhatsappSetting/WhatsappConnect")
+);
+const Template = lazy(() =>
+  import("./pages/AdminDashboard/WhatsappSetting/Template")
+);
 const Inbox = lazy(() => import("./pages/AdminDashboard/Inbox/Inbox"));
 const Country = lazy(() => import("./pages/AdminDashboard/DataMaster/Country/Country"));
 const City = lazy(() => import("./pages/AdminDashboard/DataMaster/Cities/City"));
@@ -40,17 +60,29 @@ const CreateNews = lazy(() => import("./pages/AdminDashboard/News/CreateNews"));
 // Public pages
 const HomePage = lazy(() => import("./pages/LandingPage/HomePage/HomePage"));
 const Services = lazy(() => import("./pages/LandingPage/Services/Services"));
-const OrderDetail = lazy(() => import("./pages/LandingPage/OrderDetail/OrderDetail"));
-const PaymentSection = lazy(() => import("./pages/LandingPage/PaymentSection/PaymentSection"));
-const PaymentSuccess = lazy(() => import("./pages/LandingPage/PaymentSection/PaymentSuccess"));
-const PaymentUnsuccess = lazy(() => import("./pages/LandingPage/PaymentSection/PaymentUnsuccess"));
-const DaytourDetail = lazy(() => import("./pages/LandingPage/DayTour/DaytourDetail"));
-const Login = lazy(() => import("./components/AdminDashboard/Utils/Ui/Login/Login"));
+const OrderDetail = lazy(() =>
+  import("./pages/LandingPage/OrderDetail/OrderDetail")
+);
+const PaymentSection = lazy(() =>
+  import("./pages/LandingPage/PaymentSection/PaymentSection")
+);
+const PaymentSuccess = lazy(() =>
+  import("./pages/LandingPage/PaymentSection/PaymentSuccess")
+);
+const PaymentUnsuccess = lazy(() =>
+  import("./pages/LandingPage/PaymentSection/PaymentUnsuccess")
+);
+const DaytourDetail = lazy(() =>
+  import("./pages/LandingPage/DayTour/DaytourDetail")
+);
+const Login = lazy(() =>
+  import("./components/AdminDashboard/Utils/Ui/Login/Login")
+);
 const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
 // Footer Pages
 const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content/Company/CompanyFooter"));
-const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/aboutus"));
+const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AboutUs.jsx"));
 const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/TermsAndCondition"));
 const ContactUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/ContactUs"));
@@ -59,13 +91,17 @@ const DayTourPage = lazy(() => import("./components/LandingPage/Footer/Content/C
 const CategoriesFooter = lazy(() => import("./components/LandingPage/Footer/CategoriesFooter"));
 const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogPostMain"));
 const BlogDetail = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogDetail"));
+const AccomodationPage = lazy(() => import("./components/LandingPage/Services/Accomodation/Accomodation"));
+const AccoDetail = lazy(() => import("./components/LandingPage/Services/Accomodation/AccoDetail"))
 
 function App() {
+  // Set the root element for React Modal
   ReactModal.setAppElement("#root");
 
   return (
     <ThemeProvider>
       <Toaster position="top-right" reverseOrder={false} />
+      <AuthInitializer /> {/* ✅ Tambahkan ini */}
       <Router>
         <Suspense fallback={<div className="text-center p-12">Loading...</div>}>
           <Routes>
@@ -92,6 +128,8 @@ function App() {
             <Route path="/blog" element={<BlogPostMain />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/unit-car" element={<CarRental />} />
+            <Route path="/accomodation" element={<AccomodationPage />} />
+            <Route path="/accomodation/detail" element={<AccoDetail />} />
 
             {/* Admin */}
             <Route
@@ -108,11 +146,20 @@ function App() {
               <Route path="calendar" element={<Calendar />} />
               <Route path="day-tour" element={<DayTour />} />
               <Route path="day-tour/create" element={<CreateDayTourPage />} />
+              <Route path="day-tour/edit/:id" element={<CreateDayTourPage />} />
               <Route path="rent-car" element={<RentCar />} />
               <Route path="rent-car/create" element={<CreateRentCarPage />} />
+              <Route path="rent-car/edit/:id" element={<CreateRentCarPage />} />
               <Route path="customer" element={<Customer />} />
               <Route path="accommodation" element={<Accomodation />} />
-              <Route path="accommodation/create" element={<CreateAccomodationPage />} />
+              <Route
+                path="accommodation/create"
+                element={<CreateAccomodationPage />}
+              />
+              <Route
+                path="accommodation/edit/:id"
+                element={<CreateAccomodationPage />}
+              />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />
               <Route path="whatsapp-connect" element={<WhatsappConnect />} />
@@ -123,8 +170,9 @@ function App() {
               <Route path="car" element={<Car />} />
               <Route path="driver" element={<Driver />} />
               <Route path="guide" element={<Guide />} />
-              <Route path="blog" element={<BlogProvider><BlogAdmin /></BlogProvider>} />
+              <Route path="blogs" element={<BlogProvider><BlogAdmin /></BlogProvider>} />
               <Route path="blogs/create" element={<BlogProvider><CreateBlog /></BlogProvider>} />
+              <Route path="blogs/edit/:id" element={<BlogProvider><CreateBlog /></BlogProvider>} />
               <Route path="category" element={<CategoryProvider><CategoryAdmin /></CategoryProvider>} />
               <Route path="profile" element={<UserProfile />} />
             </Route>

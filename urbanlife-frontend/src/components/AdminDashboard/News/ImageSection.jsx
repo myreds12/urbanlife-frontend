@@ -44,7 +44,7 @@ const ImageSection = ({
           </div>
         ))}
 
-        {newPhotos.map((photo, index) => (
+        {newPhotos && newPhotos?.map((photo, index) => (
           <div key={`new-${index}`} className="relative">
             <img
               src={URL.createObjectURL(photo)}

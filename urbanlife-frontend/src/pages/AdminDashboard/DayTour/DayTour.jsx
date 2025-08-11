@@ -8,6 +8,56 @@ import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDe
 import { dummyDayTourData } from "./DummyDaytour";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import toast from "react-hot-toast";
+
+const mapContent = (contentArray = []) => {
+  const result = {
+    deskripsi: { indonesia: "-", english: "-" },
+  };
+
+  contentArray.forEach((item) => {
+    const lang = item.bahasa?.toLowerCase();
+    if (lang === "indonesia" || lang === "english") {
+      result.deskripsi[lang] = item.deskripsi?.trim() || "-";
+    }
+  });
+
+  return result;
+};
+
+const mapItinerary = (itineraryArray = []) => {
+  const result = {
+    indonesia: [],
+    english: [],
+  };
+
+  itineraryArray.forEach((item) => {
+    const lang = item.bahasa?.toLowerCase();
+    if (lang === "indonesia" || lang === "english") {
+      result[lang].push({
+        destination: item.nama || "-",
+        description: item.deskripsi?.trim() || "-",
+      });
+    }
+  });
+
+  return result;
+};
+
+
+const useDebouncedValue = (value, delay = 500) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 const DayTour = () => {
   const navigate = useNavigate();
@@ -15,6 +65,11 @@ const DayTour = () => {
   const [dayTourData, setDayTourData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
+=======
+  const [take] = useState(10);
+  const [total, setTotal] = useState(0);
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [selectedRows, setSelectedRows] = useState([]);
@@ -27,6 +82,7 @@ const DayTour = () => {
 
   // Modal configuration untuk day tour
   const dayTourModalConfig = {
+<<<<<<< HEAD
     sections: [
       {
         fields: [
@@ -65,6 +121,38 @@ const DayTour = () => {
       },
     ],
   };
+=======
+  sections: [
+    {
+      fields: [
+        { key: "lokasi", label: "Lokasi" },
+        { key: "nama", label: "Day tour package name" },
+        {
+          key: "deskripsi",
+          label: "Deskripsi",
+          type: "language-toggle",
+          languageKey: "deskripsi",
+        },
+        {
+          key: "itinerary",
+          label: "Itinerary",
+          type: "language-toggle",
+          languageKey: "itinerary",
+        },
+        {
+          key: "harga_anak",
+          label: "Harga Anak",
+        },
+        {
+          key: "harga_dewasa",
+          label: "Harga Dewasa",
+        },
+      ],
+    },
+  ],
+};
+
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
 
   // Bulk Action Configuration
   const bulkEditableFields = [
@@ -120,15 +208,29 @@ const DayTour = () => {
     },
   ];
 
-  const fetchDayTours = async () => {
+  const debouncedSearch = useDebouncedValue(searchTerm);
+
+  const fetchDayTours = async (search = "") => {
     setLoading(true);
     try {
+      const params = {
+        page: currentPage,
+        take,
+        ...(search.trim() && { search: search.trim() }),
+      };
       // Try to fetch from API first
       const res = await apiClient.get("/travel-package", {
+<<<<<<< HEAD
         params: { page: 1, take: 1000 },
       });
       const { data } = res.data;
+=======
+        params,
+      });
+      const { data, total } = res.data;
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
       setDayTourData(data);
+      setTotal(total);
     } catch (err) {
       console.error(
         "Failed to fetch travel packages from API, using dummy data",
@@ -145,6 +247,7 @@ const DayTour = () => {
     }
   };
 
+<<<<<<< HEAD
   // const fetchDayTours = async () => {
   //   setLoading(true);
   //   try {
@@ -158,9 +261,11 @@ const DayTour = () => {
   //   }
   // };
 
+=======
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
   useEffect(() => {
-    fetchDayTours();
-  }, []);
+    fetchDayTours(debouncedSearch);
+  }, [debouncedSearch, currentPage]);
 
   const handleSort = (columnKey) => {
     let direction = "asc";
@@ -179,15 +284,34 @@ const DayTour = () => {
     );
   };
 
+<<<<<<< HEAD
   const handleView = (row) => {
     // Prepare data for modal
     const modalData = {
       ...row,
       lokasi_display: row.lokasi?.nama || "-",
+=======
+  const handleView = async (row) => {
+  try {
+    const { data } = await apiClient.get(`/travel-package/${row.id}`);
+
+    const deskripsiMapped = mapContent(data.data.travel_package_content);
+    const itineraryMapped = mapItinerary(data.data.travel_package_itinerary);
+
+    const mappedData = {
+      ...data.data,
+      deskripsi: deskripsiMapped.deskripsi,
+      itinerary: itineraryMapped,
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
     };
-    setSelectedModalData(modalData);
+
+    setSelectedModalData(mappedData);
     setIsModalOpen(true);
-  };
+  } catch (error) {
+    console.error("Gagal mengambil detail:", error);
+    toast.error("Gagal memuat detail paket.");
+  }
+};
 
   // Handler untuk Edit
   const handleEdit = (row) => {
@@ -195,6 +319,7 @@ const DayTour = () => {
   };
 
   // Handler untuk Delete
+<<<<<<< HEAD
   const handleDelete = (row) => {
     const confirmed = window.confirm(
       `Are you sure you want to delete "${row.nama}"?`
@@ -203,10 +328,36 @@ const DayTour = () => {
       // Add your delete API call here
       console.log("Delete:", row.id);
       alert(`Package "${row.nama}" has been deleted.`);
+=======
+  const handleDelete = async (row) => {
+    const confirmed = window.confirm(`Yakin ingin menghapus "${row.nama}"?`);
+    if (!confirmed) return;
+
+    const deletePromise = apiClient.delete(`/travel-package`, {
+      data: {
+        ids: [row.id],
+      },
+    });
+
+    try {
+      const result = await deletePromise;
+      console.log(result, "result");
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kendaraan...",
+        success: `Kendaraan "${row.nama}" berhasil dihapus.`,
+        error: "Terjadi kesalahan saat menghapus.",
+      });
+
+      // TODO: Refresh list data jika perlu
+      fetchDayTours();
+    } catch (err) {
+      console.error("Delete gagal:", err);
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
     }
   };
 
   // Bulk Action Handlers
+<<<<<<< HEAD
   const handleBulkDelete = (selectedData) => {
     const confirmed = window.confirm(
       `Are you sure you want to delete ${selectedData.length} travel packages?`
@@ -219,9 +370,22 @@ const DayTour = () => {
       alert(`Successfully deleted ${selectedData.length} travel packages`);
     }
   };
+=======
+  const handleBulkDelete = async (selectedData) => {
+    const confirmed = window.confirm(
+      `Yakin ingin menghapus ${selectedData.length} kendaraan terpilih?`
+    );
+    if (!confirmed) return;
 
-  const handleBulkEdit = async (selectedData, editData) => {
+    const ids = selectedData.map((item) => item.id);
+
+    const deletePromise = apiClient.delete("/kendaraan", {
+      data: { ids },
+    });
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
+
     try {
+<<<<<<< HEAD
       const ids = selectedData.map((item) => item.id);
       console.log("Bulk edit data:", { ids, editData });
 
@@ -240,9 +404,19 @@ const DayTour = () => {
 
       // Refresh data
       fetchDayTours();
+=======
+      await toast.promise(deletePromise, {
+        loading: "Menghapus kendaraan...",
+        success: `Berhasil menghapus ${selectedData.length} kendaraan.`,
+        error: "Gagal menghapus kendaraan. Silakan coba lagi.",
+      });
+
+      // Update state lokal setelah sukses
+      setDayTourData((prev) => prev.filter((item) => !ids.includes(item.id)));
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
     } catch (err) {
-      console.error("Failed to bulk edit travel packages", err);
-      alert("Failed to update travel packages. Please try again.");
+      console.error("Bulk delete gagal:", err);
+      // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
     }
   };
 
@@ -300,6 +474,7 @@ const DayTour = () => {
     setSelectedRows([]);
   };
 
+<<<<<<< HEAD
   const filteredData = useMemo(() => {
     return dayTourData.filter((tour) =>
       Object.values(tour).some((value) => {
@@ -313,9 +488,11 @@ const DayTour = () => {
     );
   }, [dayTourData, searchTerm]);
 
+=======
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return filteredData;
-    return [...filteredData].sort((a, b) => {
+    if (!sortConfig.key) return dayTourData;
+    return [...dayTourData].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
 
@@ -331,7 +508,7 @@ const DayTour = () => {
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [filteredData, sortConfig]);
+  }, [dayTourData, sortConfig]);
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
@@ -360,6 +537,7 @@ const DayTour = () => {
 
   const mapping = {
     "#": (row, index) => (currentPage - 1) * itemsPerPage + index + 1,
+<<<<<<< HEAD
     ID: "id",
     Name: (row) => row.nama || "-",
     Duration: (row) => `${row.durasi} ${row.tipe_durasi}`,
@@ -369,6 +547,17 @@ const DayTour = () => {
       `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
     Location: (row) => row.lokasi?.nama || "-",
     Country: (row) => row.lokasi?.negara?.nama || "-",
+=======
+    ID: (row) => row.id,
+    Nama: (row) => row.nama,
+    Durasi: (row) => `${row.durasi} ${row.tipe_durasi}`,
+    "Harga Dewasa": (row) =>
+      `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
+    "Harga Anak": (row) =>
+      `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
+    Lokasi: (row) => row.lokasi?.nama || "-",
+    Negara: (row) => row.lokasi?.negara?.nama || "-",
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
     Action: null,
   };
 
@@ -389,8 +578,11 @@ const DayTour = () => {
             borderRadius: "12px",
             boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
             overflow: "hidden",
+<<<<<<< HEAD
             maxWidth: "1050px",
             margin: "0 auto",
+=======
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
           }}
         >
           {selectedRows.length > 0 && (
@@ -399,7 +591,6 @@ const DayTour = () => {
               selectedData={selectedData}
               onClearSelection={handleClearSelection}
               onBulkDelete={handleBulkDelete}
-              onBulkEdit={handleBulkEdit}
               onExport={handleBulkExport}
               editableFields={bulkEditableFields}
             />
@@ -454,9 +645,14 @@ const DayTour = () => {
         {/* Data info dan Pagination */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
+<<<<<<< HEAD
             Showing {startIndex + 1} to{" "}
             {Math.min(startIndex + itemsPerPage, sortedData.length)} of{" "}
             {sortedData.length} packages
+=======
+            Showing {startIndex + 1} to {Math.min(startIndex + take, total)} of{" "}
+            {total} rent cars
+>>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
           </div>
           <Pagination
             currentPage={currentPage}
@@ -474,7 +670,7 @@ const DayTour = () => {
         title="Detail Package"
         data={selectedModalData}
         config={dayTourModalConfig}
-        images={selectedModalData?.images || []}
+        images={selectedModalData?.travel_package_file || []}
       />
     </>
   );

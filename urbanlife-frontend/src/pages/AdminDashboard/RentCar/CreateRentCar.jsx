@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
 import ItinerarySection from "../../../components/AdminDashboard/DayTour/ItinerarySection";
@@ -11,34 +11,17 @@ import { PopsicleIcon } from "lucide-react";
 import PolicyAndProcedureSection from "../../../components/AdminDashboard/RentCar/PolicyAndProcedureSection";
 import PoliceNumberSection from "../../../components/AdminDashboard/RentCar/PoliceNumberSection";
 
+const DEFAULT_CONTENT = [
+  { bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
+  { bahasa: "INDONESIA", deskripsi: "", kebijakan: "" },
+];
+
+const DEFAULT_PRICE = [{ durasi: "", harga: "" }];
+
 const CreateRentCarPage = () => {
   const navigate = useNavigate();
-  const [photos, setPhotos] = useState([]);
-  const [locations, setLocations] = useState([]);
-  console.log(locations, "locations");
-
-  console.log(photos, "photos");
-  const [content, setContent] = useState([
-    { bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
-    { bahasa: "INDONESIA", deskripsi: "", kebijakan: "" },
-  ]);
-
-  const [prices, setPrices] = useState([{ durasi: "", harga: "" }]);
-
-  const handlePriceChange = (index, field, value) => {
-    const updated = [...prices];
-    updated[index][field] = value;
-    setPrices(updated);
-  };
-
-  const handleAddPrice = () => {
-    setPrices([...prices, { duration: "", price: "" }]);
-  };
-
-  const handleDeletePrice = (index) => {
-    const updated = prices.filter((_, i) => i !== index);
-    setPrices(updated);
-  };
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
 
   const [formData, setFormData] = useState({
     nama: "",
@@ -48,151 +31,170 @@ const CreateRentCarPage = () => {
     plat_nomor: "",
     model: "",
     tanggal_pajak_berakhir: "",
-    content: content,
-    durasi: prices,
+    content: DEFAULT_CONTENT,
+    durasi: DEFAULT_PRICE,
   });
 
-  console.log(formData, "form data");
-
-  console.log(content, "content");
-
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [prices, setPrices] = useState(DEFAULT_PRICE);
+  const [photos, setPhotos] = useState([]);
+  const [existingPhotos, setExistingPhotos] = useState([]);
+  const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
 
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      content: content,
-    }));
-  }, [content]);
+    setFormData((prev) => ({ ...prev, content, durasi: prices }));
+  }, [content, prices]);
 
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      durasi: prices,
-    }));
-  }, [prices]);
+    const fetchInitialData = async () => {
+      try {
+        const [{ data: locationData }, carData] = await Promise.all([
+          apiClient.get("/lokasi"),
+          isEditMode
+            ? apiClient.get(`/kendaraan/${id}`)
+            : Promise.resolve({ data: {} }),
+        ]);
 
-  const fetchLocations = async () => {
-    try {
-      const { data } = await apiClient.get("/lokasi");
-      setLocations(data.data || []);
-    } catch (error) {
-      console.error("❌ Failed to fetch locations", error);
-    }
-  };
+        setLocations(locationData.data || []);
 
-  useEffect(() => {
-    fetchLocations();
-  }, []);
+        if (isEditMode) {
+          const car = carData.data.data;
 
-  const handleChangeContent = (index, field, value) => {
-    const updated = [...content];
-    updated[index][field] = value;
-    setContent(updated);
-  };
+          setFormData({
+            nama: car.nama || "",
+            lokasi_id: car.lokasi_id || 0,
+            status_pajak: car.status_pajak || "",
+            status: car.status || "TERSEDIA DIPESAN",
+            plat_nomor: car.plat_nomor || "",
+            model: car.model || "",
+            tanggal_pajak_berakhir:
+              car.tanggal_pajak_berakhir.split("T")[0] || "",
+            content: car.kendaraan_content?.length
+              ? car.kendaraan_content
+              : DEFAULT_CONTENT,
+            durasi: car.kendaraan_durasi?.length
+              ? car.kendaraan_durasi
+              : DEFAULT_PRICE,
+          });
 
+          setExistingPhotos(
+            (car.kendaraan_file || []).map((file) => ({
+              id: file.id,
+              url: `${apiClient.defaults.baseURL}/public/${file.url
+                .replace(/\\/g, "/")
+                .replace(/^uploads\//, "")}`,
+              nama_file: file.nama_file,
+            }))
+          );
 
-  const handleChangePolicy = (index, value) => {
-    const updated = [...content];
-    updated[index].kebijakan = value;
-    setContent(updated);
-  };
+          setContent(car.kendaraan_content || DEFAULT_CONTENT);
+          setPrices(car.kendaraan_durasi || DEFAULT_PRICE);
+        }
+      } catch (error) {
+        toast.error("Gagal mengambil data awal");
+        console.error(error);
+      }
+    };
+
+    fetchInitialData();
+  }, [isEditMode, id]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files ? files[0] : value }));
   };
 
+  const handleContentChange = (index, field, value) => {
+    const updated = [...content];
+    updated[index][field] = value;
+    setContent(updated);
+  };
+
+  const handlePolicyChange = (index, value) =>
+    handleContentChange(index, "kebijakan", value);
+
+  const handlePriceChange = (index, field, value) => {
+    const updated = [...prices];
+    updated[index][field] = value;
+    setPrices(updated);
+  };
+
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) setPhotos((prev) => [...prev, file]);
+  };
+
+  const removePhoto = (index) =>
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  const removeExistingPhoto = (index) =>
+    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const payload = new FormData();
-    payload.append("nama", formData.nama);
-    payload.append("lokasi_id", formData.lokasi_id);
-    payload.append("plat_nomor", formData.plat_nomor);
-    payload.append("model", formData.model);
-    payload.append("tanggal_pajak_berakhir", formData.tanggal_pajak_berakhir);
-    payload.append("status", "TERSEDIA DIPESAN");
 
-    // Content (deskripsi)
-    content.forEach((item, index) => {
-      payload.append(`content[${index}][bahasa]`, item.bahasa);
-      payload.append(`content[${index}][deskripsi]`, item.deskripsi);
-      payload.append(`content[${index}][kebijakan]`, item.kebijakan || "");
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== "content" && key !== "durasi") payload.append(key, value);
     });
 
-    // Durasi harga
-    prices.forEach((item, index) => {
-      payload.append(`durasi[${index}][durasi]`, item.duration);
-      payload.append(`durasi[${index}][harga]`, item.price);
+    content.forEach((item, i) => {
+      payload.append(`content[${i}][bahasa]`, item.bahasa);
+      payload.append(`content[${i}][deskripsi]`, item.deskripsi);
+      payload.append(`content[${i}][kebijakan]`, item.kebijakan);
     });
 
-    // Foto
-    photos.forEach((file) => {
-      payload.append("files", file);
+    prices.forEach((item, i) => {
+      payload.append(`durasi[${i}][durasi]`, item.durasi);
+      payload.append(`durasi[${i}][harga]`, item.harga);
     });
 
-    console.log("=== Payload yang akan dikirim ke API ===");
-    for (let pair of payload.entries()) {
-      if (pair[1] instanceof File) {
-        console.log(pair[0], pair[1].name);
-      } else {
-        console.log(pair[0], pair[1]);
-      }
-    }
-    console.log("========================================");
+    photos.forEach((file) => payload.append("files", file));
 
     try {
-      const response = await apiClient.post("/kendaraan", payload);
-      console.log(response, "response");
+      const response = isEditMode
+        ? await apiClient.patch(`/kendaraan/${id}`, payload, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+        : await apiClient.post("/kendaraan", payload);
 
-      if (response.status === 201) {
+      if ([200, 201].includes(response.status)) {
+        toast.success(
+          isEditMode ? "Updated successfully" : "Created successfully"
+        );
         navigate("/admin/rent-car");
-        toast.success("Rent Car created successfully");
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Terjadi kesalahan saat menyimpan");
       console.error("Submission Error:", error);
     }
   };
 
   const moveSection = (id) => {
     setActiveSection(id);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handlePhotoUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPhotos((prev) => [...prev, file]);
-    }
-  };
-
-  const removePhoto = (index) => {
-    setPhotos((prev) => prev.filter((_, i) => i !== index));
-  };
+  const sections = [
+    "description",
+    "image",
+    "policy and procedure",
+    "police number",
+    "price",
+  ];
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex h-screen ">
+      <div className="flex h-screen">
         <main className="p-1 flex-1">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
               Create Rent Car
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-              {[
-                "description",
-                "image",
-                "policy and procedure",
-                "police number",
-                "price",
-              ].map((section) => (
+              {sections.map((section) => (
                 <span
                   key={section}
                   className={`cursor-pointer px-1 font-medium underline-item relative ${
@@ -211,8 +213,8 @@ const CreateRentCarPage = () => {
               id="description"
               isActive={activeSection === "description"}
               formData={formData}
-              content={formData.content}
-              onChangeContent={handleChangeContent}
+              content={content}
+              onChangeContent={handleContentChange}
               handleChange={handleChange}
               locations={locations}
               type="rentcar"
@@ -224,21 +226,23 @@ const CreateRentCarPage = () => {
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}
+              existingPhotos={existingPhotos}
+              removeExistingPhoto={removeExistingPhoto}
             />
 
             <PolicyAndProcedureSection
               id="kebijakan"
               isActive={activeSection === "policy and procedure"}
               content={content}
-              onChangePolicy={handleChangePolicy}
+              onChangePolicy={handlePolicyChange}
             />
 
             <PoliceNumberSection
               id="police"
               isActive={activeSection === "police number"}
               formData={formData}
-              content={formData.content}
-              onChangeContent={handleChangeContent}
+              content={content}
+              onChangeContent={handleContentChange}
               handleChange={handleChange}
               locations={locations}
             />
@@ -251,8 +255,12 @@ const CreateRentCarPage = () => {
               type="rentcar"
               prices={prices}
               handlePriceChange={handlePriceChange}
-              handleAddPrice={handleAddPrice}
-              handleDeletePrice={handleDeletePrice}
+              handleAddPrice={() =>
+                setPrices([...prices, { durasi: "", harga: "" }])
+              }
+              handleDeletePrice={(index) =>
+                setPrices(prices.filter((_, i) => i !== index))
+              }
             />
           </div>
 
@@ -265,7 +273,6 @@ const CreateRentCarPage = () => {
                 Cancel
               </button>
             </Link>
-
             <button
               type="submit"
               className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"

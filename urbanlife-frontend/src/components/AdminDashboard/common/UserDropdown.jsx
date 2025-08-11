@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "../Utils/Auth/AuthStore.js";
+import axios from "axios";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const logout = useAuthStore((state) => state.logout);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -13,10 +16,11 @@ export default function UserDropdown() {
     setIsOpen(false);
   }
 
-    function handleSignOut() {
-    localStorage.removeItem("token"); 
-    navigate("/");
-  }
+   const handleLogout = () => {
+    logout();
+    delete axios.defaults.headers.common["Authorization"];
+    navigate("/login");
+  };
 
   return (
     <div className="relative">
@@ -116,7 +120,7 @@ export default function UserDropdown() {
           </ul>
           <button
             onClick={() => {
-              handleSignOut();
+              handleLogout();
               closeDropdown();
             }}
             to="#"

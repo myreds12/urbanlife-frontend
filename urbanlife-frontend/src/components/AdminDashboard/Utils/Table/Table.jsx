@@ -229,10 +229,33 @@ const Table = ({
           .action-button:active {
             transform: scale(0.95);
           }
+
+          .table-scroll-container {
+            overflow-x: hidden;
+            transition: overflow 0.2s ease;
+          }
+
+          .table-scroll-container:hover {
+            overflow-x: auto;
+          }
+
+          .table-scroll-container::-webkit-scrollbar {
+            height: 8px;
+          }
+
+          .table-scroll-container::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+          }
+
+          .table-scroll-container:not(:hover)::-webkit-scrollbar {
+            display: none;
+          }
+
         `}
       </style>
-      <div style={{ overflow: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div className="table-scroll-container">
+        <table style={{ width: "100%", borderCollapse: "collapse",minWidth: "300px" }}>
           <thead>
             <tr style={{ backgroundColor: "#f9fafb" }}>
               {onRowSelect && (
@@ -248,7 +271,7 @@ const Table = ({
                 >
                   <input
                     type="checkbox"
-                    style={{cursor: "pointer"}}
+                    style={{ cursor: "pointer" }}
                     checked={
                       selectedRows.length === data.length && data.length > 0
                     }
@@ -315,7 +338,6 @@ const Table = ({
                   borderLeft: selectedRows.includes(row.id)
                     ? "3px solid #00BEF0"
                     : "3px solid transparent",
-                  
                 }}
                 onMouseEnter={(e) => {
                   if (!selectedRows.includes(row.id)) {
@@ -353,13 +375,10 @@ const Table = ({
                         fontSize: "12px",
                       }}
                     >
-                      {defaultMapping && typeof defaultMapping[column] === "function" ? (
-                        defaultMapping[column](row, rowIndex)
-                      ) : column === "Status" ? (
-                        <StatusBadge status={row[column]} />
-                      ) : (
-                        row[column] ?? ""
-                      )}
+                      {defaultMapping &&
+                      typeof defaultMapping[column] === "function"
+                        ? defaultMapping[column](row, rowIndex)
+                        : row[column] ?? ""}
                     </td>
                   )
                 )}

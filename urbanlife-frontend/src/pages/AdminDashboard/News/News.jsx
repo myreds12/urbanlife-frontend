@@ -27,23 +27,23 @@ const News = () => {
   // Bulk Action Configuration - Only news category is editable
   const bulkEditableFields = [
     {
-      name: 'news_category_id',
-      label: 'News Category',
-      type: 'select',
+      name: "news_category_id",
+      label: "News Category",
+      type: "select",
       options: [
-        { value: 1, label: 'Technology' },
-        { value: 2, label: 'Business' },
-        { value: 3, label: 'Sports' },
-        { value: 4, label: 'Entertainment' },
-        { value: 5, label: 'Health' },
-        { value: 6, label: 'Travel' },
-        { value: 7, label: 'Food' },
-        { value: 8, label: 'Politics' },
-        { value: 9, label: 'Education' },
-        { value: 10, label: 'Lifestyle' }
+        { value: 1, label: "Technology" },
+        { value: 2, label: "Business" },
+        { value: 3, label: "Sports" },
+        { value: 4, label: "Entertainment" },
+        { value: 5, label: "Health" },
+        { value: 6, label: "Travel" },
+        { value: 7, label: "Food" },
+        { value: 8, label: "Politics" },
+        { value: 9, label: "Education" },
+        { value: 10, label: "Lifestyle" },
       ],
-      description: 'Kategori berita'
-    }
+      description: "Kategori berita",
+    },
   ];
 
   const fetchNews = async () => {
@@ -109,22 +109,26 @@ const News = () => {
 
   const handleDelete = (row) => {
     const confirmed = window.confirm(
-      `Are you sure you want to delete "${row.news_content[0]?.judul || 'this news'}"?`
+      `Are you sure you want to delete "${
+        row.news_content[0]?.judul || "this news"
+      }"?`
     );
     if (confirmed) {
       setNewsData((prev) => prev.filter((news) => news.id !== row.id));
       setSelectedRows((prev) => prev.filter((id) => id !== row.id));
-      alert(`News "${row.news_content[0]?.judul || 'item'}" has been deleted.`);
+      alert(`News "${row.news_content[0]?.judul || "item"}" has been deleted.`);
     }
   };
 
   // Bulk Action Handlers
   const handleBulkDelete = (selectedData) => {
-    const confirmed = window.confirm(`Are you sure you want to delete ${selectedData.length} news items?`);
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${selectedData.length} news items?`
+    );
     if (confirmed) {
-      const ids = selectedData.map(item => item.id);
-      console.log('Bulk delete IDs:', ids);
-      setNewsData(prev => prev.filter(item => !ids.includes(item.id)));
+      const ids = selectedData.map((item) => item.id);
+      console.log("Bulk delete IDs:", ids);
+      setNewsData((prev) => prev.filter((item) => !ids.includes(item.id)));
       setSelectedRows([]);
       alert(`Successfully deleted ${selectedData.length} news items`);
     }
@@ -132,20 +136,22 @@ const News = () => {
 
   const handleBulkEdit = async (selectedData, editData) => {
     try {
-      const ids = selectedData.map(item => item.id);
-      console.log('Bulk edit data:', { ids, editData });
-      
+      const ids = selectedData.map((item) => item.id);
+      console.log("Bulk edit data:", { ids, editData });
+
       // API call untuk bulk edit
       // await apiClient.patch("/news/bulk", { ids, data: editData });
-      
+
       // Temporary implementation - update state
-      setNewsData(prev => prev.map(item => 
-        ids.includes(item.id) ? { ...item, ...editData } : item
-      ));
+      setNewsData((prev) =>
+        prev.map((item) =>
+          ids.includes(item.id) ? { ...item, ...editData } : item
+        )
+      );
       setSelectedRows([]);
-      
+
       alert(`Successfully updated ${selectedData.length} news items`);
-      
+
       // Refresh data
       fetchNews();
     } catch (err) {
@@ -156,31 +162,40 @@ const News = () => {
 
   const handleBulkExport = async (selectedData) => {
     try {
-      console.log('Bulk export data:', selectedData);
-      
+      console.log("Bulk export data:", selectedData);
+
       // Create CSV content
-      const headers = ['ID', 'News Category', 'News Subject', 'Date Created'];
+      const headers = ["ID", "News Category", "News Subject", "Date Created"];
       const csvContent = [
-        headers.join(','),
-        ...selectedData.map(item => [
-          item.id,
-          `"${item.news_category?.name || ''}"`,
-          `"${item.news_content[0]?.judul || ''}"`,
-          `"${item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID') : ''}"`
-        ].join(','))
-      ].join('\n');
-      
+        headers.join(","),
+        ...selectedData.map((item) =>
+          [
+            item.id,
+            `"${item.news_category?.name || ""}"`,
+            `"${item.news_content[0]?.judul || ""}"`,
+            `"${
+              item.createdAt
+                ? new Date(item.createdAt).toLocaleDateString("id-ID")
+                : ""
+            }"`,
+          ].join(",")
+        ),
+      ].join("\n");
+
       // Download CSV
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
       const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', `news_${new Date().toISOString().split('T')[0]}.csv`);
-      link.style.visibility = 'hidden';
+      link.setAttribute("href", url);
+      link.setAttribute(
+        "download",
+        `news_${new Date().toISOString().split("T")[0]}.csv`
+      );
+      link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       alert(`Successfully exported ${selectedData.length} news items`);
     } catch (err) {
       console.error("Failed to export news", err);
@@ -232,7 +247,7 @@ const News = () => {
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
-    return sortedData.filter(item => selectedRows.includes(item.id));
+    return sortedData.filter((item) => selectedRows.includes(item.id));
   }, [sortedData, selectedRows]);
 
   const columns = ["News Category", "News Subject", "Date Created", "Action"];
@@ -274,6 +289,8 @@ const News = () => {
             borderRadius: "12px",
             boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
             overflow: "hidden",
+            maxWidth: "1050px",
+            margin: "0 auto",
           }}
         >
           {selectedRows.length > 0 && (
@@ -313,18 +330,20 @@ const News = () => {
           </div>
 
           {/* Table */}
-          <Table
-            data={currentData}
-            columns={columns}
-            selectedRows={selectedRows}
-            onRowSelect={handleRowSelect}
-            onSort={handleSort}
-            sortConfig={sortConfig}
-            startIndex={startIndex}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            defaultMapping={defaultMapping}
-          />
+          <div style={{ overflowX: "auto" }}>
+            <Table
+              data={currentData}
+              columns={columns}
+              selectedRows={selectedRows}
+              onRowSelect={handleRowSelect}
+              onSort={handleSort}
+              sortConfig={sortConfig}
+              startIndex={startIndex}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              defaultMapping={defaultMapping}
+            />
+          </div>
         </div>
 
         {/* Data info dan Pagination */}

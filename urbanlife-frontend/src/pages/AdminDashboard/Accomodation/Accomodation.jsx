@@ -203,7 +203,8 @@ const Accomodation = () => {
 
   return (
     <div className="p-5">
-      <div className="bg-white rounded-xl shadow overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden max-w-[1050px] mx-auto">
+        {/* Bulk Action Bar */}
         {selected.length > 0 && (
           <BulkActionBar
             selectedCount={selected.length}
@@ -216,6 +217,7 @@ const Accomodation = () => {
           />
         )}
 
+        { /* Header */}
         <div className="flex justify-between items-center p-5">
           <h1 className="text-2xl font-bold">Accommodation</h1>
           <div className="flex gap-4">
@@ -235,38 +237,43 @@ const Accomodation = () => {
           </div>
         </div>
 
-        <Table
-          data={sorted}
-          columns={["#", "Name", "Location", "Type", "Category", "Action"]}
-          selectedRows={selected}
-          onRowSelect={(id) =>
-            setSelected((prev) =>
-              prev.includes(id) ? prev.filter((r) => r !== id) : [...prev, id]
-            )
-          }
-          onSort={(key) => {
-            const dir =
-              sort.key === key && sort.direction === "asc" ? "desc" : "asc";
-            setSort({ key, direction: dir });
-          }}
-          sortConfig={sort}
-          startIndex={(page - 1) * ITEMS_PER_PAGE}
-          onView={handleView}
-          onEdit={(row) => navigate(`/admin/accommodation/edit/${row.id}`)}
-          onDelete={(row) => alert(`Delete: ${row.name}`)}
-          defaultMapping={{
-            "#": (row, index) => (page - 1) * ITEMS_PER_PAGE + index + 1,
-            Name: "name",
-            Location: "location",
-            Type: "type",
-            Category: "category",
-          }}
-          itemsPerPage={ITEMS_PER_PAGE}
-          currentPage={page}
-          totalPages={Math.ceil(total / ITEMS_PER_PAGE)}
-          handlePageChange={setPage}
-        />
+        {/* Table */}
+        <div style={{ overflowX: "auto" }}>
+          <Table
+            data={sorted}
+            columns={["#", "Name", "Location", "Type", "Category", "Action"]}
+            selectedRows={selected}
+            onRowSelect={(id) =>
+              setSelected((prev) =>
+                prev.includes(id) ? prev.filter((r) => r !== id) : [...prev, id]
+              )
+            }
+            onSort={(key) => {
+              const dir =
+                sort.key === key && sort.direction === "asc" ? "desc" : "asc";
+              setSort({ key, direction: dir });
+            }}
+            sortConfig={sort}
+            startIndex={(page - 1) * ITEMS_PER_PAGE}
+            onView={handleView}
+            onEdit={(row) => navigate(`/admin/accommodation/edit/${row.id}`)}
+            onDelete={(row) => alert(`Delete: ${row.name}`)}
+            defaultMapping={{
+              "#": (row, index) => (page - 1) * ITEMS_PER_PAGE + index + 1,
+              Name: "name",
+              Location: "location",
+              Type: "type",
+              Category: "category",
+            }}
+            itemsPerPage={ITEMS_PER_PAGE}
+            currentPage={page}
+            totalPages={Math.ceil(total / ITEMS_PER_PAGE)}
+            handlePageChange={setPage}
+          />
+        </div>
       </div>
+
+      {/* Data info dan Pagination */}
       <div className="mt-4 flex justify-between items-center text-sm text-gray-600 px-5 pb-4">
         <span>
           Showing {(page - 1) * ITEMS_PER_PAGE + 1} to{" "}

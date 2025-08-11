@@ -164,15 +164,6 @@ const RentCar = () => {
     } finally {
       setLoading(false);
     }
-<<<<<<< HEAD
-
-    // catch (err) {
-    //   console.error("Failed to fetch rent car", err);
-    // } finally {
-    //   setLoading(false);
-    // }
-=======
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
   };
 
   useEffect(() => {

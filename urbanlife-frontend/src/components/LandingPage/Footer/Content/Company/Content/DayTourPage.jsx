@@ -5,12 +5,14 @@ import { DayTour } from "./DayTour/DayTourData";
 import Footer from "../../../../HomePage/Footer";
 import "./DayTour/DayTourPage.css";
 import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
+import { useTranslation } from 'react-i18next';
 
 const DayTourPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [categories, setCategories] = useState([{ id: "all", name: "All" }]);
   const [activeCategory, setActiveCategory] = useState("all");
   const [tours, setTours] = useState([]);
+  const { t } = useTranslation();
 
   const handleHomeClick = () => {
     window.location.href = "/";
@@ -97,16 +99,16 @@ const DayTourPage = () => {
           {/* Dekorasi jika ada */}
         </div>
         <div className="hero-content">
-          <h1 className="hero-title playfair">Day Tour Packages</h1>
+          <h1 className="hero-title playfair">{t("daytour.daytourpackage")}</h1>
           <div className="breadcrumb">
             <button
               className="breadcrumb-link cursor-pointer"
               onClick={handleHomeClick}
             >
-              Home
+              {t("services.home")}
             </button>
             <span className="separator">/</span>
-            <span>Day Tour</span>
+            <span>{t("daytour.daytourpackage")}</span>
           </div>
         </div>
       </div>

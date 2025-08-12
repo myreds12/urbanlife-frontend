@@ -1,14 +1,17 @@
 import React from "react";
 import DayTourCard from "./DayTourCard";
+import { useTranslation } from 'react-i18next';
 import "./DaytourGrid.css";
 import apiClient from "../../../../../../AdminDashboard/Utils/ApiClient/apiClient";
 
 const DayTourGrid = ({ cards }) => {
+  const { t } = useTranslation();
+  
   if (!cards || cards.length === 0) {
     return (
       <div className="no-cards text-center py-10">
-        <h3 className="text-lg font-semibold">No Content Available</h3>
-        <p className="text-gray-500">No day tour packages found.</p>
+        <h3 className="text-lg font-semibold">{t("services.nocontent")}</h3>
+        <p className="text-gray-500">{t("daytour.nodaytour")}</p>
       </div>
     );
   }

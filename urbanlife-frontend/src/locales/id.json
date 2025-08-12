@@ -129,6 +129,34 @@
     "followus": "Ikuti Kami",
     "paymentpartner": "Mitra Pembayaran"
   },
+
+
+
+
+
+
+  "services": {
+    "nocontent": "Tidak ada konten yang tersedia",
+    "home": "Beranda"
+  },
+  "daytour": {
+    "daytourpackage": "Paket Wisata Harian",
+    "nodaytour": "Tidak ada paket wisata harian yang ditemukan untuk kategori yang dipilih"
+  },
+  "unitcar": {
+    "rentcar": "Sewa Mobil",
+    "norentcar": "Tidak ada mobil yang ditemukan untuk kategori yang dipilih"
+  },  
+  "accomodation": {
+    "acco": "Akomodasi",
+    "noaccomodation": "Tidak ada akomodasi yang ditemukan untuk kategori yang dipilih"
+  },
+
+
+
+
+
+  
   "contactus": {
     "hero_title": "Siap Terhubung?",
     "hero_subtitle": "Petualangan Anda berikutnya dimulai dari percakapan. Hubungi kami dan mari wujudkan keajaiban.",

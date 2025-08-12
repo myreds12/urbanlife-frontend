@@ -9,7 +9,6 @@ import "./Accomodation.css";
 const AccomodationPage = () => {
   const [activeAccomodation, setActiveAccomodation] = useState("All");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [categories, setCategories] = useState([]);
   const [accommodations, setAccommodations] = useState([]);
   const { t } = useTranslation();
 
@@ -18,19 +17,13 @@ const AccomodationPage = () => {
   };
 
   // Fetch categories from API
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await apiClient.get(`/category`);
-        const apiCategories = res.data.data || [];
-        setCategories([{ id: "all", name: "All" }, ...apiCategories]);
-      } catch (error) {
-        console.error("Gagal mengambil kategori:", error);
-      }
-    };
+const categories = [
+    { id: "all", name: "All" },
+    { id: "hotel", name: "Hotel" },
+    { id: "eco_lodge", name: "Eco Lodge" },
+    { id: "guest_house", name: "Guest House" },
+  ];
 
-    fetchCategories();
-  }, []);
 
   // Fetch accommodations based on selected category
   useEffect(() => {
@@ -38,7 +31,7 @@ const AccomodationPage = () => {
       try {
         const params = { take: 10, page: 1 };
         if (activeAccomodation !== "All") {
-          params.kategori = activeAccomodation;
+          params.type = activeAccomodation;
         }
 
         const res = await apiClient.get(`/akomodasi`, { params });
@@ -175,7 +168,7 @@ const AccomodationPage = () => {
                   unit={accommodation.nama}
                   type={accommodation.kategori}
                   buttonText="See More"
-                  linkTo={`/akomodasi/${accommodation.id}`} //TODO: Ubah rute ke OrderDetail langsung
+                  linkTo={`/accomodation/detail/${accommodation.id}`} //TODO: Ubah rute ke OrderDetail langsung
                 />
               );
             })}

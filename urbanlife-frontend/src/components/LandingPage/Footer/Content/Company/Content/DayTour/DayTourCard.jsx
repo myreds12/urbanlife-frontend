@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./DayTourCard.css";
 
-const DayTourCard = ({ image, title, price, description, linkTo }) => {
+const DayTourCard = ({ image, title, price, description, onBookNow }) => {
   return (
- <div className="card-item">
+    <div className="card-item">
       <div className="card-image">
         <img src={image} alt={title} />
       </div>
@@ -15,13 +15,14 @@ const DayTourCard = ({ image, title, price, description, linkTo }) => {
 
         <div className="price-and-button">
           <div className="card-price">From IDR {price.toLocaleString()}</div>
-          <Link to={linkTo} className="card-button">
+          <button onClick={onBookNow} className="card-button">
             Read More
-          </Link>
+          </button>
         </div>
       </div>
     </div>
   );
 };
+
 
 export default DayTourCard;

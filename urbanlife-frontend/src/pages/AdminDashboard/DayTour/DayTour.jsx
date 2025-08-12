@@ -44,7 +44,6 @@ const mapItinerary = (itineraryArray = []) => {
   return result;
 };
 
-
 const useDebouncedValue = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -65,11 +64,8 @@ const DayTour = () => {
   const [dayTourData, setDayTourData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-<<<<<<< HEAD
-=======
   const [take] = useState(10);
   const [total, setTotal] = useState(0);
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [selectedRows, setSelectedRows] = useState([]);
@@ -82,7 +78,6 @@ const DayTour = () => {
 
   // Modal configuration untuk day tour
   const dayTourModalConfig = {
-<<<<<<< HEAD
     sections: [
       {
         fields: [
@@ -93,9 +88,10 @@ const DayTour = () => {
       {
         fields: [
           {
-            key: "description",
+            key: "deskripsi",
             label: "Description",
             type: "language-toggle",
+            languageKey: "deskripsi",
           },
         ],
       },
@@ -106,6 +102,7 @@ const DayTour = () => {
             key: "itinerary",
             label: "Itinerary",
             type: "language-toggle",
+            languageKey: "itinerary",
           },
         ],
       },
@@ -113,46 +110,17 @@ const DayTour = () => {
         title: "Price",
         fields: [
           {
-            key: "price",
-            label: "Price",
-            type: "language-toggle",
+            key: "harga_dewasa",
+            label: "Harga Dewasa",
+          },
+          {
+            key: "harga_anak",
+            label: "Harga Anak",
           },
         ],
       },
     ],
   };
-=======
-  sections: [
-    {
-      fields: [
-        { key: "lokasi", label: "Lokasi" },
-        { key: "nama", label: "Day tour package name" },
-        {
-          key: "deskripsi",
-          label: "Deskripsi",
-          type: "language-toggle",
-          languageKey: "deskripsi",
-        },
-        {
-          key: "itinerary",
-          label: "Itinerary",
-          type: "language-toggle",
-          languageKey: "itinerary",
-        },
-        {
-          key: "harga_anak",
-          label: "Harga Anak",
-        },
-        {
-          key: "harga_dewasa",
-          label: "Harga Dewasa",
-        },
-      ],
-    },
-  ],
-};
-
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
 
   // Bulk Action Configuration
   const bulkEditableFields = [
@@ -218,17 +186,10 @@ const DayTour = () => {
         take,
         ...(search.trim() && { search: search.trim() }),
       };
-      // Try to fetch from API first
       const res = await apiClient.get("/travel-package", {
-<<<<<<< HEAD
-        params: { page: 1, take: 1000 },
-      });
-      const { data } = res.data;
-=======
         params,
       });
       const { data, total } = res.data;
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
       setDayTourData(data);
       setTotal(total);
     } catch (err) {
@@ -247,22 +208,6 @@ const DayTour = () => {
     }
   };
 
-<<<<<<< HEAD
-  // const fetchDayTours = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await apiClient.get("/travel-package", { params: { page: 1, take: 1000 } });
-  //     const { data } = res.data;
-  //     setDayTourData(data);
-  //   } catch (err) {
-  //     console.error("Failed to fetch travel packages", err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-=======
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
   useEffect(() => {
     fetchDayTours(debouncedSearch);
   }, [debouncedSearch, currentPage]);
@@ -284,34 +229,26 @@ const DayTour = () => {
     );
   };
 
-<<<<<<< HEAD
-  const handleView = (row) => {
-    // Prepare data for modal
-    const modalData = {
-      ...row,
-      lokasi_display: row.lokasi?.nama || "-",
-=======
   const handleView = async (row) => {
-  try {
-    const { data } = await apiClient.get(`/travel-package/${row.id}`);
+    try {
+      const { data } = await apiClient.get(`/travel-package/${row.id}`);
 
-    const deskripsiMapped = mapContent(data.data.travel_package_content);
-    const itineraryMapped = mapItinerary(data.data.travel_package_itinerary);
+      const deskripsiMapped = mapContent(data.data.travel_package_content);
+      const itineraryMapped = mapItinerary(data.data.travel_package_itinerary);
 
-    const mappedData = {
-      ...data.data,
-      deskripsi: deskripsiMapped.deskripsi,
-      itinerary: itineraryMapped,
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
-    };
+      const mappedData = {
+        ...data.data,
+        deskripsi: deskripsiMapped.deskripsi,
+        itinerary: itineraryMapped,
+      };
 
-    setSelectedModalData(mappedData);
-    setIsModalOpen(true);
-  } catch (error) {
-    console.error("Gagal mengambil detail:", error);
-    toast.error("Gagal memuat detail paket.");
-  }
-};
+      setSelectedModalData(mappedData);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Gagal mengambil detail:", error);
+      toast.error("Gagal memuat detail paket.");
+    }
+  };
 
   // Handler untuk Edit
   const handleEdit = (row) => {
@@ -319,16 +256,6 @@ const DayTour = () => {
   };
 
   // Handler untuk Delete
-<<<<<<< HEAD
-  const handleDelete = (row) => {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${row.nama}"?`
-    );
-    if (confirmed) {
-      // Add your delete API call here
-      console.log("Delete:", row.id);
-      alert(`Package "${row.nama}" has been deleted.`);
-=======
   const handleDelete = async (row) => {
     const confirmed = window.confirm(`Yakin ingin menghapus "${row.nama}"?`);
     if (!confirmed) return;
@@ -352,25 +279,10 @@ const DayTour = () => {
       fetchDayTours();
     } catch (err) {
       console.error("Delete gagal:", err);
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
     }
   };
 
   // Bulk Action Handlers
-<<<<<<< HEAD
-  const handleBulkDelete = (selectedData) => {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete ${selectedData.length} travel packages?`
-    );
-    if (confirmed) {
-      const ids = selectedData.map((item) => item.id);
-      console.log("Bulk delete IDs:", ids);
-      setDayTourData((prev) => prev.filter((item) => !ids.includes(item.id)));
-      setSelectedRows([]);
-      alert(`Successfully deleted ${selectedData.length} travel packages`);
-    }
-  };
-=======
   const handleBulkDelete = async (selectedData) => {
     const confirmed = window.confirm(
       `Yakin ingin menghapus ${selectedData.length} kendaraan terpilih?`
@@ -379,32 +291,11 @@ const DayTour = () => {
 
     const ids = selectedData.map((item) => item.id);
 
-    const deletePromise = apiClient.delete("/kendaraan", {
+    const deletePromise = apiClient.delete("/travel-package", {
       data: { ids },
     });
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
 
     try {
-<<<<<<< HEAD
-      const ids = selectedData.map((item) => item.id);
-      console.log("Bulk edit data:", { ids, editData });
-
-      // API call untuk bulk edit
-      // await apiClient.patch("/travel-package/bulk", { ids, data: editData });
-
-      // Temporary implementation - update state
-      setDayTourData((prev) =>
-        prev.map((item) =>
-          ids.includes(item.id) ? { ...item, ...editData } : item
-        )
-      );
-      setSelectedRows([]);
-
-      alert(`Successfully updated ${selectedData.length} travel packages`);
-
-      // Refresh data
-      fetchDayTours();
-=======
       await toast.promise(deletePromise, {
         loading: "Menghapus kendaraan...",
         success: `Berhasil menghapus ${selectedData.length} kendaraan.`,
@@ -413,7 +304,6 @@ const DayTour = () => {
 
       // Update state lokal setelah sukses
       setDayTourData((prev) => prev.filter((item) => !ids.includes(item.id)));
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
     } catch (err) {
       console.error("Bulk delete gagal:", err);
       // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
@@ -474,7 +364,6 @@ const DayTour = () => {
     setSelectedRows([]);
   };
 
-<<<<<<< HEAD
   const filteredData = useMemo(() => {
     return dayTourData.filter((tour) =>
       Object.values(tour).some((value) => {
@@ -488,11 +377,10 @@ const DayTour = () => {
     );
   }, [dayTourData, searchTerm]);
 
-=======
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return dayTourData;
-    return [...dayTourData].sort((a, b) => {
+    const dataToSort = filteredData || dayTourData;
+    if (!sortConfig.key) return dataToSort;
+    return [...dataToSort].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
 
@@ -508,14 +396,15 @@ const DayTour = () => {
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [dayTourData, sortConfig]);
+  }, [filteredData, dayTourData, sortConfig]);
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
     return sortedData.filter((item) => selectedRows.includes(item.id));
   }, [sortedData, selectedRows]);
 
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const totalPages =
+    Math.ceil(total / take) || Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
@@ -537,7 +426,6 @@ const DayTour = () => {
 
   const mapping = {
     "#": (row, index) => (currentPage - 1) * itemsPerPage + index + 1,
-<<<<<<< HEAD
     ID: "id",
     Name: (row) => row.nama || "-",
     Duration: (row) => `${row.durasi} ${row.tipe_durasi}`,
@@ -547,17 +435,6 @@ const DayTour = () => {
       `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
     Location: (row) => row.lokasi?.nama || "-",
     Country: (row) => row.lokasi?.negara?.nama || "-",
-=======
-    ID: (row) => row.id,
-    Nama: (row) => row.nama,
-    Durasi: (row) => `${row.durasi} ${row.tipe_durasi}`,
-    "Harga Dewasa": (row) =>
-      `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
-    "Harga Anak": (row) =>
-      `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
-    Lokasi: (row) => row.lokasi?.nama || "-",
-    Negara: (row) => row.lokasi?.negara?.nama || "-",
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
     Action: null,
   };
 
@@ -578,11 +455,8 @@ const DayTour = () => {
             borderRadius: "12px",
             boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
             overflow: "hidden",
-<<<<<<< HEAD
             maxWidth: "1050px",
             margin: "0 auto",
-=======
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
           }}
         >
           {selectedRows.length > 0 && (
@@ -625,34 +499,28 @@ const DayTour = () => {
           </div>
 
           {/* Table */}
-                    <div style={{ overflowX: "auto" }}>
-          <Table
-            data={currentData}
-            columns={columns}
-            selectedRows={selectedRows}
-            onRowSelect={handleRowSelect}
-            onSort={handleSort}
-            sortConfig={sortConfig}
-            startIndex={startIndex}
-            onView={handleView}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            defaultMapping={mapping}
-          />
+          <div style={{ overflowX: "auto" }}>
+            <Table
+              data={currentData}
+              columns={columns}
+              selectedRows={selectedRows}
+              onRowSelect={handleRowSelect}
+              onSort={handleSort}
+              sortConfig={sortConfig}
+              startIndex={startIndex}
+              onView={handleView}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              defaultMapping={mapping}
+            />
           </div>
         </div>
 
         {/* Data info dan Pagination */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-<<<<<<< HEAD
-            Showing {startIndex + 1} to{" "}
-            {Math.min(startIndex + itemsPerPage, sortedData.length)} of{" "}
-            {sortedData.length} packages
-=======
             Showing {startIndex + 1} to {Math.min(startIndex + take, total)} of{" "}
-            {total} rent cars
->>>>>>> 9859d52d7f5c69ad2d7bb89c344c89831f3ae5d8
+            {total} packages
           </div>
           <Pagination
             currentPage={currentPage}

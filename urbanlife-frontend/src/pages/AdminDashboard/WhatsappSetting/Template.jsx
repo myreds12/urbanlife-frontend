@@ -243,80 +243,83 @@ const Template = () => {
       </div>
 
       {/* Notification Wording Guide */}
-      <div className="mt-6 bg-white rounded-xl shadow overflow-hidden">
-        <div className="p-5">
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-800 darklabel mb-2">
-              <i className="fa-solid fa-lightbulb text-yellow-500 mr-2"></i>
-              Panduan Membuat Wording Notifikasi
-            </h3>
-            <p className="text-sm text-gray-600 darksubtitle">
-              Gunakan data customer dan paket yang tersedia untuk membuat notifikasi yang personal dan informatif
-            </p>
-          </div>
+<div className="mt-6 bg-white rounded-xl shadow overflow-hidden">
+  <div className="p-5">
+    <div className="mb-4">
+      <h3 className="text-lg font-semibold text-gray-800 darklabel mb-2">
+        <i className="fa-solid fa-lightbulb text-yellow-500 mr-2"></i>
+        Panduan Membuat Wording Notifikasi
+      </h3>
+      <p className="text-sm text-gray-600 darksubtitle">
+        Buat notifikasi yang jelas dan personal pake data customer dan detail pemesanan
+      </p>
+    </div>
 
-          {/* Petunjuk Penggunaan Data */}
-          <div className="bg-blue-50 darkcard rounded-lg p-4">
-            <h4 className="font-medium text-blue-800 darklabel mb-3">
-              <i className="fa-solid fa-info-circle mr-2"></i>
-              Petunjuk Membuat Wording Notifikasi
-            </h4>
-            <div className="space-y-3 text-sm text-gray-700 darksubtitle">
-              <p>Saat membuat template notifikasi, pastikan untuk menyertakan informasi penting seperti:</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <i className="fa-solid fa-user text-blue-500"></i>
-                    <span><strong>Nama Customer</strong> - untuk personalisasi</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <i className="fa-solid fa-box text-blue-500"></i>
-                    <span><strong>Paket Akomodasi</strong> - jenis paket yang dipilih</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <i className="fa-solid fa-hotel text-blue-500"></i>
-                    <span><strong>Nama Hotel</strong> - tempat menginap</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <i className="fa-solid fa-bed text-blue-500"></i>
-                    <span><strong>Tipe Kamar</strong> - jenis kamar yang dipesan</span>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <i className="fa-solid fa-money-bill text-blue-500"></i>
-                    <span><strong>Total Harga</strong> - biaya keseluruhan</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <i className="fa-solid fa-calendar text-blue-500"></i>
-                    <span><strong>Tanggal Check-in</strong> - kapan mulai menginap</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <i className="fa-solid fa-calendar-xmark text-blue-500"></i>
-                    <span><strong>Tanggal Check-out</strong> - kapan selesai menginap</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <i className="fa-solid fa-clock text-blue-500"></i>
-                    <span><strong>Durasi Menginap</strong> - berapa hari menginap</span>
-                  </div>
-                </div>
-              </div>
+    {/* Petunjuk Penggunaan Data */}
+    <div className="bg-blue-50 darkcard rounded-lg p-4">
+      <h4 className="font-medium text-blue-800 darklabel mb-3">
+        <i className="fa-solid fa-info-circle mr-2"></i>
+        Petunjuk Membuat Wording Notifikasi
+      </h4>
+      <div className="space-y-3 text-sm text-gray-700 darksubtitle">
+        <p>Saat bikin template notifikasi, pastiin masukin info ini:</p>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <i className="fa-solid fa-user text-blue-500"></i>
+              <span><strong>Nama Customer</strong> - biar personal</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <i className="fa-solid fa-box text-blue-500"></i>
+              <span><strong>Detail Pemesanan</strong> - daftar item kayak mobil atau hotel</span>
             </div>
           </div>
-
-          {/* Contoh Format Notifikasi */}
-          <div className="mt-6 bg-gray-50 darkcard rounded-lg p-4">
-            <h4 className="font-medium text-gray-800 darklabel mb-3">
-              <i className="fa-solid fa-quote-left mr-2"></i>
-              Contoh Format Notifikasi
-            </h4>
-            <div className="space-y-3 text-sm text-gray-700 darksubtitle">
-              <p><strong>Format Umum:</strong> "Halo [Nama Customer], pesanan Anda untuk [Paket Akomodasi] di [Nama Hotel], kamar [Tipe Kamar], dengan harga [Total Harga], telah dikonfirmasi untuk [Tanggal Check-in] hingga [Tanggal Check-out] (durasi [Durasi Menginap] hari)."</p>
-              <p><strong>Contoh:</strong> "Halo Budi, pesanan Anda untuk akomodasi di Hotel Santika, kamar Deluxe, dengan harga Rp1.500.000, telah dikonfirmasi untuk 12 Agustus 2025 hingga 14 Agustus 2025 (durasi 2 hari)."</p>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <i className="fa-solid fa-money-bill text-blue-500"></i>
+              <span><strong>Total Harga</strong> - total biaya pemesanan</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <i className="fa-solid fa-calendar text-blue-500"></i>
+              <span><strong>Tanggal Order</strong> - kapan pesanan dibuat</span>
             </div>
           </div>
         </div>
       </div>
+    </div>
+
+    {/* Contoh Format Notifikasi */}
+    <div className="mt-6 bg-gray-50 darkcard rounded-lg p-4">
+      <h4 className="font-medium text-gray-800 darklabel mb-3">
+        <i className="fa-solid fa-quote-left mr-2"></i>
+        Contoh Format Notifikasi
+      </h4>
+      <div className="space-y-3 text-sm text-gray-700 darksubtitle">
+        <div className="grid grid-cols-2 gap-3">
+          <p>
+            <strong>Format Umum:</strong> <br />
+            Hi [Nama Customer],<br />
+            Terima kasih atas pemesanan Anda.<br /><br />
+            Detail:<br />
+            • [Detail Pemesanan]<br /> <br />
+            Total pembayaran: [Total Harga]<br />
+            Tanggal Order: [Tanggal Order]
+          </p>
+          <p>
+            <strong>Contoh:</strong> <br />
+            Hi Budi,<br />
+            Terima kasih atas pemesanan Anda.<br /><br />
+            Detail:<br />
+            • Mobil Avanza<br />
+            • Hotel Urban - Deluxe Room<br /><br />
+            Total pembayaran: IDR 2.000.000<br />
+            Tanggal Order: 12 Agustus 2025
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
     </div>
     </div>

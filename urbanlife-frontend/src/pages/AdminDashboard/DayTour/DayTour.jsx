@@ -172,7 +172,6 @@ const DayTour = () => {
         take,
         ...(search.trim() && { search: search.trim() }),
       };
-      // Try to fetch from API first
       const res = await apiClient.get("/travel-package", {
         params,
       });
@@ -278,7 +277,7 @@ const DayTour = () => {
 
     const ids = selectedData.map((item) => item.id);
 
-    const deletePromise = apiClient.delete("/kendaraan", {
+    const deletePromise = apiClient.delete("/travel-package", {
       data: { ids },
     });
 
@@ -351,9 +350,23 @@ const DayTour = () => {
     setSelectedRows([]);
   };
 
+  const filteredData = useMemo(() => {
+    return dayTourData.filter((tour) =>
+      Object.values(tour).some((value) => {
+        if (value && typeof value === "object") {
+          return Object.values(value).some((nestedValue) =>
+            String(nestedValue).toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+  }, [dayTourData, searchTerm]);
+
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return dayTourData;
-    return [...dayTourData].sort((a, b) => {
+    const dataToSort = filteredData || dayTourData;
+    if (!sortConfig.key) return dataToSort;
+    return [...dataToSort].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
 
@@ -369,14 +382,15 @@ const DayTour = () => {
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [dayTourData, sortConfig]);
+  }, [filteredData, dayTourData, sortConfig]);
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
     return sortedData.filter((item) => selectedRows.includes(item.id));
   }, [sortedData, selectedRows]);
 
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const totalPages =
+    Math.ceil(total / take) || Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 

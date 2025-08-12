@@ -81,41 +81,27 @@ const DayTour = () => {
     sections: [
       {
         fields: [
-          { key: "lokasi_display", label: "Location" },
+          { key: "lokasi", label: "Lokasi" },
           { key: "nama", label: "Day tour package name" },
-        ],
-      },
-      {
-        fields: [
           {
             key: "deskripsi",
-            label: "Description",
+            label: "Deskripsi",
             type: "language-toggle",
             languageKey: "deskripsi",
           },
-        ],
-      },
-      {
-        title: "Itinerary",
-        fields: [
           {
             key: "itinerary",
             label: "Itinerary",
             type: "language-toggle",
             languageKey: "itinerary",
           },
-        ],
-      },
-      {
-        title: "Price",
-        fields: [
-          {
-            key: "harga_dewasa",
-            label: "Harga Dewasa",
-          },
           {
             key: "harga_anak",
             label: "Harga Anak",
+          },
+          {
+            key: "harga_dewasa",
+            label: "Harga Dewasa",
           },
         ],
       },

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import Navbar from "../../HomePage/Navbar/Navbar";
 import Footer from "../../HomePage/Footer";
 import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
@@ -10,6 +11,7 @@ const AccomodationPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [categories, setCategories] = useState([]);
   const [accommodations, setAccommodations] = useState([]);
+  const { t } = useTranslation();
 
   const handleHomeClick = () => {
     window.location.href = "/";
@@ -79,10 +81,10 @@ const AccomodationPage = () => {
 
   // Empty State Component
   const EmptyState = () => (
-    <div className="no-cards text-center py-10">
-      <h3 className="text-lg font-semibold">No Content Available</h3>
-      <p className="text-gray-500">No accommodations found.</p>
-    </div>
+      <div className="no-cards text-center py-10 text-gray-500">
+        <h3 className="text-lg font-semibold">{t("services.nocontent")}</h3>
+        <p>{t("accomodation.noaccomodation")}</p>
+      </div>
   );
 
   return (
@@ -116,16 +118,16 @@ const AccomodationPage = () => {
         </div>
 
         <div className="hero-content">
-          <h1 className="hero-title playfair">Akomodasi</h1>
+          <h1 className="hero-title playfair">{t("accomodation.acco")}</h1>
           <div className="breadcrumb">
             <button
               className="breadcrumb-link cursor-pointer"
               onClick={handleHomeClick}
             >
-              Beranda
+              {t("services.home")}
             </button>
             <span className="separator">/</span>
-            <span>Akomodasi</span>
+            <span>{t("accomodation.acco")}</span>
           </div>
         </div>
       </div>

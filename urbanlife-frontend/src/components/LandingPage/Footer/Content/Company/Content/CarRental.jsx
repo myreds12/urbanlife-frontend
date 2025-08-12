@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../../../HomePage/Navbar/Navbar";
 import UnitCarGrid from "./RentalCar/UnitCarGrid";
 import { UnitCar } from "./RentalCar/UnitCar";
+import { useTranslation } from 'react-i18next';
 import "./RentalCar/CarRental.css";
 import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
 import Footer from "../../../../HomePage/Footer";
@@ -13,6 +14,7 @@ const CarRental = () => {
   const handleHomeClick = () => {
     window.location.href = "/";
   };
+  const { t } = useTranslation();
 
   const fetchData = async () => {
     try {
@@ -82,16 +84,16 @@ const CarRental = () => {
         </div>
 
         <div className="hero-content">
-          <h1 className="hero-title playfair">Car Rental</h1>
+          <h1 className="hero-title playfair">{t("unitcar.rentcar")}</h1>
           <div className="breadcrumb">
             <button
               className="breadcrumb-link cursor-pointer"
               onClick={handleHomeClick}
             >
-              Home
+              {t("services.home")}
             </button>
             <span className="separator">/</span>
-            <span>Unit Car</span>
+            <span>{t("unitcar.rentcar")}</span>
           </div>
         </div>
       </div>

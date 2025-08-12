@@ -128,6 +128,34 @@
     "followus": "Follow Us",
     "paymentpartner": "Payment Partner"
   },
+
+
+
+
+
+
+  "services": {
+    "nocontent": "No Content Available",
+    "home": "Home"
+  },
+  "daytour": {
+    "daytourpackage": "Daytour Packages",
+    "nodaytour": "No Daytour Package Found for the Selected Category`"
+  },
+  "unitcar": {
+    "rentcar": "Car Rental",
+    "norentcar": "No Cars Found for the Selected Category"
+  },  
+  "accomodation": {
+    "acco": "Accomodation",
+    "noaccomodation": "No Accomodations Found for the Selected Category"
+  },
+
+
+
+
+
+  
   "contactus": {
     "hero_title": "Ready to Connect?",
     "hero_subtitle": "Your next adventure starts with a conversation. Drop us a line and let's make magic happen.",

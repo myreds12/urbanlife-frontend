@@ -1,14 +1,17 @@
 import React from 'react';
 import UnitCarItem from './UnitCarItem';
+import { useTranslation } from 'react-i18next';
 import './UnitCarGrid.css';
 import apiClient from '../../../../../../AdminDashboard/Utils/ApiClient/apiClient';
 
 const UnitCarGrid = ({ cards }) => {
+  const { t } = useTranslation();
+
   if (!cards || cards.length === 0) {
     return (
       <div className="no-cards text-center py-10 text-gray-500">
-        <h3 className="text-lg font-semibold">No Content Available</h3>
-        <p>No cards found for the selected category.</p>
+        <h3 className="text-lg font-semibold">{t("services.nocontent")}</h3>
+        <p>{t("unitcar.norentcar")}.</p>
       </div>
     );
   }

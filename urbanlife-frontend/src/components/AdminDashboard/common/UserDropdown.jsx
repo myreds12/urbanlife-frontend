@@ -1,12 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../Utils/Auth/AuthStore.js";
 import axios from "axios";
 
+//TODO: USER PROFILNYA MASIH STATIS, ganti dengan live data dari backend
+
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    name: "Admin 1",
+    email: "admin1@gmail.com",
+    profilePicture: "/images/user/owner.jpg"
+  });
+  
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
+
+  // Listen untuk perubahan profile
+  useEffect(() => {
+    const handleProfileUpdate = (event) => {
+      const updatedUser = event.detail;
+      setUserInfo(prev => ({
+        ...prev,
+        name: updatedUser.name || prev.name,
+        email: updatedUser.email || prev.email,
+        profilePicture: updatedUser.profilePicture || prev.profilePicture
+      }));
+    };
+
+    window.addEventListener('userProfileUpdated', handleProfileUpdate);
+    
+    // Cleanup event listener
+    return () => {
+      window.removeEventListener('userProfileUpdated', handleProfileUpdate);
+    };
+  }, []);
+
+  // Alternative: Menggunakan localStorage untuk sync data
+  useEffect(() => {
+    const savedUserInfo = localStorage.getItem('userInfo');
+    if (savedUserInfo) {
+      try {
+        const parsed = JSON.parse(savedUserInfo);
+        setUserInfo(prev => ({
+          ...prev,
+          name: parsed.name || prev.name,
+          email: parsed.email || prev.email,
+          profilePicture: parsed.profilePicture || prev.profilePicture
+        }));
+      } catch (error) {
+        console.error('Error parsing saved user info:', error);
+      }
+    }
+  }, []);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -29,10 +75,19 @@ export default function UserDropdown() {
         className="flex items-center dropdown-toggle text-gray-700 "
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <img src="./profile.png" alt="User" />
+          <img 
+            src={userInfo.profilePicture} 
+            alt="User" 
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.src = "./profile.png"; // Fallback image
+            }}
+          />
         </span>
 
-        <span className="block mr-1 font-medium text-medium">Admin</span>
+        <span className="block mr-1 font-medium text-medium">
+          {userInfo.name.split(' ')[0] || 'Admin'}
+        </span>
         <svg
           className={`stroke-gray-500  transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
@@ -61,10 +116,10 @@ export default function UserDropdown() {
         >
           <div>
             <span className="block font-medium text-gray-700 text-medium ">
-              Admin 1
+              {userInfo.name}
             </span>
             <span className="mt-0.5 block text-sm text-gray-500 ">
-              admin1@gmail.com
+              {userInfo.email}
             </span>
           </div>
 
@@ -72,7 +127,7 @@ export default function UserDropdown() {
             <li>
               <a
                 onClick={closeDropdown}
-                href="/admin/profile" // Mengganti 'to' dengan 'href' karena bukan Link
+                href="/admin/profile"
                 className="flex items-center gap-3 px-3 py-1 font-medium text-gray-700 rounded-lg group text-medium hover:bg-gray-100 hover:text-gray-700 "
               >
                 <svg

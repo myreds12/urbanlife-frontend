@@ -218,7 +218,8 @@ const CategoryAdmin = () => {
       </div>
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-            Menampilkan {startIndex + 1} sampai {Math.min(startIndex + itemsPerPage, sortedData.length)} dari {sortedData.length} kategori
+            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of{" "}
+            {sortedData.length} category
           </div>
           <Pagination
             currentPage={currentPage}

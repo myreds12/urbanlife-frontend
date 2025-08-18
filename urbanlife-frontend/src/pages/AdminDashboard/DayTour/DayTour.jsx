@@ -44,7 +44,6 @@ const mapItinerary = (itineraryArray = []) => {
   return result;
 };
 
-
 const useDebouncedValue = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -79,36 +78,35 @@ const DayTour = () => {
 
   // Modal configuration untuk day tour
   const dayTourModalConfig = {
-  sections: [
-    {
-      fields: [
-        { key: "lokasi", label: "Lokasi" },
-        { key: "nama", label: "Day tour package name" },
-        {
-          key: "deskripsi",
-          label: "Deskripsi",
-          type: "language-toggle",
-          languageKey: "deskripsi",
-        },
-        {
-          key: "itinerary",
-          label: "Itinerary",
-          type: "language-toggle",
-          languageKey: "itinerary",
-        },
-        {
-          key: "harga_anak",
-          label: "Harga Anak",
-        },
-        {
-          key: "harga_dewasa",
-          label: "Harga Dewasa",
-        },
-      ],
-    },
-  ],
-};
-
+    sections: [
+      {
+        fields: [
+          { key: "lokasi", label: "Lokasi" },
+          { key: "nama", label: "Day tour package name" },
+          {
+            key: "deskripsi",
+            label: "Deskripsi",
+            type: "language-toggle",
+            languageKey: "deskripsi",
+          },
+          {
+            key: "itinerary",
+            label: "Itinerary",
+            type: "language-toggle",
+            languageKey: "itinerary",
+          },
+          {
+            key: "harga_anak",
+            label: "Harga Anak",
+          },
+          {
+            key: "harga_dewasa",
+            label: "Harga Dewasa",
+          },
+        ],
+      },
+    ],
+  };
 
   // Bulk Action Configuration
   const bulkEditableFields = [
@@ -174,7 +172,6 @@ const DayTour = () => {
         take,
         ...(search.trim() && { search: search.trim() }),
       };
-      // Try to fetch from API first
       const res = await apiClient.get("/travel-package", {
         params,
       });
@@ -219,25 +216,25 @@ const DayTour = () => {
   };
 
   const handleView = async (row) => {
-  try {
-    const { data } = await apiClient.get(`/travel-package/${row.id}`);
+    try {
+      const { data } = await apiClient.get(`/travel-package/${row.id}`);
 
-    const deskripsiMapped = mapContent(data.data.travel_package_content);
-    const itineraryMapped = mapItinerary(data.data.travel_package_itinerary);
+      const deskripsiMapped = mapContent(data.data.travel_package_content);
+      const itineraryMapped = mapItinerary(data.data.travel_package_itinerary);
 
-    const mappedData = {
-      ...data.data,
-      deskripsi: deskripsiMapped.deskripsi,
-      itinerary: itineraryMapped,
-    };
+      const mappedData = {
+        ...data.data,
+        deskripsi: deskripsiMapped.deskripsi,
+        itinerary: itineraryMapped,
+      };
 
-    setSelectedModalData(mappedData);
-    setIsModalOpen(true);
-  } catch (error) {
-    console.error("Gagal mengambil detail:", error);
-    toast.error("Gagal memuat detail paket.");
-  }
-};
+      setSelectedModalData(mappedData);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Gagal mengambil detail:", error);
+      toast.error("Gagal memuat detail paket.");
+    }
+  };
 
   // Handler untuk Edit
   const handleEdit = (row) => {
@@ -280,7 +277,7 @@ const DayTour = () => {
 
     const ids = selectedData.map((item) => item.id);
 
-    const deletePromise = apiClient.delete("/kendaraan", {
+    const deletePromise = apiClient.delete("/travel-package", {
       data: { ids },
     });
 
@@ -353,9 +350,23 @@ const DayTour = () => {
     setSelectedRows([]);
   };
 
+  const filteredData = useMemo(() => {
+    return dayTourData.filter((tour) =>
+      Object.values(tour).some((value) => {
+        if (value && typeof value === "object") {
+          return Object.values(value).some((nestedValue) =>
+            String(nestedValue).toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+  }, [dayTourData, searchTerm]);
+
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return dayTourData;
-    return [...dayTourData].sort((a, b) => {
+    const dataToSort = filteredData || dayTourData;
+    if (!sortConfig.key) return dataToSort;
+    return [...dataToSort].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
 
@@ -371,14 +382,15 @@ const DayTour = () => {
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [dayTourData, sortConfig]);
+  }, [filteredData, dayTourData, sortConfig]);
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
     return sortedData.filter((item) => selectedRows.includes(item.id));
   }, [sortedData, selectedRows]);
 
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const totalPages =
+    Math.ceil(total / take) || Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
@@ -400,16 +412,14 @@ const DayTour = () => {
 
   const mapping = {
     "#": (row, index) => (currentPage - 1) * itemsPerPage + index + 1,
-    ID: (row) => row.id,
-    Nama: (row) => row.nama,
-    Durasi: (row) => `${row.durasi} ${row.tipe_durasi}`,
-    "Harga Dewasa": (row) =>
-      `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
-    "Harga Anak": (row) =>
-      `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
-    Lokasi: (row) => row.lokasi?.nama || "-",
-    Negara: (row) => row.lokasi?.negara?.nama || "-",
-    Action: null,
+    "ID": "id",
+    "Name": (row) => row.nama || "-",
+    "Duration": (row) => `${row.durasi} ${row.tipe_durasi}`,
+    "Adult Price": (row) => `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
+    "Child Price": (row) => `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
+    "Location": (row) => row.lokasi?.nama || "-",
+    "Country": (row) => row.lokasi?.negara?.nama || "-",
+    "Action": null,
   };
 
   if (loading) {
@@ -429,6 +439,8 @@ const DayTour = () => {
             borderRadius: "12px",
             boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
             overflow: "hidden",
+            maxWidth: "1050px",
+            margin: "0 auto",
           }}
         >
           {selectedRows.length > 0 && (
@@ -471,26 +483,28 @@ const DayTour = () => {
           </div>
 
           {/* Table */}
-          <Table
-            data={currentData}
-            columns={columns}
-            selectedRows={selectedRows}
-            onRowSelect={handleRowSelect}
-            onSort={handleSort}
-            sortConfig={sortConfig}
-            startIndex={startIndex}
-            onView={handleView}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            defaultMapping={mapping}
-          />
+          <div style={{ overflowX: "auto" }}>
+            <Table
+              data={currentData}
+              columns={columns}
+              selectedRows={selectedRows}
+              onRowSelect={handleRowSelect}
+              onSort={handleSort}
+              sortConfig={sortConfig}
+              startIndex={startIndex}
+              onView={handleView}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              defaultMapping={mapping}
+            />
+          </div>
         </div>
 
         {/* Data info dan Pagination */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
             Showing {startIndex + 1} to {Math.min(startIndex + take, total)} of{" "}
-            {total} rent cars
+            {total} packages
           </div>
           <Pagination
             currentPage={currentPage}

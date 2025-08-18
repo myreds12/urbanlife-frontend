@@ -3,8 +3,12 @@ import DayTourCard from "./DayTourCard";
 import { useTranslation } from 'react-i18next';
 import "./DaytourGrid.css";
 import apiClient from "../../../../../../AdminDashboard/Utils/ApiClient/apiClient";
+import { formatBookingData } from "../../../../../../AdminDashboard/Utils/FormatData/bookingFormatData";
+import { useNavigate } from "react-router-dom";
 
 const DayTourGrid = ({ cards }) => {
+  const navigate = useNavigate();
+
   const { t } = useTranslation();
   
   if (!cards || cards.length === 0) {
@@ -15,6 +19,15 @@ const DayTourGrid = ({ cards }) => {
       </div>
     );
   }
+
+  const handleBookNow = (card) => {
+    const bookingData = formatBookingData(card);
+    console.log("Handle Booking Data:", bookingData);
+
+    navigate(`/DaytourDetail/${card.id}`, { state: bookingData });
+    // Kalau mau langsung ke OrderDetail:
+    // navigate(`/OrderDetail?type=${card.item_type?.toLowerCase()}&id=${card.id}`, { state: bookingData });
+  };
 
   return (
     <div className="daytour-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-8">
@@ -28,7 +41,8 @@ const DayTourGrid = ({ cards }) => {
                 .replace(/\\/g, "/")
                 .replace(/^uploads\//, "")}`
             : "/public/images/error/No_Image_Available.jpg";
-          const description = card.content?.[0]?.deskripsi?.substring(0, 100) + "..." || ""
+        const description =
+          card.content?.[0]?.deskripsi?.substring(0, 100) + "..." || "";
         return (
           <DayTourCard
             key={card.id}
@@ -37,7 +51,7 @@ const DayTourGrid = ({ cards }) => {
             duration={card.durasi_hari}
             price={card.harga_dewasa}
             description={description}
-            linkTo={`/day-tour/${card.id}`}  //TODO: Ubah rute ke OrderDetail langsung . Sesuaikan jika pakai slug
+            onBookNow={() => handleBookNow(card)} // callback handler
           />
         );
       })}

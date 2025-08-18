@@ -6,9 +6,7 @@ export default function QRCodeCard({
   qrCode,
   onConnect,
   onDisconnect,
-  onRefresh,
 }) {
-  console.log(onRefresh, "onRefresh");
   return (
     <div className="max-w-md w-full mx-auto p-6 border rounded-xl shadow-md text-center">
       {!isConnected ? (

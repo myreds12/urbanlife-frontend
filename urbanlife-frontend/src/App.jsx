@@ -129,7 +129,7 @@ function App() {
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/unit-car" element={<CarRental />} />
             <Route path="/accomodation" element={<AccomodationPage />} />
-            <Route path="/accomodation/detail" element={<AccoDetail />} />
+            <Route path="/accomodation/detail/:id" element={<AccoDetail />} />
 
             {/* Admin */}
             <Route

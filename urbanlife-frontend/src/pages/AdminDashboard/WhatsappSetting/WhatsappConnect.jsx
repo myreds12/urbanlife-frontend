@@ -1,81 +1,80 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import QRCodeCard from "../../../components/AdminDashboard/WhatsApp/QRCodeCard"; // Import the QRCodeCard component
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import { jwtDecode } from "jwt-decode";
+import { useAuthStore } from "../../../components/AdminDashboard/Utils/Auth/AuthStore";
 // Temporary QRCodeCard component - nanti dipindah ke file terpisah
 
 const WhatsappConnect = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [qrCode, setQrCode] = useState(null);
-  console.log(qrCode, "isConnected");
-  console.log(isConnected, "isConnected");
-  console.log(isConnecting, "isConnecting");
+  const [connection, setConnection] = useState({
+    isConnected: false,
+    isConnecting: false,
+    qrCode: null,
+  });
+  const token = useAuthStore((s) => s.token);
 
-  // Block navigation saat sudah connected
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (isConnected) {
-        e.preventDefault();
-        e.returnValue = 'WhatsApp masih terhubung. Yakin ingin meninggalkan halaman?';
-        return 'WhatsApp masih terhubung. Yakin ingin meninggalkan halaman?';
-      }
-    };
+  const { isConnected, isConnecting, qrCode } = connection;
 
-    const handlePopState = (e) => {
-      if (isConnected) {
-        const confirmLeave = window.confirm('WhatsApp masih terhubung. Yakin ingin meninggalkan halaman?');
-        if (!confirmLeave) {
-          window.history.pushState(null, '', window.location.href);
-        }
-      }
-    };
+  /** 🔍 Cek status koneksi berdasarkan data user */
+  const checkConnectionStatus = useCallback(async () => {
+    try {
+      if (!token) return;
 
-    if (isConnected) {
-      window.addEventListener('beforeunload', handleBeforeUnload);
-      window.addEventListener('popstate', handlePopState);
-      // Push state untuk mencegah back button
-      window.history.pushState(null, '', window.location.href);
+      const decoded = jwtDecode(token);
+      const userId = decoded?.id;
+      if (!userId) return;
+
+      const res = await apiClient.get(`/users/${userId}`);
+      const user = res.data?.data;
+
+      setConnection((prev) => ({
+        ...prev,
+        isConnected: Boolean(
+          user?.AdminWa?.session && user?.AdminWa?.is_active
+        ),
+      }));
+    } catch (err) {
+      console.error("Error fetching user details:", err);
+      setConnection((prev) => ({ ...prev, isConnected: false }));
     }
+  }, []);
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [isConnected]);
-
+  /** 🚀 Connect WhatsApp */
   const handleConnect = async () => {
-  setIsConnecting(true);
-  try {
-    const result = await apiClient.post("/whatsapp/connect");
-    const { data } = result.data;
+    setConnection((prev) => ({ ...prev, isConnecting: true }));
+    try {
+      const result = await apiClient.post("/whatsapp/connect");
+      const { data } = result.data;
 
-    if (data.status === true && !data.qr) {
-      // Sudah terhubung, tidak perlu tampilkan QR
-      setIsConnected(true);
-      setQrCode(null); // Pastikan QR hilang
-    } else if (data.qr) {
-      // Belum terhubung, tampilkan QR
-      setIsConnected(false);
-      setQrCode(data.qr);
-    } else {
-      console.error("Connect failed: Invalid response", data);
+      if (data.status && !data.qr) {
+        setConnection({ isConnected: true, isConnecting: false, qrCode: null });
+      } else if (data.qr) {
+        setConnection({
+          isConnected: false,
+          isConnecting: false,
+          qrCode: data.qr,
+        });
+      } else {
+        console.error("Connect failed: Invalid response", data);
+      }
+    } catch (err) {
+      console.error("Error connecting:", err);
+    } finally {
+      setConnection((prev) => ({ ...prev, isConnecting: false }));
     }
-  } catch (err) {
-    console.error("Error connecting:", err);
-  } finally {
-    setIsConnecting(false);
-  }
-};
+  };
 
+  /** ❌ Disconnect WhatsApp */
   const handleDisconnect = async () => {
     try {
       const response = await apiClient.post("/whatsapp/logout");
-      console.log(response.status, "response");
-
       if (response.status === 201) {
-        setIsConnected(false);
-        setQrCode(null);
+        setConnection({
+          isConnected: false,
+          isConnecting: false,
+          qrCode: null,
+        });
       } else {
         console.error("Disconnect failed:", response.message);
       }
@@ -84,30 +83,53 @@ const WhatsappConnect = () => {
     }
   };
 
+  /** 🔄 Refresh QR / status */
   const handleRefresh = async () => {
-    try {
-      const result = await apiClient.post("/whatsapp/connect");
-      const { data } = result.data;
-
-      if (data.status === true && !data.qr) {
-        setIsConnected(true);
-        setQrCode(null);
-      } else if (data.qr) {
-        setIsConnected(false);
-        setQrCode(data.qr);
-      } else {
-        console.error("Refresh failed: Invalid response", data);
-      }
-    } catch (err) {
-      console.error("Error refreshing QR:", err);
-    }
+    await checkConnectionStatus();
   };
+
+  /** ⏳ Cek status saat load pertama */
+  useEffect(() => {
+    checkConnectionStatus();
+  }, [checkConnectionStatus]);
+
+  /** 🛑 Blok navigasi jika terhubung */
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isConnected) {
+        e.preventDefault();
+        e.returnValue =
+          "WhatsApp masih terhubung. Yakin ingin meninggalkan halaman?";
+      }
+    };
+
+    const handlePopState = () => {
+      if (
+        isConnected &&
+        !window.confirm(
+          "WhatsApp masih terhubung. Yakin ingin meninggalkan halaman?"
+        )
+      ) {
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    if (isConnected) {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      window.addEventListener("popstate", handlePopState);
+      window.history.pushState(null, "", window.location.href);
+    }
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isConnected]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-
-
       <div className="max-w-6xl mx-auto">
+        {/* Header */}
         <div className="mb-10">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             WhatsApp Integration
@@ -128,7 +150,7 @@ const WhatsappConnect = () => {
             onRefresh={handleRefresh}
           />
 
-          {/* Instructions Section */}
+          {/* Instructions */}
           <div className="bg-white rounded-xl shadow-lg p-6 lg:p-8">
             <h3 className="text-xl font-semibold text-gray-900 mb-6">
               How to Connect
@@ -168,6 +190,7 @@ const WhatsappConnect = () => {
               ))}
             </div>
 
+            {/* Notes */}
             <div className="mt-8 p-4 bg-amber-50 rounded-lg border border-amber-200">
               <div className="flex items-start gap-2">
                 <div className="text-amber-600 mt-1">⚠️</div>
@@ -202,17 +225,18 @@ const WhatsappConnect = () => {
                 status: isConnected ? "Active" : "Inactive",
               },
               { label: "Messages", status: isConnected ? "Ready" : "Pending" },
-            ].map((item, idx) => (
-              <div key={idx} className="text-center p-4 bg-gray-50 rounded-lg">
+            ].map(({ label, status }) => (
+              <div
+                key={label}
+                className="text-center p-4 bg-gray-50 rounded-lg"
+              >
                 <div
                   className={`w-3 h-3 rounded-full mx-auto mb-2 ${
                     isConnected ? "bg-green-500" : "bg-gray-300"
                   }`}
                 ></div>
-                <p className="text-sm font-medium text-gray-700">
-                  {item.label}
-                </p>
-                <p className="text-xs text-gray-500">{item.status}</p>
+                <p className="text-sm font-medium text-gray-700">{label}</p>
+                <p className="text-xs text-gray-500">{status}</p>
               </div>
             ))}
           </div>

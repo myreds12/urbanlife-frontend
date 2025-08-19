@@ -14,12 +14,27 @@ export default function UserMetaCard() {
     bio: "Experienced admin with 5+ years in dashboard management",
     location: "Jakarta, Indonesia",
     country:"Indonesia",
-    status:"Active"
+    status:"Active",
+    profilePicture: "/images/user/owner.jpg" // Tambahkan field untuk menyimpan URL gambar
   });
 
-  const handleUpdateUser = (updatedInfo) => {
+  const handleUpdateUser = (updatedInfo, profileFile = null) => {
+    // Jika ada file gambar baru, buat URL untuk preview
+    if (profileFile) {
+      const imageUrl = URL.createObjectURL(profileFile);
+      updatedInfo.profilePicture = imageUrl;
+    }
+    
     setUserInfo(updatedInfo);
     setShowEditForm(false);
+    
+    // Update global state atau localStorage jika diperlukan
+    // Contoh: localStorage.setItem('userInfo', JSON.stringify(updatedInfo));
+    
+    // Trigger event untuk memberitahu komponen lain
+    window.dispatchEvent(new CustomEvent('userProfileUpdated', { 
+      detail: updatedInfo 
+    }));
   };
 
   return (
@@ -29,16 +44,24 @@ export default function UserMetaCard() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6">
             <div className="w-20 h-20 rounded-full overflow-hidden">
-              <img src="/images/user/owner.jpg" alt="user" className="object-cover w-full h-full" />
+
+              <img 
+                src={userInfo.profilePicture} 
+                alt="user" 
+                className="object-cover w-full h-full" 
+                onError={(e) => {
+                  e.target.src = "/images/user/owner.jpg"; //TODO: MASIH STATIS, belum diintegrasikan dengan backend
+                }}
+              />
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-gray-900">{userInfo.name}</h2>
               <span className="flex items-center gap-2">
-                <i class="fa-solid fa-briefcase text-blue-500"></i>
+                <i className="fa-solid fa-briefcase text-blue-500"></i>
                 <p className="text-gray-600">{userInfo.role}</p>
               </span>
               <span className="flex items-center gap-2">
-                <i class="fa-solid fa-location-dot text-red-500"></i>
+                <i className="fa-solid fa-location-dot text-red-500"></i>
                 <p className="text-sm text-gray-500">{userInfo.location}</p>
               </span>
             </div>

@@ -52,7 +52,8 @@ const Driver = lazy(() => import("./pages/AdminDashboard/DataMaster/Driver/Drive
 const Guide = lazy(() => import("./pages/AdminDashboard/DataMaster/Guide/Guide"));
 const BlogAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/BlogAdmin"));
 const CreateBlog = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/CreateBlog"));
-const CategoryAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Category/CategoryAdmin")); // Tambahkan import ini
+const CategoryAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Category/CategoryAdmin"));
+import User from "./pages/AdminDashboard/DataMaster/User/User";
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
 const News = lazy(() => import("./pages/AdminDashboard/News/News"));
 const CreateNews = lazy(() => import("./pages/AdminDashboard/News/CreateNews"));
@@ -137,7 +138,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AppLayout />
-                </ProtectedRoute>
+                // </ProtectedRoute>
               }
             >
               <Route index element={<Navigate to="dashboard" replace />} />
@@ -174,6 +175,7 @@ function App() {
               <Route path="blogs/create" element={<BlogProvider><CreateBlog /></BlogProvider>} />
               <Route path="blogs/edit/:id" element={<BlogProvider><CreateBlog /></BlogProvider>} />
               <Route path="category" element={<CategoryProvider><CategoryAdmin /></CategoryProvider>} />
+              <Route path="users" element={<User/>} />
               <Route path="profile" element={<UserProfile />} />
             </Route>
           </Routes>

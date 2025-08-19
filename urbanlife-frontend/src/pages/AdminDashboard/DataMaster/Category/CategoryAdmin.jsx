@@ -25,8 +25,8 @@ const CategoryAdmin = () => {
         const response = await apiClient.get("/category");
         setCategories(response.data.data || []);
       } catch (error) {
-        console.error("Gagal mengambil kategori:", error);
-        toast.error("Gagal memuat data kategori");
+        console.error("❌ Failed to fetch categories", error);
+        toast.error("Failed to load category data");
       }
     };
 
@@ -71,16 +71,16 @@ const CategoryAdmin = () => {
     setCategories(refreshed.data.data || []);
 
     handleModalClose();
-    toast.success("Kategori berhasil disimpan.");
+    toast.success("Category added successfully");
   } catch (err) {
-    console.error("Gagal menyimpan:", err);
-    toast.error("Gagal menyimpan kategori.");
+    console.error("Failed to save category:", err);
+    toast.error("Failed to save category.");
   }
 };
 
 
   const handleDelete = async (row) => {
-    const confirmed = window.confirm(`Yakin ingin menghapus kategori "${row.name}"?`);
+    const confirmed = window.confirm(`Are you sure want to delete "${row.name}"?`);
     if (!confirmed) return;
 
     const deletePromise = apiClient.delete(`/category`, {
@@ -89,20 +89,20 @@ const CategoryAdmin = () => {
 
     try {
       await toast.promise(deletePromise, {
-        loading: "Menghapus kategori...",
-        success: `Kategori "${row.name}" berhasil dihapus.`,
-        error: "Gagal menghapus kategori.",
+        loading: "Deleting category...",
+        success: `"${row.name}" was deleted successfully`,
+        error: "Failed to delete category",
       });
 
       setCategories((prev) => prev.filter((cat) => cat.id !== row.id));
       setSelectedRows((prev) => prev.filter((id) => id !== row.id));
     } catch (err) {
-      console.error("Delete gagal:", err);
+      console.error("Delete failed:", err);
     }
   };
 
   const handleBulkDelete = async (selectedData) => {
-    const confirmed = window.confirm(`Yakin ingin menghapus ${selectedData.length} kategori?`);
+    const confirmed = window.confirm(`Are you sure want to delete ${selectedData.length} selected category?`);
     if (!confirmed) return;
 
     const ids = selectedData.map((item) => item.id);
@@ -113,15 +113,15 @@ const CategoryAdmin = () => {
 
     try {
       await toast.promise(deletePromise, {
-        loading: "Menghapus kategori...",
-        success: `${selectedData.length} kategori berhasil dihapus.`,
-        error: "Gagal menghapus kategori.",
+        loading: "Deleting categories...",
+        success: `${selectedData.length} was successfully deleted.`,
+        error: "Could not delete the packages. Please try again.",
       });
 
       setCategories((prev) => prev.filter((item) => !ids.includes(item.id)));
       setSelectedRows([]);
     } catch (err) {
-      console.error("Bulk delete gagal:", err);
+      console.error("Bulk delete failed:", err);
     }
   };
 
@@ -181,7 +181,7 @@ const CategoryAdmin = () => {
               onClick={() => handleBulkDelete(selectedData)}
               className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
             >
-              Hapus Terpilih
+              Delete Selected
             </button>
           </div>
         )}
@@ -218,8 +218,7 @@ const CategoryAdmin = () => {
       </div>
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of{" "}
-            {sortedData.length} category
+            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of {sortedData.length} categories
           </div>
           <Pagination
             currentPage={currentPage}
@@ -234,10 +233,10 @@ const CategoryAdmin = () => {
         isOpen={isModalOpen}
         onClose={handleModalClose}
         onSave={handleModalSave}
-        title={editingCategory?.id ? "Edit Kategori" : "Tambah Kategori"}
+        title={editingCategory?.id ? "Edit Category" : "Add Category"}
         data={editingCategory || { id: Date.now(), name: "" }}
         fields={[
-          { name: "name", label: "Nama Kategori", required: true },
+          { name: "name", label: "Category Name", required: true },
         ]}
         isLoading={false}
       />

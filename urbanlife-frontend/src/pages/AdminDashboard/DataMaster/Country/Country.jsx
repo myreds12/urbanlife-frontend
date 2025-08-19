@@ -7,7 +7,7 @@ import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
-//import dummyCountries from "./dummyCountry"; // Uncomment for testing with dummy data
+// import dummyCountries from "./dummyCountry"; // Uncomment for testing with dummy data
 
 const Country = () => {
   const [countries, setCountries] = useState([]);
@@ -28,7 +28,7 @@ const Country = () => {
       const { data } = await apiClient.get("/negara");
       setCountries(data.data || []);
     } catch (error) {
-      console.error("❌ Failed to fetch countries", error);
+      console.error("❌ Failed to fetch countries:", error);
     } finally {
       setLoading(false);
     }
@@ -76,7 +76,7 @@ const Country = () => {
     const { nama, kode, file } = formDataState;
 
     if (!nama.trim() || !kode.trim()) {
-      toast.error("Nama atau kode negara tidak boleh kosong");
+      toast.error("Country name or code cannot be empty.");
       return;
     }
 
@@ -110,13 +110,13 @@ const Country = () => {
 
       toast.success(
         isEditing
-          ? "Data negara berhasil diperbarui"
-          : "Negara berhasil ditambahkan"
+          ? "Country updated successfully"
+          : "Country added successfully"
       );
     } catch (error) {
       console.error("❌ Failed to save country", error);
       toast.error(
-        error.response?.data?.message || "Gagal menyimpan data negara"
+        error.response?.data?.message || "Failed to save country data"
       );
     } finally {
       setSaving(false);
@@ -135,14 +135,14 @@ const Country = () => {
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
-      title: "Hapus Negara?",
-      text: "Apakah kamu yakin ingin menghapus negara ini?",
+      title: "Delete Country",
+      text: "Are you sure want to delete this country?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#0092B8", // warna hijau teal
+      confirmButtonColor: "#10b981",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, hapus!",
-      cancelButtonText: "Batal",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
     });
 
     if (!result.isConfirmed) return;
@@ -151,10 +151,10 @@ const Country = () => {
       await apiClient.delete(`/negara/${id}`);
 
       await fetchCountries();
-      toast.success("Negara berhasil dihapus");
+      toast.success("Country successfully deleted.");
     } catch (error) {
       console.error("❌ Failed to delete country", error);
-      toast.error(error.response?.data?.message || "Gaga; menghapus negara");
+      toast.error(error.response?.data?.message || "Failed to delete country");
     }
   };
 

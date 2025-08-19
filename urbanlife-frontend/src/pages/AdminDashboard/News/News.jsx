@@ -51,7 +51,7 @@ const News = () => {
       const response = await apiClient.get("/news");
       setNewsData(response.data.data);
     } catch (error) {
-      console.error("Error fetching news:", error);
+      console.error("❌ Failed to fetch news:", error);
     } finally {
       setIsLoading(false);
     }
@@ -122,7 +122,7 @@ const News = () => {
   // Bulk Action Handlers
   const handleBulkDelete = (selectedData) => {
     const confirmed = window.confirm(
-      `Are you sure you want to delete ${selectedData.length} news items?`
+      `Delete ${selectedData.length} selected news?`
     );
     if (confirmed) {
       const ids = selectedData.map((item) => item.id);

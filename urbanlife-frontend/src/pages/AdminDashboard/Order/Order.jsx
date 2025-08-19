@@ -11,8 +11,8 @@ const api = import.meta.env.VITE_API_URL + "/pemesanan";
 
 const tabStatusMap = {
   "All Orders": null,
-  "Paid Orders": "SELESAI",
-  "Unpaid Orders": "PENDING",
+  "Paid Orders": "DONE",
+  "Pending Orders": "PENDING",
   "Cancelled Order": "DIBATALKAN",
 };
 

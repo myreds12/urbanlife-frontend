@@ -92,14 +92,14 @@ const CarForm = forwardRef(({ carId }, ref) => {
 
       <div>
         <label className="block text-sm text-gray-600 mb-1">
-          Police number
+          Plate Number
         </label>
         <input
           type="text"
           name="plat_nomor"
           value={form.plat_nomor}
           onChange={handleChange}
-          placeholder="Enter police number"
+          placeholder="Enter plate number"
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         />
       </div>
@@ -124,9 +124,9 @@ const CarForm = forwardRef(({ carId }, ref) => {
               status_pajak: e.target.value === "true" ? true : false,
             }))
           }
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border text-gray-700 border-gray-200 shadow-sm"
         >
-          <option value="">Choose</option>
+          <option value="">Select</option>
           <option value="true">Active</option>
           <option value="false">Expired</option>
         </select>
@@ -142,7 +142,7 @@ const CarForm = forwardRef(({ carId }, ref) => {
           name="tanggal_pajak_berakhir"
           value={form.tanggal_pajak_berakhir}
           onChange={handleChange}
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border text-gray-700 border-gray-200 shadow-sm"
         />
       </div>
     </div>

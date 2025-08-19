@@ -26,7 +26,7 @@ const DriverTable = ({ drivers, loading, onEdit, onDelete }) => {
     "Driving expiry period": (row) =>
       row.tanggal_periode_berakhir
         ? new Date(row.tanggal_periode_berakhir).toLocaleDateString()
-        : "Tidak Ada",
+        : "-",
     Status: (row) => <StatusBadge status={row.status} />,
   };
 

@@ -57,17 +57,17 @@ const Customer = () => {
     if (confirmed) {
       setCustomerData(prev => prev.filter(customer => customer.id !== row.id));
       setSelectedRows(prev => prev.filter(id => id !== row.id));
-      alert(`Customer ${row.customer_name} has been deleted.`);
+      alert(`${row.customer_name} was successfully deleted.`);
     }
   };
 
   const handleBulkDelete = (selectedData) => {
-  const confirmed = window.confirm(`Are you sure you want to delete ${selectedData.length} customers?`);
+  const confirmed = window.confirm(`Delete ${selectedData.length} selected customers?`);
   if (confirmed) {
     const ids = selectedData.map(item => item.id);
     setCustomerData(prev => prev.filter(item => !ids.includes(item.id)));
     setSelectedRows([]);
-    alert(`Successfully deleted ${selectedData.length} customers`);
+    alert(`${selectedData.length} was successfully deleted.`);
   }
 };
 

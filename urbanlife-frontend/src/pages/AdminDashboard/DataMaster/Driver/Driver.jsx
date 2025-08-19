@@ -8,7 +8,7 @@ import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/Fil
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-//import dummyDrivers from "./dummyDriver"; // Uncomment for testing with dummy data
+import dummyDrivers from "./dummyDriver"; // Uncomment for testing with dummy data
 
 const Driver = () => {
   const [drivers, setDrivers] = useState([]);
@@ -27,7 +27,7 @@ const Driver = () => {
       const res = await apiClient.get("/driver");
       setDrivers(res.data.data || []);
     } catch (err) {
-      console.error("Failed to fetch drivers", err);
+      console.error("❌ Failed to fetch drivers", err);
     } finally {
       setLoading(false);
     }
@@ -54,14 +54,14 @@ const Driver = () => {
       if (isEditing) {
         // UPDATE driver
         await apiClient.patch(`/driver/${editingId}`, payload);
-        toast.success("Driver berhasil diperbarui");
+        toast.success("Driver updated successfully");
       } else {
         // CREATE driver
         const res = await apiClient.post("/driver", payload);
         if (res.status !== 201) {
           toast.error(res.data.message);
         } else {
-          toast.success("Driver berhasil ditambahkan");
+          toast.success("Driver added successfully");
         }
       }
 
@@ -69,8 +69,8 @@ const Driver = () => {
       formRef.current?.resetForm?.();
       setSearchParams({});
     } catch (err) {
-      console.error("Failed to save driver:", err);
-      toast.error("Terjadi kesalahan saat menyimpan driver");
+      console.error("❌ Failed to save driver:", err);
+      toast.error("Failed to save driver");
     }
   };
 
@@ -90,25 +90,25 @@ const Driver = () => {
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
-      title: "Hapus Kota?",
-      text: "Apakah kamu yakin ingin menghapus kota ini?",
+      title: "Delete Driver",
+      text: "Are you sure want to delete this driver?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#10b981",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, hapus!",
-      cancelButtonText: "Batal",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
     });
 
     if (!result.isConfirmed) return;
 
     try {
       await apiClient.delete(`/driver/${id}`);
-      toast.success("Driver berhasil dihapus");
+      toast.success("Driver was successfully deleted");
       fetchDrivers();
     } catch (error) {
-      console.error("❌ Failed to delete driver", error);
-      toast.error(error.response?.data?.message || "Gagal menghapus driver");
+      console.error("Failed to delete:", error);
+      toast.error(error.response?.data?.message || "Could not delete the driver. Please try again.");
     }
   };
 
@@ -178,7 +178,7 @@ const Driver = () => {
             List Driver Unit
           </h3>
           <div className="flex gap-2">
-            <div className="w-64">
+            <div className="w-67">
               <Search
                 searchTerm={searchTerm}
                 onSearchChange={(value) => setSearchTerm(value)}

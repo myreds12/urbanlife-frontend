@@ -27,7 +27,7 @@ function CreateDayTourPage() {
   ]);
 
   const [formData, setFormData] = useState({
-    nama: "Wettern and Eastern Nusa Penida Tour",
+    nama: "Western and Eastern Nusa Penida Tour",
     lokasi_id: 1,
     category_id: 0,
     durasi: "",
@@ -126,7 +126,7 @@ function CreateDayTourPage() {
           );
         }
       } catch (error) {
-        toast.error("Gagal mengambil data awal");
+        toast.error("Failed to get initial data.");
         console.error(error);
       }
     };
@@ -332,7 +332,7 @@ function CreateDayTourPage() {
           </div>
 
           <div className="flex justify-end gap-3 px-6 pb-6">
-            <Link to="/admin/dashboard">
+            <Link to="/admin/day-tour">
               <button
                 type="button"
                 className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"

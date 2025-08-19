@@ -5,7 +5,7 @@
     "subtitle": "Discover amazing destinations and experiences",
     "services": "Services",
     "daytour": "Day Tours",
-    "rentcar": "Rent Car",
+    "rentcar": "Rent A Car",
     "hotel": "Hotels & Resorts",
     "topattraction": "Top Attractions",
     "transportation": "Transportations",
@@ -86,7 +86,7 @@
   },
 
   "newsnblog": {
-    "title": "News and Blog",
+    "title": "News",
     "readmore": "Read More"
   },
   "footer": {
@@ -139,16 +139,16 @@
     "home": "Home"
   },
   "daytour": {
-    "daytourpackage": "Daytour Packages",
-    "nodaytour": "No Daytour Package Found for the Selected Category`"
+    "daytourpackage": "Day Tour Packages",
+    "nodaytour": "No Day Tour Package Found for the Selected Category`"
   },
   "unitcar": {
     "rentcar": "Car Rental",
     "norentcar": "No Cars Found for the Selected Category"
   },  
   "accomodation": {
-    "acco": "Accomodation",
-    "noaccomodation": "No Accomodations Found for the Selected Category"
+    "acco": "Accommodation",
+    "noaccomodation": "No Accommodations Found for the Selected Category"
   },
 
 

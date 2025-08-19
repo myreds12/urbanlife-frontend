@@ -5,6 +5,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
   const [editForm, setEditForm] = useState({ ...userInfo });
   const [errors, setErrors] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(userInfo.profilePicture || null);
 
   const handleInputChange = (field, value) => {
     setEditForm(prev => ({ ...prev, [field]: value }));
@@ -14,9 +15,31 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
     }
   };
 
+  //TODO : masih bersifat local, direfresh keriset setelah edit profil
+  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file);
+    if (file) {
+      // Validasi file
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+      const maxSize = 2 * 1024 * 1024; // 2MB
+
+      if (!validTypes.includes(file.type)) {
+        alert('Please select a valid image file (JPG, PNG, GIF)');
+        return;
+      }
+
+      if (file.size > maxSize) {
+        alert('File size must be less than 2MB');
+        return;
+      }
+
+      setSelectedFile(file);
+      
+      // Buat preview URL
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    }
   };
 
   const validateForm = () => {
@@ -43,7 +66,8 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      onSave(editForm);
+      // Pass both form data and selected file to parent
+      onSave(editForm, selectedFile);
     }
   };
 
@@ -51,6 +75,7 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
     setEditForm({ ...userInfo });
     setErrors({});
     setSelectedFile(null);
+    setPreviewUrl(userInfo.profilePicture || null);
     onCancel();
   };
 
@@ -194,7 +219,20 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Profile Picture
                 </label>
-                <div className="space-y-2">
+                <div className="space-y-3">
+                  {/* Preview gambar */}
+                  {previewUrl && (
+                    <div className="flex justify-center">
+                      <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-green-200">
+                        <img
+                          src={previewUrl}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  
                   <div className="relative">
                     <input
                       type="file"

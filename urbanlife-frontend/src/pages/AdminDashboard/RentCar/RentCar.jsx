@@ -67,9 +67,9 @@ const RentCar = () => {
           { key: "lokasi", label: "Location" },
           { key: "nama", label: "Unit Name" },
           { key: "model", label: "Model" },
-          { key: "capacity", label: "Capacity" },
-          { key: "plat_nomor", label: "Plat Nomor" },
-          { key: "tanggal_pajak_berakhir", label: "Tanggal Pajak Berakhir" },
+          { key: "capacity", label: "People Capacity" },
+          // { key: "plat_nomor", label: "Plat Nomor" },
+          { key: "tanggal_pajak_berakhir", label: "Tax expiry period" },
           { key: "status", label: "Status" },
           { key: "description", label: "Deskripsi", type: "language-toggle" },
           {
@@ -77,7 +77,7 @@ const RentCar = () => {
             label: "Policy and Procedure",
             type: "language-toggle",
           },
-          { key: "price", label: "Harga", type: "language-toggle" },
+          { key: "price", label: "Price", type: "language-toggle" },
         ],
       },
     ],
@@ -206,7 +206,7 @@ const RentCar = () => {
       setSelectedModalData(mappedData);
       setIsModalOpen(true);
     } catch (error) {
-      console.error("Gagal mengambil data kendaraan:", error);
+      console.error("Failed to fetch rentcar data:", error);
     }
   };
 
@@ -215,7 +215,7 @@ const RentCar = () => {
   };
 
   const handleDelete = async (row) => {
-    const confirmed = window.confirm(`Yakin ingin menghapus "${row.nama}"?`);
+    const confirmed = window.confirm(`Are you sure want to delete "${row.nama}"?`);
     if (!confirmed) return;
 
     const deletePromise = apiClient.delete(`/kendaraan`, {
@@ -228,22 +228,22 @@ const RentCar = () => {
       const result = await deletePromise;
       console.log(result, "result");
       await toast.promise(deletePromise, {
-        loading: "Menghapus kendaraan...",
-        success: `Kendaraan "${row.nama}" berhasil dihapus.`,
-        error: "Terjadi kesalahan saat menghapus.",
+        loading: "Deleting vehicle...",
+        success: `"${row.nama}" was successfully deleted.`,
+        error: "Could not delete the vehicle. Please try again.",
       });
 
       // TODO: Refresh list data jika perlu
       fetchRentCar();
     } catch (err) {
-      console.error("Delete gagal:", err);
+      console.error("Failed to delete:", err);
     }
   };
 
   // Bulk Action Handlers : coba yg apus lokal
   const handleBulkDelete = async (selectedData) => {
     const confirmed = window.confirm(
-      `Yakin ingin menghapus ${selectedData.length} kendaraan terpilih?`
+      `Delete ${selectedData.length} selected vehicles?`
     );
     if (!confirmed) return;
 
@@ -255,15 +255,15 @@ const RentCar = () => {
 
     try {
       await toast.promise(deletePromise, {
-        loading: "Menghapus kendaraan...",
-        success: `Berhasil menghapus ${selectedData.length} kendaraan.`,
-        error: "Gagal menghapus kendaraan. Silakan coba lagi.",
+        loading: "Deleting vehicles...",
+        success: `${selectedData.length} was successfully deleted.`,
+        error: "Could not delete the vehicles. Please try again",
       });
 
       // Update state lokal setelah sukses
       setRentCarData((prev) => prev.filter((item) => !ids.includes(item.id)));
     } catch (err) {
-      console.error("Bulk delete gagal:", err);
+      console.error("Bulk delete failed:", err);
       // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
     }
   };
@@ -275,13 +275,13 @@ const RentCar = () => {
       // Create CSV content
       const headers = [
         "ID",
-        "Nama",
+        "Name",
         "Model",
         "Capacity",
-        "Plat Nomor",
-        "Lokasi",
+        "License Plate",
+        "Location",
         "Status",
-        "Pajak Berakhir",
+        "Tax Expiry",
       ];
       const csvContent = [
         headers.join(","),

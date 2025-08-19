@@ -348,7 +348,7 @@ const Template = () => {
         admin2={admin2}
       />
     </div>
-          {/* Data info dan Pagination */}
+      {/* Data info dan Pagination */}
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="text-sm text-gray-700">
           Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredTemplates.length)} of {filteredTemplates.length} templates

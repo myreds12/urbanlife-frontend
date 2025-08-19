@@ -77,7 +77,7 @@ const City = () => {
 
     const { nama, negara_id } = formData;
     if (!nama.trim() || !negara_id) {
-      toast.error("Nama atau negara tidak boleh kosong");
+      toast.error("City name or code cannot be empty");
       return;
     }
 
@@ -85,10 +85,10 @@ const City = () => {
     try {
       if (isEditing) {
         await apiClient.patch(`/lokasi/${editingId}`, formData);
-        toast.success("Kota berhasil diperbarui");
+        toast.success("City updated successfully");
       } else {
         await apiClient.post("/lokasi", formData);
-        toast.success("Kota berhasil ditambahkan");
+        toast.success("City added succcessfully");
       }
 
       await fetchData("/lokasi", setCities, "cities");
@@ -96,7 +96,7 @@ const City = () => {
       setSearchParams({});
     } catch (error) {
       console.error("❌ Failed to save city", error);
-      toast.error(error.response?.data?.message || "Gagal menyimpan kota");
+      toast.error(error.response?.data?.message || "Failed to save city");
     } finally {
       setSaving(false);
     }
@@ -113,14 +113,14 @@ const City = () => {
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
-      title: "Hapus Kota?",
-      text: "Apakah kamu yakin ingin menghapus kota ini?",
+      title: "Delete City",
+      text: "Are you sure want to delete this city?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#10b981",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, hapus!",
-      cancelButtonText: "Batal",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
     });
 
     if (!result.isConfirmed) return;
@@ -128,10 +128,10 @@ const City = () => {
     try {
       await apiClient.delete(`/lokasi/${id}`);
       await fetchData("/lokasi", setCities, "cities");
-      toast.success("Kota berhasil dihapus");
+      toast.success("City deleted successfully");
     } catch (error) {
       console.error("❌ Failed to delete city", error);
-      toast.error(error.response?.data?.message || "Gagal menghapus kota");
+      toast.error(error.response?.data?.message || "Failed to delete city");
     }
   };
 
@@ -167,7 +167,7 @@ const City = () => {
               disabled={saving}
               className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
             >
-              Save Changes
+              {saving ? "Saving..." : "Save Changes"}
             </button>
           </div>
         </div>

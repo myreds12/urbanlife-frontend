@@ -81,11 +81,11 @@ const DayTour = () => {
     sections: [
       {
         fields: [
-          { key: "lokasi", label: "Lokasi" },
+          { key: "lokasi", label: "Location" },
           { key: "nama", label: "Day tour package name" },
           {
             key: "deskripsi",
-            label: "Deskripsi",
+            label: "Decription",
             type: "language-toggle",
             languageKey: "deskripsi",
           },
@@ -97,11 +97,11 @@ const DayTour = () => {
           },
           {
             key: "harga_anak",
-            label: "Harga Anak",
+            label: "Child Price",
           },
           {
             key: "harga_dewasa",
-            label: "Harga Dewasa",
+            label: "Adult Price",
           },
         ],
       },
@@ -232,8 +232,8 @@ const DayTour = () => {
       setSelectedModalData(mappedData);
       setIsModalOpen(true);
     } catch (error) {
-      console.error("Gagal mengambil detail:", error);
-      toast.error("Gagal memuat detail paket.");
+      console.error("Failed to fetch details:", error);
+      toast.error("Failed to load package details");
     }
   };
 
@@ -244,7 +244,7 @@ const DayTour = () => {
 
   // Handler untuk Delete
   const handleDelete = async (row) => {
-    const confirmed = window.confirm(`Yakin ingin menghapus "${row.nama}"?`);
+    const confirmed = window.confirm(`Are you sure want to delete "${row.nama}"?`);
     if (!confirmed) return;
 
     const deletePromise = apiClient.delete(`/travel-package`, {
@@ -257,22 +257,22 @@ const DayTour = () => {
       const result = await deletePromise;
       console.log(result, "result");
       await toast.promise(deletePromise, {
-        loading: "Menghapus kendaraan...",
-        success: `Kendaraan "${row.nama}" berhasil dihapus.`,
-        error: "Terjadi kesalahan saat menghapus.",
+        loading: "Deleting package...",
+        success: `"${row.nama}" was successfully deleted.`,
+        error: "Could not delete the package. Please try again.",
       });
 
       // TODO: Refresh list data jika perlu
       fetchDayTours();
     } catch (err) {
-      console.error("Delete gagal:", err);
+      console.error("Failed to delete:", err);
     }
   };
 
   // Bulk Action Handlers
   const handleBulkDelete = async (selectedData) => {
     const confirmed = window.confirm(
-      `Yakin ingin menghapus ${selectedData.length} kendaraan terpilih?`
+      `Delete ${selectedData.length} selected packages?`
     );
     if (!confirmed) return;
 
@@ -284,15 +284,15 @@ const DayTour = () => {
 
     try {
       await toast.promise(deletePromise, {
-        loading: "Menghapus kendaraan...",
-        success: `Berhasil menghapus ${selectedData.length} kendaraan.`,
-        error: "Gagal menghapus kendaraan. Silakan coba lagi.",
+        loading: "Deleting packages...",
+        success: `${selectedData.length} was successfully deleted.`,
+        error: "Could not delete the packages. Please try again.",
       });
 
       // Update state lokal setelah sukses
       setDayTourData((prev) => prev.filter((item) => !ids.includes(item.id)));
     } catch (err) {
-      console.error("Bulk delete gagal:", err);
+      console.error("Bulk delete failed:", err);
       // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
     }
   };
@@ -304,12 +304,12 @@ const DayTour = () => {
       // Create CSV content
       const headers = [
         "ID",
-        "Nama",
-        "Durasi",
-        "Harga Dewasa",
-        "Harga Anak",
-        "Lokasi",
-        "Negara",
+        "Name",
+        "Duration",
+        "Adult Price",
+        "Child Price",
+        "Location",
+        "Country",
       ];
       const csvContent = [
         headers.join(","),

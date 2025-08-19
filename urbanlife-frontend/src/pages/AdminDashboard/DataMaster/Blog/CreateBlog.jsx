@@ -42,7 +42,7 @@ const CreateBlog = () => {
       const { data } = await apiClient.get("/category");
       setCategories(data.data || []);
     } catch (error) {
-      console.error("❌ Gagal memuat kategori", error);
+      console.error("❌ Failed to fetch category", error);
     }
   };
 
@@ -51,7 +51,7 @@ const CreateBlog = () => {
       const { data } = await apiClient.get("/lokasi");
       setLocations(data.data || []);
     } catch (error) {
-      console.error("❌ Gagal memuat lokasi", error);
+      console.error("❌ Failed to fetch location", error);
     }
   };
 
@@ -77,8 +77,8 @@ const CreateBlog = () => {
             }))
           );
     } catch (error) {
-      console.error("❌ Gagal memuat blog untuk diedit:", error);
-      toast.error("Gagal memuat data blog");
+      console.error("❌ Failed to load blog for editing:", error);
+      toast.error("Failed to load blog data");
     }
   };
 
@@ -159,17 +159,17 @@ const CreateBlog = () => {
         await apiClient.patch(`/blog/${id}`, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        toast.success("Blog berhasil diperbarui!");
+        toast.success("Blog updated successfully");
       } else {
         await apiClient.post("/blog", form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        toast.success("Blog berhasil dibuat!");
+        toast.success("Blog added successfully");
       }
       navigate("/admin/blog");
     } catch (error) {
-      console.error("❌ Gagal menyimpan blog:", error);
-      toast.error("Terjadi kesalahan saat menyimpan blog.");
+      console.error("❌ Failed to save blog:", error);
+      toast.error("Failed to save blog");
     }
   };
 
@@ -179,7 +179,7 @@ const CreateBlog = () => {
       <main className="p-1 flex-1">
         <div className="p-6 rounded-lg">
           <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-            {isEditMode ? "Edit Blog" : "Buat Blog"}
+            {isEditMode ? "Edit Blog" : "Create Blog"}
           </h2>
           <div className="text-md text-gray-500 mb-6 flex space-x-5">
             {["description", "image"].map((section) => (
@@ -275,7 +275,7 @@ const CreateBlog = () => {
                 </button>
               </Link>
               <button type="submit" className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
-                {isEditMode ? "Perbarui" : "Save"}
+                {isEditMode ? "Update Blog" : "Save change"}
               </button>
             </div>
           </form>

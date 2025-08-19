@@ -8,7 +8,7 @@ import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/Fil
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-//import dummyGuides from "./dummyGuide"; // Uncomment for testing with dummy data
+import dummyGuides from "./dummyGuide"; // Uncomment for testing with dummy data
 
 const Guide = () => {
   const [guides, setGuides] = useState([]);
@@ -55,16 +55,16 @@ const Guide = () => {
     try {
       if (isEditing) {
         await apiClient.patch(`/guide/${editingId}`, payload);
-        toast.success("Guide berhasil diperbarui");
+        toast.success("Guide updated successfully");
       } else {
         await apiClient.post("/guide", payload);
-        toast.success("Guide berhasil ditambahkan");
+        toast.success("Guide added successfully");
       }
       await fetchGuides();
       formRef.current?.resetForm?.();
       setSearchParams({});
     } catch (err) {
-      console.error("Failed to create guide", err);
+      console.error("❌ Failed to save guide", err);
     }
   };
 
@@ -103,14 +103,14 @@ const Guide = () => {
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
-      title: "Hapus Kota?",
-      text: "Apakah kamu yakin ingin menghapus kota ini?",
+      title: "Delete Guide",
+      text: "Are you sure want to delete this guide?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#10b981",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, hapus!",
-      cancelButtonText: "Batal",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
     });
 
     if (!result.isConfirmed) return;
@@ -118,10 +118,10 @@ const Guide = () => {
     try {
       await apiClient.delete(`/guide/${id}`);
       fetchGuides();
-      toast.success("Guide berhasil dihapus");
+      toast.success("Guide was successfully deleted");
     } catch (error) {
-      console.error("❌ Failed to delete guide", error);
-      toast.error(error.response?.data?.message || "Gagal menghapus guide");
+      console.error("Failed to delete:", error);
+      toast.error(error.response?.data?.message || "Could not delete the guide. Please try again.");
     }
   };
 
@@ -168,7 +168,7 @@ const Guide = () => {
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Guide List</h3>
           <div className="flex gap-2">
-            <div className="w-64">
+            <div className="w-67">
               <Search
                 searchTerm={searchTerm}
                 onSearchChange={(value) => setSearchTerm(value)}

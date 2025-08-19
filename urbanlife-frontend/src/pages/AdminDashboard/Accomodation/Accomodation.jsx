@@ -105,23 +105,23 @@ const akomodasiModalConfig = {
   sections: [
     {
       fields: [
-        { key: "lokasi", label: "Lokasi" },
-        { key: "nama", label: "Nama Akomodasi" },
-        { key: "kategori", label: "Kategori" },
-        { key: "tipe", label: "Tipe" },
+        { key: "lokasi", label: "Location" },
+        { key: "nama", label: "Accommodation Name" },
+        { key: "kategori", label: "Category" },
+        { key: "tipe", label: "Type" },
         {
           key: "deskripsi",
-          label: "Deskripsi",
+          label: "Description",
           type: "language-toggle",
           languageKey: "deskripsi",
         },
         {
           key: "facility",
-          label: "Fasilitas",
+          label: "Facility",
         },
         {
           key: "room_and_price",
-          label: "Room & Harga",
+          label: "Room & Price",
         },
         {
           key: "status",
@@ -246,7 +246,7 @@ const Accomodation = () => {
 
   const handleBulkDelete = async (selectedData) => {
     const confirmed = window.confirm(
-      `Yakin ingin menghapus ${selectedData.length} akomodasi terpilih?`
+      `Delete ${selectedData.length} selected accommodations?`
     );
     if (!confirmed) return;
 
@@ -258,22 +258,22 @@ const Accomodation = () => {
 
     try {
       await toast.promise(deletePromise, {
-        loading: "Menghapus kendaraan...",
-        success: `Berhasil menghapus ${selectedData.length} kendaraan.`,
-        error: "Gagal menghapus kendaraan. Silakan coba lagi.",
+        loading: "Deleting accommodations...",
+        success: `${selectedData.length} was successfully deleted.`,
+        error: "Could not delete the accomodations. Please try again.",
       });
 
       // Update state lokal setelah sukses
       setData((prev) => prev.filter((item) => !ids.includes(item.id)));
       setSelected([]);
     } catch (err) {
-      console.error("Bulk delete gagal:", err);
+      console.error("Bulk delete failed:", err);
       // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
     }
   };
 
   const handleDelete = async (row) => {
-    const confirmed = window.confirm(`Yakin ingin menghapus "${row.nama}"?`);
+    const confirmed = window.confirm(`Are you sure want to delete "${row.nama}"?`);
     if (!confirmed) return;
 
     const deletePromise = apiClient.delete(`/akomodasi`, {
@@ -286,15 +286,15 @@ const Accomodation = () => {
       const result = await deletePromise;
       console.log(result, "result");
       await toast.promise(deletePromise, {
-        loading: "Menghapus akomodasi...",
-        success: `Akomodasi "${row.nama}" berhasil dihapus.`,
-        error: "Terjadi kesalahan saat menghapus.",
+        loading: "Deleting accommodation...",
+        success: `"${row.nama}" was successfully deleted.`,
+        error: "Could not delete the accommodation. Please try again.",
       });
 
       // TODO: Refresh list data jika perlu
       fetchData();
     } catch (err) {
-      console.error("Delete gagal:", err);
+      console.error("Failed to delete:", err);
     }
   };
 

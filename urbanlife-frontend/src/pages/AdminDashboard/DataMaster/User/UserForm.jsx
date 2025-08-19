@@ -129,7 +129,7 @@ const UserForm = forwardRef((_, ref) => {
           onChange={handleChange}
           className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
         >
-          <option value="">Choose Role</option>
+          <option value="">Select Role</option>
           {roles.map((role) => (
             <option key={role.id} value={role.id}>
               {role.nama}

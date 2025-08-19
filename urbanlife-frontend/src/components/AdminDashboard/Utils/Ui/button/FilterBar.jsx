@@ -10,7 +10,7 @@ const FilterBar = ({ filters = [] }) => {
               key={index}
               value={filter.value}
               onChange={(e) => filter.onChange(e.target.value)}
-              className="w-30 h-[38px] px-2 py-1 border rounded-lg text-sm text-gray-700"
+              className="w-30 h-[38px] px-2 py-1 border border-gray-300 rounded-md text-sm text-gray-700"
             >
               {filter.options.map((opt) => (
                 <option key={opt.value} value={opt.value}>

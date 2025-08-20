@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
+import { ChevronLeft, ChevronRight, ShoppingCart, X } from "lucide-react";
 import Navbar from "../../HomePage/Navbar/Navbar";
 import Footer from "../../HomePage/Footer";
 import "./AccoDetail.css";
@@ -14,6 +14,7 @@ const AccoDetail = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [roomImageIndices, setRoomImageIndices] = useState({});
   const thumbnailSliderRef = useRef(null);
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +25,17 @@ const AccoDetail = () => {
       .replace(/\\/g, "/") // backslash → slash
       .replace(/^uploads\//, "")}`; // hapus 'uploads/' di awal
   };
+
+  // Inisialisasi roomImageIndices berdasarkan akomodasi_room_and_price
+  useEffect(() => {
+    if (accommodation?.akomodasi_room_and_price) {
+      const initialIndices = accommodation.akomodasi_room_and_price.reduce((acc, room) => ({
+        ...acc,
+        [room.nama]: 0
+      }), {});
+      setRoomImageIndices(initialIndices);
+    }
+  }, [accommodation]);
 
   // Fetch data dari API
   useEffect(() => {
@@ -71,7 +83,6 @@ const AccoDetail = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isModalOpen) return;
-      
       switch (e.key) {
         case 'Escape':
           closeModal();
@@ -136,39 +147,41 @@ const AccoDetail = () => {
   };
 
   const handleOrderClick = () => {
-  const tanggalHariIni = new Date().toISOString().split("T")[0];
+    const tanggalHariIni = new Date().toISOString().split("T")[0];
 
-  const bookingData = {
-    id,
-    title: accommodation.nama,
-    type: "akomodasi",
-    country: accommodation.location?.split(", ")?.[1] || "Unknown",
-    location: accommodation.location?.split(", ")?.[0] || "Unknown",
-    image: formatFileUrl(accommodation?.akomodasi_file?.[0]?.url) || "/public/images/error/No_Image_Available.jpg",
-    content: accommodation.akomodasi_content?.[0] || {
-      description: "No description available.",
-      policies: [],
-      itinerary: [],
-      priceTable: [],
-    },
-    tanggal: tanggalHariIni,
+    const bookingData = {
+      id,
+      title: accommodation.nama,
+      type: "akomodasi",
+      country: accommodation.location?.split(", ")?.[1] || "Unknown",
+      location: accommodation.location?.split(", ")?.[0] || "Unknown",
+      image: formatFileUrl(accommodation?.akomodasi_file?.[0]?.url) || "/public/images/error/No_Image_Available.jpg",
+      content: accommodation.akomodasi_content?.[0] || {
+        description: "No description available.",
+        policies: [],
+        itinerary: [],
+        priceTable: [],
+      },
+      tanggal: tanggalHariIni,
+    };
+
+    // Sama seperti di handleBookNow → masukkan data spesifik untuk akomodasi
+    bookingData.room_and_price = accommodation.akomodasi_room_and_price;
+    bookingData.price = accommodation.akomodasi_room_and_price?.[0]?.harga ?? 0;
+
+    console.log("Navigating to OrderDetail with data:", bookingData);
+
+    navigate(`/OrderDetail?type=akomodasi&id=${id}`, {
+      state: bookingData,
+    });
   };
 
-  // Sama seperti di handleBookNow → masukkan data spesifik untuk akomodasi
-  bookingData.room_and_price = accommodation.akomodasi_room_and_price;
-  bookingData.price = accommodation.akomodasi_room_and_price?.[0]?.harga ?? 0;
-
-  console.log("Navigating to OrderDetail with data:", bookingData);
-
-  navigate(`/OrderDetail?type=akomodasi&id=${id}`, {
-    state: bookingData,
-  });
-};
-
-
-  // const handleOrderClick = (room) => {
-  //   console.log("Order clicked for:", room.nama);
-  // };
+  const handleRoomThumbnailClick = (roomName, index) => {
+    setRoomImageIndices((prev) => ({
+      ...prev,
+      [roomName]: index
+    }));
+  };
 
   if (loading) {
     return <p className="text-center mt-10">Loading...</p>;
@@ -180,191 +193,245 @@ const AccoDetail = () => {
         <Navbar />
         <div className="not-found">
           <h2>Data Not Available</h2>
-          <button onClick={() => navigate("/")}>Back to Home</button>
+          <button
+            onClick={() => navigate("/")}
+            className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg"
+          >
+            Back to Home
+          </button>
         </div>
         <Footer />
       </div>
     );
   }
 
-  // const images = accommodation.images || [];
-
   return (
-  <div className="acco-detail-page">
-    {/* Navbar fixed */}
-    <div className="navbar-fixed">
-      <Navbar />
-    </div>
-
-    {/* Hero Section */}
-    <div
-      className="hero-section"
-      style={{
-        background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, #00A5CC 0%, #007F9F 40%, #0092B8 100%)`,
-      }}
-    >
-      <div className="hero-content">
-        <h1 className="hero-title playfair">{accommodation.nama}</h1>
-        <div className="breadcrumb">
-          <button
-            className="breadcrumb-link cursor-pointer"
-            onClick={handleHomeClick}
-          >
-            Home
-          </button>
-          <span className="separator">/</span>
-          <span>{accommodation.kategori}</span>
-        </div>
-      </div>
-    </div>
-
-    {/* Main Content */}
-    <div className="acco-container space-y-8">
-      {/* Image Gallery + Info */}
-      <div className="image-gallery-section flex flex-col md:flex-row gap-6">
-        {/* Thumbnail Slider */}
-        <div className="thumbnail-slider-wrapper flex-shrink-0">
-          <button
-            className="slider-arrow left"
-            onClick={() => scrollThumbnail("left")}
-          >
-            <ChevronLeft />
-          </button>
-
-          <div className="thumbnail-slider" ref={thumbnailSliderRef}>
-            {accommodation.akomodasi_file.map((file, idx) => (
-              <img
-                key={idx}
-                src={formatFileUrl(file.url)}
-                alt={`Hotel view ${idx + 1}`}
-                className="gallery-thumb cursor-pointer"
-                onClick={() => openModal(idx)}
-              />
-            ))}
-          </div>
-
-          <button
-            className="slider-arrow right"
-            onClick={() => scrollThumbnail("right")}
-          >
-            <ChevronRight />
-          </button>
-        </div>
-
-        {/* Info */}
-        <div className="info-basic flex-1">
-          <div className="info-row">
-            <span className="info-label text-lg font-semibold text-gray-800">
-              {accommodation.kategori}
-            </span>
-          </div>
-
-          <div className="info-description max-h-40 overflow-y-auto pr-2 text-gray-700 text-sm leading-relaxed mt-2 border rounded-md p-3 bg-gray-50">
-            <p>{accommodation.akomodasi_content[0]?.deskripsi}</p>
-          </div>
-
-          {/* Tombol Order */}
-          <div className="mt-4">
-            <button
-              onClick={() => handleOrderClick(accommodation)}
-              className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md"
-            >
-              <ShoppingCart size={16} />
-              Order Now
-            </button>
-          </div>
-        </div>
+    <div className="acco-detail-page">
+      {/* Navbar fixed */}
+      <div className="navbar-fixed">
+        <Navbar />
       </div>
 
-      {/* Pricing and Facility */}
-      <div className="pricing-facility-section">
-        <h3 className="section-title text-xl font-semibold mb-4">Pricing & Facility</h3>
-        <div className="space-y-4">
-          {accommodation.akomodasi_room_and_price.map((room, idx) => {
-            const fasilitasGroup = accommodation.akomodasi_facility_group.find(
-              (f) => f.nama === room.nama
-            );
-            return (
-              <div key={idx} className="room-card border rounded-lg shadow-sm overflow-hidden flex flex-col md:flex-row">
-                <div className="room-image-box md:w-1/3">
-                  <img
-                    src={formatFileUrl(room.AkomodasiFile[0]?.url)}
-                    alt={`${room.nama} preview`}
-                    className="w-full h-full object-cover cursor-pointer"
-                    onClick={() => openModal(currentImageIndex)}
-                  />
-                </div>
-
-                <div className="room-detail flex-1 p-4">
-                  <div className="room-header flex justify-between items-center mb-2">
-                    <h4 className="room-name text-lg font-semibold">{room.nama}</h4>
-                    <p className="room-price text-cyan-700 font-bold">
-                      IDR {parseInt(room.harga).toLocaleString()}
-                    </p>
-                  </div>
-                  <p className="facility-title font-medium">Facilities:</p>
-                  <ul className="room-facilities list-disc pl-5 mt-1 text-gray-700 text-sm">
-                    {fasilitasGroup?.fasilitas.map((fac, index) => (
-                      <li key={index}>{fac.nama}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-
-    {/* Image Modal */}
-    {isModalOpen && (
+      {/* Hero Section */}
       <div
-        className="image-modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
-        onClick={handleModalBackdropClick}
+        className="hero-section"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, #00A5CC 0%, #007F9F 40%, #0092B8 100%)`,
+        }}
       >
-        <div className="modal-content relative bg-white rounded-lg overflow-hidden shadow-lg">
-          <button
-            className="modal-close absolute top-2 right-3 text-3xl text-gray-500 hover:text-gray-800"
-            onClick={closeModal}
-          >
-            ×
-          </button>
+        <div className="hero-decorations">
+          <div className="floating-element diamond diamond-1"></div>
+          <div className="floating-element diamond diamond-2"></div>
+          <div className="floating-element diamond diamond-3"></div>
+          <div className="floating-element triangle triangle-1"></div>
+          <div className="floating-element triangle triangle-2"></div>
+          <div className="floating-element triangle triangle-3"></div>
+          <div className="floating-element hexagon hexagon-1"></div>
+          <div className="floating-element hexagon hexagon-2"></div>
+          <div className="floating-line line-1"></div>
+          <div className="floating-line line-2"></div>
+          <div className="floating-line line-3"></div>
+          <div className="dots-pattern dots-1"></div>
+          <div className="dots-pattern dots-2"></div>
+        </div>
 
-          {accommodation.akomodasi_file[currentImageIndex] && (
-            <img
-              src={formatFileUrl(accommodation.akomodasi_file[currentImageIndex]?.url)}
-              alt={`Hotel view ${currentImageIndex + 1}`}
-              className="modal-image max-h-[80vh] object-contain"
-            />
-          )}
-
-          <div className="modal-controls flex justify-between items-center p-4 bg-gray-100">
+        <div className="hero-content">
+          <h1 className="hero-title playfair">{accommodation.nama}</h1>
+          <div className="breadcrumb">
             <button
-              className="modal-nav-btn text-sm font-medium text-cyan-700"
-              onClick={() => handleImageNavigation("prev")}
+              className="breadcrumb-link cursor-pointer"
+              onClick={handleHomeClick}
             >
-              ‹ Prev
+              Home
             </button>
-
-            <span className="modal-image-counter text-sm text-gray-600">
-              {currentImageIndex + 1} / {accommodation.akomodasi_file.length}
-            </span>
-
-            <button
-              className="modal-nav-btn text-sm font-medium text-cyan-700"
-              onClick={() => handleImageNavigation("next")}
-            >
-              Next ›
-            </button>
+            <span className="separator">/</span>
+            <span>{accommodation.kategori}</span>
           </div>
         </div>
       </div>
-    )}
 
-    <Footer />
-  </div>
-);
+      {/* Main Content */}
+      <div className="acco-container space-y-8">
+        {/* Image Gallery + Info */}
+        <div className="image-gallery-section">
+          <div className="thumbnail-slider-wrapper">
+            <button
+              className="slider-arrow left p-2 rounded-full bg-white/80 hover:bg-white shadow-lg transition-all duration-200"
+              onClick={() => scrollThumbnail("left")}
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <div className="thumbnail-slider" ref={thumbnailSliderRef}>
+              {accommodation.akomodasi_file.map((file, idx) => (
+                <img
+                  key={idx}
+                  src={formatFileUrl(file.url)}
+                  alt={`Hotel view ${idx + 1}`}
+                  className="gallery-thumb cursor-pointer rounded-lg border-2 border-gray-200 hover:border-cyan-500"
+                  onClick={() => openModal(idx)}
+                />
+              ))}
+            </div>
+            <button
+              className="slider-arrow right p-2 rounded-full bg-white/80 hover:bg-white shadow-lg transition-all duration-200"
+              onClick={() => scrollThumbnail("right")}
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
 
+          <div className="info-basic">
+            <div className="info-row flex justify-between items-center">
+              <span className="info-label text-lg font-semibold text-gray-800">
+                {accommodation.kategori}
+              </span>
+              <button
+                onClick={handleOrderClick}
+                className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors shadow-md"
+              >
+                <ShoppingCart size={16} />
+                Order Now
+              </button>
+            </div>
+            <div className="info-description mt-2 text-gray-700 text-sm leading-relaxed">
+              <p>{accommodation.akomodasi_content[0]?.deskripsi}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Pricing and Facility */}
+        <div className="pricing-facility-section">
+          <h3 className="section-title text-xl font-semibold mb-4">Pricing & Facility</h3>
+          <div className="space-y-4">
+            {accommodation.akomodasi_room_and_price.map((room, idx) => {
+              const fasilitasGroup = accommodation.akomodasi_facility_group.find(
+                (f) => f.nama === room.nama
+              );
+              const currentRoomIndex = roomImageIndices[room.nama] || 0;
+              return (
+                <div
+                  key={idx}
+                  className="room-card border rounded-lg shadow-sm overflow-hidden flex flex-col md:flex-row"
+                >
+                  <div className="room-image-box md:w-1/3">
+                    <img
+                      src={formatFileUrl(room.AkomodasiFile[0]?.url)}
+                      alt={`${room.nama} preview`}
+                      className="w-full h-48 object-cover cursor-pointer"
+                      onClick={() => openModal(currentRoomIndex)}
+                    />
+                    <div className="room-thumbnails flex gap-2 mt-2 p-2">
+                      {accommodation.akomodasi_file.slice(0, 3).map((file, index) => (
+                        <img
+                          key={index}
+                          src={formatFileUrl(file.url)}
+                          alt={`Thumb ${index + 1}`}
+                          className={`w-16 h-16 rounded-lg border-2 ${
+                            currentRoomIndex === index
+                              ? "border-cyan-500"
+                              : "border-gray-200 hover:border-gray-300"
+                          } cursor-pointer`}
+                          onClick={() => handleRoomThumbnailClick(room.nama, index)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="room-detail flex-1 p-4">
+                    <div className="room-header flex justify-between items-center mb-2">
+                      <h4 className="room-name text-lg font-semibold">{room.nama}</h4>
+                      <p className="room-price text-cyan-700 font-bold">
+                        IDR {parseInt(room.harga).toLocaleString()}
+                      </p>
+                    </div>
+                    <p className="facility-title font-medium">Facilities:</p>
+                    <ul className="room-facilities list-disc pl-5 mt-1 text-gray-700 text-sm">
+                      {fasilitasGroup?.fasilitas.map((fac, index) => (
+                        <li key={index}>{fac.nama}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Image Modal */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-gray-400/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4"
+          onClick={handleModalBackdropClick}
+        >
+          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">{accommodation.nama} Gallery</h3>
+              <button
+                onClick={closeModal}
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                aria-label="Close gallery"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="relative bg-gray-50 flex items-center justify-center min-h-[400px]">
+              <img
+                src={formatFileUrl(accommodation.akomodasi_file[currentImageIndex]?.url)}
+                alt={`Hotel view ${currentImageIndex + 1}`}
+                className="max-w-full max-h-[500px] object-contain"
+                loading="lazy"
+              />
+              {accommodation.akomodasi_file.length > 1 && (
+                <>
+                  <button
+                    onClick={() => handleImageNavigation("prev")}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/80 hover:bg-white shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    onClick={() => handleImageNavigation("next")}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/80 hover:bg-white shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                </>
+              )}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/60 text-white text-sm rounded-full">
+                {currentImageIndex + 1} / {accommodation.akomodasi_file.length}
+              </div>
+            </div>
+            <div className="p-4 bg-white border-t border-gray-200">
+              <div className="flex gap-2 overflow-x-auto pb-2">
+                {accommodation.akomodasi_file.map((file, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                      index === currentImageIndex
+                        ? 'border-cyan-500 ring-2 ring-cyan-200'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <img
+                      src={formatFileUrl(file.url)}
+                      alt={`${accommodation.nama} thumbnail ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <Footer />
+    </div>
+  );
 };
 
 export default AccoDetail;

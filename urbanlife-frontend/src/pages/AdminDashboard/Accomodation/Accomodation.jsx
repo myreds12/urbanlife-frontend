@@ -380,7 +380,7 @@ const Accomodation = () => {
             defaultMapping={{
               "#": (row, index) => (page - 1) * ITEMS_PER_PAGE + index + 1,
               Name: (row) => row.name,
-              Location: (row) => row.location?.nama || '',
+              Location: (row) => row.location || '',
               Type: (row) => row.type,
               Category: (row) => row.category,
             }}

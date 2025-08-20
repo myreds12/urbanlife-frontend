@@ -7,7 +7,7 @@ import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import dummyUsers from "./dummyUser";
+// import dummyUsers from "./dummyUser";
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -20,57 +20,80 @@ const User = () => {
   const formRef = useRef(null);
 
   // bener atau salah...?
-  //   const fetchUsers = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const res = await apiClient.get("/users");
-  //       setUsers(res.data.data || []);
-  //     } catch (err) {
-  //       console.error("❌ Failed to fetch users", err);
-  //       toast.error("Failed to load users data");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
   const fetchUsers = async () => {
     setLoading(true);
-    setTimeout(() => {
-      setUsers(dummyUsers);
+    try {
+      const res = await apiClient.get("/users");
+      setUsers(res.data.data || []);
+    } catch (err) {
+      console.error("❌ Failed to fetch users", err);
+      toast.error("Failed to load users data");
+    } finally {
       setLoading(false);
-    }, 500);
+    }
   };
+
+  // const fetchUsers = async () => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setUsers(dummyUsers);
+  //     setLoading(false);
+  //   }, 500);
+  // };
 
   const handleSave = async () => {
     const newData = formRef.current?.getFormData();
     if (!newData) return;
+    console.log(newData);
 
-    const payload = {
-      nama: newData.nama,
-      email: newData.email,
-      nomor_hp: newData.nomor_hp,
-      role_id: Number(newData.role_id),
-    };
+    const formData = new FormData();
+
+    // kalau editing id, bisa kirim id juga
+    // if (newData.id) {
+    //   formData.append("id", newData.id);
+    // }
+
+    formData.append("nama", newData.nama);
+    formData.append("email", newData.email);
+    formData.append("nomor_hp", newData.nomor_hp);
+    formData.append("role_id", newData.role_id);
 
     if (newData.password) {
-      payload.password = newData.password;
+      formData.append("password", newData.password);
     }
 
-    // create = password wajib diisi
-    if (!isEditing && !payload.password) {
+    // ambil file pertama dari FileList
+    if (newData.file ) {
+      formData.append("file", newData.file);
+    }
+
+    // validasi untuk create
+    if (!isEditing && !newData.password) {
       toast.error("Password is required for new user");
       return;
     }
 
+    console.log("=== Payload yang akan dikirim ke API ===");
+    for (let pair of formData.entries()) {
+      if (pair[1] instanceof File) {
+        console.log(pair[0], pair[1].name);
+      } else {
+        console.log(pair[0], pair[1]);
+      }
+    }
+    console.log("========================================");
+
     setSaving(true);
     try {
       if (isEditing) {
-        // UPDATE user
-        await apiClient.patch(`/users/${editingId}`, payload);
+        await apiClient.patch(`/users/${editingId}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         toast.success("User updated successfully");
       } else {
-        // CREATE user
-        await apiClient.post("/users", payload);
+        await apiClient.post("/users", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         toast.success("User added successfully");
       }
 
@@ -79,9 +102,7 @@ const User = () => {
       setSearchParams({});
     } catch (err) {
       console.error("❌ Failed to save user:", err);
-      toast.error(
-        err.response?.data?.message || "Failed to save user data"
-      );
+      toast.error(err.response?.data?.message || "Failed to save user data");
     } finally {
       setSaving(false);
     }
@@ -136,6 +157,7 @@ const User = () => {
           email: user.email,
           nomor_hp: user.nomor_hp,
           role_id: user.role_id || user.role.id,
+          profile: user.profile || null,
         });
       }
     } else if (!isEditing) {

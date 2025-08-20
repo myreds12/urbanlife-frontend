@@ -152,6 +152,7 @@ const RentCar = () => {
       const params = {
         page,
         take,
+        is_rent: true,
         ...(search.trim() && { search: search.trim() }),
       };
       const res = await apiClient.get("/kendaraan", { params });
@@ -408,7 +409,7 @@ const RentCar = () => {
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
             <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-gray-800">Rent Car</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Rent A Car</h1>
             </div>
 
             <div className="flex flex-wrap justify-between items-center gap-4">
@@ -446,10 +447,10 @@ const RentCar = () => {
               onDelete={handleDelete}
               defaultMapping={{
                 "#": (row, index) => (page - 1) * take + index + 1,
-                ID: "id",
-                Nama: "nama",
-                Model: "model",
-                Capacity: (row) => row.capacity || "-",
+                ID: (row) => row.id,
+                Name: (row) => row.nama,
+                Model: (row) => row.model || "-",
+                Capacity: (row) => row.kapasitas || "-",
                 "License Plate": (row) => row.plat_nomor || "-",
                 Location: (row) => row.lokasi?.nama || "-",
                 Status: (row) => (row.status ? "Aktif" : "Non-Aktif"),

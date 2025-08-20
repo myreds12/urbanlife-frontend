@@ -2,24 +2,23 @@ import { useState, useCallback, useEffect } from "react";
 import Button from "../../../components/AdminDashboard/Utils/Ui/button/Button";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
-const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
+const Calendar = ({ initialEvents = {}, onDeleteEvent }) => {
   const [events, setEvents] = useState(initialEvents);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
   const [showEventModal, setShowEventModal] = useState(false);
   const [currentView, setCurrentView] = useState("month");
   const [isLoading, setIsLoading] = useState(false);
-  const [eventForm, setEventForm] = useState({
-    title: "",
-    type: "accommodation",
-    customer: "",
-    location: "",
-  });
+  // const [eventForm, setEventForm] = useState({
+  //   title: "",
+  //   type: "accommodation",
+  //   customer: "",
+  //   location: "",
+  // });
 
   useEffect(() => {
     setEvents(initialEvents);
   }, [initialEvents]);
-
 
   const monthNames = [
     "January",
@@ -219,66 +218,66 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
     setShowEventModal(true);
   };
 
-  const handleAddEvent = useCallback(
-    async (e) => {
-      e.preventDefault();
-      if (!selectedDay || isLoading) return;
-      setIsLoading(true);
-      try {
-        const dateKey = `${currentDate.getFullYear()}-${String(
-          currentDate.getMonth() + 1
-        ).padStart(2, "0")}-${String(selectedDay).padStart(2, "0")}`;
-        const newEvent = {
-          id: Date.now(),
-          ...eventForm,
-          date: dateKey,
-          dateDisplay: `${String(selectedDay).padStart(2, "0")} ${
-            monthNames[currentDate.getMonth()]
-          } ${currentDate.getFullYear()}`,
-        };
+  // const handleAddEvent = useCallback(
+  //   async (e) => {
+  //     e.preventDefault();
+  //     if (!selectedDay || isLoading) return;
+  //     setIsLoading(true);
+  //     try {
+  //       const dateKey = `${currentDate.getFullYear()}-${String(
+  //         currentDate.getMonth() + 1
+  //       ).padStart(2, "0")}-${String(selectedDay).padStart(2, "0")}`;
+  //       const newEvent = {
+  //         id: Date.now(),
+  //         ...eventForm,
+  //         date: dateKey,
+  //         dateDisplay: `${String(selectedDay).padStart(2, "0")} ${
+  //           monthNames[currentDate.getMonth()]
+  //         } ${currentDate.getFullYear()}`,
+  //       };
 
-        // Kirim ke API
-        const response = await apiClient.post("/events", {
-          title: newEvent.title,
-          customer: newEvent.customer,
-          type: newEvent.type,
-          location: newEvent.location,
-          date: newEvent.date,
-          dateDisplay: newEvent.dateDisplay,
-        });
+  //       // Kirim ke API
+  //       const response = await apiClient.post("/events", {
+  //         title: newEvent.title,
+  //         customer: newEvent.customer,
+  //         type: newEvent.type,
+  //         location: newEvent.location,
+  //         date: newEvent.date,
+  //         dateDisplay: newEvent.dateDisplay,
+  //       });
 
-        const savedEvent = response.data.data || response.data;
-        onAddEvent(dateKey, { ...newEvent, id: savedEvent.id || newEvent.id });
-        setShowEventModal(false);
-        setEventForm({
-          title: "",
-          type: "accommodation",
-          customer: "",
-          location: "",
-        });
-        setSelectedDay(null);
-      } catch (error) {
-        console.error("Error:", error);
-        alert("Gagal menambahkan event");
-        // Tetap simpan lokal sebagai fallback
-        const dateKey = `${currentDate.getFullYear()}-${String(
-          currentDate.getMonth() + 1
-        ).padStart(2, "0")}-${String(selectedDay).padStart(2, "0")}`;
-        const newEvent = {
-          id: Date.now(),
-          ...eventForm,
-          date: dateKey,
-          dateDisplay: `${String(selectedDay).padStart(2, "0")} ${
-            monthNames[currentDate.getMonth()]
-          } ${currentDate.getFullYear()}`,
-        };
-        onAddEvent(dateKey, newEvent);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [selectedDay, currentDate, eventForm, onAddEvent, monthNames, isLoading]
-  );
+  //       const savedEvent = response.data.data || response.data;
+  //       onAddEvent(dateKey, { ...newEvent, id: savedEvent.id || newEvent.id });
+  //       setShowEventModal(false);
+  //       setEventForm({
+  //         title: "",
+  //         type: "accommodation",
+  //         customer: "",
+  //         location: "",
+  //       });
+  //       setSelectedDay(null);
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       alert("Gagal menambahkan event");
+  //       // Tetap simpan lokal sebagai fallback
+  //       const dateKey = `${currentDate.getFullYear()}-${String(
+  //         currentDate.getMonth() + 1
+  //       ).padStart(2, "0")}-${String(selectedDay).padStart(2, "0")}`;
+  //       const newEvent = {
+  //         id: Date.now(),
+  //         ...eventForm,
+  //         date: dateKey,
+  //         dateDisplay: `${String(selectedDay).padStart(2, "0")} ${
+  //           monthNames[currentDate.getMonth()]
+  //         } ${currentDate.getFullYear()}`,
+  //       };
+  //       onAddEvent(dateKey, newEvent);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   },
+  //   [selectedDay, currentDate, eventForm, onAddEvent, monthNames, isLoading]
+  // );
 
   const handleDeleteEvent = useCallback(
     (day, eventId) => {
@@ -505,15 +504,6 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
           ) : (
             <div className="text-center py-8 text-gray-500">
               <p>No events scheduled for this day</p>
-              <button
-                onClick={() => {
-                  setSelectedDay(currentDay.getDate());
-                  setShowEventModal(true);
-                }}
-                className="mt-2 px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
-              >
-                Add Event
-              </button>
             </div>
           )}
         </div>
@@ -549,333 +539,265 @@ const Calendar = ({ initialEvents = {}, onAddEvent, onDeleteEvent }) => {
     }
   };
 
-  return (
-    <>
-      <div className="relative">
-        <div className="bg-white rounded-xl border border-gray-200 shadow-lg">
-          <div className="p-6 border-b border-gray-200">
-            <div className="text-center mb-4">
-              <h2 className="text-xl font-bold text-gray-900 mb-3">
-                {getViewTitle()}
-              </h2>
+return (
+  <>
+    <div className="relative">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-lg">
+        <div className="p-6 border-b border-gray-200">
+          <div className="text-center mb-4">
+            <h2 className="text-xl font-bold text-gray-900 mb-3">
+              {getViewTitle()}
+            </h2>
+          </div>
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleNavigation(-1)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={() => handleNavigation(1)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
             </div>
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex gap-2">
+            <div className="flex gap-2">
+              {["month", "week", "day"].map((view) => (
                 <button
-                  onClick={() => handleNavigation(-1)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
+                  key={view}
+                  onClick={() => setCurrentView(view)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    currentView === view
+                      ? "bg-cyan-500 text-white shadow-md"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
+                  {view.charAt(0).toUpperCase() + view.slice(1)}
                 </button>
-                <button
-                  onClick={() => handleNavigation(1)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              ))}
+            </div>
+          </div>
+          {/* Line 433: Add Event button (commented as requested) */}
+          {/* <div className="flex justify-center">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => {
+                setSelectedDay(today.getDate());
+                setShowEventModal(true);
+              }}
+              disabled={isLoading}
+              className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors text-sm font-medium"
+            >
+              {isLoading ? "Loading..." : "+ Add Event"}
+            </Button>
+          </div> */}
+        </div>
+        <div className="p-6">
+          {currentView === "month" && (
+            <>
+              <div className="grid grid-cols-7 gap-1 mb-3">
+                {daysOfWeek.map((day) => (
+                  <div
+                    key={day}
+                    className="p-3 text-center text-sm font-semibold text-gray-600"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div className="flex gap-2">
-                {["month", "week", "day"].map((view) => (
-                  <button
-                    key={view}
-                    onClick={() => setCurrentView(view)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      currentView === view
-                        ? "bg-cyan-500 text-white shadow-md"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
-                  >
-                    {view.charAt(0).toUpperCase() + view.slice(1)}
-                  </button>
+                    {day}
+                  </div>
                 ))}
               </div>
-            </div>
-            {/* Line 433: Add Event button (commented as requested) */}
-            <div className="flex justify-center">
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={() => {
-                  setSelectedDay(today.getDate());
-                  setShowEventModal(true);
-                }}
-                disabled={isLoading}
-                className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors text-sm font-medium"
-              >
-                {isLoading ? "Loading..." : "+ Add Event"}
-              </Button>
-            </div>
-          </div>
-          <div className="p-6">
-            {currentView === "month" && (
-              <>
-                <div className="grid grid-cols-7 gap-1 mb-3">
-                  {daysOfWeek.map((day) => (
+              {renderMonthView()}
+            </>
+          )}
+          {currentView === "week" && (
+            <>
+              <div className="grid grid-cols-7 gap-2 mb-3">
+                {getWeekDays(currentDate).map((day, index) => {
+                  const isTodayDate =
+                    day.toDateString() === today.toDateString();
+                  return (
                     <div
-                      key={day}
-                      className="p-3 text-center text-sm font-semibold text-gray-600"
+                      key={index}
+                      className={`text-center text-sm font-semibold py-2 rounded-lg ${
+                        isTodayDate
+                          ? "bg-cyan-500 text-white"
+                          : "text-gray-600"
+                      }`}
                     >
-                      {day}
+                      <div>{daysOfWeek[day.getDay()]}</div>
+                      <div className="text-lg font-bold">{day.getDate()}</div>
                     </div>
-                  ))}
-                </div>
-                {renderMonthView()}
-              </>
-            )}
-            {currentView === "week" && (
-              <>
-                <div className="grid grid-cols-7 gap-2 mb-3">
-                  {getWeekDays(currentDate).map((day, index) => {
-                    const isTodayDate =
-                      day.toDateString() === today.toDateString();
-                    return (
-                      <div
-                        key={index}
-                        className={`text-center text-sm font-semibold py-2 rounded-lg ${
-                          isTodayDate
-                            ? "bg-cyan-500 text-white"
-                            : "text-gray-600"
-                        }`}
-                      >
-                        <div>{daysOfWeek[day.getDay()]}</div>
-                        <div className="text-lg font-bold">{day.getDate()}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-                {renderWeekView()}
-              </>
-            )}
-            {currentView === "day" && renderDayView()}
-          </div>
-          {currentView !== "day" && (
-            <div className="px-6 pb-6">
-              <div className="flex gap-6 text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <span className="text-gray-600">Accommodation</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-600">Day tour</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-cyan-500 rounded-full"></div>
-                  <span className="text-gray-600">Rent car</span>
-                </div>
+                  );
+                })}
+              </div>
+              {renderWeekView()}
+            </>
+          )}
+          {currentView === "day" && renderDayView()}
+        </div>
+        {currentView !== "day" && (
+          <div className="px-6 pb-6">
+            <div className="flex gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <span className="text-gray-600">Accommodation</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-gray-600">Day tour</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-cyan-500 rounded-full"></div>
+                <span className="text-gray-600">Rent a car</span>
               </div>
             </div>
-          )}
+          </div>
+        )}
+      </div>
+    </div>
+    {showEventModal && (
+      <div
+        className="fixed inset-0 flex items-center justify-center p-4"
+        style={{ zIndex: 10000, backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+        onClick={() => setShowEventModal(false)}
+      >
+        <div
+          className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold text-gray-900">
+                Events for {selectedDay} {monthNames[currentDate.getMonth()]}
+              </h3>
+              <button
+                onClick={() => setShowEventModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            {getEventsForDay(selectedDay).length > 0 ? (
+              <div className="space-y-3">
+                {getEventsForDay(selectedDay).map((event, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border"
+                  >
+                    <div className="flex-1">
+                      <div className="font-semibold text-gray-900">
+                        {event.customer}
+                      </div>
+                      <div className="text-sm text-gray-600 mt-1">
+                        <span
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium mr-2 ${
+                            event.type === "accommodation"
+                              ? "bg-red-100 text-red-800"
+                              : event.type === "day tour"
+                              ? "bg-green-100 text-green-800"
+                              : event.type === "rent car"
+                              ? "bg-cyan-100 text-cyan-800"
+                              : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {event.type}
+                        </span>
+                        {event.location}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() =>
+                        handleDeleteEvent(selectedDay, event.id)
+                      }
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <svg
+                  className="mx-auto h-12 w-12 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                  />
+                </svg>
+                <h3 className="mt-2 text-lg font-medium text-gray-900">
+                  No schedule or event for this day
+                </h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  Please select another day or check back later
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      {showEventModal && (
-        <div
-          className="fixed inset-0 flex items-center justify-center p-4"
-          style={{ zIndex: 10000, backgroundColor: "rgba(0, 0, 0, 0.6)" }}
-          onClick={() => setShowEventModal(false)}
-        >
-          <div
-            className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-gray-900">
-                  Events for {selectedDay} {monthNames[currentDate.getMonth()]}
-                </h3>
-                <button
-                  onClick={() => setShowEventModal(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors p-1"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              {getEventsForDay(selectedDay).length > 0 && (
-                <div className="mb-6">
-                  <h4 className="font-semibold mb-3 text-gray-700">
-                    Existing Events:
-                  </h4>
-                  <div className="space-y-3">
-                    {getEventsForDay(selectedDay).map((event, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border"
-                      >
-                        <div className="flex-1">
-                          <div className="font-semibold text-gray-900">
-                            {event.customer}
-                          </div>
-                          <div className="text-sm text-gray-600 mt-1">
-                            <span
-                              className={`inline-block px-3 py-1 rounded-full text-xs font-medium mr-2 ${
-                                event.type === "accommodation"
-                                  ? "bg-red-100 text-red-800"
-                                  : event.type === "day tour"
-                                  ? "bg-green-100 text-green-800"
-                                  : event.type === "rent car"
-                                  ? "bg-cyan-100 text-cyan-800"
-                                  : "bg-gray-100 text-gray-800"
-                              }`}
-                            >
-                              {event.type}
-                            </span>
-                            {event.location}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() =>
-                            handleDeleteEvent(selectedDay, event.id)
-                          }
-                          className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <div>
-                <h4 className="font-semibold mb-2 text-gray-700">
-                  Add New Event:
-                </h4>
-                <form onSubmit={handleAddEvent}>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Customer Name
-                      </label>
-                      <input
-                        type="text"
-                        name="customer"
-                        value={eventForm.customer}
-                        onChange={(e) =>
-                          setEventForm((prev) => ({
-                            ...prev,
-                            customer: e.target.value,
-                          }))
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-                        placeholder="Enter customer name"
-                        required
-                        disabled={isLoading}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Event Type
-                      </label>
-                      <select
-                        name="type"
-                        value={eventForm.type}
-                        onChange={(e) =>
-                          setEventForm((prev) => ({
-                            ...prev,
-                            type: e.target.value,
-                          }))
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-                        disabled={isLoading}
-                      >
-                        <option value="accommodation">Accommodation</option>
-                        <option value="day tour">Day Tour</option>
-                        <option value="rent car">Rent Car</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Location
-                      </label>
-                      <input
-                        type="text"
-                        name="location"
-                        value={eventForm.location}
-                        onChange={(e) =>
-                          setEventForm((prev) => ({
-                            ...prev,
-                            location: e.target.value,
-                          }))
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-                        placeholder="Enter location"
-                        required
-                        disabled={isLoading}
-                      />
-                    </div>
-                    <div className="flex gap-3 pt-4">
-                      <button
-                        type="submit"
-                        className="flex-1 px-4 py-3 bg-cyan-500 text-white rounded-lg text-sm font-medium hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors"
-                        disabled={isLoading}
-                      >
-                        {isLoading ? "Adding..." : "Add Event"}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setShowEventModal(false)}
-                        className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-                        disabled={isLoading}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
+    )}
+  </>
+);
+
 };
 
 export default Calendar;

@@ -13,7 +13,7 @@ const statusColors = {
 };
 
 const StatusBadge = ({ status }) => {
-  if(status === Boolean) {
+  if(status === Boolean(true) || status === Boolean(false)) {
     return (
       <span className={`text-white px-2 py-1 rounded-full text-xs capitalize ${status ? 'bg-green-500' : 'bg-red-500'}`}>
         {status ? 'Active' : 'Inactive'}

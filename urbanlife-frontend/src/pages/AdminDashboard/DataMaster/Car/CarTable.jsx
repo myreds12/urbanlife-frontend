@@ -21,7 +21,7 @@ const CarTable = ({ cars, onEdit, onDelete }) => {
     Model: (row) => row.model || "-",
     "Plate Number": (row) => row.plat_nomor || "-",
     "Vehicle tax status": (row) => (row.status_pajak ? "Active" : "Inactive"),
-    "Tax expiry period": (row) => row.tanggal_pajak_berakhir || "-",
+    "Tax expiry period": (row) => new Date(row.tanggal_pajak_berakhir).toLocaleDateString() || "-",
     Status: (row) => <StatusBadge status={row.status} />,
   };
 

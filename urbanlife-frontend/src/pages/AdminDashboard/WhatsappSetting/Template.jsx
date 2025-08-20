@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 
 const Template = () => {
   const [templates, setTemplates] = useState([]);
-  const [admin1, setAdmin1] = useState("081122334455");
-  const [admin2, setAdmin2] = useState("081133224466");
+  // const [admin1, setAdmin1] = useState("081122334455");
+  // const [admin2, setAdmin2] = useState("081133224466");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -62,8 +62,6 @@ const Template = () => {
       id: t.id,
       Name: t.name,
       Category: t.category,
-      "No Admin 1": admin1,
-      "No Admin 2": admin2,
       Content: t.text_to_customer,
       Status: t.is_active ? "Active" : "Inactive",
     }));
@@ -170,7 +168,7 @@ Tanggal Order: {order_date}
       <div className="bg-white rounded-xl shadow overflow-hidden">
         {/* Compact Header Layout */}
         <div className="mb-6 pt-5 pl-5 pr-5 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <label
                 className="block text-sm font-medium text-gray-600  bg-gray-100 px-4 py-2 rounded-md darklabel"
@@ -203,7 +201,7 @@ Tanggal Order: {order_date}
                 className="py-1 px-3 border border-gray-300 rounded-md"
               />
             </div>
-          </div>
+          </div> */}
           {/* Search & Add */}
           <div className="flex items-center gap-3">
             <Search
@@ -249,8 +247,8 @@ Tanggal Order: {order_date}
           newTemplate={newTemplate}
           onInputChange={handleInputChange}
           onSave={editMode ? handleEditTemplate : handleAddTemplate}
-          admin1={admin1}
-          admin2={admin2}
+          // admin1={admin1}
+          // admin2={admin2}
         />
 
         {/* Pagination */}

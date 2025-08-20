@@ -10,7 +10,7 @@ const navItems = [
 
 const contentItems = [
   { icon: "fa-solid fa-chart-pie", name: "Day tour", path: "/admin/day-tour" },
-  { icon: "fa-car", name: "Rent a Car", path: "/admin/rent-car" },
+  { icon: "fa-car", name: "Rent a car", path: "/admin/rent-car" },
   { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
   { icon: "fa-newspaper", name: "News", path: "/admin/news" },
 ];

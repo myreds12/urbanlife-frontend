@@ -204,19 +204,6 @@ export default function EditProfileForm({ userInfo, onCancel, onSave }) {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Bio
-                </label>
-                <textarea
-                  value={editForm.bio}
-                  onChange={(e) => handleInputChange('bio', e.target.value)}
-                  rows="4"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 resize-none bg-white transition-all duration-200"
-                  placeholder="Tell us about yourself..."
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Profile Picture
                 </label>
                 <div className="space-y-3">

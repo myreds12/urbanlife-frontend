@@ -27,12 +27,15 @@ const CreateRentCarPage = () => {
     nama: "",
     lokasi_id: 0,
     status_pajak: "",
+    top_attraction: true,
     status: "TERSEDIA DIPESAN",
     plat_nomor: "",
     model: "",
     tanggal_pajak_berakhir: "",
     content: DEFAULT_CONTENT,
     durasi: DEFAULT_PRICE,
+    kendaraan_id: "",
+    driver_id: "", // ✅ Tambahkan field untuk driver
   });
 
   const [content, setContent] = useState(DEFAULT_CONTENT);
@@ -41,6 +44,8 @@ const CreateRentCarPage = () => {
   const [existingPhotos, setExistingPhotos] = useState([]);
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
+  const [availableCars, setAvailableCars] = useState([]);
+  const [drivers, setDrivers] = useState([]); // ✅ State untuk menyimpan data driver
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, content, durasi: prices }));
@@ -49,33 +54,45 @@ const CreateRentCarPage = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const [{ data: locationData }, carData] = await Promise.all([
+        const [
+          { data: locationData },
+          carData,
+          availableCarsData,
+          driversData, // ✅ Ambil data driver
+        ] = await Promise.all([
           apiClient.get("/lokasi"),
           isEditMode
             ? apiClient.get(`/kendaraan/${id}`)
             : Promise.resolve({ data: {} }),
+          apiClient.get("/kendaraan?is_rent=false"),
+          apiClient.get("/driver"), // ✅ API untuk mendapatkan driver
         ]);
 
         setLocations(locationData.data || []);
+        setAvailableCars(availableCarsData.data.data || []);
+        setDrivers(driversData.data.data || []); // ✅ Simpan data driver
 
         if (isEditMode) {
           const car = carData.data.data;
 
           setFormData({
             nama: car.nama || "",
+            top_attraction: car.top_attraction,
             lokasi_id: car.lokasi_id || 0,
             status_pajak: car.status_pajak || "",
             status: car.status || "TERSEDIA DIPESAN",
             plat_nomor: car.plat_nomor || "",
             model: car.model || "",
             tanggal_pajak_berakhir:
-              car.tanggal_pajak_berakhir.split("T")[0] || "",
+              car.tanggal_pajak_berakhir?.split("T")[0] || "",
             content: car.kendaraan_content?.length
               ? car.kendaraan_content
               : DEFAULT_CONTENT,
             durasi: car.kendaraan_durasi?.length
               ? car.kendaraan_durasi
               : DEFAULT_PRICE,
+            kendaraan_id: car.id || "",
+            driver_id: car.driver_id || "", // ✅ Set driver_id untuk edit mode
           });
 
           setExistingPhotos(
@@ -99,6 +116,35 @@ const CreateRentCarPage = () => {
 
     fetchInitialData();
   }, [isEditMode, id]);
+
+  // ✅ Fungsi untuk handle pemilihan kendaraan
+  const handleCarSelect = (carId) => {
+    const selectedCar = availableCars.find((car) => car.id === parseInt(carId));
+    if (selectedCar) {
+      setFormData((prev) => ({
+        ...prev,
+        kendaraan_id: selectedCar.id,
+        nama: selectedCar.nama,
+        model: selectedCar.model,
+        plat_nomor: selectedCar.plat_nomor,
+        lokasi_id: selectedCar.lokasi_id,
+        kapasitas: selectedCar.kapasitas,
+        tanggal_pajak_berakhir:
+          selectedCar.tanggal_pajak_berakhir?.split("T")[0] || "",
+        status_pajak: selectedCar.status_pajak ? "LUNAS" : "BELUM LUNAS",
+      }));
+
+      setExistingPhotos(
+        (selectedCar.kendaraan_file || []).map((file) => ({
+          id: file.id,
+          url: `${apiClient.defaults.baseURL}/public/${file.url
+            .replace(/\\/g, "/")
+            .replace(/^uploads\//, "")}`,
+          nama_file: file.nama_file,
+        }))
+      );
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -130,12 +176,22 @@ const CreateRentCarPage = () => {
   const removeExistingPhoto = (index) =>
     setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
 
+  const fetchExistingFileAsFile = async (nama_file) => {
+    const url = `${apiClient.defaults.baseURL}/public/kendaraan/${nama_file}`;
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const type = blob.type || "application/octet-stream";
+    return new File([blob], nama_file, { type });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== "content" && key !== "durasi") payload.append(key, value);
+      if (key !== "content" && key !== "durasi" && key !== "kendaraan_id") {
+        payload.append(key, value);
+      }
     });
 
     content.forEach((item, i) => {
@@ -149,14 +205,31 @@ const CreateRentCarPage = () => {
       payload.append(`durasi[${i}][harga]`, item.harga);
     });
 
-    photos.forEach((file) => payload.append("files", file));
+    const existingFileObjects = await Promise.all(
+      existingPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
+    );
+    [...existingFileObjects, ...photos].forEach((file) => {
+      payload.append("files", file);
+    });
+    console.log("=== Payload yang akan dikirim ke API ===");
+    for (let pair of payload.entries()) {
+      // Jika berupa File, tampilkan nama file
+      if (pair[1] instanceof File) {
+        console.log(pair[0], pair[1].name);
+      } else {
+        console.log(pair[0], pair[1]);
+      }
+    }
+    console.log("========================================");
 
     try {
-      const response = isEditMode
-        ? await apiClient.patch(`/kendaraan/${id}`, payload, {
+      const response = isEditMode || formData.kendaraan_id
+        ? await apiClient.patch(`/kendaraan/${id || formData.kendaraan_id}`, payload, {
             headers: { "Content-Type": "multipart/form-data" },
           })
-        : await apiClient.post("/kendaraan", payload);
+        : await apiClient.post("/kendaraan", payload, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
 
       if ([200, 201].includes(response.status)) {
         toast.success(
@@ -191,8 +264,51 @@ const CreateRentCarPage = () => {
         <main className="p-1 flex-1">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-              Create Rent Car
+              {isEditMode ? "Edit Rent A Car" : "Create Rent A Car"}
             </h2>
+
+            {/* ✅ Select Kendaraan yang Tersedia */}
+            <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                Select Available Car
+              </h3>
+              <div className="flex items-center gap-5 mb-4">
+                <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md min-w-[120px]">
+                  Available Cars
+                </label>
+                <select
+                  value={formData.kendaraan_id}
+                  onChange={(e) => handleCarSelect(e.target.value)}
+                  className="input input-bordered w-full py-2 rounded-lg border border-gray-200 shadow-sm"
+                  disabled={isEditMode}
+                >
+                  <option value="">-- Choose a car --</option>
+                  {availableCars.map((car) => (
+                    <option key={car.id} value={car.id}>
+                      {car.nama} - {car.plat_nomor} ({car.lokasi?.nama})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {formData.kendaraan_id && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-md">
+                  <p className="text-sm text-gray-600">
+                    <strong>Selected:</strong> {formData.nama} -{" "}
+                    {formData.plat_nomor}
+                  </p>
+                  {formData.driver_id && (
+                    <p className="text-sm text-gray-600 mt-2">
+                      <strong>Driver:</strong>{" "}
+                      {drivers.find(
+                        (d) => d.id === parseInt(formData.driver_id)
+                      )?.nama || "Unknown"}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
               {sections.map((section) => (
                 <span
@@ -218,6 +334,7 @@ const CreateRentCarPage = () => {
               handleChange={handleChange}
               locations={locations}
               type="rentcar"
+              drivers={drivers} // ✅ Pass drivers ke DescriptionSection
             />
 
             <ImageSection

@@ -412,7 +412,7 @@ const DayTour = () => {
 
   const mapping = {
     "#": (row, index) => (currentPage - 1) * itemsPerPage + index + 1,
-    "ID": "id",
+    "ID": (row) => row.id,
     "Name": (row) => row.nama || "-",
     "Duration": (row) => `${row.durasi} ${row.tipe_durasi}`,
     "Adult Price": (row) => `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,

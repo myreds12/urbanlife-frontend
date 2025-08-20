@@ -70,7 +70,7 @@ const ServiceCard = ({ service }) => {
           } px-3 py-1 rounded-full text-xs font-semibold shadow`}
         >
           {service.item_type === "KENDARAAN"
-            ? "Rent Car"
+            ? "Rent A Car"
             : service.item_type === "AKOMODASI"
             ? "Accommodation"
             : "Day Tour"}

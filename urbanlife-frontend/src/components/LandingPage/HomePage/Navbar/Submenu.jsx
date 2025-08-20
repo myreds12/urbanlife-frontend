@@ -14,7 +14,7 @@ const Submenu = ({ isSubmenuOpen, setIsSubmenuOpen, data, title, isServices }) =
   // Service navigation mapping
   const serviceNavigationMap = {
     'Day Tours': '/DayTour',
-    'Rent Car': '/unit-car',
+    'Rent A Car': '/unit-car',
     'Hotel & Resorts': '/hotels',
     'Cultural Tours': '/cultural-tours',
     'Adventure Tours': '/adventure-tours',

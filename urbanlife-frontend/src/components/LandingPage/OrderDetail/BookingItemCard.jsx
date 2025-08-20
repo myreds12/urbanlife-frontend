@@ -23,7 +23,7 @@ const BookingItemCard = ({
   handleChange,
   handleRemove,
 }) => {
-  const fallbackImage = "https://via.placeholder.com/60?text=No+Image";
+  // const fallbackImage = "https://via.placeholder.com/60?text=No+Image";
   
   // State untuk dropdown
   const [showAdultDropdown, setShowAdultDropdown] = useState(false);
@@ -279,11 +279,6 @@ const BookingItemCard = ({
         </div>
       </div>
 
-      {/* Change Package / Unit */}
-      <div className="flex items-center text-sm text-red-500 font-medium cursor-pointer hover:underline transition-all">
-        {item_type === "TRAVEL_PACKAGE" ? "Change package" : "Change unit"}
-        <FiChevronRight className="ml-1 w-4 h-4" />
-      </div>
     </div>
   );
 };

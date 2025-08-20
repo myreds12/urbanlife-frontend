@@ -31,7 +31,7 @@
     "from": "From",
     "to": "To",
     "accomodation": "Accommodation",
-    "rent_car": "Rent Car",
+    "rent_car": "Rent A Car",
     "day_tour": "Day Tour",
     "form_incomplete_alert": "Please fill in all required fields!",
     "search_failed": "Failed to fetch search results."

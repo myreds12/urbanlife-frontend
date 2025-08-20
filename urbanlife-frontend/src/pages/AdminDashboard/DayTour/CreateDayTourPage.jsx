@@ -7,6 +7,7 @@ import PriceSection from "../../../components/AdminDashboard/DayTour/PriceSectio
 import "../../../styles/AdminDashboard/DayTour/DayTour.css";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import PolicyAndProcedureSection from "../../../components/AdminDashboard/RentCar/PolicyAndProcedureSection";
 
 function CreateDayTourPage() {
   const navigate = useNavigate();
@@ -14,11 +15,12 @@ function CreateDayTourPage() {
   const isEditMode = Boolean(id);
   const [photos, setPhotos] = useState([]);
   const [existingPhotos, setExistingPhotos] = useState([]);
+  const [guides, setGuides] = useState([]);
   const [locations, setLocations] = useState([]);
   const [category, setCategory] = useState([]);
   const [content, setContent] = useState([
-    { id: null, bahasa: "ENGLISH", deskripsi: "" },
-    { id: null, bahasa: "INDONESIA", deskripsi: "" },
+    { id: null, bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
+    { id: null, bahasa: "INDONESIA", deskripsi: "", kebijakan: "" },
   ]);
 
   const [itinerary, setItinerary] = useState([
@@ -30,6 +32,8 @@ function CreateDayTourPage() {
     nama: "Western and Eastern Nusa Penida Tour",
     lokasi_id: 1,
     category_id: 0,
+    guide_id: 0,
+    top_attraction: true,
     durasi: "",
     harga_anak: 0,
     harga_dewasa: 0,
@@ -61,9 +65,15 @@ function CreateDayTourPage() {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const [{ data: locationData }, {data: categoryData}, travelData] = await Promise.all([
+        const [
+          { data: locationData },
+          { data: categoryData },
+          { data: guideData },
+          travelData,
+        ] = await Promise.all([
           apiClient.get("/lokasi"),
           apiClient.get("/category"),
+          apiClient.get("/guide"), // 🔑 endpoint guide
           isEditMode
             ? apiClient.get(`/travel-package/${id}`)
             : Promise.resolve({ data: {} }),
@@ -71,6 +81,8 @@ function CreateDayTourPage() {
 
         setLocations(locationData.data || []);
         setCategory(categoryData.data || []);
+
+        setGuides(guideData.data || []); // simpan daftar guide
 
         if (isEditMode) {
           const travel = travelData.data.data;
@@ -91,6 +103,8 @@ function CreateDayTourPage() {
             nama: nama || "",
             lokasi_id: lokasi_id || 0,
             category_id: category_id || 0,
+            guide_id: travel.guide_id || 0,
+            top_attraction: travel.top_attraction,
             durasi: durasi || "",
             harga_anak: parseInt(harga_anak) || 0,
             harga_dewasa: parseInt(harga_dewasa) || 0,
@@ -105,6 +119,8 @@ function CreateDayTourPage() {
               { id: null, bahasa: "INDONESIA", deskripsi: "" },
             ]
           );
+
+          // Set guide yang dipilih
 
           // Set itinerary
           setItinerary(
@@ -166,6 +182,15 @@ function CreateDayTourPage() {
     setItinerary(updated);
   };
 
+  const handleContentChange = (index, field, value) => {
+    const updated = [...content];
+    updated[index][field] = value;
+    setContent(updated);
+  };
+
+  const handlePolicyChange = (index, value) =>
+    handleContentChange(index, "kebijakan", value);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files ? files[0] : value }));
@@ -178,6 +203,7 @@ function CreateDayTourPage() {
     payload.append("nama", formData.nama);
     payload.append("lokasi_id", formData.lokasi_id);
     payload.append("category_id", formData.category_id);
+    payload.append("guide_id", formData.guide_id);
     payload.append("durasi", formData.durasi);
     payload.append("harga_anak", formData.harga_anak);
     payload.append("harga_dewasa", formData.harga_dewasa);
@@ -195,16 +221,14 @@ function CreateDayTourPage() {
     });
 
     formData.travel_package_itinerary.forEach((item, index) => {
-      if (item.id) payload.append(`travel_package_itinerary[${index}][id]`, item.id);
+      if (item.id)
+        payload.append(`travel_package_itinerary[${index}][id]`, item.id);
       payload.append(`travel_package_itinerary[${index}][bahasa]`, item.bahasa);
       payload.append(
         `travel_package_itinerary[${index}][deskripsi]`,
         item.deskripsi
       );
-      payload.append(
-        `travel_package_itinerary[${index}][nama]`,
-        item.nama
-      );
+      payload.append(`travel_package_itinerary[${index}][nama]`, item.nama);
     });
 
     console.log("=== Payload yang akan dikirim ke API ===");
@@ -221,15 +245,15 @@ function CreateDayTourPage() {
     try {
       const response = isEditMode
         ? await apiClient.patch(`/travel-package/${id}`, payload, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
         : await apiClient.post("/travel-package", payload, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
 
       if ([200, 201].includes(response.status)) {
         toast.success(
@@ -300,6 +324,7 @@ function CreateDayTourPage() {
               handleChange={handleChange}
               locations={locations}
               category={category}
+              guides={guides}
               type="daytour"
             />
 
@@ -329,6 +354,13 @@ function CreateDayTourPage() {
               handleChange={handleChange}
               type={"daytour"}
             />
+
+            <PolicyAndProcedureSection
+              id="policy and procedure"
+              isActive={activeSection === "policy and procedure"}
+              content={content}
+              onChangePolicy={handlePolicyChange}
+            />
           </div>
 
           <div className="flex justify-end gap-3 px-6 pb-6">
@@ -353,6 +385,5 @@ function CreateDayTourPage() {
     </form>
   );
 }
-
 
 export default CreateDayTourPage;

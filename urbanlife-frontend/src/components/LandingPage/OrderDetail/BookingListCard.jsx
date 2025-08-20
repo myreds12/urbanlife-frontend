@@ -13,8 +13,8 @@ const BookingListCard = ({
   const [loading, setLoading] = useState(false);
 
   const serviceTypes = [
-    { key: "KENDARAAN", label: "Vehicle", apiKey: "kendaraan" },
-    { key: "TRAVEL_PACKAGE", label: "Travel Package", apiKey: "travel_package" },
+    { key: "KENDARAAN", label: "Rent A Car", apiKey: "kendaraan" },
+    { key: "TRAVEL_PACKAGE", label: "Day Tour", apiKey: "travel_package" },
     { key: "AKOMODASI", label: "Accommodation", apiKey: "akomodasi" },
   ];
 

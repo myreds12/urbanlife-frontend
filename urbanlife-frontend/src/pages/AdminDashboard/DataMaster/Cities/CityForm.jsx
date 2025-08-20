@@ -57,11 +57,11 @@ const CityForm = forwardRef(({ countries = [], cityId }, ref) => {
         </label>
         <select
           name="negara_id"
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+          className="input input-bordered w-full rounded-lg border text-gray-700 border-gray-200 shadow-sm"
           value={form.negara_id}
           onChange={handleChange}
         >
-          <option value="">Choose</option>
+          <option value="">Select</option>
           {countries.map((country) => (
             <option key={country.id} value={country.id}>
               {country.nama}

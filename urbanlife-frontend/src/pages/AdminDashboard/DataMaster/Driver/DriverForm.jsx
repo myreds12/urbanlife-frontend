@@ -82,7 +82,7 @@ const DriverForm = forwardRef((_, ref) => {
           value={form.nama}
           onChange={handleChange}
           className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
-          placeholder="Driver Name"
+          placeholder="Enter driver name"
         />
       </div>
 
@@ -95,7 +95,7 @@ const DriverForm = forwardRef((_, ref) => {
           value={form.nomor_hp}
           onChange={handleChange}
           className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
-          placeholder="08xxxxxxxx"
+          placeholder="Enter phone number"
         />
       </div>
 
@@ -109,15 +109,15 @@ const DriverForm = forwardRef((_, ref) => {
           className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
         >
           <option value="">Select</option>
-          <option value="Laki - laki">Laki - laki</option>
-          <option value="Perempuan">Perempuan</option>
+          <option value="Laki - laki">Male</option>
+          <option value="Perempuan">Female</option>
         </select>
       </div>
 
       {/* Expiry Date */}
 <div className="w-full flex flex-col justify-end">
   <label className="text-sm text-gray-600 mb-1 leading-tight">
-    Driver's license<br />validity period
+    Driver's license validity period
   </label>
   <input
     type="date"

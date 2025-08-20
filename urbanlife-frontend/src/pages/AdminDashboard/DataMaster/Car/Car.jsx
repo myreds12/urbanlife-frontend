@@ -122,15 +122,15 @@ const Car = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      toast.success(`Kendaraan berhasil ${isEditing ? "diperbarui" : "disimpan"}`);
+      toast.success(`Vehicle successfully ${isEditing ? "updated" : "added"}`);
       fetchAllData();
       formRef.current?.resetForm?.();
       setFiles([]);
       setExistingFiles([]);
       if (isEditing) setSearchParams({});
     } catch (error) {
-      console.error("❌ Gagal menyimpan:", error);
-      toast.error("Gagal menyimpan data kendaraan");
+      console.error("❌ Failed to save vehicle:", error);
+      toast.error("Failed to save vehicle data");
     } finally {
       setSaving(false);
     }
@@ -150,25 +150,25 @@ const Car = () => {
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
-      title: "Hapus Kendaraan?",
-      text: "Apakah kamu yakin ingin menghapus kendaraan ini?",
+      title: "Delete Vehicle",
+      text: "Are you sure want to delete this vehicle?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#10b981",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, hapus!",
-      cancelButtonText: "Batal",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
     });
 
     if (!result.isConfirmed) return;
 
     try {
       await apiClient.delete(`/kendaraan/${id}`);
-      toast.success("Kendaraan berhasil dihapus");
+      toast.success("Vehicle was successfully deleted");
       fetchData("/kendaraan", setCars);
     } catch (error) {
-      console.error("❌ Gagal menghapus kendaraan", error);
-      toast.error(error.response?.data?.message || "Gagal menghapus kendaraan");
+      console.error("Failed to delete:", error);
+      toast.error(error.response?.data?.message || "Could not delete the vehicle. Please try again.");
     }
   };
 
@@ -223,7 +223,7 @@ const Car = () => {
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-gray-800">List Car Unit</h3>
           <div className="flex gap-2">
-            <div className="w-64">
+            <div className="w-67">
               <Search
                 searchTerm={searchTerm}
                 onSearchChange={(value) => setSearchTerm(value)}

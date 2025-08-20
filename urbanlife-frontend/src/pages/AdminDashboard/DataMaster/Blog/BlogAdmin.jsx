@@ -39,7 +39,7 @@ const BlogAdmin = () => {
       setBlogData(data);
       setTotalItems(total);
     } catch (error) {
-      console.error("Error fetching blog data:", error);
+      console.error("❌ Failed to fetch blog data:", error);
     } finally {
       setLoading(false);
     }
@@ -72,7 +72,7 @@ const BlogAdmin = () => {
 
   const handleDelete = async (row) => {
     const judul = row.content?.[0]?.judul || "blog ini";
-    const confirmed = window.confirm(`Yakin ingin menghapus "${judul}"?`);
+    const confirmed = window.confirm(`Are you sure want to delete "${judul}"?`);
     if (!confirmed) return;
 
     const deletePromise = apiClient.delete(`/blog`, {
@@ -83,28 +83,28 @@ const BlogAdmin = () => {
 
     try {
       await toast.promise(deletePromise, {
-        loading: "Menghapus blog...",
-        success: `Blog "${judul}" berhasil dihapus.`,
-        error: "Terjadi kesalahan saat menghapus.",
+        loading: "Deleting blog...",
+        success: `"${judul}" was successfully deleted.`,
+        error: "Could not delete the blog. Please try again.",
       });
 
       // Hapus dari state lokal jika berhasil
       setBlogData((prev) => prev.filter((blog) => blog.id !== row.id));
       setSelectedRows((prev) => prev.filter((id) => id !== row.id));
     } catch (err) {
-      console.error("Gagal menghapus blog:", err);
+      console.error("Failed to delete:", err);
     }
   };
 
   const handleBulkDelete = (selectedData) => {
     const confirmed = window.confirm(
-      `Yakin mau hapus ${selectedData.length} blog?`
+      `Delete ${selectedData.length} selected blogs?`
     );
     if (confirmed) {
       const ids = selectedData.map((item) => item.id);
       setBlogData((prev) => prev.filter((item) => !ids.includes(item.id)));
       setSelectedRows([]);
-      alert(`Berhasil hapus ${selectedData.length} blog.`);
+      alert(`${selectedData.length} was successfully deleted.`);
     }
   };
 
@@ -113,11 +113,11 @@ const BlogAdmin = () => {
     return [...blogData].sort((a, b) => {
       const getFieldValue = (item) => {
         switch (sortConfig.key) {
-          case "Kategori":
+          case "Category":
             return item.blog_category?.name?.toLowerCase() || "";
-          case "Judul":
+          case "Title":
             return item.blog_content[0]?.judul?.toLowerCase() || "";
-          case "Tanggal":
+          case "Date":
             return item.createdAt || "";
           default:
             return "";
@@ -233,9 +233,9 @@ const BlogAdmin = () => {
       {/* Data info dan Pagination */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
-            Menampilkan {startIndex + 1} sampai{" "}
-            {Math.min(startIndex + itemsPerPage, sortedData.length)} dari{" "}
-            {sortedData.length} blog
+            Showing {startIndex + 1} to{" "}
+            {Math.min(startIndex + itemsPerPage, sortedData.length)} of{" "}
+            {sortedData.length} blogs
           </div>
           <Pagination
             currentPage={currentPage}
@@ -246,14 +246,14 @@ const BlogAdmin = () => {
         </div>
 
 
-      <EditBlog
+      {/* <EditBlog
         id={editingBlog?.id}
         isOpen={isModalOpen}
         onClose={handleModalClose}
         blogData={editingBlog}
         onSave={handleModalSave}
         categories={categories}
-      />
+      /> */}
     </div>
   );
 };

@@ -54,6 +54,7 @@ const BlogAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/Blog
 const CreateBlog = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/CreateBlog"));
 const CategoryAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Category/CategoryAdmin"));
 import User from "./pages/AdminDashboard/DataMaster/User/User";
+const Testimonial = lazy(() => import("./pages/AdminDashboard/DataMaster/Testimonial/Testimonial"));
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
 const News = lazy(() => import("./pages/AdminDashboard/News/News"));
 const CreateNews = lazy(() => import("./pages/AdminDashboard/News/CreateNews"));
@@ -130,14 +131,14 @@ function App() {
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/unit-car" element={<CarRental />} />
             <Route path="/accomodation" element={<AccomodationPage />} />
-            <Route path="/accomodation/detail" element={<AccoDetail />} />
+            <Route path="/accomodation/detail/:id" element={<AccoDetail />} />
 
             {/* Admin */}
             <Route
               path="/admin"
               element={
-                <ProtectedRoute>
-                  <AppLayout />
+                // <ProtectedRoute>
+                    <AppLayout />
                 // </ProtectedRoute>
               }
             >
@@ -176,6 +177,7 @@ function App() {
               <Route path="blogs/edit/:id" element={<BlogProvider><CreateBlog /></BlogProvider>} />
               <Route path="category" element={<CategoryProvider><CategoryAdmin /></CategoryProvider>} />
               <Route path="users" element={<User/>} />
+              <Route path="testimonial" element={<Testimonial/>}></Route>
               <Route path="profile" element={<UserProfile />} />
             </Route>
           </Routes>

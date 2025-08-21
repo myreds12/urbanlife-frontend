@@ -3,33 +3,40 @@ import React from "react";
 const TourDurasi = ({ durasi }) => {
   if (!durasi || durasi.length === 0) {
     return (
-      <div className="bg-white p-4 rounded-md shadow-sm">
-        <p className="text-gray-600">Tidak ada data durasi tersedia.</p>
+      <div className="bg-white p-6 rounded-2xl shadow-md">
+        <p className="text-gray-500 italic">Tidak ada data durasi tersedia.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white p-4 rounded-md shadow-sm">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Durasi & Harga</h3>
-      <table className="w-full text-left border border-gray-200">
-        <thead className="bg-gray-100 text-gray-700">
-          <tr>
-            <th className="p-2 border border-gray-200">Durasi</th>
-            <th className="p-2 border border-gray-200">Harga</th>
-          </tr>
-        </thead>
-        <tbody>
-          {durasi.map((item) => (
-            <tr key={item.id} className="text-gray-800">
-              <td className="p-2 border border-gray-200">{item.durasi}</td>
-              <td className="p-2 border border-gray-200">
-                Rp {parseInt(item.harga).toLocaleString("id-ID")}
-              </td>
+    <div className="bg-white p-6 rounded-2xl shadow-md">
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">Durasi & Harga</h2>
+      <div className="overflow-x-auto">
+        <table className="min-w-full table-auto border border-gray-200 rounded-md overflow-hidden">
+          <thead className="bg-cyan-600 text-white text-sm uppercase">
+            <tr>
+              <th className="px-6 py-3 text-left">Durasi</th>
+              <th className="px-6 py-3 text-left">Harga</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-100">
+            {durasi.map((item) => (
+              <tr key={item.id} className="hover:bg-gray-50 transition-all">
+                <td className="px-6 py-4 font-medium text-gray-700">
+                  {item.durasi}
+                </td>
+                <td className="px-6 py-4 text-gray-600">
+                  {parseInt(item.harga).toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

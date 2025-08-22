@@ -17,26 +17,23 @@ const TourPrice = ({ priceTable }) => {
   }
 
   return (
-    <div className="space-y-4 bg-white p-6 rounded-xl shadow-md">
-      <h2 className="text-lg font-semibold text-gray-700 mb-4">Harga Paket</h2>
+    <div className="bg-white p-6 rounded-2xl shadow-md">
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">Harga Paket</h2>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm border border-gray-200 rounded-md">
-          <thead>
-            <tr className="bg-cyan-50 text-cyan-700 uppercase text-xs tracking-wider">
-              <th className="p-3 border-b">Kategori</th>
-              <th className="p-3 border-b text-right">Harga (Rp)</th>
+        <table className="min-w-full table-auto border border-gray-200 rounded-md overflow-hidden">
+          <thead className="bg-cyan-600 text-white text-sm uppercase">
+            <tr>
+              <th className="px-6 py-3 text-left">Kategpri</th>
+              <th className="px-6 py-3 text-left">Harga (Rp) </th>
             </tr>
           </thead>
-          <tbody>
-            {priceTable.map((row) => (  
-              <tr
-                key={row.id}
-                className="hover:bg-cyan-50 transition-colors duration-150"
-              >
-                <td className="p-3 border-b font-medium text-gray-700">
+          <tbody className="bg-white divide-y divide-gray-100">
+            {priceTable.map((row) => (
+              <tr key={row.id} className="hover:bg-gray-50 transition-all">
+                <td className="px-6 py-4 font-medium text-gray-700">
                   {iconForLabel(row.label)} {row.label}
                 </td>
-                <td className="p-3 border-b text-right font-semibold text-gray-800">
+                <td className="px-6 py-4 text-gray-600">
                   {Number(row.harga).toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",

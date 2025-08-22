@@ -220,6 +220,39 @@ const Accomodation = () => {
     navigate(`/admin/accommodation/edit/${row.id}`);
   };
 
+  // Handler untuk Popular (sementara)
+const handlePopular = async (row) => {
+  const newStatus = !row.is_popular; // langsung akses row.is_popular
+
+  const confirmed = window.confirm(
+    `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
+      newStatus ? "to" : "from"
+    } Popular Categories?`
+  );
+  if (!confirmed) return;
+
+  try {
+    const updatePromise = apiClient.patch(`/akomodasi/${row.id}/popular`, {
+      is_popular: newStatus,
+    });
+
+    await toast.promise(updatePromise, {
+      loading: newStatus
+        ? "Marking as popular..."
+        : "Removing from popular...",
+      success: `"${row.nama}" ${
+        newStatus ? "added to" : "removed from"
+      } popular categories!`,
+      error: "Failed to update popular status. Please try again.",
+    });
+
+    fetchData(); // sama kayak handler lain, refresh data
+  } catch (err) {
+    console.error("Failed to update popular status:", err);
+  }
+};
+
+
   const filtered = useMemo(() => {
     if (!search) return data;
     return data.filter((d) =>
@@ -273,7 +306,9 @@ const Accomodation = () => {
   };
 
   const handleDelete = async (row) => {
-    const confirmed = window.confirm(`Are you sure want to delete "${row.nama}"?`);
+    const confirmed = window.confirm(
+      `Are you sure want to delete "${row.nama}"?`
+    );
     if (!confirmed) return;
 
     const deletePromise = apiClient.delete(`/akomodasi`, {
@@ -377,10 +412,11 @@ const Accomodation = () => {
             onView={handleView}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onPopular={handlePopular}
             defaultMapping={{
               "#": (row, index) => (page - 1) * ITEMS_PER_PAGE + index + 1,
               Name: (row) => row.name,
-              Location: (row) => row.location?.nama || '',
+              Location: (row) => row.location?.nama || "",
               Type: (row) => row.type,
               Category: (row) => row.category,
             }}

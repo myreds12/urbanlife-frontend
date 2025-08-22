@@ -214,8 +214,47 @@ const RentCar = () => {
     navigate(`/admin/rent-car/edit/${row.id}`);
   };
 
+  // Handler untuk Popular (sementara)
+  const handlePopular = async (row) => {
+    const newStatus = !row.is_popular; // toggle status
+
+    const confirmed = window.confirm(
+      `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
+        newStatus ? "to" : "from"
+      } Popular Categories?`
+    );
+    if (!confirmed) return;
+
+    try {
+      const updatePromise = apiClient.patch(`/kendaraan/${row.id}/popular`, {
+        is_popular: newStatus,
+      });
+
+      await toast.promise(updatePromise, {
+        loading: newStatus
+          ? "Marking as popular..."
+          : "Removing from popular...",
+        success: `"${row.nama}" ${
+          newStatus ? "added to" : "removed from"
+        } popular categories!`,
+        error: "Failed to update popular status. Please try again.",
+      });
+
+      fetchRentCar();
+    } catch (err) {
+      console.error("Failed to update popular status:", err);
+
+      if (err.response) {
+        console.error("Status:", err.response.status);
+        console.error("Data:", err.response.data);
+      }
+    }
+  };
+
   const handleDelete = async (row) => {
-    const confirmed = window.confirm(`Are you sure want to delete "${row.nama}"?`);
+    const confirmed = window.confirm(
+      `Are you sure want to delete "${row.nama}"?`
+    );
     if (!confirmed) return;
 
     const deletePromise = apiClient.delete(`/kendaraan`, {
@@ -444,6 +483,7 @@ const RentCar = () => {
               onView={handleView}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              onPopular={handlePopular}
               defaultMapping={{
                 "#": (row, index) => (page - 1) * take + index + 1,
                 ID: "id",

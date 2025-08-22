@@ -5,7 +5,7 @@ import Destination from "./Destination/Destination";
 import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
-import ServiceScheduleCard from "../../../components/LandingPage/HomePage/ServicenScheduleCard";
+import ServiceScheduleCard from "../../AdminDashboard/DataMaster/ServiceSchedule/ServicenScheduleCard";
 import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
 import PopularCategoriesSection from "./Popular Categoires/PopularCategories";

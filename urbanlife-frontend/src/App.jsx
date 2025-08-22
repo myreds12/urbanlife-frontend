@@ -22,6 +22,9 @@ const Dashboard = lazy(() =>
   import("./pages/AdminDashboard/Dashboard/Dashboard")
 );
 const Order = lazy(() => import("./pages/AdminDashboard/Order/Order"));
+const OrderEdit = lazy(() => import("./pages/AdminDashboard/Order/OrderEdit"));
+const OrderView = lazy(() => import("./pages/AdminDashboard/Order/OrderView"));
+
 const Calendar = lazy(() => import("./pages/AdminDashboard/Calendar/Calendar"));
 const DayTour = lazy(() => import("./pages/AdminDashboard/DayTour/DayTour"));
 const CreateDayTourPage = lazy(() =>
@@ -57,7 +60,8 @@ const Guide = lazy(() => import("./pages/AdminDashboard/DataMaster/Guide/Guide")
 const BlogAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/BlogAdmin"));
 const CreateBlog = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/CreateBlog"));
 const CategoryAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Category/CategoryAdmin"));
-import User from "./pages/AdminDashboard/DataMaster/User/User";
+const User = lazy(() => import("./pages/AdminDashboard/DataMaster/User/User"));
+const HeroSection = lazy(() => import("./pages/AdminDashboard/DataMaster/HeroSection/HeroSection"));
 const Testimonial = lazy(() => import("./pages/AdminDashboard/DataMaster/Testimonial/Testimonial"));
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
 const News = lazy(() => import("./pages/AdminDashboard/News/News"));
@@ -151,6 +155,8 @@ function App() {
               <Route index element={<Navigate to="dashboard" replace />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="order" element={<Order />} />
+              <Route path="order/detail/:id" element={<OrderView />} />
+              <Route path="order/edit/:id" element={<OrderEdit />} />
               <Route path="calendar" element={<Calendar />} />
               <Route path="day-tour" element={<DayTour />} />
               <Route path="day-tour/create" element={<CreateDayTourPage />} />
@@ -182,6 +188,7 @@ function App() {
               <Route path="whatsapp-connect" element={<WhatsappConnect />} />
               <Route path="template" element={<Template />} />
               <Route path="inbox" element={<Inbox />} />
+              <Route path="herosection" element={<HeroSection />} />            
               <Route path="country" element={<Country />} />
               <Route path="city" element={<City />} />
               <Route path="car" element={<Car />} />

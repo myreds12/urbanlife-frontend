@@ -4,391 +4,391 @@ import StatusBadge from "../Ui/badge/StatusBadge";
 
 // Komponen SVG Icon Sort
 const SortIcon = ({ direction }) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 320 512"
-      width="12"
-      height="12"
-      style={{
-        marginLeft: "6px",
-        transform: direction === "desc" ? "rotate(180deg)" : "none",
-        transition: "transform 0.2s",
-      }}
-    >
-      <path
-        fill="#6b7280"
-        d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8L32 224c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8l256 0c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"
-      />
-    </svg>
-  );
+return (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 320 512"
+    width="12"
+    height="12"
+    style={{
+      marginLeft: "6px",
+      transform: direction === "desc" ? "rotate(180deg)" : "none",
+      transition: "transform 0.2s",
+    }}
+  >
+    <path
+      fill="#6b7280"
+      d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9s-16.6 19.8-29.6 19.8L32 224c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8l256 0c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z"
+    />
+  </svg>
+);
 };
 
 // Icon components untuk delete, edit, dan view
 const DeleteIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="3,6 5,6 21,6"></polyline>
-    <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"></path>
-  </svg>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="16"
+  height="16"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+>
+  <polyline points="3,6 5,6 21,6"></polyline>
+  <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"></path>
+</svg>
 );
 
 const EditIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-  </svg>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="16"
+  height="16"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+>
+  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+</svg>
 );
 
 const ViewIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-    <circle cx="12" cy="12" r="3"></circle>
-  </svg>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="16"
+  height="16"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+>
+  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+  <circle cx="12" cy="12" r="3"></circle>
+</svg>
 );
 
 const Table = ({
-  data,
-  columns,
-  selectedRows = [],
-  onRowSelect,
-  onSort,
-  sortConfig,
-  defaultMapping = {},
-  // New props for custom actions
-  actions = null, // Array of action objects: [{ type: 'detail', label: 'Detail', onClick: (row) => {} }]
-  onEdit = null, // Function untuk handle edit
-  onDelete = null, // Function untuk handle delete
-  onView = null, // Function untuk handle view
+data = [],
+columns = [],
+selectedRows = [],
+onRowSelect,
+onSort,
+sortConfig,
+defaultMapping = {},
+// New props for custom actions
+actions = null, // Array of action objects: [{ type: 'detail', label: 'Detail', onClick: (row) => {} }]
+onEdit = null, // Function untuk handle edit
+onDelete = null, // Function untuk handle delete
+onView = null, // Function untuk handle view
 }) => {
-  const handleSort = (column) => {
-    const mappedKey = defaultMapping[column];
-    if (mappedKey && typeof mappedKey === "string" && onSort) {
-      onSort(mappedKey);
-    }
-  };
+const handleSort = (column) => {
+  const mappedKey = defaultMapping[column];
+  if (mappedKey && typeof mappedKey === "string" && onSort) {
+    onSort(mappedKey);
+  }
+};
 
-  const getSortIcon = (column) => {
-    const mappedKey = defaultMapping[column];
-    if (!sortConfig || sortConfig.key !== mappedKey) {
-      return <SortIcon direction={null} />;
-    }
-    return <SortIcon direction={sortConfig.direction} />;
-  };
+const getSortIcon = (column) => {
+  const mappedKey = defaultMapping[column];
+  if (!sortConfig || sortConfig.key !== mappedKey) {
+    return <SortIcon direction={null} />;
+  }
+  return <SortIcon direction={sortConfig.direction} />;
+};
 
-  // Render action buttons
-  const renderActionButtons = (row) => {
-    // Jika ada custom actions, gunakan itu
-    if (actions && actions.length > 0) {
-      return (
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {actions.map((action, index) => (
-            <Button
-              key={index}
-              variant={action.variant || "outline"}
-              size={action.size || "sm"}
-              onClick={() => action.onClick(row)}
-              style={action.style}
-            >
-              {action.icon && (
-                <span style={{ marginRight: action.label ? "4px" : "0" }}>
-                  {action.icon}
-                </span>
-              )}
-              {action.label}
-            </Button>
-          ))}
-        </div>
-      );
-    }
-
-    // Jika ada onView, onEdit, dan onDelete, tampilkan icon buttons
-    if (onView || onEdit || onDelete) {
-      return (
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {onView && (
-            <button
-              onClick={() => onView(row)}
-              className="action-button view-button"
-              title="View"
-            >
-              <ViewIcon />
-            </button>
-          )}
-          {onEdit && (
-            <button
-              onClick={() => onEdit(row)}
-              className="action-button edit-button"
-              title="Edit"
-            >
-              <EditIcon />
-            </button>
-          )}
-          {onDelete && (
-            <button
-              onClick={() => onDelete(row)}
-              className="action-button delete-button"
-              title="Delete"
-            >
-              <DeleteIcon />
-            </button>
-          )}
-        </div>
-      );
-    }
-
-    // Default fallback untuk RentCar dan Accommodation (Detail button)
+// Render action buttons
+const renderActionButtons = (row) => {
+  // Jika ada custom actions, gunakan itu
+  if (actions && actions.length > 0) {
     return (
-      <Button variant="outline" size="sm">
-        Detail
-      </Button>
+      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        {actions.map((action, index) => (
+          <Button
+            key={index}
+            variant={action.variant || "outline"}
+            size={action.size || "sm"}
+            onClick={() => action.onClick(row)}
+            style={action.style}
+          >
+            {action.icon && (
+              <span style={{ marginRight: action.label ? "4px" : "0" }}>
+                {action.icon}
+              </span>
+            )}
+            {action.label}
+          </Button>
+        ))}
+      </div>
     );
-  };
+  }
 
+  // Jika ada onView, onEdit, dan onDelete, tampilkan icon buttons
+  if (onView || onEdit || onDelete) {
+    return (
+      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        {onView && (
+          <button
+            onClick={() => onView(row)}
+            className="action-button view-button"
+            title="View"
+          >
+            <ViewIcon />
+          </button>
+        )}
+        {onEdit && (
+          <button
+            onClick={() => onEdit(row)}
+            className="action-button edit-button"
+            title="Edit"
+          >
+            <EditIcon />
+          </button>
+        )}
+        {onDelete && (
+          <button
+            onClick={() => onDelete(row)}
+            className="action-button delete-button"
+            title="Delete"
+          >
+            <DeleteIcon />
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  // Default fallback untuk RentCar dan Accommodation (Detail button)
   return (
-    <div
-      style={{
-        background: "#ffffff",
-        borderRadius: "5px",
-        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-        overflow: "hidden",
-      }}
-    >
-      <style>
-        {`
-          .action-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.15s ease;
-            width: 28px;
-            height: 28px;
-          }
-          
-          .view-button {
-            color: #10b981;
-          }
-          
-          .view-button:hover {
-            background-color: #d1fae5 !important;
-            transform: scale(1.05);
-          }
-          
-          .edit-button {
-            color: #3b82f6;
-          }
-          
-          .edit-button:hover {
-            background-color: #dbeafe !important;
-            transform: scale(1.05);
-          }
-          
-          .delete-button {
-            color: #ef4444;
-          }
-          
-          .delete-button:hover {
-            background-color: #fee2e2 !important;
-            transform: scale(1.05);
-          }
-          
-          .action-button:active {
-            transform: scale(0.95);
-          }
+    <Button variant="outline" size="sm">
+      Detail
+    </Button>
+  );
+};
 
-          .table-scroll-container {
-            overflow-x: hidden;
-            transition: overflow 0.2s ease;
-          }
+return (
+  <div
+    style={{
+      background: "#ffffff",
+      borderRadius: "5px",
+      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+      overflow: "hidden",
+    }}
+  >
+    <style>
+      {`
+        .action-button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 6px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.15s ease;
+          width: 28px;
+          height: 28px;
+        }
+        
+        .view-button {
+          color: #10b981;
+        }
+        
+        .view-button:hover {
+          background-color: #d1fae5 !important;
+          transform: scale(1.05);
+        }
+        
+        .edit-button {
+          color: #3b82f6;
+        }
+        
+        .edit-button:hover {
+          background-color: #dbeafe !important;
+          transform: scale(1.05);
+        }
+        
+        .delete-button {
+          color: #ef4444;
+        }
+        
+        .delete-button:hover {
+          background-color: #fee2e2 !important;
+          transform: scale(1.05);
+        }
+        
+        .action-button:active {
+          transform: scale(0.95);
+        }
 
-          .table-scroll-container:hover {
-            overflow-x: auto;
-          }
+        .table-scroll-container {
+          overflow-x: hidden;
+          transition: overflow 0.2s ease;
+        }
 
-          .table-scroll-container::-webkit-scrollbar {
-            height: 8px;
-          }
+        .table-scroll-container:hover {
+          overflow-x: auto;
+        }
 
-          .table-scroll-container::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-          }
+        .table-scroll-container::-webkit-scrollbar {
+          height: 8px;
+        }
 
-          .table-scroll-container:not(:hover)::-webkit-scrollbar {
-            display: none;
-          }
+        .table-scroll-container::-webkit-scrollbar-thumb {
+          background-color: rgba(0, 0, 0, 0.3);
+          border-radius: 4px;
+        }
 
-        `}
-      </style>
-      <div className="table-scroll-container">
-        <table style={{ width: "100%", borderCollapse: "collapse",minWidth: "300px" }}>
-          <thead>
-            <tr style={{ backgroundColor: "#f9fafb" }}>
-              {onRowSelect && (
-                <th
-                  style={{
-                    padding: "10px 24px",
-                    fontWeight: "500",
-                    color: "#6b280",
-                    textAlign: "left",
-                    fontSize: "12px",
-                    width: "50px",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    style={{ cursor: "pointer" }}
-                    checked={
-                      selectedRows.length === data.length && data.length > 0
-                    }
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        data.forEach((row) => {
-                          if (!selectedRows.includes(row.id)) {
-                            onRowSelect(row.id);
-                          }
-                        });
-                      } else {
-                        selectedRows.forEach((id) => onRowSelect(id));
-                      }
-                    }}
-                    className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300"
-                  />
-                </th>
-              )}
+        .table-scroll-container:not(:hover)::-webkit-scrollbar {
+          display: none;
+        }
 
-              {columns.map((column, index) => (
-                <th
-                  key={index}
-                  style={{
-                    padding: "10px 24px",
-                    fontWeight: "700",
-                    color: "#595D65",
-                    textAlign: "left",
-                    fontSize: "11px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    cursor:
-                      defaultMapping[column] &&
-                      typeof defaultMapping[column] === "string" &&
-                      onSort
-                        ? "pointer"
-                        : "default",
-                  }}
-                  onClick={() => handleSort(column)}
-                >
-                  <span
-                    style={{ display: "inline-flex", alignItems: "center" }}
-                  >
-                    {column}
-                    {defaultMapping[column] &&
-                      typeof defaultMapping[column] === "string" &&
-                      onSort &&
-                      getSortIcon(column)}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, rowIndex) => (
-              <tr
-                key={rowIndex}
+      `}
+    </style>
+    <div className="table-scroll-container">
+      <table style={{ width: "100%", borderCollapse: "collapse",minWidth: "300px" }}>
+        <thead>
+          <tr style={{ backgroundColor: "#f9fafb" }}>
+            {onRowSelect && (
+              <th
                 style={{
-                  borderBottom:
-                    rowIndex < data.length - 1 ? "1px solid #f3f4f6" : "none",
-                  transition: "all 0.2s ease",
-                  backgroundColor: selectedRows.includes(row.id)
-                    ? "#dbeafe"
-                    : "transparent",
-                  borderLeft: selectedRows.includes(row.id)
-                    ? "3px solid #00BEF0"
-                    : "3px solid transparent",
-                }}
-                onMouseEnter={(e) => {
-                  if (!selectedRows.includes(row.id)) {
-                    e.currentTarget.style.backgroundColor = "#f9fafb";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!selectedRows.includes(row.id)) {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }
+                  padding: "10px 24px",
+                  fontWeight: "500",
+                  color: "#6b280",
+                  textAlign: "left",
+                  fontSize: "12px",
+                  width: "50px",
                 }}
               >
-                {onRowSelect && (
-                  <td style={{ padding: "10px 24px" }}>
-                    <input
-                      type="checkbox"
-                      checked={selectedRows.includes(row.id)}
-                      onChange={() => onRowSelect(row.id)}
-                      className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300"
-                    />
-                  </td>
-                )}
+                <input
+                  type="checkbox"
+                  style={{ cursor: "pointer" }}
+                  checked={
+                    selectedRows.length === data.length && data.length > 0
+                  }
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      data.forEach((row) => {
+                        if (!selectedRows.includes(row.id)) {
+                          onRowSelect(row.id);
+                        }
+                      });
+                    } else {
+                      selectedRows.forEach((id) => onRowSelect(id));
+                    }
+                  }}
+                  className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                />
+              </th>
+            )}
 
-                {columns.map((column) =>
-                  column === "Action" ? (
-                    <td key={column} style={{ padding: "5px 24px" }}>
-                      {renderActionButtons(row)}
-                    </td>
-                  ) : (
-                    <td
-                      key={column}
-                      style={{
-                        padding: "5px 24px",
-                        color: "#6b7280",
-                        fontSize: "12px",
-                      }}
-                    >
-                      {defaultMapping &&
-                      typeof defaultMapping[column] === "function"
-                        ? defaultMapping[column](row, rowIndex)
-                        : row[column] ?? ""}
-                    </td>
-                  )
-                )}
-              </tr>
+            {columns.map((column, index) => (
+              <th
+                key={index}
+                style={{
+                  padding: "10px 24px",
+                  fontWeight: "700",
+                  color: "#595D65",
+                  textAlign: "left",
+                  fontSize: "11px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                  cursor:
+                    defaultMapping[column] &&
+                    typeof defaultMapping[column] === "string" &&
+                    onSort
+                      ? "pointer"
+                      : "default",
+                }}
+                onClick={() => handleSort(column)}
+              >
+                <span
+                  style={{ display: "inline-flex", alignItems: "center" }}
+                >
+                  {column}
+                  {defaultMapping[column] &&
+                    typeof defaultMapping[column] === "string" &&
+                    onSort &&
+                    getSortIcon(column)}
+                </span>
+              </th>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, rowIndex) => (
+            <tr
+              key={rowIndex}
+              style={{
+                borderBottom:
+                  rowIndex < data.length - 1 ? "1px solid #f3f4f6" : "none",
+                transition: "all 0.2s ease",
+                backgroundColor: selectedRows.includes(row.id)
+                  ? "#dbeafe"
+                  : "transparent",
+                borderLeft: selectedRows.includes(row.id)
+                  ? "3px solid #00BEF0"
+                  : "3px solid transparent",
+              }}
+              onMouseEnter={(e) => {
+                if (!selectedRows.includes(row.id)) {
+                  e.currentTarget.style.backgroundColor = "#f9fafb";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!selectedRows.includes(row.id)) {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }
+              }}
+            >
+              {onRowSelect && (
+                <td style={{ padding: "10px 24px" }}>
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(row.id)}
+                    onChange={() => onRowSelect(row.id)}
+                    className="h-4 w-4 text-cyan-600 rounded focus:ring-0 focus:outline-none border-gray-300"
+                  />
+                </td>
+              )}
+
+              {columns.map((column) =>
+                column === "Action" ? (
+                  <td key={column} style={{ padding: "5px 24px" }}>
+                    {renderActionButtons(row)}
+                  </td>
+                ) : (
+                  <td
+                    key={column}
+                    style={{
+                      padding: "5px 24px",
+                      color: "#6b7280",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {defaultMapping &&
+                    typeof defaultMapping[column] === "function"
+                      ? defaultMapping[column](row, rowIndex)
+                      : row[column] ?? ""}
+                  </td>
+                )
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  );
+  </div>
+);
 };
 
 export default Table;

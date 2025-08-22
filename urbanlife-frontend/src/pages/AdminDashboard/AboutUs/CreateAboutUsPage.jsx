@@ -221,8 +221,8 @@ const CreateAboutUsPage = () => {
     if (formData.subtitle_id) payload.append("subtitle_id", formData.subtitle_id);
     if (formData.description_en) payload.append("description_en", formData.description_en);
     if (formData.description_id) payload.append("description_id", formData.description_id);
-    if (formData.button_text) payload.append("button_text", formData.button_text);
-    if (formData.button_link) payload.append("button_link", formData.button_link);
+    if (formData.section !== "header" && formData.button_text) payload.append("button_text", formData.button_text);
+    if (formData.section !== "header" && formData.button_link) payload.append("button_link", formData.button_link);
     photos.forEach((file) => payload.append("images", file));
     services.forEach((service, index) => {
       payload.append(`services[${index}][title_en]`, service.title_en);

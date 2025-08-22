@@ -1,13 +1,12 @@
-// src/pages/LandingPage/ContactUs/ContactUsPage.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare, Users, Car, Home, Sparkles, Globe } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, MessageSquare, Users, Car, Home, Sparkles, Globe } from 'lucide-react';
 import Navbar from '../../../../HomePage/Navbar/Navbar';
 import Footer from '../../../../HomePage/Footer';
 import { useTranslation } from 'react-i18next';
 
 const ContactUsPage = () => {
-const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   console.log('Current language:', i18n.language); // Debug bahasa saat ini
 
   useEffect(() => {
@@ -58,6 +57,7 @@ const { t, i18n } = useTranslation();
     console.log('Form submitted:', formData);
     alert(t('contactus.form_success', 'Fallback: Form submission success'));
   };
+
   return (
     <div>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 relative overflow-hidden">
@@ -157,52 +157,31 @@ const { t, i18n } = useTranslation();
               <div
                 id="services"
                 data-animate
-                className={`bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl transition-all duration-700 ${
+                className={`bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl transition-all duration-700 min-h-[360px] flex flex-col justify-between ${
                   isVisible.services ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
               >
-                <h3 className="text-xl font-bold text-slate-800 mb-4">{t('contactus.services_title')}</h3>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="text-center p-3 bg-blue-50/50 backdrop-blur-sm rounded-xl hover:bg-blue-100/50 transition-colors border border-blue-100/50">
-                    <MapPin className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                    <div className="text-sm text-slate-700 font-medium">{t('contactus.destinations')}</div>
+                <div>
+                  <h3 className="text-2xl font-bold text-slate-800 mb-6">{t('contactus.services_title')}</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center p-4 bg-blue-50/50 backdrop-blur-sm rounded-xl hover:bg-blue-100/50 transition-colors border border-blue-100/50">
+                      <MapPin className="w-8 h-8 text-blue-600 mx-auto mb-3" />
+                      <div className="text-base text-slate-700 font-medium">{t('contactus.destinations')}</div>
+                    </div>
+                    <div className="text-center p-4 bg-cyan-50/50 backdrop-blur-sm rounded-xl hover:bg-cyan-100/50 transition-colors border border-cyan-100/50">
+                      <Car className="w-8 h-8 text-cyan-600 mx-auto mb-3" />
+                      <div className="text-base text-slate-700 font-medium">{t('contactus.car_rental')}</div>
+                    </div>
+                    <div className="text-center p-4 bg-sky-50/50 backdrop-blur-sm rounded-xl hover:bg-sky-100/50 transition-colors border border-sky-100/50">
+                      <Home className="w-8 h-8 text-sky-600 mx-auto mb-3" />
+                      <div className="text-base text-slate-700 font-medium">{t('contactus.hotels')}</div>
+                    </div>
                   </div>
-                  <div className="text-center p-3 bg-cyan-50/50 backdrop-blur-sm rounded-xl hover:bg-cyan-100/50 transition-colors border border-cyan-100/50">
-                    <Car className="w-6 h-6 text-cyan-600 mx-auto mb-2" />
-                    <div className="text-sm text-slate-700 font-medium">{t('contactus.car_rental')}</div>
-                  </div>
-                  <div className="text-center p-3 bg-sky-50/50 backdrop-blur-sm rounded-xl hover:bg-sky-100/50 transition-colors border border-sky-100/50">
-                    <Home className="w-6 h-6 text-sky-600 mx-auto mb-2" />
-                    <div className="text-sm text-slate-700 font-medium">{t('contactus.hotels')}</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Business Hours */}
-              <div
-                id="business-hours"
-                data-animate
-                className={`bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl transition-all duration-700 ${
-                  isVisible['business-hours'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                }`}
-              >
-                <div className="flex items-center space-x-2 mb-4">
-                  <Clock className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-xl font-bold text-slate-800">{t('contactus.business_hours')}</h3>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between text-slate-600">
-                    <span>{t('contactus.mon_fri')}</span>
-                    <span className="text-slate-800 font-medium">{t('contactus.mon_fri_time')}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-600">
-                    <span>{t('contactus.saturday')}</span>
-                    <span className="text-slate-800 font-medium">{t('contactus.saturday_time')}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-500">
-                    <span>{t('contactus.sunday')}</span>
-                    <span>{t('contactus.sunday_closed')}</span>
-                  </div>
+                  <div className="group mt-6 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 p-4 rounded-xl border border-blue-200/30 hover:border-blue-400/50 hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-cyan-500/10 transition-all duration-300 hover:shadow-lg">
+                    <p className="text-center text-slate-600 text-sm leading-relaxed">
+                      {t('contactus.service_description')}
+                    </p>
+                  </div>             
                 </div>
               </div>
             </div>

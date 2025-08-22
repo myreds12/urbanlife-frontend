@@ -37,6 +37,10 @@ const Accomodation = lazy(() =>
 const CreateAccomodationPage = lazy(() =>
   import("./pages/AdminDashboard/Accomodation/CreateAccomodation")
 );
+const AboutUs = lazy(() => import("./pages/AdminDashboard/AboutUs/AboutUs"));
+const CreateAboutUsPage = lazy(() =>
+  import("./pages/AdminDashboard/AboutUs/CreateAboutUsPage")
+);
 const Customer = lazy(() => import("./pages/AdminDashboard/Customer/Customer"));
 const WhatsappConnect = lazy(() =>
   import("./pages/AdminDashboard/WhatsappSetting/WhatsappConnect")
@@ -58,6 +62,8 @@ const Testimonial = lazy(() => import("./pages/AdminDashboard/DataMaster/Testimo
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
 const News = lazy(() => import("./pages/AdminDashboard/News/News"));
 const CreateNews = lazy(() => import("./pages/AdminDashboard/News/CreateNews"));
+
+
 
 // Public pages
 const HomePage = lazy(() => import("./pages/LandingPage/HomePage/HomePage"));
@@ -84,7 +90,7 @@ const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
 // Footer Pages
 const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content/Company/CompanyFooter"));
-const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AboutUs.jsx"));
+const AboutUsPage = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AboutUs"));
 const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/TermsAndCondition"));
 const ContactUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/ContactUs"));
@@ -120,7 +126,7 @@ function App() {
 
             {/* Footer */}
             <Route path="/Company" element={<CompanyFooter />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
+            <Route path="/AboutUs" element={<AboutUsPage />} />
             <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
             <Route path="/ContactUs" element={<ContactUs />} />
@@ -161,6 +167,15 @@ function App() {
               <Route
                 path="accommodation/edit/:id"
                 element={<CreateAccomodationPage />}
+              />
+              <Route path="AboutUs" element={<AboutUs />} />
+              <Route
+                path="aboutus/create"
+                element={<CreateAboutUsPage />}
+              />
+              <Route
+                path="aboutus/edit/:id"
+                element={<CreateAboutUsPage />}
               />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />

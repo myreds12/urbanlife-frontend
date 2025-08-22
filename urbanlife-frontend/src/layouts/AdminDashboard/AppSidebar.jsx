@@ -13,6 +13,7 @@ const contentItems = [
   { icon: "fa-car", name: "Rent a Car", path: "/admin/rent-car" },
   { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
   { icon: "fa-newspaper", name: "News", path: "/admin/news" },
+  { icon: "fa-info-circle", name: "About Us", path: "/admin/aboutus" }, 
 ];
 
 const othersItems = [

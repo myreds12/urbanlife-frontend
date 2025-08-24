@@ -32,6 +32,7 @@ const othersItems = [
       name: "Data master",
       subItems: [
         { name: "Hero Section", path: "/admin/herosection"},
+        { name: "ServiceSchedule", path: "/admin/ServiceSchedule"},
         { name: "Countries", path: "/admin/country" },  // ← ganti ini
         { name: "Cities", path: "/admin/city" },
         { name: "Car", path: "/admin/car" },

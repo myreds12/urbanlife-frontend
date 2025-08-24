@@ -74,31 +74,6 @@ const AboutUsHeaderSection = ({ id, isActive, formData, handleChange }) => {
           />
         </div>
 
-        <div className="mb-4 flex items-center">
-          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
-            Button Text
-          </label>
-          <input
-            type="text"
-            name="button_text"
-            value={formData.button_text}
-            onChange={handleChange}
-            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-          />
-        </div>
-
-        <div className="mb-4 flex items-center">
-          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
-            Button Link
-          </label>
-          <input
-            type="text"
-            name="button_link"
-            value={formData.button_link}
-            onChange={handleChange}
-            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-          />
-        </div>
       </div>
     </div>
   );

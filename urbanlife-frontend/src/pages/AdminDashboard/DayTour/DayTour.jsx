@@ -241,9 +241,52 @@ const DayTour = () => {
     navigate(`/admin/day-tour/edit/${row.id}`);
   };
 
+  // Handler untuk Popular (sementara)
+  const handlePopular = async (row) => {
+    const newStatus = !row.is_popular;
+
+    const confirmed = window.confirm(
+      `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
+        newStatus ? "to" : "from"
+      } Popular Categories?`
+    );
+    if (!confirmed) return;
+
+    try {
+      const updatePromise = apiClient.patch(
+        `/travel-package/${row.id}/popular`,
+        {
+          is_popular: newStatus,
+        }
+      );
+
+      await toast.promise(updatePromise, {
+        loading: newStatus
+          ? "Marking as popular..."
+          : "Removing from popular...",
+        success: `"${row.nama}" ${
+          newStatus ? "added to" : "removed from"
+        } popular packages!`,
+        error: "Failed to update popular status. Please try again.",
+      });
+
+      // Refresh list biar keliatan update
+      fetchDayTours();
+    } catch (err) {
+      console.error("Failed to update popular status:", err);
+
+      if (err.response) {
+        console.error("Status:", err.response.status);
+        console.error("Data:", err.response.data);
+      }
+    }
+  };
+
   // Handler untuk Delete
   const handleDelete = async (row) => {
-    const confirmed = window.confirm(`Are you sure want to delete "${row.nama}"?`);
+    const confirmed = window.confirm(
+      `Are you sure want to delete "${row.nama}"?`
+    );
     if (!confirmed) return;
 
     const deletePromise = apiClient.delete(`/travel-package`, {
@@ -495,6 +538,7 @@ const DayTour = () => {
               onView={handleView}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              onPopular={handlePopular}
               defaultMapping={mapping}
             />
           </div>

@@ -11,14 +11,14 @@ const OrderEdit = () => {
   const [saving, setSaving] = useState(false);
   const [orderData, setOrderData] = useState({
     id: "",
-    user: { nama: "", email: "" },
-    type: "",
-    detail: "",
+    user: { nama: "", email: "", nomor_hp: "" },
     total_harga: "",
     status: "",
     notes: "",
     createdAt: "",
+    pemesanan_item: [],
   });
+  const [vehicles, setVehicles] = useState([]);
 
   const statusOptions = [
     { value: "PENDING", label: "Pending" },
@@ -31,18 +31,20 @@ const OrderEdit = () => {
     try {
       const res = await axios.get(`${api}/${id}`);
       const data = res.data.data;
+      console.log("ORDER DETAIL:", data);
+
       setOrderData({
         id: data.id || "",
         user: {
           nama: data.user?.nama || "",
           email: data.user?.email || "",
+          nomor_hp: data.user?.nomor_hp || "",
         },
-        type: data.type || "",
-        detail: data.detail || "",
         total_harga: data.total_harga || "",
         status: data.status || "",
         notes: data.notes || "",
         createdAt: data.createdAt || "",
+        pemesanan_item: data.pemesanan_item || [],
       });
     } catch (err) {
       console.error("Failed to fetch order detail", err);
@@ -52,9 +54,23 @@ const OrderEdit = () => {
     }
   };
 
+  const fetchVehicles = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/pemesanan/items?type=KENDARAAN`
+      );
+      console.log(res.data.data, "VEHICLE DATA");
+      setVehicles(res.data.data || []);
+    } catch (err) {
+      console.error("Failed to fetch vehicles", err);
+      alert("Failed to load vehicles");
+    }
+  };
+
   useEffect(() => {
     if (id) {
       fetchOrderDetail();
+      fetchVehicles();
     }
   }, [id]);
 
@@ -78,20 +94,89 @@ const OrderEdit = () => {
     }
   };
 
+  const handleVehicleChange = (e, index) => {
+    const selectedVehicleId = e.target.value;
+    const selectedVehicle = vehicles.find(
+      (vehicle) => vehicle.id === parseInt(selectedVehicleId)
+    );
+
+    if (selectedVehicle) {
+      // Update pemesanan_item dengan kendaraan yang dipilih
+      setOrderData((prev) => {
+        const updatedItems = [...prev.pemesanan_item];
+        updatedItems[index] = {
+          ...updatedItems[index],
+          kendaraan_id: selectedVehicle.id,
+          detail: selectedVehicle, // Simpan detail kendaraan untuk tampilan
+          total_harga: selectedVehicle.durasi[0]?.harga || 0, // Ambil harga dari durasi pertama
+        };
+
+        // Hitung ulang total harga order
+        const newTotalHarga = updatedItems.reduce((total, item) =>
+          total + (parseFloat(item.total_harga) || 0), 0
+        );
+
+        return {
+          ...prev,
+          pemesanan_item: updatedItems,
+          total_harga: newTotalHarga
+        };
+      });
+    }
+  };
+
+  const handleDurationChange = (e, index) => {
+    const selectedDurationId = e.target.value;
+    const selectedVehicle = orderData.pemesanan_item[index].detail;
+
+    if (selectedVehicle) {
+      const selectedDuration = selectedVehicle.durasi.find(
+        (durasi) => durasi.id === parseInt(selectedDurationId)
+      );
+
+      if (selectedDuration) {
+        setOrderData((prev) => {
+          const updatedItems = [...prev.pemesanan_item];
+          updatedItems[index] = {
+            ...updatedItems[index],
+            durasi_id: selectedDuration.id,
+            total_harga: selectedDuration.harga || 0, // Ambil harga dari durasi yang dipilih
+          };
+
+          // Hitung ulang total harga order
+          const newTotalHarga = updatedItems.reduce((total, item) =>
+            total + (parseFloat(item.total_harga) || 0), 0
+          );
+
+          return {
+            ...prev,
+            pemesanan_item: updatedItems,
+            total_harga: newTotalHarga
+          };
+        });
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
 
     try {
-      const updateData = {
-        type: orderData.type,
-        detail: orderData.detail,
-        total_harga: parseFloat(orderData.total_harga) || 0,
-        status: orderData.status,
-        notes: orderData.notes,
-      };
+      // Siapkan data untuk update
+      const updateData = orderData.pemesanan_item.map(item => ({
+        kendaraan_id: item.kendaraan_id,
+        durasi_id: item.durasi_id,
+        harga: item.total_harga,
+        notes: orderData.notes
+      }));
 
-      await axios.put(`${api}/${id}`, updateData);
+      console.log("Data to be sent for update:", updateData);
+
+      // await Promise.all(updateData.map((data) =>
+      //   axios.patch(`${api}/pemesanan/update-kendaraan/${id}`, data)
+      // ));
+
       alert("Order updated successfully!");
       navigate("/admin/order");
     } catch (err) {
@@ -103,7 +188,169 @@ const OrderEdit = () => {
   };
 
   const handleCancel = () => {
-    navigate("/admin/order"); 
+    navigate("/admin/order");
+  };
+
+  const renderOrderItems = () => {
+    if (!orderData.pemesanan_item || orderData.pemesanan_item.length === 0) {
+      return <div className="text-gray-500">No order items found</div>;
+    }
+
+    return orderData.pemesanan_item.map((item, index) => (
+      <div key={item.id} className="border border-gray-200 rounded-lg p-4 mb-4">
+        <h3 className="font-semibold text-gray-800 mb-3">
+          Item #{index + 1} - {item.item_type}
+        </h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Informasi Kendaraan */}
+          {item.item_type === "KENDARAAN" && (
+            <>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-600 mb-1">
+                  Select Vehicle
+                </label>
+                <select
+                  value={item.kendaraan_id || ""}
+                  onChange={(e) => handleVehicleChange(e, index)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                >
+                  <option value="">Select Vehicle</option>
+                  {vehicles.map((vehicle) => (
+                    <option key={vehicle.id} value={vehicle.id}>
+                      {vehicle.nama} - {vehicle.plat_nomor}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Select Duration */}
+              {item.detail && item.detail.durasi && (
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Select Duration
+                  </label>
+                  <select
+                    value={item.durasi_id || ""}
+                    onChange={(e) => handleDurationChange(e, index)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  >
+                    <option value="">Select Duration</option>
+                    {item.detail.durasi.map((durasi) => (
+                      <option key={durasi.id} value={durasi.id}>
+                        {durasi.nama} - Rp {durasi.harga.toLocaleString("id-ID")}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Info Kendaraan Terpilih */}
+              {item.detail && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                      Vehicle Name
+                    </label>
+                    <input
+                      type="text"
+                      value={item.detail.nama || "-"}
+                      disabled
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                      Type
+                    </label>
+                    <input
+                      type="text"
+                      value={item.detail.tipe || "-"}
+                      disabled
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                      License Plate
+                    </label>
+                    <input
+                      type="text"
+                      value={item.detail.plat_nomor || "-"}
+                      disabled
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                      Price
+                    </label>
+                    <input
+                      type="text"
+                      value={item.total_harga ? `Rp ${parseInt(item.total_harga).toLocaleString("id-ID")}` : "-"}
+                      disabled
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                    />
+                  </div>
+                </>
+              )}
+            </>
+          )}
+
+          {/* Informasi Tanggal (untuk semua item types) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              Start Date
+            </label>
+            <input
+              type="text"
+              value={
+                item.tanggal_mulai
+                  ? new Date(item.tanggal_mulai).toLocaleDateString()
+                  : "-"
+              }
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              End Date
+            </label>
+            <input
+              type="text"
+              value={
+                item.tanggal_selesai
+                  ? new Date(item.tanggal_selesai).toLocaleDateString()
+                  : "-"
+              }
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+            />
+          </div>
+
+          {/* Informasi Harga (untuk non-KENDARAAN items) */}
+          {item.item_type !== "KENDARAAN" && (
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Item Price
+              </label>
+              <input
+                type="text"
+                value={
+                  item.total_harga
+                    ? `Rp ${parseInt(item.total_harga).toLocaleString("id-ID")}`
+                    : "-"
+                }
+                disabled
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    ));
   };
 
   if (loading) {
@@ -174,33 +421,35 @@ const OrderEdit = () => {
                 />
               </div>
 
-              {/* Type */}
+              {/* Customer Phone */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Type
+                  Customer Phone
                 </label>
                 <input
                   type="text"
-                  name="type"
-                  value={orderData.type}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  value={orderData.user.nomor_hp}
+                  disabled
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
                 />
               </div>
 
-              {/* Amount */}
+              {/* Total Amount */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Amount
+                  Total Amount
                 </label>
                 <input
-                  type="number"
-                  name="total_harga"
-                  value={orderData.total_harga}
-                  onChange={handleInputChange}
-                  step="0.01"
-                  min="0"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  type="text"
+                  value={
+                    orderData.total_harga
+                      ? `Rp ${parseInt(orderData.total_harga).toLocaleString(
+                          "id-ID"
+                        )}`
+                      : "-"
+                  }
+                  disabled
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
                 />
               </div>
 
@@ -212,6 +461,7 @@ const OrderEdit = () => {
                 <select
                   name="status"
                   value={orderData.status}
+                  disabled
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 >
@@ -240,57 +490,50 @@ const OrderEdit = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
                 />
               </div>
+            </div>
 
-              {/* Detail */}
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Detail
-                </label>
-                <textarea
-                  name="detail"
-                  value={orderData.detail}
-                  onChange={handleInputChange}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                  placeholder="Order details..."
-                />
-              </div>
+            {/* Order Items Section */}
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                Order Items
+              </h3>
+              {renderOrderItems()}
+            </div>
 
-              {/* Notes*/}
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Notes
-                </label>
-                <textarea
-                  name="notes"
-                  value={orderData.notes}
-                  onChange={handleInputChange}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                  placeholder="Additional notes for this order..."
-                />
-              </div>
+            {/* Notes */}
+            <div className="mt-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Notes
+              </label>
+              <textarea
+                name="notes"
+                value={orderData.notes}
+                onChange={handleInputChange}
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                placeholder="Additional notes for this order..."
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 disabled:opacity-50"
+              >
+                {saving ? "Saving..." : "Save"}
+              </button>
             </div>
           </form>
         </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex justify-end gap-3 px-6 pb-6 mt-6">
-        <button
-          type="button"
-          onClick={handleCancel}
-          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          disabled={saving}
-          className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
-        >
-          Save
-        </button>
       </div>
     </div>
   );

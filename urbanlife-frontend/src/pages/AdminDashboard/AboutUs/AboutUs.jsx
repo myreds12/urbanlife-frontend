@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 const AboutUs = () => {
   const navigate = useNavigate();
   const [contents, setContents] = useState([]);
+  console.log(contents, "CONTENTS");
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [take] = useState(10);
@@ -23,47 +24,6 @@ const AboutUs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalData, setSelectedModalData] = useState(null);
 
-  // Dummy data for testing
-  const dummyContents = [
-    {
-      id: 1,
-      section: "header",
-      title_en: "About UrbanLife",
-      title_id: "Tentang UrbanLife",
-      subtitle_en: "Your trusted partner for seamless travel experiences",
-      subtitle_id: "Mitra terpercaya untuk pengalaman perjalanan",
-      button_text: "",
-      button_link: "",
-    },
-    {
-      id: 2,
-      section: "our_story",
-      title_en: "Our Story",
-      title_id: "Kisah Kami",
-      description_en:
-        "UrbanLife was founded in 2018 to make travel in Bali and Jakarta effortless.",
-      description_id:
-        "UrbanLife didirikan pada 2018 untuk membuat perjalanan di Bali dan Jakarta mudah.",
-      images: [
-        "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&h=400&fit=crop",
-      ],
-      services: [
-        {
-          id: "private-car",
-          title_en: "Private Car with Driver",
-          title_id: "Mobil Pribadi dengan Sopir",
-          description_en: "Explore Bali and Jakarta with our drivers.",
-          description_id: "Jelajahi Bali dan Jakarta dengan sopir kami.",
-          icon: "car",
-          location: "Bali & Jakarta",
-          order: 1,
-        },
-      ],
-      schedule: [{ day: "Monday", time: "08:00 - 17:00", highlight: false }],
-      stats: [{ number: "15,000+", label_en: "Happy Customers", label_id: "Pelanggan Puas", icon: "users" }],
-    },
-  ];
 
   const fetchContents = async (search = "") => {
     setLoading(true);
@@ -76,8 +36,6 @@ const AboutUs = () => {
     } catch (err) {
       console.error("Failed to fetch about us contents", err);
       toast.error("Gagal memuat data About Us. Menggunakan data dummy.");
-      setContents(dummyContents);
-      setTotal(dummyContents.length);
     } finally {
       setLoading(false);
     }
@@ -166,14 +124,13 @@ const AboutUs = () => {
 
   const handlePageChange = (page) => setCurrentPage(page);
 
-  const columns = ["#", "Section", "Title (EN)", "Title (ID)", "Services Count", "Button Text", "Action"];
+  const columns = ["#",  "Title (EN)", "Title (ID)", "Services Count", "Button Text", "Action"];
   const mapping = {
     "#": (_, index) => startIndex + index + 1,
-    Section: "section",
-    "Title (EN)": "title_en",
-    "Title (ID)": "title_id",
-    "Services Count": (row) => row.services?.length || 0,
-    "Button Text": "button_text",
+    "Title (EN)": (row) => row.title_en,
+    "Title (ID)": (row) => row.title_id,
+    "Services Count": (row) => row.AboutUsServices  ?.length || 0,
+    "Button Text": (row) => row.AboutUsCta?.button_text || "-",
     Action: null,
   };
 

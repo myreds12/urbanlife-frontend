@@ -4,21 +4,6 @@ const AboutUsHeaderSection = ({ id, isActive, formData, handleChange }) => {
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
-        <div className="mb-4 flex items-center">
-          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
-            Section <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="section"
-            value={formData.section}
-            onChange={handleChange}
-            className="input input-bordered w-full py-1 rounded-lg border border-gray-300 focus:ring-cyan-500"
-            required
-          >
-            <option value="">-- Choose Section --</option>
-            <option value="header">Header</option>
-          </select>
-        </div>
 
         <div className="mb-4 flex items-center">
           <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>

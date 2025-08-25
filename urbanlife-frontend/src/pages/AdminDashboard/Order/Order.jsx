@@ -52,6 +52,7 @@ const Orders = () => {
 
       const res = await axios.get(api, { params });
       const { data, total } = res.data;
+      console.log(data, "DATA ORDER");
 
       setOrders(data);
       setTotal(total);

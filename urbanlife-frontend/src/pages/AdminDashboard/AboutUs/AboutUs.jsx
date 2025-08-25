@@ -129,7 +129,7 @@ const AboutUs = () => {
     "#": (_, index) => startIndex + index + 1,
     "Title (EN)": (row) => row.title_en,
     "Title (ID)": (row) => row.title_id,
-    "Services Count": (row) => row.AboutUsServices  ?.length || 0,
+    "Services Count": (row) => row.AboutUsServices?.length || 0,
     "Button Text": (row) => row.AboutUsCta?.button_text || "-",
     Action: null,
   };

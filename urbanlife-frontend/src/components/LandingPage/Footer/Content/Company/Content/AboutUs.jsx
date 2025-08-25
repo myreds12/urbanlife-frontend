@@ -1,16 +1,32 @@
 // src/pages/LandingPage/AboutUs/AboutUs.jsx
 import React, { useState, useEffect, useCallback } from "react";
-import { MapPin, Calendar, Car, Bike, Ship, ArrowRight, Plane, Users, Building, ChevronLeft, ChevronRight, Clock, Star, Award } from "lucide-react";
-import Navbar from '../../../../HomePage/Navbar/Navbar';
-import Footer from '../../../../HomePage/Footer';
-import apiClient from '../../../../../../components/AdminDashboard/Utils/ApiClient/apiClient';
+import {
+  MapPin,
+  Calendar,
+  Car,
+  Bike,
+  Ship,
+  ArrowRight,
+  Plane,
+  Users,
+  Building,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  Star,
+  Award,
+} from "lucide-react";
+import Navbar from "../../../../HomePage/Navbar/Navbar";
+import Footer from "../../../../HomePage/Footer";
+import apiClient from "../../../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
 
 // Dummy data as fallback
 const dummyData = {
   header: {
     title: "About UrbanLife",
-    tagline: "Your trusted partner for seamless travel experiences in Bali and Jakarta",
+    tagline:
+      "Your trusted partner for seamless travel experiences in Bali and Jakarta",
   },
   story: {
     title: "Our Story",
@@ -26,7 +42,8 @@ const dummyData = {
     {
       id: "private-car",
       title: "Private Car with Driver",
-      description: "Explore Bali and Jakarta with our English-speaking drivers.",
+      description:
+        "Explore Bali and Jakarta with our English-speaking drivers.",
       location: "Bali & Jakarta",
       icon: "car",
     },
@@ -40,7 +57,8 @@ const dummyData = {
   ],
   operationalSchedule: {
     title: "Operational Hours",
-    description: "We are committed to providing excellent service during our operational hours.",
+    description:
+      "We are committed to providing excellent service during our operational hours.",
     schedule: [
       { day: "Monday", time: "08:00 - 17:00" },
       { day: "Sunday", time: "08:00 - 17:00", highlight: true },
@@ -70,11 +88,15 @@ const ModernCarousel = ({ images }) => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const goToNext = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
   }, [images.length]);
 
   const goToPrev = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
   }, [images.length]);
 
   const goToSlide = (index) => {
@@ -137,7 +159,9 @@ const ModernCarousel = ({ images }) => {
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentIndex ? "bg-cyan-600 w-8" : "bg-gray-300 hover:bg-gray-400"
+              index === currentIndex
+                ? "bg-cyan-600 w-8"
+                : "bg-gray-300 hover:bg-gray-400"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -155,49 +179,62 @@ const AboutUs = () => {
     const fetchData = async () => {
       try {
         const response = await apiClient.get("/aboutus");
-        const data = response.data.data.reduce((acc, item) => {
-          if (item.section === "header") {
-            acc.header = {
-              title: item.title_en,
-              tagline: item.subtitle_en,
-            };
-          } else if (item.section === "our_story") {
-            acc.story = {
-              title: item.title_en,
-              description: item.description_en,
-              images: item.images || [],
-            };
-          } else if (item.section === "cta") {
-            acc.cta = {
-              title: item.title_en,
-              description: item.description_en,
-              buttonText: item.button_text,
-              buttonLink: item.button_link,
-            };
-          }
-          acc.services = item.services || acc.services || [];
-          acc.operationalSchedule = {
-            title: item.section === "operational" ? item.title_en : acc.operationalSchedule.title,
+        const data = response.data.data[0]; // Ambil data dari item pertama
+        console.log(data, "ABOUT US DATA");
+
+        // Mengatur data ke dalam format yang sesuai
+        const formattedData = {
+          header: {
+            title: data.title_en,
+            tagline: data.content_en,
+          },
+          story: {
+            title: data.AboutUsStory.title_en,
+            description: data.AboutUsStory.content_en,
+            images: data.AboutUsFile.map(
+              (file) =>
+                `${apiClient.defaults.baseURL}/public/${file.url
+                  .replace(/\\/g, "/")
+                  .replace(/^uploads\//, "")}`
+            ), // Ambil URL gambar
+          },
+          services: data.AboutUsServices.map((service) => ({
+            id: `private-car`,
+            title: service.title_en,
+            description: service.content_en,
+            location: service.location,
+            icon: service.icon,
+          })),
+          operationalSchedule: {
+            title: "Operational Hours", // Anda bisa menyesuaikan ini
             description:
-              item.section === "operational" ? item.description_en : acc.operationalSchedule.description,
-            schedule: item.schedule || acc.operationalSchedule.schedule,
-            buttonText:
-              item.section === "operational" ? item.button_text : acc.operationalSchedule.buttonText,
-            buttonLink:
-              item.section === "operational" ? item.button_link : acc.operationalSchedule.buttonLink,
-          };
-          acc.achievements = {
-            title: item.section === "operational" ? item.title_en : acc.achievements.title,
-            subtitle: item.section === "operational" ? item.subtitle_en : acc.achievements.subtitle,
-            stats: item.stats || acc.achievements.stats,
-          };
-          return acc;
-        }, dummyData);
-        setAboutData(data);
+              "We are committed to providing excellent service during our operational hours.", // Anda bisa menyesuaikan ini
+            schedule: data.AboutUsOperational,
+            buttonText: "Contact Us Now", // Anda bisa menyesuaikan ini
+            buttonLink: "/contact", // Anda bisa menyesuaikan ini
+          },
+          achievements: {
+            title: "Our Achievements", // Anda bisa menyesuaikan ini
+            subtitle: "Trusted by thousands of travelers across Indonesia", // Anda bisa menyesuaikan ini
+            stats: data.AboutUsAchievements.map((achievement) => ({
+              number: achievement.number,
+              label: achievement.content_en,
+              icon: achievement.icon,
+            })),
+          },
+          cta: {
+            title: data.AboutUsCta.title_en, // Anda bisa menyesuaikan ini
+            description: "Book your next adventure with UrbanLife!", // Anda bisa menyesuaikan ini
+            buttonText: "Contact Us", // Anda bisa menyesuaikan ini
+            buttonLink: "/contact", // Anda bisa menyesuaikan ini
+          },
+        };
+
+        setAboutData(formattedData);
       } catch (error) {
         console.error("Failed to fetch About Us data:", error);
         toast.error("Failed to load About Us data. Using fallback data.");
-        setAboutData(dummyData);
+        setAboutData(dummyData); // Anda bisa menggunakan dummyData jika gagal
       }
     };
     fetchData();
@@ -283,7 +320,9 @@ const AboutUs = () => {
           id="story"
           data-animate
           className={`max-w-5xl mx-auto mb-12 transition-all duration-700 ${
-            isVisible.story ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            isVisible.story
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
           }`}
         >
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
@@ -321,7 +360,9 @@ const AboutUs = () => {
                 id={`service-${service.id}`}
                 data-animate
                 className={`group bg-white border border-gray-100 rounded-xl p-6 hover:border-cyan-200 hover:shadow-lg transition-all duration-300 ${
-                  isVisible[`service-${service.id}`] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  isVisible[`service-${service.id}`]
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
               >
                 <div className="flex items-start space-x-4">
@@ -352,7 +393,9 @@ const AboutUs = () => {
                 id="schedule"
                 data-animate
                 className={`lg:w-1/2 transition-all duration-700 ${
-                  isVisible.schedule ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                  isVisible.schedule
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-6"
                 }`}
               >
                 <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
@@ -365,23 +408,28 @@ const AboutUs = () => {
                     </p>
                   </div>
                   <div className="space-y-2 mb-4">
-                    {aboutData.operationalSchedule.schedule.map(({ day, time, highlight }) => (
-                      <div key={day} className="flex items-center justify-between py-1">
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-cyan-600" />
-                          <span className="font-inter text-gray-900 font-medium text-xs uppercase tracking-wider">
-                            {day}
+                    {aboutData.operationalSchedule.schedule.map(
+                      ({ day, time, highlight }) => (
+                        <div
+                          key={day}
+                          className="flex items-center justify-between py-1"
+                        >
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-cyan-600" />
+                            <span className="font-inter text-gray-900 font-medium text-xs uppercase tracking-wider">
+                              {day}
+                            </span>
+                          </div>
+                          <span
+                            className={`font-inter text-xs font-semibold ${
+                              highlight ? "text-red-500" : "text-gray-700"
+                            }`}
+                          >
+                            {time}
                           </span>
                         </div>
-                        <span
-                          className={`font-inter text-xs font-semibold ${
-                            highlight ? "text-red-500" : "text-gray-700"
-                          }`}
-                        >
-                          {time}
-                        </span>
-                      </div>
-                    ))}
+                      )
+                    )}
                   </div>
                   <a
                     href={aboutData.operationalSchedule.buttonLink}
@@ -395,7 +443,9 @@ const AboutUs = () => {
                 id="achievements"
                 data-animate
                 className={`lg:w-1/2 transition-all duration-700 ${
-                  isVisible.achievements ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                  isVisible.achievements
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-6"
                 }`}
               >
                 <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
@@ -432,7 +482,9 @@ const AboutUs = () => {
           id="cta"
           data-animate
           className={`text-center max-w-4xl mx-auto transition-all duration-700 ${
-            isVisible.cta ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            isVisible.cta
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
           }`}
         >
           <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-8 relative shadow-lg">
@@ -460,7 +512,8 @@ const AboutUs = () => {
               </a>
             </div>
             <p className="font-inter text-gray-500 mt-6 text-sm">
-              Experience the difference with UrbanLife - your journey starts here
+              Experience the difference with UrbanLife - your journey starts
+              here
             </p>
           </div>
         </div>

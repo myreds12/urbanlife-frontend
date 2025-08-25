@@ -6,7 +6,6 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
   const [form, setForm] = useState({
     id: "",
     title: "",
-    description: "",
   });
 
   const [files, setFiles] = useState([]); 
@@ -42,7 +41,6 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
       setForm({
         id: data.id || "",
         title: data.title || "",
-        description: data.description || "",
       });
       
       // Set existing files for editing
@@ -69,11 +67,10 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
 
       const formData = new FormData();
       formData.append("title", form.title.trim());
-      formData.append("description", form.description.trim());
       
       // Add new uploaded files
       files.forEach((file) => {
-        formData.append("image", file);
+        formData.append("file", file);
       });
 
       return formData;
@@ -82,7 +79,6 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
       setForm({ 
         id: "", 
         title: "", 
-        description: ""
       });
       setFiles([]);
       setExistingFiles([]);
@@ -139,26 +135,12 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
           type="text"
           name="title"
           placeholder="Enter hero title"
+          required
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
           value={form.title}
           onChange={handleChange}
         />
       </div>
-
-      {/* Description
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Description
-        </label>
-        <textarea
-          name="description"
-          placeholder="Enter hero description (optional)"
-          rows={3}
-          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm resize-none"
-          value={form.description}
-          onChange={handleChange}
-        />
-      </div> */}
 
       {/* Image Upload */}
       <div>
@@ -179,6 +161,7 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
           multiple={false}
           maxFiles={1}
           title="Hero Image Upload"
+          required
           showTitle={false}
         />
       </div>

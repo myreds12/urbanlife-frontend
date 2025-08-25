@@ -5,7 +5,7 @@ import Destination from "./Destination/Destination";
 import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
 import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
 import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
-import ServiceScheduleCard from "../../AdminDashboard/DataMaster/ServiceSchedule/ServicenScheduleCard";
+import Schedule from "../../../components/LandingPage/HomePage/Schedule";
 import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
 import PopularCategoriesSection from "./Popular Categoires/PopularCategories";
@@ -70,7 +70,7 @@ const LandingPage = () => {
       {/* Service Schedule Section */}
       <AnimatedSection animationType="fadeInUp">
         <div>
-          <ServiceScheduleCard />
+          <Schedule />
         </div>
       </AnimatedSection>
 

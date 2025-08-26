@@ -130,13 +130,13 @@ const SearchResultsModal = ({
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 relative">
             {searchResults.length > 0 ? (
               <div className="space-y-3 sm:space-y-4">
                 {searchResults.map((result) => (
                   <div
                     key={result.id}
-                    className="border border-gray-200 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-md transition-shadow"
+                    className="border border-gray-200 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-md transition-shadow relative"
                   >
                     <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
                       {/* Image */}
@@ -169,8 +169,8 @@ const SearchResultsModal = ({
                             </div>
                           </div>
 
-                          {/* Price, rating, and order button */}
-                          <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 sm:gap-2 shrink-0">
+                          {/* Price and rating */}
+                          <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 sm:gap-1 shrink-0">
                             <div className="flex sm:flex-col items-center sm:items-end gap-2 sm:gap-1">
                               <div className="font-bold text-base sm:text-lg text-cyan-600">
                                 {formatPrice(getItemPrice(result))}
@@ -183,20 +183,21 @@ const SearchResultsModal = ({
                                 <span>5.0</span>
                               </div>
                             </div>
-                            <button
-                              onClick={() => handleOrderClick(result)}
-                              className="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap"
-                            >
-                              <ShoppingCart
-                                size={14}
-                                className="sm:w-4 sm:h-4"
-                              />
-                              Order
-                            </button>
                           </div>
                         </div>
                       </div>
                     </div>
+                    {/* Order button positioned at bottom right */}
+                    <button
+                      onClick={() => handleOrderClick(result)}
+                      className="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap absolute bottom-4 right-4"
+                    >
+                      <ShoppingCart
+                        size={14}
+                        className="sm:w-4 sm:h-4"
+                      />
+                      Order
+                    </button>
                   </div>
                 ))}
               </div>

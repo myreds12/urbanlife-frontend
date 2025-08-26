@@ -13,6 +13,7 @@ const contentItems = [
   { icon: "fa-car", name: "Rent a Car", path: "/admin/rent-car" },
   { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
   { icon: "fa-newspaper", name: "News", path: "/admin/news" },
+  { icon: "fa-info-circle", name: "About Us", path: "/admin/aboutus" }, 
 ];
 
 const othersItems = [
@@ -30,6 +31,8 @@ const othersItems = [
       icon: "fa-database",
       name: "Data master",
       subItems: [
+        { name: "Hero Section", path: "/admin/herosection"},
+        { name: "ServiceSchedule", path: "/admin/ServiceSchedule"},
         { name: "Countries", path: "/admin/country" },  // ← ganti ini
         { name: "Cities", path: "/admin/city" },
         { name: "Car", path: "/admin/car" },
@@ -38,6 +41,7 @@ const othersItems = [
         { name: "Blog", path: "/admin/blogs" },
         { name: "Category", path: "/admin/category" },
         { name: "Users", path: "/admin/users" },
+        { name: "Testimonial", path: "/admin/testimonial"}
       ],
     },
     {

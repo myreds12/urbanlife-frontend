@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import CategoriesCard from "../../../../components/LandingPage/HomePage/CategoriesCard";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
@@ -33,6 +34,15 @@ const PopularCategoriesSection = () => {
   const [popularItems, setPopularItems] = useState([]);
   const [fetchFailed, setFetchFailed] = useState(false);
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    slidesToScroll: 1,
+  });
+
+  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
+  const scrollNext = () => emblaApi && emblaApi.scrollNext();
+
   useEffect(() => {
     const fetchPopularItems = async () => {
       try {
@@ -51,7 +61,7 @@ const PopularCategoriesSection = () => {
               price = `${Number(item.room_and_price[0].harga).toLocaleString("id-ID")}/night`;
               break;
             case "TRAVEL_PACKAGE":
-              destinations = item?.itinerary[0]?.nama || 'Destinations' ;
+              destinations = item?.itinerary[0]?.nama || "Destinations";
               price = `${(item.harga_dewasa || item.harga_anak || 0).toLocaleString("id-ID")}`;
               break;
             case "KENDARAAN":
@@ -86,20 +96,41 @@ const PopularCategoriesSection = () => {
   const dataToRender = fetchFailed || popularItems.length === 0 ? defaultPopularCategories : popularItems;
 
   return (
-    <section className="">
-      <div className="flex flex-wrap justify-center gap-4">
-        {dataToRender.map((item) => (
-          <CategoriesCard
-            key={`${item.id} - ${item.title}` }
-            country={item.country}
-            title={item.title}
-            destinations={item.destinations}
-            price={item.price}
-            image={item.image}
-          />
-        ))}
+    <div className="popular-categories-slider-container relative w-full max-w-[1200px] mx-auto px-4 md:px-15">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {dataToRender.map((item) => (
+            <div key={`${item.id}-${item.title}`} className="embla__slide flex-none px-2">
+              <CategoriesCard
+                country={item.country}
+                title={item.title}
+                destinations={item.destinations}
+                price={item.price}
+                image={item.image}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </section>
+
+      {/* overlay */}
+      <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
+      <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
+
+      {/* tombol prev/next */}
+      <button
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
+        onClick={scrollPrev}
+      >
+        ‹
+      </button>
+      <button
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
+        onClick={scrollNext}
+      >
+        ›
+      </button>
+    </div>
   );
 };
 

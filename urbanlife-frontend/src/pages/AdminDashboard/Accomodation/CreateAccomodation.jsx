@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
-import RoomAndPriceSection from "../../../components/AdminDashboard/Accommodation/RoomAndPriceSection";
 import FacilitySection from "../../../components/AdminDashboard/Accommodation/FacilitySection";
+import RoomAndPriceSection from "../../../components/AdminDashboard/Accommodation/RoomAndPriceSection";
+import AmenitiesSection from "../../../components/AdminDashboard/Accommodation/AmenitiesSection";
 import "../../../styles/AdminDashboard/DayTour/DayTour.css";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -37,7 +38,8 @@ const CreateAccomodationPage = () => {
   const [roomPrices, setRoomPrices] = useState([
     { nama: "", harga: 0, images: [], temp_id: `room_${Date.now()}` },
   ]);
-  const [facilities, setFacilities] = useState([]);
+  const [amenities, setAmenities] = useState([]);
+  const [facilities, setFacilities] = useState([{ nama: "" }]);
 
   const [formData, setFormData] = useState({
     nama: "",
@@ -69,11 +71,11 @@ const CreateAccomodationPage = () => {
             tipe,
             akomodasi_content,
             akomodasi_room_and_price,
-            akomodasi_facility_group,
+            akomodasi_amenity_group,
+            akomodasi_facilities,
             akomodasi_file,
           } = akomodasi;
 
-          // Set data form utama
           setFormData({
             nama: nama || "",
             lokasi_id: lokasi_id || 0,
@@ -81,7 +83,6 @@ const CreateAccomodationPage = () => {
             tipe: tipe || "hotel",
           });
 
-          // Set konten multi-bahasa
           setContent(
             akomodasi_content?.length > 0
               ? akomodasi_content.map((item) => ({
@@ -109,7 +110,6 @@ const CreateAccomodationPage = () => {
                 ]
           );
 
-          // Set Room and Price
           setRoomPrices(
             akomodasi_room_and_price?.map((room) => ({
               id: room.id,
@@ -118,19 +118,25 @@ const CreateAccomodationPage = () => {
             })) || []
           );
 
-          setFacilities(
-            akomodasi_facility_group?.map((group) => ({
+          setAmenities(
+            akomodasi_amenity_group?.map((group) => ({
               id: group.id,
               nama: group.nama,
-              fasilitas:
-                group.fasilitas?.map((f) => ({
-                  id: f.id,
-                  nama: f.nama,
+              amenities:
+                group.amenities?.map((a) => ({
+                  id: a.id,
+                  nama: a.nama,
                 })) || [],
             })) || []
           );
 
-          // Set foto lama
+          setFacilities(
+            akomodasi_facilities?.map((f) => ({
+              id: f.id,
+              nama: f.nama,
+            })) || []
+          );
+
           setExistingPhotos(
             akomodasi_file?.map((file) => ({
               id: file.id,
@@ -214,7 +220,6 @@ const CreateAccomodationPage = () => {
       if (key !== "akomodasi_content") payload.append(key, value);
     });
 
-    // akomodasi_content
     content.forEach((item, i) => {
       if (item.id) payload.append(`akomodasi_content[${i}][id]`, item.id);
       payload.append(`akomodasi_content[${i}][bahasa]`, item.bahasa);
@@ -229,12 +234,11 @@ const CreateAccomodationPage = () => {
       );
     });
 
-    // roomPrices
     roomPrices.forEach((item, i) => {
       if (item.id) payload.append(`akomodasi_room[${i}][id]`, item.id);
       payload.append(`akomodasi_room[${i}][nama]`, item.nama);
       payload.append(`akomodasi_room[${i}][harga]`, item.harga);
-      payload.append(`akomodasi_room[${i}][temp_id]`, item.temp_id); // ✅ Tambah ini
+      payload.append(`akomodasi_room[${i}][temp_id]`, item.temp_id);
 
       if (item.images && item.images.length > 0) {
         item.images.forEach((img) => {
@@ -244,27 +248,28 @@ const CreateAccomodationPage = () => {
     });
     photos.forEach((file) => payload.append("files", file));
 
-    // facilities
-    facilities.forEach((facility, i) => {
-      if (facility.id)
-        payload.append(`akomodasi_facility[${i}][id]`, facility.id);
-      payload.append(`akomodasi_facility[${i}][nama]`, facility.nama);
+    amenities.forEach((amenity, i) => {
+      if (amenity.id) payload.append(`akomodasi_amenity[${i}][id]`, amenity.id);
+      payload.append(`akomodasi_amenity[${i}][nama]`, amenity.nama);
 
-      facility.fasilitas.forEach((f, j) => {
-        if (f.id) {
-          payload.append(`akomodasi_facility[${i}][fasilitas][${j}][id]`, f.id);
+      amenity.amenities.forEach((a, j) => {
+        if (a.id) {
+          payload.append(`akomodasi_amenity[${i}][amenities][${j}][id]`, a.id);
         }
         payload.append(
-          `akomodasi_facility[${i}][fasilitas][${j}][nama]`,
-          f.nama
+          `akomodasi_amenity[${i}][amenities][${j}][nama]`,
+          a.nama
         );
       });
     });
 
-    //tambahkan console log
+    facilities.forEach((f, i) => {
+      if (f.id) payload.append(`akomodasi_facility[${i}][id]`, f.id);
+      payload.append(`akomodasi_facility[${i}][nama]`, f.nama);
+    });
+
     console.log("=== Payload yang akan dikirim ke API ===");
     for (let pair of payload.entries()) {
-      // Jika berupa File, tampilkan nama file
       if (pair[1] instanceof File) {
         console.log(`${pair[0]}:`, pair[1].name);
       } else {
@@ -291,7 +296,7 @@ const CreateAccomodationPage = () => {
     }
   };
 
-  const sections = ["description", "image", "room and price", "facility"];
+  const sections = ["description", "image", "facility", "room and price", "amenity"]; // ✅ ganti
 
   return (
     <form onSubmit={handleSubmit}>
@@ -339,6 +344,13 @@ const CreateAccomodationPage = () => {
               removeExistingPhoto={removeExistingPhoto}
             />
 
+            <FacilitySection
+              id="facility"
+              isActive={activeSection === "facility"}
+              facilities={facilities}
+              setFacilities={setFacilities}
+            />
+
             <RoomAndPriceSection
               id="room and price"
               isActive={activeSection === "room and price"}
@@ -349,11 +361,11 @@ const CreateAccomodationPage = () => {
               handlePhotoUpload={handlePhotoUpload}
             />
 
-            <FacilitySection
-              id="facility"
-              isActive={activeSection === "facility"}
-              facilities={facilities}
-              setFacilities={setFacilities}
+            <AmenitiesSection
+              id="amenity"
+              isActive={activeSection === "amenity"}
+              amenities={amenities}
+              setAmenities={setAmenities}
               roomPrices={roomPrices}
             />
           </div>

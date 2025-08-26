@@ -1,37 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import { useTranslation } from 'react-i18next';
 
 const TestimonialSection = () => {
   const { t } = useTranslation();
-  const testimonials = [
-    {
-      id: 1,
-      name: "Angga",
-      role: "Doctor",
-      location: "Jakarta",
-      image: "/images/LandingPage/Testimonials/People.png", // blm disesuaiin, masi brantakan difoldernyh
-      review: "Really satisfied with the service, the driver was so supportive and helpful and the car was also nice, very good.",
-      tour: "Eastern Bali Tour"
-    },
-    {
-      id: 2,
-      name: "Lily",
-      role: "Doctor",
-      location: "Jakarta",
-      image: "/images/LandingPage/Testimonials/People.png", // blm disesuaiin, masi brantakan difoldernyh
-      review: "Really satisfied with the service, the driver was so supportive and helpful and the car was also nice, very good.",
-      tour: "Eastern Bali Tour"
-    },
-    {
-      id: 3,
-      name: "Melati",
-      role: "Dentist",
-      location: "Jakarta",
-      image: "/images/LandingPage/Testimonials/People.png", // blm disesuaiin, masi brantakan difoldernyh
-      review: "urbanlife made my life easier, the hotel was wonderful, the car was clean and the driver was so nice and helpful. I will definitely recommend urbanlife to my friends and family.",
-      tour: "Western Nusa Penida Tour"
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchTestimonials = async () => {
+    try {
+      const res = await apiClient.get("/testimonial", {
+        params: { page: 1, take: 6 }
+      });
+      setTestimonials(res.data.data || []);
+    } catch (err) {
+      console.error("❌ Failed to fetch testimonials:", err);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-wrap justify-center gap-4">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="discover-card">
+            <div className="image-container">
+              <div className="animate-pulse bg-gray-300 h-48 w-full"></div>
+              <div className="description">
+                <div className="animate-pulse bg-gray-300 h-6 w-24 mb-2"></div>
+                <div className="animate-pulse bg-gray-300 h-4 w-16 mb-2"></div>
+                <div className="animate-pulse bg-gray-300 h-4 w-32"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center">
+        <p className="text-red-500">{error}</p>
+        <button
+          onClick={fetchTestimonials}
+          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          {t("discover.try")}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-6 pb-8 bg-gray-50">
@@ -52,9 +77,9 @@ const TestimonialSection = () => {
             <div key={testimonial.id} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow duration-300">
               {/* Profile Section */}
               <div className="flex flex-col items-center mb-6">
-              <div className="w-24 h-24 rounded-full overflow-hidden mb-4 shadow-md">
+                <div className="w-24 h-24 rounded-full overflow-hidden mb-4 shadow-md">
                   <img
-                    src={testimonial.image}
+                    src={testimonial.image_url || "/images/error/No_Images_Available.jpg"}
                     alt={testimonial.name}
                     className="w-full h-full object-cover"
                   />
@@ -63,21 +88,14 @@ const TestimonialSection = () => {
                   {testimonial.name}
                 </h3>
                 <p className="text-gray-400 text-sm italic">
-                  ( {testimonial.role} / {testimonial.location} )
+                  ( {testimonial.occupation} )
                 </p>
               </div>
 
               {/* Review */}
               <div className="text-center mb-6">
                 <p className="text-gray-600 text-base italic leading-loose text-center">
-                  "{t(`testimonial.review${testimonial.id}`)}"
-                </p>
-              </div>
-
-              {/* Tour Info */}
-              <div className="text-center">
-                <p className="text-gray-600 font-medium">
-                  {t(`testimonial.tour${testimonial.id}`)}
+                  "{testimonial.description}"
                 </p>
               </div>
             </div>

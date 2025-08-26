@@ -22,6 +22,9 @@ const Dashboard = lazy(() =>
   import("./pages/AdminDashboard/Dashboard/Dashboard")
 );
 const Order = lazy(() => import("./pages/AdminDashboard/Order/Order"));
+const OrderEdit = lazy(() => import("./pages/AdminDashboard/Order/OrderEdit"));
+const OrderView = lazy(() => import("./pages/AdminDashboard/Order/OrderView"));
+
 const Calendar = lazy(() => import("./pages/AdminDashboard/Calendar/Calendar"));
 const DayTour = lazy(() => import("./pages/AdminDashboard/DayTour/DayTour"));
 const CreateDayTourPage = lazy(() =>
@@ -36,6 +39,10 @@ const Accomodation = lazy(() =>
 );
 const CreateAccomodationPage = lazy(() =>
   import("./pages/AdminDashboard/Accomodation/CreateAccomodation")
+);
+const AboutUs = lazy(() => import("./pages/AdminDashboard/AboutUs/AboutUs"));
+const CreateAboutUsPage = lazy(() =>
+  import("./pages/AdminDashboard/AboutUs/CreateAboutUsPage")
 );
 const Customer = lazy(() => import("./pages/AdminDashboard/Customer/Customer"));
 const WhatsappConnect = lazy(() =>
@@ -53,10 +60,15 @@ const Guide = lazy(() => import("./pages/AdminDashboard/DataMaster/Guide/Guide")
 const BlogAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/BlogAdmin"));
 const CreateBlog = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/CreateBlog"));
 const CategoryAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Category/CategoryAdmin"));
-import User from "./pages/AdminDashboard/DataMaster/User/User";
+const User = lazy(() => import("./pages/AdminDashboard/DataMaster/User/User"));
+const HeroSection = lazy(() => import("./pages/AdminDashboard/DataMaster/HeroSection/HeroSection"));
+const ServiceSchedule = lazy(() => import("./pages/AdminDashboard/DataMaster/ServiceSchedule/ServiceSchedule"));
+const Testimonial = lazy(() => import("./pages/AdminDashboard/DataMaster/Testimonial/Testimonial"));
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
 const News = lazy(() => import("./pages/AdminDashboard/News/News"));
 const CreateNews = lazy(() => import("./pages/AdminDashboard/News/CreateNews"));
+
+
 
 // Public pages
 const HomePage = lazy(() => import("./pages/LandingPage/HomePage/HomePage"));
@@ -83,7 +95,7 @@ const NotFound = lazy(() => import("./pages/Others/NotFound"));
 
 // Footer Pages
 const CompanyFooter = lazy(() => import("./components/LandingPage/Footer/Content/Company/CompanyFooter"));
-const AboutUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AboutUs.jsx"));
+const AboutUsPage = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AboutUs"));
 const PrivacyPolicy = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/TermsAndCondition"));
 const ContactUs = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/ContactUs"));
@@ -119,7 +131,7 @@ function App() {
 
             {/* Footer */}
             <Route path="/Company" element={<CompanyFooter />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
+            <Route path="/AboutUs" element={<AboutUsPage />} />
             <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
             <Route path="/ContactUs" element={<ContactUs />} />
@@ -137,13 +149,15 @@ function App() {
               path="/admin"
               element={
                 <ProtectedRoute>
-                  <AppLayout />
-                // </ProtectedRoute>
+                    <AppLayout />
+                 </ProtectedRoute>
               }
             >
               <Route index element={<Navigate to="dashboard" replace />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="order" element={<Order />} />
+              <Route path="order/detail/:id" element={<OrderView />} />
+              <Route path="order/edit/:id" element={<OrderEdit />} />
               <Route path="calendar" element={<Calendar />} />
               <Route path="day-tour" element={<DayTour />} />
               <Route path="day-tour/create" element={<CreateDayTourPage />} />
@@ -161,11 +175,22 @@ function App() {
                 path="accommodation/edit/:id"
                 element={<CreateAccomodationPage />}
               />
+              <Route path="AboutUs" element={<AboutUs />} />
+              <Route
+                path="aboutus/create"
+                element={<CreateAboutUsPage />}
+              />
+              <Route
+                path="aboutus/edit/:id"
+                element={<CreateAboutUsPage />}
+              />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />
               <Route path="whatsapp-connect" element={<WhatsappConnect />} />
               <Route path="template" element={<Template />} />
               <Route path="inbox" element={<Inbox />} />
+              <Route path="herosection" element={<HeroSection />} />  
+              <Route path="ServiceSchedule" element={<ServiceSchedule />} />           
               <Route path="country" element={<Country />} />
               <Route path="city" element={<City />} />
               <Route path="car" element={<Car />} />
@@ -176,6 +201,7 @@ function App() {
               <Route path="blogs/edit/:id" element={<BlogProvider><CreateBlog /></BlogProvider>} />
               <Route path="category" element={<CategoryProvider><CategoryAdmin /></CategoryProvider>} />
               <Route path="users" element={<User/>} />
+              <Route path="testimonial" element={<Testimonial/>}></Route>
               <Route path="profile" element={<UserProfile />} />
             </Route>
           </Routes>

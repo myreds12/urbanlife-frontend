@@ -76,9 +76,26 @@ const ViewIcon = () => (
   </svg>
 );
 
+const PopularIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z" />
+    <path d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z" />
+  </svg>
+);
+
 const Table = ({
-  data,
-  columns,
+  data = [],
+  columns = [],
   selectedRows = [],
   onRowSelect,
   onSort,
@@ -89,6 +106,7 @@ const Table = ({
   onEdit = null, // Function untuk handle edit
   onDelete = null, // Function untuk handle delete
   onView = null, // Function untuk handle view
+  onPopular = null, // Function untuk handle popular
 }) => {
   const handleSort = (column) => {
     const mappedKey = defaultMapping[column];
@@ -132,7 +150,7 @@ const Table = ({
     }
 
     // Jika ada onView, onEdit, dan onDelete, tampilkan icon buttons
-    if (onView || onEdit || onDelete) {
+    if (onView || onEdit || onDelete || onPopular) {
       return (
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {onView && (
@@ -162,6 +180,15 @@ const Table = ({
               <DeleteIcon />
             </button>
           )}
+          {onPopular && (
+            <button
+              onClick={() => onPopular(row)}
+              className="action-button popular-button"
+              title="Mark as Popular"
+            >
+              <PopularIcon />
+            </button>
+          )}
         </div>
       );
     }
@@ -185,77 +212,92 @@ const Table = ({
     >
       <style>
         {`
-          .action-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.15s ease;
-            width: 28px;
-            height: 28px;
-          }
-          
-          .view-button {
-            color: #10b981;
-          }
-          
-          .view-button:hover {
-            background-color: #d1fae5 !important;
-            transform: scale(1.05);
-          }
-          
-          .edit-button {
-            color: #3b82f6;
-          }
-          
-          .edit-button:hover {
-            background-color: #dbeafe !important;
-            transform: scale(1.05);
-          }
-          
-          .delete-button {
-            color: #ef4444;
-          }
-          
-          .delete-button:hover {
-            background-color: #fee2e2 !important;
-            transform: scale(1.05);
-          }
-          
-          .action-button:active {
-            transform: scale(0.95);
-          }
+        .action-button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 6px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.15s ease;
+          width: 28px;
+          height: 28px;
+        }
+        
+        .view-button {
+          color: #10b981;
+        }
+        
+        .view-button:hover {
+          background-color: #d1fae5 !important;
+          transform: scale(1.05);
+        }
+        
+        .edit-button {
+          color: #3b82f6;
+        }
+        
+        .edit-button:hover {
+          background-color: #dbeafe !important;
+          transform: scale(1.05);
+        }
+        
+        .delete-button {
+          color: #ef4444;
+        }
+        
+        .delete-button:hover {
+          background-color: #fee2e2 !important;
+          transform: scale(1.05);
+        }
 
-          .table-scroll-container {
-            overflow-x: hidden;
-            transition: overflow 0.2s ease;
-          }
+        .popular-button {
+          color: #f59e0b;
+        }
 
-          .table-scroll-container:hover {
-            overflow-x: auto;
-          }
+        .popular-button:hover {
+          background-color: #fef3c7 !important;
+          transform: scale(1.05);
+        }
+        
+        .action-button:active {
+          transform: scale(0.95);
+        }
 
-          .table-scroll-container::-webkit-scrollbar {
-            height: 8px;
-          }
+        .table-scroll-container {
+          overflow-x: hidden;
+          transition: overflow 0.2s ease;
+        }
 
-          .table-scroll-container::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-          }
+        .table-scroll-container:hover {
+          overflow-x: auto;
+        }
 
-          .table-scroll-container:not(:hover)::-webkit-scrollbar {
-            display: none;
-          }
+        .table-scroll-container::-webkit-scrollbar {
+          height: 8px;
+        }
 
-        `}
+        .table-scroll-container::-webkit-scrollbar-thumb {
+          background-color: rgba(0, 0, 0, 0.3);
+          border-radius: 4px;
+        }
+
+        .table-scroll-container:not(:hover)::-webkit-scrollbar {
+          display: none;
+        }
+
+      `}
       </style>
       <div className="table-scroll-container">
-        <table style={{ width: "100%", borderCollapse: "collapse",minWidth: "300px" }}>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            minWidth: "300px",
+          }}
+        >
           <thead>
             <tr style={{ backgroundColor: "#f9fafb" }}>
               {onRowSelect && (

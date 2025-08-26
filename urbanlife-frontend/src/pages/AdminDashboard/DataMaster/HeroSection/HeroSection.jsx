@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import { useSearchParams } from "react-router-dom";
-import dummyHeroImages from "./dummyHero";
+// import dummyHeroImages from "./dummyHero";
 
 const HeroSection = () => {
   const [heroImages, setHeroImages] = useState([]);
@@ -18,25 +18,21 @@ const HeroSection = () => {
   const editingId = searchParams.get("edit");
   const isEditing = Boolean(editingId);
 
-  const fetchData = async (endpoint, setter, label) => {
+  const fetchData = async () => {
     try {
-      const { data } = await apiClient.get(endpoint);
-      setter(data.data || []);
+      setLoading(true);
+      const { data } = await apiClient.get("/hero-section");
+      setHeroImages(data.data || []);
     } catch (error) {
-      console.error(`❌ Failed to fetch ${label}`, error);
-      toast.error(`Failed to fetch ${label}`);
+      console.error("❌ Failed to fetch hero images", error);
+      toast.error("Failed to fetch hero images");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchAllData = async () => {
-      setLoading(true);
-      await fetchData("/hero-sections", setHeroImages, "hero images");
-      setLoading(false);
-      setHeroImages(dummyHeroImages);
-    };
-
-    fetchAllData();
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -75,22 +71,18 @@ const HeroSection = () => {
     setSaving(true);
     try {
       if (isEditing) {
-        await apiClient.patch(`/hero-sections/${editingId}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+        await apiClient.patch(`/hero-section/${editingId}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Hero image updated successfully");
       } else {
-        await apiClient.post("/hero-sections", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+        await apiClient.post("/hero-section", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Hero image added successfully");
       }
 
-      await fetchData("/hero-sections", setHeroImages, "hero images");
+      await fetchData();
       formRef.current?.resetForm();
       setSearchParams({});
     } catch (error) {
@@ -125,12 +117,15 @@ const HeroSection = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await apiClient.delete(`/hero-sections/${id}`);
-      await fetchData("/hero-sections", setHeroImages, "hero images");
+      await apiClient.delete(`/hero-section/${id}`);
+      
+      await fetchData();
       toast.success("Hero image deleted successfully");
     } catch (error) {
       console.error("❌ Failed to delete hero image", error);
-      toast.error(error.response?.data?.message || "Failed to delete hero image");
+      toast.error(
+        error.response?.data?.message || "Failed to delete hero image"
+      );
     }
   };
 
@@ -149,12 +144,14 @@ const HeroSection = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await apiClient.patch(`/hero-sections/${id}/set-active`);
-      await fetchData("/hero-sections", setHeroImages, "hero images");
+      await apiClient.patch(`/hero-section/${id}/set-active`);
+      await fetchData();
       toast.success("Hero image set as active successfully");
     } catch (error) {
       console.error("❌ Failed to set active hero image", error);
-      toast.error(error.response?.data?.message || "Failed to set active hero image");
+      toast.error(
+        error.response?.data?.message || "Failed to set active hero image"
+      );
     }
   };
 
@@ -171,7 +168,7 @@ const HeroSection = () => {
     );
   }
 
-  const activeHeroImage = heroImages.find(hero => hero.is_active);
+  const activeHeroImage = heroImages.find((hero) => hero.is_active);
 
   return (
     <div className="p-6">
@@ -185,18 +182,13 @@ const HeroSection = () => {
               </h2>
               <p className="text-cyan-600">
                 <span className="font-medium">{activeHeroImage.title}</span>
-                {/* {activeHeroImage.description && (
-                  <span className="text-sm text-cyan-500 ml-2">
-                    - {activeHeroImage.description}
-                  </span>
-                )} */}
               </p>
             </div>
             {activeHeroImage.image_url && (
               <div className="w-20 h-12 rounded-lg overflow-hidden border border-cyan-200">
-                <img 
-                  src={activeHeroImage.image_url} 
-                  alt="Active Hero" 
+                <img
+                  src={activeHeroImage.image_url}
+                  alt="Active Hero"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -232,7 +224,9 @@ const HeroSection = () => {
         {/* Table + Search */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Hero Images List</h3>
+            <h3 className="text-lg font-semibold text-gray-800">
+              Hero Images List
+            </h3>
             <div className="w-64">
               <Search
                 placeholder="Search hero images..."

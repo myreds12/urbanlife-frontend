@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import FilterSection from "../../../components/LandingPage/Services/FilterSection";
 import ServiceCard from "../../../components/LandingPage/Services/ServiceCard";
 import ServiceHeader from "../../../components/LandingPage/Services/ServiceHeader";
@@ -14,12 +15,12 @@ const Services = () => {
     priceRange: [0, 50000000],
   });
 
-
   console.log(filters, "filters");
   const [serviceData, setServiceData] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   // const getDummyServices = () => [
   //   {
@@ -93,7 +94,7 @@ const Services = () => {
       try {
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 500));
-        const services = await apiClient.get('/pemesanan/items');
+        const services = await apiClient.get("/pemesanan/items");
         setServiceData(services.data.data);
         setFilteredServices(services.data.data);
       } catch (err) {
@@ -204,12 +205,6 @@ const Services = () => {
                   ? "Loading services..."
                   : `Showing ${filteredServices.length} of ${serviceData.length} services`}
               </p>
-              <button
-                onClick={handleSearch}
-                className="bg-cyan-600 text-white py-2 px-4 rounded-md hover:bg-cyan-700"
-              >
-                Search
-              </button>
             </div>
 
             {/* Loading Skeleton */}
@@ -234,7 +229,10 @@ const Services = () => {
             {!loading && filteredServices.length > 0 && (
               <div className="grid grid-cols-1 xl:grid-cols-1 gap-6">
                 {filteredServices.map((service) => (
-                  <ServiceCard key={`${service.id} ${service.item_type}`} service={service} />
+                  <ServiceCard
+                    key={`${service.id} ${service.item_type}`}
+                    service={service}
+                  />
                 ))}
               </div>
             )}
@@ -244,7 +242,7 @@ const Services = () => {
               <div className="text-center py-16">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
                   <p className="text-gray-500 text-lg mb-4">
-                    No services found matching your filters.
+                    {t("servicepage.noservice")}
                   </p>
                   <button
                     onClick={() => {
@@ -258,7 +256,7 @@ const Services = () => {
                     }}
                     className="text-cyan-600 hover:text-cyan-700 font-medium px-4 py-2 rounded-md hover:bg-cyan-50 transition-colors"
                   >
-                    Clear filters to see all services
+                    {t("servicepage.clearfilter")}
                   </button>
                 </div>
               </div>

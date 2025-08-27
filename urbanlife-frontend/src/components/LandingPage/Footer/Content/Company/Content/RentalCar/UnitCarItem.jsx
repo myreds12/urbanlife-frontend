@@ -1,15 +1,18 @@
-import React from 'react';
-import './UnitCarItem.css';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import "./UnitCarItem.css";
 
-const UnitCarItem = ({ 
-  image, 
+const UnitCarItem = ({
+  image,
   unit,
-  people, 
-  title, 
-  startsPrice, 
+  people,
+  title,
+  startsPrice,
   description,
-  duration = []
+  duration = [],
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="card-item">
       <div className="card-image">
@@ -17,11 +20,11 @@ const UnitCarItem = ({
         <span className="people-badge">{people}</span>
 
         <div className="text-overlay">
-         <h3 className="car-unit">{unit}</h3>
-         <div className="price">
-              <h3 className="car-title">{title}</h3>
-              <p className="car-price">{startsPrice}</p>
-         </div>
+          <h3 className="car-unit">{unit}</h3>
+          <div className="price">
+            <h3 className="car-title">{title}</h3>
+            <p className="car-price">{startsPrice}</p>
+          </div>
         </div>
 
         {/* Hover Content */}
@@ -30,7 +33,7 @@ const UnitCarItem = ({
             <div className="hover-description">
               <p>{description}</p>
             </div>
-            
+
             {duration.length > 0 && (
               <div className="duration-list">
                 <h4>Duration & Pricing:</h4>
@@ -45,8 +48,8 @@ const UnitCarItem = ({
               </div>
             )}
           </div>
-          
-          <button className="more-detail-btn">More Detail</button>
+
+          <button className="more-detail-btn">{t("unitcar.moredetail")}</button>
         </div>
       </div>
     </div>

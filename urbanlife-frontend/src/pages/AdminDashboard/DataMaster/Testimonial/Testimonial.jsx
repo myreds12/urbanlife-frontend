@@ -22,7 +22,9 @@ const Testimonial = () => {
   const fetchTestimonials = async () => {
     setLoading(true);
     try {
-      const res = await apiClient.get("/testimonials");
+      const res = await apiClient.get("/testimonial", {
+        params: {page:1, take:10}
+      });
       setTestimonials(res.data.data || []);
     } catch (err) {
       console.error("❌ Failed to fetch testimonials", err);
@@ -49,10 +51,10 @@ const Testimonial = () => {
     setSaving(true);
     try {
       if (isEditing) {
-        await apiClient.patch(`/testimonials/${editingId}`, payload);
+        await apiClient.patch(`/testimonial/${editingId}`, payload);
         toast.success("Testimonial updated successfully");
       } else {
-        await apiClient.post("/testimonials", payload);
+        await apiClient.post("/testimonial", payload);
         toast.success("Testimonial added successfully");
       }
       await fetchTestimonials();
@@ -95,7 +97,7 @@ const Testimonial = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await apiClient.delete(`/testimonials/${id}`);
+      await apiClient.delete(`/testimonial/${id}`);
       toast.success("Testimonial was successfully deleted");
       fetchTestimonials();
     } catch (error) {

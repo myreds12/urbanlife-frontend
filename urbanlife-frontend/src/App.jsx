@@ -85,7 +85,7 @@ const PaymentSuccess = lazy(() =>
 const PaymentUnsuccess = lazy(() =>
   import("./pages/LandingPage/PaymentSection/PaymentUnsuccess")
 );
-const DaytourDetail = lazy(() =>
+const Detail = lazy(() =>
   import("./pages/LandingPage/DayTour/DaytourDetail")
 );
 const Login = lazy(() =>
@@ -121,7 +121,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/DaytourDetail/:id" element={<DaytourDetail />} />
+            <Route path="/Detail/:id" element={<Detail />} />
             <Route path="/OrderDetail" element={<OrderDetail />} />
             <Route path="/PaymentSection" element={<PaymentSection />} />
             <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
@@ -136,7 +136,7 @@ function App() {
             <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
             <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="/DayTour" element={<DayTourPage />} />
-            <Route path="/DayTour/:slug" element={<DaytourDetail />} />
+            <Route path="/DayTour/:slug" element={<Detail />} />
             <Route path="/categories" element={<CategoriesFooter />} />
             <Route path="/blog" element={<BlogPostMain />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
@@ -150,7 +150,7 @@ function App() {
               element={
                 <ProtectedRoute>
                     <AppLayout />
-                </ProtectedRoute>
+                 </ProtectedRoute>
               }
             >
               <Route index element={<Navigate to="dashboard" replace />} />

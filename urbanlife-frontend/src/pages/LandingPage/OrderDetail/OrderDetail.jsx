@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from '../../../components/LandingPage/HomePage/Navbar/Navbar';
+import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
 import ContactForm from "../../../components/LandingPage/OrderDetail/ContactForm";
 import CustomerRequest from "../../../components/LandingPage/OrderDetail/CustomerRequest";
 import ServiceDescription from "../../../components/LandingPage/OrderDetail/ServiceDescription";
@@ -11,8 +11,16 @@ import toast from "react-hot-toast";
 import ReactModal from "react-modal";
 import { validateForm } from "../../../components/AdminDashboard/Utils/ValidationFrom/ValidationForm";
 import BookingListCard from "../../../components/LandingPage/OrderDetail/BookingListCard";
+import { useTranslation } from 'react-i18next';
 
 const OrderDetail = () => {
+  const { t, i18n } = useTranslation();
+  console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  useEffect(() => {
+    console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
+  }, [i18n.language]);
+
   const location = useLocation();
   const bookingFromState = location.state;
   const bookingInfo = bookingFromState;
@@ -93,7 +101,6 @@ const OrderDetail = () => {
 
     return [item];
   });
-
 
   const [formData, setFormData] = useState({
     durasi_hari: bookingFromState.durasi,
@@ -205,7 +212,7 @@ const OrderDetail = () => {
     { key: "nomor_hp", label: "Nomor HP", required: true, type: "phone" },
   ];
 
-  const handleRemoveItem = (id) => {
+  const handleRemoveItem = (id, type) => {
     const foundItem = orderItems.find((item) => item.item_id === id);
 
     if (!foundItem) {
@@ -214,60 +221,60 @@ const OrderDetail = () => {
     }
 
     setPrice((prevPrice) => prevPrice - foundItem.harga);
-    setOrderItems(orderItems.filter((item) => item.item_id !== id));
+    setOrderItems((prev) =>
+      prev.filter((item) => !(item.item_id === id && item.item_type === type))
+    );
   };
 
-  const handleUpdateItem = (itemId, updatedValues) => {
-    setOrderItems((prevItems) => {
-      const updatedItems = prevItems.map((item) => {
-        if (item.item_id !== itemId) {
-          return item;
-        }
+  const handleUpdateItem = (itemId, itemType, updatedValues) => {
+  setOrderItems((prevItems) => {
+    const updatedItems = prevItems.map((item) => {
+      if (item.item_id !== itemId || item.item_type !== itemType) {
+        return item;
+      }
 
-        const updatedItem = {
-          ...item,
-          ...updatedValues,
-          selected_durasi: updatedValues.selected_durasi
-            ? { ...updatedValues.selected_durasi }
-            : item.selected_durasi,
-          selected_room: updatedValues.selected_room
-            ? { ...updatedValues.selected_room }
-            : item.selected_room,
-        };
+      const updatedItem = {
+        ...item,
+        ...updatedValues,
+        selected_durasi: updatedValues.selected_durasi
+          ? { ...updatedValues.selected_durasi }
+          : item.selected_durasi,
+        selected_room: updatedValues.selected_room
+          ? { ...updatedValues.selected_room }
+          : item.selected_room,
+      };
 
-        let total = 0;
+      let total = 0;
+      switch (updatedItem.item_type) {
+        case "travel_package":
+          total =
+            (updatedItem.jumlah_dewasa || 0) * (updatedItem.harga_dewasa || 0) +
+            (updatedItem.jumlah_anak || 0) * (updatedItem.harga_anak || 0);
+          break;
+        case "akomodasi":
+          total = (updatedItem.durasi || 0) * (updatedItem.harga || 0);
+          break;
+        case "kendaraan":
+          if (updatedItem.selected_durasi) {
+            total = updatedItem.harga || 0;
+          }
+          break;
+      }
 
-        if (updatedItem.item_type === "travel_package") {
-          const hargaDewasa = updatedItem.harga_dewasa || 0;
-          const hargaAnak = updatedItem.harga_anak || 0;
-          const jumlahDewasa = updatedItem.jumlah_dewasa || 0;
-          const jumlahAnak = updatedItem.jumlah_anak || 0;
-          total = jumlahDewasa * hargaDewasa + jumlahAnak * hargaAnak;
-        } else if (updatedItem.item_type === "akomodasi") {
-          const durasi = updatedItem.durasi;
-
-          total = durasi * updatedItem.harga;
-        } else if (
-          updatedItem.item_type === "kendaraan" &&
-          updatedItem.selected_durasi
-        ) {
-          total = updatedItem.harga || 0;
-        }
-
-        updatedItem.total_harga = total;
-
-        return updatedItem;
-      });
-
-      const newTotal = updatedItems.reduce(
-        (sum, item) => sum + Number(item.total_harga || 0),
-        0
-      );
-      setPrice(newTotal);
-
-      return updatedItems;
+      updatedItem.total_harga = total;
+      return updatedItem;
     });
-  };
+
+    const newTotal = updatedItems.reduce(
+      (sum, item) => sum + Number(item.total_harga || 0),
+      0
+    );
+    setPrice(newTotal);
+
+    return updatedItems;
+  });
+};
+
 
   const handleAddService = async ({ type, items }) => {
     setSelectedType(type);
@@ -389,13 +396,12 @@ const OrderDetail = () => {
             {/* Order Detail Info */}
             <div className="bg-white px-4 py-3 rounded-md shadow-sm text-sm">
               <h1 className="text-lg font-bold text-gray-900 mb-1">
-                Order Detail
+                {t('orderdetail.title')}
               </h1>
               <p className="text-gray-600 leading-snug">
-                These contact details will be used to send the e-invoice and for rescheduling purposes.
+                {t('orderdetail.subtitle')}
               </p>
-          </div>
-
+            </div>
 
             {/* Contact Form */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -432,11 +438,10 @@ const OrderDetail = () => {
                   className="mt-1 w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500"
                 />
                 <span className="text-sm text-gray-700">
-                I agree to Urbanlife's {" "}
+                  {t('orderdetail.agree_to_terms')} {" "}
                   <a href="#" className="text-cyan-600 hover:underline">
-                    terms and conditions
+                    {t('orderdetail.terms_and_conditions')}
                   </a>
-                 
                 </span>
               </label>
             </div>
@@ -483,13 +488,13 @@ const OrderDetail = () => {
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
-        contentLabel="Select Service Modal"
+        contentLabel={t('orderdetail.modal_label')}
         className="relative w-full max-w-lg md:rounded-2xl bg-white p-6 mx-auto my-8 shadow-xl focus:outline-none max-h-[90vh] overflow-hidden"
         overlayClassName="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4"
       >
         <div className="flex items-center justify-between mb-4 border-b pb-2">
           <h2 className="text-xl font-semibold text-gray-800">
-            Pilih {selectedType}
+            {t('orderdetail.modal_select')} {selectedType}
           </h2>
           <button
             onClick={() => setIsModalOpen(false)}
@@ -502,7 +507,7 @@ const OrderDetail = () => {
 
         {availableServices.length === 0 ? (
           <div className="text-center text-gray-500 py-10">
-            <p>Tidak ada layanan yang tersedia.</p>
+            <p>{t('orderdetail.modal_no_services')}</p>
           </div>
         ) : (
           <ul className="space-y-3 overflow-y-auto max-h-[50vh] pr-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
@@ -530,7 +535,7 @@ const OrderDetail = () => {
             onClick={() => setIsModalOpen(false)}
             className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-sm font-medium"
           >
-            Batal
+            {t('orderdetail.modal_cancel')}
           </button>
         </div>
       </ReactModal>

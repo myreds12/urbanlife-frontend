@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Filter } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 import "../../../styles/LandingPage/Services/FilterSection.css";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 
 const FilterSection = ({ filters, setFilters, onSearch }) => {
+  const { t } = useTranslation();
   const [expandedSections, setExpandedSections] = useState({
     countries: true,
     cities: true,
@@ -131,13 +133,13 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <Filter size={20} className="text-gray-600" />
-            <h2 className="font-semibold text-gray-800">Applied filter</h2>
+            <h2 className="font-semibold text-gray-800">{t("servicepage.appliedfilter")}</h2>
           </div>
           <button
             onClick={clearFilters}
             className="text-sm text-cyan-600 hover:text-cyan-700 font-medium"
           >
-            Clear all
+            {t("servicepage.clearall")}
           </button>
         </div>
 
@@ -166,7 +168,7 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
             onClick={() => toggleSection("price")}
             className="flex items-center justify-between w-full text-left font-medium text-gray-800 mb-3"
           >
-            Price
+            {t("servicepage.price")}
             {expandedSections.price ? (
               <ChevronUp size={16} />
             ) : (
@@ -222,7 +224,7 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
             if (typeof onSearch === "function") onSearch();
           }}
         >
-          Search
+          {t("servicepage.search")}
         </button>
       </div>
     </div>

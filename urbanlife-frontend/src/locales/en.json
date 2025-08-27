@@ -140,18 +140,82 @@
   },
   "daytour": {
     "daytourpackage": "Day Tour Packages",
-    "nodaytour": "No Day Tour Package Found for the Selected Category`"
+    "nodaytour": "No Day Tour Package Found for the Selected Category",
+    "readmore": "Read More"
   },
   "unitcar": {
     "rentcar": "Car Rental",
-    "norentcar": "No Cars Found for the Selected Category"
+    "norentcar": "No Cars Found for the Selected Category",
+    "moredetail": "More Detail"
   },  
   "accomodation": {
     "acco": "Accommodation",
-    "noaccomodation": "No Accommodations Found for the Selected Category"
+    "noaccomodation": "No Accommodations Found for the Selected Category",
+    "seemore": "See More"
   },
 
+"detail": {
+  "seeallimage": "See all {{count}} images",
+  "startsfrom": "Starts From",
+  "booknow": "Book Now",
+  "description": "Description",
+  "itinerary": "Itinerary",
+  "priceadultandchild": "Price (Adult & Child)",
+  "roomnprice": "Room Information",
+  "facility": "Facility",
+  "duration": "Duration",
+  "policy": "Policy & Procedure",
 
+  "backtohome": "Back to Home",
+  "noitinerary": "No Itinerary Available",
+  "noprice": "No price available",
+  "category": "Category",
+  "price": "Price",
+  "hotelfacility": "Hotel facilities",
+  "noaccomodation": "Accommodation not found",
+  "noroom": "Kamar dan harga tidak tersedia",
+  "night": "/ night",
+  "room": "{{room}} Room",
+  "amenities": "Amenities :"
+},
+
+"payment": {
+  "paywithin": "Pay within",
+  "paymentmethod": "Payment Method",
+  "proceeding": "By proceeding with payment, you accept UrbanLife.id's <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>",
+
+  "beyond": "Beyond the explorer of the world",
+  "success": "Yay! Success",
+  "unsuccess": "Your payment unsuccessful!",
+  "instruction": "We've sent you to WhatsApp Number and email for trip instruction",
+  "read": "please read it as well",
+  "home": "Home Page"
+},
+
+"notfound": {
+  "page": "We can’t seem to find the page you are looking for!",
+  "back": "Back to Home Page"
+},
+
+"servicepage":{
+  "noservice": "No services found matching your filters.",
+  "clearfilter": "Clear filters to see all services",
+  "service" : "Services",
+  "discover": "Discover amazing destinations and experiences",
+  "appliedfilter": "Applied filter",
+  "clearall": "Clear all",
+  "price": "Price",
+  "search": "Search",
+  "passengers": "{{count}} Passengers",
+  "location": "Location",
+  "destination": "Destination",
+  "popular": "Popular",
+  "startsfrom": "Starts From",
+  "detail": "Detail"
+
+
+
+},
 
 
 
@@ -392,5 +456,74 @@
     "cta_book_button": "Book Your Trip",
     "cta_contact_button": "Contact Us",
     "cta_footer": "Have a safe trip and enjoy your holidays!"
+  },
+  "orderdetail": {
+        "title": "Order Detail",
+        "subtitle": "These contact details will be used to send the e-invoice and for rescheduling purposes.",
+        "agree_to_terms": "I agree to Urbanlife's",
+        "terms_and_conditions": "terms and conditions",
+        "modal_label": "Select Service Modal",
+        "modal_select": "Select",
+        "modal_no_services": "No services available.",
+        "modal_cancel": "Cancel"
+  },  
+  "contactform": {
+        "mr": "Mr",
+        "mrs": "Mrs",
+        "full_name_placeholder": "Full Name (as stated in ID/Passport/Driver's License)",
+        "phone_placeholder": "Phone number",
+        "email_placeholder": "Email address"
+  },
+   "detailorder": {
+        "title": "Detail order",
+        "item_default": "Item",
+        "subtotal": "Sub total",
+        "final_amount": "Final Amount",
+        "select_payment": "Select Payment Option",
+        "agree_to_terms": "Please agree to terms and conditions to continue"
+  },
+  "customerrequest": {
+        "title": "Customer request",
+        "add_request": "Add special request",
+        "add_request_description": "Type your special needs and enjoy your time.",
+        "textarea_placeholder": "Please describe your special requests here..."
+  },
+  "bookinglist": {
+        "title": "Your Booking",
+        "no_items": "No items added yet.",
+        "add_services": "Add Other Services",
+        "loading": "Loading...",
+        "all_services_added": "All available services have been added.",
+        "no_services_available": "No more services available to add.",
+        "available_services": "Available Services",
+        "service_vehicle": "Vehicle",
+        "service_travel_package": "Travel Package",
+        "service_accommodation": "Accommodation",
+        "error_empty_result": "Empty result from API",
+        "error_service_not_found": "Service not found for type '{type}'"
+  },
+  "bookingitem": {
+        "booking_date": "Booking date",
+        "start_date": "Start Date",
+        "end_date": "End Date",
+        "person_number": "Person number",
+        "room_and_duration": "Room & Duration",
+        "duration": "Duration",
+        "adults": "Adults",
+        "children": "Children",
+        "room": "Room",
+        "duration_nights": "Duration (Nights)",
+        "price": "Price",
+        "location": "Location :",
+        "change_package": "Change package",
+        "change_unit": "Change unit",
+        "select_adults": "Select adults",
+        "select_children": "Select children",
+        "choose_duration": "Choose duration",
+        "choose_room": "Choose Room",
+        "adult_count": "Adult",
+        "child_count": "Child"
+
   }
+
 }

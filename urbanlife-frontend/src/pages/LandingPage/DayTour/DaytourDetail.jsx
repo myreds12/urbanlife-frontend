@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import TourImage from "../../../components/LandingPage/DayTour/TourImage";
 import TourHeader from "../../../components/LandingPage/DayTour/TourHeader";
 import TourDescription from "../../../components/LandingPage/DayTour/TourDescription";
+import TourPolicies from "../../../components/LandingPage/DayTour/TourPolicies";
 import TourItinerary from "../../../components/LandingPage/DayTour/TourItinerary";
 import TourPrice from "../../../components/LandingPage/DayTour/TourPrice";
 import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
@@ -11,12 +13,13 @@ import TourRoomAndPrice from "../../../components/LandingPage/DayTour/TourRoomAn
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import TourDurasi from "../../../components/LandingPage/DayTour/TourDurasi";
 
-const DaytourDetail = () => {
+const Detail = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   console.log(state, "state detail");
 
@@ -32,11 +35,12 @@ const DaytourDetail = () => {
 
       try {
         const endpointType =
-          state.item_type === "travel_package" ? "travel-package" : state.item_type.toLowerCase();
+          state.item_type === "travel_package"
+            ? "travel-package"
+            : state.item_type.toLowerCase();
 
         const response = await apiClient.get(`/${endpointType}/${state.id}`);
         const data = response.data?.data;
-
 
         let images = [];
         let description = "No description available.";
@@ -144,19 +148,20 @@ const DaytourDetail = () => {
   }, [state, navigate]);
 
   const tabs = [
-    { id: "description", label: "Description" },
+    { id: "description", label:t("detail.description") },
     ...(tourData?.type === "travel_package" && tourData.itinerary.length > 0
-      ? [{ id: "itinerary", label: "Itinerary" }]
+      ? [{ id: "itinerary", label: t("detail.itinerary") }]
       : []),
     ...(tourData?.type === "travel_package" && tourData.priceTable.length > 0
-      ? [{ id: "price", label: "Price (Adult & Child)" }]
+      ? [{ id: "price", label: t("detail.priceadultandchild") }]
       : []),
     ...(tourData?.type === "akomodasi" && tourData.room_and_price.length > 0
-      ? [{ id: "room_and_price", label: "Room & Price" }]
+      ? [{ id: "room_and_price", label: t("detail.roomnprice") }]
       : []),
     ...(tourData?.type === "kendaraan" && tourData.durasi.length > 0
-      ? [{ id: "durasi", label: "Durasi" }]
+      ? [{ id: "durasi", label:t("detail.duration") }]
       : []),
+    { id: "policies", label: t("detail.policy") },
   ];
 
   if (loading || !tourData) {
@@ -214,10 +219,7 @@ const DaytourDetail = () => {
 
         <div className="min-h-96">
           {activeTab === "description" && (
-            <TourDescription
-              description={tourData.description}
-              policies={tourData.policies}
-            />
+            <TourDescription description={tourData.description} />
           )}
           {activeTab === "itinerary" && (
             <TourItinerary itinerary={tourData.itinerary} />
@@ -229,10 +231,13 @@ const DaytourDetail = () => {
             <TourRoomAndPrice roomAndPrice={tourData.room_and_price} />
           )}
           {activeTab === "durasi" && <TourDurasi durasi={tourData.durasi} />}
+          {activeTab === "policies" && (
+            <TourPolicies policies={tourData.policies} />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default DaytourDetail;
+export default Detail;

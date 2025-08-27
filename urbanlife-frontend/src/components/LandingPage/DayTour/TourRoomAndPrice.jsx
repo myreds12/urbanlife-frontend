@@ -52,13 +52,13 @@ const TourRoomAndPrice = ({ roomAndPrice }) => {
                     IDR {Number(room.harga).toLocaleString("id-ID")} /night
                   </p>
                 </div>
-                {/* Fasilitas (opsional, kalo ada data) */}
-                {room.fasilitas?.length > 0 && (
+                {/* Amenity (opsional, kalo ada data) */}
+                {room.amenity?.length > 0 && (
                   <>
                     <p className="facility-title font-medium text-gray-700">Amenities:</p>
                     <ul className="room-facilities list-disc pl-5 mt-1 text-gray-700 text-sm">
-                      {room.fasilitas.map((fac, index) => (
-                        <li key={index}>{fac.nama}</li>
+                      {room.amenity.map((fac, index) => (
+                        <li key={index}>• {fac.nama}</li>
                       ))}
                     </ul>
                   </>

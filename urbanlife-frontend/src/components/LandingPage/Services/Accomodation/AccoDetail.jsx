@@ -108,7 +108,7 @@
 //     } else {
 //       document.body.style.overflow = 'unset';
 //     }
-    
+
 //     return () => {
 //       document.body.style.overflow = 'unset';
 //     };
@@ -436,17 +436,6 @@
 
 // export default AccoDetail;
 
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useEffect, useState } from "react";
 // import { useNavigate, useParams } from "react-router-dom";
 // import TourImage from "../../DayTour/TourImage";
@@ -558,7 +547,7 @@
 //       <div className="max-w-6xl mx-auto p-6 space-y-8 pt-24">
 //         {/* Tour Image Gallery */}
 //         <TourImage images={tourData.images} title={tourData.title} />
-        
+
 //         {/* Tour Header with Book Now */}
 //         <TourHeader
 //           title={tourData.title}
@@ -602,7 +591,7 @@
 //             />
 //           )}
 //           {activeTab === "room_and_price" && (
-//             <TourRoomAndPrice 
+//             <TourRoomAndPrice
 //               roomAndPrice={tourData.room_and_price}
 //               facilityGroups={tourData.akomodasi_facility_group}
 //             />
@@ -617,21 +606,18 @@
 
 // export default AccoDetail;
 
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import TourImage from "../../DayTour/TourImage";
 import TourHeader from "../../DayTour/TourHeader";
 import TourDescription from "../../DayTour/TourDescription";
 import TourRoomAndPrice from "../../DayTour/TourRoomAndPrice";
+import TourPolicies from "../../DayTour/TourPolicies";
 import Navbar from "../../HomePage/Navbar/Navbar";
 import Footer from "../../HomePage/Footer";
 import "../../../../styles/LandingPage/DayTour/DaytourDetail.css";
 import "./AccoDetail.css";
+import TourFacilities from "../../DayTour/TourFacility";
 // import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
 
 // Dummy data untuk sementara
@@ -647,40 +633,65 @@ const accommodations = [
       "/images/LandingPage/Services/Accomodation/legian-fourteen/classic-room/photo3.png",
       "/images/LandingPage/Services/Accomodation/legian-fourteen/classic-room/photo4.png",
       "/images/LandingPage/Services/Accomodation/legian-fourteen/madya-room/photo1.png",
-      "/images/LandingPage/Services/Accomodation/legian-fourteen/madya-room/photo2.png"
+      "/images/LandingPage/Services/Accomodation/legian-fourteen/madya-room/photo2.png",
     ],
-    description: "Situated in one of the popular tourist areas, Legian, Fourteen Roses Boutique Hotel will give you a memorable experience from your stay at this hotel. Despite its location that nestled in the tourist hub, the hotel has a very unique design, Ubud-style design, with a lot of trees and greeneries combined with a Balinese traditional architecture that will make you feel relaxed and far from the hustle bustle of the city. In addition to this, a great hospitality service is also provided through the hotel's staffs that are ready to help whenever you need.",
+    description:
+      "Situated in one of the popular tourist areas, Legian, Fourteen Roses Boutique Hotel will give you a memorable experience from your stay at this hotel. Despite its location that nestled in the tourist hub, the hotel has a very unique design, Ubud-style design, with a lot of trees and greeneries combined with a Balinese traditional architecture that will make you feel relaxed and far from the hustle bustle of the city. In addition to this, a great hospitality service is also provided through the hotel's staffs that are ready to help whenever you need.",
+    facilities: [
+      { nama: "24-hour front desk service with multilingual staff" },
+      { nama: "Outdoor swimming pool with tropical garden view" },
+      { nama: "Complimentary high-speed Wi-Fi throughout the property" },
+      { nama: "Traditional Balinese spa and wellness center" },
+      { nama: "Restaurant serving local and international cuisine" },
+      { nama: "Airport shuttle service available upon request" },
+      { nama: "Bicycle rental for exploring the local area" },
+      { nama: "Laundry and dry cleaning services" },
+      { nama: "Tour desk for local excursions and activities" },
+      { nama: "Parking facilities for guests" },
+      { nama: "Garden terrace with traditional Balinese architecture" },
+      { nama: "Room service available during specified hours" },
+    ],
     rooms: [
       {
         room: "Manda Room",
         price: "530000",
-        facility: [
-          "breakfast included", 
-          "room size : 30 m2", 
-          "occupancy : max 2 adults + 1 child", 
-          "bed configuration : king size or twin bed"
-        ]
+        amenity: [
+          "breakfast included",
+          "room size : 30 m2",
+          "occupancy : max 2 adults + 1 child",
+          "bed configuration : king size or twin bed",
+        ],
       },
       {
         room: "Madya Room",
         price: "730000",
-        facility: [
-          "breakfast included", 
-          "room size : 36 m2", 
-          "occupancy : max 2 adults + 1 child", 
-          "bed configuration : king size or twin bed"
-        ]
+        amenity: [
+          "breakfast included",
+          "room size : 36 m2",
+          "occupancy : max 2 adults + 1 child",
+          "bed configuration : king size or twin bed",
+        ],
       },
       {
         room: "Classic Room",
         price: "550000",
-        facility: [
-          "breakfast included", 
-          "room size : 32 m2", 
-          "occupancy : max 2 adults + 1 child", 
-          "bed configuration : king size or twin bed"
-        ]
-      }
+        amenity: [
+          "breakfast included",
+          "room size : 32 m2",
+          "occupancy : max 2 adults + 1 child",
+          "bed configuration : king size or twin bed",
+        ],
+      },
+    ],
+    policies: [
+      { policyname: "Check-in time: 2:00 PM" },
+      { policyname: "Check-out time: 12:00 PM" },
+      {
+        policyname: "Cancellation policy: Free cancellation up to 24 hours before check-in",
+      },
+      { policyname: "Children policy: Children of all ages are welcome" },
+      { policyname: "Pet policy: Pets are not allowed" },
+      { policyname: "Smoking policy: Non-smoking property" },
     ],
   },
 ];
@@ -723,11 +734,13 @@ const AccoDetail = () => {
   // Menggunakan dummy data untuk sementara
   useEffect(() => {
     setLoading(true);
-    
+
     // Simulasi loading
     setTimeout(() => {
-      const accommodation = accommodations.find(acc => acc.id === parseInt(id));
-      
+      const accommodation = accommodations.find(
+        (acc) => acc.id === parseInt(id)
+      );
+
       if (!accommodation) {
         setTourData(null);
       } else {
@@ -740,28 +753,31 @@ const AccoDetail = () => {
           location: accommodation.location || "",
           images: accommodation.images || [],
           description: accommodation.description || "No description available.",
-          policies: [],
-          room_and_price: accommodation.rooms?.map(room => ({
-            nama: room.room,
-            harga: room.price,
-            fasilitas: room.facility?.map(f => ({ nama: f })) || []
-          })) || [],
+          facilities: accommodation.facilities || [],
+          policies:accommodation.policies || [],
+          room_and_price:
+            accommodation.rooms?.map((room) => ({
+              nama: room.room,
+              harga: room.price,
+              amenity: room.amenity?.map((f) => ({ nama: f })) || [],
+            })) || [],
         };
-        
+
         setTourData(transformedData);
       }
-      
+
       setLoading(false);
     }, 500);
-    
   }, [id]);
 
   // Tab configuration
   const tabs = [
     { id: "description", label: "Description" },
+    { id: "facilities", label: "Facility" },
     ...(tourData?.room_and_price?.length > 0
       ? [{ id: "room_and_price", label: "Room Information" }]
       : []),
+    { id: "policies", label: "Policy & Procedure" },
   ];
 
   if (loading) {
@@ -779,7 +795,9 @@ const AccoDetail = () => {
           <Navbar />
         </div>
         <div className="flex flex-col items-center justify-center min-h-screen pt-20">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Accommodation Not Found</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Accommodation Not Found
+          </h2>
           <button
             onClick={() => navigate("/")}
             className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg transition-colors"
@@ -803,7 +821,7 @@ const AccoDetail = () => {
       <div className="max-w-6xl mx-auto p-6 space-y-8 pt-24">
         {/* Tour Image Gallery */}
         <TourImage images={tourData.images} title={tourData.title} />
-        
+
         {/* Tour Header with Book Now */}
         <TourHeader
           title={tourData.title}
@@ -841,15 +859,16 @@ const AccoDetail = () => {
         {/* Tab Content */}
         <div className="min-h-96">
           {activeTab === "description" && (
-            <TourDescription
-              description={tourData.description}
-              policies={tourData.policies}
-            />
+            <TourDescription description={tourData.description} />
+          )}
+          {activeTab === "facilities" && (
+            <TourFacilities facilities={tourData.facilities} />
           )}
           {activeTab === "room_and_price" && (
-            <TourRoomAndPrice 
-              roomAndPrice={tourData.room_and_price}
-            />
+            <TourRoomAndPrice roomAndPrice={tourData.room_and_price} />
+          )}
+          {activeTab === "policies" && (
+            <TourPolicies policies={tourData.policies} />
           )}
         </div>
       </div>

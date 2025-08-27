@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import TourImage from "../../../components/LandingPage/DayTour/TourImage";
 import TourHeader from "../../../components/LandingPage/DayTour/TourHeader";
 import TourDescription from "../../../components/LandingPage/DayTour/TourDescription";
+import TourPolicies from "../../../components/LandingPage/DayTour/TourPolicies";
 import TourItinerary from "../../../components/LandingPage/DayTour/TourItinerary";
 import TourPrice from "../../../components/LandingPage/DayTour/TourPrice";
 import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
@@ -32,11 +33,12 @@ const Detail = () => {
 
       try {
         const endpointType =
-          state.item_type === "travel_package" ? "travel-package" : state.item_type.toLowerCase();
+          state.item_type === "travel_package"
+            ? "travel-package"
+            : state.item_type.toLowerCase();
 
         const response = await apiClient.get(`/${endpointType}/${state.id}`);
         const data = response.data?.data;
-
 
         let images = [];
         let description = "No description available.";
@@ -157,6 +159,7 @@ const Detail = () => {
     ...(tourData?.type === "kendaraan" && tourData.durasi.length > 0
       ? [{ id: "durasi", label: "Durasi" }]
       : []),
+    { id: "policies", label: "Policy & Procedure" },
   ];
 
   if (loading || !tourData) {
@@ -214,10 +217,7 @@ const Detail = () => {
 
         <div className="min-h-96">
           {activeTab === "description" && (
-            <TourDescription
-              description={tourData.description}
-              policies={tourData.policies}
-            />
+            <TourDescription description={tourData.description} />
           )}
           {activeTab === "itinerary" && (
             <TourItinerary itinerary={tourData.itinerary} />
@@ -229,6 +229,9 @@ const Detail = () => {
             <TourRoomAndPrice roomAndPrice={tourData.room_and_price} />
           )}
           {activeTab === "durasi" && <TourDurasi durasi={tourData.durasi} />}
+          {activeTab === "policies" && (
+            <TourPolicies policies={tourData.policies} />
+          )}
         </div>
       </div>
     </div>

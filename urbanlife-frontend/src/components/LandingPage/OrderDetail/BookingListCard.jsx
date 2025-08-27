@@ -14,7 +14,11 @@ const BookingListCard = ({
 
   const serviceTypes = [
     { key: "KENDARAAN", label: "Vehicle", apiKey: "kendaraan" },
-    { key: "TRAVEL_PACKAGE", label: "Travel Package", apiKey: "travel_package" },
+    {
+      key: "TRAVEL_PACKAGE",
+      label: "Travel Package",
+      apiKey: "travel_package",
+    },
     { key: "AKOMODASI", label: "Accommodation", apiKey: "akomodasi" },
   ];
 
@@ -78,7 +82,7 @@ const BookingListCard = ({
       updatedItem.selected_room = { ...value }; // <-- penting!
     }
 
-    onUpdateItem(item.item_id, updatedItem);
+    onUpdateItem(item.item_id, item.item_type, updatedItem);
   };
 
   return (
@@ -90,8 +94,8 @@ const BookingListCard = ({
       ) : (
         orderItems.map((item, index) => (
           <BookingItemCard
-            key={item.id || index}
-            id={item.item_id || index}
+            key={`${item.item_type}-${item.item_id}`}
+            id={`${item.item_type}-${item.item_id}`}
             tanggal_mulai={item.tanggal_mulai || ""}
             tanggal_selesai={item.tanggal_selesai || ""}
             adultCount={item.jumlah_dewasa || 1}
@@ -110,7 +114,7 @@ const BookingListCard = ({
             handleChange={(field, value) =>
               handleFieldChange(index, field, value)
             }
-            handleRemove={() => onRemoveItem(item.item_id)}
+            handleRemove={() => onRemoveItem(item.item_id, item.item_type)}
           />
         ))
       )}
@@ -123,34 +127,63 @@ const BookingListCard = ({
           className={`
             w-full py-3 px-4 rounded-lg shadow-sm border-2 transition-all duration-300 ease-in-out
             flex items-center justify-between font-bold text-md
-            ${availableTypes.length === 0 || loading 
-              ? 'border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed' 
-              : 'border-cyan-500 bg-white text-cyan-600 hover:bg-cyan-50 hover:border-cyan-600 hover:shadow-md active:scale-[0.98]'
+            ${
+              availableTypes.length === 0 || loading
+                ? "border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "border-cyan-500 bg-white text-cyan-600 hover:bg-cyan-50 hover:border-cyan-600 hover:shadow-md active:scale-[0.98]"
             }
-            ${showDropdown ? 'border-cyan-600 bg-cyan-50' : ''}
+            ${showDropdown ? "border-cyan-600 bg-cyan-50" : ""}
           `}
         >
           <span className="flex items-center">
             {loading ? (
               <>
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-cyan-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-cyan-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Loading...
               </>
             ) : (
               <>
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
                 </svg>
                 Add Other Services
               </>
             )}
           </span>
-          
-          <FiChevronDown 
-            className={`ml-2 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} 
+
+          <FiChevronDown
+            className={`ml-2 transition-transform duration-200 ${
+              showDropdown ? "rotate-180" : ""
+            }`}
           />
         </button>
 
@@ -160,14 +193,24 @@ const BookingListCard = ({
             {availableTypes.length === 0 ? (
               <div className="px-4 py-6 text-center">
                 <div className="flex flex-col items-center">
-                  <svg className="w-12 h-12 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  <svg
+                    className="w-12 h-12 text-gray-300 mb-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                   <p className="text-sm font-medium text-gray-500">
-                    Semua layanan sudah ditambahkan
+                    All available services have been added.
                   </p>
                   <p className="text-xs text-gray-400 mt-1">
-                    Tidak ada layanan lain yang tersedia
+                    No more services available to add.
                   </p>
                 </div>
               </div>
@@ -178,7 +221,7 @@ const BookingListCard = ({
                     Available Services
                   </p>
                 </div>
-                
+
                 {availableTypes.map((type, index) => (
                   <button
                     key={type.key}
@@ -189,7 +232,11 @@ const BookingListCard = ({
                       hover:border-l-4 hover:border-cyan-500
                       focus:outline-none focus:bg-cyan-50 focus:border-l-4 focus:border-cyan-500
                       flex items-center justify-between group
-                      ${index !== availableTypes.length - 1 ? 'border-b border-gray-50' : ''}
+                      ${
+                        index !== availableTypes.length - 1
+                          ? "border-b border-gray-50"
+                          : ""
+                      }
                     `}
                   >
                     <div className="flex items-center">
@@ -198,14 +245,19 @@ const BookingListCard = ({
                         {type.label}
                       </span>
                     </div>
-                    
-                    <svg 
-                      className="w-4 h-4 text-gray-400 group-hover:text-cyan-500 transform group-hover:translate-x-1 transition-all duration-200" 
-                      fill="none" 
-                      stroke="currentColor" 
+
+                    <svg
+                      className="w-4 h-4 text-gray-400 group-hover:text-cyan-500 transform group-hover:translate-x-1 transition-all duration-200"
+                      fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
                     </svg>
                   </button>
                 ))}
@@ -213,11 +265,11 @@ const BookingListCard = ({
             )}
           </div>
         )}
-        
+
         {/* nutup dropdown pas klik di luar */}
         {showDropdown && (
-          <div 
-            className="fixed inset-0 z-10" 
+          <div
+            className="fixed inset-0 z-10"
             onClick={() => setShowDropdown(false)}
           />
         )}

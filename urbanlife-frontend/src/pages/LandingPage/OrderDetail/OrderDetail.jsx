@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from '../../../components/LandingPage/HomePage/Navbar/Navbar';
+import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
 import ContactForm from "../../../components/LandingPage/OrderDetail/ContactForm";
 import CustomerRequest from "../../../components/LandingPage/OrderDetail/CustomerRequest";
 import ServiceDescription from "../../../components/LandingPage/OrderDetail/ServiceDescription";
@@ -93,7 +93,6 @@ const OrderDetail = () => {
 
     return [item];
   });
-
 
   const [formData, setFormData] = useState({
     durasi_hari: bookingFromState.durasi,
@@ -205,7 +204,7 @@ const OrderDetail = () => {
     { key: "nomor_hp", label: "Nomor HP", required: true, type: "phone" },
   ];
 
-  const handleRemoveItem = (id) => {
+  const handleRemoveItem = (id, type) => {
     const foundItem = orderItems.find((item) => item.item_id === id);
 
     if (!foundItem) {
@@ -214,60 +213,60 @@ const OrderDetail = () => {
     }
 
     setPrice((prevPrice) => prevPrice - foundItem.harga);
-    setOrderItems(orderItems.filter((item) => item.item_id !== id));
+    setOrderItems((prev) =>
+      prev.filter((item) => !(item.item_id === id && item.item_type === type))
+    );
   };
 
-  const handleUpdateItem = (itemId, updatedValues) => {
-    setOrderItems((prevItems) => {
-      const updatedItems = prevItems.map((item) => {
-        if (item.item_id !== itemId) {
-          return item;
-        }
+  const handleUpdateItem = (itemId, itemType, updatedValues) => {
+  setOrderItems((prevItems) => {
+    const updatedItems = prevItems.map((item) => {
+      if (item.item_id !== itemId || item.item_type !== itemType) {
+        return item;
+      }
 
-        const updatedItem = {
-          ...item,
-          ...updatedValues,
-          selected_durasi: updatedValues.selected_durasi
-            ? { ...updatedValues.selected_durasi }
-            : item.selected_durasi,
-          selected_room: updatedValues.selected_room
-            ? { ...updatedValues.selected_room }
-            : item.selected_room,
-        };
+      const updatedItem = {
+        ...item,
+        ...updatedValues,
+        selected_durasi: updatedValues.selected_durasi
+          ? { ...updatedValues.selected_durasi }
+          : item.selected_durasi,
+        selected_room: updatedValues.selected_room
+          ? { ...updatedValues.selected_room }
+          : item.selected_room,
+      };
 
-        let total = 0;
+      let total = 0;
+      switch (updatedItem.item_type) {
+        case "travel_package":
+          total =
+            (updatedItem.jumlah_dewasa || 0) * (updatedItem.harga_dewasa || 0) +
+            (updatedItem.jumlah_anak || 0) * (updatedItem.harga_anak || 0);
+          break;
+        case "akomodasi":
+          total = (updatedItem.durasi || 0) * (updatedItem.harga || 0);
+          break;
+        case "kendaraan":
+          if (updatedItem.selected_durasi) {
+            total = updatedItem.harga || 0;
+          }
+          break;
+      }
 
-        if (updatedItem.item_type === "travel_package") {
-          const hargaDewasa = updatedItem.harga_dewasa || 0;
-          const hargaAnak = updatedItem.harga_anak || 0;
-          const jumlahDewasa = updatedItem.jumlah_dewasa || 0;
-          const jumlahAnak = updatedItem.jumlah_anak || 0;
-          total = jumlahDewasa * hargaDewasa + jumlahAnak * hargaAnak;
-        } else if (updatedItem.item_type === "akomodasi") {
-          const durasi = updatedItem.durasi;
-
-          total = durasi * updatedItem.harga;
-        } else if (
-          updatedItem.item_type === "kendaraan" &&
-          updatedItem.selected_durasi
-        ) {
-          total = updatedItem.harga || 0;
-        }
-
-        updatedItem.total_harga = total;
-
-        return updatedItem;
-      });
-
-      const newTotal = updatedItems.reduce(
-        (sum, item) => sum + Number(item.total_harga || 0),
-        0
-      );
-      setPrice(newTotal);
-
-      return updatedItems;
+      updatedItem.total_harga = total;
+      return updatedItem;
     });
-  };
+
+    const newTotal = updatedItems.reduce(
+      (sum, item) => sum + Number(item.total_harga || 0),
+      0
+    );
+    setPrice(newTotal);
+
+    return updatedItems;
+  });
+};
+
 
   const handleAddService = async ({ type, items }) => {
     setSelectedType(type);
@@ -392,10 +391,10 @@ const OrderDetail = () => {
                 Order Detail
               </h1>
               <p className="text-gray-600 leading-snug">
-                These contact details will be used to send the e-invoice and for rescheduling purposes.
+                These contact details will be used to send the e-invoice and for
+                rescheduling purposes.
               </p>
-          </div>
-
+            </div>
 
             {/* Contact Form */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -432,11 +431,10 @@ const OrderDetail = () => {
                   className="mt-1 w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500"
                 />
                 <span className="text-sm text-gray-700">
-                I agree to Urbanlife's {" "}
+                  I agree to Urbanlife's{" "}
                   <a href="#" className="text-cyan-600 hover:underline">
                     terms and conditions
                   </a>
-                 
                 </span>
               </label>
             </div>

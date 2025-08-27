@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { FiChevronRight, FiX, FiChevronDown } from "react-icons/fi";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateInput } from "../../../components/LandingPage/HomePage/CardForm/DateInput.jsx";
@@ -23,6 +24,13 @@ const BookingItemCard = ({
   handleChange,
   handleRemove,
 }) => {
+  const { t, i18n } = useTranslation();
+  console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  useEffect(() => {
+    console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
+  }, [i18n.language]);
+
   const fallbackImage = "https://via.placeholder.com/60?text=No+Image";
   
   // State untuk dropdown
@@ -122,17 +130,17 @@ const BookingItemCard = ({
       {/* Booking Date */}
       <div>
         <label className="block text-sm font-medium text-gray-500 mb-1">
-          Booking date
+          {t('bookingitem.booking_date')}
         </label>
         <div className="grid grid-cols-2 gap-2">
           <DateInput
-            label="Start Date"
+            label={t('bookingitem.start_date')}
             selected={tanggal_mulai ? new Date(tanggal_mulai) : null}
             onChange={(date) => handleChange("tanggal_mulai", date)}
             minDate={new Date()}
           />
           <DateInput
-            label="End Date"
+            label={t('bookingitem.end_date')}
             selected={tanggal_selesai ? new Date(tanggal_selesai) : null}
             onChange={(date) => handleChange("tanggal_selesai", date)}
             minDate={tanggal_mulai ? new Date(tanggal_mulai) : new Date()}
@@ -144,28 +152,28 @@ const BookingItemCard = ({
       <div className="space-y-3">
         <div>
           <p className="font-medium mb-3 text-sm text-gray-600">
-            {item_type === "travel_package" ? "Person number" :
-             item_type === "akomodasi" ? "Room & Duration" : "Duration"}
+            {item_type === "travel_package" ? t('bookingitem.person_number') :
+             item_type === "akomodasi" ? t('bookingitem.room_and_duration') : t('bookingitem.duration')}
           </p>
           
           {item_type === "travel_package" ? (
             <div className="grid grid-cols-2 gap-2">
               {/* Adults Dropdown */}
               <CustomDropdown
-                label="Adults"
+                label={t('bookingitem.adults')}
                 value={adultCount}
                 options={[1, 2, 3, 4, 5].map(n => ({
                   value: n,
-                  label: `${n} Adult`,
+                  label: `${n} ${t('bookingitem.adult_count')}`,
                   price: (hargaDewasa || 0) * n
                 }))}
                 onChange={(value) => handleChange("jumlah_dewasa", value)}
-                placeholder="Select adults"
+                placeholder={t('bookingitem.select_adults')}
                 showDropdown={showAdultDropdown}
                 setShowDropdown={setShowAdultDropdown}
                 displayValue={adultCount ? (
                   <div className="leading-tight">
-                    <div>{adultCount} Adult</div>
+                    <div>{adultCount} {t('bookingitem.adult_count')}</div>
                     <div className="text-xs text-gray-500">Rp {((hargaDewasa || 0) * adultCount).toLocaleString("id-ID")}</div>
                   </div>
                 ) : ''}
@@ -173,20 +181,20 @@ const BookingItemCard = ({
 
               {/* Children Dropdown */}
               <CustomDropdown
-                label="Children"
+                label={t('bookingitem.children')}
                 value={childCount}
                 options={[0, 1, 2, 3].map(n => ({
                   value: n,
-                  label: `${n} Child`,
+                  label: `${n} ${t('bookingitem.child_count')}`,
                   price: (hargaAnak || 0) * n
                 }))}
                 onChange={(value) => handleChange("jumlah_anak", value)}
-                placeholder="Select children"
+                placeholder={t('bookingitem.select_children')}
                 showDropdown={showChildDropdown}
                 setShowDropdown={setShowChildDropdown}
                 displayValue={childCount !== undefined ? (
                   <div className="leading-tight">
-                    <div>{childCount} Child</div>
+                    <div>{childCount} {t('bookingitem.child_count')}</div>
                     <div className="text-xs text-gray-500">Rp {((hargaAnak || 0) * childCount).toLocaleString("id-ID")}</div>
                   </div>
                 ) : ''}
@@ -194,7 +202,7 @@ const BookingItemCard = ({
             </div>
           ) : item_type === "kendaraan" ? (
             <CustomDropdown
-              label="Duration"
+              label={t('bookingitem.duration')}
               value={selectedDuration?.durasi}
               options={durasi.map(d => ({
                 value: d.durasi,
@@ -205,7 +213,7 @@ const BookingItemCard = ({
                 handleChange("selected_durasi", selected);
                 handleChange("harga", selected?.harga || 0);
               }}
-              placeholder="Choose duration"
+              placeholder={t('bookingitem.choose_duration')}
               showDropdown={showDurationDropdown}
               setShowDropdown={setShowDurationDropdown}
               displayValue={selectedDuration?.durasi}
@@ -214,7 +222,7 @@ const BookingItemCard = ({
             item_type === "akomodasi" && (
               <div className="grid grid-cols-2 gap-2">
                 <CustomDropdown
-                  label="Room"
+                  label={t('bookingitem.room')}
                   value={selectedRoom?.nama}
                   options={roomPrice.map(d => ({
                     value: d.nama,
@@ -225,7 +233,7 @@ const BookingItemCard = ({
                     handleChange("selected_room", selected);
                     handleChange("harga", selected?.harga || 0);
                   }}
-                  placeholder="Choose Room"
+                  placeholder={t('bookingitem.choose_room')}
                   showDropdown={showRoomDropdown}
                   setShowDropdown={setShowRoomDropdown}
                   displayValue={selectedRoom?.nama}
@@ -234,7 +242,7 @@ const BookingItemCard = ({
                 {/* Durasi Menginap */}
                 <div>
                   <label className="block text-sm text-gray-600 mb-1">
-                    Duration (Nights)
+                    {t('bookingitem.duration_nights')}
                   </label>
                   <input
                     type="number"
@@ -255,7 +263,7 @@ const BookingItemCard = ({
         <div className="border-t border-gray-300 border-dashed pt-3">
           <div className="flex justify-end">
             <div className="text-sm text-right">
-              <p className="text-gray-500 font-medium">Price</p>
+              <p className="text-gray-500 font-medium">{t('bookingitem.price')}</p>
               <p className="font-bold text-gray-800 mt-1">
                 Rp. {Number(totalHarga).toLocaleString("id-ID")}
               </p>
@@ -273,7 +281,7 @@ const BookingItemCard = ({
         />
         <div className="flex-1">
           <p className="text-[11px] text-gray-500 truncate">
-            Location: {location}
+            {t('bookingitem.location')} { location }
           </p>
           <p className="text-sm font-medium text-gray-800 truncate">{title}</p>
         </div>
@@ -281,7 +289,7 @@ const BookingItemCard = ({
 
       {/* Change Package / Unit */}
       <div className="flex items-center text-sm text-red-500 font-medium cursor-pointer hover:underline transition-all">
-        {item_type === "TRAVEL_PACKAGE" ? "Change package" : "Change unit"}
+        {item_type === "TRAVEL_PACKAGE" ? t('bookingitem.change_package') : t('bookingitem.change_unit')}
         <FiChevronRight className="ml-1 w-4 h-4" />
       </div>
     </div>

@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled = false }) => {
+  const { t, i18n } = useTranslation();
+  console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  useEffect(() => {
+    console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
+  }, [i18n.language]);
+
   console.log(orderItems, finalAmount, 'detailorder');
+
   const formatCurrency = (amount) => {
     if (!amount) return 'Rp. 0';
     return new Intl.NumberFormat('id-ID', {
@@ -24,7 +33,7 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
     <div className="space-y-6">
       {/* Detail Order Section */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Detail order</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('detailorder.title')}</h3>
         
         {/* Gray divider line */}
         <div className="border-t border-gray-300 mb-6"></div>
@@ -34,10 +43,10 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
           {orderItems.map((item, index) => (
             <div key={item.item_id || index} className="space-y-2">
               <div className="text-gray-700">
-                {index + 1}. {item.title || 'Item'}
+                {index + 1}. {item.title || t('detailorder.item_default')}
               </div>
               <div className="flex justify-between items-center text-gray-600 ml-4">
-                <span>Sub total</span>
+                <span>{t('detailorder.subtotal')}</span>
                 <span>{formatCurrency(item.total_harga || finalAmount)}</span>
               </div>
             </div>
@@ -48,7 +57,7 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
 
       {/* Final Amount Section */}
       <div className="flex justify-between items-center">
-        <span className="text-xl font-bold text-gray-700">Final Amount</span>
+        <span className="text-xl font-bold text-gray-700">{t('detailorder.final_amount')}</span>
         <span className="text-2xl font-bold text-red-500">
           {formatFinalAmount(finalAmount)}
         </span>
@@ -65,12 +74,12 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
               : "bg-cyan-600 hover:bg-cyan-600 active:bg-cyan-700 shadow-lg hover:shadow-xl"
           }`}
         >
-          Select Payment Option
+          {t('detailorder.select_payment')}
         </button>
         
         {disabled && (
           <p className="text-xs text-gray-500 text-center mt-2">
-            Please agree to terms and conditions to continue
+            {t('detailorder.agree_to_terms')}
           </p>
         )}
       </div>

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 const FlagIcon = ({ countryCode, className = "w-6 h-4" }) => {
   if (countryCode === 'ID') {
@@ -35,7 +36,7 @@ const FlagIcon = ({ countryCode, className = "w-6 h-4" }) => {
         <rect x="1" y="13" width="30" height="6" fill="#fff"></rect>
         <rect x="14" y="4" width="4" height="24" fill="#b92932"></rect>
         <rect x="14" y="1" width="4" height="30" transform="translate(32) rotate(90)" fill="#b92932"></rect>
-        <path d="M28.222,4.21l-9.222,7.376v1.414h.75l9.943-7.94c-.419-.384-.918-.671-1.471-.85Z" fill="#b92932"></path>
+        <path d="M28.222,4.21l-9.222,7.376v1.414h.75l9.943-7.94c-.419-.384-.918-.671-1.471-.850Z" fill="#b92932"></path>
         <path d="M2.328,26.957c.414,.374,.904,.656,1.447,.832l9.225-7.38v-1.408h-.75L2.328,26.957Z" fill="#b92932"></path>
         <path d="M27,4H5c-2.209,0-4,1.791-4,4V24c0,2.209,1.791,4,4,4H27c2.209,0,4-1.791,4-4V8c0-2.209-1.791-4-4-4Zm3,20c0,1.654-1.346,3-3,3H5c-1.654,0-3-1.346-3-3V8c0-1.654,1.346-3,3-3H27c1.654,0,3,1.346,3,3V24Z" opacity=".15"></path>
         <path d="M27,5H5c-1.657,0-3,1.343-3,3v1c0-1.657,1.343-3,3-3H27c1.657,0,3,1.343,3,3v-1c0-1.657-1.343-3-3-3Z" fill="#fff" opacity=".2"></path>
@@ -53,6 +54,13 @@ const countryOptions = [
 ];
 
 const ContactForm = ({ formData, onFormChange }) => {
+  const { t, i18n } = useTranslation();
+  console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  useEffect(() => {
+    console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
+  }, [i18n.language]);
+
   const [selectedCountry, setSelectedCountry] = useState(countryOptions[0]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -75,7 +83,7 @@ const ContactForm = ({ formData, onFormChange }) => {
             onChange={(e) => onFormChange({ gender: e.target.value })}
             className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 focus:ring-cyan-500"
           />
-          <span className="ml-2 text-sm font-medium text-gray-700">Mr</span>
+          <span className="ml-2 text-sm font-medium text-gray-700">{t('contactform.mr')}</span>
         </label>
         <label className="flex items-center cursor-pointer">
           <input
@@ -86,7 +94,7 @@ const ContactForm = ({ formData, onFormChange }) => {
             onChange={(e) => onFormChange({ gender: e.target.value })}
             className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 focus:ring-cyan-500"
           />
-          <span className="ml-2 text-sm font-medium text-gray-700">Mrs</span>
+          <span className="ml-2 text-sm font-medium text-gray-700">{t('contactform.mrs')}</span>
         </label>
       </div>
 
@@ -95,7 +103,7 @@ const ContactForm = ({ formData, onFormChange }) => {
         <input
           type="text"
           name="nama"
-          placeholder="Full Name (as stated in ID/Passport/Driver's License)"
+          placeholder={t('contactform.full_name_placeholder')}
           value={formData.nama}
           onChange={(e) => onFormChange({ nama: e.target.value })}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
@@ -132,7 +140,7 @@ const ContactForm = ({ formData, onFormChange }) => {
           </div>
           <input
             type="tel"
-            placeholder="Phone number"
+            placeholder={t('contactform.phone_placeholder')}
             name="nomor_hp"
             value={formData.nomor_hp.replace(selectedCountry.code, '')}
             onChange={(e) => onFormChange({ nomor_hp: selectedCountry.code + e.target.value })}
@@ -145,7 +153,7 @@ const ContactForm = ({ formData, onFormChange }) => {
       <div>
         <input
           type="email"
-          placeholder="Email address"
+          placeholder={t('contactform.email_placeholder')}
           value={formData.email}
           onChange={(e) => onFormChange({ email: e.target.value })}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"

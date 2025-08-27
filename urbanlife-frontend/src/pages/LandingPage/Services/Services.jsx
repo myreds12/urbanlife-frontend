@@ -204,12 +204,6 @@ const Services = () => {
                   ? "Loading services..."
                   : `Showing ${filteredServices.length} of ${serviceData.length} services`}
               </p>
-              <button
-                onClick={handleSearch}
-                className="bg-cyan-600 text-white py-2 px-4 rounded-md hover:bg-cyan-700"
-              >
-                Search
-              </button>
             </div>
 
             {/* Loading Skeleton */}

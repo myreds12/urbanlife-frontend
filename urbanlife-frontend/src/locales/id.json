@@ -393,5 +393,73 @@
     "cta_book_button": "Pesan Perjalanan Anda",
     "cta_contact_button": "Hubungi Kami",
     "cta_footer": "Selamat bepergian dengan aman dan nikmati liburan Anda!"
+  },
+  "orderdetail": {
+        "title": "Detail Pesanan",
+        "subtitle": "Detail kontak ini akan digunakan untuk mengirim e-invoice dan untuk keperluan penjadwalan ulang.",
+        "agree_to_terms": "Saya setuju dengan",
+        "terms_and_conditions": "syarat dan ketentuan Urbanlife",
+        "modal_label": "Modal Pilih Layanan",
+        "modal_select": "Pilih",
+        "modal_no_services": "Tidak ada layanan yang tersedia.",
+        "modal_cancel": "Batal"
+  },
+   "contactform": {
+        "mr": "Bapak",
+        "mrs": "Ibu",
+        "full_name_placeholder": "Nama Lengkap (sesuai KTP/Paspor/SIM)",
+        "phone_placeholder": "Nomor telepon",
+        "email_placeholder": "Alamat email"
+  },
+  "detailorder": {
+        "title": "Detail Pesanan",
+        "item_default": "Item",
+        "subtotal": "Sub total",
+        "final_amount": "Jumlah Akhir",
+        "select_payment": "Pilih Opsi Pembayaran",
+        "agree_to_terms": "Harap setuju dengan syarat dan ketentuan untuk melanjutkan"
+  },
+  "customerrequest": {
+        "title": "Permintaan Pelanggan",
+        "add_request": "Tambah permintaan khusus",
+        "add_request_description": "Ketik kebutuhan khusus Anda dan nikmati waktu Anda.",
+        "textarea_placeholder": "Silakan jelaskan permintaan khusus Anda di sini..."
+  },
+  "bookinglist": {
+        "title": "Pesanan Anda",
+        "no_items": "Belum ada item yang ditambahkan.",
+        "add_services": "Tambah Layanan Lain",
+        "loading": "Memuat...",
+        "all_services_added": "Semua layanan sudah ditambahkan",
+        "no_services_available": "Tidak ada layanan lain yang tersedia",
+        "available_services": "Layanan yang Tersedia",
+        "service_vehicle": "Kendaraan",
+        "service_travel_package": "Paket Perjalanan",
+        "service_accommodation": "Akomodasi",
+        "error_empty_result": "Hasil kosong dari API",
+        "error_service_not_found": "Layanan tidak ditemukan untuk tipe '{type}'"
+  },
+  "bookingitem": {
+        "booking_date": "Tanggal Pemesanan",
+        "start_date": "Tanggal Mulai",
+        "end_date": "Tanggal Selesai",
+        "person_number": "Jumlah Orang",
+        "room_and_duration": "Kamar & Durasi",
+        "duration": "Durasi",
+        "adults": "Dewasa",
+        "children": "Anak",
+        "room": "Kamar",
+        "duration_nights": "Durasi (Malam)",
+        "price": "Harga",
+        "location": "Lokasi:",
+        "change_package": "Ganti paket",
+        "change_unit": "Ganti unit",
+        "select_adults": "Pilih dewasa",
+        "select_children": "Pilih anak",
+        "choose_duration": "Pilih durasi",
+        "choose_room": "Pilih Kamar",
+        "adult_count": " Dewasa",
+        "child_count": " Anak"
+       
   }
 }

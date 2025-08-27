@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import BookingItemCard from "./BookingItemCard";
 import { FiChevronDown } from "react-icons/fi";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -9,17 +10,24 @@ const BookingListCard = ({
   onAddService,
   onUpdateItem,
 }) => {
+  const { t, i18n } = useTranslation();
+  console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  useEffect(() => {
+    console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
+  }, [i18n.language]);
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const serviceTypes = [
-    { key: "KENDARAAN", label: "Vehicle", apiKey: "kendaraan" },
+    { key: "KENDARAAN", label: t('bookinglist.service_vehicle'), apiKey: "kendaraan" },
     {
       key: "TRAVEL_PACKAGE",
-      label: "Travel Package",
+      label: t('bookinglist.service_travel_package'),
       apiKey: "travel_package",
     },
-    { key: "AKOMODASI", label: "Accommodation", apiKey: "akomodasi" },
+    { key: "AKOMODASI", label: t('bookinglist.service_accommodation'), apiKey: "akomodasi" },
   ];
 
   // Pastikan item_type dibandingkan secara lowercase
@@ -40,14 +48,14 @@ const BookingListCard = ({
       const response = await apiClient.get("/pemesanan/items?is_category=true");
       const result = response?.data?.data;
 
-      if (!result) throw new Error("Result kosong dari API");
+      if (!result) throw new Error(t('bookinglist.error_empty_result'));
 
       const matchedService = serviceTypes.find(
         (s) => s.key.toLowerCase() === typeKey.toLowerCase()
       );
 
       if (!matchedService) {
-        alert(`Service tidak ditemukan untuk tipe '${typeKey}'.`);
+        alert(t('bookinglist.error_service_not_found', { type: typeKey }));
         return;
       }
 
@@ -87,10 +95,10 @@ const BookingListCard = ({
 
   return (
     <div className="pl-4 space-y-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-2">Your Booking</h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-2">{t('bookinglist.title')}</h2>
 
       {orderItems.length === 0 ? (
-        <p className="text-gray-500 text-sm">No items added yet.</p>
+        <p className="text-gray-500 text-sm">{t('bookinglist.no_items')}</p>
       ) : (
         orderItems.map((item, index) => (
           <BookingItemCard
@@ -158,7 +166,7 @@ const BookingListCard = ({
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
-                Loading...
+                {t('bookinglist.loading')}
               </>
             ) : (
               <>
@@ -175,7 +183,7 @@ const BookingListCard = ({
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                Add Other Services
+                {t('bookinglist.add_services')}
               </>
             )}
           </span>
@@ -207,10 +215,10 @@ const BookingListCard = ({
                     />
                   </svg>
                   <p className="text-sm font-medium text-gray-500">
-                    All available services have been added.
+                    {t('bookinglist.all_services_added')}
                   </p>
                   <p className="text-xs text-gray-400 mt-1">
-                    No more services available to add.
+                    {t('bookinglist.no_services_available')}
                   </p>
                 </div>
               </div>
@@ -218,7 +226,7 @@ const BookingListCard = ({
               <div className="py-2">
                 <div className="px-4 py-2 border-b border-gray-100">
                   <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                    Available Services
+                    {t('bookinglist.available_services')}
                   </p>
                 </div>
 

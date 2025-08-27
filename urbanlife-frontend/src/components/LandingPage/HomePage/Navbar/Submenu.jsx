@@ -15,7 +15,7 @@ const Submenu = ({ isSubmenuOpen, setIsSubmenuOpen, data, title, isServices }) =
   const serviceNavigationMap = {
     'Day Tours': '/DayTour',
     'Rent Car': '/unit-car',
-    'Hotel & Resorts': '/hotels',
+    'Hotel & Resorts': '/accomodation',
     'Cultural Tours': '/cultural-tours',
     'Adventure Tours': '/adventure-tours',
     'Airport Transfer': '/airport-transfer',

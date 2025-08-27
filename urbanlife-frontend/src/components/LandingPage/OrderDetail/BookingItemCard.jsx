@@ -31,7 +31,7 @@ const BookingItemCard = ({
     console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
   }, [i18n.language]);
 
-  const fallbackImage = "https://via.placeholder.com/60?text=No+Image";
+  // const fallbackImage = "https://via.placeholder.com/60?text=No+Image";
   
   // State untuk dropdown
   const [showAdultDropdown, setShowAdultDropdown] = useState(false);
@@ -81,7 +81,7 @@ const BookingItemCard = ({
       {showDropdown && (
         <div className="absolute left-0 right-0 mt-1 border border-blue-200 bg-white rounded-lg shadow-lg z-30 overflow-hidden animate-in slide-in-from-top-2 duration-200">
           <div className="py-1 max-h-48 overflow-y-auto">
-            {options.map((option, index) => (
+            {options.map((option) => (
               <button
                 key={option.value}
                 onClick={() => {

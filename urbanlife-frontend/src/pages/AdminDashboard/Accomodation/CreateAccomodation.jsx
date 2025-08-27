@@ -235,13 +235,13 @@ const CreateAccomodationPage = () => {
     if (element) element.scrollIntoView({ behavior: "smooth" });
   };
 
-  const fetchExistingFileAsFile = async (nama_file) => {
-    const url = `${apiClient.defaults.baseURL}/public/akomodasi/${nama_file}`;
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const type = blob.type || "application/octet-stream";
-    return new File([blob], nama_file, { type });
-  };
+  // const fetchExistingFileAsFile = async (nama_file) => {
+  //   const url = `${apiClient.defaults.baseURL}/public/akomodasi/${nama_file}`;
+  //   const response = await fetch(url);
+  //   const blob = await response.blob();
+  //   const type = blob.type || "application/octet-stream";
+  //   return new File([blob], nama_file, { type });
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -299,14 +299,14 @@ const CreateAccomodationPage = () => {
       payload.append(`akomodasi_facility[${i}][nama]`, f.nama);
     });
 
-    console.log("=== Payload yang akan dikirim ke API ===");
-    for (let pair of payload.entries()) {
-      if (pair[1] instanceof File) {
-        console.log(`${pair[0]}:`, pair[1].name);
-      } else {
-        console.log(`${key}:${value}`);
-      }
-    }
+    // console.log("=== Payload yang akan dikirim ke API ===");
+    // for (let pair of payload.entries()) {
+    //   if (pair[1] instanceof File) {
+    //     console.log(`${pair[0]}:`, pair[1].name);
+    //   } else {
+    //     console.log(`${key}:${value}`);
+    //   }
+    // }
 
     try {
       const res = !isEditMode

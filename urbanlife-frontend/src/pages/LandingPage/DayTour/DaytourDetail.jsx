@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import TourImage from "../../../components/LandingPage/DayTour/TourImage";
 import TourHeader from "../../../components/LandingPage/DayTour/TourHeader";
 import TourDescription from "../../../components/LandingPage/DayTour/TourDescription";
@@ -18,6 +19,7 @@ const Detail = () => {
   const [loading, setLoading] = useState(true);
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   console.log(state, "state detail");
 
@@ -146,20 +148,20 @@ const Detail = () => {
   }, [state, navigate]);
 
   const tabs = [
-    { id: "description", label: "Description" },
+    { id: "description", label:t("detail.description") },
     ...(tourData?.type === "travel_package" && tourData.itinerary.length > 0
-      ? [{ id: "itinerary", label: "Itinerary" }]
+      ? [{ id: "itinerary", label: t("detail.itinerary") }]
       : []),
     ...(tourData?.type === "travel_package" && tourData.priceTable.length > 0
-      ? [{ id: "price", label: "Price (Adult & Child)" }]
+      ? [{ id: "price", label: t("detail.priceadultandchild") }]
       : []),
     ...(tourData?.type === "akomodasi" && tourData.room_and_price.length > 0
-      ? [{ id: "room_and_price", label: "Room & Price" }]
+      ? [{ id: "room_and_price", label: t("detail.roomnprice") }]
       : []),
     ...(tourData?.type === "kendaraan" && tourData.durasi.length > 0
-      ? [{ id: "durasi", label: "Durasi" }]
+      ? [{ id: "durasi", label:t("detail.duration") }]
       : []),
-    { id: "policies", label: "Policy & Procedure" },
+    { id: "policies", label: t("detail.policy") },
   ];
 
   if (loading || !tourData) {

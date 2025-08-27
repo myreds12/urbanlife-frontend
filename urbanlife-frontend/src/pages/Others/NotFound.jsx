@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const PageMeta = ({ title, description }) => {
   useEffect(() => {
@@ -20,6 +21,8 @@ const PageMeta = ({ title, description }) => {
 };
 
 export default function NotFound() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
@@ -48,14 +51,14 @@ export default function NotFound() {
           />
 
           <p className="mt-10 mb-6 text-base text-gray-700 sm:text-lg">
-            We can’t seem to find the page you are looking for!
+            {t("notfound.page")}
           </p>
 
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3.5 text-sm font-medium text-gray-700 shadow-md hover:bg-gray-50 hover:text-gray-800 transition"
           >
-            Back to Home Page
+            {t("notfound.back")}
           </Link>
         </div>
 

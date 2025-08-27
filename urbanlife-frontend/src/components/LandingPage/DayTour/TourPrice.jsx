@@ -1,30 +1,37 @@
-import React from 'react';
-import { FaChild, FaUser } from 'react-icons/fa';
+import React from "react";
+import { FaChild, FaUser } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
+
 
 const iconForLabel = (label) => {
-  if (label.toLowerCase().includes("anak")) return <FaChild className="inline mr-1 text-blue-500" />;
-  if (label.toLowerCase().includes("dewasa")) return <FaUser className="inline mr-1 text-green-500" />;
+  if (label.toLowerCase().includes("anak"))
+    return <FaChild className="inline mr-1 text-blue-500" />;
+  if (label.toLowerCase().includes("dewasa"))
+    return <FaUser className="inline mr-1 text-green-500" />;
   return null;
 };
 
 const TourPrice = ({ priceTable }) => {
+  const { t } = useTranslation();
+
   if (!priceTable || priceTable.length === 0) {
     return (
       <div className="space-y-4 bg-white p-6 rounded-xl shadow-md">
-        <p className="text-gray-500 text-center">No price information available.</p>
+        <p className="text-gray-500 text-center">
+          {t("detail.noprice")}
+        </p>
       </div>
     );
   }
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Harga Paket</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto border border-gray-200 rounded-md overflow-hidden">
           <thead className="bg-cyan-600 text-white text-sm uppercase">
             <tr>
-              <th className="px-6 py-3 text-left">Kategpri</th>
-              <th className="px-6 py-3 text-left">Harga (Rp) </th>
+              <th className="px-6 py-3 text-left">{t("detail.category")}</th>
+              <th className="px-6 py-3 text-left">{t("detail.price")}</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">

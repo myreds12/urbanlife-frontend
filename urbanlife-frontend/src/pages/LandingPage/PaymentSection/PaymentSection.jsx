@@ -5,6 +5,7 @@ import OrderSummary from "../../../components/LandingPage/PaymentSection/OrderSu
 import PaymentButton from "../../../components/LandingPage/PaymentSection/PaymentButton";
 import PaymentTerms from "../../../components/LandingPage/PaymentSection/PaymentTerms";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const PaymentSection = () => {
   const [selectedMethod, setSelectedMethod] = useState("bca_va");
@@ -13,7 +14,7 @@ const PaymentSection = () => {
 
   const location = useLocation();
   const { bookingInfo, orderData } = location.state || {};
-
+  const { t } = useTranslation();
 
   const paymentMethods = [
     {
@@ -59,8 +60,8 @@ const PaymentSection = () => {
   }, []);
 
   const handlePayment = () => {
-    console.log('Processing payment with method:', selectedMethod);
-    console.log('Full order data:', { bookingInfo, orderData });
+    console.log("Processing payment with method:", selectedMethod);
+    console.log("Full order data:", { bookingInfo, orderData });
   };
 
   return (
@@ -77,7 +78,7 @@ const PaymentSection = () => {
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-gray-900">
-                  Selesaikan dalam
+                  {t("payment.paywithin")}
                 </h2>
                 <PaymentTimer timeLeft={timeLeft} />
               </div>
@@ -86,7 +87,7 @@ const PaymentSection = () => {
             {/* Payment Methods */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900 mb-6">
-                Metode Pembayaran
+                {t("payment.paymentmethod")}
               </h2>
               <PaymentMethods
                 methods={paymentMethods}

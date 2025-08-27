@@ -24,7 +24,7 @@ const DayTourGrid = ({ cards }) => {
     const bookingData = formatBookingData(card);
     console.log("Handle Booking Data:", bookingData);
 
-    navigate(`/DaytourDetail/${card.id}`, { state: bookingData });
+    navigate(`/Detail/${card.id}`, { state: bookingData });
     // Kalau mau langsung ke OrderDetail:
     // navigate(`/OrderDetail?type=${card.item_type?.toLowerCase()}&id=${card.id}`, { state: bookingData });
   };

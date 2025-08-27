@@ -11,7 +11,7 @@ import TourRoomAndPrice from "../../../components/LandingPage/DayTour/TourRoomAn
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import TourDurasi from "../../../components/LandingPage/DayTour/TourDurasi";
 
-const DaytourDetail = () => {
+const Detail = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -235,4 +235,4 @@ const DaytourDetail = () => {
   );
 };
 
-export default DaytourDetail;
+export default Detail;

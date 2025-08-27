@@ -18,7 +18,7 @@ const ServiceCard = ({ service }) => {
   const handleDetailClick = () => {
     const bookingData = formatBookingData(service);
 
-    navigate(`/DaytourDetail/${service.id}`, { state: bookingData });
+    navigate(`/Detail/${service.id}`, { state: bookingData });
   };
   const getPrice = () => {
     if (service.item_type === "KENDARAAN") {

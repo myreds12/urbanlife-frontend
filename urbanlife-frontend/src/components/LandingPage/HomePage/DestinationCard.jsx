@@ -25,7 +25,7 @@ const DestinationCard = ({ travel }) => {
 
 
     console.log("Handle Booking Data:", bookingData);
-    navigate(`/DaytourDetail/${travel.id}`, { state: bookingData });
+    navigate(`/Detail/${travel.id}`, { state: bookingData });
 
     // navigate(`/OrderDetail?type=${travel.item_type?.toLowerCase()}&id=${travel.id}`, {
     //   state: bookingData,

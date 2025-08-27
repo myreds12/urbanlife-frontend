@@ -197,6 +197,26 @@
   "back": "Back to Home Page"
 },
 
+"servicepage":{
+  "noservice": "No services found matching your filters.",
+  "clearfilter": "Clear filters to see all services",
+  "service" : "Services",
+  "discover": "Discover amazing destinations and experiences",
+  "appliedfilter": "Applied filter",
+  "clearall": "Clear all",
+  "price": "Price",
+  "search": "Search",
+  "passengers": "{{count}} Passengers",
+  "location": "Location",
+  "destination": "Destination",
+  "popular": "Popular",
+  "startsfrom": "Starts From",
+  "detail": "Detail"
+
+
+
+},
+
 
 
   

@@ -188,10 +188,26 @@
   },
 
   "notfound": {
-  "page": "Kami tidak dapat menemukan halaman yang Anda cari!",
-  "back": "Kembali ke menu utama"
-},
+    "page": "Kami tidak dapat menemukan halaman yang Anda cari!",
+    "back": "Kembali ke menu utama"
+  },
 
+  "servicepage": {
+    "noservice": "Tidak ada layanan yang sesuai dengan filter Anda.",
+    "clearfilter": "Hapus filter untuk melihat semua layanan",
+    "service": "Layanan",
+    "discover": "Temukan destinasi dan pengalaman menakjubkan",
+    "appliedfilter": "Filter yang diterapkan",
+    "clearall": "Hapus semua",
+    "price": "Harga",
+    "search": "Cari",
+    "passengers": "{{count}} Penumpang",
+    "location": "Lokasi",
+    "destination": "Destinasi",
+    "popular": "Populer",
+    "startsfrom": "Mulai dari",
+    "detail": "Detail"
+  },
 
   "contactus": {
     "hero_title": "Siap Terhubung?",

@@ -2,10 +2,12 @@ import React from "react";
 import { Star, MapPin, Users, Clock, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatBookingData } from "../../AdminDashboard/Utils/FormatData/bookingFormatData";
+import { useTranslation } from 'react-i18next';
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 
 const ServiceCard = ({ service }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // ====== PRICE FORMATTING ======
   const formatPrice = (price) =>
@@ -55,7 +57,8 @@ const ServiceCard = ({ service }) => {
             {service.kapasitas && (
               <div className="flex items-center gap-1">
                 <Users className="w-4 h-4 text-gray-400" />
-                <span>{service.kapasitas} passengers</span>
+                <span>{t('servicepage.passengers', { count: service.kapasitas })}</span>
+
               </div>
             )}
             {service.transmission && (
@@ -80,7 +83,7 @@ const ServiceCard = ({ service }) => {
         <div className="mb-4">
           <div className="flex items-start gap-2 mb-1">
             <MapPin className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-            <span className="text-sm font-semibold text-gray-700">Location</span>
+            <span className="text-sm font-semibold text-gray-700">{t("servicepage.location")}</span>
           </div>
           <p className="text-sm text-gray-600 ml-6 leading-relaxed">
             {service.lokasi?.nama || "-"}
@@ -98,7 +101,7 @@ const ServiceCard = ({ service }) => {
         <div className="mb-4">
           <div className="flex items-start gap-2 mb-1">
             <MapPin className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-            <span className="text-sm font-semibold text-gray-700">Destinations</span>
+            <span className="text-sm font-semibold text-gray-700">{t("servicepage.destination")}</span>
           </div>
           <p className="text-sm text-gray-600 ml-6 leading-relaxed">{destinations}</p>
         </div>
@@ -145,7 +148,7 @@ const ServiceCard = ({ service }) => {
         {service.popular && (
           <div className="absolute top-4 right-4">
             <span className="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">
-              Popular
+              {t("servicepage.popular")}
             </span>
           </div>
         )}
@@ -194,7 +197,7 @@ const ServiceCard = ({ service }) => {
         <div className="flex items-end justify-between pt-4 border-t border-gray-200 mt-4 flex-wrap gap-4">
           {/* Price */}
           <div>
-            <div className="text-sm text-gray-500 mb-1">Start from</div>
+            <div className="text-sm text-gray-500 mb-1">{t("servicepage.startsfrom")}</div>
             <div className="flex items-baseline gap-1">
               <span className="text-xl font-bold text-red-500">
                 {formatPrice(getPrice())}
@@ -208,7 +211,7 @@ const ServiceCard = ({ service }) => {
               onClick={() => handleDetailClick(service)}
               className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2.5 rounded-full font-medium transition"
             >
-              Detail
+              {t("servicepage.detail")}
             </button>
           </div>
         </div>

@@ -140,18 +140,62 @@
   },
   "daytour": {
     "daytourpackage": "Day Tour Packages",
-    "nodaytour": "No Day Tour Package Found for the Selected Category`"
+    "nodaytour": "No Day Tour Package Found for the Selected Category",
+    "readmore": "Read More"
   },
   "unitcar": {
     "rentcar": "Car Rental",
-    "norentcar": "No Cars Found for the Selected Category"
+    "norentcar": "No Cars Found for the Selected Category",
+    "moredetail": "More Detail"
   },  
   "accomodation": {
     "acco": "Accommodation",
-    "noaccomodation": "No Accommodations Found for the Selected Category"
+    "noaccomodation": "No Accommodations Found for the Selected Category",
+    "seemore": "See More"
   },
 
+"detail": {
+  "seeallimage": "See all {{count}} images",
+  "startsfrom": "Starts From",
+  "booknow": "Book Now",
+  "description": "Description",
+  "itinerary": "Itinerary",
+  "priceadultandchild": "Price (Adult & Child)",
+  "roomnprice": "Room Information",
+  "facility": "Facility",
+  "duration": "Duration",
+  "policy": "Policy & Procedure",
 
+  "backtohome": "Back to Home",
+  "noitinerary": "No Itinerary Available",
+  "noprice": "No price available",
+  "category": "Category",
+  "price": "Price",
+  "hotelfacility": "Hotel facilities",
+  "noaccomodation": "Accommodation not found",
+  "noroom": "Kamar dan harga tidak tersedia",
+  "night": "/ night",
+  "room": "{{room}} Room",
+  "amenities": "Amenities :"
+},
+
+"payment": {
+  "paywithin": "Pay within",
+  "paymentmethod": "Payment Method",
+  "proceeding": "By proceeding with payment, you accept UrbanLife.id's <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>",
+
+  "beyond": "Beyond the explorer of the world",
+  "success": "Yay! Success",
+  "unsuccess": "Your payment unsuccessful!",
+  "instruction": "We've sent you to WhatsApp Number and email for trip instruction",
+  "read": "please read it as well",
+  "home": "Home Page"
+},
+
+"notfound": {
+  "page": "We can’t seem to find the page you are looking for!",
+  "back": "Back to Home Page"
+},
 
 
 

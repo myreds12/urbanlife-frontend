@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Eye, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
-const TourImage = ({ images = [], title = 'Tour Image' }) => {
+const TourImage = ({ images = [], title = "Tour Image" }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { t } = useTranslation();
 
   // Handle empty images
   if (!images || images.length === 0) {
@@ -41,15 +43,15 @@ const TourImage = ({ images = [], title = 'Tour Image' }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isGalleryOpen) return;
-      
+
       switch (e.key) {
-        case 'Escape':
+        case "Escape":
           handleCloseGallery();
           break;
-        case 'ArrowLeft':
+        case "ArrowLeft":
           handlePrevImage();
           break;
-        case 'ArrowRight':
+        case "ArrowRight":
           handleNextImage();
           break;
         default:
@@ -57,20 +59,20 @@ const TourImage = ({ images = [], title = 'Tour Image' }) => {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isGalleryOpen]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isGalleryOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
-    
+
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isGalleryOpen]);
 
@@ -109,7 +111,7 @@ const TourImage = ({ images = [], title = 'Tour Image' }) => {
         className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-white hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-gray-200"
       >
         <Eye className="w-4 h-4" />
-        See all {images.length} images
+        {t('detail.seeallimage', { count: images.length })}
       </button>
 
       {/* Gallery Modal */}
@@ -119,7 +121,9 @@ const TourImage = ({ images = [], title = 'Tour Image' }) => {
           <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900">{title} Gallery</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                {title} Gallery
+              </h3>
               <button
                 onClick={handleCloseGallery}
                 className="p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -137,7 +141,7 @@ const TourImage = ({ images = [], title = 'Tour Image' }) => {
                 className="max-w-full max-h-[500px] object-contain"
                 loading="lazy"
               />
-              
+
               {/* Navigation buttons */}
               {images.length > 1 && (
                 <>
@@ -173,8 +177,8 @@ const TourImage = ({ images = [], title = 'Tour Image' }) => {
                     onClick={() => setCurrentImageIndex(index)}
                     className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                       index === currentImageIndex
-                        ? 'border-cyan-500 ring-2 ring-cyan-200'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? "border-cyan-500 ring-2 ring-cyan-200"
+                        : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
                     <img

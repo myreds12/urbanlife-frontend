@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import Button from "../../AdminDashboard/Utils/Ui/button/Button";
 import ModalDestination from "../Utils/modal/ModalDestination";
 
@@ -21,6 +22,7 @@ const TourHeader = ({
 }) => {
   const navigate = useNavigate();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const { t } = useTranslation();
 
   const handleBookNow = () => {
     const tanggalHariIni = new Date().toISOString().split("T")[0];
@@ -119,7 +121,7 @@ const TourHeader = ({
         </div>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-4">
           <div>
-            <p className="text-gray-400 text-sm mb-1">Start From</p>
+            <p className="text-gray-400 text-sm mb-1">{t("detail.startsfrom")}</p>
             <div className="flex items-baseline space-x-1">
               <span className="text-sm md:text-base font-semibold text-red-600">
                 IDR
@@ -137,7 +139,7 @@ const TourHeader = ({
               onClick={handleBookNow}
               className="rounded-md w-full md:w-auto px-4 md:px-10 flex-1"
             >
-              Book Now
+              {t("detail.booknow")}
             </Button>
             <button
               onClick={() => setIsShareModalOpen(true)}

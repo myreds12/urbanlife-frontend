@@ -1,17 +1,19 @@
-import React from 'react';
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 const TourItinerary = ({ itinerary }) => {
+  const { t } = useTranslation();
+
   if (!itinerary || itinerary.length === 0) {
     return (
       <div className="bg-white p-4 rounded-md shadow-sm">
-        <p className="text-gray-500">Itinerary tidak tersedia.</p>
+        <p className="text-gray-500">{t(Detail.noitinerary)}</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-6 bg-white p-6 rounded-xl shadow-md">
-      <h2 className="text-lg font-semibold text-gray-700">Rencana Perjalanan</h2>
       <div className="space-y-6">
         {itinerary.map((item, index) => (
           <div key={index} className="flex gap-4">
@@ -25,7 +27,7 @@ const TourItinerary = ({ itinerary }) => {
             </div>
             <div className="flex-1">
               <h4 className="font-semibold text-gray-800 mb-1">{item.nama}</h4>
-              <p className="text-gray-700 text-sm">{item.deskripsi}</p>
+              <p className="text-gray-700 text-md">{item.deskripsi}</p>
             </div>
           </div>
         ))}

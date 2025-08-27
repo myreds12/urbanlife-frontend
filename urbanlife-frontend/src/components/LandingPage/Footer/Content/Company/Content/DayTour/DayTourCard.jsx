@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./DayTourCard.css";
 
 const DayTourCard = ({ image, title, price, description, onBookNow }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="card-item">
       <div className="card-image">
@@ -16,13 +19,12 @@ const DayTourCard = ({ image, title, price, description, onBookNow }) => {
         <div className="price-and-button">
           <div className="card-price">From IDR {price.toLocaleString()}</div>
           <button onClick={onBookNow} className="card-button">
-            Read More
+            {t("daytour.readmore")}
           </button>
         </div>
       </div>
     </div>
   );
 };
-
 
 export default DayTourCard;

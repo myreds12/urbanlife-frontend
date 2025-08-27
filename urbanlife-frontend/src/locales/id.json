@@ -49,7 +49,7 @@
   },
 
   "categories": {
-       "title": "Kategori Populer"
+    "title": "Kategori Populer"
   },
 
   "discover": {
@@ -92,48 +92,43 @@
 
   "footer": {
     "company": "PERUSAHAAN",
-        "aboutus": "Tentang Kami",
-        "privacypolicy": "Kebijakan Privasi",
-        "termsncondition": "Syarat dan Ketentuan",
-        "contactus": "Hubungi Kami",
+    "aboutus": "Tentang Kami",
+    "privacypolicy": "Kebijakan Privasi",
+    "termsncondition": "Syarat dan Ketentuan",
+    "contactus": "Hubungi Kami",
     "services": "LAYANAN",
-        "daytour": "Paket Wisata Harian",
-        "carrental": "Sewa Mobil",
-        "accomodation": "Akomodasi",
+    "daytour": "Paket Wisata Harian",
+    "carrental": "Sewa Mobil",
+    "accomodation": "Akomodasi",
     "categories": "KATEGORI",
-        "artmarket": "Pasar Seni",
-        "beach": "Pantai",
-        "culturalpark": "Taman Budaya",
-        "dance": "Tarian",
-        "hotspring": "Pemandian Air Panas",
-        "monkeyforest": "Hutan Monyet",
-        "riceterraces": "Sawah Bertingkat",
-        "temple": "Pura",
-        "volcano": "Gunung Berapi",
-        "waterpalace": "Istana Air",
-        "watersports": "Olahraga Air",
-        "waterfall": "Air Terjun",
+    "artmarket": "Pasar Seni",
+    "beach": "Pantai",
+    "culturalpark": "Taman Budaya",
+    "dance": "Tarian",
+    "hotspring": "Pemandian Air Panas",
+    "monkeyforest": "Hutan Monyet",
+    "riceterraces": "Sawah Bertingkat",
+    "temple": "Pura",
+    "volcano": "Gunung Berapi",
+    "waterpalace": "Istana Air",
+    "watersports": "Olahraga Air",
+    "waterfall": "Air Terjun",
     "blogpost": "POSTINGAN BLOG",
-        "ubudartmarket": "Pasar Seni Ubud",
-        "padangbeach": "Pantai Padang Padang",
-        "garudawisnu": "Taman Budaya Garuda Wisnu Kencana",
-        "barongdance": "Tari Barong",
-        "banjarhotspring": "Pemandian Air Panas Banjar",
-        "ubudmonkeyforest": "Hutan Monyet Ubud",
-        "jatiluwihricerraces": "Sawah Bertingkat Jatiluwih",
-        "tanahlottemple": "Pura Tanah Lot",
-        "baturvolcano": "Pemandangan Gunung Batur",
-        "tirtagangga": "Istana Air Tirta Gangga",
-        "nusadua": "Olahraga Air di Nusa Dua",
-        "tegenunganwaterfall": "Air Terjun Tegenungan",
+    "ubudartmarket": "Pasar Seni Ubud",
+    "padangbeach": "Pantai Padang Padang",
+    "garudawisnu": "Taman Budaya Garuda Wisnu Kencana",
+    "barongdance": "Tari Barong",
+    "banjarhotspring": "Pemandian Air Panas Banjar",
+    "ubudmonkeyforest": "Hutan Monyet Ubud",
+    "jatiluwihricerraces": "Sawah Bertingkat Jatiluwih",
+    "tanahlottemple": "Pura Tanah Lot",
+    "baturvolcano": "Pemandangan Gunung Batur",
+    "tirtagangga": "Istana Air Tirta Gangga",
+    "nusadua": "Olahraga Air di Nusa Dua",
+    "tegenunganwaterfall": "Air Terjun Tegenungan",
     "followus": "Ikuti Kami",
     "paymentpartner": "Mitra Pembayaran"
   },
-
-
-
-
-
 
   "services": {
     "nocontent": "Tidak ada konten yang tersedia",
@@ -141,22 +136,63 @@
   },
   "daytour": {
     "daytourpackage": "Paket Wisata Harian",
-    "nodaytour": "Tidak ada paket wisata harian yang ditemukan untuk kategori yang dipilih"
+    "nodaytour": "Tidak ada paket wisata harian yang ditemukan untuk kategori yang dipilih",
+    "readmore": "Baca Selengkapnya"
   },
   "unitcar": {
     "rentcar": "Sewa Mobil",
-    "norentcar": "Tidak ada mobil yang ditemukan untuk kategori yang dipilih"
-  },  
+    "norentcar": "Tidak ada mobil yang ditemukan untuk kategori yang dipilih",
+    "moredetail": "Baca Selengkapnya"
+  },
   "accomodation": {
     "acco": "Akomodasi",
-    "noaccomodation": "Tidak ada akomodasi yang ditemukan untuk kategori yang dipilih"
+    "noaccomodation": "Tidak ada akomodasi yang ditemukan untuk kategori yang dipilih",
+    "seemore": "Lihat Detail"
   },
 
+  "detail": {
+    "seeallimage": "Lihat {{count}} foto lainnya",
+    "startsfrom": "Mulai dari",
+    "booknow": "Pesan Sekarang",
+    "description": "Deskripsi",
+    "itinerary": "Rencana Perjalanan",
+    "priceadultandchild": "Harga (Dewasa & Anak)",
+    "roomnprice": "Informasi Kamar",
+    "facility": "Fasilitas",
+    "duration": "Durasi",
+    "policy": "Kebijakan & Prosedur",
+
+    "backtohome": "Kembali",
+    "noitinerary": "Rencana perjalanan tidak tersedia",
+    "noprice": "Harga tidak tersedia",
+    "category": "Kategori",
+    "price": "Harga",
+    "hotelfacility": "Fasilitas hotel",
+    "noaccomodation": "Akomodasi tidak ditemukan",
+    "noroom": "Kamar dan harga tidak tersedia",
+    "night": "/ malam",
+    "room": "Kamar {{room}}",
+    "amenities": "Fasilitas kamar :"
+  },
+
+  "payment": {
+    "paywithin": "Bayar dalam",
+    "paymentmethod": "Metode Pembayaran",
+    "proceeding": "Dengan melanjutkan pembayaran, Anda menerima <terms>Syarat & Ketentuan</terms> dan <privacy>Kebijakan Privasi</privacy>",
+
+    "beyond": "Melampaui penjelajah dunia",
+    "success": "Yeay! Berhasil",
+    "instruction": "Kami telah mengirimkan instruksi perjalanan ke nomor WhatsApp dan email Anda",
+    "read": "tolong dibaca dengan baik yaa!",
+    "home": "Kembali ke menu utama"
+  },
+
+  "notfound": {
+  "page": "Kami tidak dapat menemukan halaman yang Anda cari!",
+  "back": "Kembali ke menu utama"
+},
 
 
-
-
-  
   "contactus": {
     "hero_title": "Siap Terhubung?",
     "hero_subtitle": "Petualangan Anda berikutnya dimulai dari percakapan. Hubungi kami dan mari wujudkan keajaiban.",
@@ -395,71 +431,70 @@
     "cta_footer": "Selamat bepergian dengan aman dan nikmati liburan Anda!"
   },
   "orderdetail": {
-        "title": "Detail Pesanan",
-        "subtitle": "Detail kontak ini akan digunakan untuk mengirim e-invoice dan untuk keperluan penjadwalan ulang.",
-        "agree_to_terms": "Saya setuju dengan",
-        "terms_and_conditions": "syarat dan ketentuan Urbanlife",
-        "modal_label": "Modal Pilih Layanan",
-        "modal_select": "Pilih",
-        "modal_no_services": "Tidak ada layanan yang tersedia.",
-        "modal_cancel": "Batal"
+    "title": "Detail Pesanan",
+    "subtitle": "Detail kontak ini akan digunakan untuk mengirim e-invoice dan untuk keperluan penjadwalan ulang.",
+    "agree_to_terms": "Saya setuju dengan",
+    "terms_and_conditions": "syarat dan ketentuan Urbanlife",
+    "modal_label": "Modal Pilih Layanan",
+    "modal_select": "Pilih",
+    "modal_no_services": "Tidak ada layanan yang tersedia.",
+    "modal_cancel": "Batal"
   },
-   "contactform": {
-        "mr": "Bapak",
-        "mrs": "Ibu",
-        "full_name_placeholder": "Nama Lengkap (sesuai KTP/Paspor/SIM)",
-        "phone_placeholder": "Nomor telepon",
-        "email_placeholder": "Alamat email"
+  "contactform": {
+    "mr": "Bapak",
+    "mrs": "Ibu",
+    "full_name_placeholder": "Nama Lengkap (sesuai KTP/Paspor/SIM)",
+    "phone_placeholder": "Nomor telepon",
+    "email_placeholder": "Alamat email"
   },
   "detailorder": {
-        "title": "Detail Pesanan",
-        "item_default": "Item",
-        "subtotal": "Sub total",
-        "final_amount": "Jumlah Akhir",
-        "select_payment": "Pilih Opsi Pembayaran",
-        "agree_to_terms": "Harap setuju dengan syarat dan ketentuan untuk melanjutkan"
+    "title": "Detail Pesanan",
+    "item_default": "Item",
+    "subtotal": "Sub total",
+    "final_amount": "Jumlah Akhir",
+    "select_payment": "Pilih Opsi Pembayaran",
+    "agree_to_terms": "Harap setuju dengan syarat dan ketentuan untuk melanjutkan"
   },
   "customerrequest": {
-        "title": "Permintaan Pelanggan",
-        "add_request": "Tambah permintaan khusus",
-        "add_request_description": "Ketik kebutuhan khusus Anda dan nikmati waktu Anda.",
-        "textarea_placeholder": "Silakan jelaskan permintaan khusus Anda di sini..."
+    "title": "Permintaan Pelanggan",
+    "add_request": "Tambah permintaan khusus",
+    "add_request_description": "Ketik kebutuhan khusus Anda dan nikmati waktu Anda.",
+    "textarea_placeholder": "Silakan jelaskan permintaan khusus Anda di sini..."
   },
   "bookinglist": {
-        "title": "Pesanan Anda",
-        "no_items": "Belum ada item yang ditambahkan.",
-        "add_services": "Tambah Layanan Lain",
-        "loading": "Memuat...",
-        "all_services_added": "Semua layanan sudah ditambahkan",
-        "no_services_available": "Tidak ada layanan lain yang tersedia",
-        "available_services": "Layanan yang Tersedia",
-        "service_vehicle": "Kendaraan",
-        "service_travel_package": "Paket Perjalanan",
-        "service_accommodation": "Akomodasi",
-        "error_empty_result": "Hasil kosong dari API",
-        "error_service_not_found": "Layanan tidak ditemukan untuk tipe '{type}'"
+    "title": "Pesanan Anda",
+    "no_items": "Belum ada item yang ditambahkan.",
+    "add_services": "Tambah Layanan Lain",
+    "loading": "Memuat...",
+    "all_services_added": "Semua layanan sudah ditambahkan",
+    "no_services_available": "Tidak ada layanan lain yang tersedia",
+    "available_services": "Layanan yang Tersedia",
+    "service_vehicle": "Kendaraan",
+    "service_travel_package": "Paket Perjalanan",
+    "service_accommodation": "Akomodasi",
+    "error_empty_result": "Hasil kosong dari API",
+    "error_service_not_found": "Layanan tidak ditemukan untuk tipe '{type}'"
   },
   "bookingitem": {
-        "booking_date": "Tanggal Pemesanan",
-        "start_date": "Tanggal Mulai",
-        "end_date": "Tanggal Selesai",
-        "person_number": "Jumlah Orang",
-        "room_and_duration": "Kamar & Durasi",
-        "duration": "Durasi",
-        "adults": "Dewasa",
-        "children": "Anak",
-        "room": "Kamar",
-        "duration_nights": "Durasi (Malam)",
-        "price": "Harga",
-        "location": "Lokasi:",
-        "change_package": "Ganti paket",
-        "change_unit": "Ganti unit",
-        "select_adults": "Pilih dewasa",
-        "select_children": "Pilih anak",
-        "choose_duration": "Pilih durasi",
-        "choose_room": "Pilih Kamar",
-        "adult_count": " Dewasa",
-        "child_count": " Anak"
-       
+    "booking_date": "Tanggal Pemesanan",
+    "start_date": "Tanggal Mulai",
+    "end_date": "Tanggal Selesai",
+    "person_number": "Jumlah Orang",
+    "room_and_duration": "Kamar & Durasi",
+    "duration": "Durasi",
+    "adults": "Dewasa",
+    "children": "Anak",
+    "room": "Kamar",
+    "duration_nights": "Durasi (Malam)",
+    "price": "Harga",
+    "location": "Lokasi:",
+    "change_package": "Ganti paket",
+    "change_unit": "Ganti unit",
+    "select_adults": "Pilih dewasa",
+    "select_children": "Pilih anak",
+    "choose_duration": "Pilih durasi",
+    "choose_room": "Pilih Kamar",
+    "adult_count": " Dewasa",
+    "child_count": " Anak"
   }
 }

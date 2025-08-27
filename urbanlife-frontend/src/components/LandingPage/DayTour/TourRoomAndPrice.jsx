@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 
 const TourRoomAndPrice = ({ roomAndPrice }) => {
   // Fungsi format URL file (sama kayak di AccoDetail)
@@ -8,13 +9,16 @@ const TourRoomAndPrice = ({ roomAndPrice }) => {
       .replace(/\\/g, "/")
       .replace(/^uploads\//, "")}`;
   };
+  const { t } = useTranslation();
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md">
       {/* <h2 className="text-xl font-semibold text-gray-800 mb-4">Room & Price</h2> */}
 
       {roomAndPrice.length === 0 ? (
-        <p className="text-gray-500 italic">No room and price data available.</p>
+        <p className="text-gray-500 italic">
+          {t("detail.noroom")}
+        </p>
       ) : (
         <div className="space-y-4">
           {roomAndPrice.map((room, idx) => (
@@ -47,15 +51,19 @@ const TourRoomAndPrice = ({ roomAndPrice }) => {
               {/* Bagian Detail Room */}
               <div className="room-detail flex-1 p-4">
                 <div className="room-header flex justify-between items-center mb-2">
-                  <h4 className="room-name text-lg font-semibold text-gray-800">{room.nama}</h4>
+                  <h4 className="room-name text-lg font-semibold text-gray-800">
+                    {t('detail.room', { room: room.nama })}
+                  </h4>
                   <p className="room-price text-cyan-700 font-bold">
-                    IDR {Number(room.harga).toLocaleString("id-ID")} /night
+                    IDR {Number(room.harga).toLocaleString("id-ID")} {t("detail.night")}
                   </p>
                 </div>
                 {/* Amenity (opsional, kalo ada data) */}
                 {room.amenity?.length > 0 && (
                   <>
-                    <p className="facility-title font-medium text-gray-700">Amenities:</p>
+                    <p className="facility-title font-medium text-gray-700">
+                      {t("detail.amenities")}
+                    </p>
                     <ul className="room-facilities list-disc pl-5 mt-1 text-gray-700 text-sm">
                       {room.amenity.map((fac, index) => (
                         <li key={index}>• {fac.nama}</li>

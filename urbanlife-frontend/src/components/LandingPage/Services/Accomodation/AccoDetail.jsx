@@ -608,6 +608,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import TourImage from "../../DayTour/TourImage";
 import TourHeader from "../../DayTour/TourHeader";
 import TourDescription from "../../DayTour/TourDescription";
@@ -653,7 +654,7 @@ const accommodations = [
     ],
     rooms: [
       {
-        room: "Manda Room",
+        room: "Manda",
         price: "530000",
         amenity: [
           "breakfast included",
@@ -702,6 +703,7 @@ const AccoDetail = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   // Comment out API fetch untuk sementara
   // const formatFileUrl = (path) => {
@@ -772,12 +774,12 @@ const AccoDetail = () => {
 
   // Tab configuration
   const tabs = [
-    { id: "description", label: "Description" },
-    { id: "facilities", label: "Facility" },
+    { id: "description", label: t("detail.description") },
+    { id: "facilities", label: t("detail.facility") },
     ...(tourData?.room_and_price?.length > 0
-      ? [{ id: "room_and_price", label: "Room Information" }]
+      ? [{ id: "room_and_price", label: t("detail.roomnprice") }]
       : []),
-    { id: "policies", label: "Policy & Procedure" },
+    { id: "policies", label: t("detail.policy") },
   ];
 
   if (loading) {
@@ -796,13 +798,13 @@ const AccoDetail = () => {
         </div>
         <div className="flex flex-col items-center justify-center min-h-screen pt-20">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Accommodation Not Found
+            {t("detail.noaccomodation")}
           </h2>
           <button
             onClick={() => navigate("/")}
             className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg transition-colors"
           >
-            Back to Home
+            {t("detail.backtohome")}
           </button>
         </div>
         <Footer />

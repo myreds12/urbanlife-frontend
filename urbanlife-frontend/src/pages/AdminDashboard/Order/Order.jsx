@@ -9,6 +9,7 @@ import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Export from "../../../components/AdminDashboard/Utils/Ui/button/Export";
 import StatusBadge from "../../../components/AdminDashboard/Utils/Ui/badge/StatusBadge";
 import dummyOrders from "./dummyOrders";
+import { useAuthStore } from "../../../components/AdminDashboard/Utils/Auth/AuthStore";
 
 const api = import.meta.env.VITE_API_URL + "/pemesanan";
 
@@ -21,7 +22,8 @@ const tabStatusMap = {
 
 const Orders = () => {
   const navigate = useNavigate();
-  
+  const role = useAuthStore((s) => s.user?.role); 
+
   const [orders, setOrders] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -96,10 +98,16 @@ const Orders = () => {
   };
 
   const handleEdit = (row) => {
+    if (role !== "super_admin") {
+      return toast.error("You do not have permission to edit orders.");
+    }
     navigate(`/admin/order/edit/${row.id}`);
   };
 
   const handleDelete = async (row) => {
+     if (role !== "super_admin") {
+      return toast.error("You do not have permission to delete orders.");
+    }
     const confirmed = window.confirm(`Are you sure you want to delete order "${row.id}"?`);
     if (!confirmed) return;
 
@@ -223,8 +231,8 @@ const Orders = () => {
                 sortConfig={sortConfig}
                 startIndex={startIndex}
                 onView={handleView}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
+                onEdit={role === "super_admin" ? handleEdit : null}
+                onDelete={role === "super_admin" ? handleDelete : null}
                 defaultMapping={{
                   "#": (row, index) => (page - 1) * take + index + 1,
                   "Booking ID": (row) => row.id,

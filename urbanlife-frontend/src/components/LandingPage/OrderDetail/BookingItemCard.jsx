@@ -121,7 +121,7 @@ const BookingItemCard = ({
     <div className="bg-white rounded-xl shadow-md p-6 relative space-y-4 w-full max-w-md">
       {/* Remove Button */}
       <button
-        onClick={() => handleRemove(id)}
+        onClick={() => handleRemove(id, item_type)}
         className="absolute top-2 right-2 text-red-500 hover:text-red-600 transition-colors"
       >
         <FiX className="w-5 h-5" />
@@ -289,7 +289,7 @@ const BookingItemCard = ({
 
       {/* Change Package / Unit */}
       <div className="flex items-center text-sm text-red-500 font-medium cursor-pointer hover:underline transition-all">
-        {item_type === "TRAVEL_PACKAGE" ? t('bookingitem.change_package') : t('bookingitem.change_unit')}
+        {item_type === "travel_package" ? t('bookingitem.change_package') : t('bookingitem.change_unit')}
         <FiChevronRight className="ml-1 w-4 h-4" />
       </div>
     </div>

@@ -34,6 +34,7 @@ const othersItems = [
     subItems: [
       { name: "Hero Section", path: "/admin/herosection"},
       { name: "ServiceSchedule", path: "/admin/ServiceSchedule"},
+        { name: "Partner", path: "/admin/ourpartner"},
       { name: "Countries", path: "/admin/country" },
       { name: "Cities", path: "/admin/city" },
       { name: "Car", path: "/admin/car" },

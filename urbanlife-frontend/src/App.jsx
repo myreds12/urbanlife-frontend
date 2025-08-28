@@ -62,6 +62,7 @@ const CreateBlog = lazy(() => import("./pages/AdminDashboard/DataMaster/Blog/Cre
 const CategoryAdmin = lazy(() => import("./pages/AdminDashboard/DataMaster/Category/CategoryAdmin"));
 const User = lazy(() => import("./pages/AdminDashboard/DataMaster/User/User"));
 const HeroSection = lazy(() => import("./pages/AdminDashboard/DataMaster/HeroSection/HeroSection"));
+const Partner = lazy(() => import("./pages/AdminDashboard/DataMaster/Partner/Partner"));
 const ServiceSchedule = lazy(() => import("./pages/AdminDashboard/DataMaster/ServiceSchedule/ServiceSchedule"));
 const Testimonial = lazy(() => import("./pages/AdminDashboard/DataMaster/Testimonial/Testimonial"));
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
@@ -148,9 +149,9 @@ function App() {
             <Route
               path="/admin"
               element={
-                <ProtectedRoute>
+               <ProtectedRoute>
                     <AppLayout />
-                 </ProtectedRoute>
+               </ProtectedRoute>
               }
             >
               <Route index element={<Navigate to="dashboard" replace />} />
@@ -189,7 +190,8 @@ function App() {
               <Route path="whatsapp-connect" element={<WhatsappConnect />} />
               <Route path="template" element={<Template />} />
               <Route path="inbox" element={<Inbox />} />
-              <Route path="herosection" element={<HeroSection />} />  
+              <Route path="herosection" element={<HeroSection />} /> 
+              <Route path="ourpartner" element={<Partner />} /> 
               <Route path="ServiceSchedule" element={<ServiceSchedule />} />           
               <Route path="country" element={<Country />} />
               <Route path="city" element={<City />} />

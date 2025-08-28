@@ -41,7 +41,7 @@
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const res = await apiClient.get(`/akomodasi/${id}`);
+//         const res = await apiClient.get(/akomodasi/${id});
 //         setAccommodation(res.data.data);
 //       } catch (err) {
 //         console.error(err);
@@ -171,7 +171,7 @@
 
 //     console.log("Navigating to OrderDetail with data:", bookingData);
 
-//     navigate(`/OrderDetail?type=akomodasi&id=${id}`, {
+//     navigate(/OrderDetail?type=akomodasi&id=${id}, {
 //       state: bookingData,
 //     });
 //   };
@@ -216,7 +216,7 @@
 //       <div
 //         className="hero-section"
 //         style={{
-//           background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, #00A5CC 0%, #007F9F 40%, #0092B8 100%)`,
+//           background: radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, #00A5CC 0%, #007F9F 40%, #0092B8 100%),
 //         }}
 //       >
 //         <div className="hero-decorations">
@@ -266,7 +266,7 @@
 //                 <img
 //                   key={idx}
 //                   src={formatFileUrl(file.url)}
-//                   alt={`Hotel view ${idx + 1}`}
+//                   alt={Hotel view ${idx + 1}}
 //                   className="gallery-thumb cursor-pointer rounded-lg border-2 border-gray-200 hover:border-cyan-500"
 //                   onClick={() => openModal(idx)}
 //                 />
@@ -316,7 +316,7 @@
 //                   <div className="room-image-box md:w-1/3">
 //                     <img
 //                       src={formatFileUrl(room.AkomodasiFile[0]?.url)}
-//                       alt={`${room.nama} preview`}
+//                       alt={${room.nama} preview}
 //                       className="w-full h-48 object-cover cursor-pointer"
 //                       onClick={() => openModal(currentRoomIndex)}
 //                     />
@@ -325,7 +325,7 @@
 //                         <img
 //                           key={index}
 //                           src={formatFileUrl(file.url)}
-//                           alt={`Thumb ${index + 1}`}
+//                           alt={Thumb ${index + 1}}
 //                           className={`w-16 h-16 rounded-lg border-2 ${
 //                             currentRoomIndex === index
 //                               ? "border-cyan-500"
@@ -377,7 +377,7 @@
 //             <div className="relative bg-gray-50 flex items-center justify-center min-h-[400px]">
 //               <img
 //                 src={formatFileUrl(accommodation.akomodasi_file[currentImageIndex]?.url)}
-//                 alt={`Hotel view ${currentImageIndex + 1}`}
+//                 alt={Hotel view ${currentImageIndex + 1}}
 //                 className="max-w-full max-h-[500px] object-contain"
 //                 loading="lazy"
 //               />
@@ -417,7 +417,7 @@
 //                   >
 //                     <img
 //                       src={formatFileUrl(file.url)}
-//                       alt={`${accommodation.nama} thumbnail ${index + 1}`}
+//                       alt={${accommodation.nama} thumbnail ${index + 1}}
 //                       className="w-full h-full object-cover"
 //                       loading="lazy"
 //                     />
@@ -467,7 +467,7 @@
 //     const fetchData = async () => {
 //       try {
 //         setLoading(true);
-//         const res = await apiClient.get(`/akomodasi/${id}`);
+//         const res = await apiClient.get(/akomodasi/${id});
 //         const accommodation = res.data.data;
 
 //         // Transform data ke format yang sama dengan DayTourDetail
@@ -605,10 +605,9 @@
 // };
 
 // export default AccoDetail;
-
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import TourImage from "../../DayTour/TourImage";
 import TourHeader from "../../DayTour/TourHeader";
 import TourDescription from "../../DayTour/TourDescription";
@@ -619,160 +618,74 @@ import Footer from "../../HomePage/Footer";
 import "../../../../styles/LandingPage/DayTour/DaytourDetail.css";
 import "./AccoDetail.css";
 import TourFacilities from "../../DayTour/TourFacility";
-// import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
-
-// Dummy data untuk sementara
-const accommodations = [
-  {
-    id: 1,
-    unit: "Legian Fourteen Roses Boutique",
-    type: "Hotel",
-    location: "Bali",
-    images: [
-      "/images/LandingPage/Services/Accomodation/legian-fourteen/classic-room/photo1.png",
-      "/images/LandingPage/Services/Accomodation/legian-fourteen/classic-room/photo2.png",
-      "/images/LandingPage/Services/Accomodation/legian-fourteen/classic-room/photo3.png",
-      "/images/LandingPage/Services/Accomodation/legian-fourteen/classic-room/photo4.png",
-      "/images/LandingPage/Services/Accomodation/legian-fourteen/madya-room/photo1.png",
-      "/images/LandingPage/Services/Accomodation/legian-fourteen/madya-room/photo2.png",
-    ],
-    description:
-      "Situated in one of the popular tourist areas, Legian, Fourteen Roses Boutique Hotel will give you a memorable experience from your stay at this hotel. Despite its location that nestled in the tourist hub, the hotel has a very unique design, Ubud-style design, with a lot of trees and greeneries combined with a Balinese traditional architecture that will make you feel relaxed and far from the hustle bustle of the city. In addition to this, a great hospitality service is also provided through the hotel's staffs that are ready to help whenever you need.",
-    facilities: [
-      { nama: "24-hour front desk service with multilingual staff" },
-      { nama: "Outdoor swimming pool with tropical garden view" },
-      { nama: "Complimentary high-speed Wi-Fi throughout the property" },
-      { nama: "Traditional Balinese spa and wellness center" },
-      { nama: "Restaurant serving local and international cuisine" },
-      { nama: "Airport shuttle service available upon request" },
-      { nama: "Bicycle rental for exploring the local area" },
-      { nama: "Laundry and dry cleaning services" },
-      { nama: "Tour desk for local excursions and activities" },
-      { nama: "Parking facilities for guests" },
-      { nama: "Garden terrace with traditional Balinese architecture" },
-      { nama: "Room service available during specified hours" },
-    ],
-    rooms: [
-      {
-        room: "Manda",
-        price: "530000",
-        amenity: [
-          "breakfast included",
-          "room size : 30 m2",
-          "occupancy : max 2 adults + 1 child",
-          "bed configuration : king size or twin bed",
-        ],
-      },
-      {
-        room: "Madya Room",
-        price: "730000",
-        amenity: [
-          "breakfast included",
-          "room size : 36 m2",
-          "occupancy : max 2 adults + 1 child",
-          "bed configuration : king size or twin bed",
-        ],
-      },
-      {
-        room: "Classic Room",
-        price: "550000",
-        amenity: [
-          "breakfast included",
-          "room size : 32 m2",
-          "occupancy : max 2 adults + 1 child",
-          "bed configuration : king size or twin bed",
-        ],
-      },
-    ],
-    policies: [
-      { policyname: "Check-in time: 2:00 PM" },
-      { policyname: "Check-out time: 12:00 PM" },
-      {
-        policyname: "Cancellation policy: Free cancellation up to 24 hours before check-in",
-      },
-      { policyname: "Children policy: Children of all ages are welcome" },
-      { policyname: "Pet policy: Pets are not allowed" },
-      { policyname: "Smoking policy: Non-smoking property" },
-    ],
-  },
-];
+import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
 
 const AccoDetail = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("description");
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
 
-  // Comment out API fetch untuk sementara
-  // const formatFileUrl = (path) => {
-  //   if (!path) return "/public/images/error/No_Image_Available.jpg";
-  //   return `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${path
-  //     .replace(/\\/g, "/")
-  //     .replace(/^uploads\//, "")}`;
-  // };
+  const formatFileUrl = (path) => {
+    if (!path) return "/public/images/error/No_Image_Available.jpg";
+    return `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${path
+      .replace(/\\/g, "/")
+      .replace(/^uploads\//, "")}`;
+  };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const res = await apiClient.get(`/akomodasi/${id}`);
-  //       const accommodation = res.data.data;
-  //       // ... transform data logic
-  //       setTourData(transformedData);
-  //     } catch (err) {
-  //       console.error("Error fetching accommodation:", err);
-  //       navigate("/not-found");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   if (id) {
-  //     fetchData();
-  //   }
-  // }, [id, navigate]);
-
-  // Menggunakan dummy data untuk sementara
   useEffect(() => {
-    setLoading(true);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await apiClient.get("/akomodasi");
+        const accommodation = res.data.data[0]; // Ambil data pertama dari array
 
-    // Simulasi loading
-    setTimeout(() => {
-      const accommodation = accommodations.find(
-        (acc) => acc.id === parseInt(id)
-      );
+        if (!accommodation) {
+          setTourData(null);
+          return;
+        }
 
-      if (!accommodation) {
-        setTourData(null);
-      } else {
-        // Transform dummy data ke format yang diperlukan
+        // Transform data sesuai struktur API
         const transformedData = {
-          ...accommodation,
-          title: accommodation.unit,
+          id: accommodation.id,
+          title: accommodation.nama,
           type: "akomodasi",
-          price: accommodation.rooms?.[0]?.price || "0",
-          location: accommodation.location || "",
-          images: accommodation.images || [],
-          description: accommodation.description || "No description available.",
-          facilities: accommodation.facilities || [],
-          policies:accommodation.policies || [],
+          price: accommodation.akomodasi_room_and_price?.[0]?.harga || "0",
+          location: accommodation.lokasi?.nama || "",
+          images: accommodation.akomodasi_file?.map(file => formatFileUrl(file.url)) || [],
+          description:
+            accommodation.akomodasi_content?.find(c => c.bahasa === "ENGLISH")?.deskripsi ||
+            accommodation.akomodasi_content?.[0]?.deskripsi ||
+            "Tidak ada deskripsi.",
+          facilities:
+            accommodation.akomodasi_facility_group?.flatMap(group =>
+              group.fasilitas?.map(f => ({ nama: f.nama })) || []
+            ) || [],
+          policies: accommodation.akomodasi_content?.[0]?.kebijakan
+            ? accommodation.akomodasi_content[0].kebijakan.split("\n").map(p => ({ policyname: p }))
+            : [],
           room_and_price:
-            accommodation.rooms?.map((room) => ({
-              nama: room.room,
-              harga: room.price,
-              amenity: room.amenity?.map((f) => ({ nama: f })) || [],
+            accommodation.akomodasi_room_and_price?.map(room => ({
+              nama: room.nama,
+              harga: room.harga,
+              AkomodasiFile: room.AkomodasiFile || [],
+              amenity: room.amenity?.map(f => ({ nama: f })) || [],
             })) || [],
         };
 
         setTourData(transformedData);
+      } catch (err) {
+        console.error("Error fetching accommodation:", err);
+        setTourData(null);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      setLoading(false);
-    }, 500);
-  }, [id]);
+    fetchData();
+  }, []);
 
-  // Tab configuration
   const tabs = [
     { id: "description", label: t("detail.description") },
     { id: "facilities", label: t("detail.facility") },
@@ -814,17 +727,11 @@ const AccoDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Fixed Navbar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <Navbar />
       </div>
-
-      {/* Main Content */}
       <div className="max-w-6xl mx-auto p-6 space-y-8 pt-24">
-        {/* Tour Image Gallery */}
         <TourImage images={tourData.images} title={tourData.title} />
-
-        {/* Tour Header with Book Now */}
         <TourHeader
           title={tourData.title}
           price={tourData.price}
@@ -840,8 +747,6 @@ const AccoDetail = () => {
           }}
           room_and_price={tourData.room_and_price}
         />
-
-        {/* Tab Navigation */}
         <div className="mt-8 mb-1">
           <nav className="flex space-x-7">
             {tabs.map((tab) => (
@@ -857,8 +762,6 @@ const AccoDetail = () => {
             ))}
           </nav>
         </div>
-
-        {/* Tab Content */}
         <div className="min-h-96">
           {activeTab === "description" && (
             <TourDescription description={tourData.description} />
@@ -874,7 +777,6 @@ const AccoDetail = () => {
           )}
         </div>
       </div>
-
       <Footer />
     </div>
   );

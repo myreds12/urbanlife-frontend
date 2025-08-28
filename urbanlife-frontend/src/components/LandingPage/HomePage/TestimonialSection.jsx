@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient"; 
 import { useTranslation } from 'react-i18next';
 
 const TestimonialSection = () => {
@@ -10,12 +10,34 @@ const TestimonialSection = () => {
 
   const fetchTestimonials = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const res = await apiClient.get("/testimonial", {
         params: { page: 1, take: 6 }
       });
-      setTestimonials(res.data.data || []);
+
+      // Handle respons API Postman (objek tunggal di data)
+      const data = res.data.data;
+      const transformedTestimonials = Array.isArray(data)
+        ? data.map(item => ({
+            id: item.id,
+            name: item.nama,
+            occupation: item.pekerjaan,
+            description: item.deskripsi,
+            image_url: item.image_url || "/images/error/No_Images_Available.jpg"
+          }))
+        : [{
+            id: data.id,
+            name: data.nama,
+            occupation: data.pekerjaan,
+            description: data.deskripsi,
+            image_url: data.image_url || "/images/error/No_Images_Available.jpg"
+          }];
+
+      setTestimonials(transformedTestimonials);
     } catch (err) {
       console.error("❌ Failed to fetch testimonials:", err);
+      setError(t("testimonial.error"));
     } finally {
       setLoading(false);
     }
@@ -73,33 +95,42 @@ const TestimonialSection = () => {
 
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
-            <div key={testimonial.id} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow duration-300">
-              {/* Profile Section */}
-              <div className="flex flex-col items-center mb-6">
-                <div className="w-24 h-24 rounded-full overflow-hidden mb-4 shadow-md">
-                  <img
-                    src={testimonial.image_url || "/images/error/No_Images_Available.jpg"}
-                    alt={testimonial.name}
-                    className="w-full h-full object-cover"
-                  />
+          {testimonials.length === 0 ? (
+            <p className="text-gray-500 italic col-span-full text-center">
+              {t("testimonial.no_data")}
+            </p>
+          ) : (
+            testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow duration-300"
+              >
+                {/* Profile Section */}
+                <div className="flex flex-col items-center mb-6">
+                  <div className="w-24 h-24 rounded-full overflow-hidden mb-4 shadow-md">
+                    <img
+                      src={testimonial.image_url}
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h3 className="text-[#071C4D] text-lg font-semibold mb-1">
+                    {testimonial.name}
+                  </h3>
+                  <p className="text-gray-400 text-sm italic">
+                    ( {testimonial.occupation} )
+                  </p>
                 </div>
-                <h3 className="text-[#071C4D] text-lg font-semibold mb-1">
-                  {testimonial.name}
-                </h3>
-                <p className="text-gray-400 text-sm italic">
-                  ( {testimonial.occupation} )
-                </p>
-              </div>
 
-              {/* Review */}
-              <div className="text-center mb-6">
-                <p className="text-gray-600 text-base italic leading-loose text-center">
-                  "{testimonial.description}"
-                </p>
+                {/* Review */}
+                <div className="text-center mb-6">
+                  <p className="text-gray-600 text-base italic leading-loose text-center">
+                    "{testimonial.description}"
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

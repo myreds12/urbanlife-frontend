@@ -300,7 +300,7 @@ function CreateDayTourPage() {
               {isEditMode ? "Edit Day Tour" : "Create Day Tour"}
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-              {["description", "image", "itinerary", "price"].map((section) => (
+              {["description", "image", "itinerary", "price", "policy and procedure"].map((section) => (
                 <span
                   key={section}
                   className={`cursor-pointer px-1 font-medium underline-item relative ${

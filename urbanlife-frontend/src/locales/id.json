@@ -83,9 +83,11 @@
   },
 
   "newsnblog": {
-    "title": "Berita dan Blog",
-    "readmore": "Baca Selengkapnya"
-  },
+        "title": "Berita & Blog",
+        "loading": "Memuat...",
+        "readmore": "Baca Selengkapnya",
+        "error_fetch_news": "Gagal mengambil berita:"
+      },
 
   "footer": {
     "company": "PERUSAHAAN",

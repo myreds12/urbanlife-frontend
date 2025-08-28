@@ -4,19 +4,26 @@ import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
 import { useTranslation } from "react-i18next";
 
 const NewsnBlog = () => {
+  const { t, i18n } = useTranslation();
+  console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  useEffect(() => {
+    console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
+  }, [i18n.language]);
+
   const [newsData, setNewsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { t } = useTranslation();
 
   const fetchNews = async () => {
     setIsLoading(true);
     try {
       const response = await apiClient.get("/news");
+      console.log('API news data:', response.data.data); // Debug data API
       setNewsData(response.data.data);
     } catch (error) {
-      console.error("Error fetching news:", error);
+      console.error(t("newsnblog.error_fetch_news"), error);
     } finally {
       setIsLoading(false);
     }
@@ -64,7 +71,7 @@ const NewsnBlog = () => {
   }, [newsData]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t("newsnblog.loading")}</div>;
   }
 
   return (

@@ -9,56 +9,52 @@ import { useSearchParams } from "react-router-dom";
 
 const Partner = () => {
   const [partners, setPartners] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const formRef = useRef(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState("");
   const editingId = searchParams.get("edit");
   const isEditing = Boolean(editingId);
+  const formRef = useRef(null);
 
-  const fetchData = async (endpoint, setter, label) => {
+  const fetchPartners = async () => {
+    setLoading(true);
     try {
-      const { data } = await apiClient.get(endpoint);
-      setter(data.data.code || data.data || []);
+      const { data } = await apiClient.get("/our-partner", {
+        params: { page: 1, take: 10 },
+      });
+      setPartners(data.data || []);
     } catch (error) {
-      console.error(`❌ Failed to fetch ${label}`, error);
+      console.error("❌ Failed to fetch partners", error);
+      toast.error("Failed to load partners data");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchAllData = async () => {
-      setLoading(true);
-      await fetchData("/our-partner", setPartners, "partners");
-      setLoading(false);
-    };
-
-    fetchAllData();
+    fetchPartners();
   }, []);
 
   useEffect(() => {
-    if (!formRef.current || partners.length === 0) return;
-
-    const partner = partners.find((p) => p.id === Number(editingId));
-    if (editingId && partner) {
-      formRef.current.setFormData?.({
-        id: partner.id,
-        name: partner.name,
-        image: partner.image,
-      });
-    } else {
-      formRef.current.resetForm?.();
+    if (editingId && partners.length > 0) {
+      const partner = partners.find((p) => p.id === Number(editingId));
+      if (partner) {
+        formRef.current.setFormData?.({
+          name: partner.name,
+          image: partner.image,
+        });
+      }
+    } else if (!isEditing) {
+      formRef.current?.resetForm?.();
     }
-  }, [editingId, partners]);
+  }, [editingId, partners, isEditing]);
 
   const filteredPartners = useMemo(() => {
     return partners.filter((partner) =>
-      String(partner.id)
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      String(partner.name)
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
+      Object.values(partner).some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      )
     );
   }, [partners, searchTerm]);
 
@@ -76,14 +72,20 @@ const Partner = () => {
     try {
       const dataToSend = new FormData();
       dataToSend.append("name", name);
-      if (image) dataToSend.append("image", image);
-      console.log("Data dikirim:", Object.fromEntries(dataToSend)); // Cek data di console
+      if (image) dataToSend.append("file", image);
 
       if (isEditing) {
-        await apiClient.patch(`/our-partner/${editingId}`, dataToSend, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        toast.success("Partner updated successfully");
+        console.log("Editing partner id:", editingId);
+
+        await apiClient.patch(`/our-partner/${editingId}`, { name });
+        if (image) {
+          const formData = new FormData();
+          formData.append("file", image);
+          await apiClient.post(
+            `/our-partner/${editingId}/upload-image`,
+            formData
+          );
+        }
       } else {
         await apiClient.post("/our-partner", dataToSend, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -91,17 +93,19 @@ const Partner = () => {
         toast.success("Partner added successfully");
       }
 
-      await fetchData("/our-partner", setPartners, "partners");
-      formRef.current?.resetForm();
+      await fetchPartners();
+      formRef.current?.resetForm?.();
       setSearchParams({});
     } catch (error) {
       console.error("❌ Failed to save partner", error);
-      toast.error(error.response?.data?.message || "Failed to save partner");
+      toast.error(
+        error.response?.data?.message ||
+          "Could not save the partner. Please try again."
+      );
     } finally {
       setSaving(false);
     }
   };
-
   const handleEdit = (partner) => {
     if (!partner?.id) {
       console.warn("Partner ID undefined!", partner);
@@ -114,7 +118,7 @@ const Partner = () => {
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: "Delete Partner",
-      text: "Are you sure want to delete this partner?",
+      text: "Are you sure you want to delete this partner?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#10b981",
@@ -127,11 +131,11 @@ const Partner = () => {
 
     try {
       await apiClient.delete(`/our-partner/${id}`);
-      await fetchData("/our-partner", setPartners, "partners");
-      toast.success("Partner deleted successfully");
+      toast.success("Partner was successfully deleted");
+      fetchPartners();
     } catch (error) {
       console.error("❌ Failed to delete partner", error);
-      toast.error(error.response?.data?.message || "Failed to delete partner");
+      toast.error("Could not delete the partner. Please try again.");
     }
   };
 
@@ -140,20 +144,14 @@ const Partner = () => {
     setSearchParams({});
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-600"></div>
-      </div>
-    );
-  }
-
   return (
     <div className="p-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Form */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Left: Partner Form */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
-          <h3 className="text-lg font-semibold text-gray-800">Partners</h3>
+          <h3 className="text-lg font-semibold text-gray-800">
+            {isEditing ? "Edit Partner" : "Add New Partner"}
+          </h3>
           <PartnerForm ref={formRef} />
           <div className="flex justify-end gap-4">
             <button
@@ -165,27 +163,27 @@ const Partner = () => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
+              className="px-5 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 disabled:opacity-50"
             >
-              {saving ? "Saving..." : "Save Changes"}
+              Save Changes
             </button>
           </div>
         </div>
 
-        {/* Table + Search */}
+        {/* Right: Partners List */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">List Partners</h3>
-            <div className="w-64">
-              <Search
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+            <h3 className="text-lg font-semibold text-gray-800">
+              Partners List
+            </h3>
+            <Search
+              searchTerm={searchTerm}
+              onSearchChange={(value) => setSearchTerm(value)}
+            />
           </div>
           <PartnerTable
             partners={filteredPartners}
+            loading={loading}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />

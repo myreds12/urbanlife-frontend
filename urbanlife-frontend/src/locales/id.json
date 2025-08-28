@@ -62,17 +62,14 @@
   },
 
   "servicenschedule": {
-    "title": "Pesan Sekarang dan Coba Layanan Kami!",
-    "desc": "Selain layanan transportasi di Bali yang kami sediakan, kami juga menawarkan paket tur harian yang memberi Anda kesempatan untuk mengunjungi berbagai bagian pulau, menikmati keindahannya, dan juga mempelajari budaya lokal secara bersamaan.",
-    "monday": "SENIN",
-    "tuesday": "SELASA",
-    "wednesday": "RABU",
-    "thursday": "KAMIS",
-    "friday": "JUMAT",
-    "saturday": "SABTU",
-    "sunday": "MINGGU",
-    "button": "Hubungi Kami"
-  },
+        "title": "Pesan Sekarang dan Coba Layanan Kami!",
+        "desc": "Selain layanan transportasi di Bali yang kami sediakan, kami juga menawarkan paket tur harian yang memberi Anda kesempatan untuk mengunjungi berbagai bagian pulau, menikmati keindahannya, dan juga mempelajari budaya lokal secara bersamaan.",
+        "button": "Hubungi Kami",
+        "error": "Gagal memuat data jadwal",
+        "try": "Coba Lagi",
+        "no_data": "Data jadwal tidak tersedia",
+        "error_fetch_schedule": "Gagal mengambil jadwal:"
+      },
 
   "testimonial": {
     "title": "Mereka Menyukai Kami",
@@ -86,9 +83,11 @@
   },
 
   "newsnblog": {
-    "title": "Berita dan Blog",
-    "readmore": "Baca Selengkapnya"
-  },
+        "title": "Berita & Blog",
+        "loading": "Memuat...",
+        "readmore": "Baca Selengkapnya",
+        "error_fetch_news": "Gagal mengambil berita:"
+      },
 
   "footer": {
     "company": "PERUSAHAAN",

@@ -62,17 +62,14 @@
   },
 
   "servicenschedule": {
-    "title": "Order Now and Try Our Services!",
-    "desc": "In addition to the transportation services in Bali that we provide, we also offer day tour packages that could give you an opportunity to visit different parts of the island, enjoy its beauty and also learn local culture at the same time.",
-    "monday": "MONDAY",
-    "tuesday": "TUESDAY",
-    "wednesday": "WEDNESDAY",
-    "thursday": "THURSDAY",
-    "friday": "FRIDAY",
-    "saturday": "SATURDAY",
-    "sunday": "SUNDAY",
-    "button": "Contact Us"
-  },
+        "title": "Order Now and Try Our Services!",
+        "desc": "In addition to the transportation services in Bali that we provide, we also offer day tour packages that could give you an opportunity to visit different parts of the island, enjoy its beauty and also learn local culture at the same time.",
+        "button": "Contact Us",
+        "error": "Failed to load schedule data",
+        "try": "Try Again",
+        "no_data": "No schedule data available",
+        "error_fetch_schedule": "Failed to fetch schedule:"
+      },
 
   "testimonial": {
     "title": "They Are Loving Us",
@@ -86,9 +83,11 @@
   },
 
   "newsnblog": {
-    "title": "News",
-    "readmore": "Read More"
-  },
+        "title": "News & Blog",
+        "loading": "Loading...",
+        "readmore": "Read More",
+        "error_fetch_news": "Error fetching news:"
+      },
   "footer": {
     "company": "COMPANY",
         "aboutus": "About Us",

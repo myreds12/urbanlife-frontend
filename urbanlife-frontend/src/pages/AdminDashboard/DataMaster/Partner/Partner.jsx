@@ -41,8 +41,8 @@ const Partner = () => {
       const partner = partners.find((p) => p.id === Number(editingId));
       if (partner) {
         formRef.current.setFormData?.({
-          name: partner.name,
-          image: partner.image,
+          nama: partner.nama, // Ubah dari name ke nama
+          file: partner.file, // Ubah dari image ke file
         });
       }
     } else if (!isEditing) {
@@ -62,8 +62,8 @@ const Partner = () => {
     const formData = formRef.current?.getFormData?.();
     if (!formData) return;
 
-    const { name, image } = formData;
-    if (!name.trim()) {
+    const { nama, file } = formData; // Ubah dari name, image ke nama, file
+    if (!nama.trim()) {
       toast.error("Partner name cannot be empty");
       return;
     }
@@ -71,16 +71,16 @@ const Partner = () => {
     setSaving(true);
     try {
       const dataToSend = new FormData();
-      dataToSend.append("name", name);
-      if (image) dataToSend.append("file", image);
+      dataToSend.append("nama", nama); // Ubah dari name ke nama
+      if (file) dataToSend.append("file", file); // Ubah dari image ke file
 
       if (isEditing) {
         console.log("Editing partner id:", editingId);
 
-        await apiClient.patch(`/our-partner/${editingId}`, { name });
-        if (image) {
+        await apiClient.patch(`/our-partner/${editingId}`, { nama }); // Ubah dari name ke nama
+        if (file) {
           const formData = new FormData();
-          formData.append("file", image);
+          formData.append("file", file); // Ubah dari image ke file
           await apiClient.post(
             `/our-partner/${editingId}/upload-image`,
             formData

@@ -52,6 +52,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+
       {/* Our Partner Section */}
       <AnimatedSection animationType="scaleIn">
         <div className="w-full px-4 md:px-8 lg:px-10 mb-1">
@@ -61,9 +62,7 @@ const LandingPage = () => {
             </h1>
           </div>
           <div className="flex flex-wrap justify-center gap-14 mb-10">
-            <PartnerCard1 image="/images/LandingPage/Partner/BoutiqueHotel2.png" />
-            <PartnerCard1 image="/images/LandingPage/Partner/PondokSebatu.png" />
-            <PartnerCard1 image="/images/LandingPage/Partner/BeachHotel2.png" />
+            <PartnerCard1 />
           </div>
         </div>
       </AnimatedSection>

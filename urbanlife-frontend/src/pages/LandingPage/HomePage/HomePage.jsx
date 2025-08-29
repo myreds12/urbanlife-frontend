@@ -11,6 +11,7 @@ import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnB
 import PopularCategoriesSection from "./Popular Categoires/PopularCategories";
 import AnimatedSection from "../../../components/LandingPage/Utils/AnimatedSection";
 import { useTranslation } from "react-i18next";
+import Carousel from "../../../components/AdminDashboard/Utils/Ui/Carousel";
 
 const LandingPage = () => {
   const { t } = useTranslation();
@@ -60,10 +61,10 @@ const LandingPage = () => {
               {t("partner.title")}
             </h1>
           </div>
-          <div className="flex flex-wrap justify-center gap-14 mb-10">
+          <div className="flex flex-wrap justify-center mb-10 lg:px-10">
+            <Carousel autoplay={true} autoplayDelay={2000}>
             <PartnerCard1 image="/images/LandingPage/Partner/BoutiqueHotel2.png" />
-            <PartnerCard1 image="/images/LandingPage/Partner/PondokSebatu.png" />
-            <PartnerCard1 image="/images/LandingPage/Partner/BeachHotel2.png" />
+            </Carousel>
           </div>
         </div>
       </AnimatedSection>

@@ -53,6 +53,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+
       {/* Our Partner Section */}
       <AnimatedSection animationType="scaleIn">
         <div className="w-full px-4 md:px-8 lg:px-10 mb-1">

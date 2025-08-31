@@ -10,11 +10,12 @@ import TestimonialSection from "../../../components/LandingPage/HomePage/Testimo
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
 import PopularCategoriesSection from "./Popular Categoires/PopularCategories";
 import AnimatedSection from "../../../components/LandingPage/Utils/AnimatedSection";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
+import Carousel from "../../../components/AdminDashboard/Utils/Ui/Carousel";
 
 const LandingPage = () => {
-    const { t } = useTranslation();
-  
+  const { t } = useTranslation();
+
   return (
     <div>
       <Navbar />
@@ -40,28 +41,31 @@ const LandingPage = () => {
       </div>
 
       {/* Discover All Around Section */}
-<div className="w-full px-4 md:px-8 lg:px-10 mb-16">
-  <div className="max-w-[1200px] mx-auto">
-    <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
-      {t('discover.title')}
-    </h1>
-  </div>
-  <div className="flex flex-wrap justify-start lg:pl-70 gap-4">
-    <DiscoverCard />
-  </div>
-</div>
+      <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
+        <div className="max-w-[1200px] mx-auto">
+          <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
+            {t("discover.title")}
+          </h1>
+          <div className="overflow-x-auto scrollbar-hide">
+            <div className="flex gap-4 ml-5">
+              <DiscoverCard />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Our Partner Section */}
       <AnimatedSection animationType="scaleIn">
         <div className="w-full px-4 md:px-8 lg:px-10 mb-1">
           <div className="max-w-[1200px] mx-auto">
             <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
-              {t('partner.title')}
+              {t("partner.title")}
             </h1>
           </div>
-          <div className="flex flex-wrap justify-center gap-14 mb-10">
+          <div className="flex flex-wrap justify-center mb-10 lg:px-10">
+            <Carousel autoplay={true} autoplayDelay={2000}>
             <PartnerCard1 image="/images/LandingPage/Partner/BoutiqueHotel2.png" />
-            <PartnerCard1 image="/images/LandingPage/Partner/PondokSebatu.png" />
-            <PartnerCard1 image="/images/LandingPage/Partner/BeachHotel2.png" />
+            </Carousel>
           </div>
         </div>
       </AnimatedSection>

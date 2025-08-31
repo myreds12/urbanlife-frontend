@@ -1,5 +1,6 @@
-.partner1-card{
-  width: 350px;
+.partner1-card {
+  width: 100%;
+  max-width: 350px;
   height: 100px;
   border-radius: 10px;
   overflow: hidden;
@@ -7,7 +8,7 @@
   position: relative;
   display: inline-block;
   background-color: white;
-  padding: 20px;
+  padding: 15px;
   transition: transform 0.3s ease;
 }
 
@@ -25,4 +26,10 @@
   object-position: center;
 }
 
-
+@media (max-width: 768px) {
+  .partner1-card {
+    height: 80px; 
+    padding: 10px;
+    max-width: 100%; 
+  }
+}

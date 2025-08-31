@@ -23,6 +23,7 @@ const Template = () => {
     name: "",
     category: "",
     textToAdmin: "",
+    status: "",
     textToCustomer: "",
   });
 
@@ -63,6 +64,7 @@ const Template = () => {
       Name: t.name,
       Category: t.category,
       Content: t.text_to_customer,
+      'Status Notification': t.status,
       Status: t.is_active ? "Active" : "Inactive",
     }));
 
@@ -117,9 +119,8 @@ const Template = () => {
   const columns = [
     "Name",
     "Category",
-    "No Admin 1",
-    "No Admin 2",
     "Content",
+    "Status Notification",
     "Status",
     "Action",
   ];

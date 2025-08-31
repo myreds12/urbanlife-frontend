@@ -25,7 +25,7 @@ const Destination = () => {
   useEffect(() => {
     const fetchTravel = async () => {
       try {
-        const response = await apiClient.get("/pemesanan/items?is_category=false");
+        const response = await apiClient.get("/pemesanan/items?is_category=false&is_order=true");
         const rawData = response.data.data;
 
         const processed = rawData.map((item) => ({

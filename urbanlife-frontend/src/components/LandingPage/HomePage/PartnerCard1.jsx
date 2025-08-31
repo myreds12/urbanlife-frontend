@@ -85,8 +85,8 @@ const PartnerCard1 = () => {
             <div className="image-partner1">
               <img
                 src={
-                  partner.file
-                    ? `${import.meta.env.VITE_API_URL}/public/${partner.file
+                  partner.url
+                    ? `${import.meta.env.VITE_API_URL}/public/${partner.url
                         .replace(/\\/g, "/")
                         .replace(/^uploads\//, "")
                         .replace(/^.\//, "")}` // Hapus ./ dari path lokal

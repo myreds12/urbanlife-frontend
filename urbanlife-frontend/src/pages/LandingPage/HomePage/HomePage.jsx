@@ -2,16 +2,14 @@ import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
 import Footer from "../../../components/LandingPage/HomePage/Footer";
 import HeroSection from "../../../components/LandingPage/HomePage/HeroSection";
 import Destination from "./Destination/Destination";
-import CategoriesCard from "../../../components/LandingPage/HomePage/CategoriesCard";
-import DiscoverCard from "../../../components/LandingPage/HomePage/DiscoverCard";
-import PartnerCard1 from "../../../components/LandingPage/HomePage/PartnerCard1";
 import Schedule from "../../../components/LandingPage/HomePage/Schedule";
-import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection";
 import NewsnBlog from "../../../components/LandingPage/HomePage/NewsnBlog/NewsnBlog";
-import PopularCategoriesSection from "./Popular Categoires/PopularCategories";
 import AnimatedSection from "../../../components/LandingPage/Utils/AnimatedSection";
 import { useTranslation } from "react-i18next";
-import Carousel from "../../../components/AdminDashboard/Utils/Ui/Carousel";
+import PartnerSection from "../../../components/LandingPage/HomePage/PartnerSection/PartnerSection";
+import PopularSection from "../../../components/LandingPage/HomePage/PopularSection/PopularSection";
+import DiscoverSection from "../../../components/LandingPage/HomePage/DiscoverSection/DiscoverSection";
+import TestimonialSection from "../../../components/LandingPage/HomePage/TestimonialSection/TestimonialSection";
 
 const LandingPage = () => {
   const { t } = useTranslation();
@@ -36,7 +34,7 @@ const LandingPage = () => {
           </h1>
         </div>
         <div className="flex flex-wrap justify-center gap-4">
-          <PopularCategoriesSection />
+          <PopularSection />
         </div>
       </div>
 
@@ -46,11 +44,9 @@ const LandingPage = () => {
           <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
             {t("discover.title")}
           </h1>
-          <div className="overflow-x-auto scrollbar-hide">
-            <div className="flex gap-4 ml-5">
-              <DiscoverCard />
+            <div className="flex flex-wrap justify-center mb-10">
+              <DiscoverSection />
             </div>
-          </div>
         </div>
       </div>
 
@@ -62,10 +58,8 @@ const LandingPage = () => {
               {t("partner.title")}
             </h1>
           </div>
-          <div className="flex flex-wrap justify-center mb-10 lg:px-10">
-            <Carousel autoplay={true} autoplayDelay={2000}>
-            <PartnerCard1 image="/images/LandingPage/Partner/BoutiqueHotel2.png" />
-            </Carousel>
+          <div className="flex flex-wrap justify-center mb-10">
+            <PartnerSection />
           </div>
         </div>
       </AnimatedSection>

@@ -1,5 +1,5 @@
 .discover-card {
-  width: 377px;
+  width: 350px;
   height: 170px;
   border-radius: 10px;
   overflow: hidden;
@@ -12,7 +12,7 @@
 /* Responsive only for small screens */
 @media (max-width: 768px) {
   .discover-card {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
   }
 }

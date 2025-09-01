@@ -21,7 +21,9 @@ const UserForm = forwardRef((_, ref) => {
   const fetchRoles = async () => {
     try {
       const res = await apiClient.get("/role");
-      setRoles(res.data.data || []);
+      console.log(res.data.data.filter((role) => role.name === "admin" || role.name === "super_admin"));
+      const filteredData = res.data.data.filter((role) => role.name === "admin" || role.name === "super_admin");
+      setRoles(filteredData || []);
     } catch (err) {
       console.error("❌ Failed to fetch roles", err);
       toast.error("Failed to load role");

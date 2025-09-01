@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import CategoriesCard from "../../../../components/LandingPage/HomePage/PopularSection/CategoriesCard";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import PopularCard from "./PopularCard";
+import Carousel from "../../../AdminDashboard/Utils/Ui/Carousel";
 
 const defaultPopularCategories = [
   {
@@ -30,18 +30,9 @@ const defaultPopularCategories = [
   },
 ];
 
-const PopularCategoriesSection = () => {
+const PopularSection = () => {
   const [popularItems, setPopularItems] = useState([]);
   const [fetchFailed, setFetchFailed] = useState(false);
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "start",
-    slidesToScroll: 1,
-  });
-
-  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
-  const scrollNext = () => emblaApi && emblaApi.scrollNext();
 
   useEffect(() => {
     const fetchPopularItems = async () => {
@@ -110,45 +101,16 @@ const PopularCategoriesSection = () => {
       : popularItems;
 
   return (
-    <div className="popular-categories-slider-container relative w-full max-w-[1200px] mx-auto px-4 md:px-15">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex">
-          {dataToRender.map((item) => (
-            <div
-              key={`${item.id}-${item.title}`}
-              className="embla__slide flex-none px-2"
-            >
-              <CategoriesCard
-                country={item.country}
-                title={item.title}
-                destinations={item.destinations}
-                price={item.price}
-                image={item.image}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* overlay */}
-      <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
-      <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
-
-      {/* tombol prev/next */}
-      <button
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
-        onClick={scrollPrev}
-      >
-        ‹
-      </button>
-      <button
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
-        onClick={scrollNext}
-      >
-        ›
-      </button>
+    <div className="relative w-full max-w-[1200px] mx-auto px-4 md:px-15">
+      <Carousel
+        items={dataToRender}
+        gap={14}
+        renderItem={(item) => (
+          <PopularCard key={`${item.id}-${item.title}`} item={item} />
+        )}
+      />
     </div>
   );
 };
 
-export default PopularCategoriesSection;
+export default PopularSection;

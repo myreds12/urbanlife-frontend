@@ -1,0 +1,52 @@
+.embla {
+  overflow: hidden;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.embla__viewport {
+  overflow: visible;
+}
+
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  padding: 0;
+  margin: 0;
+}
+
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+  position: relative;
+  padding: 0;
+}
+
+.embla__class-names .embla__slide--clone {
+  transition: none; /* loop smooth */
+}
+
+/* Responsive: Desktop ada 3 items */
+@media (min-width: 768px) {
+  .embla__slide {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+  }
+}
+
+/* Mobile: 1 item */
+@media (max-width: 767px) {
+  .embla__slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.embla__viewport.is-draggable {
+  cursor: grab;
+}
+
+.embla__viewport.is-dragging {
+  cursor: grabbing;
+}

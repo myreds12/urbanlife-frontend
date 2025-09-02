@@ -21,6 +21,8 @@ export default function UserDropdown() {
       return `${apiClient.defaults.baseURL}/public/${image.profilePicture
         .replace(/\\/g, "/")
         .replace(/^uploads\//, "")}`;
+    } else if (!image.profilePicture) {
+      return "/images/user/owner.jpg";
     }
     return "";
   };

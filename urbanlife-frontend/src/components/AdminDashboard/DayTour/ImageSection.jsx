@@ -5,10 +5,11 @@ const ImageSection = ({
   handlePhotoUpload,
   removePhoto,
   existingPhotos,
+  type,
   removeExistingPhoto,
 }) => {
   // Filter existing photos to only include those with type 1
-  const filteredExistingPhotos = existingPhotos?.filter(photo => photo.type === 1) || [];
+  const filteredExistingPhotos = type === "accommodation" ? existingPhotos?.filter(photo => photo.type === 1) : existingPhotos || [];
 
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>

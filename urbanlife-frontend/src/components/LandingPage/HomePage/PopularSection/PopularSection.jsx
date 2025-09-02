@@ -84,6 +84,7 @@ const PopularSection = () => {
             image,
           };
         });
+        console.log(items, "ITEMS")
 
         setPopularItems(items);
       } catch (err) {

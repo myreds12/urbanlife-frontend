@@ -52,21 +52,19 @@ const TestimonialSection = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center gap-4 px-4 md:px-8 lg:px-10">
+      <div className="flex justify-center gap-6 px-4 md:px-8 lg:px-10">
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="bg-white rounded-lg border border-gray-200 p-6 max-w-[350px] mx-auto"
+            className="bg-white rounded-lg border border-gray-200 p-6 max-w-[350px] mx-auto animate-pulse"
           >
             <div className="flex flex-col items-center mb-6">
-              <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
-                <div className="animate-pulse bg-gray-300 h-full w-full"></div>
-              </div>
-              <div className="animate-pulse bg-gray-300 h-6 w-24 mb-2 mx-auto"></div>
-              <div className="animate-pulse bg-gray-300 h-4 w-16 mb-2 mx-auto"></div>
+              <div className="w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-300"></div>
+              <div className="h-6 w-24 mb-2 bg-gray-300 rounded"></div>
+              <div className="h-4 w-16 mb-2 bg-gray-300 rounded"></div>
             </div>
             <div className="text-center">
-              <div className="animate-pulse bg-gray-300 h-4 w-32 mx-auto"></div>
+              <div className="h-4 w-32 mx-auto bg-gray-300 rounded"></div>
             </div>
           </div>
         ))}
@@ -76,11 +74,11 @@ const TestimonialSection = () => {
 
   if (error) {
     return (
-      <div className="text-center">
-        <p className="text-red-500">{error}</p>
+      <div className="text-center py-8">
+        <p className="text-red-500 mb-4">{error}</p>
         <button
           onClick={fetchTestimonials}
-          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition"
         >
           {t('discover.try')}
         </button>
@@ -89,21 +87,19 @@ const TestimonialSection = () => {
   }
 
   return (
-    <div className="pt-6 pb-8 bg-gray-50">
+    <section className="pt-12 pb-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-10">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="playfair text-[#071C4D] text-[32px] font-bold mb-4">
+        <div className="text-center mb-14 max-w-3xl mx-auto">
+          <h2 className="playfair text-[#071C4D] text-4xl font-bold mb-3">
             {t('testimonial.title')}
           </h2>
-          <p className="text-gray-600 text-lg">{t('testimonial.subtitle')}</p>
+          <p className="text-gray-600 text-lg leading-relaxed">{t('testimonial.subtitle')}</p>
         </div>
 
         {/* Testimonials Carousel */}
         {testimonials.length === 0 ? (
-          <p className="text-gray-500 italic text-center">
-            {t('testimonial.no_data')}
-          </p>
+          <p className="text-gray-500 italic text-center">{t('testimonial.no_data')}</p>
         ) : (
           <div className="relative">
             <Carousel
@@ -112,12 +108,15 @@ const TestimonialSection = () => {
               renderItem={(testimonial) => (
                 <TestimonialCard key={testimonial.id} testimonial={testimonial} />
               )}
+              // Optional: add navigation buttons if your Carousel supports
+              // showArrows={true}
+              // arrowsClassName="custom-arrow-class"
             />
-            <div className="hidden md:block pointer-events-none absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-white via-white/70 to-transparent z-10"></div>
+            <div className="hidden md:block pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-gray-50 via-gray-50/70 to-transparent z-10"></div>
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

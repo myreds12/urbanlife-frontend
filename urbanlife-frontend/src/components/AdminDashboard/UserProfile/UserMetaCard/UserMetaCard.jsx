@@ -7,13 +7,24 @@ import { jwtDecode } from "jwt-decode";
 import { useAuthStore } from "../../Utils/Auth/AuthStore";
 
 function ProfileHeader({ userInfo, showResetForm, toggleReset }) {
+  console.log(userInfo, "ini user info");
+   const getImageUrl = (image) => {
+    if (image instanceof File) {
+      return URL.createObjectURL(image);
+    } else if (image.profile) {
+      return `${apiClient.defaults.baseURL}/public/${image.profile
+        .replace(/\\/g, "/")
+        .replace(/^uploads\//, "")}`;
+    }
+    return "";
+  };
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-6">
           <div className="w-20 h-20 rounded-full overflow-hidden">
             <img
-              src="/images/user/owner.jpg"
+              src={getImageUrl(userInfo)}
               alt="user"
               className="object-cover w-full h-full"
             />
@@ -112,12 +123,14 @@ export default function UserMetaCard() {
 
       if (res.data?.status === 200 && res.data.data) {
         const user = res.data.data;
+        console.log(user, "ini user");
         const adminWa = user.AdminWa?.[0] || {};
         setUserInfo({
           name: user.nama || "",
           role: user.role_id === 2 ? "Admin" : "User",
           email: user.email || "",
           phone: user.nomor_hp || adminWa.nomor_wa || "",
+          profile: user.profile || "",
           bio: "",
           location: "",
           country: "Indonesia",

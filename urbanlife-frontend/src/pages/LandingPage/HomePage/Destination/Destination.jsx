@@ -1,26 +1,15 @@
 import { useEffect, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "./swiper.css";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import DestinationCard from "../../../../components/LandingPage/HomePage/DestinationCard";
 
 const Destination = () => {
   const [travelData, setTravelData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "center",
-    slidesToScroll: 1,
-    slideSpacing: "1.5rem",
-    containScroll: "trimSnaps",
-    breakpoints: {
-      "(max-width: 640px)": { slidesToShow: 1 },
-      "(min-width: 641px) and (max-width: 1024px)": { slidesToShow: 2 },
-      "(min-width: 1025px)": { slidesToShow: 4 },
-    },
-  });
-
-  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
-  const scrollNext = () => emblaApi && emblaApi.scrollNext();
 
   useEffect(() => {
     const fetchTravel = async () => {
@@ -57,30 +46,39 @@ const Destination = () => {
   }
 
   return (
-    <div className="destination-slider-container mt-[-130px] md:mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-4 md:px-15 z-10">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex">
-          {travelData.map((item, index) => (
-            <div key={index} className="embla__slide flex-none">
-              <DestinationCard travel={item} />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* overlay desktop */}
-      <div className="absolute inset-y-0 left-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
-      <div className="absolute inset-y-0 right-5 w-12 backdrop-blur-sm z-10 pointer-events-none hidden md:block"></div>
-
+    <div className="destination-slider-container mt-[-130px] md:mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-10 z-10">
+      <Swiper
+        modules={[Navigation]}
+        spaceBetween={20}
+        slidesPerView={1}
+        breakpoints={{
+          640: { slidesPerView: 1 },
+          641: { slidesPerView: 2 },
+          1025: { slidesPerView: 4 },
+        }}
+        loop={true}
+        navigation={{
+          prevEl: ".custom-prev",
+          nextEl: ".custom-next",
+        }}
+        className="embla-swiper"
+      >
+        {travelData.map((item, index) => (
+          <SwiperSlide key={index}>
+            <DestinationCard travel={item} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      {/* Custom Navigasi Manual */}
       <button
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
-        onClick={scrollPrev}
+        className="custom-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
+        aria-label="Previous slide"
       >
         ‹
       </button>
       <button
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
-        onClick={scrollNext}
+        className="custom-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md z-20"
+        aria-label="Next slide"
       >
         ›
       </button>

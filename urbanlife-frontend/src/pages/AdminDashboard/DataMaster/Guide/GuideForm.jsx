@@ -113,8 +113,8 @@ const GuideForm = forwardRef((_, ref) => {
           className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
         >
           <option value="">Select</option>
-          <option value="Laki - laki">Male</option>
-          <option value="Perempuan">Female</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
         </select>
       </div>
 

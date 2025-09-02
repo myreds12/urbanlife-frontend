@@ -1,0 +1,31 @@
+.embla-swiper {
+  overflow: hidden;
+  position: relative;
+  padding: 0 10px; /* Padding simetris biar balance */
+}
+
+.embla-swiper .swiper-slide {
+  width: 240px !important;
+  margin-right: 10px;
+}
+
+@media (max-width: 640px) {
+  .embla-swiper .swiper-slide {
+    width: 180px !important;
+  }
+  .embla-swiper {
+    padding: 0 5px; /* Kurangi padding di mobile */
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .embla-swiper .swiper-slide {
+    width: 240px !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .embla-swiper .swiper-slide {
+    width: 240px !important;
+  }
+}

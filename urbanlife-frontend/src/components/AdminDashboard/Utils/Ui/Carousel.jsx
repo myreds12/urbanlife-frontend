@@ -8,7 +8,7 @@ const Carousel = ({ items, renderItem }) => {
     loop: true,
     dragFree: false,
     align: "start",
-    containScroll: "keepSnaps",
+    containScroll: "trimSnaps",
     slidesToScroll: 1,
     speed: 10,
     skipSnaps: false,
@@ -16,17 +16,16 @@ const Carousel = ({ items, renderItem }) => {
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [ClassNames()]);
 
-  // Enable mouse wheel scrolling
   useEffect(() => {
     if (!emblaApi) return;
 
     const handleWheel = (event) => {
       event.preventDefault();
-      const wheelDelta = event.deltaX || event.deltaY; // Support both horizontal and vertical scroll
+      const wheelDelta = event.deltaX || event.deltaY;
       if (wheelDelta > 0) {
-        emblaApi.scrollNext(); // Scroll right/down
+        emblaApi.scrollNext();
       } else if (wheelDelta < 0) {
-        emblaApi.scrollPrev(); // Scroll left/up
+        emblaApi.scrollPrev();
       }
     };
 

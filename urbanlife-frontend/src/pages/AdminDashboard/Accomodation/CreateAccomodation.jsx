@@ -329,7 +329,7 @@ const CreateAccomodationPage = () => {
     }
   };
 
-  const sections = ["description", "image", "facility", "room and price", "amenity"]; // ✅ ganti
+  const sections = ["description", "image", "facility", "room and price", "amenity", "policy and procedure"]; // ✅ ganti
 
   return (
     <form onSubmit={handleSubmit}>

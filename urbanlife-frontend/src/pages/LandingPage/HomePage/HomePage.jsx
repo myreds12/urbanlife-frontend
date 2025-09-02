@@ -33,9 +33,8 @@ const LandingPage = () => {
             {t("categories.title")}
           </h1>
         </div>
-        <div className="flex flex-wrap justify-center gap-4">
-          <PopularSection />
-        </div>
+
+        <PopularSection />
       </div>
 
       {/* Discover All Around Section */}
@@ -44,9 +43,9 @@ const LandingPage = () => {
           <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
             {t("discover.title")}
           </h1>
-            <div className="flex flex-wrap justify-center mb-10">
-              <DiscoverSection />
-            </div>
+          <div className="flex flex-wrap justify-center mb-10">
+            <DiscoverSection />
+          </div>
         </div>
       </div>
 

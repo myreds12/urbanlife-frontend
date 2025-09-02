@@ -191,7 +191,7 @@ const Navbar = () => {
     const bookingData = formatBookingData(destination);
 
     console.log("Navigating to DaytourDetail with data:", bookingData); // New comment: Debug navigation
-    navigate(`/DaytourDetail/${destination.id}`, { state: bookingData });
+    navigate(`/Detail/${destination.id}`, { state: bookingData });
   };
 
   return (

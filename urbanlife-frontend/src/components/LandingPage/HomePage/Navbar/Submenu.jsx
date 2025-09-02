@@ -60,7 +60,7 @@ const Submenu = ({ isSubmenuOpen, setIsSubmenuOpen, data, title, isServices }) =
         image: item.image,
       };
       console.log("Navigating to DaytourDetail from Submenu:", detailData);
-      navigate(`/DaytourDetail?id=${item.id}`, { state: detailData });
+      navigate(`/Detail?id=${item.id}`, { state: detailData });
     } else {
       // Handle services navigation
       const servicePath = serviceNavigationMap[item.title];

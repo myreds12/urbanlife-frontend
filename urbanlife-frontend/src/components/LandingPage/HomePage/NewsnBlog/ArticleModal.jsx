@@ -172,10 +172,10 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
   return (
     <>
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 z-[100] transition-opacity duration-300">
-        <div className="bg-white rounded-2xl shadow-xl max-w-3xl w-full mt-20 max-h-[85vh] overflow-y-auto">
+        <div className="bg-white shadow-xl max-w-3xl w-full mt-20 max-h-[85vh] overflow-y-auto">
           <div className="relative">
             {/* Header Image */}
-            <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden rounded-t-2xl">
+            <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden">
               <img
                 src={
                   article?.news_file[0]?.url

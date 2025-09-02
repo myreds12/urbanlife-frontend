@@ -41,7 +41,7 @@ const SearchResultsModal = ({
     console.log(item, "clicked");
     const bookingData = formatBookingData(item);
 
-    navigate(`/DaytourDetail/${item.id}`, { state: bookingData });
+    navigate(`/Detail/${item.id}`, { state: bookingData });
   };
 
   const renderItemDetails = (item) => {

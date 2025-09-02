@@ -1,6 +1,13 @@
 import React from "react";
 
-const AboutUsServicesSection = ({ id, isActive, services, handleServiceChange, addService, removeService }) => {
+const AboutUsServicesSection = ({
+  id,
+  isActive,
+  services,
+  handleServiceChange,
+  addService,
+  removeService,
+}) => {
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
@@ -18,7 +25,10 @@ const AboutUsServicesSection = ({ id, isActive, services, handleServiceChange, a
         </div>
 
         {services.map((service, index) => (
-          <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4 relative">
+          <div
+            key={index}
+            className="border border-gray-200 rounded-lg p-4 mb-4 relative"
+          >
             <button
               type="button"
               onClick={() => removeService(index)}
@@ -27,89 +37,109 @@ const AboutUsServicesSection = ({ id, isActive, services, handleServiceChange, a
               ×
             </button>
             <div className="mb-4 flex items-center">
-              <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
                 Title (EN) <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={service.title_en}
-                onChange={(e) => handleServiceChange(index, "title_en", e.target.value)}
+                onChange={(e) =>
+                  handleServiceChange(index, "title_en", e.target.value)
+                }
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
                 required
               />
             </div>
             <div className="mb-4 flex items-center">
-              <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
                 Title (ID) <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={service.title_id}
-                onChange={(e) => handleServiceChange(index, "title_id", e.target.value)}
+                onChange={(e) =>
+                  handleServiceChange(index, "title_id", e.target.value)
+                }
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
                 required
               />
             </div>
             <div className="mb-4 flex items-center">
-              <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
                 Description (EN) <span className="text-red-500">*</span>
               </label>
               <textarea
                 value={service.description_en}
-                onChange={(e) => handleServiceChange(index, "description_en", e.target.value)}
+                onChange={(e) =>
+                  handleServiceChange(index, "description_en", e.target.value)
+                }
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-24"
                 required
               />
             </div>
             <div className="mb-4 flex items-center">
-              <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
                 Description (ID) <span className="text-red-500">*</span>
               </label>
               <textarea
                 value={service.description_id}
-                onChange={(e) => handleServiceChange(index, "description_id", e.target.value)}
+                onChange={(e) =>
+                  handleServiceChange(index, "description_id", e.target.value)
+                }
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-24"
                 required
               />
             </div>
             <div className="mb-4 flex items-center">
-              <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
                 Icon <span className="text-red-500">*</span>
               </label>
               <select
                 value={service.icon}
-                onChange={(e) => handleServiceChange(index, "icon", e.target.value)}
+                onChange={(e) =>
+                  handleServiceChange(index, "icon", e.target.value)
+                }
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
                 required
               >
                 <option value="">-- Select Icon --</option>
-                {["car", "plane", "ship", "bike", "calendar", "building"].map((icon) => (
-                  <option key={icon} value={icon}>
-                    {icon.charAt(0).toUpperCase() + icon.slice(1)}
-                  </option>
-                ))}
+                {["car", "plane", "ship", "bike", "calendar", "building"].map(
+                  (icon) => (
+                    <option key={icon} value={icon}>
+                      {icon.charAt(0).toUpperCase() + icon.slice(1)}
+                    </option>
+                  )
+                )}
               </select>
             </div>
             <div className="mb-4 flex items-center">
-              <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
                 Location <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={service.location}
-                onChange={(e) => handleServiceChange(index, "location", e.target.value)}
-                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-                required
-              />
-            </div>
-            <div className="mb-4 flex items-center">
-              <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
-                Order <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                value={service.order}
-                onChange={(e) => handleServiceChange(index, "order", parseInt(e.target.value))}
+                onChange={(e) =>
+                  handleServiceChange(index, "location", e.target.value)
+                }
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
                 required
               />

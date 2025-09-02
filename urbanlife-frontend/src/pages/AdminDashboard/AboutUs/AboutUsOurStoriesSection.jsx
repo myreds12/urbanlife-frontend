@@ -4,8 +4,8 @@ import React from "react";
 const AboutUsOurStoriesSection = ({
   id,
   isActive,
-  formData,
-  handleChange,
+  story,
+  handleStoryChange,
   photos,
   handlePhotoUpload,
   removePhoto,
@@ -20,32 +20,13 @@ const AboutUsOurStoriesSection = ({
             className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
             style={{ minWidth: "190px" }}
           >
-            Section <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="section"
-            value={formData.section}
-            onChange={handleChange}
-            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-            required
-          >
-            <option value="">-- Choose Section --</option>
-            <option value="our_story">Our Story</option>
-          </select>
-        </div>
-
-        <div className="mb-4 flex items-center">
-          <label
-            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-            style={{ minWidth: "190px" }}
-          >
             Title (EN) <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             name="title_en"
-            value={formData.title_en}
-            onChange={handleChange}
+            value={story.title_en}
+            onChange={handleStoryChange}
             className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
             required
           />
@@ -61,8 +42,8 @@ const AboutUsOurStoriesSection = ({
           <input
             type="text"
             name="title_id"
-            value={formData.title_id}
-            onChange={handleChange}
+            value={story.title_id}
+            onChange={handleStoryChange}
             className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
             required
           />
@@ -73,12 +54,12 @@ const AboutUsOurStoriesSection = ({
             className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
             style={{ minWidth: "190px" }}
           >
-            Description (EN) <span className="text-red-500">*</span>
+            Content (EN) <span className="text-red-500">*</span>
           </label>
           <textarea
-            name="description_en"
-            value={formData.description_en}
-            onChange={handleChange}
+            name="content_en"
+            value={story.content_en}
+            onChange={handleStoryChange}
             className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-24"
             required
           />
@@ -89,12 +70,12 @@ const AboutUsOurStoriesSection = ({
             className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
             style={{ minWidth: "190px" }}
           >
-            Description (ID) <span className="text-red-500">*</span>
+            Content (ID) <span className="text-red-500">*</span>
           </label>
           <textarea
-            name="description_id"
-            value={formData.description_id}
-            onChange={handleChange}
+            name="content_id"
+            value={story.content_id}
+            onChange={handleStoryChange}
             className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-24"
             required
           />

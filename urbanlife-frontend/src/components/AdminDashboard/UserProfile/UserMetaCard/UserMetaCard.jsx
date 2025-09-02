@@ -74,35 +74,11 @@ function PersonalInfoCard({ userInfo, onEdit }) {
         <InfoField label="Last Name" value={lastName} />
         <InfoField label="Email address" value={userInfo.email} />
         <InfoField label="Phone" value={userInfo.phone} />
-        <InfoField label="Bio" value={userInfo.bio || "-"} full />
       </div>
     </div>
   );
 }
 
-function AddressCard({ userInfo }) {
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-      <div className="flex items-center justify-between p-6 border-b border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-900">Address</h3>
-      </div>
-      <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-        <InfoField label="City/State" value={userInfo.location || "-"} />
-        <InfoField label="Country" value={userInfo.country} />
-        <InfoField label="Role" value={userInfo.role} />
-        <InfoField
-          label="Status"
-          value={userInfo.status}
-          className={
-            userInfo.status === "Active"
-              ? "text-green-600 font-medium"
-              : "text-red-600 font-medium"
-          }
-        />
-      </div>
-    </div>
-  );
-}
 
 function InfoField({ label, value, full = false, className = "" }) {
   return (
@@ -198,7 +174,6 @@ export default function UserMetaCard() {
             userInfo={userInfo}
             onEdit={() => setShowEditForm(true)}
           />
-          <AddressCard userInfo={userInfo} />
         </>
       )}
     </div>

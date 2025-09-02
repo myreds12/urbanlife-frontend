@@ -42,6 +42,19 @@ const CreateTemplateModal = ({ isOpen, onClose, newTemplate, onInputChange, onSa
             </select>
           </div>
           <div>
+            <label className="block text-sm font-medium text-gray-700">* Status</label>
+            <select
+              name="category"
+              value={newTemplate.category}
+              onChange={onInputChange}
+              className="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-cyan-600"
+            >
+              <option value="PENDING">Pending</option>
+              <option value="DONE">Done</option>
+              <option value="REJECTED">Rejected</option>
+            </select>
+          </div>
+          <div>
             <label className="block text-sm font-medium text-gray-700">* Text to admin</label>
             <textarea
               name="textToAdmin"

@@ -28,7 +28,7 @@ const CardForm = () => {
 
   const services = [
     { label: "Accomodation", value: "AKOMODASI" },
-    { label: "Rent Car", value: "KENDARAAN" },
+    { label: "Rent A Car", value: "KENDARAAN" },
     { label: "Day Tour", value: "TRAVEL_PACKAGE" },
   ];
 

@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import SidebarItem from "../../components/AdminDashboard/SideBar/SidebarItem";
 import SidebarExpandableItem from "../../components/AdminDashboard/SideBar/SidebarExpandableItem";
+import { useAuthStore } from "../../components/AdminDashboard/Utils/Auth/AuthStore";
 
 const navItems = [
   { icon: "fa-solid fa-border-all", name: "Dashboard", path: "/admin/dashboard" },
@@ -10,7 +11,7 @@ const navItems = [
 
 const contentItems = [
   { icon: "fa-solid fa-chart-pie", name: "Day tour", path: "/admin/day-tour" },
-  { icon: "fa-car", name: "Rent a Car", path: "/admin/rent-car" },
+  { icon: "fa-car", name: "Rent a car", path: "/admin/rent-car" },
   { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
   { icon: "fa-newspaper", name: "News", path: "/admin/news" },
   { icon: "fa-info-circle", name: "About Us", path: "/admin/aboutus" }, 
@@ -27,33 +28,50 @@ const othersItems = [
     ],
   },
   { icon: "fa-inbox", name: "Inbox", path: "/admin/inbox" },
-    {
-      icon: "fa-database",
-      name: "Data master",
-      subItems: [
-        { name: "Hero Section", path: "/admin/herosection"},
-        { name: "ServiceSchedule", path: "/admin/ServiceSchedule"},
+  {
+    icon: "fa-database",
+    name: "Data master",
+    subItems: [
+      { name: "Hero Section", path: "/admin/herosection"},
+      { name: "ServiceSchedule", path: "/admin/ServiceSchedule"},
         { name: "Partner", path: "/admin/ourpartner"},
-        { name: "Countries", path: "/admin/country" },  // ← ganti ini
-        { name: "Cities", path: "/admin/city" },
-        { name: "Car", path: "/admin/car" },
-        { name: "Driver", path: "/admin/driver" },
-        { name: "Guide", path: "/admin/guide" },
-        { name: "Blog", path: "/admin/blogs" },
-        { name: "Category", path: "/admin/category" },
-        { name: "Users", path: "/admin/users" },
-        { name: "Testimonial", path: "/admin/testimonial"}
-      ],
-    },
-    {
-      icon: "fa-cog",
-      name: "Setting",
-      subItems: [{ name: "User", path: "/admin/profile" }],
-    },
+      { name: "Countries", path: "/admin/country" },
+      { name: "Cities", path: "/admin/city" },
+      { name: "Car", path: "/admin/car" },
+      { name: "Driver", path: "/admin/driver" },
+      { name: "Guide", path: "/admin/guide" },
+      { name: "Blog", path: "/admin/blogs" },
+      { name: "Category", path: "/admin/category" },
+      { name: "Users", path: "/admin/users" }, // hanya untuk super_admin
+      { name: "Testimonial", path: "/admin/testimonial"}
+    ],
+  },
+  {
+    icon: "fa-cog",
+    name: "Setting",
+    subItems: [{ name: "User ", path: "/admin/profile" }],
+  },
 ];
 
 const AppSidebar = () => {
   const LOCATION = useLocation();
+
+  // Ambil role user, sesuaikan sumbernya
+  const userRole = useAuthStore((s) => s.user?.role); 
+
+  // Filter othersItems agar "Users" hanya muncul untuk super_admin
+  const filteredOthersItems = othersItems.map(item => {
+    if (item.name === "Data master" && Array.isArray(item.subItems)) {
+      const filteredSubItems = item.subItems.filter(subItem => {
+        if (subItem.name === "Users") {
+          return userRole === "super_admin";
+        }
+        return true;
+      });
+      return { ...item, subItems: filteredSubItems };
+    }
+    return item;
+  });
 
   const renderMenuItems = (items) => (
     <ul className="space-y-1">
@@ -70,7 +88,7 @@ const AppSidebar = () => {
   return (
     <aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 p-4 overflow-y-auto">
       <div className="mb-6">
-      <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="h-12" />
+        <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="h-12" />
       </div>
       <nav>
         <div className="mb-4">
@@ -83,7 +101,7 @@ const AppSidebar = () => {
         </div>
         <div>
           <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Others</h2>
-          {renderMenuItems(othersItems)}
+          {renderMenuItems(filteredOthersItems)}
         </div>
       </nav>
     </aside>

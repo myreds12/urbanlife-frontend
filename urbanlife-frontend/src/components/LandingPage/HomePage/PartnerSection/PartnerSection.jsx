@@ -84,8 +84,8 @@ const PartnerSection = () => {
           <PartnerCard
             key={partner.id}
             image={
-              partner.file
-                ? `${import.meta.env.VITE_API_URL}/public/${partner.file
+              partner.url
+                ? `${import.meta.env.VITE_API_URL}/public/${partner.url
                     .replace(/\\/g, "/")
                     .replace(/^uploads\//, "")
                     .replace(/^.\//, "")}`

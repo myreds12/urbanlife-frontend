@@ -72,7 +72,7 @@ const Navbar = () => {
   // Original comment: Static service data
   const serviceData = {
     "Day Tour": [{ title: "Day Tours", image: "daytour.png" }],
-    "Rent Car": [{ title: "Rent Car", image: "rentcar.png" }],
+    "Rent A Car": [{ title: "Rent A Car", image: "rentcar.png" }],
     Accomodation: [{ title: "Hotel & Resorts", image: "hotel_resort.png" }],
   };
 
@@ -82,7 +82,7 @@ const Navbar = () => {
       setIsLoading(true);
       try {
         const response = await apiClient.get(
-          "/pemesanan/items?is_category=false"
+          "/pemesanan/items?is_category=false&top_attraction=true"
         );
         const rawData = response.data.data;
         console.log("API Response:", rawData); // New comment: Debug raw API response

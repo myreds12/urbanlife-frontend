@@ -25,11 +25,13 @@ const OrderView = () => {
     try {
       const response = await axios.get(`${api}/${id}`);
       const orderData = response.data.data;
+      console.log(orderData, "ORDER DETAIL");
 
       const mappedOrder = {
         ...orderData,
         customer_name: orderData.user?.nama || "-",
         customer_email: orderData.user?.email || "-",
+        customer_phone: orderData.user?.nomor_hp || "-",
       };
 
       setOrder(mappedOrder);
@@ -80,7 +82,7 @@ const OrderView = () => {
   };
 
   const formatCurrency = (amount) => {
-    return `Rp${Number(amount).toLocaleString("id-ID")}`;
+    return `Rp ${Number(amount).toLocaleString("id-ID")}`;
   };
 
   if (loading) {
@@ -155,38 +157,12 @@ const OrderView = () => {
             onClick={handleEdit}
             className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 transition-colors flex items-center"
           >
-            <svg
-              className="w-4 h-4 mr-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-              />
-            </svg>
             Edit
           </button>
           <button
             onClick={handleDelete}
             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center"
           >
-            <svg
-              className="w-4 h-4 mr-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-              />
-            </svg>
             Delete
           </button>
         </div>
@@ -226,7 +202,7 @@ const OrderView = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Status
                 </label>
-                <StatusBadge status={order.status} />
+                <p className="text-sm text-gray-900">{order.status}</p>
               </div>
 
               <div>
@@ -268,6 +244,13 @@ const OrderView = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Customer Phone
+                </label>
+                <p className="text-sm text-gray-900">{order.customer_phone}</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Total Amount
                 </label>
                 <p className="text-lg font-semibold text-green-600">
@@ -277,22 +260,48 @@ const OrderView = () => {
             </div>
           </div>
 
-          {/* Order Details Section */}
-          {order.detail && (
+          {/* Order Description */}
+          {order.deskripsi && (
             <div className="mt-6 pt-6 border-t border-gray-200">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Order Details
+                Order Description
               </label>
               <div className="bg-gray-50 rounded-md p-4">
                 <p className="text-sm text-gray-900 whitespace-pre-wrap">
-                  {order.detail}
+                  {order.deskripsi}
                 </p>
               </div>
             </div>
           )}
 
+          {/* Order Items Section */}
+          {order.pemesanan_item && order.pemesanan_item.length > 0 && (
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <h3 className="text-sm font-medium text-gray-700 mb-3">
+                Order Items
+              </h3>
+              {order.pemesanan_item.map((item) => (
+                <div key={item.id} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <h4 className="font-semibold text-gray-800">{item.item_type}</h4>
+                  <p className="text-sm text-gray-600">Total Price: {formatCurrency(item.total_harga)}</p>
+                  <p className="text-sm text-gray-600">
+                    Start Date: {formatDate(item.tanggal_mulai)} - End Date: {formatDate(item.tanggal_selesai)}
+                  </p>
+                  {item.detail && (
+                    <div className="mt-2">
+                      <h5 className="font-medium text-gray-700">Vehicle Details:</h5>
+                      <p className="text-sm text-gray-600">Name: {item.detail.nama}</p>
+                      <p className="text-sm text-gray-600">License Plate: {item.detail.plat_nomor}</p>
+                      <p className="text-sm text-gray-600">Type: {item.detail.tipe}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* Additional Information */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
+          {/* <div className="mt-6 pt-6 border-t border-gray-200">
             <h3 className="text-sm font-medium text-gray-700 mb-3">
               Additional Information
             </h3>
@@ -306,8 +315,10 @@ const OrderView = () => {
                       "status",
                       "customer_name",
                       "customer_email",
+                      "customer_phone",
                       "total_harga",
-                      "detail",
+                      "deskripsi",
+                      "pemesan_item",
                     ].includes(key) &&
                     value !== null &&
                     value !== undefined &&
@@ -326,7 +337,7 @@ const OrderView = () => {
                   </div>
                 ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

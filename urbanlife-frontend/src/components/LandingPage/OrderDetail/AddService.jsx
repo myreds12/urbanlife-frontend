@@ -22,7 +22,7 @@ const AddServices = () => {
         } overflow-hidden`}
       >
         <button className="w-full flex justify-between items-center px-4 py-3 border border-cyan-500 rounded-md text-cyan-600 hover:bg-gray-100 mb-2">
-          <span>Rent car</span>
+          <span>Rent a car</span>
           <Plus size={18} />
         </button>
 

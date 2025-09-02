@@ -17,10 +17,24 @@ const CreateAboutUsPage = () => {
   const [photos, setPhotos] = useState([]);
   const [existingPhotos, setExistingPhotos] = useState([]);
   const [services, setServices] = useState([]);
+  console.log(services, "SERVICES");
   const [schedule, setSchedule] = useState([]);
+  const [cta, setCta] = useState({
+    title_en: "",
+    title_id: "",
+    description_en: "",
+    description_id: "",
+    button_text: "",
+    button_link: "",
+  });
+  const [story, setStory] = useState({
+    title_en: "",
+    title_id: "",
+    content_en: "",
+    content_id: "",
+  });
   const [stats, setStats] = useState([]);
   const [formData, setFormData] = useState({
-    section: "",
     title_en: "",
     title_id: "",
     subtitle_en: "",
@@ -31,14 +45,18 @@ const CreateAboutUsPage = () => {
     button_link: "",
   });
 
+  console.log(formData, "FORM DATA");
+
   // Dummy data for testing
   const dummyData = {
     header: {
       section: "header",
       title_en: "About UrbanLife",
       title_id: "Tentang UrbanLife",
-      subtitle_en: "Your trusted partner for seamless travel experiences in Bali and Jakarta",
-      subtitle_id: "Mitra terpercaya Anda untuk pengalaman perjalanan yang mulus di Bali dan Jakarta",
+      subtitle_en:
+        "Your trusted partner for seamless travel experiences in Bali and Jakarta",
+      subtitle_id:
+        "Mitra terpercaya Anda untuk pengalaman perjalanan yang mulus di Bali dan Jakarta",
       button_text: "",
       button_link: "",
       images: [
@@ -65,8 +83,10 @@ const CreateAboutUsPage = () => {
       {
         title_en: "Private Car with Driver",
         title_id: "Mobil Pribadi dengan Sopir",
-        description_en: "Explore Bali and Jakarta with our English-speaking drivers.",
-        description_id: "Jelajahi Bali dan Jakarta dengan sopir berbahasa Inggris kami.",
+        description_en:
+          "Explore Bali and Jakarta with our English-speaking drivers.",
+        description_id:
+          "Jelajahi Bali dan Jakarta dengan sopir berbahasa Inggris kami.",
         icon: "car",
         location: "Bali & Jakarta",
         order: 1,
@@ -86,8 +106,18 @@ const CreateAboutUsPage = () => {
       { day: "Sunday", time: "08:00 - 17:00", highlight: true },
     ],
     stats: [
-      { number: "15,000+", label_en: "Happy Customers", label_id: "Pelanggan Puas", icon: "users" },
-      { number: "4.9", label_en: "Average Rating", label_id: "Rata-rata Penilaian", icon: "star" },
+      {
+        number: "15,000+",
+        label_en: "Happy Customers",
+        label_id: "Pelanggan Puas",
+        icon: "users",
+      },
+      {
+        number: "4.9",
+        label_en: "Average Rating",
+        label_id: "Rata-rata Penilaian",
+        icon: "star",
+      },
     ],
     cta: {
       section: "cta",
@@ -117,7 +147,9 @@ const CreateAboutUsPage = () => {
             button_text: about.button_text || "",
             button_link: about.button_link || "",
           });
-          setExistingPhotos(about.images?.map((img) => ({ url: img, id: null })) || []);
+          setExistingPhotos(
+            about.images?.map((img) => ({ url: img, id: null })) || []
+          );
           setServices(about.services || []);
           setSchedule(about.schedule || []);
           setStats(about.stats || []);
@@ -125,7 +157,9 @@ const CreateAboutUsPage = () => {
           // Load dummy data for creation mode
           setFormData(dummyData[activeSection] || {});
           if (activeSection === "our_story") {
-            setExistingPhotos(dummyData.story.images.map((url) => ({ url, id: null })));
+            setExistingPhotos(
+              dummyData.story.images.map((url) => ({ url, id: null }))
+            );
           }
           setServices(dummyData.services);
           setSchedule(dummyData.schedule);
@@ -144,13 +178,24 @@ const CreateAboutUsPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleStoryChange = (e) => {
+    const { name, value } = e.target;
+    setStory((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handlePhotoUpload = (e) => {
     const files = Array.from(e.target.files);
     setPhotos((prev) => [...prev, ...files]);
   };
+  const handleCtaChange = (e) => {
+    const { name, value } = e.target;
+    setCta((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const removePhoto = (index) => setPhotos((prev) => prev.filter((_, i) => i !== index));
-  const removeExistingPhoto = (index) => setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
+  const removePhoto = (index) =>
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  const removeExistingPhoto = (index) =>
+    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
 
   const handleServiceChange = (index, field, value) => {
     const updated = [...services];
@@ -174,7 +219,11 @@ const CreateAboutUsPage = () => {
   };
 
   const removeService = (index) => {
-    setServices((prev) => prev.filter((_, i) => i !== index).map((item, i) => ({ ...item, order: i + 1 })));
+    setServices((prev) =>
+      prev
+        .filter((_, i) => i !== index)
+        .map((item, i) => ({ ...item, order: i + 1 }))
+    );
   };
 
   const handleScheduleChange = (index, field, value) => {
@@ -184,10 +233,7 @@ const CreateAboutUsPage = () => {
   };
 
   const addSchedule = () => {
-    setSchedule((prev) => [
-      ...prev,
-      { day: "", time: "", highlight: false },
-    ]);
+    setSchedule((prev) => [...prev, { day: "", time: "", highlight: false }]);
   };
 
   const removeSchedule = (index) => {
@@ -214,37 +260,69 @@ const CreateAboutUsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = new FormData();
-    payload.append("section", formData.section);
     payload.append("title_en", formData.title_en);
     payload.append("title_id", formData.title_id);
-    if (formData.subtitle_en) payload.append("subtitle_en", formData.subtitle_en);
-    if (formData.subtitle_id) payload.append("subtitle_id", formData.subtitle_id);
-    if (formData.description_en) payload.append("description_en", formData.description_en);
-    if (formData.description_id) payload.append("description_id", formData.description_id);
-    if (formData.section !== "header" && formData.button_text) payload.append("button_text", formData.button_text);
-    if (formData.section !== "header" && formData.button_link) payload.append("button_link", formData.button_link);
-    photos.forEach((file) => payload.append("images", file));
+    payload.append("content_en", formData.subtitle_en);
+    payload.append("content_id", formData.subtitle_id);
+    payload.append("aboutus_story[title_id]", story.title_id);
+    payload.append("aboutus_story[title_en]", story.title_en);
+    payload.append("aboutus_story[content_id]", story.content_id);
+    payload.append("aboutus_story[content_en]", story.content_en);
+    photos.forEach((file) => payload.append("files", file));
     services.forEach((service, index) => {
-      payload.append(`services[${index}][title_en]`, service.title_en);
-      payload.append(`services[${index}][title_id]`, service.title_id);
-      payload.append(`services[${index}][description_en]`, service.description_en);
-      payload.append(`services[${index}][description_id]`, service.description_id);
-      payload.append(`services[${index}][icon]`, service.icon);
-      payload.append(`services[${index}][location]`, service.location);
-      payload.append(`services[${index}][order]`, service.order);
-      if (service.id) payload.append(`services[${index}][id]`, service.id);
+      payload.append(`aboutus_service[${index}][title_en]`, service.title_en);
+      payload.append(`aboutus_service[${index}][title_id]`, service.title_id);
+      payload.append(
+        `aboutus_service[${index}][content_en]`,
+        service.description_en
+      );
+      payload.append(
+        `aboutus_service[${index}][content_id]`,
+        service.description_id
+      );
+      payload.append(`aboutus_service[${index}][icon]`, service.icon);
+      payload.append(`aboutus_service[${index}][location]`, service.location);
+      payload.append(`aboutus_service[${index}][order]`, service.order);
+      if (service.id)
+        payload.append(`aboutus_service[${index}][id]`, service.id);
     });
     schedule.forEach((item, index) => {
-      payload.append(`schedule[${index}][day]`, item.day);
-      payload.append(`schedule[${index}][time]`, item.time);
-      payload.append(`schedule[${index}][highlight]`, item.highlight);
+      payload.append(`aboutus_operational[${index}][day]`, item.day);
+      payload.append(`aboutus_operational[${index}][time]`, item.time);
+      payload.append(
+        `aboutus_operational[${index}][is_highlight]`,
+        item.highlight
+      );
     });
+    payload.append("aboutus_cta[title_en]", cta.title_en);
+    payload.append("aboutus_cta[title_id]", cta.title_id);
+    payload.append("aboutus_cta[description_en]", cta.description_en);
+    payload.append("aboutus_cta[description_id]", cta.description_id);
+    payload.append("aboutus_cta[button_text]", cta.button_text);
+    payload.append("aboutus_cta[button_url]", cta.button_link);
     stats.forEach((stat, index) => {
-      payload.append(`stats[${index}][number]`, stat.number);
-      payload.append(`stats[${index}][label_en]`, stat.label_en);
-      payload.append(`stats[${index}][label_id]`, stat.label_id);
-      payload.append(`stats[${index}][icon]`, stat.icon);
+      payload.append(`aboutus_achievment[${index}][number]`, stat.number);
+      payload.append(
+        `aboutus_achievment[${index}][content_en]`,
+        stat.label_en
+      );
+      payload.append(
+        `aboutus_achievment[${index}][content_id]`,
+        stat.label_id
+      );
+      payload.append(`aboutus_achievment[${index}][icon]`, stat.icon);
     });
+
+    // Buatkan console log untuk memeriksa payload sebelum dikirim
+    console.log("=== Payload yang akan dikirim ke API ===");
+    for (let pair of payload.entries()) {
+      if (pair[1] instanceof File) {
+        console.log(pair[0], pair[1].name);
+      } else {
+        console.log(pair[0], pair[1]);
+      }
+    }
+    console.log("========================================");
 
     try {
       const response = isEditMode
@@ -255,7 +333,9 @@ const CreateAboutUsPage = () => {
             headers: { "Content-Type": "multipart/form-data" },
           });
       if ([200, 201].includes(response.status)) {
-        toast.success(isEditMode ? "Updated successfully" : "Created successfully");
+        toast.success(
+          isEditMode ? "Updated successfully" : "Created successfully"
+        );
         navigate("/admin/aboutus");
       } else {
         toast.error(response.data.message);
@@ -281,17 +361,22 @@ const CreateAboutUsPage = () => {
               {isEditMode ? "Edit About Us" : "Create About Us"}
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-              {["header", "our_story", "services", "cta", "operational"].map((section) => (
-                <span
-                  key={section}
-                  className={`cursor-pointer px-1 font-medium underline-item relative ${
-                    activeSection === section ? "text-cyan-600 active" : "text-gray-500"
-                  } hover:text-cyan-700 group`}
-                  onClick={() => moveSection(section)}
-                >
-                  {section.charAt(0).toUpperCase() + section.slice(1).replace("_", " ")}
-                </span>
-              ))}
+              {["header", "our_story", "services", "cta", "operational"].map(
+                (section) => (
+                  <span
+                    key={section}
+                    className={`cursor-pointer px-1 font-medium underline-item relative ${
+                      activeSection === section
+                        ? "text-cyan-600 active"
+                        : "text-gray-500"
+                    } hover:text-cyan-700 group`}
+                    onClick={() => moveSection(section)}
+                  >
+                    {section.charAt(0).toUpperCase() +
+                      section.slice(1).replace("_", " ")}
+                  </span>
+                )
+              )}
             </div>
 
             <AboutUsHeaderSection
@@ -303,8 +388,8 @@ const CreateAboutUsPage = () => {
             <AboutUsOurStoriesSection
               id="our_story"
               isActive={activeSection === "our_story"}
-              formData={formData}
-              handleChange={handleChange}
+              story={story}
+              handleStoryChange={handleStoryChange}
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}
@@ -322,8 +407,8 @@ const CreateAboutUsPage = () => {
             <AboutUsCTASection
               id="cta"
               isActive={activeSection === "cta"}
-              formData={formData}
-              handleChange={handleChange}
+              cta={cta}
+              handleCtaChange={handleCtaChange}
             />
             <AboutUsOperationalSection
               id="operational"

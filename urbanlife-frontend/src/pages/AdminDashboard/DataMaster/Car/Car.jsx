@@ -25,11 +25,16 @@ const Car = () => {
   const isEditing = Boolean(editingId);
   const [selectedStatus, setSelectedStatus] = useState("");
 
-  const fetchData = useCallback(async (endpoint, setter, direct = false) => {
+  const fetchData = useCallback(async (endpoint, setter, options = {}) => {
     try {
-      const { data } = await apiClient.get(endpoint);
+      const { params = {}, direct = false } = options;
+      console.log(`Fetching ${endpoint} with params:`, params);
+
+      const { data } = await apiClient.get(endpoint, { params });
+      console.log(`✅ Fetched ${endpoint}`, data);
+
       if (direct) {
-        setter(data);
+        setter(data.data || []);
       } else {
         setter(data.data || []);
       }
@@ -42,11 +47,19 @@ const Car = () => {
   const fetchAllData = useCallback(async () => {
     setLoading(true);
     await Promise.all([
-      fetchData("/kendaraan", setCars),
-      fetchData("/kendaraan/next-code", (data) => setNextId(data.code), true),
+      fetchData("/kendaraan", setCars, { params: { is_rent: false } }),
+      fetchData("/kendaraan/next-code", (data) => setNextId(data.code), {
+        direct: true,
+      }),
     ]);
     setLoading(false);
   }, [fetchData]);
+
+  useEffect(() => {
+    fetchAllData();
+  }, [fetchAllData]);
+
+  console.log(cars, "cars data");
 
   // Uncomment for testing with dummy data
   // const fetchAllData = useCallback(async () => {
@@ -59,7 +72,6 @@ const Car = () => {
   // useEffect(() => {
   //   fetchAllData();
   // }, [fetchAllData]);
-
 
   useEffect(() => {
     if (!formRef.current) return;
@@ -78,7 +90,10 @@ const Car = () => {
       const images = (car.kendaraan_file || []).map((file) => ({
         id: file.id,
         name: file.nama_file,
-        url: `${apiClient.defaults.baseURL}/public/${file.url.replace("uploads\\", "")}`,
+        url: `${apiClient.defaults.baseURL}/public/${file.url.replace(
+          "uploads\\",
+          ""
+        )}`,
       }));
 
       setExistingFiles(images);
@@ -110,7 +125,10 @@ const Car = () => {
     formData.append("nama", data.nama);
     formData.append("model", data.model || "");
     formData.append("plat_nomor", data.plat_nomor);
-    formData.append("tanggal_pajak_berakhir", data.tanggal_pajak_berakhir || "");
+    formData.append(
+      "tanggal_pajak_berakhir",
+      data.tanggal_pajak_berakhir || ""
+    );
     formData.append("status_pajak", data.status_pajak ? "true" : "false");
 
     try {
@@ -168,7 +186,10 @@ const Car = () => {
       fetchData("/kendaraan", setCars);
     } catch (error) {
       console.error("Failed to delete:", error);
-      toast.error(error.response?.data?.message || "Could not delete the vehicle. Please try again.");
+      toast.error(
+        error.response?.data?.message ||
+          "Could not delete the vehicle. Please try again."
+      );
     }
   };
 

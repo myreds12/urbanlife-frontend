@@ -8,14 +8,52 @@ const DescriptionSection = ({
   onChangeContent,
   handleChange,
   locations,
-  category,
+  category = [], // ✅ Default value untuk category
+  guides = [], // ✅ Default value untuk guides
+  drivers = [], // ✅ Default value untuk drivers
   type,
 }) => {
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
+        {/* Toggle Top Attraction */}
+        <div className="mb-6 flex items-center">
+          <label
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            style={{ minWidth: "190px" }}
+          >
+            Top Attraction
+          </label>
+          <button
+            type="button"
+            onClick={() =>
+              handleChange({
+                target: {
+                  name: "top_attraction",
+                  value: !formData.top_attraction,
+                },
+              })
+            }
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              formData.top_attraction ? "bg-cyan-600" : "bg-gray-300"
+            }`}
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                formData.top_attraction ? "translate-x-6" : "translate-x-1"
+              }`}
+            />
+          </button>
+          <span className="ml-3 text-sm text-gray-600">
+            {formData.top_attraction ? "Yes" : "No"}
+          </span>
+        </div>
+
         <div className="mb-4 flex items-center ">
-          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
+          <label
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            style={{ minWidth: "190px" }}
+          >
             Select Location <span className="text-red-500">*</span>
           </label>
           <select
@@ -34,26 +72,69 @@ const DescriptionSection = ({
           </select>
         </div>
 
-        {type === "daytour" ? (
+        {/* ✅ PERBAIKAN: Conditional rendering yang lebih jelas */}
+        {type === "daytour" && (
           <>
-            <div className="flex items-center ">
+            {/* Baris 1: Guide + Package Name */}
+            <div className="flex items-center gap-5 mb-5">
+              {/* <div className="w-1/3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Guide
+                </label>
+                <select
+                  name="guide_id"
+                  value={formData.guide_id || ""}
+                  onChange={handleChange}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                >
+                  <option value="">-- Pilih Guide --</option>
+                  {guides.map((guide) => (
+                    <option key={guide.id} value={guide.id}>
+                      {guide.nama}
+                    </option>
+                  ))}
+                </select>
+              </div> */}
+
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-gray-600">
+                  Daytour package name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="nama"
+                  value={formData.nama}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+                />
+              </div>
+            </div>
+
+            {/* Baris 2: Category */}
+            <div className="flex items-center mb-5">
               <label
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
               >
-                Daytour package name <span className="text-red-500">*</span>
+                Select Guide <span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                name="nama"
-                value={formData.nama}
+              <select
+                name="guide_id"
+                value={formData.guide_id || ""}
                 onChange={handleChange}
-                required
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-              />
+                required
+              >
+                <option value="">-- Choose Guide --</option>
+                {guides.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.nama}
+                  </option>
+                ))}
+              </select>
             </div>
-
-            <div className="flex items-center mt-5">
+            <div className="flex items-center mb-5">
               <label
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
@@ -68,7 +149,7 @@ const DescriptionSection = ({
                 required
               >
                 <option value="">-- Choose category --</option>
-                {category && category.map((cat) => (
+                {category.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
                   </option>
@@ -76,7 +157,8 @@ const DescriptionSection = ({
               </select>
             </div>
 
-            <div className="flex items-center mt-5">
+            {/* Baris 3: Duration */}
+            <div className="flex items-center">
               <label
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
@@ -89,12 +171,14 @@ const DescriptionSection = ({
                 value={formData.durasi || ""}
                 onChange={handleChange}
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-                placeholder="e.g. 1 - 4 jam/hours"
+                placeholder="e.g. 1 - 4 hours"
                 required
               />
             </div>
           </>
-        ) : type === "rentcar" ? (
+        )}
+
+        {type === "rentcar" && (
           <>
             <div className="flex items-center">
               <label
@@ -139,56 +223,79 @@ const DescriptionSection = ({
               </label>
               <input
                 type="text"
-                name="type"
-                value={formData.capacity}
+                name="kapasitas"
+                value={formData.kapasitas}
                 onChange={handleChange}
                 required
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
               />
             </div>
-          
-          </>
-        ) : (
-          type === "accommodation" && (
-            <>
-              <div className="flex items-center">
-                <label
-                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-                  style={{ minWidth: "190px" }}
-                >
-                  Unit Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="nama"
-                  value={formData.nama}
-                  onChange={handleChange}
-                  required
-                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-                />
-              </div>
 
-              <div className="flex items-center mt-5">
-                <label
-                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-                  style={{ minWidth: "190px" }}
-                >
-                  Type <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="tipe"
-                  value={formData.tipe}
-                  onChange={handleChange}
-                  required
-                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-                >
-                  <option value="hotel">Hotel</option>
-                  <option value="eco_lodge">Eco Lodge</option>
-                  <option value="guest_house">Guest House</option>
-                </select>
-              </div>
-            </>
-          )
+            {/* ✅ Select Driver */}
+            <div className="flex items-center mt-5">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Driver <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="driver_id"
+                value={formData.driver_id || ""}
+                onChange={handleChange}
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+                required
+              >
+                <option value="">-- Choose Driver --</option>
+                {drivers.map((driver) => (
+                  <option key={driver.id} value={driver.id}>
+                    {driver.nama} - {driver.no_telepon}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
+
+        {type === "accommodation" && (
+          <>
+            <div className="flex items-center">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Unit Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="nama"
+                value={formData.nama}
+                onChange={handleChange}
+                required
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+              />
+            </div>
+
+            <div className="flex items-center mt-5">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Type <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="tipe"
+                value={formData.tipe}
+                onChange={handleChange}
+                required
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+              >
+                <option value="hotel">Hotel</option>
+                <option value="eco_lodge">Eco Lodge</option>
+                <option value="guest_house">Guest House</option>
+              </select>
+            </div>
+          </>
         )}
 
         <div className="flex space-x-4 mt-6">

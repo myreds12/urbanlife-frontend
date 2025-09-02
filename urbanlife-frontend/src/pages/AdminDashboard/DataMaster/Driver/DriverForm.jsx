@@ -109,8 +109,8 @@ const DriverForm = forwardRef((_, ref) => {
           className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
         >
           <option value="">Select</option>
-          <option value="Laki - laki">Male</option>
-          <option value="Perempuan">Female</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
         </select>
       </div>
 

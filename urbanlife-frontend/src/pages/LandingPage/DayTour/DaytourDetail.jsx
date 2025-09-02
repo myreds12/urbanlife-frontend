@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import TourImage from "../../../components/LandingPage/DayTour/TourImage";
 import TourHeader from "../../../components/LandingPage/DayTour/TourHeader";
 import TourDescription from "../../../components/LandingPage/DayTour/TourDescription";
@@ -16,6 +16,7 @@ import TourDurasi from "../../../components/LandingPage/DayTour/TourDurasi";
 const Detail = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [tourData, setTourData] = useState(null);
+  console.log(tourData, "tour data");
   const [loading, setLoading] = useState(true);
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!state?.item_type || !state?.id) {
-        console.log("Invalid state");
+        console.log("Invalid state:", state);
         navigate("/not-found");
         return;
       }
@@ -39,12 +40,22 @@ const Detail = () => {
             ? "travel-package"
             : state.item_type.toLowerCase();
 
+        console.log(
+          `Fetching data from endpoint: /${endpointType}/${state.id}`
+        );
+
         const response = await apiClient.get(`/${endpointType}/${state.id}`);
         const data = response.data?.data;
 
+        if (!data) {
+          console.error("No data received from API");
+          setLoading(false);
+          return;
+        }
+
         let images = [];
         let description = "No description available.";
-        let policies = [];
+        let policies = "";
         let itinerary = [];
         let priceTable = [];
         let roomAndPrice = [];
@@ -52,57 +63,89 @@ const Detail = () => {
         let price = data.harga || "0";
         let location = data.location || data.lokasi?.nama || "";
 
-        if (state.item_type === "kendaraan") {
-          images = data.kendaraan_file?.map(
-            (file) =>
-              `${apiClient.defaults.baseURL.replace(
-                /\/$/,
-                ""
-              )}/public/${file.url
-                .replace(/\\/g, "/")
-                .replace(/^uploads\//, "")}`
-          ) || ["/public/images/error/No_Image_Available.jpg"];
+        // Debug log data
+        console.log("Raw data:", data);
 
-          durasi = data.kendaraan_durasi || [];
-          price = durasi[0]?.harga || "0";
+        if (state.item_type === "kendaraan") {
+          images = Array.isArray(data.kendaraan_file)
+            ? data.kendaraan_file.map(
+                (file) =>
+                  `${apiClient.defaults.baseURL.replace(
+                    /\/$/,
+                    ""
+                  )}/public/${file.url
+                    .replace(/\\/g, "/")
+                    .replace(/^uploads\//, "")}`
+              )
+            : ["/public/images/error/No_Image_Available.jpg"];
+
+          if (
+            Array.isArray(data.kendaraan_content) &&
+            data.kendaraan_content[0]?.kebijakan
+          ) {
+            policies = data.kendaraan_content[0].kebijakan;
+          }
+
+          durasi = Array.isArray(data.kendaraan_durasi)
+            ? data.kendaraan_durasi
+            : [];
+          price = durasi[0]?.harga || price;
         }
 
         if (state.item_type === "akomodasi") {
-          images = data.akomodasi_file?.map(
-            (file) =>
-              `${apiClient.defaults.baseURL.replace(
-                /\/$/,
-                ""
-              )}/public/${file.url
-                .replace(/\\/g, "/")
-                .replace(/^uploads\//, "")}`
-          ) || ["/public/images/error/No_Image_Available.jpg"];
+          images = Array.isArray(data.akomodasi_file)
+            ? data.akomodasi_file.map(
+                (file) =>
+                  `${apiClient.defaults.baseURL.replace(
+                    /\/$/,
+                    ""
+                  )}/public/${file.url
+                    .replace(/\\/g, "/")
+                    .replace(/^uploads\//, "")}`
+              )
+            : ["/public/images/error/No_Image_Available.jpg"];
 
-          roomAndPrice = data.akomodasi_room_and_price || [];
+          roomAndPrice = Array.isArray(data.akomodasi_room_and_price)
+            ? data.akomodasi_room_and_price
+            : [];
           description = data.akomodasi_content?.[0]?.deskripsi || description;
+
+          if (
+            Array.isArray(data.akomodasi_content) &&
+            data.akomodasi_content[0]?.kebijakan
+          ) {
+            policies = data.akomodasi_content[0].kebijakan;
+          }
+
           price = roomAndPrice[0]?.harga || price;
         }
 
         if (state.item_type === "travel_package") {
-          // Parsing image
-          images = data.travelPackageFile?.map(
-            (file) =>
-              `${apiClient.defaults.baseURL.replace(
-                /\/$/,
-                ""
-              )}/public/${file.url
-                .replace(/\\/g, "/")
-                .replace(/^uploads\//, "")}`
-          ) || ["/public/images/error/No_Image_Available.jpg"];
+          images = Array.isArray(data.travelPackageFile)
+            ? data.travelPackageFile.map(
+                (file) =>
+                  `${apiClient.defaults.baseURL.replace(
+                    /\/$/,
+                    ""
+                  )}/public/${file.url
+                    .replace(/\\/g, "/")
+                    .replace(/^uploads\//, "")}`
+              )
+            : ["/public/images/error/No_Image_Available.jpg"];
 
-          // Deskripsi
           description =
             data.travel_package_content?.[0]?.deskripsi || description;
+          itinerary = Array.isArray(data.travel_package_itinerary)
+            ? data.travel_package_itinerary
+            : [];
 
-          // Itinerary
-          itinerary = data.travel_package_itinerary || [];
+          if (
+            Array.isArray(data.travel_package_content) &&
+            data.travel_package_content[0]?.kebijakan
+          ) {
+            policies = data.travel_package_content[0].kebijakan;
+          }
 
-          // Harga anak & dewasa
           priceTable = [
             {
               id: 1,
@@ -116,14 +159,13 @@ const Detail = () => {
             },
           ];
 
-          // Gunakan harga dewasa sebagai default harga utama
-          price = data.harga_dewasa || "0";
+          price = data.harga_dewasa || price;
         }
 
         const fallbackData = {
           ...data,
           images,
-          title: data.nama || data.title,
+          title: data.nama || data.title || "",
           price,
           location,
           durasi,
@@ -135,9 +177,11 @@ const Detail = () => {
           room_and_price: roomAndPrice,
         };
 
+        console.log("Formatted fallbackData:", fallbackData);
+
         setTourData(fallbackData);
       } catch (error) {
-        console.log("Error fetching detail:", error);
+        console.error("Error fetching detail:", error);
         // navigate("/not-found");
       } finally {
         setLoading(false);
@@ -148,7 +192,7 @@ const Detail = () => {
   }, [state, navigate]);
 
   const tabs = [
-    { id: "description", label:t("detail.description") },
+    { id: "description", label: t("detail.description") },
     ...(tourData?.type === "travel_package" && tourData.itinerary.length > 0
       ? [{ id: "itinerary", label: t("detail.itinerary") }]
       : []),
@@ -159,7 +203,7 @@ const Detail = () => {
       ? [{ id: "room_and_price", label: t("detail.roomnprice") }]
       : []),
     ...(tourData?.type === "kendaraan" && tourData.durasi.length > 0
-      ? [{ id: "durasi", label:t("detail.duration") }]
+      ? [{ id: "durasi", label: t("detail.duration") }]
       : []),
     { id: "policies", label: t("detail.policy") },
   ];

@@ -367,6 +367,7 @@ const CreateAccomodationPage = () => {
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
+              type="accommodation"
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}

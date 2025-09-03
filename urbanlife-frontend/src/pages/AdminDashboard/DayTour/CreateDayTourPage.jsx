@@ -331,6 +331,7 @@ function CreateDayTourPage() {
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
+              type="daytour"
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}

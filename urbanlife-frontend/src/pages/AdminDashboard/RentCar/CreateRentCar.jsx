@@ -42,6 +42,7 @@ const CreateRentCarPage = () => {
   const [prices, setPrices] = useState(DEFAULT_PRICE);
   const [photos, setPhotos] = useState([]);
   const [existingPhotos, setExistingPhotos] = useState([]);
+  console.log(existingPhotos, "existingPhotos");
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
   const [availableCars, setAvailableCars] = useState([]);
@@ -67,6 +68,7 @@ const CreateRentCarPage = () => {
           apiClient.get("/kendaraan?is_rent=false"),
           apiClient.get("/driver"), // ✅ API untuk mendapatkan driver
         ]);
+        console.log(carData.data.data, "ini carData");
 
         setLocations(locationData.data || []);
         setAvailableCars(availableCarsData.data.data || []);
@@ -81,6 +83,7 @@ const CreateRentCarPage = () => {
             lokasi_id: car.lokasi_id || 0,
             status_pajak: car.status_pajak || "",
             status: car.status || "TERSEDIA DIPESAN",
+            kapasitas: car.kapasitas || 0,
             plat_nomor: car.plat_nomor || "",
             model: car.model || "",
             tanggal_pajak_berakhir:
@@ -340,6 +343,7 @@ const CreateRentCarPage = () => {
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
+              type="rentcar"
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}

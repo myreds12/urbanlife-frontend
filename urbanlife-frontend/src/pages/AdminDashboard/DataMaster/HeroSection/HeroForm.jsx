@@ -1,15 +1,18 @@
 import { forwardRef, useImperativeHandle, useState, useRef } from "react";
 import Dropzone from "../../../../components/AdminDashboard/Utils/Form/DropZone";
 import toast from "react-hot-toast";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
 const HeroForm = forwardRef(({ isEditing }, ref) => {
   const [form, setForm] = useState({
     id: "",
     title: "",
+    status: false
   });
 
   const [files, setFiles] = useState([]); 
   const [existingFiles, setExistingFiles] = useState([]);
+  console.log(existingFiles);
   const dropzoneRef = useRef(null);
 
   const validateFiles = (uploadedFiles) => {
@@ -38,6 +41,7 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
 
   useImperativeHandle(ref, () => ({
     setFormData: (data) => {
+      console.log(data, "DATA FORM");
       setForm({
         id: data.id || "",
         title: data.title || "",
@@ -45,11 +49,15 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
       
       // Set existing files for editing
       if (data.image_url) {
-        setExistingFiles([{
-          id: data.id,
-          name: "Current Hero Image",
-          url: data.image_url
-        }]);
+         const fullImageUrl = `${
+          apiClient.defaults.baseURL
+        }/public/${data.image_url.replace("uploads\\", "")}`;
+         const mockFile = {
+          name: data.nama_file || "image.png",
+          preview: fullImageUrl,
+          url: fullImageUrl,
+        };
+        setExistingFiles([mockFile]);
       }
     },
     getFormData: () => {

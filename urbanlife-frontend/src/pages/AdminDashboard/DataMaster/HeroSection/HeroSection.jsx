@@ -44,8 +44,8 @@ const HeroSection = () => {
         id: heroImage.id,
         title: heroImage.title,
         description: heroImage.description,
-        image_url: heroImage.image_url,
-        is_active: heroImage.is_active,
+        image_url: heroImage.url,
+        is_active: heroImage.status,
       });
     } else {
       formRef.current.resetForm?.();
@@ -118,7 +118,7 @@ const HeroSection = () => {
 
     try {
       await apiClient.delete(`/hero-section/${id}`);
-      
+
       await fetchData();
       toast.success("Hero image deleted successfully");
     } catch (error) {
@@ -129,7 +129,7 @@ const HeroSection = () => {
     }
   };
 
-  const handleSetActive = async (id) => {
+  const handleSetActive = async (id, isActive) => {
     const result = await Swal.fire({
       title: "Set as Active Hero",
       text: "This will deactivate the current active hero image. Continue?",
@@ -144,13 +144,27 @@ const HeroSection = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await apiClient.patch(`/hero-section/${id}/set-active`);
+      // Balik status berdasarkan nilai isActive saat ini
+      const newStatus = !isActive;
+      console.log("New status:", newStatus);
+
+      // Membuat FormData dan mengisi field status
+      const formData = new FormData();
+      formData.append("status", newStatus);
+
+      // Mengirim PATCH request dengan FormData sebagai payload
+      await apiClient.patch(`/hero-section/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Tentukan content-type supaya menjadi form data
+        },
+      });
+
       await fetchData();
-      toast.success("Hero image set as active successfully");
+      toast.success("Hero image status updated successfully");
     } catch (error) {
-      console.error("❌ Failed to set active hero image", error);
+      console.error("❌ Failed to update hero image status", error);
       toast.error(
-        error.response?.data?.message || "Failed to set active hero image"
+        error.response?.data?.message || "Failed to update hero image status"
       );
     }
   };

@@ -11,7 +11,9 @@ const HeroSection = () => {
     const fetchHero = async () => {
       try {
         const { data } = await apiClient.get("/hero-section");
-        const active = data.data?.find((h) => h.status === true || h.is_active === true);
+        const active = data.data?.find(
+          (h) => h.status === true || h.is_active === true
+        );
         setHeroData(active || null);
       } catch (err) {
         console.error("❌ Failed to fetch hero section", err);
@@ -31,15 +33,25 @@ const HeroSection = () => {
     );
   }
 
+  const getImageUrl = (image) => {
+    if (image instanceof File) {
+      return URL.createObjectURL(image);
+    } else if (image.url) {
+      return `${apiClient.defaults.baseURL}/public/${image.url
+        .replace(/\\/g, "/")
+        .replace(/^uploads\//, "")}`;
+    }
+    return "";
+  };
+
   return (
     <div
       className="hero-section"
       style={{
-        backgroundImage: `url('${heroData?.image_url || "/images/LandingPage/HeroSection/landingpage2.jpg"}')`,
+        backgroundImage: `url(${getImageUrl(heroData)})`,
       }}
     >
       <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-col lg:flex-row justify-center lg:justify-between items-center gap-6 lg:gap-45 py-8 sm:py-12 lg:py-20 min-h-screen">
-
         {/* Hero Text - Only visible on desktop */}
         <div className="hidden lg:block flex-1 max-w-2xl mb-20">
           <h1 className="playfair text-4xl sm:text-5xl lg:text-7xl font-bold text-left text-white leading-tight">

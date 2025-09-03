@@ -103,6 +103,7 @@ const HeroSection = () => {
   };
 
   const handleDelete = async (id) => {
+    console.log(id, "ID HERO SECTION");
     const result = await Swal.fire({
       title: "Delete Hero Image",
       text: "Are you sure you want to delete this hero image?",
@@ -117,7 +118,7 @@ const HeroSection = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await apiClient.delete(`/hero-section/${id}`);
+      await apiClient.delete(`/hero-section/${id.id}`);
 
       await fetchData();
       toast.success("Hero image deleted successfully");

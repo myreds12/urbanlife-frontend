@@ -22,7 +22,7 @@ function ProfileHeader({ userInfo, showResetForm, toggleReset }) {
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <div className="w-20 h-20 rounded-full overflow-hidden">
+          <div className="w-20 h-20 rounded-full overflow-hidden"> 
             <img
               src={getImageUrl(userInfo)}
               alt="user"

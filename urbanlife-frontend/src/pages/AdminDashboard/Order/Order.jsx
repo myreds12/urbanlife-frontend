@@ -52,6 +52,8 @@ const Orders = () => {
       const params = { page, take };
       if (status) params.status = status;
 
+      console.log("API PARAMS:", params);
+
       const res = await axios.get(api, { params });
       const { data, total } = res.data;
       console.log(data, "DATA ORDER");

@@ -112,14 +112,15 @@ const OrderEdit = () => {
         };
 
         // Hitung ulang total harga order
-        const newTotalHarga = updatedItems.reduce((total, item) =>
-          total + (parseFloat(item.total_harga) || 0), 0
+        const newTotalHarga = updatedItems.reduce(
+          (total, item) => total + (parseFloat(item.total_harga) || 0),
+          0
         );
 
         return {
           ...prev,
           pemesanan_item: updatedItems,
-          total_harga: newTotalHarga
+          total_harga: newTotalHarga,
         };
       });
     }
@@ -144,14 +145,15 @@ const OrderEdit = () => {
           };
 
           // Hitung ulang total harga order
-          const newTotalHarga = updatedItems.reduce((total, item) =>
-            total + (parseFloat(item.total_harga) || 0), 0
+          const newTotalHarga = updatedItems.reduce(
+            (total, item) => total + (parseFloat(item.total_harga) || 0),
+            0
           );
 
           return {
             ...prev,
             pemesanan_item: updatedItems,
-            total_harga: newTotalHarga
+            total_harga: newTotalHarga,
           };
         });
       }
@@ -164,11 +166,11 @@ const OrderEdit = () => {
 
     try {
       // Siapkan data untuk update
-      const updateData = orderData.pemesanan_item.map(item => ({
+      const updateData = orderData.pemesanan_item.map((item) => ({
         kendaraan_id: item.kendaraan_id,
         durasi_id: item.durasi_id,
         harga: item.total_harga,
-        notes: orderData.notes
+        notes: orderData.notes,
       }));
 
       console.log("Data to be sent for update:", updateData);
@@ -238,7 +240,8 @@ const OrderEdit = () => {
                     <option value="">Select Duration</option>
                     {item.detail.durasi.map((durasi) => (
                       <option key={durasi.id} value={durasi.id}>
-                        {durasi.nama} - Rp {durasi.harga.toLocaleString("id-ID")}
+                        {durasi.nama} - Rp{" "}
+                        {durasi.harga.toLocaleString("id-ID")}
                       </option>
                     ))}
                   </select>
@@ -287,7 +290,13 @@ const OrderEdit = () => {
                     </label>
                     <input
                       type="text"
-                      value={item.total_harga ? `Rp ${parseInt(item.total_harga).toLocaleString("id-ID")}` : "-"}
+                      value={
+                        item.total_harga
+                          ? `Rp ${parseInt(item.total_harga).toLocaleString(
+                              "id-ID"
+                            )}`
+                          : "-"
+                      }
                       disabled
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
                     />
@@ -462,8 +471,7 @@ const OrderEdit = () => {
                   name="status"
                   value={orderData.status}
                   disabled
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed appearance-none"
                 >
                   <option value="">Select Status</option>
                   {statusOptions.map((option) => (

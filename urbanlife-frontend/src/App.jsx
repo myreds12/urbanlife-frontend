@@ -149,9 +149,9 @@ function App() {
             <Route
               path="/admin"
               element={
-              <ProtectedRoute>
-                    <AppLayout />
-              </ProtectedRoute>
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
               }
             >
               <Route index element={<Navigate to="dashboard" replace />} />
@@ -177,22 +177,18 @@ function App() {
                 element={<CreateAccomodationPage />}
               />
               <Route path="AboutUs" element={<AboutUs />} />
-              <Route
-                path="aboutus/create"
-                element={<CreateAboutUsPage />}
-              />
-              <Route
-                path="aboutus/edit/:id"
-                element={<CreateAboutUsPage />}
-              />
+              <Route path="aboutus/create" element={<CreateAboutUsPage />} />
+              <Route path="aboutus/edit/:id" element={<CreateAboutUsPage />} />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />
+              <Route path="news/edit/:id" element={<CreateNews />} />
+
               <Route path="whatsapp-connect" element={<WhatsappConnect />} />
               <Route path="template" element={<Template />} />
               <Route path="inbox" element={<Inbox />} />
-              <Route path="herosection" element={<HeroSection />} /> 
-              <Route path="ourpartner" element={<Partner />} /> 
-              <Route path="ServiceSchedule" element={<ServiceSchedule />} />           
+              <Route path="herosection" element={<HeroSection />} />
+              <Route path="ourpartner" element={<Partner />} />
+              <Route path="ServiceSchedule" element={<ServiceSchedule />} />
               <Route path="country" element={<Country />} />
               <Route path="city" element={<City />} />
               <Route path="car" element={<Car />} />

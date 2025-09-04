@@ -156,6 +156,8 @@
     "description": "Deskripsi",
     "itinerary": "Rencana Perjalanan",
     "priceadultandchild": "Harga (Dewasa & Anak)",
+    "adult": "Dewasa",
+    "children": "Anak - anak",
     "roomnprice": "Informasi Kamar",
     "facility": "Fasilitas",
     "duration": "Durasi",

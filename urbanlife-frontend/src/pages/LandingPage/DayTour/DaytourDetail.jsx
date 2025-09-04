@@ -149,12 +149,12 @@ const Detail = () => {
           priceTable = [
             {
               id: 1,
-              label: "Dewasa",
+              label: "Adult",
               harga: data.harga_dewasa || "0",
             },
             {
               id: 2,
-              label: "Anak-anak",
+              label: "Children",
               harga: data.harga_anak || "0",
             },
           ];

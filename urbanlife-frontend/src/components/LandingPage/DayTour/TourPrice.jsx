@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 
 const iconForLabel = (label) => {
-  if (label.toLowerCase().includes("anak"))
+  if (label.toLowerCase().includes("children"))
     return <FaChild className="inline mr-1 text-blue-500" />;
-  if (label.toLowerCase().includes("dewasa"))
+  if (label.toLowerCase().includes("adult"))
     return <FaUser className="inline mr-1 text-green-500" />;
   return null;
 };

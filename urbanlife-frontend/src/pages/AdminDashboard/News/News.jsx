@@ -78,10 +78,15 @@ const News = () => {
     );
   };
 
+  // const handleEdit = (row) => {
+  //   setEditingNews(row);
+  //   setIsModalOpen(true);
+  // };
   const handleEdit = (row) => {
-    setEditingNews(row);
-    setIsModalOpen(true);
+    navigate(`/admin/news/edit/${row.id}`);
   };
+
+
 
   const handleModalClose = () => {
     setIsModalOpen(false);

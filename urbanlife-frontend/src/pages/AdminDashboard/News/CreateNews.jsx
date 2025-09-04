@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/News/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
 import toast from "react-hot-toast";
@@ -7,19 +7,20 @@ import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiCli
 
 function CreateNews() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
   const [photos, setPhotos] = useState([]);
+  const [existingPhotos, setExistingPhotos] = useState([]);
   const [categories, setCategories] = useState([]);
   const [content, setContent] = useState([
-    { bahasa: "ENGLISH", deskripsi: "", judul: ""},
-    { bahasa: "INDONESIA", deskripsi: "", judul: ""},
+    { id: null, bahasa: "ENGLISH", deskripsi: "", judul: "" },
+    { id: null, bahasa: "INDONESIA", deskripsi: "", judul: "" },
   ]);
 
   const [formData, setFormData] = useState({
     category_id: 0,
     content: content,
   });
-
-  console.log(formData, "formData");
 
   const fetchCategories = async () => {
     try {
@@ -31,11 +32,41 @@ function CreateNews() {
     }
   };
 
+  const fetchNewsData = async () => {
+    try {
+      const { data } = await apiClient.get(`/news/${id}`);
+      const news = data.data;
+      setFormData({
+        category_id: news.category_id || 0,
+        content: news.news_content || content,
+      });
+      setContent(
+        news.news_content || [
+          { id: null, bahasa: "ENGLISH", deskripsi: "", judul: "" },
+          { id: null, bahasa: "INDONESIA", deskripsi: "", judul: "" },
+        ]
+      );
+      setExistingPhotos(
+        (news.news_file || []).map((file) => ({
+          id: file.id,
+          url: `${apiClient.defaults.baseURL}/public/${file.url
+            .replace(/\\/g, "/")
+            .replace(/^uploads\//, "")}`,
+          nama_file: file.nama_file,
+        }))
+      );
+    } catch (error) {
+      toast.error("Failed to fetch news data.");
+      console.error("❌ Failed to fetch news data", error);
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
-  }, []);
-
-  const [activeSection, setActiveSection] = useState("description");
+    if (isEditMode) {
+      fetchNewsData();
+    }
+  }, [isEditMode, id]);
 
   useEffect(() => {
     setFormData((prev) => ({
@@ -44,6 +75,7 @@ function CreateNews() {
     }));
   }, [content]);
 
+  const [activeSection, setActiveSection] = useState("description");
 
   const handleChangeContent = (index, field, value) => {
     const updated = [...content];
@@ -67,8 +99,15 @@ function CreateNews() {
       payload.append("files", file);
     });
 
+    if (isEditMode) {
+      existingPhotos.forEach((photo) => {
+        payload.append("existing_file_ids[]", photo.id);
+      });
+    }
+
     // Append news content
     formData.content.forEach((item, index) => {
+      if (item.id) payload.append(`content[${index}][id]`, item.id);
       payload.append(`content[${index}][bahasa]`, item.bahasa);
       payload.append(`content[${index}][deskripsi]`, item.deskripsi);
       payload.append(`content[${index}][judul]`, item.judul);
@@ -85,16 +124,28 @@ function CreateNews() {
     console.log("========================================");
 
     try {
-      const response = await apiClient.post("/news", payload);
+      const response = isEditMode
+        ? await apiClient.patch(`/news/${id}`, payload, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+        : await apiClient.post("/news", payload, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
 
-      console.log(response, "response");
-
-      if (!response.ok && !response.status === 200) {
+      if ([200, 201].includes(response.status)) {
+        toast.success(
+          isEditMode
+            ? "News updated successfully!"
+            : "News created successfully!"
+        );
+        navigate("/admin/news");
+      } else {
         throw new Error("Failed to submit form");
       }
-
-      toast.success("News created successfully!");
-      navigate("/admin/news");
     } catch (error) {
       toast.error(error.message);
       console.error("Submission Error:", error);
@@ -120,29 +171,33 @@ function CreateNews() {
     setPhotos((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const removeExistingPhoto = (index) => {
+    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex h-screen">
         <main className="p-1 flex-1">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-              Create News
+              {isEditMode ? "Edit News" : "Create News"}
             </h2>
-              <div className="text-md text-gray-500 mb-6 flex space-x-5">
-                     {["description", "image"].map((section) => (
-                     <span
-                            key={section}
-                            className={`cursor-pointer px-1 font-medium underline-item relative ${
-                                   activeSection === section
-                                   ? "text-cyan-600 active"
-                                   : "text-gray-500"
-                            }`}
-                            onClick={() => moveSection(section)}
-                            >
-                            {section.charAt(0).toUpperCase() + section.slice(1)}
-                     </span>
-                     ))}
-              </div>
+            <div className="text-md text-gray-500 mb-6 flex space-x-5">
+              {["description", "image"].map((section) => (
+                <span
+                  key={section}
+                  className={`cursor-pointer px-1 font-medium underline-item relative ${
+                    activeSection === section
+                      ? "text-cyan-600 active"
+                      : "text-gray-500"
+                  }`}
+                  onClick={() => moveSection(section)}
+                >
+                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                </span>
+              ))}
+            </div>
             <DescriptionSection
               id="description"
               isActive={activeSection === "description"}
@@ -159,6 +214,8 @@ function CreateNews() {
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}
+              existingPhotos={existingPhotos}
+              removeExistingPhoto={removeExistingPhoto}
             />
           </div>
 

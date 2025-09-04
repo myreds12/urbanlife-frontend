@@ -98,7 +98,7 @@ const HeroForm = forwardRef(({ isEditing }, ref) => {
           apiClient.defaults.baseURL
         }/public/${data.image_url.replace(/uploads[\\/]/, "")}`;
         const mockFile = {
-          name: data.nama_file || "image.png",
+          name: data.title || "image.png",
           preview: fullImageUrl,
           url: fullImageUrl,
         };

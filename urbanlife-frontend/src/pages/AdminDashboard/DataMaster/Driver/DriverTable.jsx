@@ -11,7 +11,7 @@ const DriverTable = ({ drivers, loading, onEdit, onDelete }) => {
     "ID",
     "Phone number",
     "Gender",
-    "Driving expiry period",
+    "Fluent english",
     "Status",
     "Action",
   ];
@@ -23,10 +23,7 @@ const DriverTable = ({ drivers, loading, onEdit, onDelete }) => {
     ID: (row) => row.driver_id || "-",
     "Phone number": (row) => row.nomor_hp || "-",
     Gender: (row) => row.gender || "-",
-    "Driving expiry period": (row) =>
-      row.tanggal_periode_berakhir
-        ? new Date(row.tanggal_periode_berakhir).toLocaleDateString()
-        : "-",
+    "Fluent english": (row) => (row.fluent_english ? "Yes" : "No"),
     Status: (row) => <StatusBadge status={row.status} />,
   };
 

@@ -61,7 +61,7 @@ const CreateRentCarPage = () => {
           availableCarsData,
           driversData, // ✅ Ambil data driver
         ] = await Promise.all([
-          apiClient.get("/lokasi"),
+          apiClient.get("/lokasi?is_active=true"),
           isEditMode
             ? apiClient.get(`/kendaraan/${id}`)
             : Promise.resolve({ data: {} }),
@@ -267,7 +267,7 @@ const CreateRentCarPage = () => {
         <main className="p-1 flex-1">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-              {isEditMode ? "Edit Rent A Car" : "Create Rent A Car"}
+              {isEditMode ? "Edit Rent a Car" : "Create Rent a Car"}
             </h2>
 
             {/* ✅ Select Kendaraan yang Tersedia */}

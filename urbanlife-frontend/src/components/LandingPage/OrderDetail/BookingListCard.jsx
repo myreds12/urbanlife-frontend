@@ -12,7 +12,7 @@ const BookingListCard = ({
 }) => {
   const { t, i18n } = useTranslation();
   console.log('Current language:', i18n.language); // Debug bahasa saat ini
-
+  console.log("Order Items:", orderItems); // Debug orderItems
   useEffect(() => {
     console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
   }, [i18n.language]);

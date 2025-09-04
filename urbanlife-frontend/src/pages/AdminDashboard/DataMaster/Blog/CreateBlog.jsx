@@ -48,7 +48,7 @@ const CreateBlog = () => {
 
   const fetchLocations = async () => {
     try {
-      const { data } = await apiClient.get("/lokasi");
+      const { data } = await apiClient.get("/lokasi?is_active=true");
       setLocations(data.data || []);
     } catch (error) {
       console.error("❌ Failed to fetch location", error);

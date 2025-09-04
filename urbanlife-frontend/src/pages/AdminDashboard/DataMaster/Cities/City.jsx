@@ -102,6 +102,42 @@ const City = () => {
     }
   };
 
+   const handleSetActive = async (id, isActive) => {
+    const result = await Swal.fire({
+      title: "Set as Active City",
+      text: "This will deactivate the current active city. Continue?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#10b981",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, set active!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      // Balik status berdasarkan nilai isActive saat ini
+      const newStatus = !isActive;
+      console.log("New status:", newStatus);
+
+      // Membuat FormData dan mengisi field status
+      const formData = new FormData();
+      formData.append("status", newStatus);
+
+      // Mengirim PATCH request dengan FormData sebagai payload
+      await apiClient.patch(`/lokasi/${id}`, formData);
+
+      await fetchData("/lokasi", setCities, "cities");
+      toast.success("City status updated successfully");
+    } catch (error) {
+      console.error("❌ Failed to update city image status", error);
+      toast.error(
+        error.response?.data?.message || "Failed to update city status"
+      );
+    }
+  };
+
   const handleEdit = (city) => {
     if (!city?.id) {
       console.warn("City ID undefined!", city);
@@ -187,6 +223,7 @@ const City = () => {
           <CityTable
             cities={filteredCities}
             onEdit={handleEdit}
+            onSetActive={handleSetActive}
             onDelete={handleDelete}
           />
         </div>

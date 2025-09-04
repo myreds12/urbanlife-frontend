@@ -5,7 +5,7 @@
     "subtitle": "Discover amazing destinations and experiences",
     "services": "Services",
     "daytour": "Day Tours",
-    "rentcar": "Rent A Car",
+    "rentcar": "Rent a Car",
     "hotel": "Hotels & Resorts",
     "topattraction": "Top Attractions",
     "transportation": "Transportations",
@@ -31,7 +31,7 @@
     "from": "From",
     "to": "To",
     "accomodation": "Accommodation",
-    "rent_car": "Rent A Car",
+    "rent_car": "Rent a Car",
     "day_tour": "Day Tour",
     "form_incomplete_alert": "Please fill in all required fields!",
     "search_failed": "Failed to fetch search results."

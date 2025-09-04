@@ -448,7 +448,7 @@ const RentCar = () => {
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
             <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-gray-800">Rent A Car</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Rent a Car</h1>
             </div>
 
             <div className="flex flex-wrap justify-between items-center gap-4">

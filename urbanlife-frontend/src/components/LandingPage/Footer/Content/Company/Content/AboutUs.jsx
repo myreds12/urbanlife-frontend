@@ -76,7 +76,7 @@ const dummyData = {
   },
   cta: {
     title: "Ready to Explore?",
-    description: "Book your next adventure with UrbanLife!",
+    description: "Book your next adventure with urbanlife!",
     buttonText: "Contact Us",
     buttonLink: "/contact",
   },

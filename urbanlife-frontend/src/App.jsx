@@ -16,7 +16,6 @@ import ProtectedRoute from "./components/AdminDashboard/Utils/Auth/ProtectedRout
 import AuthInitializer from "./components/AdminDashboard/Utils/Auth/AuthInitializer";
 import { BlogProvider } from "./pages/AdminDashboard/DataMaster/Blog/BlogProvider";
 import { CategoryProvider } from "./pages/AdminDashboard/DataMaster/Category/CategoryProvider"; // Tambahkan import ini
-
 // Lazy loaded Pages
 const Dashboard = lazy(() =>
   import("./pages/AdminDashboard/Dashboard/Dashboard")
@@ -187,6 +186,7 @@ function App() {
               />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />
+              <Route path="news/edit/:id" element={<CreateNews />} />
               <Route path="whatsapp-connect" element={<WhatsappConnect />} />
               <Route path="template" element={<Template />} />
               <Route path="inbox" element={<Inbox />} />

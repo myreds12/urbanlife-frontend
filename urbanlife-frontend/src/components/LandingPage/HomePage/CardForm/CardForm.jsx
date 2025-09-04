@@ -61,7 +61,7 @@ const CardForm = () => {
       setLoadingCities(true);
       try {
         const res = await apiClient.get(
-          `/lokasi?negara_id=${formData.countryId}`
+          `/lokasi?negara_id=${formData.countryId}?is_active=true`
         );
         const mapped = res.data.data.map((c) => ({
           label: c.nama,

@@ -8,7 +8,7 @@ const DriverForm = forwardRef((_, ref) => {
     nama: "",
     nomor_hp: "",
     gender: "",
-    tanggal_periode_berakhir: "",
+    fluent_english: "",
   });
 
   const fetchNextGuideId = async () => {
@@ -26,8 +26,8 @@ const DriverForm = forwardRef((_, ref) => {
 
   useImperativeHandle(ref, () => ({
     getFormData: () => {
-      const { nama, nomor_hp, gender, tanggal_periode_berakhir } = form;
-      if (!nama || !nomor_hp || !gender || !tanggal_periode_berakhir) return null;
+      const { nama, nomor_hp, gender, fluent_english } = form;
+      if (!nama || !nomor_hp || !gender || !fluent_english) return null;
       return { ...form };
     },
     setFormData: (data) => {
@@ -36,7 +36,7 @@ const DriverForm = forwardRef((_, ref) => {
         nama: data.nama || "",
         nomor_hp: data.nomor_hp || "",
         gender: data.gender || "",
-        tanggal_periode_berakhir: data.tanggal_periode_berakhir || "",
+        fluent_english: data.fluent_english === true ? "yes" : "no",
       });
     },
     resetForm: () => {
@@ -45,7 +45,7 @@ const DriverForm = forwardRef((_, ref) => {
         nama: "",
         nomor_hp: "",
         gender: "",
-        tanggal_periode_berakhir: "",
+        fluent_english: "",
       });
       fetchNextGuideId(); // optionally regenerate guide ID
     },
@@ -114,20 +114,21 @@ const DriverForm = forwardRef((_, ref) => {
         </select>
       </div>
 
-      {/* Expiry Date */}
-<div className="w-full flex flex-col justify-end">
-  <label className="text-sm text-gray-600 mb-1 leading-tight">
-    Driver's license validity period
-  </label>
-  <input
-    type="date"
-    name="tanggal_periode_berakhir"
-    value={form.tanggal_periode_berakhir}
-    onChange={handleChange}
-    className="input input-bordered w-full border-gray-300 rounded-lg shadow-sm"
-  />
-</div>
-
+      <div className="lg:col-span-1">
+        <label className="block text-sm text-gray-600 mb-1">
+          Fluent in English
+        </label>
+        <select
+          name="fluent_english"
+          value={form.fluent_english}
+          onChange={handleChange}
+          className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
+        >
+          <option value="">Choose</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
     </div>
   );
 });

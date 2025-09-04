@@ -72,7 +72,7 @@ const Navbar = () => {
   // Original comment: Static service data
   const serviceData = {
     "Day Tour": [{ title: "Day Tours", image: "daytour.png" }],
-    "Rent A Car": [{ title: "Rent A Car", image: "rentcar.png" }],
+    "Rent a Car": [{ title: "Rent a Car", image: "rentcar.png" }],
     Accomodation: [{ title: "Hotel & Resorts", image: "hotel_resort.png" }],
   };
 

@@ -14,7 +14,13 @@ const contentItems = [
   { icon: "fa-car", name: "Rent a car", path: "/admin/rent-car" },
   { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
   { icon: "fa-newspaper", name: "News", path: "/admin/news" },
-  { icon: "fa-info-circle", name: "About Us", path: "/admin/aboutus" }, 
+];
+
+const companyItems = [
+  { icon: "fa-info-circle", name: "About Us", path: "/admin/aboutus" },
+  { icon: "fa-shield-alt", name: "Privacy Policy", path: "/admin/privacy-policy" },
+  { icon: "fa-file-contract", name: "Terms and Conditions", path: "/admin/terms-conditions" },
+  { icon: "fa-envelope", name: "Contact Us", path: "/admin/contact-us" },
 ];
 
 const othersItems = [
@@ -32,9 +38,9 @@ const othersItems = [
     icon: "fa-database",
     name: "Data master",
     subItems: [
-      { name: "Hero Section", path: "/admin/herosection"},
-      { name: "ServiceSchedule", path: "/admin/ServiceSchedule"},
-        { name: "Partner", path: "/admin/ourpartner"},
+      { name: "Hero Section", path: "/admin/herosection" },
+      { name: "ServiceSchedule", path: "/admin/ServiceSchedule" },
+      { name: "Partner", path: "/admin/ourpartner" },
       { name: "Countries", path: "/admin/country" },
       { name: "Cities", path: "/admin/city" },
       { name: "Car", path: "/admin/car" },
@@ -43,13 +49,13 @@ const othersItems = [
       { name: "Blog", path: "/admin/blogs" },
       { name: "Category", path: "/admin/category" },
       { name: "Users", path: "/admin/users" }, // hanya untuk super_admin
-      { name: "Testimonial", path: "/admin/testimonial"}
+      { name: "Testimonial", path: "/admin/testimonial" },
     ],
   },
   {
     icon: "fa-cog",
     name: "Setting",
-    subItems: [{ name: "User ", path: "/admin/profile" }],
+    subItems: [{ name: "User", path: "/admin/profile" }],
   },
 ];
 
@@ -95,9 +101,13 @@ const AppSidebar = () => {
           <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Menu</h2>
           {renderMenuItems(navItems)}
         </div>
-        <div className="mb-4">  
+        <div className="mb-4">
           <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Content Management</h2>
           {renderMenuItems(contentItems)}
+        </div>
+        <div className="mb-4">
+          <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Company</h2>
+          {renderMenuItems(companyItems)}
         </div>
         <div>
           <h2 className="text-xs text-gray-400 uppercase mb-2 tracking-wider">Others</h2>

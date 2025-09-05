@@ -44,6 +44,13 @@ const AboutUs = lazy(() => import("./pages/AdminDashboard/Company/AboutUs/AboutU
 const CreateAboutUsPage = lazy(() =>
   import("./pages/AdminDashboard/Company/AboutUs/CreateAboutUsPage")
 );
+const PrivacyPolicyPage = lazy(() =>
+  import("./pages/AdminDashboard/Company/PrivacyPolicy/PrivacyPolicy")
+);
+const CreatePrivacyPolicyPage = lazy(() =>
+  import("./pages/AdminDashboard/Company/PrivacyPolicy/CreatePrivacyPolicyPage")
+);
+
 const Customer = lazy(() => import("./pages/AdminDashboard/Customer/Customer"));
 const WhatsappConnect = lazy(() =>
   import("./pages/AdminDashboard/WhatsappSetting/WhatsappConnect")
@@ -179,6 +186,9 @@ function App() {
               <Route path="AboutUs" element={<AboutUs />} />
               <Route path="aboutus/create" element={<CreateAboutUsPage />} />
               <Route path="aboutus/edit/:id" element={<CreateAboutUsPage />} />
+              <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="privacy-policy/create" element={<CreatePrivacyPolicyPage />} />
+              <Route path="privacy-policy/edit/:id" element={<CreatePrivacyPolicyPage />} />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />
               <Route path="news/edit/:id" element={<CreateNews />} />

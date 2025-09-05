@@ -7,7 +7,7 @@ import AboutUsServicesSection from "./AboutUsServicesSection";
 import AboutUsCTASection from "./AboutUsCTASection";
 import AboutUsOperationalSection from "./AboutUsOperationalSection";
 import toast from "react-hot-toast";
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
 const CreateAboutUsPage = () => {
   const navigate = useNavigate();

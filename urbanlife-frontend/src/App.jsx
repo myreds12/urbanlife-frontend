@@ -40,9 +40,9 @@ const Accomodation = lazy(() =>
 const CreateAccomodationPage = lazy(() =>
   import("./pages/AdminDashboard/Accomodation/CreateAccomodation")
 );
-const AboutUs = lazy(() => import("./pages/AdminDashboard/AboutUs/AboutUs"));
+const AboutUs = lazy(() => import("./pages/AdminDashboard/Company/AboutUs/AboutUs"));
 const CreateAboutUsPage = lazy(() =>
-  import("./pages/AdminDashboard/AboutUs/CreateAboutUsPage")
+  import("./pages/AdminDashboard/Company/AboutUs/CreateAboutUsPage")
 );
 const Customer = lazy(() => import("./pages/AdminDashboard/Customer/Customer"));
 const WhatsappConnect = lazy(() =>

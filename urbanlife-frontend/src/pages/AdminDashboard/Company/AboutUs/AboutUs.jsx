@@ -1,13 +1,13 @@
 // src/pages/AdminDashboard/AboutUs/AboutUs.jsx
 import React, { useState, useEffect, useMemo } from "react";
-import Table from "../../../components/AdminDashboard/Utils/Table/Table";
-import Button from "../../../components/AdminDashboard/Utils/Ui/button/Button";
-import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
-import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
-import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
-import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDetail";
+import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
+import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
+import Pagination from "../../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
+import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
+import BulkActionBar from "../../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
+import ModalView from "../../../../components/AdminDashboard/Utils/Ui/modal/ModalDetail";
 import { useNavigate } from "react-router-dom";
-import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
 
 const AboutUs = () => {

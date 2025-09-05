@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Phone, Shield, Eye, Lock, Users, FileText, Globe, HeartHandshake, ChevronRight } from 'lucide-react';
 import Navbar from '../../../../HomePage/Navbar/Navbar';
 import Footer from '../../../../HomePage/Footer';
+import apiClient from '../../../../../../components/AdminDashboard/Utils/ApiClient/apiClient';
+import toast from 'react-hot-toast';
 
 const PrivacyPolicy = () => {
   const [isVisible, setIsVisible] = useState({});
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,17 +27,163 @@ const PrivacyPolicy = () => {
     const elements = document.querySelectorAll('[data-animate]');
     elements.forEach((el) => observer.observe(el));
 
+    const fetchData = async () => {
+      try {
+        const { data: response } = await apiClient.get('/privacypolicy');
+        setData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch privacy policy:', error);
+        toast.error('Gagal muat data dari API, menggunakan dummy data.');
+        setData(dummyData); // Fallback ke dummy
+      }
+    };
+    fetchData();
+
     return () => observer.disconnect();
   }, []);
 
-  const sections = [
-    { id: 'personal-info', title: 'Personal Information Collection', icon: Users },
-    { id: 'use-info', title: 'Information Usage', icon: Eye },
-    { id: 'share-info', title: 'Information Sharing', icon: Globe },
-    { id: 'storage-info', title: 'Data Storage', icon: FileText },
-    { id: 'protection-info', title: 'Data Protection', icon: Lock },
-    { id: 'amendment-access', title: 'Access & Amendment', icon: Shield },
-  ];
+  // Dummy data fallback
+  const dummyData = {
+    hero: {
+      title_en: "Your Data, Protected",
+      title_id: "Data Anda, Terlindungi",
+      subtitle_en: "Transparency in how we protect and handle your personal information",
+      subtitle_id: "Transparansi dalam cara kami melindungi dan menangani informasi pribadi Anda",
+    },
+    intro: {
+      title_en: "Our Commitment to You",
+      title_id: "Komitmen Kami untuk Anda",
+      content_en: "We respect your right to privacy. This Privacy Policy explains how UrbanLife (PT. Urban Digital Media) collects, stores, uses, processes, retains, transfers, discloses, and protects your personal information on urbanlife.id.",
+      content_id: "Kami menghormati hak Anda atas privasi. Kebijakan Privasi ini menjelaskan bagaimana UrbanLife (PT. Urban Digital Media) mengumpulkan, menyimpan, menggunakan, memproses, menyimpan, mentransfer, mengungkapkan, dan melindungi informasi pribadi Anda di urbanlife.id.",
+    },
+    custom: [
+      {
+        id: 'personal-info',
+        section_number: 1,
+        title_en: "Personal Information Collection",
+        title_id: "Pengumpulan Informasi Pribadi",
+        content_en: "We collect information that identifies or can be used to identify, contact, or locate you or your device (personal information), including name, address, date of birth, occupation, phone number, email address, bank account details, gender, photo, nationality, and identification documents (e.g., KTP, SIM, or Passport).",
+        content_id: "Kami mengumpulkan informasi yang dapat mengidentifikasi atau digunakan untuk mengidentifikasi, menghubungi, atau menemukan Anda atau perangkat Anda (informasi pribadi), termasuk nama, alamat, tanggal lahir, pekerjaan, nomor telepon, alamat email, detail rekening bank, gender, foto, kewarganegaraan, dan dokumen identitas (misalnya, KTP, SIM, atau Paspor).",
+        notes_en: "",
+        notes_id: "",
+        warning_en: "",
+        warning_id: "",
+      },
+      {
+        id: 'use-info',
+        section_number: 2,
+        title_en: "Information Usage",
+        title_id: "Penggunaan Informasi",
+        content_en: "Your information is used to provide and improve our services, process transactions, and communicate with you effectively.",
+        content_id: "Informasi Anda digunakan untuk menyediakan dan meningkatkan layanan kami, memproses transaksi, dan berkomunikasi dengan Anda secara efektif.",
+        notes_en: "",
+        notes_id: "",
+        warning_en: "",
+        warning_id: "",
+      },
+      {
+        id: 'share-info',
+        section_number: 3,
+        title_en: "Information Sharing",
+        title_id: "Pembagian Informasi",
+        content_en: "We may share your information with affiliates or third parties only for legal or service-related purposes, never for sale.",
+        content_id: "Kami dapat membagikan informasi Anda dengan afiliasi atau pihak ketiga hanya untuk tujuan hukum atau terkait layanan, tidak pernah untuk dijual.",
+        notes_en: "",
+        notes_id: "",
+        warning_en: "",
+        warning_id: "",
+      },
+      {
+        id: 'storage-info',
+        section_number: 4,
+        title_en: "Data Storage",
+        title_id: "Penyimpanan Data",
+        content_en: "Your data is stored only as long as needed for our services or as required by law.",
+        content_id: "Data Anda disimpan hanya selama diperlukan untuk layanan kami atau sebagaimana diwajibkan oleh hukum.",
+        notes_en: "",
+        notes_id: "",
+        warning_en: "",
+        warning_id: "",
+      },
+      {
+        id: 'protection-info',
+        section_number: 5,
+        title_en: "Data Protection",
+        title_id: "Perlindungan Data",
+        content_en: "We use security measures to protect your data, though absolute security over the internet cannot be guaranteed.",
+        content_id: "Kami menggunakan langkah keamanan untuk melindungi data Anda, meskipun keamanan absolut di internet tidak dapat dijamin.",
+        notes_en: "",
+        notes_id: "",
+        warning_en: "",
+        warning_id: "",
+      },
+      {
+        id: 'amendment-access',
+        section_number: 6,
+        title_en: "Access & Amendment",
+        title_id: "Akses & Perubahan",
+        content_en: "You can request access to or correction of your data, subject to certain limitations.",
+        content_id: "Anda dapat meminta akses atau perbaikan data Anda, dengan beberapa batasan tertentu.",
+        notes_en: "",
+        notes_id: "",
+        warning_en: "",
+        warning_id: "",
+      },
+    ],
+    contact: {
+      title_en: "Get in Touch",
+      title_id: "Hubungi Kami",
+      email: "info@urbanlife.id",
+      phone: "+62 816 919 812",
+    },
+    additional: [
+      {
+        id: 'amendment-policy',
+        title_en: 'Policy Updates',
+        content_en: 'We may review and amend this privacy policy from time to time. Changes will be notified through our website, and continued use indicates acceptance of updates.',
+        content_id: 'Kami dapat meninjau dan mengubah kebijakan privasi ini dari waktu ke waktu. Perubahan akan diberitahukan melalui situs web kami, dan penggunaan yang terus-menerus menunjukkan penerimaan terhadap pembaruan.',
+      },
+      {
+        id: 'acknowledgment',
+        title_en: 'Your Agreement',
+        content_en: 'By using our services, you acknowledge reading and agreeing to this policy. You consent to our data processing practices as described herein.',
+        content_id: 'Dengan menggunakan layanan kami, Anda mengakui telah membaca dan menyetujui kebijakan ini. Anda menyetujui praktik pemrosesan data kami sebagaimana dijelaskan di sini.',
+      },
+      {
+        id: 'unspecified-data',
+        title_en: 'Anonymous Data',
+        content_en: 'We may use anonymized data (with all identifiers removed) that cannot be associated with any individual for research and improvement purposes.',
+        content_id: 'Kami dapat menggunakan data anonim (dengan semua pengenal dihapus) yang tidak dapat dikaitkan dengan individu untuk tujuan penelitian dan perbaikan.',
+      },
+      {
+        id: 'marketing',
+        title_en: 'Marketing Communications',
+        content_en: 'We may send promotional messages via email, SMS, or social media. You can opt-out anytime while still receiving essential service communications.',
+        content_id: 'Kami dapat mengirim pesan promosi melalui email, SMS, atau media sosial. Anda dapat berhenti berlangganan kapan saja sambil tetap menerima komunikasi layanan penting.',
+      },
+      {
+        id: 'third-party',
+        title_en: 'Third-Party Links',
+        content_en: 'Our website may contain links to third-party sites with their own privacy policies. We are not responsible for their data practices.',
+        content_id: 'Situs web kami mungkin berisi tautan ke situs pihak ketiga dengan kebijakan privasi mereka sendiri. Kami tidak bertanggung jawab atas praktik data mereka.',
+      },
+    ],
+  };
+
+  const sections = data
+    ? data.custom.map((section) => ({
+        id: section.id,
+        title: section.title_en,
+        icon: section.id === 'personal-info' ? Users : section.id === 'use-info' ? Eye : section.id === 'share-info' ? Globe : section.id === 'storage-info' ? FileText : section.id === 'protection-info' ? Lock : Shield,
+      }))
+    : [
+        { id: 'personal-info', title: dummyData.custom[0].title_en, icon: Users },
+        { id: 'use-info', title: dummyData.custom[1].title_en, icon: Eye },
+        { id: 'share-info', title: dummyData.custom[2].title_en, icon: Globe },
+        { id: 'storage-info', title: dummyData.custom[3].title_en, icon: FileText },
+        { id: 'protection-info', title: dummyData.custom[4].title_en, icon: Lock },
+        { id: 'amendment-access', title: dummyData.custom[5].title_en, icon: Shield },
+      ];
 
   return (
     <div className="bg-slate-50 min-h-screen">
@@ -59,11 +208,11 @@ const PrivacyPolicy = () => {
             </div>
 
             <h1 className="text-5xl md:text-6xl font-light text-slate-900 mb-6 tracking-tight">
-              Your Data, Protected
+              {data?.hero?.title_en || dummyData.hero.title_en}
             </h1>
 
             <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
-              Transparency in how we protect and handle your personal information
+              {data?.hero?.subtitle_en || dummyData.hero.subtitle_en}
             </p>
           </div>
         </div>
@@ -105,10 +254,10 @@ const PrivacyPolicy = () => {
               <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
                 <HeartHandshake className="w-5 h-5 text-cyan-600" aria-hidden="true" />
               </div>
-              <h2 className="text-2xl font-medium text-slate-900">Our Commitment to You</h2>
+              <h2 className="text-2xl font-medium text-slate-900">{data?.intro?.title_en || dummyData.intro.title_en}</h2>
             </div>
             <p className="text-slate-700 text-lg leading-relaxed mb-6">
-              We respect your right to privacy. This Privacy Policy explains how <strong>UrbanLife</strong> (PT. Urban Digital Media) collects, stores, uses, processes, retains, transfers, discloses, and protects your personal information on <a href="https://urbanlife.id" className="text-cyan-600 hover:text-cyan-700 underline decoration-cyan-300" target="_blank" rel="noopener noreferrer">urbanlife.id</a>.
+              {data?.intro?.content_en || dummyData.intro.content_en}
             </p>
             <p className="text-slate-600 leading-relaxed">
               Questions? Contact us using the information at the bottom of this page.
@@ -116,260 +265,92 @@ const PrivacyPolicy = () => {
           </div>
         </div>
 
-        {/* Personal Information Section */}
-        <section
-          id="personal-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['personal-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Users className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">Personal Information Collection</h2>
-            </div>
-            <p className="text-slate-700 leading-relaxed mb-6">We collect information that identifies or can be used to identify, contact, or locate you or your device (personal information), including name, address, date of birth, occupation, phone number, email address, bank account details, gender, photo, nationality, and identification documents (e.g., KTP, SIM, or Passport).</p>
-            <div className="space-y-8">
-              <div className="border-l-4 border-cyan-400 pl-6">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">Information Obtained Directly</h3>
-                <p className="text-slate-700 leading-relaxed mb-4">When you use our website, you provide information necessary for our services, such as:</p>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-                    <p className="text-slate-700 text-sm">Information required to access services, depending on the service you seek.</p>
+        {/* Custom Sections */}
+        {data?.custom?.length > 0
+          ? data.custom.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                data-animate
+                className={`mb-16 transition-all duration-700 ${
+                  isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+              >
+                <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
+                  <div className="flex items-center space-x-3 mb-8">
+                    <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
+                      {section.id === 'personal-info' && <Users className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'use-info' && <Eye className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'share-info' && <Globe className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'storage-info' && <FileText className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'protection-info' && <Lock className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'amendment-access' && <Shield className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                    </div>
+                    <h2 className="text-2xl font-medium text-slate-900">{section.title_en}</h2>
                   </div>
-                  <div className="bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-                    <p className="text-slate-700 text-sm">Payment details, including transfer details, amounts, and card/account information for electronic payments.</p>
+                  <p className="text-slate-700 leading-relaxed mb-6">{section.content_en}</p>
+                </div>
+              </section>
+            ))
+          : dummyData.custom.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                data-animate
+                className={`mb-16 transition-all duration-700 ${
+                  isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+              >
+                <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
+                  <div className="flex items-center space-x-3 mb-8">
+                    <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
+                      {section.id === 'personal-info' && <Users className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'use-info' && <Eye className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'share-info' && <Globe className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'storage-info' && <FileText className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'protection-info' && <Lock className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'amendment-access' && <Shield className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                    </div>
+                    <h2 className="text-2xl font-medium text-slate-900">{section.title_en}</h2>
                   </div>
+                  <p className="text-slate-700 leading-relaxed mb-6">{section.content_en}</p>
                 </div>
-              </div>
-              <div className="border-l-4 border-cyan-400 pl-6">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">Information Collected Automatically</h3>
-                <p className="text-slate-700 leading-relaxed mb-4">We collect technical data during website visits, such as IP address, viewed pages, session duration, and device information.</p>
-                <div className="bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-                  <p className="text-slate-700 text-sm">Cookies: We use cookies to enhance user experience. You can adjust your browser settings to reject cookies, though this may affect functionality.</p>
-                </div>
-              </div>
-              <div className="border-l-4 border-cyan-400 pl-6">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">Information from Third Parties</h3>
-                <p className="text-slate-700 leading-relaxed">We may collect personal information from partners and third parties for purposes related to our services or cooperation agreements.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Use of Personal Information */}
-        <section
-          id="use-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['use-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Eye className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">Information Usage</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-slate-900">For Users</h3>
-                <div className="space-y-2">
-                  {['Identity verification and user authentication', 'Service provision and booking facilitation', 'Payment processing and transaction management', 'Communication about services and transactions', 'Customer support and inquiry handling', 'Service improvement and personalization'].map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <ChevronRight className="w-4 h-4 text-cyan-500" aria-hidden="true" />
-                      <span className="text-slate-600 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-slate-900">Business Operations</h3>
-                <div className="space-y-2">
-                  {['Performance monitoring and analytics', 'Technical support and problem resolution', 'Statistical analysis and product development', 'Fraud detection and prevention', 'Legal compliance and regulatory reporting', 'Business process optimization'].map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <ChevronRight className="w-4 h-4 text-cyan-500" aria-hidden="true" />
-                      <span className="text-slate-600 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Share of Personal Information */}
-        <section
-          id="share-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['share-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Globe className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">Information Sharing</h2>
-            </div>
-            <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
-              <p className="text-red-800 font-medium">🛡️ We never lease or sell your personal information.</p>
-            </div>
-            <p className="text-slate-700 leading-relaxed mb-6">We may disclose or share your personal information with affiliates and other parties only for specific purposes permitted by applicable law:</p>
-            <div className="space-y-3">
-              {['Service provision through our affiliates and partners', 'Legal compliance and regulatory requirements', 'Government authority requests and instructions', 'Legal proceedings and dispute resolution', 'Identity verification processes', 'Third-party platform integration', 'Emergency situations affecting safety or public interest', 'Business restructuring, merger, or acquisition', 'Operational support from affiliates'].map((item, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center mt-0.5">
-                    <span className="text-slate-600 text-xs">{index + 1}</span>
-                  </div>
-                  <p className="text-slate-600 text-sm">{item}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-              <p className="text-slate-700 text-sm">Note: We strive to remove personal associations before sharing information when it’s not necessary to identify you individually.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Storage and Protection */}
-        <section
-          id="storage-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['storage-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <FileText className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">Data Storage</h2>
-            </div>
-            <p className="text-slate-700 leading-relaxed mb-4">Your personal information is stored only as long as necessary to fulfill collection purposes or as required by applicable law.</p>
-            <div className="space-y-2">
-              {['Automatic deletion when no longer required', 'Compliance with partner storage policies', 'Reasonable protection efforts'].map((item, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                  <span className="text-slate-600 text-sm">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="protection-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['protection-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Lock className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">Data Protection</h2>
-            </div>
-            <p className="text-slate-700 leading-relaxed mb-4">We implement reasonable security measures to protect your personal information against unauthorized access, use, or disclosure.</p>
-            <div className="bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-              <p className="text-slate-700 text-sm">Important: While we strive to protect your data, internet transmission isn’t completely secure. We cannot guarantee absolute security due to factors beyond our control.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Your Rights */}
-        <section
-          id="amendment-access"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['amendment-access'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Shield className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">Access & Amendment</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-cyan-50/50 rounded-xl p-6 border border-cyan-100">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">You Can Request</h3>
-                <div className="space-y-2">
-                  {['Access to your personal information', 'Correction of your personal data', 'Withdrawal of consent', 'Opt-out of marketing communications'].map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                      <span className="text-slate-600 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="bg-cyan-50/50 rounded-xl p-6 border border-cyan-100">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">We May Reject Requests</h3>
-                <div className="space-y-2">
-                  {['Information containing third-party references', 'Requests for irrelevant matters', 'When prohibited by applicable law'].map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                      <span className="text-slate-600 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+              </section>
+            ))}
 
         {/* Additional Sections */}
         <div className="max-w-4xl mx-auto space-y-8">
-          {[
-            {
-              id: 'amendment-policy',
-              title: 'Policy Updates',
-              content: 'We may review and amend this privacy policy from time to time. Changes will be notified through our website, and continued use indicates acceptance of updates.',
-            },
-            {
-              id: 'acknowledgment',
-              title: 'Your Agreement',
-              content: 'By using our services, you acknowledge reading and agreeing to this policy. You consent to our data processing practices as described herein.',
-            },
-            {
-              id: 'unspecified-data',
-              title: 'Anonymous Data',
-              content: 'We may use anonymized data (with all identifiers removed) that cannot be associated with any individual for research and improvement purposes.',
-            },
-            {
-              id: 'marketing',
-              title: 'Marketing Communications',
-              content: 'We may send promotional messages via email, SMS, or social media. You can opt-out anytime while still receiving essential service communications.',
-            },
-            {
-              id: 'third-party',
-              title: 'Third-Party Links',
-              content: 'Our website may contain links to third-party sites with their own privacy policies. We are not responsible for their data practices.',
-            },
-          ].map((section) => (
-            <div
-              key={section.id}
-              id={section.id}
-              data-animate
-              className={`transition-all duration-700 ${
-                isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50">
-                <h3 className="text-lg font-medium text-slate-900 mb-3">{section.title}</h3>
-                <p className="text-slate-700 text-sm leading-relaxed">{section.content}</p>
-              </div>
-            </div>
-          ))}
+          {data?.additional?.length > 0
+            ? data.additional.map((section) => (
+                <div
+                  key={section.id}
+                  id={section.id}
+                  data-animate
+                  className={`transition-all duration-700 ${
+                    isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  }`}
+                >
+                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50">
+                    <h3 className="text-lg font-medium text-slate-900 mb-3">{section.title_en}</h3>
+                    <p className="text-slate-700 text-sm leading-relaxed">{section.content_en}</p>
+                  </div>
+                </div>
+              ))
+            : dummyData.additional.map((section) => (
+                <div
+                  key={section.id}
+                  id={section.id}
+                  data-animate
+                  className={`transition-all duration-700 ${
+                    isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  }`}
+                >
+                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50">
+                    <h3 className="text-lg font-medium text-slate-900 mb-3">{section.title_en}</h3>
+                    <p className="text-slate-700 text-sm leading-relaxed">{section.content_en}</p>
+                  </div>
+                </div>
+              ))}
         </div>
 
         {/* Contact Section */}
@@ -382,7 +363,7 @@ const PrivacyPolicy = () => {
         >
           <div className="bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-2xl p-8 text-white">
             <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-2xl font-medium mb-2">Get in Touch</h2>
+              <h2 className="text-2xl font-medium mb-2">{data?.contact?.title_en || dummyData.contact.title_en}</h2>
               <p className="text-cyan-100 mb-8 text-sm">Questions about this privacy policy? We’re here to help.</p>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="flex items-center space-x-3">
@@ -390,10 +371,10 @@ const PrivacyPolicy = () => {
                   <div className="text-left">
                     <p className="font-medium">Email Support</p>
                     <a
-                      href="mailto:info@urbanlife.id"
+                      href={`mailto:${data?.contact?.email || dummyData.contact.email}`}
                       className="text-cyan-100 hover:text-white text-sm transition-colors duration-200"
                     >
-                      info@urbanlife.id
+                      {data?.contact?.email || dummyData.contact.email}
                     </a>
                     <p className="text-cyan-100 mb-1 mt-2">Advertisements:</p>
                     <a
@@ -409,10 +390,10 @@ const PrivacyPolicy = () => {
                   <div className="text-left">
                     <p className="font-medium">Phone Support</p>
                     <a
-                      href="tel:+62816919812"
+                      href={`tel:${data?.contact?.phone || dummyData.contact.phone}`}
                       className="text-cyan-100 hover:text-white text-sm transition-colors duration-200"
                     >
-                      +62 816 919 812
+                      {data?.contact?.phone || dummyData.contact.phone}
                     </a>
                   </div>
                 </div>

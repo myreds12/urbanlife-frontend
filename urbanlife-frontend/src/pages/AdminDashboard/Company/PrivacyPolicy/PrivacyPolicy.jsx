@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
 import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 import Pagination from "../../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
@@ -8,57 +8,6 @@ import ModalView from "../../../../components/AdminDashboard/Utils/Ui/modal/Moda
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
-
-// Dummy data fallback (disederhanakan sepenuhnya)
-const dummyData = {
-  hero: {
-    id: 1,
-    title_en: "Your Data, Protected",
-    title_id: "Data Anda, Terlindungi",
-    subtitle_en: "Transparency in how we protect and handle your personal information",
-    subtitle_id: "Transparansi dalam cara kami melindungi dan menangani informasi pribadi Anda",
-  },
-  intro: {
-    id: 2,
-    title_en: "Our Commitment to You",
-    title_id: "Komitmen Kami untuk Anda",
-    content_en: "We respect your right to privacy. This Privacy Policy explains how <strong>UrbanLife</strong> (PT. Urban Digital Media) collects, stores, uses, processes, retains, transfers, discloses, and protects your personal information on <a href='https://urbanlife.id' className='text-cyan-600 hover:text-cyan-700 underline decoration-cyan-300' target='_blank' rel='noopener noreferrer'>urbanlife.id</a>.",
-    content_id: "Kami menghormati hak Anda atas privasi. Kebijakan Privasi ini menjelaskan bagaimana <strong>UrbanLife</strong> (PT. Urban Digital Media) mengumpulkan, menyimpan, menggunakan, memproses, menyimpan, mentransfer, mengungkapkan, dan melindungi informasi pribadi Anda di <a href='https://urbanlife.id' className='text-cyan-600 hover:text-cyan-700 underline decoration-cyan-300' target='_blank' rel='noopener noreferrer'>urbanlife.id</a>.",
-  },
-  custom: [
-    {
-      id: "personal-info",
-      section_number: 1,
-      title_en: "Personal Information Collection",
-      title_id: "Pengumpulan Informasi Pribadi",
-      content_en: "We collect information that identifies or can be used to identify, contact, or locate you or your device (personal information), including name, address, date of birth, occupation, phone number, email address, bank account details, gender, photo, nationality, and identification documents (e.g., KTP, SIM, or Passport).",
-      content_id: "Kami mengumpulkan informasi yang dapat mengidentifikasi atau digunakan untuk mengidentifikasi, menghubungi, atau menemukan Anda atau perangkat Anda (informasi pribadi), termasuk nama, alamat, tanggal lahir, pekerjaan, nomor telepon, alamat email, detail rekening bank, gender, foto, kewarganegaraan, dan dokumen identitas (misalnya, KTP, SIM, atau Paspor).",
-      notes_en: "",
-      notes_id: "",
-      warning_en: "",
-      warning_id: "",
-    },
-    {
-      id: "use-info",
-      section_number: 2,
-      title_en: "Information Usage",
-      title_id: "Penggunaan Informasi",
-      content_en: "",
-      content_id: "",
-      notes_en: "",
-      notes_id: "",
-      warning_en: "",
-      warning_id: "",
-    },
-  ],
-  contact: {
-    id: 3,
-    title_en: "Get in Touch",
-    title_id: "Hubungi Kami",
-    email: "info@urbanlife.id",
-    phone: "+62 816 919 812",
-  },
-};
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
@@ -73,32 +22,39 @@ const PrivacyPolicy = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalData, setSelectedModalData] = useState(null);
 
-  const fetchContents = async (search = "") => {
+  const fetchContents = useCallback(async (search = "") => {
     setLoading(true);
     try {
       const params = { page: currentPage, take, ...(search.trim() && { search: search.trim() }) };
       const res = await apiClient.get("/privacypolicy", { params });
       const { data, total } = res.data;
-      setContents(data); // Langsung pake data, udah nggak perlu filter
-      setTotal(total);
+      const flattenedData = [
+        { id: 'hero', section: 'Hero', ...data.hero },
+        ...data.custom,
+        ...data.additional,
+        { id: 'contact', section: 'Contact', ...data.contact },
+      ];
+      setContents(flattenedData);
+      setTotal(total || flattenedData.length);
     } catch (err) {
       console.error("Failed to fetch privacy policy contents", err);
       toast.error("Gagal memuat data Privacy Policy dari API. Menggunakan dummy data.");
-      const simplifiedDummy = [
-        { ...dummyData.hero },
+      const flattenedDummy = [
+        { id: 'hero', section: 'Hero', ...dummyData.hero },
         ...dummyData.custom,
-        { ...dummyData.contact },
-      ].map((item, index) => ({ id: item.id || index + 1, ...item }));
-      setContents(simplifiedDummy);
-      setTotal(simplifiedDummy.length);
+        ...dummyData.additional,
+        { id: 'contact', section: 'Contact', ...dummyData.contact },
+      ];
+      setContents(flattenedDummy);
+      setTotal(flattenedDummy.length);
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage]);
 
   useEffect(() => {
     fetchContents(searchTerm);
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, fetchContents]);
 
   const handleSort = (columnKey) => {
     let direction = "asc";
@@ -114,13 +70,14 @@ const PrivacyPolicy = () => {
   const handleView = async (row) => {
     try {
       const { data } = await apiClient.get(`/privacypolicy/${row.id}`);
-      setSelectedModalData(data.data); // Langsung pake data, udah nggak perlu filter
+      setSelectedModalData(data.data);
     } catch (error) {
       console.error("Failed to fetch details:", error);
       toast.error("Gagal memuat detail Privacy Policy dari API. Menggunakan dummy data.");
       const dummyMatch = [
         dummyData.hero,
         ...dummyData.custom,
+        ...dummyData.additional,
         dummyData.contact,
       ].find((item) => item.id === row.id);
       setSelectedModalData(dummyMatch || row);
@@ -185,12 +142,12 @@ const PrivacyPolicy = () => {
 
   const handlePageChange = (page) => setCurrentPage(page);
 
-  const columns = ["#", "Section Number", "Title (EN)", "Title (ID)", "Action"];
+  const columns = ["#", "Section", "Title (EN)", "Title (ID)", "Action"];
   const mapping = {
     "#": (_, index) => startIndex + index + 1,
-    "Section Number": (row) => row.section_number || (row.id === 1 ? "Hero" : row.id === 2 ? "Intro" : row.id === contents.length ? "Contact" : row.section_number),
-    "Title (EN)": (row) => row.title_en || (row.id === 1 ? "Hero" : row.id === 2 ? "Introduction" : row.id === contents.length ? "Contact" : ""),
-    "Title (ID)": (row) => row.title_id || (row.id === 1 ? "Hero" : row.id === 2 ? "Pengenalan" : row.id === contents.length ? "Kontak" : ""),
+    "Section": (row) => row.section || (row.id === 'hero' ? "Hero" : row.id === 'contact' ? "Contact" : `Section ${row.section_number}`),
+    "Title (EN)": (row) => row.title_en || "",
+    "Title (ID)": (row) => row.title_id || "",
     Action: null,
   };
 
@@ -213,7 +170,6 @@ const PrivacyPolicy = () => {
             onBulkDelete={handleBulkDelete}
           />
         )}
-
         <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
           <div className="flex items-center gap-4">
             <h1 className="text-2xl font-bold text-gray-800">Privacy Policy Management</h1>
@@ -235,7 +191,6 @@ const PrivacyPolicy = () => {
             </Button>
           </div>
         </div>
-
         <div style={{ overflowX: "auto" }}>
           <Table
             data={currentData}
@@ -252,7 +207,6 @@ const PrivacyPolicy = () => {
           />
         </div>
       </div>
-
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="text-sm text-gray-700">
           Showing {startIndex + 1} to {Math.min(startIndex + take, total)} of {total} sections
@@ -264,7 +218,6 @@ const PrivacyPolicy = () => {
           size="base"
         />
       </div>
-
       <ModalView
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -274,15 +227,13 @@ const PrivacyPolicy = () => {
           sections: [
             {
               fields: [
-                { key: "section_number", label: "Section Number" },
+                { key: "section", label: "Section" },
                 { key: "title_en", label: "Title (EN)" },
                 { key: "title_id", label: "Title (ID)" },
                 { key: "content_en", label: "Content (EN)", type: "textarea" },
                 { key: "content_id", label: "Content (ID)", type: "textarea" },
-                { key: "notes_en", label: "Notes (EN)", type: "textarea" },
-                { key: "notes_id", label: "Notes (ID)", type: "textarea" },
-                { key: "warning_en", label: "Warning (EN)", type: "textarea" },
-                { key: "warning_id", label: "Warning (ID)", type: "textarea" },
+                { key: "notes", label: "Notes", type: "array", subFields: [{ key: "en", label: "EN" }, { key: "id", label: "ID" }] },
+                { key: "warning", label: "Warnings", type: "array", subFields: [{ key: "en", label: "EN" }, { key: "id", label: "ID" }] },
               ],
             },
           ],
@@ -290,6 +241,108 @@ const PrivacyPolicy = () => {
       />
     </div>
   );
+};
+
+
+const dummyData = {
+  hero: {
+    id: 'hero',
+    title_en: "Your Data, Protected",
+    title_id: "Data Anda, Terlindungi",
+    subtitle_en: "Transparency in how we protect and handle your personal information",
+    subtitle_id: "Transparansi dalam cara kami melindungi dan menangani informasi pribadi Anda",
+  },
+  custom: [
+    {
+      id: 'personal-info',
+      section_number: 1,
+      section: 'Personal Information Collection',
+      title_en: "Personal Information Collection",
+      title_id: "Pengumpulan Informasi Pribadi",
+      content_en: "We collect information that identifies or can be used to identify, contact, or locate you or your device (personal information), including name, address, date of birth, occupation, phone number, email address, bank account details, gender, photo, nationality, and identification documents (e.g., KTP, SIM, or Passport).",
+      content_id: "Kami mengumpulkan informasi yang dapat mengidentifikasi atau digunakan untuk mengidentifikasi, menghubungi, atau menemukan Anda atau perangkat Anda (informasi pribadi), termasuk nama, alamat, tanggal lahir, pekerjaan, nomor telepon, alamat email, detail rekening bank, gender, foto, kewarganegaraan, dan dokumen identitas (misalnya, KTP, SIM, atau Paspor).",
+      notes: [{ en: "Please ensure all details are accurate.", id: "Pastikan semua detail akurat." }],
+      warning: [{ en: "Misuse of data may result in legal action.", id: "Penyalahgunaan data dapat menyebabkan tindakan hukum." }],
+    },
+    {
+      id: 'use-info',
+      section_number: 2,
+      section: 'Information Usage',
+      title_en: "Information Usage",
+      title_id: "Penggunaan Informasi",
+      content_en: "Your information is used to provide and improve our services, process transactions, and communicate with you effectively.",
+      content_id: "Informasi Anda digunakan untuk menyediakan dan meningkatkan layanan kami, memproses transaksi, dan berkomunikasi dengan Anda secara efektif.",
+      notes: [{ en: "Data usage is logged for security.", id: "Penggunaan data dicatat untuk keamanan." }],
+      warning: [{ en: "Unauthorized access is prohibited.", id: "Akses tanpa izin dilarang." }],
+    },
+    {
+      id: 'share-info',
+      section_number: 3,
+      section: 'Information Sharing',
+      title_en: "Information Sharing",
+      title_id: "Pembagian Informasi",
+      content_en: "We may share your information with affiliates or third parties only for legal or service-related purposes, never for sale.",
+      content_id: "Kami dapat membagikan informasi Anda dengan afiliasi atau pihak ketiga hanya untuk tujuan hukum atau terkait layanan, tidak pernah untuk dijual.",
+      notes: [{ en: "Sharing is limited to trusted partners.", id: "Pembagian dibatasi pada mitra terpercaya." }],
+      warning: [{ en: "Data sales are strictly forbidden.", id: "Penjualan data sangat dilarang." }],
+    },
+    {
+      id: 'storage-info',
+      section_number: 4,
+      section: 'Data Storage',
+      title_en: "Data Storage",
+      title_id: "Penyimpanan Data",
+      content_en: "Your data is stored only as long as needed for our services or as required by law.",
+      content_id: "Data Anda disimpan hanya selama diperlukan untuk layanan kami atau sebagaimana diwajibkan oleh hukum.",
+      notes: [{ en: "Data retention follows legal standards.", id: "Retensi data mengikuti standar hukum." }],
+      warning: [{ en: "Unauthorized retention is illegal.", id: "Retensi tanpa izin melanggar hukum." }],
+    },
+    {
+      id: 'protection-info',
+      section_number: 5,
+      section: 'Data Protection',
+      title_en: "Data Protection",
+      title_id: "Perlindungan Data",
+      content_en: "We use security measures to protect your data, though absolute security over the internet cannot be guaranteed.",
+      content_id: "Kami menggunakan langkah keamanan untuk melindungi data Anda, meskipun keamanan absolut di internet tidak dapat dijamin.",
+      notes: [{ en: "Regular security audits are conducted.", id: "Audit keamanan dilakukan secara rutin." }],
+      warning: [{ en: "Report security breaches immediately.", id: "Laporkan pelanggaran keamanan segera." }],
+    },
+    {
+      id: 'amendment-access',
+      section_number: 6,
+      section: 'Access & Amendment',
+      title_en: "Access & Amendment",
+      title_id: "Akses & Perubahan",
+      content_en: "You can request access to or correction of your data, subject to certain limitations.",
+      content_id: "Anda dapat meminta akses atau perbaikan data Anda, dengan beberapa batasan tertentu.",
+      notes: [{ en: "Requests must be submitted in writing.", id: "Permintaan harus dikirim secara tertulis." }],
+      warning: [{ en: "False requests may be rejected.", id: "Permintaan palsu dapat ditolak." }],
+    },
+  ],
+  contact: {
+    id: 'contact',
+    title_en: "Get in Touch",
+    title_id: "Hubungi Kami",
+    email: "info@urbanlife.id",
+    phone: "+62 816 919 812",
+  },
+  additional: [
+    {
+      id: 'amendment-policy',
+      section: 'Policy Updates',
+      title_en: 'Policy Updates',
+      content_en: 'We may review and amend this privacy policy from time to time. Changes will be notified through our website, and continued use indicates acceptance of updates.',
+      content_id: 'Kami dapat meninjau dan mengubah kebijakan privasi ini dari waktu ke waktu. Perubahan akan diberitahukan melalui situs web kami, dan penggunaan yang terus-menerus menunjukkan penerimaan terhadap pembaruan.',
+    },
+    {
+      id: 'acknowledgment',
+      section: 'Your Agreement',
+      title_en: 'Your Agreement',
+      content_en: 'By using our services, you acknowledge reading and agreeing to this policy. You consent to our data processing practices as described herein.',
+      content_id: 'Dengan menggunakan layanan kami, Anda mengakui telah membaca dan menyetujui kebijakan ini. Anda menyetujui praktik pemrosesan data kami sebagaimana dijelaskan di sini.',
+    },
+  ],
 };
 
 export default PrivacyPolicy;

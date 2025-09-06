@@ -50,6 +50,13 @@ const PrivacyPolicyPage = lazy(() =>
 const CreatePrivacyPolicyPage = lazy(() =>
   import("./pages/AdminDashboard/Company/PrivacyPolicy/CreatePrivacyPolicyPage")
 );
+const TermsConditions = lazy(() =>
+  import("./pages/AdminDashboard/Company/TermsAndConditions/TermsAndConditions")
+);
+const CreateTermsConditions = lazy(() =>
+  import("./pages/AdminDashboard/Company/TermsAndConditions/CreateTermsAndConditions")
+);  
+
 
 const Customer = lazy(() => import("./pages/AdminDashboard/Customer/Customer"));
 const WhatsappConnect = lazy(() =>
@@ -189,10 +196,11 @@ function App() {
               <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="privacy-policy/create" element={<CreatePrivacyPolicyPage />} />
               <Route path="privacy-policy/edit/:id" element={<CreatePrivacyPolicyPage />} />
+              <Route path="terms-conditions" element={<TermsConditions />} />
+              <Route path="terms-conditions/create" element={<CreateTermsConditions />} />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />
               <Route path="news/edit/:id" element={<CreateNews />} />
-
               <Route path="whatsapp-connect" element={<WhatsappConnect />} />
               <Route path="template" element={<Template />} />
               <Route path="inbox" element={<Inbox />} />

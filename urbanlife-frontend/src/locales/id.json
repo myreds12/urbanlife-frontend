@@ -62,14 +62,14 @@
   },
 
   "servicenschedule": {
-        "title": "Pesan Sekarang dan Coba Layanan Kami!",
-        "desc": "Selain layanan transportasi di Bali yang kami sediakan, kami juga menawarkan paket tur harian yang memberi Anda kesempatan untuk mengunjungi berbagai bagian pulau, menikmati keindahannya, dan juga mempelajari budaya lokal secara bersamaan.",
-        "button": "Hubungi Kami",
-        "error": "Gagal memuat data jadwal",
-        "try": "Coba Lagi",
-        "no_data": "Data jadwal tidak tersedia",
-        "error_fetch_schedule": "Gagal mengambil jadwal:"
-      },
+    "title": "Pesan Sekarang dan Coba Layanan Kami!",
+    "desc": "Selain layanan transportasi di Bali yang kami sediakan, kami juga menawarkan paket tur harian yang memberi Anda kesempatan untuk mengunjungi berbagai bagian pulau, menikmati keindahannya, dan juga mempelajari budaya lokal secara bersamaan.",
+    "button": "Hubungi Kami",
+    "error": "Gagal memuat data jadwal",
+    "try": "Coba Lagi",
+    "no_data": "Data jadwal tidak tersedia",
+    "error_fetch_schedule": "Gagal mengambil jadwal:"
+  },
 
   "testimonial": {
     "title": "Mereka Menyukai Kami",
@@ -83,11 +83,11 @@
   },
 
   "newsnblog": {
-        "title": "Berita & Blog",
-        "loading": "Memuat...",
-        "readmore": "Baca Selengkapnya",
-        "error_fetch_news": "Gagal mengambil berita:"
-      },
+    "title": "Berita & Blog",
+    "loading": "Memuat...",
+    "readmore": "Baca Selengkapnya",
+    "error_fetch_news": "Gagal mengambil berita:"
+  },
 
   "footer": {
     "company": "PERUSAHAAN",
@@ -173,7 +173,19 @@
     "noroom": "Kamar dan harga tidak tersedia",
     "night": "/ malam",
     "room": "Kamar {{room}}",
-    "amenities": "Fasilitas kamar :"
+    "amenities": "Fasilitas kamar :",
+    "nofacility": "Fasilitas tidak tersedia",
+    "noamenities": "Fasilitas kamar tidak tersedia"
+  },
+
+  "sharemodal": {
+    "location": "Lokasi :",
+    "success": "Berhasil disalin ke clipboard",
+    "share": "Bagikan layanan",
+    "sharetour": "Bagikan tur",
+    "copylink": "Salin tautan",
+    "message": "Pesan",
+    "embed": "Sematkan"
   },
 
   "payment": {

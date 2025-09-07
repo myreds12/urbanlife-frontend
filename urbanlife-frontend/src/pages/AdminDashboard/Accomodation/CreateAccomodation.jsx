@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
 import ImageSection from "../../../components/AdminDashboard/DayTour/ImageSection";
-import FacilitySection from "../../../components/AdminDashboard/Accommodation/FacilitySection";
 import RoomAndPriceSection from "../../../components/AdminDashboard/Accommodation/RoomAndPriceSection";
-import AmenitiesSection from "../../../components/AdminDashboard/Accommodation/AmenitiesSection";
+import FacilitySection from "../../../components/AdminDashboard/Accommodation/FacilitySection";
 import "../../../styles/AdminDashboard/DayTour/DayTour.css";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -15,8 +14,9 @@ const CreateAccomodationPage = () => {
   const { id } = useParams();
   const isEditMode = Boolean(id);
 
-  const [photos, setPhotos] = useState([]);
-  const [existingPhotos, setExistingPhotos] = useState([]);
+  // SEPARATE states for accommodation images vs room images
+  const [accommodationPhotos, setAccommodationPhotos] = useState([]);
+  const [existingAccommodationPhotos, setExistingAccommodationPhotos] = useState([]);
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
 
@@ -45,9 +45,8 @@ const CreateAccomodationPage = () => {
       temp_id: `room_${Date.now()}`,
     },
   ]);
-  const [amenities, setAmenities] = useState([]);
-  const [facilities, setFacilities] = useState([{ nama: "" }]);
 
+  const [facilities, setFacilities] = useState([]);
   const [formData, setFormData] = useState({
     nama: "",
     lokasi_id: 0,
@@ -79,8 +78,7 @@ const CreateAccomodationPage = () => {
             top_attraction,
             akomodasi_content,
             akomodasi_room_and_price,
-            akomodasi_amenity_group,
-            akomodasi_facilities,
+            akomodasi_facility_group,
             akomodasi_file,
           } = akomodasi;
 
@@ -104,6 +102,7 @@ const CreateAccomodationPage = () => {
               : [...content]
           );
 
+          // Set room prices with their images
           setRoomPrices(
             akomodasi_room_and_price?.map((room) => ({
               id: room.id,
@@ -114,40 +113,40 @@ const CreateAccomodationPage = () => {
                   id: file.id,
                   nama_file: file.nama_file,
                   url: file.url,
-                  isExisting: true, // Flag untuk membedakan gambar existing
+                  isExisting: true,
                 })) || [],
               temp_id: room.id ? `room_${room.id}` : `room_${Date.now()}`,
             })) || []
           );
 
-          setAmenities(
-            akomodasi_amenity_group?.map((group) => ({
+          setFacilities(
+            akomodasi_facility_group?.map((group) => ({
               id: group.id,
               nama: group.nama,
-              amenities:
-                group.amenities?.map((a) => ({
-                  id: a.id,
-                  nama: a.nama,
+              type: group.type,
+              fasilitas:
+                group.fasilitas?.map((f) => ({
+                  id: f.id,
+                  nama: f.nama,
+                  facility_group_id: f.facility_group_id,
                 })) || [],
             })) || []
           );
 
-          setFacilities(
-            akomodasi_facilities?.map((f) => ({
-              id: f.id,
-              nama: f.nama,
-            })) || []
-          );
+          // Set accommodation images (type should be accommodation main images)
+          const accommodationMainImages = akomodasi_file?.filter(file => 
+            file.type === 1 || !file.type // Assuming type 1 is for accommodation main images
+          ) || [];
 
-          setExistingPhotos(
-            akomodasi_file?.map((file) => ({
+          setExistingAccommodationPhotos(
+            accommodationMainImages.map((file) => ({
               id: file.id,
               url: `${apiClient.defaults.baseURL}/public/${file.url
                 .replace(/\\/g, "/")
                 .replace(/^uploads\//, "")}`,
               nama_file: file.nama_file,
               type: file.type,
-            })) || []
+            }))
           );
         }
       } catch (error) {
@@ -196,20 +195,30 @@ const CreateAccomodationPage = () => {
     setRoomPrices(roomPrices.filter((_, i) => i !== index));
   };
 
-  const handlePhotoUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPhotos((prev) => [...prev, file]);
+  // Accommodation photo handlers
+  const handleAccommodationPhotoUpload = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      setAccommodationPhotos((prev) => [...prev, ...files]);
     }
   };
 
+  const removeAccommodationPhoto = (index) => {
+    setAccommodationPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const removeExistingAccommodationPhoto = (index) => {
+    setExistingAccommodationPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Room image handlers
   const handleRoomImageUpload = (roomIndex) => (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length > 0) {
       const updatedRoomPrices = [...roomPrices];
       const currentImages = updatedRoomPrices[roomIndex].images || [];
       updatedRoomPrices[roomIndex].images = [...currentImages, ...files];
-      setRoomPrices(updatedRoomPrices); // Simpan di roomPrices[index].images
+      setRoomPrices(updatedRoomPrices);
     }
   };
 
@@ -222,26 +231,19 @@ const CreateAccomodationPage = () => {
   const handlePolicyChange = (index, value) =>
     handleContentChange(index, "kebijakan", value);
 
-  const removePhoto = (index) => {
-    setPhotos((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const removeExistingPhoto = (index) =>
-    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
-
   const moveSection = (id) => {
     setActiveSection(id);
     const element = document.getElementById(id);
     if (element) element.scrollIntoView({ behavior: "smooth" });
   };
 
-  // const fetchExistingFileAsFile = async (nama_file) => {
-  //   const url = `${apiClient.defaults.baseURL}/public/akomodasi/${nama_file}`;
-  //   const response = await fetch(url);
-  //   const blob = await response.blob();
-  //   const type = blob.type || "application/octet-stream";
-  //   return new File([blob], nama_file, { type });
-  // };
+  const fetchExistingFileAsFile = async (nama_file) => {
+    const url = `${apiClient.defaults.baseURL}/public/akomodasi/${nama_file}`;
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const type = blob.type || "application/octet-stream";
+    return new File([blob], nama_file, { type });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -251,6 +253,7 @@ const CreateAccomodationPage = () => {
       if (key !== "akomodasi_content") payload.append(key, value);
     });
 
+    // Add accommodation content
     content.forEach((item, i) => {
       if (item.id) payload.append(`akomodasi_content[${i}][id]`, item.id);
       payload.append(`akomodasi_content[${i}][bahasa]`, item.bahasa);
@@ -265,48 +268,56 @@ const CreateAccomodationPage = () => {
       );
     });
 
+    // Add accommodation main images
+    accommodationPhotos.forEach((photo, i) => {
+      payload.append(`accommodation_images`, photo);
+    });
+
+    // Add room data and room images
     roomPrices.forEach((item, i) => {
       if (item.id) payload.append(`akomodasi_room[${i}][id]`, item.id);
       payload.append(`akomodasi_room[${i}][nama]`, item.nama);
       payload.append(`akomodasi_room[${i}][harga]`, item.harga);
-      payload.append(`akomodasi_room[${i}][temp_id]`, item.temp_id);
 
-      if (item.images && item.images.length > 0) {
-        item.images.forEach((img) => {
-          payload.append(`room_room_${item.temp_id}`, img);
-        });
-      }
-    });
-    photos.forEach((file) => payload.append("files", file));
+      const roomIdentifier = item.temp_id || `room_${item.id || Date.now()}`;
+      payload.append(`akomodasi_room[${i}][temp_id]`, roomIdentifier);
 
-    amenities.forEach((amenity, i) => {
-      if (amenity.id) payload.append(`akomodasi_amenity[${i}][id]`, amenity.id);
-      payload.append(`akomodasi_amenity[${i}][nama]`, amenity.nama);
-
-      amenity.amenities.forEach((a, j) => {
-        if (a.id) {
-          payload.append(`akomodasi_amenity[${i}][amenities][${j}][id]`, a.id);
+      // Add room images
+      item.images?.forEach((img) => {
+        if (!img.toBeDeleted) {
+          if (img.isExisting) {
+            payload.append(`room_existing_${img.id}`, img);
+          } else {
+            payload.append(`room_${roomIdentifier}`, img);
+          }
         }
+      });
+    });
+
+    // Add facilities
+    facilities.forEach((facility, i) => {
+      if (facility.id)
+        payload.append(`akomodasi_facility[${i}][id]`, facility.id);
+      payload.append(`akomodasi_facility[${i}][nama]`, facility.nama);
+      payload.append(`akomodasi_facility[${i}][type]`, facility.type);
+
+      facility.fasilitas.forEach((f, j) => {
+        if (f.id)
+          payload.append(`akomodasi_facility[${i}][fasilitas][${j}][id]`, f.id);
         payload.append(
-          `akomodasi_amenity[${i}][amenities][${j}][nama]`,
-          a.nama
+          `akomodasi_facility[${i}][fasilitas][${j}][nama]`,
+          f.nama
         );
       });
     });
 
-    facilities.forEach((f, i) => {
-      if (f.id) payload.append(`akomodasi_facility[${i}][id]`, f.id);
-      payload.append(`akomodasi_facility[${i}][nama]`, f.nama);
+    // Add existing accommodation photos that should be kept
+    const existingAccommodationFileObjects = await Promise.all(
+      existingAccommodationPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
+    );
+    existingAccommodationFileObjects.forEach((file) => {
+      payload.append("existing_accommodation_files", file);
     });
-
-    // console.log("=== Payload yang akan dikirim ke API ===");
-    // for (let pair of payload.entries()) {
-    //   if (pair[1] instanceof File) {
-    //     console.log(`${pair[0]}:`, pair[1].name);
-    //   } else {
-    //     console.log(`${key}:${value}`);
-    //   }
-    // }
 
     try {
       const res = !isEditMode
@@ -329,7 +340,13 @@ const CreateAccomodationPage = () => {
     }
   };
 
-  const sections = ["description", "image", "facility", "room and price", "amenity", "policy and procedure"]; // ✅ ganti
+  const sections = [
+    "description",
+    "image",
+    "room and price",
+    "facility and amenities",
+    "policy and procedure",
+  ];
 
   return (
     <form onSubmit={handleSubmit}>
@@ -337,7 +354,7 @@ const CreateAccomodationPage = () => {
         <main className="p-1 flex-1 overflow-y-auto">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-              Create Accommodation
+              {isEditMode ? "Edit" : "Create"} Accommodation
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
               {sections.map((section) => (
@@ -364,24 +381,19 @@ const CreateAccomodationPage = () => {
               locations={locations}
               type="accommodation"
             />
+            
+            {/* Updated ImageSection for accommodation main images */}
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
+              photos={accommodationPhotos}
+              handlePhotoUpload={handleAccommodationPhotoUpload}
+              removePhoto={removeAccommodationPhoto}
+              existingPhotos={existingAccommodationPhotos}
+              removeExistingPhoto={removeExistingAccommodationPhoto}
               type="accommodation"
-              photos={photos}
-              handlePhotoUpload={handlePhotoUpload}
-              removePhoto={removePhoto}
-              existingPhotos={existingPhotos}
-              removeExistingPhoto={removeExistingPhoto}
             />
-
-            <FacilitySection
-              id="facility"
-              isActive={activeSection === "facility"}
-              facilities={facilities}
-              setFacilities={setFacilities}
-            />
-
+            
             <RoomAndPriceSection
               id="room and price"
               isActive={activeSection === "room and price"}
@@ -391,15 +403,16 @@ const CreateAccomodationPage = () => {
               onRemove={handleRemovePrice}
               handleRoomImageUpload={handleRoomImageUpload}
             />
-
-            <AmenitiesSection
-              id="amenity"
-              isActive={activeSection === "amenity"}
-              amenities={amenities}
-              setAmenities={setAmenities}
+            
+            <FacilitySection
+              id="facility and amenities"
+              isActive={activeSection === "facility and amenities"}
+              facilities={facilities}
+              setFacilities={setFacilities}
               roomPrices={roomPrices}
               formData={formData}
             />
+            
             <PolicyAndProcedureSection
               id="policy and procedure"
               isActive={activeSection === "policy and procedure"}

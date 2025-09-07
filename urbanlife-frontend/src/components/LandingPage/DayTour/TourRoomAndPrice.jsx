@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 
-const TourRoomAndPrice = ({ roomAndPrice }) => {
+const TourRoomAndPrice = ({ roomAndPrice, facilities = [] }) => {
   const { t } = useTranslation();
   const [roomImageIndices, setRoomImageIndices] = useState({});
 
@@ -30,8 +31,17 @@ const TourRoomAndPrice = ({ roomAndPrice }) => {
       .replace(/^uploads\//, "")}`;
   };
 
+  // Ambil amenities per room (type 1) berdasarkan nama room
+  const getRoomAmenities = (roomName) => {
+    if (!facilities || !Array.isArray(facilities)) return [];
+    
+    // Find facility group with type 1 and matching room name
+    const roomFacility = facilities.find(f => f.type === 1 && f.nama === roomName);
+    return roomFacility ? roomFacility.fasilitas : [];
+  };
+
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-md">
+    <div className="">
       {roomAndPrice.length === 0 ? (
         <p className="text-gray-500 italic">{t("detail.noroom")}</p>
       ) : (
@@ -43,6 +53,9 @@ const TourRoomAndPrice = ({ roomAndPrice }) => {
               roomImages[currentImageIndex]?.url
                 ? formatFileUrl(roomImages[currentImageIndex].url)
                 : "/public/images/error/No_Image_Available.jpg";
+
+            // Dapatkan amenities untuk room ini
+            const roomAmenities = getRoomAmenities(room.nama);
 
             return (
               <div
@@ -82,14 +95,14 @@ const TourRoomAndPrice = ({ roomAndPrice }) => {
                       IDR {Number(room.harga).toLocaleString("id-ID")} {t("detail.night")}
                     </p>
                   </div>
-                  {room.amenity?.length > 0 && (
+                  {roomAmenities.length > 0 && (
                     <>
                       <p className="facility-title font-medium text-gray-700">
                         {t("detail.amenities")}
                       </p>
                       <ul className="room-facilities list-disc pl-5 mt-1 text-gray-700 text-sm">
-                        {room.amenity.map((fac, index) => (
-                          <li key={index}>• {fac.nama}</li>
+                        {roomAmenities.map((facility, index) => (
+                          <li key={index}>• {facility.nama}</li>
                         ))}
                       </ul>
                     </>

@@ -44,6 +44,13 @@ const AboutUs = lazy(() => import("./pages/AdminDashboard/Company/AboutUs/AboutU
 const CreateAboutUsPage = lazy(() =>
   import("./pages/AdminDashboard/Company/AboutUs/CreateAboutUsPage")
 );
+
+const ContactUsAdmin = lazy(() => import("./pages/AdminDashboard/ContactUs/ContactUsAdmin"));
+const CreateContactUsPage = lazy(() =>
+  import("./pages/AdminDashboard/ContactUs/CreateContactUsPage")
+);
+
+
 const PrivacyPolicyPage = lazy(() =>
   import("./pages/AdminDashboard/Company/PrivacyPolicy/PrivacyPolicy")
 );
@@ -193,6 +200,9 @@ function App() {
               <Route path="AboutUs" element={<AboutUs />} />
               <Route path="aboutus/create" element={<CreateAboutUsPage />} />
               <Route path="aboutus/edit/:id" element={<CreateAboutUsPage />} />
+              <Route path="contact-us" element={<ContactUsAdmin />} />
+              <Route path="contact-us/create" element={<CreateContactUsPage />} />
+              <Route path="contact-us/edit/:id" element={<CreateContactUsPage />} />
               <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="privacy-policy/create" element={<CreatePrivacyPolicyPage />} />
               <Route path="privacy-policy/edit/:id" element={<CreatePrivacyPolicyPage />} />

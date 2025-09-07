@@ -1,36 +1,165 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Clock, Plus } from "lucide-react";
-import ServiceScheduleTable from './ServiceScheduleTable';
-import ServiceScheduleForm from './ServiceScheduleForm';
-import ServiceScheduleDummy from './ServiceScheduleDummy';
+import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient"; // Adjust path as needed
+import ServiceScheduleTable from "./ServiceScheduleTable";
+import ServiceScheduleForm from "./ServiceScheduleForm";
 
 const ServiceScheduleCard = () => {
-  const [schedule, setSchedule] = useState(
-    ServiceScheduleDummy.map((item, index) => ({ ...item, id: item.id || index + 1 }))
-  );
+  const [schedule, setSchedule] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleAddSchedule = (newSchedule) => {
-    const newId = Math.max(...schedule.map(s => s.id), 0) + 1;
-    setSchedule(prev => [...prev, { ...newSchedule, id: newId }]);
-    setShowAddForm(false);
+  // Fetch schedules from API
+  const fetchSchedule = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await apiClient.get("/service-schedule");
+      console.log("API response:", res); // Debug full response
+      const data = res.data.data || [];
+      console.log("Parsed schedule data:", data); // Debug parsed data
+      const transformedSchedule = data.map((item) => ({
+        id: item.id,
+        day: item.hari, // Keep as received from API
+        time: item.jam_buka,
+        highlight: item.is_special_day,
+      }));
+      setSchedule(transformedSchedule);
+    } catch (err) {
+      const errorMessage = err.response
+        ? `API Error: ${err.response.status} - ${err.response.data?.message || err.message}`
+        : `Network Error: ${err.message}`;
+      console.error("Failed to fetch schedules:", errorMessage, err); // Detailed debug
+      setError(errorMessage);
+      // Fallback dummy data (optional, remove if backend is fixed)
+      setSchedule([
+        { id: 1, day: "Monday", time: "08:00 - 16:00", highlight: false },
+        { id: 2, day: "Tuesday", time: "08:00 - 16:00", highlight: true },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleUpdateSchedule = (id, updatedSchedule) => {
-    setSchedule(prev => 
-      prev.map(item => item.id === id ? { ...updatedSchedule, id } : item)
+  // Add new schedule
+  const handleAddSchedule = async (newSchedule) => {
+    try {
+      // Validate
+      if (!newSchedule.day) {
+        throw new Error("Day is required");
+      }
+      if (!/^\d{2}:\d{2}\s*-\s*\d{2}:\d{2}$/.test(newSchedule.time)) {
+        throw new Error("Time must be in format HH:mm - HH:mm (e.g., 08:00 - 16:00)");
+      }
+      const payload = {
+        hari: newSchedule.day, // Send as-is
+        jam_buka: newSchedule.time, // Send actual time
+        is_special_day: newSchedule.highlight,
+      };
+      console.log("Adding schedule, payload:", payload); // Debug
+      const res = await apiClient.post("/service-schedule", payload);
+      console.log("Add response:", res.data); // Debug
+      setSchedule((prev) => [
+        ...prev,
+        { ...newSchedule, id: res.data.data.id },
+      ]);
+      setShowAddForm(false);
+    } catch (err) {
+      const errorMessage = err.response
+        ? `API Error: ${err.response.status} - ${err.response.data?.message || err.message}`
+        : `Network Error: ${err.message}`;
+      console.error("Failed to add schedule:", errorMessage, err);
+      setError(errorMessage);
+    }
+  };
+
+  // Update schedule
+  const handleUpdateSchedule = async (id, updatedSchedule) => {
+    try {
+      // Validate
+      if (!updatedSchedule.day) {
+        throw new Error("Day is required");
+      }
+      if (!updatedSchedule.time) {
+        throw new Error("Time is required");
+      }
+      if (!/^\d{2}:\d{2}\s*-\s*\d{2}:\d{2}$/.test(updatedSchedule.time)) {
+        throw new Error("Time must be in format HH:mm - HH:mm (e.g., 08:00 - 16:00)");
+      }
+      const payload = {
+        hari: updatedSchedule.day, // Send as-is
+        jam_buka: updatedSchedule.time, // Send actual time
+        is_special_day: updatedSchedule.highlight,
+      };
+      console.log(`Updating schedule ID: ${id}, Payload:`, payload); // Debug
+      const res = await apiClient.put(`/service-schedule/${id}`, payload);
+      console.log("Update response:", res.data); // Debug
+      setSchedule((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...updatedSchedule, id } : item
+        )
+      );
+    } catch (err) {
+      const errorMessage = err.response
+        ? `API Error: ${err.response.status} - ${err.response.data?.message || err.message}`
+        : `Network Error: ${err.message}`;
+      console.error("Failed to update schedule:", errorMessage, err);
+      setError(errorMessage);
+    }
+  };
+
+  // Delete schedule
+  const handleDeleteSchedule = async (id) => {
+    try {
+      console.log("Deleting schedule ID:", id); // Debug
+      await apiClient.delete(`/service-schedule/${id}`);
+      setSchedule((prev) => prev.filter((item) => item.id !== id));
+    } catch (err) {
+      const errorMessage = err.response
+        ? `API Error: ${err.response.status} - ${err.response.data?.message || err.message}`
+        : `Network Error: ${err.message}`;
+      console.error("Failed to delete schedule:", errorMessage, err);
+      setError(errorMessage);
+    }
+  };
+
+  // Fetch on mount
+  useEffect(() => {
+    fetchSchedule();
+  }, []);
+
+  // Render loading
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 bg-gradient-to-br from-cyan-50 to-slate-100 min-h-screen">
+        <div className="animate-pulse">
+          <div className="h-8 w-64 bg-gray-300 rounded mb-4"></div>
+          <div className="h-4 w-96 bg-gray-300 rounded"></div>
+        </div>
+      </div>
     );
-  };
+  }
 
-  const handleDeleteSchedule = (id) => {
-    setSchedule(prev => prev.filter(item => item.id !== id));
-  };
+  // Render error
+  if (error) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 bg-gradient-to-br from-cyan-50 to-slate-100 min-h-screen text-center">
+        <p className="text-red-500">{error}</p>
+        <button
+          onClick={fetchSchedule}
+          className="mt-4 bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 bg-gradient-to-br from-cyan-50 to-slate-100 min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Left - Schedule Table (2/3 width) */}
+        {/* Schedule Table */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-xl shadow-lg border border-gray-200">
             <div className="bg-gradient-to-r from-cyan-600 to-cyan-700 px-6 py-4 rounded-t-xl">
@@ -39,7 +168,6 @@ const ServiceScheduleCard = () => {
                 Service Schedule ({schedule.length})
               </h2>
             </div>
-            
             <div className="p-6">
               {schedule.length > 0 ? (
                 <ServiceScheduleTable
@@ -64,9 +192,8 @@ const ServiceScheduleCard = () => {
           </div>
         </div>
 
-        {/* Right - Management Panel (1/3 width) */}
+        {/* Management Panel */}
         <div className="lg:col-span-1 space-y-6">
-          
           {/* Add New Schedule */}
           <div className="bg-white rounded-xl shadow-lg border border-gray-200">
             <div className="bg-gradient-to-r from-cyan-600 to-cyan-700 px-6 py-4 rounded-t-xl">
@@ -75,7 +202,6 @@ const ServiceScheduleCard = () => {
                 Add New Schedule
               </h3>
             </div>
-            
             <div className="p-6">
               {!showAddForm ? (
                 <div className="text-center">
@@ -104,7 +230,6 @@ const ServiceScheduleCard = () => {
             <div className="bg-gradient-to-r from-slate-600 to-slate-700 px-6 py-4 rounded-t-xl">
               <h3 className="text-lg font-semibold text-white">Statistics</h3>
             </div>
-            
             <div className="p-6 space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Total Schedules</span>
@@ -113,18 +238,17 @@ const ServiceScheduleCard = () => {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Special Hours</span>
                 <span className="text-2xl font-bold text-slate-700">
-                  {schedule.filter(s => s.highlight).length}
+                  {schedule.filter((s) => s.highlight).length}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Regular Hours</span>
                 <span className="text-2xl font-bold text-cyan-600">
-                  {schedule.filter(s => !s.highlight).length}
+                  {schedule.filter((s) => !s.highlight).length}
                 </span>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

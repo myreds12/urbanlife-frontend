@@ -2,26 +2,38 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 const TourItinerary = ({ itinerary }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (!itinerary || itinerary.length === 0) {
     return (
       <div className="bg-white p-4 rounded-md shadow-sm">
-        <p className="text-gray-500">{t(Detail.noitinerary)}</p>
+        <p className="text-gray-500">{t("Detail.noitinerary")}</p>
       </div>
     );
   }
 
+  const langMap = {
+    en: "ENGLISH",
+    id: "INDONESIA",
+  };
+
+  const currentLang = i18n.language.split("-")[0];
+  const targetLang = langMap[currentLang] || "INDONESIA";
+
+  const filteredItinerary = itinerary.filter(
+    (item) => item.bahasa === targetLang
+  );
+
   return (
     <div className="space-y-6 bg-white p-6 rounded-xl shadow-md">
       <div className="space-y-6">
-        {itinerary.map((item, index) => (
-          <div key={index} className="flex gap-4">
+        {filteredItinerary.map((item, index) => (
+          <div key={item.id || index} className="flex gap-4">
             <div className="flex flex-col items-center">
               <div className="w-8 h-8 bg-cyan-600 text-white rounded-full flex items-center justify-center text-sm font-semibold">
                 {index + 1}
               </div>
-              {index < itinerary.length - 1 && (
+              {index < filteredItinerary.length - 1 && (
                 <div className="w-0.5 h-8 bg-gray-300 mt-2"></div>
               )}
             </div>

@@ -1,6 +1,28 @@
 import React from 'react';
 
 const TourPolicies = ({ policies }) => {
+  // kl policies adalah array of objects
+  if (Array.isArray(policies)) {
+    if (policies.length === 0) {
+      return (
+        <div className="bg-white p-4 rounded-md shadow-sm text-gray-500">
+          No policies available.
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-4 bg-white p-4 rounded-md shadow-sm">
+        {policies.map((policy, index) => (
+          <div key={index} className="flex gap-2">
+            <p className="text-gray-700">• {policy.policyname}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  
+  // Jika policies adalah string (fallback)
   if (!policies || typeof policies !== "string" || policies.trim() === "") {
     return (
       <div className="bg-white p-4 rounded-md shadow-sm text-gray-500">
@@ -16,7 +38,7 @@ const TourPolicies = ({ policies }) => {
     <div className="space-y-4 bg-white p-4 rounded-md shadow-sm">
       {policyLines.map((line, index) => (
         <div key={index} className="flex gap-2">
-          <p className="text-gray-700">{line}</p>
+          <p className="text-gray-700">• {line}</p>
         </div>
       ))}
     </div>

@@ -17,8 +17,8 @@ const CreateAboutUsPage = () => {
   const [photos, setPhotos] = useState([]);
   const [existingPhotos, setExistingPhotos] = useState([]);
   const [services, setServices] = useState([]);
-  console.log(services, "SERVICES");
   const [schedule, setSchedule] = useState([]);
+  const [stats, setStats] = useState([]);
   const [cta, setCta] = useState({
     title_en: "",
     title_id: "",
@@ -33,102 +33,12 @@ const CreateAboutUsPage = () => {
     content_en: "",
     content_id: "",
   });
-  const [stats, setStats] = useState([]);
   const [formData, setFormData] = useState({
     title_en: "",
     title_id: "",
-    subtitle_en: "",
-    subtitle_id: "",
-    description_en: "",
-    description_id: "",
-    button_text: "",
-    button_link: "",
+    content_en: "",
+    content_id: "",
   });
-
-  console.log(formData, "FORM DATA");
-
-  // Dummy data for testing
-  const dummyData = {
-    header: {
-      section: "header",
-      title_en: "About UrbanLife",
-      title_id: "Tentang UrbanLife",
-      subtitle_en:
-        "Your trusted partner for seamless travel experiences in Bali and Jakarta",
-      subtitle_id:
-        "Mitra terpercaya Anda untuk pengalaman perjalanan yang mulus di Bali dan Jakarta",
-      button_text: "",
-      button_link: "",
-      images: [
-        "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop",
-      ],
-    },
-    story: {
-      section: "our_story",
-      title_en: "Our Story",
-      title_id: "Kisah Kami",
-      description_en:
-        "UrbanLife was founded with a passion for making travel in Bali and Jakarta effortless and memorable. Since 2018, we've been helping travelers explore the vibrant culture, stunning landscapes, and hidden gems of these iconic destinations.",
-      description_id:
-        "UrbanLife didirikan dengan semangat untuk membuat perjalanan di Bali dan Jakarta mudah dan tak terlupakan. Sejak 2018, kami membantu wisatawan menjelajahi budaya yang hidup, pemandangan yang menakjubkan, dan permata tersembunyi dari destinasi ikonik ini.",
-      images: [
-        "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop",
-      ],
-    },
-    services: [
-      {
-        title_en: "Private Car with Driver",
-        title_id: "Mobil Pribadi dengan Sopir",
-        description_en:
-          "Explore Bali and Jakarta with our English-speaking drivers.",
-        description_id:
-          "Jelajahi Bali dan Jakarta dengan sopir berbahasa Inggris kami.",
-        icon: "car",
-        location: "Bali & Jakarta",
-        order: 1,
-      },
-      {
-        title_en: "Airport Transfer",
-        title_id: "Transfer Bandara",
-        description_en: "Hassle-free pick-up and drop-off services.",
-        description_id: "Layanan antar-jemput tanpa repot.",
-        icon: "plane",
-        location: "Bali & Jakarta",
-        order: 2,
-      },
-    ],
-    schedule: [
-      { day: "Monday", time: "08:00 - 17:00", highlight: false },
-      { day: "Sunday", time: "08:00 - 17:00", highlight: true },
-    ],
-    stats: [
-      {
-        number: "15,000+",
-        label_en: "Happy Customers",
-        label_id: "Pelanggan Puas",
-        icon: "users",
-      },
-      {
-        number: "4.9",
-        label_en: "Average Rating",
-        label_id: "Rata-rata Penilaian",
-        icon: "star",
-      },
-    ],
-    cta: {
-      section: "cta",
-      title_en: "Ready to Explore?",
-      title_id: "Siap Menjelajah?",
-      description_en: "Book your next adventure with UrbanLife!",
-      description_id: "Pesan petualangan Anda berikutnya dengan UrbanLife!",
-      button_text: "Contact Us",
-      button_link: "/contact",
-    },
-  };
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -136,42 +46,72 @@ const CreateAboutUsPage = () => {
         if (isEditMode) {
           const { data } = await apiClient.get(`/aboutus/${id}`);
           const about = data.data;
+
+          // Map data ke state untuk mode edit
           setFormData({
-            section: about.section || "",
             title_en: about.title_en || "",
             title_id: about.title_id || "",
-            subtitle_en: about.subtitle_en || "",
-            subtitle_id: about.subtitle_id || "",
-            description_en: about.description_en || "",
-            description_id: about.description_id || "",
-            button_text: about.button_text || "",
-            button_link: about.button_link || "",
+            content_en: about.content_en || "",
+            content_id: about.content_id || "",
+          });
+          setStory({
+            title_en: about.AboutUsStory?.title_en || "",
+            title_id: about.AboutUsStory?.title_id || "",
+            content_en: about.AboutUsStory?.content_en || "",
+            content_id: about.AboutUsStory?.content_id || "",
+          });
+          setServices(
+            about.AboutUsServices?.map((service) => ({
+              id: service.id,
+              title_en: service.title_en || "",
+              title_id: service.title_id || "",
+              description_en: service.content_en || "",
+              description_id: service.content_id || "",
+              icon: service.icon || "",
+              location: service.location || "",
+              order: service.order || 0,
+            })) || []
+          );
+          setSchedule(
+            about.AboutUsOperational?.map((item) => ({
+              day: item.day || "",
+              time: item.time || "",
+              highlight: item.is_highlight || false,
+            })) || []
+          );
+          setStats(
+            about.AboutUsAchievements?.map((achievement) => ({
+              number: achievement.number || "",
+              label_en: achievement.content_en || "",
+              label_id: achievement.content_id || "",
+              icon: achievement.icon || "",
+            })) || []
+          );
+          setCta({
+            title_en: about.AboutUsCta?.title_en || "",
+            title_id: about.AboutUsCta?.title_id || "",
+            description_en: about.AboutUsCta?.description_en || "",
+            description_id: about.AboutUsCta?.description_id || "",
+            button_text: about.AboutUsCta?.button_text || "",
+            button_link: about.AboutUsCta?.button_url || "",
           });
           setExistingPhotos(
-            about.images?.map((img) => ({ url: img, id: null })) || []
+            about.AboutUsFile?.map((img) => ({
+              url: `${apiClient.defaults.baseURL}/public/${img.url
+                .replace(/\\/g, "/")
+                .replace(/^uploads\//, "")}`,
+              id: img.id,
+            })) || []
           );
-          setServices(about.services || []);
-          setSchedule(about.schedule || []);
-          setStats(about.stats || []);
-        } else {
-          // Load dummy data for creation mode
-          setFormData(dummyData[activeSection] || {});
-          if (activeSection === "our_story") {
-            setExistingPhotos(
-              dummyData.story.images.map((url) => ({ url, id: null }))
-            );
-          }
-          setServices(dummyData.services);
-          setSchedule(dummyData.schedule);
-          setStats(dummyData.stats);
         }
+        // Mode create: Tidak mengisi data dummy, biarkan state kosong
       } catch (error) {
         toast.error("Failed to get initial data.");
         console.error(error);
       }
     };
     fetchInitialData();
-  }, [isEditMode, id, activeSection]);
+  }, [isEditMode, id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -187,15 +127,14 @@ const CreateAboutUsPage = () => {
     const files = Array.from(e.target.files);
     setPhotos((prev) => [...prev, ...files]);
   };
+
   const handleCtaChange = (e) => {
     const { name, value } = e.target;
     setCta((prev) => ({ ...prev, [name]: value }));
   };
 
-  const removePhoto = (index) =>
-    setPhotos((prev) => prev.filter((_, i) => i !== index));
-  const removeExistingPhoto = (index) =>
-    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
+  const removePhoto = (index) => setPhotos((prev) => prev.filter((_, i) => i !== index));
+  const removeExistingPhoto = (index) => setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
 
   const handleServiceChange = (index, field, value) => {
     const updated = [...services];
@@ -262,8 +201,8 @@ const CreateAboutUsPage = () => {
     const payload = new FormData();
     payload.append("title_en", formData.title_en);
     payload.append("title_id", formData.title_id);
-    payload.append("content_en", formData.subtitle_en);
-    payload.append("content_id", formData.subtitle_id);
+    payload.append("content_en", formData.content_en);
+    payload.append("content_id", formData.content_id);
     payload.append("aboutus_story[title_id]", story.title_id);
     payload.append("aboutus_story[title_en]", story.title_en);
     payload.append("aboutus_story[content_id]", story.content_id);
@@ -272,27 +211,17 @@ const CreateAboutUsPage = () => {
     services.forEach((service, index) => {
       payload.append(`aboutus_service[${index}][title_en]`, service.title_en);
       payload.append(`aboutus_service[${index}][title_id]`, service.title_id);
-      payload.append(
-        `aboutus_service[${index}][content_en]`,
-        service.description_en
-      );
-      payload.append(
-        `aboutus_service[${index}][content_id]`,
-        service.description_id
-      );
+      payload.append(`aboutus_service[${index}][content_en]`, service.description_en);
+      payload.append(`aboutus_service[${index}][content_id]`, service.description_id);
       payload.append(`aboutus_service[${index}][icon]`, service.icon);
       payload.append(`aboutus_service[${index}][location]`, service.location);
       payload.append(`aboutus_service[${index}][order]`, service.order);
-      if (service.id)
-        payload.append(`aboutus_service[${index}][id]`, service.id);
+      if (service.id) payload.append(`aboutus_service[${index}][id]`, service.id);
     });
     schedule.forEach((item, index) => {
       payload.append(`aboutus_operational[${index}][day]`, item.day);
       payload.append(`aboutus_operational[${index}][time]`, item.time);
-      payload.append(
-        `aboutus_operational[${index}][is_highlight]`,
-        item.highlight
-      );
+      payload.append(`aboutus_operational[${index}][is_highlight]`, item.highlight);
     });
     payload.append("aboutus_cta[title_en]", cta.title_en);
     payload.append("aboutus_cta[title_id]", cta.title_id);
@@ -302,18 +231,11 @@ const CreateAboutUsPage = () => {
     payload.append("aboutus_cta[button_url]", cta.button_link);
     stats.forEach((stat, index) => {
       payload.append(`aboutus_achievment[${index}][number]`, stat.number);
-      payload.append(
-        `aboutus_achievment[${index}][content_en]`,
-        stat.label_en
-      );
-      payload.append(
-        `aboutus_achievment[${index}][content_id]`,
-        stat.label_id
-      );
+      payload.append(`aboutus_achievment[${index}][content_en]`, stat.label_en);
+      payload.append(`aboutus_achievment[${index}][content_id]`, stat.label_id);
       payload.append(`aboutus_achievment[${index}][icon]`, stat.icon);
     });
 
-    // Buatkan console log untuk memeriksa payload sebelum dikirim
     console.log("=== Payload yang akan dikirim ke API ===");
     for (let pair of payload.entries()) {
       if (pair[1] instanceof File) {
@@ -333,9 +255,7 @@ const CreateAboutUsPage = () => {
             headers: { "Content-Type": "multipart/form-data" },
           });
       if ([200, 201].includes(response.status)) {
-        toast.success(
-          isEditMode ? "Updated successfully" : "Created successfully"
-        );
+        toast.success(isEditMode ? "Updated successfully" : "Created successfully");
         navigate("/admin/aboutus");
       } else {
         toast.error(response.data.message);
@@ -361,22 +281,19 @@ const CreateAboutUsPage = () => {
               {isEditMode ? "Edit About Us" : "Create About Us"}
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-              {["header", "our_story", "services", "cta", "operational"].map(
-                (section) => (
-                  <span
-                    key={section}
-                    className={`cursor-pointer px-1 font-medium underline-item relative ${
-                      activeSection === section
-                        ? "text-cyan-600 active"
-                        : "text-gray-500"
-                    } hover:text-cyan-700 group`}
-                    onClick={() => moveSection(section)}
-                  >
-                    {section.charAt(0).toUpperCase() +
-                      section.slice(1).replace("_", " ")}
-                  </span>
-                )
-              )}
+              {["header", "our_story", "services", "cta", "operational"].map((section) => (
+                <span
+                  key={section}
+                  className={`cursor-pointer px-4 py-2 font-medium rounded-md transition-colors ${
+                    activeSection === section
+                      ? "bg-cyan-100 text-cyan-700"
+                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  }`}
+                  onClick={() => moveSection(section)}
+                >
+                  {section.charAt(0).toUpperCase() + section.slice(1).replace("_", " ")}
+                </span>
+              ))}
             </div>
 
             <AboutUsHeaderSection

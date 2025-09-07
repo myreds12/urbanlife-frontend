@@ -27,7 +27,7 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
   const shareOptions = [
     {
       id: "copy",
-      name: "Salin Tautan",
+      name: "Copy Link",
       icon: (
         <svg
           className="w-5 h-5"

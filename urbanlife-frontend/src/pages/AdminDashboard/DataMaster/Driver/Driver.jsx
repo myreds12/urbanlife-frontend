@@ -47,7 +47,7 @@ const Driver = () => {
       nama: newData.nama,
       nomor_hp: newData.nomor_hp,
       gender: newData.gender,
-      tanggal_periode_berakhir: newData.tanggal_periode_berakhir,
+      fluent_english: newData.fluent_english,
     };
     setSaving(true);
     try {
@@ -125,7 +125,7 @@ const Driver = () => {
           nama: driver.nama,
           nomor_hp: driver.nomor_hp,
           gender: driver.gender,
-          tanggal_periode_berakhir: driver.tanggal_periode_berakhir,
+          fluent_english: driver.fluent_english,
         });
       }
     } else {

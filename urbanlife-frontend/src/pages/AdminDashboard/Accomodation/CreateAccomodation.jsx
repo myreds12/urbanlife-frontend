@@ -60,7 +60,7 @@ const CreateAccomodationPage = () => {
     const fetchInitialData = async () => {
       try {
         const [{ data: locationData }, akomodasiData] = await Promise.all([
-          apiClient.get("/lokasi"),
+          apiClient.get("/lokasi?is_active=true"),
           isEditMode
             ? apiClient.get(`/akomodasi/${id}`)
             : Promise.resolve({ data: {} }),
@@ -132,11 +132,6 @@ const CreateAccomodationPage = () => {
                 })) || [],
             })) || []
           );
-
-          // Set accommodation images (type should be accommodation main images)
-          const accommodationMainImages = akomodasi_file?.filter(file => 
-            file.type === 1 || !file.type // Assuming type 1 is for accommodation main images
-          ) || [];
 
           setExistingAccommodationPhotos(
             accommodationMainImages.map((file) => ({
@@ -282,19 +277,18 @@ const CreateAccomodationPage = () => {
       const roomIdentifier = item.temp_id || `room_${item.id || Date.now()}`;
       payload.append(`akomodasi_room[${i}][temp_id]`, roomIdentifier);
 
-      // Add room images
       item.images?.forEach((img) => {
         if (!img.toBeDeleted) {
+          // Hanya tambahkan gambar yang tidak ditandai untuk dihapus
           if (img.isExisting) {
-            payload.append(`room_existing_${img.id}`, img);
+            payload.append(`room_room_${img.id}`, img); // Menggunakan id untuk gambar yang ada
           } else {
-            payload.append(`room_${roomIdentifier}`, img);
+            payload.append(`room_${roomIdentifier}`, img); // Untuk gambar baru
           }
         }
       });
     });
 
-    // Add facilities
     facilities.forEach((facility, i) => {
       if (facility.id)
         payload.append(`akomodasi_facility[${i}][id]`, facility.id);
@@ -311,13 +305,21 @@ const CreateAccomodationPage = () => {
       });
     });
 
-    // Add existing accommodation photos that should be kept
-    const existingAccommodationFileObjects = await Promise.all(
-      existingAccommodationPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
+    const existingFileObjects = await Promise.all(
+      existingPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
     );
-    existingAccommodationFileObjects.forEach((file) => {
-      payload.append("existing_accommodation_files", file);
+    existingFileObjects.forEach((file) => {
+      payload.append("files", file);
     });
+
+    console.log("=== Payload yang akan dikirim ke API ===");
+    for (let [key, value] of payload.entries()) {
+      if (value instanceof File) {
+        console.log(`${key}:[File: ${value.name}]`);
+      } else {
+        console.log(`${key}:${value}`);
+      }
+    }
 
     try {
       const res = !isEditMode
@@ -344,7 +346,7 @@ const CreateAccomodationPage = () => {
     "description",
     "image",
     "room and price",
-    "facility and amenities",
+    "facility",
     "policy and procedure",
   ];
 
@@ -386,14 +388,13 @@ const CreateAccomodationPage = () => {
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
-              photos={accommodationPhotos}
-              handlePhotoUpload={handleAccommodationPhotoUpload}
-              removePhoto={removeAccommodationPhoto}
-              existingPhotos={existingAccommodationPhotos}
-              removeExistingPhoto={removeExistingAccommodationPhoto}
-              type="accommodation"
+              type={"accommodation"}
+              photos={photos}
+              handlePhotoUpload={handlePhotoUpload}
+              removePhoto={removePhoto}
+              existingPhotos={existingPhotos}
+              removeExistingPhoto={removeExistingPhoto}
             />
-            
             <RoomAndPriceSection
               id="room and price"
               isActive={activeSection === "room and price"}
@@ -403,10 +404,9 @@ const CreateAccomodationPage = () => {
               onRemove={handleRemovePrice}
               handleRoomImageUpload={handleRoomImageUpload}
             />
-            
             <FacilitySection
-              id="facility and amenities"
-              isActive={activeSection === "facility and amenities"}
+              id="facility"
+              isActive={activeSection === "facility"}
               facilities={facilities}
               setFacilities={setFacilities}
               roomPrices={roomPrices}

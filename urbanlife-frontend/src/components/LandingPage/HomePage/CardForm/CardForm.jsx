@@ -28,7 +28,7 @@ const CardForm = () => {
 
   const services = [
     { label: "Accomodation", value: "AKOMODASI" },
-    { label: "Rent A Car", value: "KENDARAAN" },
+    { label: "Rent a Car", value: "KENDARAAN" },
     { label: "Day Tour", value: "TRAVEL_PACKAGE" },
   ];
 
@@ -61,7 +61,7 @@ const CardForm = () => {
       setLoadingCities(true);
       try {
         const res = await apiClient.get(
-          `/lokasi?negara_id=${formData.countryId}`
+          `/lokasi?negara_id=${formData.countryId}?is_active=true`
         );
         const mapped = res.data.data.map((c) => ({
           label: c.nama,

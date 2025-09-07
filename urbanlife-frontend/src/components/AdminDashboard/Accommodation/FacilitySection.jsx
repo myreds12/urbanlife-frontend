@@ -11,9 +11,7 @@ const FacilitySection = ({
   useEffect(() => {
     // Facility per room (type 1)
     const roomFacilities = roomPrices.map((room) => {
-      const existing = facilities.find(
-        (f) => f.nama === room.nama && f.type === 1
-      );
+      const existing = facilities.find((f) => f.nama === room.nama && f.type === 1);
       return {
         id: existing?.id || null,
         nama: room.nama || "",
@@ -60,16 +58,20 @@ const FacilitySection = ({
         isActive ? "opacity-100" : "opacity-0 h-0 overflow-hidden"
       }`}
     >
+      <h3 className="text-xl font-semibold text-gray-800 mb-4">
+        Facilities
+      </h3>
+
       <div className="space-y-6">
         {/* Card 1: Facility per Room (Type 1) */}
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-700 mb-3 pb-2">
-            Room Amenities
+          <h3 className="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">
+            Facilities per Room
           </h3>
-
+          
           <div className="space-y-4">
             {facilities
-              .filter((group) => group.type === 1)
+              .filter(group => group.type === 1)
               .map((group, groupIndex) => (
                 <div key={groupIndex} className="bg-gray-50 p-3 rounded-md">
                   <div className="flex items-center justify-between mb-3">
@@ -87,10 +89,7 @@ const FacilitySection = ({
 
                   <div className="space-y-2">
                     {group.fasilitas.map((item, facilityIndex) => (
-                      <div
-                        key={facilityIndex}
-                        className="flex gap-2 items-center"
-                      >
+                      <div key={facilityIndex} className="flex gap-2 items-center">
                         <label className="bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-md min-w-[80px] text-center">
                           Facility <span className="text-red-500">*</span>
                         </label>
@@ -110,12 +109,7 @@ const FacilitySection = ({
                         />
                         <button
                           type="button"
-                          onClick={() =>
-                            removeFacility(
-                              facilities.indexOf(group),
-                              facilityIndex
-                            )
-                          }
+                          onClick={() => removeFacility(facilities.indexOf(group), facilityIndex)}
                           className="text-red-600 border border-red-400 px-2 py-1 rounded-md hover:bg-red-50 text-xs"
                         >
                           Remove
@@ -124,7 +118,8 @@ const FacilitySection = ({
                     ))}
                   </div>
                 </div>
-              ))}
+              ))
+            }
           </div>
         </div>
 
@@ -137,7 +132,7 @@ const FacilitySection = ({
             <button
               type="button"
               onClick={() => {
-                const accommodationGroup = facilities.find((f) => f.type === 2);
+                const accommodationGroup = facilities.find(f => f.type === 2);
                 if (accommodationGroup) {
                   addFacility(facilities.indexOf(accommodationGroup));
                 }
@@ -150,14 +145,11 @@ const FacilitySection = ({
 
           <div className="space-y-2">
             {facilities
-              .filter((group) => group.type === 2)
+              .filter(group => group.type === 2)
               .map((group, groupIndex) => (
                 <div key={groupIndex}>
                   {group.fasilitas.map((item, facilityIndex) => (
-                    <div
-                      key={facilityIndex}
-                      className="flex gap-2 items-center mb-2"
-                    >
+                    <div key={facilityIndex} className="flex gap-2 items-center mb-2">
                       <label className="bg-gray-100 text-gray-600 text-sm font-semibold px-4 py-2 rounded-md min-w-[90px] text-center">
                         Facility <span className="text-red-500">*</span>
                       </label>
@@ -177,12 +169,7 @@ const FacilitySection = ({
                       />
                       <button
                         type="button"
-                        onClick={() =>
-                          removeFacility(
-                            facilities.indexOf(group),
-                            facilityIndex
-                          )
-                        }
+                        onClick={() => removeFacility(facilities.indexOf(group), facilityIndex)}
                         className="text-red-600 border border-red-400 px-3 py-1 rounded-md hover:bg-red-50 text-sm"
                       >
                         Remove
@@ -190,7 +177,8 @@ const FacilitySection = ({
                     </div>
                   ))}
                 </div>
-              ))}
+              ))
+            }
           </div>
         </div>
       </div>

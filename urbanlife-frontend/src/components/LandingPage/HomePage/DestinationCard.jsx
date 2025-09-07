@@ -33,7 +33,7 @@ const DestinationCard = ({ travel }) => {
   };
 
   const shareData = {
-    title: "Bagikan Destinasi",
+    title: "Share Destination",
     location: travel.lokasi?.negara?.nama || "Unknown",
     description: `${travel.nama} - ${travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
       ? `${travel.durasi[0].durasi}`

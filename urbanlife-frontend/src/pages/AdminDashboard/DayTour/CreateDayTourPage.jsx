@@ -71,7 +71,7 @@ function CreateDayTourPage() {
           { data: guideData },
           travelData,
         ] = await Promise.all([
-          apiClient.get("/lokasi"),
+          apiClient.get("/lokasi?is_active=true"),
           apiClient.get("/category"),
           apiClient.get("/guide"), // 🔑 endpoint guide
           isEditMode

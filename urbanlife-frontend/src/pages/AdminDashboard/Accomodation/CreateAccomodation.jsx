@@ -14,9 +14,8 @@ const CreateAccomodationPage = () => {
   const { id } = useParams();
   const isEditMode = Boolean(id);
 
-  // SEPARATE states for accommodation images vs room images
-  const [accommodationPhotos, setAccommodationPhotos] = useState([]);
-  const [existingAccommodationPhotos, setExistingAccommodationPhotos] = useState([]);
+  const [photos, setPhotos] = useState([]);
+  const [existingPhotos, setExistingPhotos] = useState([]);
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
 
@@ -93,16 +92,15 @@ const CreateAccomodationPage = () => {
           setContent(
             akomodasi_content?.length > 0
               ? akomodasi_content.map((item) => ({
-                  id: item.id,
-                  bahasa: item.bahasa,
-                  deskripsi: item.deskripsi,
-                  informasi: item.informasi,
-                  kebijakan: item.kebijakan,
-                }))
+                id: item.id,
+                bahasa: item.bahasa,
+                deskripsi: item.deskripsi,
+                informasi: item.informasi,
+                kebijakan: item.kebijakan,
+              }))
               : [...content]
           );
 
-          // Set room prices with their images
           setRoomPrices(
             akomodasi_room_and_price?.map((room) => ({
               id: room.id,
@@ -113,7 +111,7 @@ const CreateAccomodationPage = () => {
                   id: file.id,
                   nama_file: file.nama_file,
                   url: file.url,
-                  isExisting: true,
+                  isExisting: true, // Flag untuk membedakan gambar existing
                 })) || [],
               temp_id: room.id ? `room_${room.id}` : `room_${Date.now()}`,
             })) || []
@@ -133,15 +131,15 @@ const CreateAccomodationPage = () => {
             })) || []
           );
 
-          setExistingAccommodationPhotos(
-            accommodationMainImages.map((file) => ({
+          setExistingPhotos(
+            akomodasi_file?.map((file) => ({
               id: file.id,
               url: `${apiClient.defaults.baseURL}/public/${file.url
                 .replace(/\\/g, "/")
                 .replace(/^uploads\//, "")}`,
               nama_file: file.nama_file,
               type: file.type,
-            }))
+            })) || []
           );
         }
       } catch (error) {
@@ -190,30 +188,20 @@ const CreateAccomodationPage = () => {
     setRoomPrices(roomPrices.filter((_, i) => i !== index));
   };
 
-  // Accommodation photo handlers
-  const handleAccommodationPhotoUpload = (e) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length > 0) {
-      setAccommodationPhotos((prev) => [...prev, ...files]);
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPhotos((prev) => [...prev, file]);
     }
   };
 
-  const removeAccommodationPhoto = (index) => {
-    setAccommodationPhotos((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const removeExistingAccommodationPhoto = (index) => {
-    setExistingAccommodationPhotos((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  // Room image handlers
   const handleRoomImageUpload = (roomIndex) => (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length > 0) {
       const updatedRoomPrices = [...roomPrices];
       const currentImages = updatedRoomPrices[roomIndex].images || [];
       updatedRoomPrices[roomIndex].images = [...currentImages, ...files];
-      setRoomPrices(updatedRoomPrices);
+      setRoomPrices(updatedRoomPrices); // Simpan di roomPrices[index].images
     }
   };
 
@@ -225,6 +213,13 @@ const CreateAccomodationPage = () => {
 
   const handlePolicyChange = (index, value) =>
     handleContentChange(index, "kebijakan", value);
+
+  const removePhoto = (index) => {
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const removeExistingPhoto = (index) =>
+    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
 
   const moveSection = (id) => {
     setActiveSection(id);
@@ -248,7 +243,6 @@ const CreateAccomodationPage = () => {
       if (key !== "akomodasi_content") payload.append(key, value);
     });
 
-    // Add accommodation content
     content.forEach((item, i) => {
       if (item.id) payload.append(`akomodasi_content[${i}][id]`, item.id);
       payload.append(`akomodasi_content[${i}][bahasa]`, item.bahasa);
@@ -263,12 +257,6 @@ const CreateAccomodationPage = () => {
       );
     });
 
-    // Add accommodation main images
-    accommodationPhotos.forEach((photo, i) => {
-      payload.append(`accommodation_images`, photo);
-    });
-
-    // Add room data and room images
     roomPrices.forEach((item, i) => {
       if (item.id) payload.append(`akomodasi_room[${i}][id]`, item.id);
       payload.append(`akomodasi_room[${i}][nama]`, item.nama);
@@ -324,11 +312,11 @@ const CreateAccomodationPage = () => {
     try {
       const res = !isEditMode
         ? await apiClient.post("/akomodasi", payload, {
-            headers: { "Content-Type": "multipart/form-data" },
-          })
+          headers: { "Content-Type": "multipart/form-data" },
+        })
         : await apiClient.patch(`/akomodasi/${id}`, payload, {
-            headers: { "Content-Type": "multipart/form-data" },
-          });
+          headers: { "Content-Type": "multipart/form-data" },
+        });
 
       if (res.status === 201 || res.status === 200) {
         toast.success("Akomodasi berhasil disimpan");
@@ -356,17 +344,16 @@ const CreateAccomodationPage = () => {
         <main className="p-1 flex-1 overflow-y-auto">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-              {isEditMode ? "Edit" : "Create"} Accommodation
+              Create Accommodation
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
               {sections.map((section) => (
                 <span
                   key={section}
-                  className={`cursor-pointer px-1 font-medium underline-item relative ${
-                    activeSection === section
+                  className={`cursor-pointer px-1 font-medium underline-item relative ${activeSection === section
                       ? "text-cyan-600 active"
                       : "text-gray-500"
-                  } hover:text-cyan-700 group`}
+                    } hover:text-cyan-700 group`}
                   onClick={() => moveSection(section)}
                 >
                   {section.charAt(0).toUpperCase() + section.slice(1)}
@@ -383,8 +370,6 @@ const CreateAccomodationPage = () => {
               locations={locations}
               type="accommodation"
             />
-            
-            {/* Updated ImageSection for accommodation main images */}
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
@@ -412,7 +397,6 @@ const CreateAccomodationPage = () => {
               roomPrices={roomPrices}
               formData={formData}
             />
-            
             <PolicyAndProcedureSection
               id="policy and procedure"
               isActive={activeSection === "policy and procedure"}

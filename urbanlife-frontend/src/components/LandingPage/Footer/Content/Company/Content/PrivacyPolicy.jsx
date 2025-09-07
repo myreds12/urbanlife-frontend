@@ -2,21 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Phone, Shield, Eye, Lock, Users, FileText, Globe, HeartHandshake, ChevronRight } from 'lucide-react';
 import Navbar from '../../../../HomePage/Navbar/Navbar';
 import Footer from '../../../../HomePage/Footer';
-import { useTranslation } from 'react-i18next';
+import apiClient from '../../../../../../components/AdminDashboard/Utils/ApiClient/apiClient';
+import toast from 'react-hot-toast';
 
 const PrivacyPolicy = () => {
-  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState({});
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible((prev) => ({
-              ...prev,
-              [entry.target.id]: true,
-            }));
+            setIsVisible((prev) => ({ ...prev, [entry.target.id]: true }));
           }
         });
       },
@@ -26,21 +24,143 @@ const PrivacyPolicy = () => {
     const elements = document.querySelectorAll('[data-animate]');
     elements.forEach((el) => observer.observe(el));
 
+    const fetchData = async () => {
+      const cachedData = localStorage.getItem('privacyPolicyData');
+      if (cachedData) {
+        setData(JSON.parse(cachedData));
+        return;
+      }
+      try {
+        const { data: response } = await apiClient.get('/privacypolicy');
+        setData(response.data);
+        localStorage.setItem('privacyPolicyData', JSON.stringify(response.data));
+      } catch (error) {
+        console.error('Failed to fetch privacy policy:', error);
+        toast.error('Gagal muat data dari API, menggunakan dummy data.');
+        setData(dummyData);
+        localStorage.setItem('privacyPolicyData', JSON.stringify(dummyData));
+      }
+    };
+    fetchData();
+
     return () => observer.disconnect();
   }, []);
 
-  const sections = [
-    { id: 'personal-info', title: t('privacypolicy.section_personal_info_title'), icon: Users },
-    { id: 'use-info', title: t('privacypolicy.section_use_info_title'), icon: Eye },
-    { id: 'share-info', title: t('privacypolicy.section_share_info_title'), icon: Globe },
-    { id: 'storage-info', title: t('privacypolicy.section_storage_info_title'), icon: FileText },
-    { id: 'protection-info', title: t('privacypolicy.section_protection_info_title'), icon: Lock },
-    { id: 'amendment-access', title: t('privacypolicy.section_amendment_access_title'), icon: Shield },
-  ];
+const dummyData = {
+  hero: {
+    id: 'hero',
+    title_en: "Your Data, Protected",
+    title_id: "Data Anda, Terlindungi",
+    subtitle_en: "Transparency in how we protect and handle your personal information",
+    subtitle_id: "Transparansi dalam cara kami melindungi dan menangani informasi pribadi Anda",
+  },
+  custom: [
+    {
+      id: 'personal-info',
+      section_number: 1,
+      section: 'Personal Information Collection',
+      title_en: "Personal Information Collection",
+      title_id: "Pengumpulan Informasi Pribadi",
+      content_en: "We collect information that identifies or can be used to identify, contact, or locate you or your device (personal information), including name, address, date of birth, occupation, phone number, email address, bank account details, gender, photo, nationality, and identification documents (e.g., KTP, SIM, or Passport).",
+      content_id: "Kami mengumpulkan informasi yang dapat mengidentifikasi atau digunakan untuk mengidentifikasi, menghubungi, atau menemukan Anda atau perangkat Anda (informasi pribadi), termasuk nama, alamat, tanggal lahir, pekerjaan, nomor telepon, alamat email, detail rekening bank, gender, foto, kewarganegaraan, dan dokumen identitas (misalnya, KTP, SIM, atau Paspor).",
+      notes: [{ en: "Please ensure all details are accurate.", id: "Pastikan semua detail akurat." }],
+      warning: [{ en: "Misuse of data may result in legal action.", id: "Penyalahgunaan data dapat menyebabkan tindakan hukum." }],
+    },
+    {
+      id: 'use-info',
+      section_number: 2,
+      section: 'Information Usage',
+      title_en: "Information Usage",
+      title_id: "Penggunaan Informasi",
+      content_en: "Your information is used to provide and improve our services, process transactions, and communicate with you effectively.",
+      content_id: "Informasi Anda digunakan untuk menyediakan dan meningkatkan layanan kami, memproses transaksi, dan berkomunikasi dengan Anda secara efektif.",
+      notes: [{ en: "Data usage is logged for security.", id: "Penggunaan data dicatat untuk keamanan." }],
+      warning: [{ en: "Unauthorized access is prohibited.", id: "Akses tanpa izin dilarang." }],
+    },
+    {
+      id: 'share-info',
+      section_number: 3,
+      section: 'Information Sharing',
+      title_en: "Information Sharing",
+      title_id: "Pembagian Informasi",
+      content_en: "We may share your information with affiliates or third parties only for legal or service-related purposes, never for sale.",
+      content_id: "Kami dapat membagikan informasi Anda dengan afiliasi atau pihak ketiga hanya untuk tujuan hukum atau terkait layanan, tidak pernah untuk dijual.",
+      notes: [{ en: "Sharing is limited to trusted partners.", id: "Pembagian dibatasi pada mitra terpercaya." }],
+      warning: [{ en: "Data sales are strictly forbidden.", id: "Penjualan data sangat dilarang." }],
+    },
+    {
+      id: 'storage-info',
+      section_number: 4,
+      section: 'Data Storage',
+      title_en: "Data Storage",
+      title_id: "Penyimpanan Data",
+      content_en: "Your data is stored only as long as needed for our services or as required by law.",
+      content_id: "Data Anda disimpan hanya selama diperlukan untuk layanan kami atau sebagaimana diwajibkan oleh hukum.",
+      notes: [{ en: "Data retention follows legal standards.", id: "Retensi data mengikuti standar hukum." }],
+      warning: [{ en: "Unauthorized retention is illegal.", id: "Retensi tanpa izin melanggar hukum." }],
+    },
+    {
+      id: 'protection-info',
+      section_number: 5,
+      section: 'Data Protection',
+      title_en: "Data Protection",
+      title_id: "Perlindungan Data",
+      content_en: "We use security measures to protect your data, though absolute security over the internet cannot be guaranteed.",
+      content_id: "Kami menggunakan langkah keamanan untuk melindungi data Anda, meskipun keamanan absolut di internet tidak dapat dijamin.",
+      notes: [{ en: "Regular security audits are conducted.", id: "Audit keamanan dilakukan secara rutin." }],
+      warning: [{ en: "Report security breaches immediately.", id: "Laporkan pelanggaran keamanan segera." }],
+    },
+    {
+      id: 'amendment-access',
+      section_number: 6,
+      section: 'Access & Amendment',
+      title_en: "Access & Amendment",
+      title_id: "Akses & Perubahan",
+      content_en: "You can request access to or correction of your data, subject to certain limitations.",
+      content_id: "Anda dapat meminta akses atau perbaikan data Anda, dengan beberapa batasan tertentu.",
+      notes: [{ en: "Requests must be submitted in writing.", id: "Permintaan harus dikirim secara tertulis." }],
+      warning: [{ en: "False requests may be rejected.", id: "Permintaan palsu dapat ditolak." }],
+    },
+    ],
+    contact: {
+      id: 'contact',
+      title_en: "Get in Touch",
+      title_id: "Hubungi Kami",
+      email: "info@urbanlife.id",
+      phone: "+62 816 919 812",
+    },
+    additional: [
+      {
+        id: 'amendment-policy',
+        section: 'Policy Updates',
+        title_en: 'Policy Updates',
+        content_en: 'We may review and amend this privacy policy from time to time. Changes will be notified through our website, and continued use indicates acceptance of updates.',
+        content_id: 'Kami dapat meninjau dan mengubah kebijakan privasi ini dari waktu ke waktu. Perubahan akan diberitahukan melalui situs web kami, dan penggunaan yang terus-menerus menunjukkan penerimaan terhadap pembaruan.',
+      },
+      {
+        id: 'acknowledgment',
+        section: 'Your Agreement',
+        title_en: 'Your Agreement',
+        content_en: 'By using our services, you acknowledge reading and agreeing to this policy. You consent to our data processing practices as described herein.',
+        content_id: 'Dengan menggunakan layanan kami, Anda mengakui telah membaca dan menyetujui kebijakan ini. Anda menyetujui praktik pemrosesan data kami sebagaimana dijelaskan di sini.',
+      },
+    ],
+  };
+
+  const sections = data
+    ? data.custom.map((section) => ({
+        id: section.id,
+        title: section.title_en,
+        icon: section.id === 'personal-info' ? Users : section.id === 'use-info' ? Eye : section.id === 'share-info' ? Globe : section.id === 'storage-info' ? FileText : section.id === 'protection-info' ? Lock : Shield,
+      }))
+    : dummyData.custom.map((section) => ({
+        id: section.id,
+        title: section.title_en,
+        icon: section.id === 'personal-info' ? Users : section.id === 'use-info' ? Eye : section.id === 'share-info' ? Globe : section.id === 'storage-info' ? FileText : section.id === 'protection-info' ? Lock : Shield,
+      }));
 
   return (
     <div className="bg-slate-50 min-h-screen">
-      {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-cyan-50 via-slate-50 to-cyan-100">
         <Navbar />
         <div className="absolute inset-0 opacity-30">
@@ -52,26 +172,21 @@ const PrivacyPolicy = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-cyan-50/90 to-slate-50/95"></div>
         </div>
-
         <div className="relative z-10 container mx-auto px-6 py-20 text-center mt-12">
           <div className="max-w-4xl mx-auto">
             <div className="inline-flex items-center space-x-2 bg-cyan-100/50 rounded-full px-4 py-1.5 mb-8">
               <Shield className="w-4 h-4 text-cyan-600" aria-hidden="true" />
-              <span className="text-cyan-700 text-sm font-medium">{t('privacypolicy.hero_label')}</span>
+              <span className="text-cyan-700 text-sm font-medium">Privacy Policy</span>
             </div>
-
             <h1 className="text-5xl md:text-6xl font-light text-slate-900 mb-6 tracking-tight">
-              {t('privacypolicy.hero_title')}
+              {data?.hero?.title_en || dummyData.hero.title_en}
             </h1>
-
             <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
-              {t('privacypolicy.hero_subtitle')}
+              {data?.hero?.subtitle_en || dummyData.hero.subtitle_en}
             </p>
           </div>
         </div>
       </div>
-
-      {/* Navigation Pills */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex flex-wrap gap-2 justify-center">
@@ -91,334 +206,151 @@ const PrivacyPolicy = () => {
           </div>
         </div>
       </nav>
-
-      {/* Main Content */}
       <div className="container mx-auto px-6 py-16 max-w-4xl">
-        {/* Introduction */}
-        <div
-          id="intro"
-          data-animate
-          className={`mb-20 transition-all duration-700 ${
-            isVisible.intro ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <HeartHandshake className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">{t('privacypolicy.intro_title')}</h2>
-            </div>
-            <p className="text-slate-700 text-lg leading-relaxed mb-6">
-              {t('privacypolicy.intro_content', {
-                company: 'UrbanLife',
-                website: (
-                  <a
-                    href="https://urbanlife.id"
-                    className="text-cyan-600 hover:text-cyan-700 underline decoration-cyan-300"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    urbanlife.id
-                  </a>
-                ),
-              })}
-            </p>
-            <p className="text-slate-600 leading-relaxed">{t('privacypolicy.intro_contact')}</p>
-          </div>
-        </div>
-
-        {/* Personal Information Section */}
-        <section
-          id="personal-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['personal-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Users className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">{t('privacypolicy.section_personal_info_title')}</h2>
-            </div>
-            <p className="text-slate-700 leading-relaxed mb-6">{t('privacypolicy.section_personal_info_content')}</p>
-            <div className="space-y-8">
-              <div className="border-l-4 border-cyan-400 pl-6">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">{t('privacypolicy.section_personal_info_direct')}</h3>
-                <p className="text-slate-700 leading-relaxed mb-4">{t('privacypolicy.section_personal_info_direct_content')}</p>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-                    <p className="text-slate-700 text-sm">{t('privacypolicy.section_personal_info_direct_item1')}</p>
+        {data?.custom?.length > 0
+          ? data.custom.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                data-animate
+                className={`mb-16 transition-all duration-700 ${isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              >
+                <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
+                  <div className="flex items-center space-x-3 mb-8">
+                    <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
+                      {section.id === 'personal-info' && <Users className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'use-info' && <Eye className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'share-info' && <Globe className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'storage-info' && <FileText className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'protection-info' && <Lock className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'amendment-access' && <Shield className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                    </div>
+                    <h2 className="text-2xl font-medium text-slate-900">{section.title_en}</h2>
                   </div>
-                  <div className="bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-                    <p className="text-slate-700 text-sm">{t('privacypolicy.section_personal_info_direct_item2')}</p>
+                  <p className="text-slate-700 leading-relaxed mb-6">{section.content_en}</p>
+                  {section.notes.some(note => note.en || note.id) && (
+                    <div className="mt-4 p-4 bg-cyan-50 rounded-lg">
+                      <h3 className="text-md font-medium text-cyan-800 mb-2">Notes</h3>
+                      {section.notes.map((note, i) => (note.en || note.id) && (
+                        <p key={i} className="text-sm text-cyan-700">{note.en || note.id}</p>
+                      ))}
+                    </div>
+                  )}
+                  {section.warning.some(warn => warn.en || warn.id) && (
+                    <div className="mt-4 p-4 bg-red-50 rounded-lg">
+                      <h3 className="text-md font-medium text-red-800 mb-2">Warnings</h3>
+                      {section.warning.map((warn, i) => (warn.en || warn.id) && (
+                        <p key={i} className="text-sm text-red-700">{warn.en || warn.id}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </section>
+            ))
+          : dummyData.custom.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                data-animate
+                className={`mb-16 transition-all duration-700 ${isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              >
+                <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
+                  <div className="flex items-center space-x-3 mb-8">
+                    <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
+                      {section.id === 'personal-info' && <Users className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'use-info' && <Eye className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'share-info' && <Globe className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'storage-info' && <FileText className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'protection-info' && <Lock className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                      {section.id === 'amendment-access' && <Shield className="w-5 h-5 text-cyan-600" aria-hidden="true" />}
+                    </div>
+                    <h2 className="text-2xl font-medium text-slate-900">{section.title_en}</h2>
                   </div>
-                </div>
-              </div>
-              <div className="border-l-4 border-cyan-400 pl-6">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">{t('privacypolicy.section_personal_info_auto')}</h3>
-                <p className="text-slate-700 leading-relaxed mb-4">{t('privacypolicy.section_personal_info_auto_content')}</p>
-                <div className="bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-                  <p className="text-slate-700 text-sm">{t('privacypolicy.section_personal_info_auto_cookies')}</p>
-                </div>
-              </div>
-              <div className="border-l-4 border-cyan-400 pl-6">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">{t('privacypolicy.section_personal_info_third')}</h3>
-                <p className="text-slate-700 leading-relaxed">{t('privacypolicy.section_personal_info_third_content')}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Use of Personal Information */}
-        <section
-          id="use-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['use-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Eye className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">{t('privacypolicy.section_use_info_title')}</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-slate-900">{t('privacypolicy.section_use_info_users')}</h3>
-                <div className="space-y-2">
-                  {t('privacypolicy.section_use_info_users_items', { returnObjects: true }).map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <ChevronRight className="w-4 h-4 text-cyan-500" aria-hidden="true" />
-                      <span className="text-slate-600 text-sm">{item}</span>
+                  <p className="text-slate-700 leading-relaxed mb-6">{section.content_en}</p>
+                  {section.notes.some(note => note.en || note.id) && (
+                    <div className="mt-4 p-4 bg-cyan-50 rounded-lg">
+                      <h3 className="text-md font-medium text-cyan-800 mb-2">Notes</h3>
+                      {section.notes.map((note, i) => (note.en || note.id) && (
+                        <p key={i} className="text-sm text-cyan-700">{note.en || note.id}</p>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-slate-900">{t('privacypolicy.section_use_info_business')}</h3>
-                <div className="space-y-2">
-                  {t('privacypolicy.section_use_info_business_items', { returnObjects: true }).map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <ChevronRight className="w-4 h-4 text-cyan-500" aria-hidden="true" />
-                      <span className="text-slate-600 text-sm">{item}</span>
+                  )}
+                  {section.warning.some(warn => warn.en || warn.id) && (
+                    <div className="mt-4 p-4 bg-red-50 rounded-lg">
+                      <h3 className="text-md font-medium text-red-800 mb-2">Warnings</h3>
+                      {section.warning.map((warn, i) => (warn.en || warn.id) && (
+                        <p key={i} className="text-sm text-red-700">{warn.en || warn.id}</p>
+                      ))}
                     </div>
-                  ))}
+                  )}
+                </div>
+              </section>
+            ))}
+        {data?.additional?.length > 0
+          ? data.additional.map((section) => (
+              <div
+                key={section.id}
+                id={section.id}
+                data-animate
+                className={`mb-16 transition-all duration-700 ${isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              >
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50">
+                  <h3 className="text-lg font-medium text-slate-900 mb-3">{section.title_en}</h3>
+                  <p className="text-slate-700 text-sm leading-relaxed">{section.content_en}</p>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Share of Personal Information */}
-        <section
-          id="share-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['share-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Globe className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">{t('privacypolicy.section_share_info_title')}</h2>
-            </div>
-            <div className="bg-red-50 border border-red-200-rounded-xl p-4 mb-6">
-              <p className="text-red-800 font-medium">{t('privacypolicy.section_share_info_warning')}</p>
-            </div>
-            <p className="text-slate-700 leading-relaxed mb-6">{t('privacypolicy.section_share_info_content')}</p>
-            <div className="space-y-3">
-              {t('privacypolicy.section_share_info_items', { returnObjects: true }).map((item, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center mt-0.5">
-                    <span className="text-slate-600 text-xs">{index + 1}</span>
-                  </div>
-                  <p className="text-slate-600 text-sm">{item}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-              <p className="text-slate-700 text-sm">{t('privacypolicy.section_share_info_note')}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Storage and Protection */}
-        <section
-          id="storage-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['storage-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <FileText className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">{t('privacypolicy.section_storage_info_title')}</h2>
-            </div>
-            <p className="text-slate-700 leading-relaxed mb-4">{t('privacypolicy.section_storage_info_content')}</p>
-            <div className="space-y-2">
-              {t('privacypolicy.section_storage_info_items', { returnObjects: true }).map((item, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                  <span className="text-slate-600 text-sm">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="protection-info"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['protection-info'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Lock className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">{t('privacypolicy.section_protection_info_title')}</h2>
-            </div>
-            <p className="text-slate-700 leading-relaxed mb-4">{t('privacypolicy.section_protection_info_content')}</p>
-            <div className="bg-cyan-50/50 rounded-xl p-4 border border-cyan-100">
-              <p className="text-slate-700 text-sm">{t('privacypolicy.section_protection_info_note')}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Your Rights */}
-        <section
-          id="amendment-access"
-          data-animate
-          className={`mb-16 transition-all duration-700 ${
-            isVisible['amendment-access'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200/50">
-            <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Shield className="w-5 h-5 text-cyan-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-medium text-slate-900">{t('privacypolicy.section_amendment_access_title')}</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-cyan-50/50 rounded-xl p-6 border border-cyan-100">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">{t('privacypolicy.section_amendment_access_request')}</h3>
-                <div className="space-y-2">
-                  {t('privacypolicy.section_amendment_access_request_items', { returnObjects: true }).map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                      <span className="text-slate-600 text-sm">{item}</span>
-                    </div>
-                  ))}
+            ))
+          : dummyData.additional.map((section) => (
+              <div
+                key={section.id}
+                id={section.id}
+                data-animate
+                className={`mb-16 transition-all duration-700 ${isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              >
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50">
+                  <h3 className="text-lg font-medium text-slate-900 mb-3">{section.title_en}</h3>
+                  <p className="text-slate-700 text-sm leading-relaxed">{section.content_en}</p>
                 </div>
               </div>
-              <div className="bg-cyan-50/50 rounded-xl p-6 border border-cyan-100">
-                <h3 className="text-lg font-medium text-slate-900 mb-4">{t('privacypolicy.section_amendment_access_reject')}</h3>
-                <div className="space-y-2">
-                  {t('privacypolicy.section_amendment_access_reject_items', { returnObjects: true }).map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                      <span className="text-slate-600 text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Additional Sections */}
-        <div className="max-w-4xl mx-auto space-y-8">
-          {[
-            {
-              id: 'amendment-policy',
-              title: t('privacypolicy.section_amendment_policy_title'),
-              content: t('privacypolicy.section_amendment_policy_content'),
-            },
-            {
-              id: 'acknowledgment',
-              title: t('privacypolicy.section_acknowledgment_title'),
-              content: t('privacypolicy.section_acknowledgment_content'),
-            },
-            {
-              id: 'unspecified-data',
-              title: t('privacypolicy.section_unspecified_data_title'),
-              content: t('privacypolicy.section_unspecified_data_content'),
-            },
-            {
-              id: 'marketing',
-              title: t('privacypolicy.section_marketing_title'),
-              content: t('privacypolicy.section_marketing_content'),
-            },
-            {
-              id: 'third-party',
-              title: t('privacypolicy.section_third_party_title'),
-              content: t('privacypolicy.section_third_party_content'),
-            },
-          ].map((section) => (
-            <div
-              key={section.id}
-              id={section.id}
-              data-animate
-              className={`transition-all duration-700 ${
-                isVisible[section.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/50">
-                <h3 className="text-lg font-medium text-slate-900 mb-3">{section.title}</h3>
-                <p className="text-slate-700 text-sm leading-relaxed">{section.content}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Contact Section */}
+            ))}
         <section
           id="contact"
           data-animate
-          className={`mt-16 transition-all duration-700 ${
-            isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
+          className={`mt-16 transition-all duration-700 ${isVisible.contact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
         >
           <div className="bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-2xl p-8 text-white">
             <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-2xl font-medium mb-2">{t('privacypolicy.section_contact_title')}</h2>
-              <p className="text-cyan-100 mb-8 text-sm">{t('privacypolicy.section_contact_content')}</p>
+              <h2 className="text-2xl font-medium mb-2">{data?.contact?.title_en || dummyData.contact.title_en}</h2>
+              <p className="text-cyan-100 mb-8 text-sm">Questions about this privacy policy? We’re here to help.</p>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-cyan-200" aria-hidden="true" />
                   <div className="text-left">
-                    <p className="font-medium">{t('privacypolicy.section_contact_email_support')}</p>
+                    <p className="font-medium">Email Support</p>
                     <a
-                      href="mailto:info@urbanlife.id"
+                      href={`mailto:${data?.contact?.email || dummyData.contact.email}`}
                       className="text-cyan-100 hover:text-white text-sm transition-colors duration-200"
                     >
-                      {t('privacypolicy.section_contact_email_general')}
+                      {data?.contact?.email || dummyData.contact.email}
                     </a>
-                    <p className="text-cyan-100 mb-1 mt-2">{t('privacypolicy.section_contact_email_ads')}</p>
+                    <p className="text-cyan-100 mb-1 mt-2">Advertisements:</p>
+                    <a
+                      href="mailto:ads@urbanlife.id"
+                      className="text-cyan-100 hover:text-white text-sm transition-colors duration-200"
+                    >
+                      ads@urbanlife.id
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Phone className="w-5 h-5 text-cyan-200" aria-hidden="true" />
                   <div className="text-left">
-                    <p className="font-medium">{t('privacypolicy.section_contact_phone_support')}</p>
+                    <p className="font-medium">Phone Support</p>
                     <a
-                      href="tel:+62816919812"
+                      href={`tel:${data?.contact?.phone || dummyData.contact.phone}`}
                       className="text-cyan-100 hover:text-white text-sm transition-colors duration-200"
                     >
-                      {t('privacypolicy.section_contact_phone')}
+                      {data?.contact?.phone || dummyData.contact.phone}
                     </a>
                   </div>
                 </div>
@@ -427,8 +359,6 @@ const PrivacyPolicy = () => {
           </div>
         </section>
       </div>
-
-      {/* Footer */}
       <Footer />
     </div>
   );

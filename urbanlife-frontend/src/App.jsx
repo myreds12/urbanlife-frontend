@@ -40,15 +40,29 @@ const Accomodation = lazy(() =>
 const CreateAccomodationPage = lazy(() =>
   import("./pages/AdminDashboard/Accomodation/CreateAccomodation")
 );
-const AboutUs = lazy(() => import("./pages/AdminDashboard/AboutUs/AboutUs"));
+const AboutUs = lazy(() => import("./pages/AdminDashboard/Company/AboutUs/AboutUs"));
 const CreateAboutUsPage = lazy(() =>
-  import("./pages/AdminDashboard/AboutUs/CreateAboutUsPage")
+  import("./pages/AdminDashboard/Company/AboutUs/CreateAboutUsPage")
 );
 
 const ContactUsAdmin = lazy(() => import("./pages/AdminDashboard/ContactUs/ContactUsAdmin"));
 const CreateContactUsPage = lazy(() =>
   import("./pages/AdminDashboard/ContactUs/CreateContactUsPage")
 );
+
+
+const PrivacyPolicyPage = lazy(() =>
+  import("./pages/AdminDashboard/Company/PrivacyPolicy/PrivacyPolicy")
+);
+const CreatePrivacyPolicyPage = lazy(() =>
+  import("./pages/AdminDashboard/Company/PrivacyPolicy/CreatePrivacyPolicyPage")
+);
+const TermsConditions = lazy(() =>
+  import("./pages/AdminDashboard/Company/TermsAndConditions/TermsAndConditions")
+);
+const CreateTermsConditions = lazy(() =>
+  import("./pages/AdminDashboard/Company/TermsAndConditions/CreateTermsAndConditions")
+);  
 
 
 const Customer = lazy(() => import("./pages/AdminDashboard/Customer/Customer"));
@@ -189,10 +203,14 @@ function App() {
               <Route path="contact-us" element={<ContactUsAdmin />} />
               <Route path="contact-us/create" element={<CreateContactUsPage />} />
               <Route path="contact-us/edit/:id" element={<CreateContactUsPage />} />
+              <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="privacy-policy/create" element={<CreatePrivacyPolicyPage />} />
+              <Route path="privacy-policy/edit/:id" element={<CreatePrivacyPolicyPage />} />
+              <Route path="terms-conditions" element={<TermsConditions />} />
+              <Route path="terms-conditions/create" element={<CreateTermsConditions />} />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />
               <Route path="news/edit/:id" element={<CreateNews />} />
-
               <Route path="whatsapp-connect" element={<WhatsappConnect />} />
               <Route path="template" element={<Template />} />
               <Route path="inbox" element={<Inbox />} />

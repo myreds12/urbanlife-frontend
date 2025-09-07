@@ -73,15 +73,16 @@ const TourHeader = ({
     });
   };
 
-  const shareData = {
-    title: "Bagikan Tour",
-    location: location?.split(", ")?.[1] || "Unknown",
-    description: title,
-    image: image || "/public/images/error/No_Image_Available.jpg",
-    url: `${window.location.origin}/tour/${title
-      .replace(/\s+/g, "-")
-      .toLowerCase()}?id=${id}`,
-  };
+const shareData = {
+  title: t('sharemodal.share'),
+  location: location || "", // Jangan split, kirim langsung
+  description: title,
+  image: image || "/public/images/error/No_Image_Available.jpg",
+  url: `${window.location.origin}/tour/${title
+    .replace(/\s+/g, "-")
+    .toLowerCase()}?id=${id}`,
+};
+
 
   const arrowIcon = (
     <svg

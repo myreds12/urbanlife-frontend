@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ModalDestination = ({ isOpen, onClose, shareData }) => {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   if (!isOpen) return null;
 
   const {
-    title = "Bagikan",
+    title = t('sharemodal.share'),
     location = "",
     description = "",
     image = "",
@@ -16,7 +18,7 @@ const ModalDestination = ({ isOpen, onClose, shareData }) => {
   const shareOptions = [
     {
       id: 'copy',
-      name: 'Salin Tautan',
+      name: t('sharemodal.copylink'),
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -44,7 +46,7 @@ const ModalDestination = ({ isOpen, onClose, shareData }) => {
     },
     {
       id: 'message',
-      name: 'Pesan',
+      name: t('sharemodal.message'),
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -107,7 +109,7 @@ const ModalDestination = ({ isOpen, onClose, shareData }) => {
     },
     {
       id: 'embed',
-      name: 'Sematkan',
+      name: t('sharemodal.embed'),
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -155,7 +157,7 @@ const ModalDestination = ({ isOpen, onClose, shareData }) => {
             />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 mb-1">
-                Location: {location}
+                {t('sharemodal.location')} {location || t('sharemodal.unknown_location')}
               </p>
               <p className="text-sm text-gray-600 line-clamp-2">
                 {description}
@@ -185,7 +187,7 @@ const ModalDestination = ({ isOpen, onClose, shareData }) => {
           {copied && (
             <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
               <p className="text-sm text-green-800 text-center">
-                ✓ Berhasil disalin ke clipboard
+                ✓ {t('sharemodal.success')}
               </p>
             </div>
           )}

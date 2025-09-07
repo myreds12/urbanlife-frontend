@@ -177,7 +177,20 @@
   "noroom": "Kamar dan harga tidak tersedia",
   "night": "/ night",
   "room": "{{room}} Room",
-  "amenities": "Amenities :"
+  "amenities": "Amenities :",
+  "nofacility": "No Facility",
+  "noamenities": "No Amenities"
+},
+
+"sharemodal": {
+  "location": "Location :",
+  "success": "Successfully copied to clipboard",
+  "share": "Share",
+  "sharetour": "Share tour",
+  "copylink": "Copy link",
+  "message": "Message",
+  "embed": "Embed"
+
 },
 
 "payment": {

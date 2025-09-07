@@ -6,9 +6,14 @@ const ServiceScheduleForm = ({ onSubmit, onCancel }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!newSchedule.day) newErrors.day = "Day is required";
-    if (!newSchedule.time) newErrors.time = "Time is required";
-    
+    if (!newSchedule.day) {
+      newErrors.day = "Day is required";
+    }
+    if (!newSchedule.time) {
+      newErrors.time = "Time is required";
+    } else if (!/^\d{2}:\d{2}\s*-\s*\d{2}:\d{2}$/.test(newSchedule.time)) {
+      newErrors.time = "Time must be in format HH:mm - HH:mm (e.g., 08:00 - 16:00)";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -16,26 +21,18 @@ const ServiceScheduleForm = ({ onSubmit, onCancel }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
-    
     setNewSchedule((prev) => ({
       ...prev,
       [name]: newValue,
     }));
-
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
-  const handleSubmit = () => {    
+  const handleSubmit = () => {
     if (!validateForm()) return;
-
-    const cleanSchedule = {
-      ...newSchedule,
-      day: newSchedule.day.toUpperCase().replace(/^servicenschedule\./i, '')
-    };
-    
-    onSubmit(cleanSchedule);
+    onSubmit(newSchedule); // Send day as-is
     setNewSchedule({ day: "", time: "", highlight: false });
     setErrors({});
   };
@@ -50,13 +47,12 @@ const ServiceScheduleForm = ({ onSubmit, onCancel }) => {
           value={newSchedule.day}
           onChange={handleChange}
           className={`w-full py-2 px-3 rounded-lg border ${
-            errors.day ? 'border-gray-400' : 'border-gray-300'
+            errors.day ? "border-red-400" : "border-gray-300"
           } focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm`}
-          placeholder="e.g., MONDAY"
+          placeholder="e.g., Monday, or any day"
         />
-        {errors.day && <p className="mt-1 text-sm text-gray-600">{errors.day}</p>}
+        {errors.day && <p className="mt-1 text-sm text-red-600">{errors.day}</p>}
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Time *</label>
         <input
@@ -64,14 +60,13 @@ const ServiceScheduleForm = ({ onSubmit, onCancel }) => {
           name="time"
           value={newSchedule.time}
           onChange={handleChange}
-          placeholder="e.g., 08.00 - 17.00"
+          placeholder="e.g., 08:00 - 16:00"
           className={`w-full py-2 px-3 rounded-lg border ${
-            errors.time ? 'border-gray-400' : 'border-gray-300'
+            errors.time ? "border-red-400" : "border-gray-300"
           } focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm`}
         />
-        {errors.time && <p className="mt-1 text-sm text-gray-600">{errors.time}</p>}
+        {errors.time && <p className="mt-1 text-sm text-red-600">{errors.time}</p>}
       </div>
-
       <label className="flex items-center space-x-2">
         <input
           type="checkbox"
@@ -82,7 +77,6 @@ const ServiceScheduleForm = ({ onSubmit, onCancel }) => {
         />
         <span className="text-sm text-gray-700">Mark as special hours</span>
       </label>
-
       <div className="flex space-x-2 pt-2">
         <button
           onClick={handleSubmit}

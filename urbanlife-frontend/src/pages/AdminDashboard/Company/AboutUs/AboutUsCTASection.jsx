@@ -113,7 +113,7 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
           </div>
         </div>
 
-        <div className="mb-4 flex items-center">
+        <div className="mb-4 mt-5 flex items-center">
           <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
             Button Text
           </label>

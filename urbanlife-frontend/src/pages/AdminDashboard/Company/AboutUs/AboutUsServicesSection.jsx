@@ -43,7 +43,9 @@ const AboutUsServicesSection = ({
               </label>
               <select
                 value={service.icon}
-                onChange={(e) => handleServiceChange(index, "icon", e.target.value)}
+                onChange={(e) =>
+                  handleServiceChange(index, "icon", e.target.value)
+                }
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
               >
                 <option value="">Select an icon</option>
@@ -63,7 +65,9 @@ const AboutUsServicesSection = ({
               <input
                 type="text"
                 value={service.location}
-                onChange={(e) => handleServiceChange(index, "location", e.target.value)}
+                onChange={(e) =>
+                  handleServiceChange(index, "location", e.target.value)
+                }
                 placeholder="Enter service location..."
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 placeholder-gray-400"
               />
@@ -126,8 +130,6 @@ const AboutUsServicesSection = ({
                 </div>
               </div>
 
-
-
               {/* Indonesian Section */}
               <div className="bg-gray-50 p-5 rounded-xl border border-gray-200">
                 <h3 className="text-md font-medium text-gray-700 mb-4 flex items-center">
@@ -184,13 +186,6 @@ const AboutUsServicesSection = ({
                 </div>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => removeService(index)}
-              className="text-red-500 hover:text-red-700"
-            >
-              Remove Service
-            </button>
           </div>
         ))}
       </div>

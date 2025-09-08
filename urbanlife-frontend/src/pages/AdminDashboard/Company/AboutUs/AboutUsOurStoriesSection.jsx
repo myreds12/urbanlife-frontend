@@ -91,7 +91,7 @@ const AboutUsOurStoriesSection = ({
               {/* title - id */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Title (ID) <span className="text-red-500">*</span>
+                  Story Title (ID) <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"

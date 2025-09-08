@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 
 const TermsAndConditionsCustomSection = ({
   id,
@@ -20,6 +19,16 @@ const TermsAndConditionsCustomSection = ({
     warning_en = '',
     warning_id = '',
   } = sectionData || {};
+
+  // Notes handlers
+  const updateNote = (lang, value) => {
+    handleChange(sectionIndex, `notes_${lang}`, value);
+  };
+
+  // Warnings handlers
+  const updateWarning = (lang, value) => {
+    handleChange(sectionIndex, `warning_${lang}`, value);
+  };
 
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
@@ -109,52 +118,28 @@ const TermsAndConditionsCustomSection = ({
                 <h4 className="text-sm font-medium text-gray-600">
                   Notes (EN)
                 </h4>
-                {notes.map((note, noteIndex) => (
-                  <div key={noteIndex} className="flex items-start">
-                    <textarea
-                      value={note.en}
-                      onChange={(e) =>
-                        updateNote(noteIndex, "en", e.target.value)
-                      }
-                      className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
-                      placeholder={`Note ${noteIndex + 1} (EN)`}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeNote(noteIndex)}
-                      className="ml-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center hover:bg-red-600"
-                      aria-label="Remove note"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
+                <div className="flex items-start">
+                  <textarea
+                    value={notes_en}
+                    onChange={(e) => updateNote("en", e.target.value)}
+                    className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
+                    placeholder="Notes (EN)"
+                  />
+                </div>
               </div>
 
               <div className="space-y-3">
                 <h4 className="text-sm font-medium text-gray-600">
                   Warnings (EN)
                 </h4>
-                {warning.map((warn, warningIndex) => (
-                  <div key={warningIndex} className="flex items-start">
-                    <textarea
-                      value={warning.en}
-                      onChange={(e) =>
-                        handleChange(sectionIndex, "warning_en", e.target.value)
-                      }
-                      className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
-                      placeholder={`Warning ${warningIndex + 1} (EN)`}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeWarning(warningIndex)}
-                      className="ml-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center hover:bg-red-600"
-                      aria-label="Remove warning"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
+                <div className="flex items-start">
+                  <textarea
+                    value={warning_en}
+                    onChange={(e) => updateWarning("en", e.target.value)}
+                    className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
+                    placeholder="Warning (EN)"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -211,55 +196,30 @@ const TermsAndConditionsCustomSection = ({
                 <h4 className="text-sm font-medium text-gray-600">
                   Notes (ID)
                 </h4>
-                {notes.map((note, noteIndex) => (
-                  <div key={noteIndex} className="flex items-start">
-                    <textarea
-                      value={note.id}
-                      onChange={(e) =>
-                        updateNote(noteIndex, "id", e.target.value)
-                      }
-                      className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
-                      placeholder={`Note ${noteIndex + 1} (ID)`}
-                    />
-                  </div>
-                ))}
+                <div className="flex items-start">
+                  <textarea
+                    value={notes_id}
+                    onChange={(e) => updateNote("id", e.target.value)}
+                    className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
+                    placeholder="Notes (ID)"
+                  />
+                </div>
               </div>
               <div className="space-y-3">
                 <h4 className="text-sm font-medium text-gray-600">
                   Warnings (ID)
                 </h4>
-                {warning.map((warn, warningIndex) => (
-                  <div key={warningIndex} className="flex items-start">
-                    <textarea
-                      value={warn.id}
-                      onChange={(e) =>
-                        updateWarning(warningIndex, "id", e.target.value)
-                      }
-                      className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
-                      placeholder={`Warning ${warningIndex + 1} (ID)`}
-                    />
-                  </div>
-                ))}
+                <div className="flex items-start">
+                  <textarea
+                    value={warning_id}
+                    onChange={(e) => updateWarning("id", e.target.value)}
+                    className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
+                    placeholder="Warning (ID)"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="flex space-x-4 mt-6">
-          <button
-            type="button"
-            onClick={addNote}
-            className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
-          >
-            Add Notes +
-          </button>
-          <button
-            type="button"
-            onClick={addWarning}
-            className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
-          >
-            Add Warning +
-          </button>
         </div>
       </div>
     </div>

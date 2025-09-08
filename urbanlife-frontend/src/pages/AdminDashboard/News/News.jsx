@@ -5,7 +5,6 @@ import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/P
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Button from "../../../components/AdminDashboard/Utils/Ui/button/Button";
 import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
-import EditNews from "./EditNews";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
 const News = () => {
@@ -15,11 +14,8 @@ const News = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingNews, setEditingNews] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const itemsPerPage = 10;
-
 
   const [newsData, setNewsData] = useState([]);
 
@@ -84,31 +80,6 @@ const News = () => {
   // };
   const handleEdit = (row) => {
     navigate(`/admin/news/edit/${row.id}`);
-  };
-
-
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setEditingNews(null);
-    setIsLoading(false);
-  };
-
-  // Updated handleModalSave to work with NewsEditModal
-  const handleModalSave = async (updatedData) => {
-    try {
-      // Update the news data
-      setNewsData((prev) =>
-        prev.map((news) =>
-          news.id === editingNews.id ? { ...news, ...updatedData } : news
-        )
-      );
-
-      // Close modal
-      handleModalClose();
-    } catch (error) {
-      console.error("Error updating news:", error);
-    }
   };
 
   const handleDelete = (row) => {
@@ -367,15 +338,6 @@ const News = () => {
       </div>
 
       {/* News Edit Modal */}
-      {editingNews && (
-        <EditNews
-          id={editingNews.id}
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          newsData={editingNews}
-          onSave={handleModalSave}
-        />
-      )}
     </>
   );
 };

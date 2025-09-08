@@ -38,14 +38,15 @@ const AboutUsOurStoriesSection = ({
               {/* title - en */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Title (EN) <span className="text-red-500">*</span>
+                  Story Title (EN) <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="title_en"
                   value={story.title_en}
                   onChange={handleStoryChange}
-                  className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+                  placeholder="Enter story title in English..."
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 placeholder-gray-400"
                   required
                 />
               </div>
@@ -119,69 +120,55 @@ const AboutUsOurStoriesSection = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-end mb-4 mt-5">
+        <div className="mb-4 mt-5 flex items-center">
+          <label
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            style={{ minWidth: "190px" }}
+          >
+            Upload Photos
+          </label>
           <input
             type="file"
-            accept="image/*"
-            onChange={handlePhotoUpload}
-            className="hidden"
-            id="photoUpload"
             multiple
+            onChange={handlePhotoUpload}
+            className="py-1 px-3 w-full rounded-md border border-gray-300"
           />
-          <label
-            htmlFor="photoUpload"
-            className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-6 py-2 rounded-md cursor-pointer"
-          >
-            Add Photo +
-          </label>
         </div>
 
-        {photos.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-            {photos.map((photo, i) => (
-              <div key={i} className="relative group">
-                <img
-                  src={URL.createObjectURL(photo)}
-                  alt={`Uploaded ${i + 1}`}
-                  className="w-full h-32 object-cover rounded-md border"
-                />
-                <button
-                  type="button"
-                  onClick={() => removePhoto(i)}
-                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center opacity-80 hover:bg-red-600"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {existingPhotos.length > 0 && (
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-600 mb-2 ">
-              Existing Photos :
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {existingPhotos.map((photo, i) => (
-                <div key={i} className="relative group">
-                  <img
-                    src={photo.url}
-                    alt={`Existing Photo ${i + 1}`}
-                    className="w-full h-32 object-cover rounded-md border"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeExistingPhoto(i)}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center opacity-80 hover:bg-red-600"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
+        <div className="grid grid-cols-3 gap-4">
+          {existingPhotos.map((photo, index) => (
+            <div key={index} className="relative">
+              <img
+                src={photo.url}
+                alt={`Existing ${index}`}
+                className="w-full h-24 object-cover rounded-md"
+              />
+              <button
+                type="button"
+                onClick={() => removeExistingPhoto(index)}
+                className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                X
+              </button>
             </div>
-          </div>
-        )}
+          ))}
+          {photos.map((photo, index) => (
+            <div key={index} className="relative">
+              <img
+                src={URL.createObjectURL(photo)}
+                alt={`Uploaded ${index}`}
+                className="w-full h-24 object-cover rounded-md"
+              />
+              <button
+                type="button"
+                onClick={() => removePhoto(index)}
+                className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                X
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

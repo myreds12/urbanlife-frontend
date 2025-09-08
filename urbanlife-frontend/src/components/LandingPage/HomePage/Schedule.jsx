@@ -125,7 +125,7 @@ const ServiceScheduleCard = () => {
               ))}
             </div>
           )}
-          <Link to="/ContactUs">
+          <Link to="https://wa.me/+62816919812">
             <button className="w-full bg-[#0092B8] hover:bg-[#007F9F] text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-300">
               {t("servicenschedule.button")}
             </button>

@@ -5,6 +5,7 @@ import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/P
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
 import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDetail";
+import Swal from "sweetalert2";
 import { dummyAccomodationData } from "./DummyAccomodation";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -221,37 +222,36 @@ const Accomodation = () => {
   };
 
   // Handler untuk Popular (sementara)
-const handlePopular = async (row) => {
-  const newStatus = !row.is_popular; // langsung akses row.is_popular
+  const handlePopular = async (row) => {
+    const newStatus = !row.is_popular; // langsung akses row.is_popular
 
-  const confirmed = window.confirm(
-    `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
-      newStatus ? "to" : "from"
-    } Popular Categories?`
-  );
-  if (!confirmed) return;
+    const confirmed = window.confirm(
+      `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
+        newStatus ? "to" : "from"
+      } Popular Categories?`
+    );
+    if (!confirmed) return;
 
-  try {
-    const updatePromise = apiClient.patch(`/akomodasi/${row.id}/popular`, {
-      is_popular: newStatus,
-    });
+    try {
+      const updatePromise = apiClient.patch(`/akomodasi/${row.id}/popular`, {
+        is_popular: newStatus,
+      });
 
-    await toast.promise(updatePromise, {
-      loading: newStatus
-        ? "Marking as popular..."
-        : "Removing from popular...",
-      success: `"${row.nama}" ${
-        newStatus ? "added to" : "removed from"
-      } popular categories!`,
-      error: "Failed to update popular status. Please try again.",
-    });
+      await toast.promise(updatePromise, {
+        loading: newStatus
+          ? "Marking as popular..."
+          : "Removing from popular...",
+        success: `"${row.nama}" ${
+          newStatus ? "added to" : "removed from"
+        } popular categories!`,
+        error: "Failed to update popular status. Please try again.",
+      });
 
-    fetchData(); // sama kayak handler lain, refresh data
-  } catch (err) {
-    console.error("Failed to update popular status:", err);
-  }
-};
-
+      fetchData(); // sama kayak handler lain, refresh data
+    } catch (err) {
+      console.error("Failed to update popular status:", err);
+    }
+  };
 
   const filtered = useMemo(() => {
     if (!search) return data;
@@ -305,33 +305,37 @@ const handlePopular = async (row) => {
     }
   };
 
-  const handleDelete = async (row) => {
-    const confirmed = window.confirm(
-      `Are you sure want to delete "${row.nama}"?`
-    );
-    if (!confirmed) return;
+const handleDelete = async (row) => {
+  const result = await Swal.fire({
+    title: "Delete Accommodation",
+    text: `Are you sure you want to delete "${row.name}"?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#10b981", // hijau
+    cancelButtonColor: "#d33", // merah
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+  });
 
-    const deletePromise = apiClient.delete(`/akomodasi`, {
+  if (!result.isConfirmed) return;
+
+  try {
+    await apiClient.delete(`/akomodasi`, {
       data: {
         ids: [row.id],
       },
     });
 
-    try {
-      const result = await deletePromise;
-      console.log(result, "result");
-      await toast.promise(deletePromise, {
-        loading: "Deleting accommodation...",
-        success: `"${row.nama}" was successfully deleted.`,
-        error: "Could not delete the accommodation. Please try again.",
-      });
-
-      // TODO: Refresh list data jika perlu
-      fetchData();
-    } catch (err) {
-      console.error("Failed to delete:", err);
-    }
-  };
+    await fetchData();
+    toast.success(`"${row.name}" was successfully deleted.`);
+  } catch (error) {
+    console.error("❌ Failed to delete accommodation", error);
+    toast.error(
+      error.response?.data?.message ||
+        "Failed to delete the accommodation. Please try again."
+    );
+  }
+};
 
   const handleBulkExport = (rows) => {
     const csv = [
@@ -416,7 +420,7 @@ const handlePopular = async (row) => {
             defaultMapping={{
               "#": (row, index) => (page - 1) * ITEMS_PER_PAGE + index + 1,
               Name: (row) => row.name,
-              Location: (row) => row.location || '',
+              Location: (row) => row.location || "",
               Type: (row) => row.type,
               Category: (row) => row.category,
             }}

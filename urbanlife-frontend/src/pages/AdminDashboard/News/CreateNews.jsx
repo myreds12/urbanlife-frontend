@@ -7,14 +7,17 @@ import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiCli
 
 function CreateNews() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const isEditMode = Boolean(id);
+  const { id } = useParams(); // ambil id dari url
+  const isEditMode = Boolean(id); // true kalau edit
+  const [loading, setLoading] = useState(false);
+
   const [photos, setPhotos] = useState([]);
   const [existingPhotos, setExistingPhotos] = useState([]);
+  console.log(existingPhotos, "existingPhotos");
   const [categories, setCategories] = useState([]);
   const [content, setContent] = useState([
-    { id: null, bahasa: "ENGLISH", deskripsi: "", judul: "" },
-    { id: null, bahasa: "INDONESIA", deskripsi: "", judul: "" },
+    { bahasa: "ENGLISH", deskripsi: "", judul: "" },
+    { bahasa: "INDONESIA", deskripsi: "", judul: "" },
   ]);
 
   const [formData, setFormData] = useState({
@@ -22,60 +25,59 @@ function CreateNews() {
     content: content,
   });
 
+  // Fetch categories
   const fetchCategories = async () => {
     try {
       const { data } = await apiClient.get("/news-category");
-      console.log(data, "categories");
       setCategories(data.data || []);
     } catch (error) {
       console.error("❌ Failed to fetch categories", error);
     }
   };
 
-  const fetchNewsData = async () => {
+  // Fetch detail kalau edit
+  const fetchNewsDetail = async () => {
+    if (!isEditMode) return;
+    setLoading(true);
     try {
       const { data } = await apiClient.get(`/news/${id}`);
+      console.log(data.data);
       const news = data.data;
+
       setFormData({
-        category_id: news.category_id || 0,
-        content: news.news_content || content,
+        category_id: news.category_id,
+        content: news.news_content.map((item) => ({
+          bahasa: item.bahasa,
+          deskripsi: item.deskripsi,
+          judul: item.judul,
+        })),
       });
-      setContent(
-        news.news_content || [
-          { id: null, bahasa: "ENGLISH", deskripsi: "", judul: "" },
-          { id: null, bahasa: "INDONESIA", deskripsi: "", judul: "" },
-        ]
-      );
-      setExistingPhotos(
-        (news.news_file || []).map((file) => ({
-          id: file.id,
-          url: `${apiClient.defaults.baseURL}/public/${file.url
-            .replace(/\\/g, "/")
-            .replace(/^uploads\//, "")}`,
-          nama_file: file.nama_file,
-        }))
-      );
+      setExistingPhotos((news.news_file || []).map((file) => ({
+        ...file,
+        url: `${apiClient.defaults.baseURL}/public/news/${file.nama_file}`,
+      })));
+
+      setContent(news.news_content);
     } catch (error) {
-      toast.error("Failed to fetch news data.");
-      console.error("❌ Failed to fetch news data", error);
+      console.error("❌ Failed to fetch news detail", error);
+      toast.error("Failed to load news detail");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchCategories();
-    if (isEditMode) {
-      fetchNewsData();
-    }
-  }, [isEditMode, id]);
+    fetchNewsDetail();
+  }, [id]);
 
+  // Sinkronisasi content ke formData
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
       content: content,
     }));
   }, [content]);
-
-  const [activeSection, setActiveSection] = useState("description");
 
   const handleChangeContent = (index, field, value) => {
     const updated = [...content];
@@ -88,6 +90,15 @@ function CreateNews() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+    const fetchExistingFileAsFile = async (nama_file) => {
+    const url = `${apiClient.defaults.baseURL}/public/news/${nama_file}`;
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const type = blob.type || "application/octet-stream";
+    return new File([blob], nama_file, { type });
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -95,7 +106,10 @@ function CreateNews() {
     payload.append("category_id", formData.category_id);
 
     // Append photos
-    photos.forEach((file) => {
+    const existingFileObjects = await Promise.all(
+      existingPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
+    );
+    [...existingFileObjects, ...photos].forEach((file) => {
       payload.append("files", file);
     });
 
@@ -107,48 +121,34 @@ function CreateNews() {
 
     // Append news content
     formData.content.forEach((item, index) => {
-      if (item.id) payload.append(`content[${index}][id]`, item.id);
+      if(item.id) payload.append(`content[${index}][id]`, item.id);
       payload.append(`content[${index}][bahasa]`, item.bahasa);
       payload.append(`content[${index}][deskripsi]`, item.deskripsi);
       payload.append(`content[${index}][judul]`, item.judul);
     });
 
-    console.log("=== Payload yang akan dikirim ke API ===");
-    for (let pair of payload.entries()) {
-      if (pair[1] instanceof File) {
-        console.log(pair[0], pair[1].name);
-      } else {
-        console.log(pair[0], pair[1]);
-      }
-    }
-    console.log("========================================");
-
     try {
-      const response = isEditMode
-        ? await apiClient.patch(`/news/${id}`, payload, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-        : await apiClient.post("/news", payload, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-
-      if ([200, 201].includes(response.status)) {
-        toast.success(
-          isEditMode
-            ? "News updated successfully!"
-            : "News created successfully!"
-        );
-        navigate("/admin/news");
+      let response;
+      if (isEditMode) {
+        response = await apiClient.patch(`/news/${id}`, payload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        toast.success("News updated successfully!");
       } else {
-        throw new Error("Failed to submit form");
+        response = await apiClient.post("/news", payload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        toast.success("News created successfully!");
       }
+
+      navigate("/admin/news");
     } catch (error) {
-      toast.error(error.message);
       console.error("Submission Error:", error);
+      toast.error(error.response?.data?.message || "Failed to save news");
     }
   };
 
@@ -167,13 +167,14 @@ function CreateNews() {
     }
   };
 
+  const removeExistingPhoto = (index) =>
+    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
+
   const removePhoto = (index) => {
     setPhotos((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const removeExistingPhoto = (index) => {
-    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
-  };
+  const [activeSection, setActiveSection] = useState("description");
 
   return (
     <form onSubmit={handleSubmit}>
@@ -183,6 +184,7 @@ function CreateNews() {
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
               {isEditMode ? "Edit News" : "Create News"}
             </h2>
+
             <div className="text-md text-gray-500 mb-6 flex space-x-5">
               {["description", "image"].map((section) => (
                 <span
@@ -198,25 +200,32 @@ function CreateNews() {
                 </span>
               ))}
             </div>
-            <DescriptionSection
-              id="description"
-              isActive={activeSection === "description"}
-              formData={formData}
-              content={formData.content}
-              onChangeContent={handleChangeContent}
-              handleChange={handleChange}
-              categories={categories}
-            />
 
-            <ImageSection
-              id="image"
-              isActive={activeSection === "image"}
-              photos={photos}
-              handlePhotoUpload={handlePhotoUpload}
-              removePhoto={removePhoto}
-              existingPhotos={existingPhotos}
-              removeExistingPhoto={removeExistingPhoto}
-            />
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <>
+                <DescriptionSection
+                  id="description"
+                  isActive={activeSection === "description"}
+                  formData={formData}
+                  content={formData.content}
+                  onChangeContent={handleChangeContent}
+                  handleChange={handleChange}
+                  categories={categories}
+                />
+
+               <ImageSection
+                id="image"
+                isActive={activeSection === "image"}
+                existingPhotos={existingPhotos}
+                photos={photos}
+                handlePhotoUpload={handlePhotoUpload}
+                removeExistingPhoto={removeExistingPhoto}
+                removePhoto={removePhoto}
+              />
+              </>
+            )}
           </div>
 
           <div className="flex justify-end gap-3 px-6 pb-6">
@@ -233,7 +242,7 @@ function CreateNews() {
               type="submit"
               className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
             >
-              Save
+              {isEditMode ? "Update" : "Save"}
             </button>
           </div>
         </main>

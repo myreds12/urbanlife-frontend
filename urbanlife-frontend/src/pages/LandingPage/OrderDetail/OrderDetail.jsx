@@ -439,9 +439,7 @@ const OrderDetail = () => {
                 />
                 <span className="text-sm text-gray-700">
                   {t('orderdetail.agree_to_terms')} {" "}
-                  <a href="#" className="text-cyan-600 hover:underline">
                     {t('orderdetail.terms_and_conditions')}
-                  </a>
                 </span>
               </label>
             </div>

@@ -123,6 +123,46 @@ const Country = () => {
     }
   };
 
+ const handleSetActive = async (id, isActive) => {
+    const result = await Swal.fire({
+      title: "Set as Active Country",
+      text: "This will deactivate the current active country. Continue?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#10b981",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, set active!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      // Balik status berdasarkan nilai isActive saat ini
+      const newStatus = !isActive;
+      console.log("New status:", newStatus);
+
+      // Membuat FormData dan mengisi field status
+      const formData = new FormData();
+      formData.append("status", newStatus);
+
+      // Mengirim PATCH request dengan FormData sebagai payload
+      await apiClient.patch(`/negara/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Tentukan content-type supaya menjadi form data
+        },
+      });
+
+      await fetchCountries();
+      toast.success("Country status updated successfully");
+    } catch (error) {
+      console.error("❌ Failed to update country image status", error);
+      toast.error(
+        error.response?.data?.message || "Failed to update country status"
+      );
+    }
+  };
+
   const handleEdit = (country) => {
     setSearchParams({ edit: country.id });
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -213,6 +253,7 @@ const Country = () => {
             countries={filteredCountries}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onSetActive={handleSetActive}
           />
         </div>
       </div>

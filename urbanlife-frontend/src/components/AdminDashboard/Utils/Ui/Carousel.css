@@ -24,7 +24,7 @@
 }
 
 .embla__class-names .embla__slide--clone {
-  transition: none; /* loop smooth */
+  transition: none;
 }
 
 /* Responsive: Desktop ada 3 items */
@@ -37,9 +37,14 @@
 
 /* Mobile: 1 item */
 @media (max-width: 767px) {
+  .embla__container {
+    gap: 12px;
+    padding: 0 10px;
+  }
+
   .embla__slide {
-    flex: 0 0 100%;
-    max-width: 100%;
+    flex: 0 0 calc(100% - 12px);
+    max-width: calc(100% - 12px);
   }
 }
 

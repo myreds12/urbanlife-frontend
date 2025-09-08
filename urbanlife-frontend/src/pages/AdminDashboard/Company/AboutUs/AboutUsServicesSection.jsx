@@ -1,3 +1,4 @@
+// src/components/AdminDashboard/AboutUs/AboutUsServicesSection.jsx
 import React from "react";
 
 const AboutUsServicesSection = ({
@@ -15,12 +16,11 @@ const AboutUsServicesSection = ({
           <button
             type="button"
             onClick={addService}
-            className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-6 py-2 rounded-md"
+            className="px-3 py-1 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
           >
-            Add Service +
+            Add Service
           </button>
         </div>
-
         {services.map((service, index) => (
           <div
             key={index}
@@ -39,24 +39,18 @@ const AboutUsServicesSection = ({
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
               >
-                Icon <span className="text-red-500">*</span>
+                Icon
               </label>
               <select
                 value={service.icon}
-                onChange={(e) =>
-                  handleServiceChange(index, "icon", e.target.value)
-                }
+                onChange={(e) => handleServiceChange(index, "icon", e.target.value)}
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-                required
               >
-                <option value="">-- Select Icon --</option>
-                {["car", "plane", "ship", "bike", "calendar", "building"].map(
-                  (icon) => (
-                    <option key={icon} value={icon}>
-                      {icon.charAt(0).toUpperCase() + icon.slice(1)}
-                    </option>
-                  )
-                )}
+                <option value="">Select an icon</option>
+                <option value="car">Car</option>
+                <option value="plane">Plane</option>
+                <option value="ship">Ship</option>
+                <option value="bike">Bike</option>
               </select>
             </div>
             <div className="mb-4 flex items-center">
@@ -64,16 +58,14 @@ const AboutUsServicesSection = ({
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                 style={{ minWidth: "190px" }}
               >
-                Location <span className="text-red-500">*</span>
+                Location
               </label>
               <input
                 type="text"
                 value={service.location}
-                onChange={(e) =>
-                  handleServiceChange(index, "location", e.target.value)
-                }
-                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-                required
+                onChange={(e) => handleServiceChange(index, "location", e.target.value)}
+                placeholder="Enter service location..."
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 placeholder-gray-400"
               />
             </div>
 
@@ -192,6 +184,13 @@ const AboutUsServicesSection = ({
                 </div>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={() => removeService(index)}
+              className="text-red-500 hover:text-red-700"
+            >
+              Remove Service
+            </button>
           </div>
         ))}
       </div>

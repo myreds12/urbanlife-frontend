@@ -17,25 +17,22 @@ const TermsAndConditionsHeroSection = ({
         toast.error("Please upload an image file.");
         return;
       }
-      if (image) {
-        toast.error("Only one image is allowed.");
-        return;
-      }
       if (file.size > 5 * 1024 * 1024) {
-        // 5MB limit
         toast.error("Image size must be less than 5MB.");
         return;
       }
       handleChange("image", file);
+      handleChange("existingImage", null);
     }
   };
 
   const removeImage = () => {
-    handleChange("image", null); // Hapus gambar yang diunggah
+    handleChange("image", null);
   };
 
   const removeExistingImage = () => {
-    handleChange("existingImage", null); // Hapus gambar existing dari server
+    handleChange("existingImage", null);
+    handleChange("image", null);
   };
 
   return (

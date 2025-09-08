@@ -119,21 +119,21 @@ const DayTour = () => {
     },
     {
       name: "harga_dewasa",
-      label: "Harga Dewasa",
+      label: "Adult Price",
       type: "number",
-      placeholder: "Masukkan harga dewasa",
-      description: "Harga paket untuk dewasa dalam rupiah",
+      placeholder: "Input adult price",
+      description: "Package prices for adults in rupiah",
     },
     {
       name: "harga_anak",
-      label: "Harga Anak",
+      label: "Child Price",
       type: "number",
-      placeholder: "Masukkan harga anak",
-      description: "Harga paket untuk anak dalam rupiah",
+      placeholder: "Input child price",
+      description: "Package prices for children in rupiah",
     },
     {
       name: "lokasi_id",
-      label: "Lokasi",
+      label: "Location",
       type: "select",
       options: [
         { value: 1, label: "Jakarta" },
@@ -145,7 +145,7 @@ const DayTour = () => {
         { value: 7, label: "Semarang" },
         { value: 8, label: "Denpasar" },
       ],
-      description: "Lokasi destinasi paket wisata",
+      description: "Destination location",
     },
     {
       name: "negara_id",
@@ -158,7 +158,7 @@ const DayTour = () => {
         { value: 4, label: "Thailand" },
         { value: 5, label: "Vietnam" },
       ],
-      description: "Negara destinasi paket wisata",
+      description: "Destination country",
     },
   ];
 

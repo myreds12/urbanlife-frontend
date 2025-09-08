@@ -16,7 +16,6 @@ import ProtectedRoute from "./components/AdminDashboard/Utils/Auth/ProtectedRout
 import AuthInitializer from "./components/AdminDashboard/Utils/Auth/AuthInitializer";
 import { BlogProvider } from "./pages/AdminDashboard/DataMaster/Blog/BlogProvider";
 import { CategoryProvider } from "./pages/AdminDashboard/DataMaster/Category/CategoryProvider"; // Tambahkan import ini
-
 // Lazy loaded Pages
 const Dashboard = lazy(() =>
   import("./pages/AdminDashboard/Dashboard/Dashboard")

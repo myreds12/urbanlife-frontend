@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
 import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 import Pagination from "../../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
@@ -6,10 +6,8 @@ import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search
 import BulkActionBar from "../../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
 import ModalView from "../../../../components/AdminDashboard/Utils/Ui/modal/ModalDetail";
 import { useNavigate } from 'react-router-dom';
-import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from 'react-hot-toast';
 
-// Dummy data fallback
 const dummyData = {
   hero: {
     id: 'hero',
@@ -17,7 +15,7 @@ const dummyData = {
     title_id: 'Syarat & Ketentuan',
     subtitle_en: 'Clear guidelines for using our platform and services. Last updated January 2025.',
     subtitle_id: 'Panduan jelas untuk menggunakan platform dan layanan kami. Terakhir diperbarui Januari 2025.',
-    image_url: 'https://example.com/hero-image.jpg',
+    image_url: 'https://placehold.co/1200x400/cyan/white',
   },
   custom: [
     {
@@ -25,10 +23,12 @@ const dummyData = {
       section: 'Introduction',
       title_en: 'Introduction',
       title_id: 'Pengenalan',
-      content_en: 'Welcome to Urbanlife platform. If you continue to browse and use this website, you agree to comply with and are bound to the following terms and conditions of use.',
+      content_en: 'Welcome to the Urbanlife platform. If you continue to browse and use this website, you agree to comply with and be bound by the following terms and conditions of use.',
       content_id: 'Selamat datang di platform Urbanlife. Jika Anda terus menelusuri dan menggunakan situs web ini, Anda setuju untuk mematuhi syarat dan ketentuan penggunaan berikut.',
-      notes: [{ en: 'The term "Urbanlife" refers to PT. Urban Digital Media.', id: 'Istilah "Urbanlife" merujuk pada PT. Urban Digital Media.' }],
-      warning: [],
+      notes_en: 'The term "Urbanlife" refers to PT. Urban Digital Media.',
+      notes_id: 'Istilah "Urbanlife" merujuk pada PT. Urban Digital Media.',
+      warning_en: '',
+      warning_id: '',
     },
     {
       id: 'usage',
@@ -37,38 +37,22 @@ const dummyData = {
       title_id: 'Syarat Penggunaan',
       content_en: 'The use of this website is subject to the following terms: (1) Content is for general information. (2) Cookies are used to monitor preferences.',
       content_id: 'Penggunaan situs web ini tunduk pada syarat: (1) Konten untuk informasi umum. (2) Cookie digunakan untuk memantau preferensi.',
-      notes: [],
-      warning: [{ en: 'Unauthorized use may lead to legal action.', id: 'Penggunaan tanpa izin dapat menyebabkan tindakan hukum.' }],
+      notes_en: '',
+      notes_id: '',
+      warning_en: 'Unauthorized use may lead to legal action.',
+      warning_id: 'Penggunaan tanpa izin dapat menyebabkan tindakan hukum.',
     },
     {
       id: 'privacy',
-      section: 'Privacy Policy',
+      section: 'Privacy & Data',
       title_en: 'Privacy & Data',
       title_id: 'Privasi & Data',
       content_en: 'We handle your information with care. Personal data may be collected for analytics.',
       content_id: 'Kami menangani informasi Anda dengan hati-hati. Data pribadi dapat dikumpulkan untuk analitik.',
-      notes: [],
-      warning: [{ en: 'Illegal content is not permitted.', id: 'Konten ilegal tidak diizinkan.' }],
-    },
-    {
-      id: 'content',
-      section: 'Content Guidelines',
-      title_en: 'Content Guidelines',
-      title_id: 'Panduan Konten',
-      content_en: 'Guidelines for content creation on our platform.',
-      content_id: 'Panduan untuk pembuatan konten di platform kami.',
-      notes: [{ en: 'Follow community standards.', id: 'Ikuti standar komunitas.' }],
-      warning: [],
-    },
-    {
-      id: 'liability',
-      section: 'Liability',
-      title_en: 'Liability & Disclaimer',
-      title_id: 'Tanggung Jawab & Penyangkalan',
-      content_en: 'Use of this website is at your own risk. We are not liable for inaccuracies.',
-      content_id: 'Penggunaan situs web ini sepenuhnya risiko Anda. Kami tidak bertanggung jawab atas ketidakakuratan.',
-      notes: [],
-      warning: [{ en: 'Reproduction of content is prohibited.', id: 'Reproduksi konten dilarang.' }],
+      notes_en: '',
+      notes_id: '',
+      warning_en: 'Illegal content is not permitted.',
+      warning_id: 'Konten ilegal tidak diizinkan.',
     },
   ],
 };
@@ -77,7 +61,7 @@ const TermsAndConditions = () => {
   const navigate = useNavigate();
   const [contents, setContents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [take] = useState(10);
   const [total, setTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
@@ -86,63 +70,34 @@ const TermsAndConditions = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalData, setSelectedModalData] = useState(null);
 
-  const fetchContents = async (search = '') => {
-    setLoading(true);
-    try {
-      const params = { page: currentPage, take, ...(search.trim() && { search: search.trim() }) };
-      const res = await apiClient.get('/termsandconditions', { params });
-      const { data, total } = res.data;
-      const flattenedData = [
-        { id: 'hero', section: 'Hero', ...data.hero },
-        ...data.custom.map((item) => ({ id: item.id || `custom${item.section}`, ...item })),
-      ];
-      setContents(flattenedData);
-      setTotal(flattenedData.length);
-    } catch (err) {
-      console.error('Failed to fetch terms and conditions contents', err);
-      toast.error('Failed to load Terms & Conditions data from API. Using dummy data.');
-      const flattenedDummy = [
-        { id: 'hero', section: 'Hero', ...dummyData.hero },
-        ...dummyData.custom,
-      ].map((item, index) => ({ id: item.id || `item${index + 1}`, ...item }));
-      setContents(flattenedDummy);
-      setTotal(flattenedDummy.length);
-    } finally {
-      setLoading(false);
-    }
-  };
-
- useEffect(() => {
-  let mounted = true;
-  const fetchContents = async (search = '') => {
-    if (!mounted) return;
-    setLoading(true);
-    try {
-      const params = { page: currentPage, take, ...(search.trim() && { search: search.trim() }) };
-      const res = await apiClient.get('/termsandconditions', { params });
-      const { data, total } = res.data;
-      const flattenedData = [
-        { id: 'hero', section: 'Hero', ...data.hero },
-        ...data.custom.map((item) => ({ id: item.id || `custom${item.section}`, ...item })),
-      ];
-      setContents(flattenedData);
-      setTotal(total || flattenedData.length); // Sinkron total dengan API atau dummy
-    } catch (err) {
-      console.error('Failed to fetch', err);
-      toast.error('Failed to load data. Using dummy.');
-      const flattenedDummy = [
-        { id: 'hero', section: 'Hero', ...dummyData.hero },
-        ...dummyData.custom,
-      ].map((item, index) => ({ id: item.id || `item${index + 1}`, ...item }));
-      setContents(flattenedDummy);
-      setTotal(flattenedDummy.length);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchContents(searchTerm);
-  return () => { mounted = false; };
-}, [currentPage, searchTerm]);
+  useEffect(() => {
+    const fetchContents = () => {
+      setLoading(true);
+      try {
+        const localData = JSON.parse(localStorage.getItem('termsAndConditionsData'));
+        const heroData = JSON.parse(localStorage.getItem('heroData')) || dummyData.hero;
+        const sourceData = localData && localData.length > 0 ? localData : dummyData.custom;
+        const flattenedData = [
+          { ...heroData, section: 'Hero' },
+          ...sourceData,
+        ];
+        setContents(flattenedData);
+        setTotal(flattenedData.length);
+      } catch (err) {
+        console.error('Failed to fetch terms and conditions contents', err);
+        toast.error('Failed to load data. Using local/dummy data.');
+        const flattenedDummy = [
+          { ...dummyData.hero, section: 'Hero' },
+          ...dummyData.custom,
+        ];
+        setContents(flattenedDummy);
+        setTotal(flattenedDummy.length);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchContents();
+  }, [currentPage]);
 
   const handleSort = (columnKey) => {
     let direction = 'asc';
@@ -153,25 +108,14 @@ const TermsAndConditions = () => {
 
   const handleRowSelect = (rowId) => {
     if (rowId === 'hero') {
-      toast.error('Hero section cannot be selected for deletion.');
+      toast.error('The hero section cannot be selected.');
       return;
     }
     setSelectedRows((prev) => (prev.includes(rowId) ? prev.filter((id) => id !== rowId) : [...prev, rowId]));
   };
 
-  const handleView = async (row) => {
-    try {
-      const { data } = await apiClient.get(`/termsandconditions/${row.id}`);
-      setSelectedModalData(data.data);
-    } catch (error) {
-      console.error('Failed to fetch details:', error);
-      toast.error('Failed to load Terms & Conditions details from API. Using dummy data.');
-      const dummyMatch = [
-        dummyData.hero,
-        ...dummyData.custom,
-      ].find((item) => item.id === row.id);
-      setSelectedModalData(dummyMatch || row);
-    }
+  const handleView = (row) => {
+    setSelectedModalData(row);
     setIsModalOpen(true);
   };
 
@@ -179,54 +123,48 @@ const TermsAndConditions = () => {
     navigate(`/admin/terms-conditions/edit/${row.id}`);
   };
 
-  const handleDelete = async (row) => {
+  const handleDelete = (row) => {
     if (row.id === 'hero') {
-      toast.error('Hero section cannot be deleted.');
+      toast.error('The hero section cannot be deleted.');
       return;
     }
-    if (!window.confirm(`Delete section "${row.section || row.title_en || row.title_id}"?`)) return;
-    try {
-      await apiClient.delete(`/termsandconditions/${row.id}`);
-      toast.success(`Section "${row.section || row.title_en || row.title_id}" deleted successfully`);
-      fetchContents();
-    } catch (err) {
-      console.error('Failed to delete:', err);
-      toast.error('Failed to delete section. Please try again.');
-    }
+    if (!window.confirm(`Delete the section "${row.section || row.title_en}"?`)) return;
+
+    const updatedContents = contents.filter(item => item.id !== row.id);
+    const customContents = updatedContents.filter(item => item.id !== 'hero');
+    localStorage.setItem('termsAndConditionsData', JSON.stringify(customContents));
+    setContents(updatedContents);
+    setTotal(updatedContents.length);
+    toast.success(`Section "${row.section || row.title_en}" was successfully deleted.`);
   };
 
-  const handleBulkDelete = async (selectedData) => {
+  const handleBulkDelete = (selectedData) => {
     if (selectedData.some((item) => item.id === 'hero')) {
-      toast.error('Hero section cannot be deleted.');
+      toast.error('The hero section cannot be deleted.');
       return;
     }
-    if (!window.confirm(`Delete ${selectedData.length} section(s)?`)) return;
-    const ids = selectedData.map((item) => item.id);
-    try {
-      await apiClient.delete('/termsandconditions', { data: { ids } });
-      toast.success(`${selectedData.length} section(s) deleted successfully`);
-      setSelectedRows([]);
-      fetchContents();
-    } catch (err) {
-      console.error('Bulk delete failed:', err);
-      toast.error('Failed to delete sections. Please try again.');
-    }
+    if (!window.confirm(`Delete ${selectedData.length} selected sections?`)) return;
+
+    const selectedIds = selectedData.map(item => item.id);
+    const updatedContents = contents.filter(item => !selectedIds.includes(item.id));
+    const customContents = updatedContents.filter(item => item.id !== 'hero');
+    localStorage.setItem('termsAndConditionsData', JSON.stringify(customContents));
+    setContents(updatedContents);
+    setTotal(updatedContents.length);
+    setSelectedRows([]);
+    toast.success(`${selectedData.length} sections were successfully deleted.`);
   };
 
   const handleClearSelection = () => setSelectedRows([]);
 
   const filteredData = useMemo(() => {
+    if (!searchTerm) {
+      return contents;
+    }
     return contents.filter((content) =>
-      Object.values(content).some((value) => {
-        if (Array.isArray(value)) {
-          return value.some((item) =>
-            Object.values(item).some((subValue) =>
-              String(subValue).toLowerCase().includes(searchTerm.toLowerCase())
-            )
-          );
-        }
-        return String(value).toLowerCase().includes(searchTerm.toLowerCase());
-      })
+      Object.values(content).some((value) =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      )
     );
   }, [contents, searchTerm]);
 
@@ -250,9 +188,9 @@ const TermsAndConditions = () => {
   const columns = ['#', 'Section', 'Title (EN)', 'Title (ID)', 'Action'];
   const mapping = {
     '#': (_, index) => startIndex + index + 1,
-    'Section': (row) => row.section || 'Hero',
-    'Title (EN)': (row) => row.title_en || 'Hero',
-    'Title (ID)': (row) => row.title_id || 'Hero',
+    'Section': (row) => row.section,
+    'Title (EN)': (row) => row.title_en,
+    'Title (ID)': (row) => row.title_id,
     Action: null,
   };
 
@@ -264,13 +202,15 @@ const TermsAndConditions = () => {
     );
   }
 
+  const selectedData = sortedData.filter((item) => selectedRows.includes(item.id));
+
   return (
     <div className="p-5">
       <div style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', overflow: 'hidden', maxWidth: '1050px', margin: '0 auto' }}>
         {selectedRows.length > 0 && (
           <BulkActionBar
             selectedCount={selectedRows.length}
-            selectedData={sortedData.filter((item) => selectedRows.includes(item.id))}
+            selectedData={selectedData}
             onClearSelection={handleClearSelection}
             onBulkDelete={handleBulkDelete}
           />
@@ -341,11 +281,13 @@ const TermsAndConditions = () => {
                 { key: 'title_id', label: 'Title (ID)' },
                 { key: 'content_en', label: 'Content (EN)', type: 'textarea' },
                 { key: 'content_id', label: 'Content (ID)', type: 'textarea' },
-                { key: 'notes', label: 'Notes', type: 'list', fields: [{ key: 'en', label: 'Note (EN)' }, { key: 'id', label: 'Note (ID)' }] },
-                { key: 'warning', label: 'Warnings', type: 'list', fields: [{ key: 'en', label: 'Warning (EN)' }, { key: 'id', label: 'Warning (ID)' }] },
-                { key: 'image_url', label: 'Image', type: 'image' },
+                { key: 'notes_en', label: 'Notes (EN)', type: 'textarea' },
+                { key: 'notes_id', label: 'Notes (ID)', type: 'textarea' },
+                { key: 'warning_en', label: 'Warnings (EN)', type: 'textarea' },
+                { key: 'warning_id', label: 'Warnings (ID)', type: 'textarea' },
                 { key: 'subtitle_en', label: 'Subtitle (EN)', type: 'textarea' },
                 { key: 'subtitle_id', label: 'Subtitle (ID)', type: 'textarea' },
+                { key: 'image_url', label: 'Image', type: 'image' },
               ],
             },
           ],

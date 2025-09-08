@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 
 const TermsAndConditionsCustomSection = ({
   id,
@@ -14,53 +15,28 @@ const TermsAndConditionsCustomSection = ({
     title_id,
     content_en,
     content_id,
-    notes = [],
-    warning = [],
+    notes_en = '',
+    notes_id = '',
+    warning_en = '',
+    warning_id = '',
   } = sectionData || {};
-
-  // Notes
-  const addNote = () => {
-    const newNote = { en: "", id: "" };
-    const updatedNotes = [...notes, newNote];
-    handleChange(sectionIndex, "notes", updatedNotes);
-  };
-
-  const updateNote = (noteIndex, field, value) => {
-    const updatedNotes = notes.map((note, i) =>
-      i === noteIndex ? { ...note, [field]: value } : note
-    );
-    handleChange(sectionIndex, "notes", updatedNotes);
-  };
-
-  const removeNote = (noteIndex) => {
-    const updatedNotes = notes.filter((_, i) => i !== noteIndex);
-    handleChange(sectionIndex, "notes", updatedNotes);
-  };
-
-  // Warnings
-  const addWarning = () => {
-    const newWarning = { en: "", id: "" };
-    const updatedWarning = [...warning, newWarning];
-    handleChange(sectionIndex, "warning", updatedWarning);
-  };
-
-  const updateWarning = (warningIndex, field, value) => {
-    const updatedWarning = warning.map((warn, i) =>
-      i === warningIndex ? { ...warn, [field]: value } : warn
-    );
-    handleChange(sectionIndex, "warning", updatedWarning);
-  };
-
-  const removeWarning = (warningIndex) => {
-    const updatedWarning = warning.filter((_, i) => i !== warningIndex);
-    handleChange(sectionIndex, "warning", updatedWarning);
-  };
 
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
-      <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20">
+      <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mt-6">
+        <div className="flex justify-end mb-4">
+          <button
+            type="button"
+            onClick={onRemove}
+            className="ml-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center hover:bg-red-600"
+            aria-label="Remove section"
+          >
+            ×
+          </button>
+        </div>
+        
         {/* Section */}
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex items-center">
           <label
             className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
             style={{ minWidth: "190px" }}
@@ -78,14 +54,6 @@ const TermsAndConditionsCustomSection = ({
             required
             placeholder="e.g. Introduction, Terms of Use"
           />
-          <button
-            type="button"
-            onClick={onRemove}
-            className="ml-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center hover:bg-red-600"
-            aria-label="Remove section"
-          >
-            ×
-          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -170,9 +138,9 @@ const TermsAndConditionsCustomSection = ({
                 {warning.map((warn, warningIndex) => (
                   <div key={warningIndex} className="flex items-start">
                     <textarea
-                      value={warn.en}
+                      value={warning.en}
                       onChange={(e) =>
-                        updateWarning(warningIndex, "en", e.target.value)
+                        handleChange(sectionIndex, "warning_en", e.target.value)
                       }
                       className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 h-20"
                       placeholder={`Warning ${warningIndex + 1} (EN)`}

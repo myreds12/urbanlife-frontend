@@ -1,17 +1,63 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { blogPosts } from "./posts/allPosts";
+import apiClient from "../../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
+import toast from "react-hot-toast";
 import Navbar from "../../../HomePage/Navbar/Navbar";
 import Footer from "../../../HomePage/Footer";
 import "./BlogDetail.css";
-import { popularPosts } from "./posts/popularPosts";
 
 const BlogDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const post = blogPosts.find((item) => item.slug === slug);
+  const [post, setPost] = useState(null);
+  const [popularPosts, setPopularPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  // Fetch blog detail berdasarkan slug
+  useEffect(() => {
+    const fetchBlogDetail = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.get(`/blog?slug=${slug}`);
+        const { data } = response.data;
+        if (data && Array.isArray(data) && data.length > 0) {
+          setPost(data[0]); // Ambil blog pertama yang cocok dengan slug
+        } else {
+          setPost(null);
+        }
+      } catch (error) {
+        console.error("❌ Failed to fetch blog detail:", error);
+        toast.error("Failed to load blog. Please try again later.");
+        setPost(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogDetail();
+  }, [slug]);
+
+  // Fetch popular posts
+  useEffect(() => {
+    const fetchPopularPosts = async () => {
+      try {
+        const response = await apiClient.get("/blog", {
+          params: { take: 5, page: 1 },
+        });
+        const { data } = response.data;
+        setPopularPosts(data || []);
+      } catch (error) {
+        console.error("❌ Failed to fetch popular posts:", error);
+        toast.error("Failed to load popular posts.");
+        setPopularPosts([]);
+      }
+    };
+
+    fetchPopularPosts();
+  }, []);
+
+  // Efek mouse untuk hero section
   useEffect(() => {
     const handleMouseMove = (e) => {
       const heroSection = document.querySelector(".hero-section");
@@ -31,6 +77,18 @@ const BlogDetail = () => {
     }
   }, []);
 
+  if (loading) {
+    return (
+      <div className="blog-detail-page">
+        <Navbar />
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-600"></div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   if (!post) {
     return (
       <div className="blog-detail-page">
@@ -43,6 +101,11 @@ const BlogDetail = () => {
       </div>
     );
   }
+
+  // Proses URL gambar untuk thumbnail
+  const imageUrl = post.blog_file?.[0]?.url
+    ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${post.blog_file[0].url.replace(/\\/g, "/").replace(/^uploads\//, "")}`
+    : "/public/images/error/No_Image_Available.jpg";
 
   return (
     <div className="blog-detail-page">
@@ -75,13 +138,13 @@ const BlogDetail = () => {
 
         {/* Hero Content */}
         <div className="hero-content">
-          <h1 className="hero-title">{post.title}</h1>
+          <h1 className="hero-title">{post.blog_content[0]?.judul || "Untitled"}</h1>
           <div className="breadcrumb">
             <span onClick={() => navigate("/")}>Home</span>
             <span className="separator">/</span>
             <span onClick={() => navigate("/blog")}>Blog</span>
             <span className="separator">/</span>
-            <span>{post.title}</span>
+            <span>{post.blog_content[0]?.judul || "Untitled"}</span>
           </div>
         </div>
       </div>
@@ -90,22 +153,24 @@ const BlogDetail = () => {
       <div className="blog-container">
         <div className="blog-left">
           <img
-            src={post.thumbnail}
-            alt={post.title}
+            src={imageUrl}
+            alt={post.blog_content[0]?.judul || "Blog Image"}
             className="blog-thumbnail"
           />
           <div className="blog-meta">
             <span>
-              {post.date} · {post.category}
+              {post.createdAt
+                ? new Date(post.createdAt).toLocaleDateString("id-ID")
+                : "Unknown Date"} · {post.blog_category?.name || "Uncategorized"}
             </span>
           </div>
           <div
             className="blog-article"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: post.blog_content[0]?.deskripsi || "" }}
           />
-          {post.location && (
+          {post.lokasi?.nama && (
             <div className="blog-location">
-              <span>{post.location}</span>
+              <span>{post.lokasi.nama}</span>
             </div>
           )}
         </div>
@@ -114,11 +179,17 @@ const BlogDetail = () => {
           <div className="latest-posts">
             <h3>Popular Posts</h3>
             <ul>
-              {popularPosts.map((item) => (
-                <li key={item.id}>
-                  <a href={`/blog/${item.slug}`}>{item.title}</a>
-                </li>
-              ))}
+              {popularPosts.length > 0 ? (
+                popularPosts.map((item) => (
+                  <li key={item.id}>
+                    <a href={`/blog/${item.slug}`}>
+                      {item.blog_content[0]?.judul || "Untitled"}
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <li>No popular posts available</li>
+              )}
             </ul>
           </div>
         </aside>

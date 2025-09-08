@@ -33,7 +33,7 @@ const AboutUs = () => {
       const { data, total } = res.data;
       setContents(data);
       setTotal(total);
-    } catch (err) {
+    } catch (err) { 
       console.error("Failed to fetch about us contents", err);
       toast.error("Gagal memuat data About Us. Menggunakan data dummy.");
     } finally {

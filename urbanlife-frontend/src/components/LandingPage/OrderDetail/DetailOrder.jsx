@@ -1,9 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled = false }) => {
   const { t, i18n } = useTranslation();
   console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  const [captchaToken, setCaptchaToken] = useState(null);
+
+  const handleVerify = (token) => {
+    setCaptchaToken(token);
+  };
+
+  const handleClick = () => {
+    if (!captchaToken) {
+      alert("Silakan verifikasi reCAPTCHA terlebih dahulu!");
+      return;
+    }
+    onPayment();
+  };
 
   useEffect(() => {
     console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
@@ -34,10 +50,10 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
       {/* Detail Order Section */}
       <div>
         <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('detailorder.title')}</h3>
-        
+
         {/* Gray divider line */}
         <div className="border-t border-gray-300 mb-6"></div>
-        
+
         {/* Order Items List */}
         <div className="space-y-4">
           {orderItems.map((item, index) => (
@@ -52,7 +68,7 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
             </div>
           ))}
         </div>
-        
+
       </div>
 
       {/* Final Amount Section */}
@@ -65,23 +81,22 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
 
       {/* Payment Button */}
       <div className="pt-4">
+        <ReCAPTCHA
+          sitekey={import.meta.env.VITE_REACT_APP_RECAPTCHA_SITE_KEY}
+          onChange={handleVerify}
+          className="mb-3 flex justify-center"
+        />
+
         <button
-          onClick={onPayment}
+          onClick={handleClick}
           disabled={disabled}
-          className={`w-full py-3 sm:py-4 px-6 rounded-lg font-semibold text-white transition-all ${
-            disabled
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-cyan-600 hover:bg-cyan-600 active:bg-cyan-700 shadow-lg hover:shadow-xl"
-          }`}
+          className={`w-full py-3 sm:py-4 px-6 rounded-lg font-semibold text-white transition-all ${disabled
+            ? "bg-gray-300 cursor-not-allowed"
+            : "bg-cyan-600 hover:bg-cyan-600 active:bg-cyan-700 shadow-lg hover:shadow-xl"
+            }`}
         >
-          {t('detailorder.select_payment')}
+          Select Payment
         </button>
-        
-        {disabled && (
-          <p className="text-xs text-gray-500 text-center mt-2">
-            {t('detailorder.agree_to_terms')}
-          </p>
-        )}
       </div>
     </div>
   );

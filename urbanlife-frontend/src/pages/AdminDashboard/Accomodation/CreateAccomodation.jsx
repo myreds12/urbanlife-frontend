@@ -131,16 +131,15 @@ const CreateAccomodationPage = () => {
             })) || []
           );
 
-          const accommodationMainImages = akomodasi_file || [];
-          setExistingAccommodationPhotos(
-            accommodationMainImages.map((file) => ({
+          setExistingPhotos(
+            akomodasi_file?.map((file) => ({
               id: file.id,
               url: `${apiClient.defaults.baseURL}/public/${file.url
                 .replace(/\\/g, "/")
                 .replace(/^uploads\//, "")}`,
               nama_file: file.nama_file,
-              type: file.type || null, // sebagai fallback
-            }))
+              type: file.type,
+            })) || []
           );
         }
       } catch (error) {
@@ -202,12 +201,25 @@ const CreateAccomodationPage = () => {
       const updatedRoomPrices = [...roomPrices];
       const currentImages = updatedRoomPrices[roomIndex].images || [];
       updatedRoomPrices[roomIndex].images = [...currentImages, ...files];
-      setRoomPrices(updatedRoomPrices);
+      setRoomPrices(updatedRoomPrices); // Simpan di roomPrices[index].images
     }
   };
 
+  const handleContentChange = (index, field, value) => {
+    const updated = [...content];
+    updated[index][field] = value;
+    setContent(updated);
+  };
+
   const handlePolicyChange = (index, value) =>
-    handleChangeContent(index, "kebijakan", value);
+    handleContentChange(index, "kebijakan", value);
+
+  const removePhoto = (index) => {
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const removeExistingPhoto = (index) =>
+    setExistingPhotos((prev) => prev.filter((_, i) => i !== index));
 
   const moveSection = (id) => {
     setActiveSection(id);
@@ -218,7 +230,6 @@ const CreateAccomodationPage = () => {
   const fetchExistingFileAsFile = async (nama_file) => {
     const url = `${apiClient.defaults.baseURL}/public/akomodasi/${nama_file}`;
     const response = await fetch(url);
-    if (!response.ok) throw new Error("Failed to fetch existing file");
     const blob = await response.blob();
     const type = blob.type || "application/octet-stream";
     return new File([blob], nama_file, { type });
@@ -227,25 +238,9 @@ const CreateAccomodationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validasi sederhana
-    if (!formData.nama.trim()) {
-      toast.error("Nama akomodasi wajib diisi!");
-      return;
-    }
-    if (roomPrices.some((room) => !room.nama.trim())) {
-      toast.error("Nama kamar wajib diisi untuk semua kamar!");
-      return;
-    }
-    if (formData.lokasi_id === 0) {
-      toast.error("Lokasi wajib dipilih!");
-      return;
-    }
-
     const payload = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== "akomodasi_content") {
-        payload.append(key, value);
-      }
+      if (key !== "akomodasi_content") payload.append(key, value);
     });
 
     content.forEach((item, i) => {
@@ -262,10 +257,6 @@ const CreateAccomodationPage = () => {
       );
     });
 
-    accommodationPhotos.forEach((photo, i) => {
-      payload.append(`accommodation_images`, photo);
-    });
-
     roomPrices.forEach((item, i) => {
       if (item.id) payload.append(`akomodasi_room[${i}][id]`, item.id);
       payload.append(`akomodasi_room[${i}][nama]`, item.nama);
@@ -276,10 +267,11 @@ const CreateAccomodationPage = () => {
 
       item.images?.forEach((img) => {
         if (!img.toBeDeleted) {
+          // Hanya tambahkan gambar yang tidak ditandai untuk dihapus
           if (img.isExisting) {
-            payload.append(`room_existing_${img.id}`, img);
+            payload.append(`room_room_${img.id}`, img); // Menggunakan id untuk gambar yang ada
           } else {
-            payload.append(`room_${roomIdentifier}`, img);
+            payload.append(`room_${roomIdentifier}`, img); // Untuk gambar baru
           }
         }
       });
@@ -293,10 +285,7 @@ const CreateAccomodationPage = () => {
 
       facility.fasilitas.forEach((f, j) => {
         if (f.id)
-          payload.append(
-            `akomodasi_facility[${i}][fasilitas][${j}][id]`,
-            f.id
-          );
+          payload.append(`akomodasi_facility[${i}][fasilitas][${j}][id]`, f.id);
         payload.append(
           `akomodasi_facility[${i}][fasilitas][${j}][nama]`,
           f.nama
@@ -304,26 +293,25 @@ const CreateAccomodationPage = () => {
       });
     });
 
-    const existingAccommodationFileObjects = await Promise.all(
-      existingAccommodationPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
+    const existingFileObjects = await Promise.all(
+      existingPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
     );
-    existingAccommodationFileObjects.forEach((file) => {
-      payload.append("existing_accommodation_files", file); // Siap ganti ke "files" kalau BE konfirmasi
+    existingFileObjects.forEach((file) => {
+      payload.append("files", file);
     });
 
-    // Debugging payload lebih detail
-    console.log("=== Full Payload ===");
+    console.log("=== Payload yang akan dikirim ke API ===");
     for (let [key, value] of payload.entries()) {
       if (value instanceof File) {
-        console.log(`${key}: [File: ${value.name}, type: ${value.type}, size: ${value.size} bytes]`);
+        console.log(`${key}:[File: ${value.name}]`);
       } else {
-        console.log(`${key}: ${value}`);
+        console.log(`${key}:${value}`);
       }
     }
 
     try {
       const res = !isEditMode
-        ? await apiClient.post("https://be-urbanlife.smartonline.id/akomodasi", payload, {
+        ? await apiClient.post("/akomodasi", payload, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         : await apiClient.patch(`/akomodasi/${id}`, payload, {
@@ -334,15 +322,11 @@ const CreateAccomodationPage = () => {
         toast.success("Akomodasi berhasil disimpan");
         navigate("/admin/accommodation");
       } else {
-        toast.error(`Gagal menyimpan akomodasi: ${res.data.message || "Unknown error"}`);
+        toast.error(res.data.message || "Gagal menyimpan akomodasi");
       }
     } catch (err) {
-      toast.error(`Error: ${err.message}`);
-      console.error("Submission error details:", {
-        message: err.message,
-        response: err.response ? err.response.data : "No response data",
-        config: err.config,
-      });
+      toast.error("Error: " + err.message);
+      console.error("Submission error:", err);
     }
   };
 
@@ -350,7 +334,7 @@ const CreateAccomodationPage = () => {
     "description",
     "image",
     "room and price",
-    "facility and amenities",
+    "facility",
     "policy and procedure",
   ];
 
@@ -389,12 +373,12 @@ const CreateAccomodationPage = () => {
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
-              photos={accommodationPhotos}
-              handlePhotoUpload={handleAccommodationPhotoUpload}
-              removePhoto={removeAccommodationPhoto}
-              existingPhotos={existingAccommodationPhotos}
-              removeExistingPhoto={removeExistingAccommodationPhoto}
-              type="accommodation"
+              type={"accommodation"}
+              photos={photos}
+              handlePhotoUpload={handlePhotoUpload}
+              removePhoto={removePhoto}
+              existingPhotos={existingPhotos}
+              removeExistingPhoto={removeExistingPhoto}
             />
             <RoomAndPriceSection
               id="room and price"
@@ -406,8 +390,8 @@ const CreateAccomodationPage = () => {
               handleRoomImageUpload={handleRoomImageUpload}
             />
             <FacilitySection
-              id="facility and amenities"
-              isActive={activeSection === "facility and amenities"}
+              id="facility"
+              isActive={activeSection === "facility"}
               facilities={facilities}
               setFacilities={setFacilities}
               roomPrices={roomPrices}

@@ -19,12 +19,20 @@ const Carousel = ({ items, renderItem }) => {
   useEffect(() => {
     if (!emblaApi) return;
 
+    let lastWheelEvent = 0;
+    const throttleDelay = 300; // Throttle setiap 300ms
+
     const handleWheel = (event) => {
       event.preventDefault();
+      const now = Date.now();
+      if (now - lastWheelEvent < throttleDelay) return;
+      lastWheelEvent = now;
+
       const wheelDelta = event.deltaX || event.deltaY;
-      if (wheelDelta > 0) {
+      const threshold = 50; // Ambang batas untuk sensitivitas scroll
+      if (wheelDelta > threshold) {
         emblaApi.scrollNext();
-      } else if (wheelDelta < 0) {
+      } else if (wheelDelta < -threshold) {
         emblaApi.scrollPrev();
       }
     };

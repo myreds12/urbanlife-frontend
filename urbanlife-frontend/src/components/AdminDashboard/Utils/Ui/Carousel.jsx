@@ -10,39 +10,16 @@ const Carousel = ({ items, renderItem }) => {
     align: "start",
     containScroll: "trimSnaps",
     slidesToScroll: 1,
-    speed: 10,
+    speed: 5, // Transisi lebih lambat
     skipSnaps: false,
   };
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [ClassNames()]);
 
+  // Event listener wheel dihapus untuk menonaktifkan scroll mouse
   useEffect(() => {
     if (!emblaApi) return;
-
-    let lastWheelEvent = 0;
-    const throttleDelay = 300; // Throttle setiap 300ms
-
-    const handleWheel = (event) => {
-      event.preventDefault();
-      const now = Date.now();
-      if (now - lastWheelEvent < throttleDelay) return;
-      lastWheelEvent = now;
-
-      const wheelDelta = event.deltaX || event.deltaY;
-      const threshold = 50; // Ambang batas untuk sensitivitas scroll
-      if (wheelDelta > threshold) {
-        emblaApi.scrollNext();
-      } else if (wheelDelta < -threshold) {
-        emblaApi.scrollPrev();
-      }
-    };
-
-    const viewport = emblaApi.containerNode().parentElement;
-    viewport.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      viewport.removeEventListener("wheel", handleWheel);
-    };
+    // Tidak ada logika wheel, sehingga scroll mouse tidak memengaruhi carousel
   }, [emblaApi]);
 
   return (

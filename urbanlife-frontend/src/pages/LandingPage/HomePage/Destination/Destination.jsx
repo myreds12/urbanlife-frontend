@@ -15,7 +15,6 @@ const Destination = () => {
     const fetchTravel = async () => {
       try {
         const response = await apiClient.get("/pemesanan/items?is_category=false");
-        // const response = await apiClient.get("/pemesanan/items?is_category=  &is_order=true");
         const rawData = response.data.data;
 
         const processed = rawData.map((item) => ({
@@ -57,11 +56,13 @@ const Destination = () => {
           641: { slidesPerView: 2 },
           1025: { slidesPerView: 4 },
         }}
-        loop={true}
+        loop={false}
         navigation={{
           prevEl: ".custom-prev",
           nextEl: ".custom-next",
         }}
+        speed={800} // Meningkatkan durasi transisi menjadi 800ms untuk pergerakan lebih lambat
+        resistanceRatio={0.5} // Mengurangi sensitivitas drag untuk kontrol lebih baik
         className="embla-swiper"
       >
         {travelData.map((item, index) => (

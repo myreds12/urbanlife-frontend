@@ -10,6 +10,7 @@ const UnitCarItem = ({
   startsPrice,
   description,
   duration = [],
+  onBookNow
 }) => {
   const { t } = useTranslation();
 
@@ -23,7 +24,7 @@ const UnitCarItem = ({
           <h3 className="car-unit">{unit}</h3>
           <div className="price">
             <h3 className="car-title">{title}</h3>
-            <p className="car-price">{startsPrice}</p>
+            <p className="car-price">IDR {startsPrice.toLocaleString()}</p>
           </div>
         </div>
 
@@ -41,7 +42,7 @@ const UnitCarItem = ({
                   {duration.map((item, index) => (
                     <li key={index}>
                       <span className="duration-time">{item.durasi}</span>
-                      <span className="duration-price">{item.harga}</span>
+                      <span className="duration-price">IDR {parseInt(item.harga || 0).toLocaleString()}</span>
                     </li>
                   ))}
                 </ul>
@@ -49,7 +50,9 @@ const UnitCarItem = ({
             )}
           </div>
 
-          <button className="more-detail-btn">{t("unitcar.moredetail")}</button>
+          <button className="more-detail-btn" onClick={onBookNow}>
+            {t("unitcar.moredetail")}
+          </button>
         </div>
       </div>
     </div>

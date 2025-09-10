@@ -1,11 +1,14 @@
 import React from 'react';
 import UnitCarItem from './UnitCarItem';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import './UnitCarGrid.css';
 import apiClient from '../../../../../../AdminDashboard/Utils/ApiClient/apiClient';
+import { formatBookingData } from '../../../../../../AdminDashboard/Utils/FormatData/bookingFormatData';
 
 const UnitCarGrid = ({ cards }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   if (!cards || cards.length === 0) {
     return (
@@ -15,6 +18,15 @@ const UnitCarGrid = ({ cards }) => {
       </div>
     );
   }
+
+  const handleBookNow = (card) => {
+    const bookingData = formatBookingData(card);
+    console.log("Handle Booking Data:", bookingData);
+
+    navigate(`/Detail/${card.id}`, { state: bookingData });
+    // Alternatively, to go directly to OrderDetail:
+    // navigate(`/OrderDetail?type=${card.item_type?.toLowerCase()}&id=${card.id}`, { state: bookingData });
+  };
 
   return (
     <div className="cards-grid grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -40,12 +52,12 @@ const UnitCarGrid = ({ cards }) => {
             startsPrice={harga}
             description={deskripsi}
             duration={card.durasi}
+            onBookNow={() => handleBookNow(card)}
           />
         );
       })}
     </div>
   );
 };
-
 
 export default UnitCarGrid;

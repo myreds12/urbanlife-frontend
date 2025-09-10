@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import ArticleModal from "./ArticleModal";
 import apiClient from "../../../AdminDashboard/Utils/ApiClient/apiClient";
 import { useTranslation } from "react-i18next";
+import { normalizeLanguageField } from "../../../AdminDashboard/Utils/Language/languageUtils";
 
 const NewsnBlog = () => {
   const { t, i18n } = useTranslation();
-  console.log('Current language:', i18n.language); // Debug bahasa saat ini
-
-  useEffect(() => {
-    console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
-  }, [i18n.language]);
+  console.log("Current language:", i18n.language); // Debug bahasa saat ini
 
   const [newsData, setNewsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,10 +17,22 @@ const NewsnBlog = () => {
     setIsLoading(true);
     try {
       const response = await apiClient.get("/news");
-      console.log('API news data:', response.data.data); // Debug data API
-      setNewsData(response.data.data);
+      console.log("API news data:", response.data.data); // Debug data API
+      // Normalisasi data
+      const normalizedData = response.data.data.map((article) => ({
+        ...article,
+        judul: normalizeLanguageField(article, "news_content", true),
+        deskripsi: normalizeLanguageField(
+          article,
+          "news_content",
+          true,
+          "deskripsi"
+        ),
+      }));
+      setNewsData(normalizedData);
     } catch (error) {
       console.error(t("newsnblog.error_fetch_news"), error);
+      setNewsData([]);
     } finally {
       setIsLoading(false);
     }
@@ -36,7 +45,11 @@ const NewsnBlog = () => {
     url.searchParams.set("id", article.id);
     window.history.pushState({}, "", url);
 
-    setSelectedArticle(article);
+    setSelectedArticle({
+      ...article,
+      judul: article.judul[i18n.language],
+      deskripsi: article.deskripsi[i18n.language],
+    });
     setIsModalOpen(true);
   };
 
@@ -50,11 +63,12 @@ const NewsnBlog = () => {
     setSelectedArticle(null);
   };
 
-  // On initial load, check if `id` is in the URL and open the corresponding modal
+  // Fetch data on mount
   useEffect(() => {
     fetchNews();
   }, []);
 
+  // Handle URL params for modal
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const idFromUrl = params.get("id");
@@ -64,11 +78,15 @@ const NewsnBlog = () => {
         (item) => String(item.id) === String(idFromUrl)
       );
       if (article) {
-        setSelectedArticle(article);
+        setSelectedArticle({
+          ...article,
+          judul: article.judul[i18n.language],
+          deskripsi: article.deskripsi[i18n.language],
+        });
         setIsModalOpen(true);
       }
     }
-  }, [newsData]);
+  }, [newsData, i18n.language]); // tambah i18n.language biar update pas ganti bahasa
 
   if (isLoading) {
     return <div>{t("newsnblog.loading")}</div>;
@@ -97,7 +115,7 @@ const NewsnBlog = () => {
                         ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}`
                         : "/public/images/error/No_Image_Available.jpg"
                     }
-                    alt={article.news_content[0].judul}
+                    alt={article.judul[i18n.language]}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -118,10 +136,10 @@ const NewsnBlog = () => {
 
                   <div className="flex-1">
                     <h3 className="text-[#071C4D] font-bold text-lg mb-2 line-clamp-2 group-hover:text-[#0092B8] transition-colors duration-300">
-                      {article.news_content[0].judul}
+                      {article.judul[i18n.language]}{" "}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                      {article.news_content[0].deskripsi}
+                      {article.deskripsi[i18n.language]}{" "}
                     </p>
                   </div>
 

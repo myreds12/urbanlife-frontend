@@ -223,12 +223,8 @@ function CreateDayTourPage() {
     updated[index][field] = value;
     setContent(updated);
   };
-
-  // const handlePolicyChange = (index, value) => {
-  //    handleContentChange(index, "kebijakan", value);
-    console.log("Policy changed:", index, value);
-    console.log("Content state after update:", content);
-  };
+    // console.log("Policy changed:", index, value);
+    // console.log("Content state after update:", content);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

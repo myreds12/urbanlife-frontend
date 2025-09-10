@@ -1,46 +1,71 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Navbar from "../../../components/LandingPage/HomePage/Navbar/Navbar";
 import Footer from '../HomePage/Footer';
+import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
+import toast from 'react-hot-toast';
+import TicketCard from './TicketCard';
 import './CategoriesFooter.css';
 
-import ArtMarket from './Content/Categories/ArtMarket';
-import Beach from './Content/Categories/Beach';
-import CulturalPark from './Content/Categories/CulturalPark';
-import Dance from './Content/Categories/Dance';
-import HotSpring from './Content/Categories/HotSpring';
-import MonkeyForest from './Content/Categories/MonkeyForest';
-import RiceTerraces from './Content/Categories/RiceTerraces';
-import Temple from './Content/Categories/Temple';
-import Volcano from './Content/Categories/Volcano';
-import WaterPalace from './Content/Categories/WaterPalace';
-import WaterSports from './Content/Categories/WaterSports';
-import Waterfall from './Content/Categories/Waterfall';
-
 const CategoriesFooter = () => {
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('All');
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [categories, setCategories] = useState(['All']);
+  const [loading, setLoading] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  const categories = [
-    "All",
-    "Art Market",
-    "Beach",
-    "Cultural Park",
-    "Dance",
-    "Hot Spring",
-    "Monkey Forest",
-    "Rice Terraces",
-    "Temple",
-    "Volcano",
-    "Water Palace",
-    "Water Sports",
-    "Waterfall"
-  ];
-
-  const handleHomeClick = () => {
-    window.location.href = '/';
+  // Mapping ikon berdasarkan kategori
+  const categoryIcons = {
+    "Art Market": "/images/LandingPage/Footer/iconTicket/ArtMarket.png",
+    "Beach": "/images/LandingPage/Footer/iconTicket/Beach.png",
+    "Cultural Park": "/images/LandingPage/Footer/iconTicket/CulturalPark.png",
+    "Dance": "/images/LandingPage/Footer/iconTicket/Dance.png",
+    "Hot Spring": "/images/LandingPage/Footer/iconTicket/HotSpring.png",
+    "Monkey Forest": "/images/LandingPage/Footer/iconTicket/MonkeyForest.png",
+    "Rice Terraces": "/images/LandingPage/Footer/iconTicket/RiceTerraces.png",
+    "Temple": "/images/LandingPage/Footer/iconTicket/Temple.png",
+    "Volcano": "/images/LandingPage/Footer/iconTicket/Volcano.png",
+    "Water Palace": "/images/LandingPage/Footer/iconTicket/WaterPalace.png",
+    "Water Sports": "/images/LandingPage/Footer/iconTicket/WaterSports.png",
+    "Waterfall": "/images/LandingPage/Footer/iconTicket/Waterfall.png",
   };
 
+  // Fetch blog data dan kategori
+  useEffect(() => {
+    const fetchBlogData = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.get('/blog', {
+          params: { take: 10, page: 1 },
+        });
+        const { data } = response.data;
+        if (data && Array.isArray(data)) {
+          setBlogPosts(data);
+          // Ekstrak kategori unik dari blog_category.name
+          const uniqueCategories = [
+            'All',
+            ...new Set(data.map((item) => item.blog_category?.name).filter((name) => name)),
+          ];
+          setCategories(uniqueCategories);
+        } else {
+          setBlogPosts([]);
+          setCategories(['All']);
+        }
+      } catch (error) {
+        console.error('❌ Failed to fetch blog data:', error);
+        toast.error(t('blog.error_fetch'));
+        setBlogPosts([]);
+        setCategories(['All']);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchBlogData();
+  }, [t]);
+
+  // Efek mouse untuk hero section
   useEffect(() => {
     const handleMouseMove = (e) => {
       const heroSection = document.querySelector('.hero-section');
@@ -59,61 +84,60 @@ const CategoriesFooter = () => {
     }
   }, []);
 
+  const handleHomeClick = () => {
+    window.location.href = '/';
+  };
+
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
   };
 
+  // Filter blog berdasarkan kategori aktif
+  const filteredPosts =
+    activeCategory === 'All'
+      ? blogPosts
+      : blogPosts.filter((post) => post.blog_category?.name === activeCategory);
+
   const renderCategoryContent = () => {
-    switch (activeCategory) {
-      case 'All':
-        return (
-          <div className="all-categories">
-            <ArtMarket />
-            <Beach />
-            <CulturalPark />
-            <Dance />
-            <HotSpring />
-            <MonkeyForest />
-            <RiceTerraces />
-            <Temple />
-            <Volcano />
-            <WaterPalace />
-            <WaterSports />
-            <Waterfall />
-          </div>
-        );
-      case 'Art Market':
-        return <ArtMarket />;
-      case 'Beach':
-        return <Beach />;
-      case 'Cultural Park':
-        return <CulturalPark />;
-      case 'Dance':
-        return <Dance />;
-      case 'Hot Spring':
-        return <HotSpring />;
-      case 'Monkey Forest':
-        return <MonkeyForest />;
-      case 'Rice Terraces':
-        return <RiceTerraces />;
-      case 'Temple':
-        return <Temple />;
-      case 'Volcano':
-        return <Volcano />;
-      case 'Water Palace':
-        return <WaterPalace />;
-      case 'Water Sports':
-        return <WaterSports />;
-      case 'Waterfall':
-        return <Waterfall />;
-      default:
-        return (
-          <div className="no-content">
-            <h2>Content Coming Soon</h2>
-            <p>Content for {activeCategory} is under development.</p>
-          </div>
-        );
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-600"></div>
+        </div>
+      );
     }
+
+    if (filteredPosts.length === 0) {
+      return (
+        <div className="no-content text-center text-gray-500">
+          <h2>{t('blog.no_posts')}</h2>
+          <p>{t('blog.no_posts_description')}</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="all-categories">
+        {filteredPosts.map((post) => {
+          const imageUrl = post.blog_file?.[0]?.url
+            ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${post.blog_file[0].url.replace(/\\/g, "/").replace(/^uploads\//, "")}`
+            : "/public/images/error/No_Image_Available.jpg";
+          return (
+            <TicketCard
+              key={post.id}
+              backgroundImage={imageUrl}
+              title={post.blog_content[0]?.judul || "Untitled"}
+              subtitle={post.blog_category?.name || "Uncategorized"}
+              icon={categoryIcons[post.blog_category?.name] || "/images/LandingPage/Footer/iconTicket/default.png"}
+              rightTitle={post.lokasi?.nama || "Unknown Location"}
+              barcodeImage="/images/LandingPage/Footer/barcode.png"
+              linkTo={`/blog/${post.slug}`}
+              buttonText={t('blog.see_more')}
+            />
+          );
+        })}
+      </div>
+    );
   };
 
   return (
@@ -124,43 +148,40 @@ const CategoriesFooter = () => {
       </div>
 
       {/* Hero Section */}
-      <div className="hero-section" style={{
-        background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, #00A5CC 0%, #007F9F 40%, #0092B8 100%)`
-      }}>
+      <div
+        className="hero-section"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, #00A5CC 0%, #007F9F 40%, #0092B8 100%)`,
+        }}
+      >
         {/* Animated Decorative Elements */}
         <div className="hero-decorations">
-          {/* Floating Diamonds */}
           <div className="floating-element diamond diamond-1"></div>
           <div className="floating-element diamond diamond-2"></div>
           <div className="floating-element diamond diamond-3"></div>
-          
-          {/* Floating Triangles */}
           <div className="floating-element triangle triangle-1"></div>
           <div className="floating-element triangle triangle-2"></div>
           <div className="floating-element triangle triangle-3"></div>
-          
-          {/* Floating Hexagons */}
           <div className="floating-element hexagon hexagon-1"></div>
           <div className="floating-element hexagon hexagon-2"></div>
-          
-          {/* Floating Lines */}
           <div className="floating-line line-1"></div>
           <div className="floating-line line-2"></div>
           <div className="floating-line line-3"></div>
-          
-          {/* Floating Dots Pattern */}
           <div className="dots-pattern dots-1"></div>
           <div className="dots-pattern dots-2"></div>
         </div>
 
         <div className="hero-content">
-          <h1 className="hero-title playfair">Categories</h1>
+          <h1 className="hero-title playfair">{t('categories.title')}</h1>
           <div className="breadcrumb">
-            <button className="breadcrumb-link cursor-pointer" onClick={handleHomeClick}>
-              Home
+            <button
+              className="breadcrumb-link cursor-pointer"
+              onClick={handleHomeClick}
+            >
+              {t('services.home')}
             </button>
             <span className="separator">/</span>
-            <span>Categories</span>
+            <span>{t('categories.title')}</span>
           </div>
         </div>
       </div>

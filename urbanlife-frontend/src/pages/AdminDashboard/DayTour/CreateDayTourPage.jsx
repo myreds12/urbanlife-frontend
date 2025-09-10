@@ -71,7 +71,7 @@ function CreateDayTourPage() {
           { data: guideData },
           travelData,
         ] = await Promise.all([
-          apiClient.get("/lokasi?is_active=true"),
+          apiClient.get("/lokasi"),
           apiClient.get("/category"),
           apiClient.get("/guide"), // 🔑 endpoint guide
           isEditMode
@@ -188,8 +188,11 @@ function CreateDayTourPage() {
     setContent(updated);
   };
 
-  const handlePolicyChange = (index, value) =>
+  const handlePolicyChange = (index, value) => {
     handleContentChange(index, "kebijakan", value);
+    console.log("Policy changed:", index, value);
+    console.log("Content state after update:", content);
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -217,6 +220,10 @@ function CreateDayTourPage() {
       payload.append(
         `travel_package_content[${index}][deskripsi]`,
         item.deskripsi
+      );
+      payload.append(
+        `travel_package_content[${index}][kebijakan]`,
+        item.kebijakan || ""
       );
     });
 
@@ -300,7 +307,13 @@ function CreateDayTourPage() {
               {isEditMode ? "Edit Day Tour" : "Create Day Tour"}
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
-              {["description", "image", "itinerary", "price", "policy and procedure"].map((section) => (
+              {[
+                "description",
+                "image",
+                "itinerary",
+                "price",
+                "policy and procedure",
+              ].map((section) => (
                 <span
                   key={section}
                   className={`cursor-pointer px-1 font-medium underline-item relative ${
@@ -386,5 +399,6 @@ function CreateDayTourPage() {
     </form>
   );
 }
+
 
 export default CreateDayTourPage;

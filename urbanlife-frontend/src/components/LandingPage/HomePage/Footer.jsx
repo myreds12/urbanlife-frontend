@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import apiClient from '../../AdminDashboard/Utils/ApiClient/apiClient';
+import toast from 'react-hot-toast';
 
 const Footer = () => {
+  const { t } = useTranslation();
+  const [blogData, setBlogData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   // Array warna-warna yang akan bergantian
   const colors = [
     { text: 'text-blue-300', border: 'border-blue-300', gradient: 'from-blue-400 to-blue-600' },
@@ -18,7 +24,6 @@ const Footer = () => {
   const [servicesColorIndex, setServicesColorIndex] = useState(0);
   const [categoriesColorIndex, setCategoriesColorIndex] = useState(1);
   const [blogColorIndex, setBlogColorIndex] = useState(2);
-  const { t } = useTranslation();
 
   const handleCompanyHover = () => {
     setCompanyColorIndex((prev) => (prev + 1) % colors.length);
@@ -37,10 +42,10 @@ const Footer = () => {
   };
 
   const handleCompanyClick = () => {
-  window.location.href = '/Company';
+    window.location.href = '/Company';
   };
   const handleServicesClick = () => {
-  window.location.href = '/Services';
+    window.location.href = '/Services';
   };
   const handleCategoriesClick = () => {
     window.location.href = '/categories';
@@ -49,6 +54,30 @@ const Footer = () => {
     window.location.href = '/blog';
   };
 
+  // Fetch blog data from API
+  useEffect(() => {
+    const fetchBlogData = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.get('/blog', {
+          params: { take: 10, page: 1 },
+        });
+        const { data } = response.data;
+        setBlogData(data || []);
+      } catch (error) {
+        console.error('❌ Failed to fetch blog data:', error);
+        toast.error(t('blog.error_fetch'));
+        setBlogData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogData();
+  }, [t]);
+
+  // Ekstrak kategori unik dari blogData
+  const uniqueCategories = [...new Set(blogData.map(blog => blog.blog_category?.name).filter(name => name))];
 
   return (
     <footer className="bg-[#071C4D] text-white pt-16 pb-6 px-8">
@@ -56,164 +85,137 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
           {/* Company Section */}
           <div>
-            <button 
+            <button
               onClick={handleCompanyClick}
               onMouseEnter={handleCompanyHover}
               className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
-                ${companyColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
-                ${companyColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
-                ${companyColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
-                ${companyColorIndex === 3 ? 'hover:text-green-300 hover:border-green-300' : ''}
-                ${companyColorIndex === 4 ? 'hover:text-orange-300 hover:border-orange-300' : ''}
-                ${companyColorIndex === 5 ? 'hover:text-red-300 hover:border-red-300' : ''}
-                ${companyColorIndex === 6 ? 'hover:text-cyan-300 hover:border-cyan-300' : ''}
-                ${companyColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
-              `}
+                ${colors[companyColorIndex].text} ${colors[companyColorIndex].border}`}
             >
-              {t("footer.company")}
-              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
-                ${companyColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
-                ${companyColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
-                ${companyColorIndex === 2 ? 'bg-gradient-to-r from-pink-400 to-pink-600' : ''}
-                ${companyColorIndex === 3 ? 'bg-gradient-to-r from-green-400 to-green-600' : ''}
-                ${companyColorIndex === 4 ? 'bg-gradient-to-r from-orange-400 to-orange-600' : ''}
-                ${companyColorIndex === 5 ? 'bg-gradient-to-r from-red-400 to-red-600' : ''}
-                ${companyColorIndex === 6 ? 'bg-gradient-to-r from-cyan-400 to-cyan-600' : ''}
-                ${companyColorIndex === 7 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' : ''}
-              `}></span>
+              {t('footer.company')}
+              <span
+                className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
+                ${colors[companyColorIndex].gradient}`}
+              ></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="/AboutUs" className="text-gray-300 hover:text-white transition-colors">{t("footer.aboutus")}</a></li>
-              <li><a href="/PrivacyPolicy" className="text-gray-300 hover:text-white transition-colors">{t("footer.privacypolicy")}</a></li>
-              <li><a href="/TermsAndConditions" className="text-gray-300 hover:text-white transition-colors">{t("footer.termsncondition")}</a></li>
-              <li><a href="https://wa.me/+62816919812" className="text-gray-300 hover:text-white transition-colors">{t("footer.contactus")}</a></li>
+              <li>
+                <a href="/AboutUs" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.aboutus')}
+                </a>
+              </li>
+              <li>
+                <a href="/PrivacyPolicy" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.privacypolicy')}
+                </a>
+              </li>
+              <li>
+                <a href="/TermsAndConditions" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.termsncondition')}
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/+62816919812" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.contactus')}
+                </a>
+              </li>
             </ul>
           </div>
 
           {/* Services Section */}
           <div>
-            <button 
+            <button
               onClick={handleServicesClick}
               onMouseEnter={handleServicesHover}
               className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
-                ${servicesColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
-                ${servicesColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
-                ${servicesColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
-                ${servicesColorIndex === 3 ? 'hover:text-green-300 hover:border-green-300' : ''}
-                ${servicesColorIndex === 4 ? 'hover:text-orange-300 hover:border-orange-300' : ''}
-                ${servicesColorIndex === 5 ? 'hover:text-red-300 hover:border-red-300' : ''}
-                ${servicesColorIndex === 6 ? 'hover:text-cyan-300 hover:border-cyan-300' : ''}
-                ${servicesColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
-              `}
+                ${colors[servicesColorIndex].text} ${colors[servicesColorIndex].border}`}
             >
-              {t("footer.services")}
-              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
-                ${servicesColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
-                ${servicesColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
-                ${servicesColorIndex === 2 ? 'bg-gradient-to-r from-pink-400 to-pink-600' : ''}
-                ${servicesColorIndex === 3 ? 'bg-gradient-to-r from-green-400 to-green-600' : ''}
-                ${servicesColorIndex === 4 ? 'bg-gradient-to-r from-orange-400 to-orange-600' : ''}
-                ${servicesColorIndex === 5 ? 'bg-gradient-to-r from-red-400 to-red-600' : ''}
-                ${servicesColorIndex === 6 ? 'bg-gradient-to-r from-cyan-400 to-cyan-600' : ''}
-                ${servicesColorIndex === 7 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' : ''}
-              `}></span>
+              {t('footer.services')}
+              <span
+                className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
+                ${colors[servicesColorIndex].gradient}`}
+              ></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="/DayTour" className="text-gray-300 hover:text-white transition-colors">{t("footer.daytour")}</a></li>
-              <li><a href="/unit-car" className="text-gray-300 hover:text-white transition-colors">{t("footer.carrental")}</a></li>
-              <li><a href="/accomodation" className="text-gray-300 hover:text-white transition-colors">{t("footer.accomodation")}</a></li>
+              <li>
+                <a href="/DayTour" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.daytour')}
+                </a>
+              </li>
+              <li>
+                <a href="/unit-car" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.carrental')}
+                </a>
+              </li>
+              <li>
+                <a href="/accomodation" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.accomodation')}
+                </a>
+              </li>
             </ul>
           </div>
-
 
           {/* Categories Section */}
           <div>
-            <button 
+            <button
               onClick={handleCategoriesClick}
               onMouseEnter={handleCategoriesHover}
               className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
-                ${categoriesColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
-                ${categoriesColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
-                ${categoriesColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
-                ${categoriesColorIndex === 3 ? 'hover:text-green-300 hover:border-green-300' : ''}
-                ${categoriesColorIndex === 4 ? 'hover:text-orange-300 hover:border-orange-300' : ''}
-                ${categoriesColorIndex === 5 ? 'hover:text-red-300 hover:border-red-300' : ''}
-                ${categoriesColorIndex === 6 ? 'hover:text-cyan-300 hover:border-cyan-300' : ''}
-                ${categoriesColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
-              `}
+                ${colors[categoriesColorIndex].text} ${colors[categoriesColorIndex].border}`}
             >
-              {t("footer.categories")}
-              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
-                ${categoriesColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
-                ${categoriesColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
-                ${categoriesColorIndex === 2 ? 'bg-gradient-to-r from-pink-400 to-pink-600' : ''}
-                ${categoriesColorIndex === 3 ? 'bg-gradient-to-r from-green-400 to-green-600' : ''}
-                ${categoriesColorIndex === 4 ? 'bg-gradient-to-r from-orange-400 to-orange-600' : ''}
-                ${categoriesColorIndex === 5 ? 'bg-gradient-to-r from-red-400 to-red-600' : ''}
-                ${categoriesColorIndex === 6 ? 'bg-gradient-to-r from-cyan-400 to-cyan-600' : ''}
-                ${categoriesColorIndex === 7 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' : ''}
-              `}></span>
+              {t('footer.categories')}
+              <span
+                className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
+                ${colors[categoriesColorIndex].gradient}`}
+              ></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="blog/ubud-art-market" className="text-gray-300 hover:text-white transition-colors">{t("footer.artmarket")}</a></li>
-              <li><a href="blog/padang-padang-beach" className="text-gray-300 hover:text-white transition-colors">{t("footer.beach")}</a></li>
-              <li><a href="blog/garuda-wisnu-kencana" className="text-gray-300 hover:text-white transition-colors">{t("footer.culturalpark")}</a></li>
-              <li><a href="blog/barong-dance" className="text-gray-300 hover:text-white transition-colors">{t("footer.dance")}</a></li>
-              <li><a href="blog/banjar-hot-spring" className="text-gray-300 hover:text-white transition-colors">{t("footer.hotspring")}</a></li>
-              <li><a href="blog/ubud-monkey-forest" className="text-gray-300 hover:text-white transition-colors">{t("footer.monkeyforest")}</a></li>
-              <li><a href="blog/jatiluwih-rice-terraces" className="text-gray-300 hover:text-white transition-colors">{t("footer.riceterraces")}</a></li>
-              <li><a href="blog/tanah-lot-temple" className="text-gray-300 hover:text-white transition-colors">{t("footer.temple")}</a></li>
-              <li><a href="blog/batur-volcano" className="text-gray-300 hover:text-white transition-colors">{t("footer.volcano")}</a></li>
-              <li><a href="blog/tirta-gangga" className="text-gray-300 hover:text-white transition-colors">{t("footer.waterpalace")}</a></li>
-              <li><a href="blog/nusa-dua-water-sports" className="text-gray-300 hover:text-white transition-colors">{t("footer.watersports")}</a></li>
-              <li><a href="blog/tegenungan-waterfall" className="text-gray-300 hover:text-white transition-colors">{t("footer.waterfall")}</a></li>
+              {loading ? (
+                <li className="text-gray-300">{t('blog.loading')}</li>
+              ) : uniqueCategories.length > 0 ? (
+                uniqueCategories.map((category, index) => (
+                  <li key={index}>
+                    <span className="text-gray-300">{category}</span>
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-300">{t('blog.no_categories')}</li>
+              )}
             </ul>
           </div>
 
-          {/* Blog Post Section */}
+          {/* Blog Posts Section */}
           <div>
-            <button 
+            <button
               onClick={handleBlogPostClick}
               onMouseEnter={handleBlogHover}
               className={`text-lg font-semibold mb-6 text-white transition-all duration-300 cursor-pointer text-left w-full pb-2 relative group
-                ${blogColorIndex === 0 ? 'hover:text-blue-300 hover:border-blue-300' : ''}
-                ${blogColorIndex === 1 ? 'hover:text-purple-300 hover:border-purple-300' : ''}
-                ${blogColorIndex === 2 ? 'hover:text-pink-300 hover:border-pink-300' : ''}
-                ${blogColorIndex === 3 ? 'hover:text-green-300 hover:border-green-300' : ''}
-                ${blogColorIndex === 4 ? 'hover:text-orange-300 hover:border-orange-300' : ''}
-                ${blogColorIndex === 5 ? 'hover:text-red-300 hover:border-red-300' : ''}
-                ${blogColorIndex === 6 ? 'hover:text-cyan-300 hover:border-cyan-300' : ''}
-                ${blogColorIndex === 7 ? 'hover:text-yellow-300 hover:border-yellow-300' : ''}
-              `}
+                ${colors[blogColorIndex].text} ${colors[blogColorIndex].border}`}
             >
-              {t("footer.blogpost")}
-              <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
-                ${blogColorIndex === 0 ? 'bg-gradient-to-r from-blue-400 to-blue-600' : ''}
-                ${blogColorIndex === 1 ? 'bg-gradient-to-r from-purple-400 to-purple-600' : ''}
-                ${blogColorIndex === 2 ? 'bg-gradient-to-r from-pink-400 to-pink-600' : ''}
-                ${blogColorIndex === 3 ? 'bg-gradient-to-r from-green-400 to-green-600' : ''}
-                ${blogColorIndex === 4 ? 'bg-gradient-to-r from-orange-400 to-orange-600' : ''}
-                ${blogColorIndex === 5 ? 'bg-gradient-to-r from-red-400 to-red-600' : ''}
-                ${blogColorIndex === 6 ? 'bg-gradient-to-r from-cyan-400 to-cyan-600' : ''}
-                ${blogColorIndex === 7 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' : ''}
-              `}></span>
+              {t('footer.blogpost')}
+              <span
+                className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500 group-hover:w-full
+                ${colors[blogColorIndex].gradient}`}
+              ></span>
             </button>
             <ul className="space-y-3">
-              <li><a href="blog/ubud-art-market" className="text-gray-300 hover:text-white transition-colors">{t("footer.ubudartmarket")}</a></li>
-              <li><a href="blog/padang-padang-beach" className="text-gray-300 hover:text-white transition-colors">{t("footer.padangbeach")}</a></li>
-              <li><a href="blog/garuda-wisnu-kencana" className="text-gray-300 hover:text-white transition-colors">{t("footer.garudawisnu")}</a></li>
-              <li><a href="blog/barong-dance" className="text-gray-300 hover:text-white transition-colors">{t("footer.barongdance")}</a></li>
-              <li><a href="blog/banjar-hot-spring" className="text-gray-300 hover:text-white transition-colors">{t("footer.banjarhotspring")}</a></li>
-              <li><a href="blog/ubud-monkey-forest" className="text-gray-300 hover:text-white transition-colors">{t("footer.ubudmonkeyforest")}</a></li>
-              <li><a href="blog/jatiluwih-rice-terraces" className="text-gray-300 hover:text-white transition-colors">{t("footer.jatiluwihricerraces")}</a></li>
-              <li><a href="blog/tanah-lot-temple" className="text-gray-300 hover:text-white transition-colors">{t("footer.tanahlottemple")}</a></li>
-              <li><a href="blog/batur-volcano" className="text-gray-300 hover:text-white transition-colors">{t("footer.baturvolcano")}</a></li>
-              <li><a href="blog/tirta-gangga" className="text-gray-300 hover:text-white transition-colors">{t("footer.tirtagangga")}</a></li>
-              <li><a href="blog/nusa-dua-water-sports" className="text-gray-300 hover:text-white transition-colors">{t("footer.nusadua")}</a></li>
-              <li><a href="blog/tegenungan-waterfall" className="text-gray-300 hover:text-white transition-colors">{t("footer.tegenunganwaterfall")}</a></li>
+              {loading ? (
+                <li className="text-gray-300">{t('blog.loading')}</li>
+              ) : blogData.length > 0 ? (
+                blogData.map((blog) => (
+                  <li key={blog.id}>
+                    <a
+                      href={`/blog/${blog.slug}`}
+                      className="text-gray-300 hover:text-white transition-colors"
+                    >
+                      {blog.blog_content[0]?.judul || 'Untitled'}
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-300">{t('blog.no_posts')}</li>
+              )}
             </ul>
           </div>
-
 
           {/* Contact Section */}
           <div>
@@ -229,23 +231,29 @@ const Footer = () => {
               </div>
             </div>
 
-            <h3 className="text-lg font-semibold mb-2">{t("footer.followus")}</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('footer.followus')}</h3>
             <div className="flex space-x-6 mb-3">
-              {/* Facebook */}
-              <a href="https://www.facebook.com/share/16g9Syc76Q/?mibextid=wwXIfr" className="text-gray-300 hover:text-white transition-colors">
+              <a
+                href="https://www.facebook.com/share/16g9Syc76Q/?mibextid=wwXIfr"
+                className="text-gray-300 hover:text-white transition-colors"
+                aria-label="Facebook Urbanlife"
+              >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </a>
-              {/* Instagram */}
-              <a href="https://www.instagram.com/urban.life.id/" className="text-gray-300 hover:text-white transition-colors">
+              <a
+                href="https://www.instagram.com/urban.life.id/"
+                className="text-gray-300 hover:text-white transition-colors"
+                aria-label="Instagram Urbanlife"
+              >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                 </svg>
               </a>
             </div>
 
-            <h3 className="text-lg font-semibold mb-2">{t("footer.paymentpartner")}</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('footer.paymentpartner')}</h3>
             <div className="bg-white text-slate-900 px-6 py-2 rounded inline-block mb-4 mt-1">
               <img src="/images/All/Xendit.png" alt="Payment Partner" className="h-10" />
             </div>

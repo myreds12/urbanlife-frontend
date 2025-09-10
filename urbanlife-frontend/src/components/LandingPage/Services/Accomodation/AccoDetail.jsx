@@ -19,7 +19,8 @@ const AccoDetail = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState("ENGLISH");
+  const { t, i18n } = useTranslation();
 
   const formatFileUrl = (path) => {
     if (!path) return "/public/images/error/No_Image_Available.jpg";
@@ -27,6 +28,10 @@ const AccoDetail = () => {
       .replace(/\\/g, "/")
       .replace(/^uploads\//, "")}`;
   };
+
+  useEffect(() => {
+    setSelectedLanguage(i18n.language === "id" ? "INDONESIA" : "ENGLISH");
+  }, [i18n.language]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,21 +52,29 @@ const AccoDetail = () => {
           type: "akomodasi",
           price: accommodation.akomodasi_room_and_price?.[0]?.harga || "0",
           location: accommodation.lokasi?.nama || "",
-          images: accommodation.akomodasi_file?.map(file => formatFileUrl(file.url)) || [],
-          description:
-            accommodation.akomodasi_content?.find(c => c.bahasa === "ENGLISH")?.deskripsi ||
-            accommodation.akomodasi_content?.[0]?.deskripsi ||
-            "Tidak ada deskripsi.",
+          images:
+            accommodation.akomodasi_file?.map((file) =>
+              formatFileUrl(file.url)
+            ) || [],
+          content: accommodation.akomodasi_content || [
+            {
+              bahasa: "ENGLISH",
+              deskripsi: "No description available.",
+              kebijakan: "",
+            },
+            {
+              bahasa: "INDONESIA",
+              deskripsi: "Tidak ada deskripsi.",
+              kebijakan: "",
+            },
+          ],
           facilities: accommodation.akomodasi_facility_group || [],
-          policies: accommodation.akomodasi_content?.[0]?.kebijakan
-            ? accommodation.akomodasi_content[0].kebijakan.split("\n").map(p => ({ policyname: p }))
-            : [],
           room_and_price:
-            accommodation.akomodasi_room_and_price?.map(room => ({
+            accommodation.akomodasi_room_and_price?.map((room) => ({
               nama: room.nama,
               harga: room.harga,
               AkomodasiFile: room.AkomodasiFile || [],
-              amenity: room.amenity?.map(f => ({ nama: f })) || [],
+              amenity: room.amenity?.map((f) => ({ nama: f })) || [],
             })) || [],
         };
 
@@ -78,6 +91,42 @@ const AccoDetail = () => {
       fetchData();
     }
   }, [id]);
+
+  // switch bahasa
+  const handleLanguageChange = (language) => {
+    setSelectedLanguage(language);
+    i18n.changeLanguage(language === "INDONESIA" ? "id" : "en");
+  };
+
+  // ambil deskripsi dan kebijakan berdasarkan bahasa aktif
+  const getContentByLanguage = () => {
+    if (!tourData?.content) {
+      return {
+        description: "No description available.",
+        policies: [],
+      };
+    }
+
+    const content = tourData.content.find(
+      (c) => c.bahasa === selectedLanguage
+    ) ||
+      tourData.content[0] || {
+        deskripsi: "No description available.",
+        kebijakan: "",
+      };
+
+    return {
+      description: content.deskripsi || "No description available.",
+      policies: content.kebijakan
+        ? content.kebijakan
+            .split("\n")
+            .map((p) => ({ policyname: p }))
+            .filter((p) => p.policyname.trim())
+        : [],
+    };
+  };
+
+  const { description, policies } = getContentByLanguage();
 
   const tabs = [
     { id: "description", label: t("detail.description") },
@@ -133,8 +182,8 @@ const AccoDetail = () => {
           type={tourData.type}
           image={tourData.images?.[0]}
           content={{
-            description: tourData.description,
-            policies: tourData.policies,
+            description,
+            policies,
             itinerary: [],
             priceTable: [],
           }}
@@ -157,20 +206,18 @@ const AccoDetail = () => {
         </div>
         <div className="min-h-96">
           {activeTab === "description" && (
-            <TourDescription description={tourData.description} />
+            <TourDescription description={description} />
           )}
           {activeTab === "facilities" && (
             <TourFacilities facilities={tourData.facilities} />
           )}
           {activeTab === "room_and_price" && (
-            <TourRoomAndPrice 
-              roomAndPrice={tourData.room_and_price} 
-              facilities={tourData.facilities} 
+            <TourRoomAndPrice
+              roomAndPrice={tourData.room_and_price}
+              facilities={tourData.facilities}
             />
           )}
-          {activeTab === "policies" && (
-            <TourPolicies policies={tourData.policies} />
-          )}
+          {activeTab === "policies" && <TourPolicies policies={policies} />}
         </div>
       </div>
       <Footer />

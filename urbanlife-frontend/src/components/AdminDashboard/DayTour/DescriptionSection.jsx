@@ -76,7 +76,7 @@ const DescriptionSection = ({
         {type === "daytour" && (
           <>
             {/* Baris 1: Guide + Package Name */}
-            <div className="flex items-center gap-5 mb-5">
+            {/* <div className="flex items-center gap-5 mb-5"> */}
               {/* <div className="w-1/3">
                 <label className="block text-sm font-medium text-gray-700">
                   Guide
@@ -94,10 +94,14 @@ const DescriptionSection = ({
                     </option>
                   ))}
                 </select>
-              </div> */}
+              </div>
+            </div> */}
 
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-600">
+              <div className="flex items-center mb-5">
+                <label
+                  className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+                >
                   Daytour package name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -106,10 +110,10 @@ const DescriptionSection = ({
                   value={formData.nama}
                   onChange={handleChange}
                   required
-                  className="mt-1 py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
                 />
               </div>
-            </div>
+            
 
             {/* Baris 2: Category */}
             <div className="flex items-center mb-5">
@@ -312,7 +316,7 @@ const DescriptionSection = ({
                 value={item.deskripsi}
                 name="deskripsi"
                 onChange={(e) =>
-                  onChangeContent(index, "deskripsi", e.target.value)
+                onChangeContent(index, "deskripsi", e.target.value)
                 }
                 className="mt-1 p-2 w-full rounded-md h-60 border border-gray-300 focus:ring-cyan-500"
               />

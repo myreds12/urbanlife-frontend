@@ -1,3 +1,4 @@
+// src/components/AdminDashboard/DayTour/CreateDayTourPage.jsx
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DescriptionSection from "../../../components/AdminDashboard/DayTour/DescriptionSection";
@@ -29,7 +30,7 @@ function CreateDayTourPage() {
   ]);
 
   const [formData, setFormData] = useState({
-    nama: "Western and Eastern Nusa Penida Tour",
+    nama: "",
     lokasi_id: 1,
     category_id: 0,
     guide_id: 0,
@@ -86,6 +87,7 @@ function CreateDayTourPage() {
 
         if (isEditMode) {
           const travel = travelData.data.data;
+          console.log("Raw API data:", travel);
           const {
             nama,
             lokasi_id,
@@ -109,25 +111,50 @@ function CreateDayTourPage() {
             harga_anak: parseInt(harga_anak) || 0,
             harga_dewasa: parseInt(harga_dewasa) || 0,
             travel_package_itinerary: travel_package_itinerary || [],
-            travel_package_content: travel_package_content || [],
+            travel_package_content: travel_package_content?.length
+              ? travel_package_content.map((item) => ({
+                  id: item.id,
+                  bahasa: item.bahasa,
+                  deskripsi: item.deskripsi || "",
+                  kebijakan: item.kebijakan || "", // Load kebijakan
+                }))
+              : [
+                  { id: null, bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
+                  {
+                    id: null,
+                    bahasa: "INDONESIA",
+                    deskripsi: "",
+                    kebijakan: "",
+                  },
+                ],
           });
 
-          // Set konten deskripsi
           setContent(
-            travel_package_content || [
-              { id: null, bahasa: "ENGLISH", deskripsi: "" },
-              { id: null, bahasa: "INDONESIA", deskripsi: "" },
-            ]
+            travel_package_content?.length
+              ? travel_package_content.map((item) => ({
+                  id: item.id,
+                  bahasa: item.bahasa,
+                  deskripsi: item.deskripsi || "",
+                  kebijakan: item.kebijakan || "", // Load kebijakan
+                }))
+              : [
+                  { id: null, bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
+                  {
+                    id: null,
+                    bahasa: "INDONESIA",
+                    deskripsi: "",
+                    kebijakan: "",
+                  },
+                ]
           );
 
-          // Set guide yang dipilih
-
-          // Set itinerary
           setItinerary(
-            travel_package_itinerary || [
-              { id: null, bahasa: "ENGLISH", nama: "", deskripsi: "" },
-              { id: null, bahasa: "INDONESIA", nama: "", deskripsi: "" },
-            ]
+            travel_package_itinerary?.length
+              ? travel_package_itinerary
+              : [
+                  { id: null, bahasa: "ENGLISH", nama: "", deskripsi: "" },
+                  { id: null, bahasa: "INDONESIA", nama: "", deskripsi: "" },
+                ]
           );
 
           // Set foto yang sudah ada
@@ -151,11 +178,20 @@ function CreateDayTourPage() {
   }, [isEditMode, id]);
 
   const handleChangeContent = (index, field, value) => {
-    const updated = [...content];
-    updated[index][field] = value;
-    setContent(updated);
+    setContent((prev) => {
+      const updated = [...prev];
+      updated[index][field] = value;
+      setFormData((prevForm) => ({
+        ...prevForm,
+        travel_package_content: updated,
+      }));
+      return updated;
+    });
   };
 
+  const handlePolicyChange = (index, value) => {
+    handleChangeContent(index, "kebijakan", value);
+  };
   const handleItineraryChange = (index, field, value) => {
     const updated = [...itinerary];
     updated[index][field] = value;
@@ -187,12 +223,8 @@ function CreateDayTourPage() {
     updated[index][field] = value;
     setContent(updated);
   };
-
-  const handlePolicyChange = (index, value) => {
-    handleContentChange(index, "kebijakan", value);
-    console.log("Policy changed:", index, value);
-    console.log("Content state after update:", content);
-  };
+    // console.log("Policy changed:", index, value);
+    // console.log("Content state after update:", content);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -216,6 +248,8 @@ function CreateDayTourPage() {
     });
 
     formData.travel_package_content.forEach((item, index) => {
+      if (item.id)
+        payload.append(`travel_package_content[${index}][id]`, item.id);
       payload.append(`travel_package_content[${index}][bahasa]`, item.bahasa);
       payload.append(
         `travel_package_content[${index}][deskripsi]`,
@@ -239,6 +273,7 @@ function CreateDayTourPage() {
     });
 
     console.log("=== Payload yang akan dikirim ke API ===");
+    console.log("Payload content:", formData.travel_package_content);
     for (let pair of payload.entries()) {
       // Jika berupa File, tampilkan nama file
       if (pair[1] instanceof File) {

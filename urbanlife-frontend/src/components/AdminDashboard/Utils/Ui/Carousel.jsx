@@ -1,25 +1,49 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import ClassNames from "embla-carousel-class-names";
 import "./Carousel.css";
 
 const Carousel = ({ items, renderItem }) => {
   const options = {
-    loop: true,
-    dragFree: false,
+    loop: false,
+    dragFree: false, // Tetap nonaktif untuk kontrol snap
     align: "start",
     containScroll: "trimSnaps",
     slidesToScroll: 1,
-    speed: 5, // Transisi lebih lambat
+    speed: 2, // Kecepatan animasi lebih lambat
     skipSnaps: false,
   };
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [ClassNames()]);
+  const dragTimeout = useRef(null);
 
-  // Event listener wheel dihapus untuk menonaktifkan scroll mouse
   useEffect(() => {
     if (!emblaApi) return;
-    // Tidak ada logika wheel, sehingga scroll mouse tidak memengaruhi carousel
+
+    const handleDragStart = () => {
+      if (dragTimeout.current) {
+        clearTimeout(dragTimeout.current);
+      }
+    };
+
+    const handleDragEnd = () => {
+      // Tambahkan delay sebelum animasi selesai
+      dragTimeout.current = setTimeout(() => {
+        emblaApi.scrollTo(emblaApi.selectedScrollSnap());
+      }, 200); // Delay 200ms untuk mengurangi kecepatan pergeseran
+    };
+
+    emblaApi.on("dragStart", handleDragStart);
+    emblaApi.on("dragEnd", handleDragEnd);
+
+    // Hapus event listener wheel
+    return () => {
+      emblaApi.off("dragStart", handleDragStart);
+      emblaApi.off("dragEnd", handleDragEnd);
+      if (dragTimeout.current) {
+        clearTimeout(dragTimeout.current);
+      }
+    };
   }, [emblaApi]);
 
   return (

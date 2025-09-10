@@ -216,10 +216,16 @@
     "search": "Cari",
     "passengers": "{{count}} Penumpang",
     "location": "Lokasi",
+    "nolocation": "Tidak ada lokasi",
     "destination": "Destinasi",
     "popular": "Populer",
     "startsfrom": "Mulai dari",
-    "detail": "Detail"
+    "detail": "Detail",
+    "traveler_reviews": "ulasan wisatawan",
+    "rentcar": "Sewa Mobil",
+    "accommodation": "Akomodasi",
+    "daytour": "Tour Harian",
+    "/person": "/ Orang"
   },
 
   "contactus": {

@@ -222,11 +222,16 @@
   "search": "Search",
   "passengers": "{{count}} Passengers",
   "location": "Location",
+  "nolocation": "No Location",
   "destination": "Destination",
   "popular": "Popular",
   "startsfrom": "Starts From",
-  "detail": "Detail"
-
+  "detail": "Detail",
+  "traveler_reviews": "traveler reviews",
+  "rentcar": "Rent a Car",
+  "accommodation": "Accommodation",
+  "daytour": "Day Tour",
+  "/person": "/ Person"
 
 
 },
@@ -537,7 +542,7 @@
         "choose_room": "Choose Room",
         "adult_count": "Adult",
         "child_count": "Child"
-
   }
+
 
 }

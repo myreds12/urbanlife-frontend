@@ -148,7 +148,7 @@ const CardForm = () => {
     {/* Country */}
     <div className="bg-white rounded-xl shadow-md p-5">
       <select
-        className="w-full px-5 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+        className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
         value={formData.countryId}
         onChange={(e) => handleChange("countryId", e.target.value)}
       >
@@ -166,7 +166,7 @@ const CardForm = () => {
     {/* City */}
     <div className="bg-white rounded-xl shadow-md p-5">
       <select
-        className="w-full px-5 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+        className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
         value={formData.cityId}
         onChange={(e) => handleChange("cityId", e.target.value)}
         disabled={!formData.countryId || loadingCities}
@@ -188,8 +188,9 @@ const CardForm = () => {
 
     {/* Service, Dates, Buttons */}
     <div className="bg-white rounded-xl shadow-md p-5 space-y-5">
+      {/* Service */}
       <select
-        className="w-full px-5 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+        className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
         value={formData.service}
         onChange={(e) => handleChange("service", e.target.value)}
       >
@@ -203,6 +204,7 @@ const CardForm = () => {
         ))}
       </select>
 
+      {/* Dates */}
       <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
         <DateInput
           label={t("cardform.from")}
@@ -248,8 +250,7 @@ const CardForm = () => {
           </button>
         )}
       </div>
-
-      </div>
+    </div>
 
       {/* Result Modal */}
       <SearchResultsModal

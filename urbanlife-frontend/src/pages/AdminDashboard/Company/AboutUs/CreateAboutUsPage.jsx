@@ -25,7 +25,7 @@ const CreateAboutUsPage = () => {
     description_en: "",
     description_id: "",
     button_text: "",
-    button_link: "",
+    button_link: "https://wa.me/+62816919812",
   });
   const [story, setStory] = useState({
     title_en: "",
@@ -249,11 +249,11 @@ const CreateAboutUsPage = () => {
     try {
       const response = isEditMode
         ? await apiClient.patch(`/aboutus/${id}`, payload, {
-            headers: { "Content-Type": "multipart/form-data" },
-          })
+          headers: { "Content-Type": "multipart/form-data" },
+        })
         : await apiClient.post("/aboutus", payload, {
-            headers: { "Content-Type": "multipart/form-data" },
-          });
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       if ([200, 201].includes(response.status)) {
         toast.success(isEditMode ? "Updated successfully" : "Created successfully");
         navigate("/admin/aboutus");
@@ -284,11 +284,10 @@ const CreateAboutUsPage = () => {
               {["header", "our_story", "services", "cta", "operational"].map((section) => (
                 <span
                   key={section}
-                  className={`cursor-pointer px-4 py-2 font-medium rounded-md transition-colors ${
-                    activeSection === section
+                  className={`cursor-pointer px-4 py-2 font-medium rounded-md transition-colors ${activeSection === section
                       ? "bg-cyan-100 text-cyan-700"
                       : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                  }`}
+                    }`}
                   onClick={() => moveSection(section)}
                 >
                   {section.charAt(0).toUpperCase() + section.slice(1).replace("_", " ")}

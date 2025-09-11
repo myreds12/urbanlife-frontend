@@ -126,19 +126,24 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
             className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
           />
         </div>
-
+        {/* TODO: UNTUK SAAT INI MASIH STATIS AKAN DIBUAT DINAMIS SETELAH GOLIVE */}
         <div className="mb-4 flex items-center">
           <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
             Button Link
           </label>
           <input
             type="text"
+            disabled
             name="button_link"
             value={cta.button_link}
             onChange={handleCtaChange}
-            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+            placeholder="Enter button URL (e.g., /contact)..."
+            className="py-2 px-3 w-full rounded-md border border-gray-200 bg-gray-50 
+               text-gray-700 cursor-not-allowed focus:ring-0 focus:border-gray-300 
+               placeholder-gray-400 shadow-sm"
           />
         </div>
+
       </div>
     </div>
   );

@@ -138,7 +138,7 @@ const TourImage = ({ images = [], title = "Tour Image" }) => {
               <img
                 src={images[currentImageIndex]}
                 alt={`${title} - Image ${currentImageIndex + 1}`}
-                className="max-w-full max-h-[500px] object-contain"
+                className="max-w-full max-h-[400px] object-contain"
                 loading="lazy"
               />
 

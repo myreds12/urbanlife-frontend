@@ -512,7 +512,7 @@ const AboutUs = () => {
               </a>
             </div>
             <p className="font-inter text-gray-500 mt-6 text-sm">
-              Experience the difference with UrbanLife - your journey starts
+              Experience the difference with urbanlife - your journey starts
               here
             </p>
           </div>

@@ -132,7 +132,7 @@ const CategoriesFooter = () => {
               rightTitle={post.lokasi?.nama || "Unknown Location"}
               barcodeImage="/images/LandingPage/Footer/barcode.png"
               linkTo={`/blog/${post.slug}`}
-              buttonText={t('blog.see_more')}
+              buttonText={'See More'}
             />
           );
         })}

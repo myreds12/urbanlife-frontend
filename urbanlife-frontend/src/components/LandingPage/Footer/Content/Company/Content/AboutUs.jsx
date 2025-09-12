@@ -224,7 +224,7 @@ const AboutUs = () => {
           },
           cta: {
             title: data.AboutUsCta.title_en, // Anda bisa menyesuaikan ini
-            description: "Book your next adventure with UrbanLife!", // Anda bisa menyesuaikan ini
+            description: "Book your next adventure with urbanlife!", // Anda bisa menyesuaikan ini
             buttonText: "Contact Us", // Anda bisa menyesuaikan ini
             buttonLink: "/contact", // Anda bisa menyesuaikan ini
           },

@@ -79,6 +79,8 @@ const dummyData = {
     description: "Book your next adventure with urbanlife!",
     buttonText: "Contact Us",
     buttonLink: "/contact",
+    ctaButtonText: "Book Now",
+    ctaButtonLink: "/booking",
   },
 };
 
@@ -225,8 +227,10 @@ const AboutUs = () => {
           cta: {
             title: data.AboutUsCta.title_en, // Anda bisa menyesuaikan ini
             description: "Book your next adventure with urbanlife!", // Anda bisa menyesuaikan ini
-            buttonText: "Contact Us", // Anda bisa menyesuaikan ini
-            buttonLink: "/contact", // Anda bisa menyesuaikan ini
+            buttonText: data.AboutUsCta.button_text || "Contact Us", // Dynamic Contact Us text
+            buttonLink: data.AboutUsCta.button_link || "/contact", // Dynamic Contact Us link
+            ctaButtonText: data.AboutUsCta.cta_button_text || "Book Now", // Dynamic Book Now text
+            ctaButtonLink: data.AboutUsCta.cta_button_link || "/booking", // Dynamic Book Now link
           },
         };
 
@@ -496,11 +500,11 @@ const AboutUs = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/"
+                href={aboutData.cta.ctaButtonLink}
                 className="font-inter bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-700 transition-colors flex items-center justify-center shadow-sm hover:shadow-md"
-                aria-label="Book Now"
+                aria-label={aboutData.cta.ctaButtonText}
               >
-                Book Now
+                {aboutData.cta.ctaButtonText}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </a>
               <a

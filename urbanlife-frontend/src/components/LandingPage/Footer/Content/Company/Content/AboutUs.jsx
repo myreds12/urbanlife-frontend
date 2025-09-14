@@ -120,13 +120,12 @@ const ModernCarousel = ({ images }) => {
           {images.map((image, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                index === currentIndex
+              className={`absolute inset-0 transition-all duration-700 ease-in-out ${index === currentIndex
                   ? "opacity-100 translate-x-0"
                   : index < currentIndex
-                  ? "opacity-0 -translate-x-full"
-                  : "opacity-0 translate-x-full"
-              }`}
+                    ? "opacity-0 -translate-x-full"
+                    : "opacity-0 translate-x-full"
+                }`}
             >
               <img
                 src={image}
@@ -158,11 +157,10 @@ const ModernCarousel = ({ images }) => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentIndex
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
                 ? "bg-cyan-600 w-8"
                 : "bg-gray-300 hover:bg-gray-400"
-            }`}
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
@@ -319,11 +317,10 @@ const AboutUs = () => {
         <div
           id="story"
           data-animate
-          className={`max-w-5xl mx-auto mb-12 transition-all duration-700 ${
-            isVisible.story
+          className={`max-w-5xl mx-auto mb-12 transition-all duration-700 ${isVisible.story
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-6"
-          }`}
+            }`}
         >
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
             <div>
@@ -359,11 +356,10 @@ const AboutUs = () => {
                 key={service.id}
                 id={`service-${service.id}`}
                 data-animate
-                className={`group bg-white border border-gray-100 rounded-xl p-6 hover:border-cyan-200 hover:shadow-lg transition-all duration-300 ${
-                  isVisible[`service-${service.id}`]
+                className={`group bg-white border border-gray-100 rounded-xl p-6 hover:border-cyan-200 hover:shadow-lg transition-all duration-300 ${isVisible[`service-${service.id}`]
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
-                }`}
+                  }`}
               >
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center text-cyan-600 group-hover:bg-cyan-200/50 transition-colors">
@@ -392,11 +388,10 @@ const AboutUs = () => {
               <div
                 id="schedule"
                 data-animate
-                className={`lg:w-1/2 transition-all duration-700 ${
-                  isVisible.schedule
+                className={`lg:w-1/2 transition-all duration-700 ${isVisible.schedule
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-6"
-                }`}
+                  }`}
               >
                 <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
                   <div className="mb-4">
@@ -421,9 +416,8 @@ const AboutUs = () => {
                             </span>
                           </div>
                           <span
-                            className={`font-inter text-xs font-semibold ${
-                              highlight ? "text-red-500" : "text-gray-700"
-                            }`}
+                            className={`font-inter text-xs font-semibold ${highlight ? "text-red-500" : "text-gray-700"
+                              }`}
                           >
                             {time}
                           </span>
@@ -442,11 +436,10 @@ const AboutUs = () => {
               <div
                 id="achievements"
                 data-animate
-                className={`lg:w-1/2 transition-all duration-700 ${
-                  isVisible.achievements
+                className={`lg:w-1/2 transition-all duration-700 ${isVisible.achievements
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-6"
-                }`}
+                  }`}
               >
                 <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
                   <div className="mb-4">
@@ -481,11 +474,10 @@ const AboutUs = () => {
         <div
           id="cta"
           data-animate
-          className={`text-center max-w-4xl mx-auto transition-all duration-700 ${
-            isVisible.cta
+          className={`text-center max-w-4xl mx-auto transition-all duration-700 ${isVisible.cta
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-6"
-          }`}
+            }`}
         >
           <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-8 relative shadow-lg">
             <h3 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">
@@ -496,7 +488,7 @@ const AboutUs = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/"
+                href="/services"
                 className="font-inter bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-700 transition-colors flex items-center justify-center shadow-sm hover:shadow-md"
                 aria-label="Book Now"
               >

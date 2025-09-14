@@ -17,9 +17,13 @@ const CreateAboutUsPage = () => {
   const [photos, setPhotos] = useState([]);
   const [existingPhotos, setExistingPhotos] = useState([]);
   const [services, setServices] = useState([]);
+  console.log(services, "services");
   const [schedule, setSchedule] = useState([]);
+  console.log(schedule, "schedule");
   const [stats, setStats] = useState([]);
+  console.log(stats, "stats");
   const [cta, setCta] = useState({
+    id: "",
     title_en: "",
     title_id: "",
     description_en: "",
@@ -27,12 +31,15 @@ const CreateAboutUsPage = () => {
     button_text: "",
     button_link: "https://wa.me/+62816919812",
   });
+  console.log(cta, "cta");
   const [story, setStory] = useState({
+    id: "",
     title_en: "",
     title_id: "",
     content_en: "",
     content_id: "",
   });
+  console.log(story, "story");
   const [formData, setFormData] = useState({
     title_en: "",
     title_id: "",
@@ -55,6 +62,7 @@ const CreateAboutUsPage = () => {
             content_id: about.content_id || "",
           });
           setStory({
+            id: about.AboutUsStory?.id || "",
             title_en: about.AboutUsStory?.title_en || "",
             title_id: about.AboutUsStory?.title_id || "",
             content_en: about.AboutUsStory?.content_en || "",
@@ -74,6 +82,7 @@ const CreateAboutUsPage = () => {
           );
           setSchedule(
             about.AboutUsOperational?.map((item) => ({
+              id: item.id,
               day: item.day || "",
               time: item.time || "",
               highlight: item.is_highlight || false,
@@ -81,6 +90,7 @@ const CreateAboutUsPage = () => {
           );
           setStats(
             about.AboutUsAchievements?.map((achievement) => ({
+              id: achievement.id,
               number: achievement.number || "",
               label_en: achievement.content_en || "",
               label_id: achievement.content_id || "",
@@ -88,6 +98,7 @@ const CreateAboutUsPage = () => {
             })) || []
           );
           setCta({
+            id: about.AboutUsCta?.id || "",
             title_en: about.AboutUsCta?.title_en || "",
             title_id: about.AboutUsCta?.title_id || "",
             description_en: about.AboutUsCta?.description_en || "",
@@ -196,6 +207,14 @@ const CreateAboutUsPage = () => {
     setStats((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const fetchExistingFileAsFile = async (nama_file) => {
+    const url = `${apiClient.defaults.baseURL}/public/aboutus/${nama_file}`;
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const type = blob.type || "application/octet-stream";
+    return new File([blob], nama_file, { type });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = new FormData();
@@ -203,12 +222,17 @@ const CreateAboutUsPage = () => {
     payload.append("title_id", formData.title_id);
     payload.append("content_en", formData.content_en);
     payload.append("content_id", formData.content_id);
+    if (story.id) payload.append("aboutus_story[id]", story.id);
     payload.append("aboutus_story[title_id]", story.title_id);
     payload.append("aboutus_story[title_en]", story.title_en);
     payload.append("aboutus_story[content_id]", story.content_id);
     payload.append("aboutus_story[content_en]", story.content_en);
-    photos.forEach((file) => payload.append("files", file));
-    services.forEach((service, index) => {
+    const existingFileObjects = await Promise.all(
+      existingPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
+    );
+    [...existingFileObjects, ...photos].forEach((file) => {
+      payload.append("files", file);
+    }); services.forEach((service, index) => {
       payload.append(`aboutus_service[${index}][title_en]`, service.title_en);
       payload.append(`aboutus_service[${index}][title_id]`, service.title_id);
       payload.append(`aboutus_service[${index}][content_en]`, service.description_en);
@@ -219,10 +243,12 @@ const CreateAboutUsPage = () => {
       if (service.id) payload.append(`aboutus_service[${index}][id]`, service.id);
     });
     schedule.forEach((item, index) => {
+      if (item.id) payload.append(`aboutus_operational[${index}][id]`, item.id);
       payload.append(`aboutus_operational[${index}][day]`, item.day);
       payload.append(`aboutus_operational[${index}][time]`, item.time);
       payload.append(`aboutus_operational[${index}][is_highlight]`, item.highlight);
     });
+    if (cta.id) payload.append("aboutus_cta[id]", cta.id);
     payload.append("aboutus_cta[title_en]", cta.title_en);
     payload.append("aboutus_cta[title_id]", cta.title_id);
     payload.append("aboutus_cta[description_en]", cta.description_en);
@@ -230,6 +256,7 @@ const CreateAboutUsPage = () => {
     payload.append("aboutus_cta[button_text]", cta.button_text);
     payload.append("aboutus_cta[button_url]", cta.button_link);
     stats.forEach((stat, index) => {
+      if (stat.id) payload.append(`aboutus_achievment[${index}][id]`, stat.id);
       payload.append(`aboutus_achievment[${index}][number]`, stat.number);
       payload.append(`aboutus_achievment[${index}][content_en]`, stat.label_en);
       payload.append(`aboutus_achievment[${index}][content_id]`, stat.label_id);
@@ -285,8 +312,8 @@ const CreateAboutUsPage = () => {
                 <span
                   key={section}
                   className={`cursor-pointer px-4 py-2 font-medium rounded-md transition-colors ${activeSection === section
-                      ? "bg-cyan-100 text-cyan-700"
-                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    ? "bg-cyan-100 text-cyan-700"
+                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                     }`}
                   onClick={() => moveSection(section)}
                 >

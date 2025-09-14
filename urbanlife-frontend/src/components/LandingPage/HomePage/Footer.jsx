@@ -114,7 +114,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/+62816919812" className="text-gray-300 hover:text-white transition-colors">
+                <a href="/ContactUs" className="text-gray-300 hover:text-white transition-colors">
                   {t('footer.contactus')}
                 </a>
               </li>

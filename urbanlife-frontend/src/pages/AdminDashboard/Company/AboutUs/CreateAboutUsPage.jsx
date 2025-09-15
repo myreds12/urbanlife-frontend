@@ -28,6 +28,8 @@ const CreateAboutUsPage = () => {
     title_id: "",
     description_en: "",
     description_id: "",
+    cta_button_text: "",
+    cta_button_link: "/services",
     button_text: "",
     button_link: "https://wa.me/+62816919812",
   });
@@ -53,6 +55,7 @@ const CreateAboutUsPage = () => {
         if (isEditMode) {
           const { data } = await apiClient.get(`/aboutus/${id}`);
           const about = data.data;
+          console.log(about, "about");
 
           // Map data ke state untuk mode edit
           setFormData({
@@ -103,6 +106,8 @@ const CreateAboutUsPage = () => {
             title_id: about.AboutUsCta?.title_id || "",
             description_en: about.AboutUsCta?.description_en || "",
             description_id: about.AboutUsCta?.description_id || "",
+            cta_button_text: about.AboutUsCta?.cta_button_text || "",
+            cta_button_link: about.AboutUsCta?.cta_button_url || "",
             button_text: about.AboutUsCta?.button_text || "",
             button_link: about.AboutUsCta?.button_url || "",
           });
@@ -255,6 +260,8 @@ const CreateAboutUsPage = () => {
     payload.append("aboutus_cta[description_id]", cta.description_id);
     payload.append("aboutus_cta[button_text]", cta.button_text);
     payload.append("aboutus_cta[button_url]", cta.button_link);
+    payload.append("aboutus_cta[cta_button_text]", cta.cta_button_text);
+    payload.append("aboutus_cta[cta_button_url]", cta.cta_button_link);
     stats.forEach((stat, index) => {
       if (stat.id) payload.append(`aboutus_achievment[${index}][id]`, stat.id);
       payload.append(`aboutus_achievment[${index}][number]`, stat.number);
@@ -266,9 +273,9 @@ const CreateAboutUsPage = () => {
     console.log("=== Payload yang akan dikirim ke API ===");
     for (let pair of payload.entries()) {
       if (pair[1] instanceof File) {
-        console.log(pair[0], pair[1].name);
+        console.log(`${pair[0]}:${pair[1].name}`);
       } else {
-        console.log(pair[0], pair[1]);
+        console.log(`${pair[0]}:${pair[1]}`);
       }
     }
     console.log("========================================");

@@ -39,7 +39,7 @@ const othersItems = [
     name: "Data master",
     subItems: [
       { name: "Hero Section", path: "/admin/herosection" },
-      { name: "ServiceSchedule", path: "/admin/ServiceSchedule" },
+      { name: "Service Schedule", path: "/admin/ServiceSchedule" },
       { name: "Partner", path: "/admin/ourpartner" },
       { name: "Countries", path: "/admin/country" },
       { name: "Cities", path: "/admin/city" },
@@ -63,7 +63,7 @@ const AppSidebar = () => {
   const LOCATION = useLocation();
 
   // Ambil role user, sesuaikan sumbernya
-  const userRole = useAuthStore((s) => s.user?.role); 
+  const userRole = useAuthStore((s) => s.user?.role);
 
   // Filter othersItems agar "Users" hanya muncul untuk super_admin
   const filteredOthersItems = othersItems.map(item => {

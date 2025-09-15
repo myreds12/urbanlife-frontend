@@ -25,32 +25,30 @@ const PrivacyPolicy = () => {
   const fetchContents = useCallback(async (search = "") => {
     setLoading(true);
     try {
-      const params = { page: currentPage, take, ...(search.trim() && { search: search.trim() }) };
-      const res = await apiClient.get("/privacypolicy", { params });
+      const params = {
+        page: currentPage,
+        take,
+        ...(search.trim() && { search: search.trim() }),
+      };
+
+      const res = await apiClient.get("/privacyandpolicy", { params });
       const { data, total } = res.data;
-      const flattenedData = [
-        { id: 'hero', section: 'Hero', ...data.hero },
-        ...data.custom,
-        ...data.additional,
-        { id: 'contact', section: 'Contact', ...data.contact },
-      ];
-      setContents(flattenedData);
-      setTotal(total || flattenedData.length);
+
+      // langsung pakai data array dari API
+      setContents(data || []);
+      setTotal(total || 0);
     } catch (err) {
       console.error("Failed to fetch privacy policy contents", err);
       toast.error("Gagal memuat data Privacy Policy dari API. Menggunakan dummy data.");
-      const flattenedDummy = [
-        { id: 'hero', section: 'Hero', ...dummyData.hero },
-        ...dummyData.custom,
-        ...dummyData.additional,
-        { id: 'contact', section: 'Contact', ...dummyData.contact },
-      ];
-      setContents(flattenedDummy);
-      setTotal(flattenedDummy.length);
+
+      // fallback dummy
+      setContents(dummyData);
+      setTotal(dummyData.length);
     } finally {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, take]);
+
 
   useEffect(() => {
     fetchContents(searchTerm);
@@ -92,7 +90,7 @@ const PrivacyPolicy = () => {
   const handleDelete = async (row) => {
     if (!window.confirm(`Hapus section "${row.title_en || row.title_id}"?`)) return;
     try {
-      await apiClient.delete(`/privacypolicy/${row.id}`);
+      await apiClient.delete(`/privacyandpolicy/${row.id}`);
       toast.success(`Section "${row.title_en || row.title_id}" berhasil dihapus`);
       fetchContents();
     } catch (err) {
@@ -105,7 +103,7 @@ const PrivacyPolicy = () => {
     if (!window.confirm(`Hapus ${selectedData.length} section?`)) return;
     const ids = selectedData.map((item) => item.id);
     try {
-      await apiClient.delete("/privacypolicy", { data: { ids } });
+      await apiClient.delete("/privacyandpolicy", { data: { ids } });
       toast.success(`${selectedData.length} section berhasil dihapus`);
       setSelectedRows([]);
       fetchContents();
@@ -142,14 +140,17 @@ const PrivacyPolicy = () => {
 
   const handlePageChange = (page) => setCurrentPage(page);
 
-  const columns = ["#", "Section", "Title (EN)", "Title (ID)", "Action"];
+  const columns = ["#", "Title (EN)", "Title (ID)", "Contact Title (EN)", "Contact Title (ID)", "Action"];
+
   const mapping = {
     "#": (_, index) => startIndex + index + 1,
-    "Section": (row) => row.section || (row.id === 'hero' ? "Hero" : row.id === 'contact' ? "Contact" : `Section ${row.section_number}`),
-    "Title (EN)": (row) => row.title_en || "",
-    "Title (ID)": (row) => row.title_id || "",
+    "Title (EN)": (row) => row.title_en || "-",
+    "Title (ID)": (row) => row.title_id || "-",
+    "Contact Title (EN)": (row) => row.contact_title_en || "-",
+    "Contact Title (ID)": (row) => row.contact_title_id || "-",
     Action: null,
   };
+
 
   if (loading) {
     return (

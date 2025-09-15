@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PrivacyPolicyHeroSection from "./PrivacyPolicyHeroSection";
-import PrivacyPolicyCustomSection from "./PrivacyPolicyCustomSection";
+import PrivacyPolicyContentSection from "./PrivacyPolicyContentSection";
 import PrivacyPolicyContactSection from "./PrivacyPolicyContactSection";
 import toast from "react-hot-toast";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
@@ -12,50 +12,36 @@ const CreatePrivacyPolicyPage = () => {
   const isEditMode = Boolean(id);
 
   const [activeSection, setActiveSection] = useState("hero");
-  const [sections, setSections] = useState([
+  const [sections] = useState([
     { id: "hero", type: "hero" },
+    { id: "content", type: "content" },
     { id: "contact", type: "contact" },
   ]);
 
   const [formData, setFormData] = useState({
     hero: { title_en: "", title_id: "", subtitle_en: "", subtitle_id: "" },
-    custom: [],
+    content: { title_en: "", title_id: "", content_en: "", content_id: "" },
     contact: { title_en: "", title_id: "", email: "", phone: "" },
   });
 
+  console.log(formData, "formData");
+
+  // 🟢 Fetch initial data saat edit
   useEffect(() => {
     const fetchInitialData = async () => {
-      if (isEditMode) {
-        try {
-          const { data } = await apiClient.get(`/privacypolicy/${id}`);
-          const section = data.data || {};
-          setFormData({
-            hero: section.hero || { title_en: "", title_id: "", subtitle_en: "", subtitle_id: "" },
-            custom:
-              section.custom?.map((s) => ({
-                section: s.section,
-                title_en: s.title_en,
-                title_id: s.title_id,
-                content_en: s.content_en,
-                content_id: s.content_id,
-                notes: s.notes?.length > 0 ? s.notes : [{ en: "", id: "" }],
-                warning: s.warning?.length > 0 ? s.warning : [{ en: "", id: "" }],
-              })) || [],
-            contact: section.contact || { title_en: "", title_id: "", email: "", phone: "" },
-          });
-          setSections([
-            { id: "hero", type: "hero" },
-            ...(section.custom || []).map((s, i) => ({
-              id: `section${i + 1}`,
-              type: "custom",
-              section: s.section, // ⬅ penting! biar bisa langsung render nama section
-            })),
-            { id: "contact", type: "contact" },
-          ]);
-        } catch (error) {
-          toast.error("Gagal muat data, pakai default form.");
-          console.error(error);
-        }
+      if (!isEditMode) return;
+      try {
+        const { data } = await apiClient.get(`/privacypolicy/${id}`);
+        const section = data.data || {};
+
+        setFormData({
+          hero: section.hero || { title_en: "", title_id: "", subtitle_en: "", subtitle_id: "" },
+          content: section.content || { title_en: "", title_id: "", content_en: "", content_id: "" },
+          contact: section.contact || { title_en: "", title_id: "", email: "", phone: "" },
+        });
+      } catch (error) {
+        toast.error("Gagal memuat data.");
+        console.error(error);
       }
     };
     fetchInitialData();
@@ -68,60 +54,18 @@ const CreatePrivacyPolicyPage = () => {
     }));
   };
 
-  const handleCustomChange = (index, field, value) => {
-    setFormData((prev) => {
-      const newCustom = [...prev.custom];
-      newCustom[index] = { ...newCustom[index], [field]: value };
-      return { ...prev, custom: newCustom };
-    });
-
-    // 🔑 Update nama section di array `sections`
-    if (field === "section") {
-      setSections((prev) => {
-        const updated = [...prev];
-        const customIndex = updated.findIndex((s) => s.id === `section${index + 1}`);
-        if (customIndex !== -1) {
-          updated[customIndex] = { ...updated[customIndex], section: value };
-        }
-        return updated;
-      });
-    }
-  };
-
-  const addCustomSection = () => {
-    const newSection = {
-      section: "",
-      title_en: "",
-      title_id: "",
-      content_en: "",
-      content_id: "",
-      notes: [{ en: "", id: "" }],
-      warning: [{ en: "", id: "" }],
-    };
-
-    const newSectionId = `section${sections.length - 1}`;
-    setSections([
-      ...sections.slice(0, -1),
-      { id: newSectionId, type: "custom", section: "" },
-      sections[sections.length - 1],
-    ]);
-    setFormData((prev) => ({ ...prev, custom: [...prev.custom, newSection] }));
-  };
-
-  const removeCustomSection = (index) => {
-    setSections((prev) => prev.filter((sec) => sec.id !== `section${index + 1}`));
-    setFormData((prev) => ({
-      ...prev,
-      custom: prev.custom.filter((_, i) => i !== index),
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\+?[\d\s-]{10,}$/;
 
-    if (!formData.hero.title_en || !formData.hero.title_id || !formData.contact.email || !formData.contact.phone) {
+    if (
+      !formData.hero.title_en ||
+      !formData.hero.title_id ||
+      !formData.contact.email ||
+      !formData.contact.phone
+    ) {
       toast.error("Field wajib (title EN/ID, email, phone) tidak boleh kosong.");
       return;
     }
@@ -134,22 +78,35 @@ const CreatePrivacyPolicyPage = () => {
       return;
     }
 
+    // 🔑 Transform payload ke flat structure
+    const payload = {
+      title_id: formData.hero.title_id,
+      title_en: formData.hero.title_en,
+      content_id: formData.content.content_id,
+      content_en: formData.content.content_en,
+      contact_title_id: formData.contact.title_id,
+      contact_title_en: formData.contact.title_en,
+      contact_email: formData.contact.email,
+      contact_phone: formData.contact.phone,
+    };
+
     try {
       const response = isEditMode
-        ? await apiClient.patch(`/privacypolicy/${id}`, formData)
-        : await apiClient.post("/privacypolicy", formData);
+        ? await apiClient.patch(`/privacyandpolicy/${id}`, payload)
+        : await apiClient.post("/privacyandpolicy", payload);
 
       if ([200, 201].includes(response.status)) {
         toast.success(isEditMode ? "Updated successfully" : "Created successfully");
         navigate("/admin/privacy-policy");
       } else {
-        toast.error(response.data.message || "Gagal simpan data.");
+        toast.error(response.data.message || "Gagal menyimpan data.");
       }
     } catch (error) {
-      toast.error("Gagal konek ke server, cek endpoint.");
+      toast.error("Gagal konek ke server.");
       console.error("Submission Error:", error);
     }
   };
+
 
   const moveSection = (id) => {
     setActiveSection(id);
@@ -171,18 +128,15 @@ const CreatePrivacyPolicyPage = () => {
               {sections.map((section) => (
                 <span
                   key={section.id}
-                  className={`cursor-pointer px-1 font-medium underline-item relative ${
-                    activeSection === section.id ? "text-cyan-600 active" : "text-gray-500"
-                  } hover:text-cyan-700 group`}
+                  className={`cursor-pointer px-1 font-medium underline-item relative ${activeSection === section.id ? "text-cyan-600 active" : "text-gray-500"
+                    } hover:text-cyan-700 group`}
                   onClick={() => moveSection(section.id)}
                 >
                   {section.type === "hero"
                     ? "Hero"
-                    : section.type === "contact"
-                    ? "Contact"
-                    : section.section?.trim()
-                    ? section.section
-                    : `Section ${sections.indexOf(section)}`}
+                    : section.type === "content"
+                      ? "Content"
+                      : "Contact"}
                 </span>
               ))}
             </div>
@@ -194,17 +148,12 @@ const CreatePrivacyPolicyPage = () => {
               handleChange={(field, value) => handleChange("hero", field, value)}
             />
 
-            {formData.custom.map((section, index) => (
-              <PrivacyPolicyCustomSection
-                key={index}
-                id={`section${index + 1}`}
-                isActive={activeSection === `section${index + 1}`}
-                sectionData={section}
-                sectionIndex={index}
-                handleChange={handleCustomChange}
-                onRemove={() => removeCustomSection(index)}
-              />
-            ))}
+            <PrivacyPolicyContentSection
+              id="content"
+              isActive={activeSection === "content"}
+              formData={formData.content}
+              handleChange={(field, value) => handleChange("content", field, value)}
+            />
 
             <PrivacyPolicyContactSection
               id="contact"
@@ -212,16 +161,6 @@ const CreatePrivacyPolicyPage = () => {
               formData={formData.contact}
               handleChange={(field, value) => handleChange("contact", field, value)}
             />
-
-            <div className="mt-6">
-              <button
-                type="button"
-                onClick={addCustomSection}
-                className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
-              >
-                Add New Section +
-              </button>
-            </div>
           </div>
 
           <div className="flex justify-end gap-3 px-6 pb-6">

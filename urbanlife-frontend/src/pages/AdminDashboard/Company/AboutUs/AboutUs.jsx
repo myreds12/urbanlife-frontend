@@ -33,7 +33,7 @@ const AboutUs = () => {
       const { data, total } = res.data;
       setContents(data);
       setTotal(total);
-    } catch (err) { 
+    } catch (err) {
       console.error("Failed to fetch about us contents", err);
       toast.error("Gagal memuat data About Us. Menggunakan data dummy.");
     } finally {
@@ -72,10 +72,11 @@ const AboutUs = () => {
   };
 
   const handleDelete = async (row) => {
-    if (!window.confirm(`Hapus konten "${row.section}"?`)) return;
+    console.log(row, "ROW");
+    if (!window.confirm(`Hapus konten "${row.title_id}"?`)) return;
     try {
       await apiClient.delete(`/aboutus/${row.id}`);
-      toast.success(`Konten "${row.section}" berhasil dihapus`);
+      toast.success(`Konten "${row.title_id}" berhasil dihapus`);
       fetchContents();
     } catch (err) {
       console.error("Gagal menghapus:", err);
@@ -124,7 +125,7 @@ const AboutUs = () => {
 
   const handlePageChange = (page) => setCurrentPage(page);
 
-  const columns = ["#",  "Title (EN)", "Title (ID)", "Services Count", "Button Text", "Action"];
+  const columns = ["#", "Title (EN)", "Title (ID)", "Services Count", "Button Text", "Action"];
   const mapping = {
     "#": (_, index) => startIndex + index + 1,
     "Title (EN)": (row) => row.title_en,

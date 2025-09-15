@@ -42,7 +42,7 @@ const PrivacyPolicyHeroSection = ({ id, isActive, formData, handleChange }) => {
                 )}
               </div>
               {/* Subtitle - EN */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Subtitle (EN) <span className="text-red-500">*</span>
                 </label>
@@ -58,7 +58,7 @@ const PrivacyPolicyHeroSection = ({ id, isActive, formData, handleChange }) => {
                 {formData.subtitle_en === "" && (
                   <p className="text-red-500 text-xs mt-1">Subtitle is required.</p>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           {/* Indonesian Section */}
@@ -98,7 +98,7 @@ const PrivacyPolicyHeroSection = ({ id, isActive, formData, handleChange }) => {
                 )}
               </div>
               {/* Subtitle - ID */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Subtitle (ID) <span className="text-red-500">*</span>
                 </label>
@@ -114,7 +114,7 @@ const PrivacyPolicyHeroSection = ({ id, isActive, formData, handleChange }) => {
                 {formData.subtitle_id === "" && (
                   <p className="text-red-500 text-xs mt-1">Subtitle is required.</p>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

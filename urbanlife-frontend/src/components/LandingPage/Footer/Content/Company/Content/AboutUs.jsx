@@ -226,9 +226,9 @@ const AboutUs = () => {
             title: data.AboutUsCta.title_en, // Anda bisa menyesuaikan ini
             description: "Book your next adventure with urbanlife!", // Anda bisa menyesuaikan ini
             buttonText: data.AboutUsCta.button_text || "Contact Us", // Dynamic Contact Us text
-            buttonLink: data.AboutUsCta.button_link || "/contact", // Dynamic Contact Us link
+            buttonLink: data.AboutUsCta.button_url || "/contact", // Dynamic Contact Us link
             ctaButtonText: data.AboutUsCta.cta_button_text || "Book Now", // Dynamic Book Now text
-            ctaButtonLink: data.AboutUsCta.cta_button_link || "/booking", // Dynamic Book Now link
+            ctaButtonLink: data.AboutUsCta.cta_button_url || "/booking", // Dynamic Book Now link
           },
         };
 

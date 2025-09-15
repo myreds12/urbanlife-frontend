@@ -14,7 +14,7 @@ const TestimonialForm = forwardRef((_, ref) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await apiClient.get("/orders");
+      const res = await apiClient.get("/pemesanan");
       setOrders(res.data.data || []);
     } catch (err) {
       console.error("❌ Failed to fetch orders", err);

@@ -25,7 +25,7 @@ const AboutUsHeaderSection = ({ id, isActive, formData, handleChange }) => {
             </h3>
 
             <div className="space-y-4">
-            {/* title - en */}
+              {/* title - en */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Title (EN) <span className="text-red-500">*</span>
@@ -40,15 +40,15 @@ const AboutUsHeaderSection = ({ id, isActive, formData, handleChange }) => {
                   required
                 />
               </div>
-            {/* tagline -en */}
+              {/* tagline -en */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Tagline (EN)
                 </label>
                 <input
                   type="text"
-                  name="subtitle_en"
-                  value={formData.subtitle_en}
+                  name="content_en"
+                  value={formData.content_en}
                   onChange={handleChange}
                   placeholder="Enter tagline in English..."
                   className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
@@ -78,7 +78,7 @@ const AboutUsHeaderSection = ({ id, isActive, formData, handleChange }) => {
             </h3>
 
             <div className="space-y-4">
-            {/* title - id */}
+              {/* title - id */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Title (ID) <span className="text-red-500">*</span>
@@ -93,15 +93,15 @@ const AboutUsHeaderSection = ({ id, isActive, formData, handleChange }) => {
                   required
                 />
               </div>
-            {/* tagline - en */}
+              {/* tagline - en */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Tagline (ID)
                 </label>
                 <input
                   type="text"
-                  name="subtitle_id"
-                  value={formData.subtitle_id}
+                  name="content_id"
+                  value={formData.content_id}
                   onChange={handleChange}
                   placeholder="Masukkan tagline dalam bahasa Indonesia..."
                   className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"

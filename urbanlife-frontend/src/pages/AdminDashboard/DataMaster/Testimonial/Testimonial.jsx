@@ -23,7 +23,7 @@ const Testimonial = () => {
     setLoading(true);
     try {
       const res = await apiClient.get("/testimonial", {
-        params: {page:1, take:10}
+        params: { page: 1, take: 10 }
       });
       setTestimonials(res.data.data || []);
     } catch (err) {
@@ -42,10 +42,10 @@ const Testimonial = () => {
     if (!newData) return;
 
     const payload = {
-      name: newData.name,
-      occupation: newData.occupation,
-      description: newData.description,
-      order_id: Number(newData.order_id),
+      nama: newData.name,
+      pekerjaan: newData.occupation,
+      deskripsi: newData.description,
+      pemesanan_id: Number(newData.order_id),
     };
 
     setSaving(true);
@@ -54,6 +54,7 @@ const Testimonial = () => {
         await apiClient.patch(`/testimonial/${editingId}`, payload);
         toast.success("Testimonial updated successfully");
       } else {
+        console.log(payload);
         await apiClient.post("/testimonial", payload);
         toast.success("Testimonial added successfully");
       }
@@ -113,13 +114,14 @@ const Testimonial = () => {
   useEffect(() => {
     if (editingId && testimonials.length > 0) {
       const testimonial = testimonials.find((t) => t.id === Number(editingId));
+      console.log("Editing testimonial:", testimonial);
       if (testimonial) {
         formRef.current.setFormData({
           id: testimonial.id,
-          name: testimonial.name,
-          occupation: testimonial.occupation,
-          description: testimonial.description,
-          order_id: testimonial.order_id,
+          name: testimonial.nama,
+          occupation: testimonial.pekerjaan,
+          description: testimonial.deskripsi,
+          order_id: testimonial.pemesanan_id,
         });
       }
     } else if (!isEditing) {

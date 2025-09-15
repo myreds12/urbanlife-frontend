@@ -18,9 +18,9 @@ const contentItems = [
 
 const companyItems = [
   { icon: "fa-info-circle", name: "About Us", path: "/admin/aboutus" },
-  // { icon: "fa-shield-alt", name: "Privacy Policy", path: "/admin/privacy-policy" },
-  // { icon: "fa-file-contract", name: "Terms and Conditions", path: "/admin/terms-conditions" },
-  // { icon: "fa-envelope", name: "Contact Us", path: "/admin/contact-us" },
+  { icon: "fa-shield-alt", name: "Privacy Policy", path: "/admin/privacy-policy" },
+  { icon: "fa-file-contract", name: "Terms and Conditions", path: "/admin/terms-conditions" },
+  { icon: "fa-envelope", name: "Contact Us", path: "/admin/contact-us" },
 ];
 
 const othersItems = [

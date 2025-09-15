@@ -79,6 +79,8 @@ const dummyData = {
     description: "Book your next adventure with urbanlife!",
     buttonText: "Contact Us",
     buttonLink: "/contact",
+    ctaButtonText: "Book Now",
+    ctaButtonLink: "/booking",
   },
 };
 
@@ -121,10 +123,10 @@ const ModernCarousel = ({ images }) => {
             <div
               key={index}
               className={`absolute inset-0 transition-all duration-700 ease-in-out ${index === currentIndex
-                  ? "opacity-100 translate-x-0"
-                  : index < currentIndex
-                    ? "opacity-0 -translate-x-full"
-                    : "opacity-0 translate-x-full"
+                ? "opacity-100 translate-x-0"
+                : index < currentIndex
+                  ? "opacity-0 -translate-x-full"
+                  : "opacity-0 translate-x-full"
                 }`}
             >
               <img
@@ -158,8 +160,8 @@ const ModernCarousel = ({ images }) => {
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
-                ? "bg-cyan-600 w-8"
-                : "bg-gray-300 hover:bg-gray-400"
+              ? "bg-cyan-600 w-8"
+              : "bg-gray-300 hover:bg-gray-400"
               }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -222,9 +224,11 @@ const AboutUs = () => {
           },
           cta: {
             title: data.AboutUsCta.title_en, // Anda bisa menyesuaikan ini
-            description: "Book your next adventure with UrbanLife!", // Anda bisa menyesuaikan ini
-            buttonText: "Contact Us", // Anda bisa menyesuaikan ini
-            buttonLink: "/contact", // Anda bisa menyesuaikan ini
+            description: "Book your next adventure with urbanlife!", // Anda bisa menyesuaikan ini
+            buttonText: data.AboutUsCta.button_text || "Contact Us", // Dynamic Contact Us text
+            buttonLink: data.AboutUsCta.button_link || "/contact", // Dynamic Contact Us link
+            ctaButtonText: data.AboutUsCta.cta_button_text || "Book Now", // Dynamic Book Now text
+            ctaButtonLink: data.AboutUsCta.cta_button_link || "/booking", // Dynamic Book Now link
           },
         };
 
@@ -318,8 +322,8 @@ const AboutUs = () => {
           id="story"
           data-animate
           className={`max-w-5xl mx-auto mb-12 transition-all duration-700 ${isVisible.story
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-6"
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-6"
             }`}
         >
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
@@ -357,8 +361,8 @@ const AboutUs = () => {
                 id={`service-${service.id}`}
                 data-animate
                 className={`group bg-white border border-gray-100 rounded-xl p-6 hover:border-cyan-200 hover:shadow-lg transition-all duration-300 ${isVisible[`service-${service.id}`]
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
                   }`}
               >
                 <div className="flex items-start space-x-4">
@@ -389,8 +393,8 @@ const AboutUs = () => {
                 id="schedule"
                 data-animate
                 className={`lg:w-1/2 transition-all duration-700 ${isVisible.schedule
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-6"
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
                   }`}
               >
                 <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
@@ -437,8 +441,8 @@ const AboutUs = () => {
                 id="achievements"
                 data-animate
                 className={`lg:w-1/2 transition-all duration-700 ${isVisible.achievements
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-6"
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
                   }`}
               >
                 <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
@@ -475,8 +479,8 @@ const AboutUs = () => {
           id="cta"
           data-animate
           className={`text-center max-w-4xl mx-auto transition-all duration-700 ${isVisible.cta
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-6"
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-6"
             }`}
         >
           <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-8 relative shadow-lg">
@@ -488,11 +492,11 @@ const AboutUs = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/services"
+                href={aboutData.cta.ctaButtonLink}
                 className="font-inter bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-700 transition-colors flex items-center justify-center shadow-sm hover:shadow-md"
-                aria-label="Book Now"
+                aria-label={aboutData.cta.ctaButtonText}
               >
-                Book Now
+                {aboutData.cta.ctaButtonText}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </a>
               <a
@@ -504,7 +508,7 @@ const AboutUs = () => {
               </a>
             </div>
             <p className="font-inter text-gray-500 mt-6 text-sm">
-              Experience the difference with UrbanLife - your journey starts
+              Experience the difference with urbanlife - your journey starts
               here
             </p>
           </div>

@@ -1,7 +1,22 @@
-// src/components/AdminDashboard/AboutUs/AboutUsCTASection.jsx
 import React from "react";
 
 const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
+  // Helper to handle phone number input for WhatsApp links
+  const handlePhoneNumberChange = (e) => {
+    const phoneNumber = e.target.value.replace(/[^0-9]/g, ""); // Allow only numbers
+    handleCtaChange({
+      target: {
+        name: "button_link",
+        value: `https://wa.me/+62${phoneNumber}`,
+      },
+    });
+  };
+
+  // Extract phone number from WhatsApp link for display
+  const getPhoneNumber = (link) => {
+    return link.replace("https://wa.me/+62", "");
+  };
+
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
       <div className="bg-white p-6 rounded-md shadow-md shadow-black/20">
@@ -58,8 +73,6 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
             </div>
           </div>
 
-
-
           {/* Indonesian Section */}
           <div className="bg-gray-50 p-5 rounded-xl border border-gray-200">
             <h3 className="text-md font-medium text-gray-700 mb-4 flex items-center">
@@ -113,9 +126,56 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
           </div>
         </div>
 
-        <div className="mb-4 mt-5 flex items-center">
-          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
-            Button Text
+        {/* Contact & CTA Buttons Section */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+      {/* KIRI: CTA Button Text + CTA Button Link */}
+      <div className="space-y-4">
+        {/* CTA Button Text */}
+        <div className="flex items-center">
+          <label
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            style={{ minWidth: "190px" }}
+          >
+            CTA Button Text
+          </label>
+          <input
+            type="text"
+            name="cta_button_text"
+            value={cta.cta_button_text}
+            onChange={handleCtaChange}
+            placeholder="Enter CTA button text..."
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+          />
+        </div>
+
+        {/* CTA Button Link */}
+        <div className="flex items-center">
+          <label
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            style={{ minWidth: "190px" }}
+          >
+            CTA Button Link
+          </label>
+          <input
+            type="text"
+            name="cta_button_link"
+            value={cta.cta_button_link}
+            onChange={handleCtaChange}
+            placeholder="Enter CTA button URL (e.g., /booking)..."
+            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+          />
+        </div>
+      </div>
+
+      {/* KANAN: Contact Us Button Text + Contact Us Button Link */}
+      <div className="space-y-4">
+        {/* Contact Us Button Text */}
+        <div className="flex items-center">
+          <label
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            style={{ minWidth: "190px" }}
+          >
+            Contact Us Button Text
           </label>
           <input
             type="text"
@@ -126,23 +186,31 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
             className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
           />
         </div>
-        {/* TODO: UNTUK SAAT INI MASIH STATIS AKAN DIBUAT DINAMIS SETELAH GOLIVE */}
-        <div className="mb-4 flex items-center">
-          <label className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md" style={{ minWidth: "190px" }}>
-            Button Link
+
+        {/* Contact Us Button Link */}
+        <div className="flex items-center">
+          <label
+            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+            style={{ minWidth: "190px" }}
+          >
+            Contact Us Button Link (WhatsApp)
           </label>
-          <input
-            type="text"
-            disabled
-            name="button_link"
-            value={cta.button_link}
-            onChange={handleCtaChange}
-            placeholder="Enter button URL (e.g., /contact)..."
-            className="py-2 px-3 w-full rounded-md border border-gray-200 bg-gray-50 
-               text-gray-700 cursor-not-allowed focus:ring-0 focus:border-gray-300 
-               placeholder-gray-400 shadow-sm"
-          />
+          <div className="flex w-full rounded-md border border-gray-300 focus-within:ring-cyan-500 focus-within:border-cyan-500">
+            <span className="inline-flex items-center px-3 bg-gray-100 text-gray-600 border-r border-gray-300 rounded-l-md">
+              https://wa.me/+62
+            </span>
+            <input
+              type="text"
+              name="button_link"
+              value={getPhoneNumber(cta.button_link || "https://wa.me/+62")}
+              onChange={handlePhoneNumberChange}
+              placeholder="Enter phone number (e.g., 81234567890)"
+              className="py-1 px-3 w-full rounded-r-md border-0 focus:ring-0"
+            />
+          </div>
         </div>
+      </div>
+    </div>
 
       </div>
     </div>

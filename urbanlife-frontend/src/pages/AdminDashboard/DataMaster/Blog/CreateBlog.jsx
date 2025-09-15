@@ -166,7 +166,7 @@ const CreateBlog = () => {
         });
         toast.success("Blog added successfully");
       }
-      navigate("/admin/blog");
+      navigate("/admin/blogs");
     } catch (error) {
       console.error("❌ Failed to save blog:", error);
       toast.error("Failed to save blog");

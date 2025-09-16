@@ -3,7 +3,7 @@ import React from "react";
 const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
   // Helper to handle phone number input for WhatsApp links
   const handlePhoneNumberChange = (e) => {
-    const phoneNumber = e.target.value.replace(/[^0-9]/g, ""); // Allow only numbers
+    const phoneNumber = e.target.value.replace(/[^0-9]/g, "");
     handleCtaChange({
       target: {
         name: "button_link",
@@ -38,9 +38,7 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
               </svg>
               English Content
             </h3>
-
             <div className="space-y-4">
-              {/* title - en */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   CTA Title (EN) <span className="text-red-500">*</span>
@@ -55,8 +53,6 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
                   required
                 />
               </div>
-
-              {/* desc - en */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Description (EN) <span className="text-red-500">*</span>
@@ -90,9 +86,7 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
               </svg>
               Indonesian Content
             </h3>
-
             <div className="space-y-4">
-              {/* title - id */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   CTA Title (ID) <span className="text-red-500">*</span>
@@ -107,8 +101,6 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
                   required
                 />
               </div>
-
-              {/* desc - id */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Description (ID) <span className="text-red-500">*</span>
@@ -127,91 +119,75 @@ const AboutUsCTASection = ({ id, isActive, cta, handleCtaChange }) => {
         </div>
 
         {/* Contact & CTA Buttons Section */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-      {/* KIRI: CTA Button Text + CTA Button Link */}
-      <div className="space-y-4">
-        {/* CTA Button Text */}
-        <div className="flex items-center">
-          <label
-            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-            style={{ minWidth: "190px" }}
-          >
-            CTA Button Text
-          </label>
-          <input
-            type="text"
-            name="cta_button_text"
-            value={cta.cta_button_text}
-            onChange={handleCtaChange}
-            placeholder="Enter CTA button text..."
-            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-          />
-        </div>
-
-        {/* CTA Button Link */}
-        <div className="flex items-center">
-          <label
-            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-            style={{ minWidth: "190px" }}
-          >
-            CTA Button Link
-          </label>
-          <input
-            type="text"
-            name="cta_button_link"
-            value={cta.cta_button_link}
-            onChange={handleCtaChange}
-            placeholder="Enter CTA button URL (e.g., /booking)..."
-            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-          />
-        </div>
-      </div>
-
-      {/* KANAN: Contact Us Button Text + Contact Us Button Link */}
-      <div className="space-y-4">
-        {/* Contact Us Button Text */}
-        <div className="flex items-center">
-          <label
-            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-            style={{ minWidth: "190px" }}
-          >
-            Contact Us Button Text
-          </label>
-          <input
-            type="text"
-            name="button_text"
-            value={cta.button_text}
-            onChange={handleCtaChange}
-            placeholder="Enter button text..."
-            className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-          />
-        </div>
-
-        {/* Contact Us Button Link */}
-        <div className="flex items-center">
-          <label
-            className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-            style={{ minWidth: "190px" }}
-          >
-            Contact Us Button Link (WhatsApp)
-          </label>
-          <div className="flex w-full rounded-md border border-gray-300 focus-within:ring-cyan-500 focus-within:border-cyan-500">
-            <span className="inline-flex items-center px-3 bg-gray-100 text-gray-600 border-r border-gray-300 rounded-l-md">
-              https://wa.me/+62
-            </span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+          <div className="space-y-4">
+            {/* CTA Button Text */}
+            <div className="flex items-center">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                CTA Button Text
+              </label>
+              <input
+                type="text"
+                name="cta_button_text"
+                value={cta.cta_button_text}
+                onChange={handleCtaChange}
+                placeholder="Enter CTA button text..."
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+              />
+            </div>
+            {/* CTA Button Link is hidden from the form */}
             <input
-              type="text"
-              name="button_link"
-              value={getPhoneNumber(cta.button_link || "https://wa.me/+62")}
-              onChange={handlePhoneNumberChange}
-              placeholder="Enter phone number (e.g., 81234567890)"
-              className="py-1 px-3 w-full rounded-r-md border-0 focus:ring-0"
+              type="hidden"
+              name="cta_button_link"
+              value="/services"
             />
           </div>
-        </div>
-      </div>
-    </div>
 
+          <div className="space-y-4">
+            {/* Contact Us Button Text */}
+            <div className="flex items-center">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Contact Us Button Text
+              </label>
+              <input
+                type="text"
+                name="button_text"
+                value={cta.button_text}
+                onChange={handleCtaChange}
+                placeholder="Enter button text..."
+                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+              />
+            </div>
+            {/* Contact Us Button Link */}
+            <div className="flex items-center">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Contact Us Button Link (WhatsApp)
+              </label>
+              <div className="flex w-full rounded-md border border-gray-300 focus-within:ring-cyan-500 focus-within:border-cyan-500">
+                <span className="inline-flex items-center px-3 bg-gray-100 text-gray-600 border-r border-gray-300 rounded-l-md">
+                  https://wa.me/+62
+                </span>
+                <input
+                  type="text"
+                  name="button_link"
+                  value={getPhoneNumber(cta.button_link || "https://wa.me/+62")}
+                  onChange={handlePhoneNumberChange}
+                  placeholder="Enter phone number (e.g., 81234567890)"
+                  className="py-1 px-3 w-full rounded-r-md border-0 focus:ring-0"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

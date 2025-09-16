@@ -191,12 +191,26 @@ const AboutUs = () => {
           story: {
             title: data.AboutUsStory.title_en,
             description: data.AboutUsStory.content_en,
-            images: data.AboutUsFile.map(
-              (file) =>
-                `${apiClient.defaults.baseURL}/public/${file.url
-                  .replace(/\\/g, "/")
-                  .replace(/^uploads\//, "")}`
-            ), // Ambil URL gambar
+            // SESUDAH (sudah diperbaiki):
+            images: (() => {
+              const validImages = data.AboutUsFile
+                .filter((file) => {
+                  // Filter hanya file yang merupakan gambar
+                  const fileName = file.nama_file || file.url;
+                  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'];
+                  return imageExtensions.some(ext => 
+                    fileName.toLowerCase().includes(ext.toLowerCase())
+                  );
+                })
+                .map((file) =>
+                  `${apiClient.defaults.baseURL}/public/${file.url
+                    .replace(/\\/g, "/")
+                    .replace(/^uploads\//, "")}`
+                );
+              
+              // Fallback ke dummy images jika tidak ada gambar valid
+              return validImages.length > 0 ? validImages : dummyData.story.images;
+            })(),
           },
           services: data.AboutUsServices.map((service) => ({
             id: `private-car`,
@@ -228,7 +242,7 @@ const AboutUs = () => {
             buttonText: data.AboutUsCta.button_text || "Contact Us", // Dynamic Contact Us text
             buttonLink: data.AboutUsCta.button_url || "/contact", // Dynamic Contact Us link
             ctaButtonText: data.AboutUsCta.cta_button_text || "Book Now", // Dynamic Book Now text
-            ctaButtonLink: data.AboutUsCta.cta_button_url || "/booking", // Dynamic Book Now link
+            ctaButtonLink: data.AboutUsCta.cta_button_url || "/services", // Dynamic Book Now link
           },
         };
 

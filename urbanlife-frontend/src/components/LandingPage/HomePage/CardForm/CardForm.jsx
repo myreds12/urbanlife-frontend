@@ -145,112 +145,112 @@ const CardForm = () => {
 
   return (
     <div className="w-full max-w-[360px] sm:max-w-[400px] mx-auto space-y-2 px-4 sm:px-4 pt-2 sm:pt-6">
-    {/* Country */}
-    <div className="bg-white rounded-xl shadow-md p-5">
-      <select
-        className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
-        value={formData.countryId}
-        onChange={(e) => handleChange("countryId", e.target.value)}
-      >
-        <option value="" disabled>
-          {loadingCountries ? t("cardform.loading_countries") : t("cardform.select_country")}
-        </option>
-        {countries.map((c) => (
-          <option key={c.value} value={c.value}>
-            {c.label}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {/* City */}
-    <div className="bg-white rounded-xl shadow-md p-5">
-      <select
-        className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
-        value={formData.cityId}
-        onChange={(e) => handleChange("cityId", e.target.value)}
-        disabled={!formData.countryId || loadingCities}
-      >
-        <option value="" disabled>
-          {loadingCities
-            ? t("cardform.loading_city")
-            : formData.countryId
-            ? t("cardform.select_city")
-            : t("cardform.select_city_first")}
-        </option>
-        {cities.map((c) => (
-          <option key={c.value} value={c.value}>
-            {c.label}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {/* Service, Dates, Buttons */}
-    <div className="bg-white rounded-xl shadow-md p-5 space-y-5">
-      {/* Service */}
-      <select
-        className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
-        value={formData.service}
-        onChange={(e) => handleChange("service", e.target.value)}
-      >
-        <option value="" disabled>
-          {t("cardform.select_services")}
-        </option>
-        {services.map((s) => (
-          <option key={s.value} value={s.value}>
-            {s.label}
-          </option>
-        ))}
-      </select>
-
-      {/* Dates */}
-      <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
-        <DateInput
-          label={t("cardform.from")}
-          selected={formData.fromDate}
-          onChange={(date) => handleChange("fromDate", date)}
-        />
-
-        <DateInput
-          label={t("cardform.to")}
-          selected={formData.toDate}
-          minDate={formData.fromDate}
-          onChange={(date) => handleChange("toDate", date)}
-        />
-      </div>
-
-      {/* Buttons */}
-      <div className="flex gap-4">
-        <button
-          onClick={handleSearch}
-          disabled={isSearching}
-          className="flex-1 bg-cyan-600 text-white px-5 py-3 rounded-md text-base font-medium hover:bg-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+      {/* Country */}
+      <div className="bg-white rounded-xl shadow-md p-5">
+        <select
+          className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          value={formData.countryId}
+          onChange={(e) => handleChange("countryId", e.target.value)}
         >
-          {isSearching ? (
-            <>
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-              {t("cardform.searching")}
-            </>
-          ) : (
-            <>
-              <Search size={18} />
-              {t("cardform.search")}
-            </>
-          )}
-        </button>
-
-        {Object.values(formData).some((v) => v) && (
-          <button
-            onClick={clearForm}
-            className="px-4 py-3 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
-            title={t("cardform.clear_form")}
-          >
-            <X size={18} />
-          </button>
-        )}
+          <option value="" disabled>
+            {loadingCountries ? t("cardform.loading_countries") : t("cardform.select_country")}
+          </option>
+          {countries.map((c) => (
+            <option key={c.value} value={c.value}>
+              {c.label}
+            </option>
+          ))}
+        </select>
       </div>
-    </div>
+
+      {/* City */}
+      <div className="bg-white rounded-xl shadow-md p-5">
+        <select
+          className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          value={formData.cityId}
+          onChange={(e) => handleChange("cityId", e.target.value)}
+          disabled={!formData.countryId || loadingCities}
+        >
+          <option value="" disabled>
+            {loadingCities
+              ? t("cardform.loading_city")
+              : formData.countryId
+                ? t("cardform.select_city")
+                : t("cardform.select_city_first")}
+          </option>
+          {cities.map((c) => (
+            <option key={c.value} value={c.value}>
+              {c.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Service, Dates, Buttons */}
+      <div className="bg-white rounded-xl shadow-md p-5 space-y-5">
+        {/* Service */}
+        <select
+          className="w-full px-5 pr-12 py-3 bg-gray-100 border-0 rounded-md text-gray-500 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-white"
+          value={formData.service}
+          onChange={(e) => handleChange("service", e.target.value)}
+        >
+          <option value="" disabled>
+            {t("cardform.select_services")}
+          </option>
+          {services.map((s) => (
+            <option key={s.value} value={s.value}>
+              {s.label}
+            </option>
+          ))}
+        </select>
+
+        {/* Dates */}
+        <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+          <DateInput
+            label={t("cardform.from")}
+            selected={formData.fromDate}
+            onChange={(date) => handleChange("fromDate", date)}
+          />
+
+          <DateInput
+            label={t("cardform.to")}
+            selected={formData.toDate}
+            minDate={formData.fromDate}
+            onChange={(date) => handleChange("toDate", date)}
+          />
+        </div>
+
+        {/* Buttons */}
+        <div className="flex gap-4">
+          <button
+            onClick={handleSearch}
+            disabled={isSearching}
+            className="flex-1 bg-cyan-600 text-white px-5 py-3 rounded-md text-base font-medium hover:bg-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            {isSearching ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                {t("cardform.searching")}
+              </>
+            ) : (
+              <>
+                <Search size={18} />
+                {t("cardform.search")}
+              </>
+            )}
+          </button>
+
+          {Object.values(formData).some((v) => v) && (
+            <button
+              onClick={clearForm}
+              className="px-4 py-3 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
+              title={t("cardform.clear_form")}
+            >
+              <X size={18} />
+            </button>
+          )}
+        </div>
+      </div>
 
       {/* Result Modal */}
       <SearchResultsModal

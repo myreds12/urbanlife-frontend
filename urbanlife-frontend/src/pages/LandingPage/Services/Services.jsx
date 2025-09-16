@@ -12,82 +12,15 @@ const Services = () => {
     countries: [],
     cities: [],
     services: [],
-    priceRange: [0, 50000000],
+    priceRange: [0, 15000000],
   });
 
-  console.log(filters, "filters");
-  const [serviceData, setServiceData] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]);
+  const [serviceData, setServiceData] = useState([]); // Semua data hasil fetch awal
+  const [filteredServices, setFilteredServices] = useState([]); // Data hasil filter/search
+  const [totalServices, setTotalServices] = useState(0); // Total dari API response
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { t } = useTranslation();
-
-  // const getDummyServices = () => [
-  //   {
-  //     id: 1,
-  //     title: "Best Of Vietnam In 14 Days",
-  //     country: "Vietnam",
-  //     city: "Hanoi",
-  //     type: "day tour",
-  //     rating: 4.8,
-  //     reviews: 86,
-  //     price: 1235000,
-  //     image:
-  //       "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=500&h=350&fit=crop&auto=format&q=80",
-  //     destinations:
-  //       "Hanoi, Ninh Binh, Sapa, Halong Bay, Hoi An, Ho Chi Minh City, Mekong Delta",
-  //     description:
-  //       "Beautiful country, culture and food. It was a real surprise to find out cities like Sa Pa or Hoi An. So beautiful!",
-  //     popular: true,
-  //     duration: "14 days",
-  //     category: "tour",
-  //     status: "active",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Toyota Grand New Avanza",
-  //     country: "Indonesia",
-  //     city: "Bali",
-  //     type: "rent car",
-  //     rating: 4.5,
-  //     reviews: 124,
-  //     price: 235000,
-  //     image:
-  //       "https://images.unsplash.com/photo-1549924231-f129b911e442?w=500&h=350&fit=crop&auto=format&q=80",
-  //     destinations: "Available in Bali area",
-  //     description:
-  //       "Comfortable family car, perfect for Bali exploration. Includes driver and fuel.",
-  //     popular: false,
-  //     duration: "4 hours",
-  //     category: "vehicle",
-  //     status: "active",
-  //     capacity: "6 passengers",
-  //     transmission: "Manual",
-  //     fuel_type: "Gasoline",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Honda Civic Premium",
-  //     country: "Indonesia",
-  //     city: "Jakarta",
-  //     type: "rent car",
-  //     rating: 4.7,
-  //     reviews: 89,
-  //     price: 450000,
-  //     image:
-  //       "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=500&h=350&fit=crop&auto=format&q=80",
-  //     destinations: "Available in Jakarta & surrounding areas",
-  //     description:
-  //       "Luxury sedan with professional driver. Perfect for business meetings and airport transfers.",
-  //     popular: true,
-  //     duration: "8 hours",
-  //     category: "vehicle",
-  //     status: "active",
-  //     capacity: "4 passengers",
-  //     transmission: "Automatic",
-  //     fuel_type: "Gasoline",
-  //   },
-  // ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,8 +28,9 @@ const Services = () => {
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 500));
         const services = await apiClient.get("/pemesanan/items");
-        setServiceData(services.data.data);
-        setFilteredServices(services.data.data);
+        setServiceData(services.data.data || []);
+        setFilteredServices(services.data.data || []);
+        setTotalServices(services.data.total || services.data.data.length || 0);
       } catch (err) {
         console.log(err);
         setError("Failed to load services");
@@ -114,22 +48,22 @@ const Services = () => {
 
       // Build params
       const params = {
-        take: 10,
+        take: 100,
         page: 1,
-        type: filters.services[0] || "", // Ambil 1 jenis layanan (jika banyak, bisa disesuaikan dengan backend)
+        type: filters.services[0] || "", // ambil 1 jenis layanan
         harga_min: filters.priceRange[0],
         harga_max: filters.priceRange[1],
       };
 
       // Tambahkan negara_ids[]
       filters.countries.forEach((id) => {
-        params["negara_ids"] = params["negara_ids"] || [];
+        if (!params["negara_ids"]) params["negara_ids"] = [];
         params["negara_ids"].push(id);
       });
 
       // Tambahkan lokasi_ids[]
       filters.cities.forEach((id) => {
-        params["lokasi_ids"] = params["lokasi_ids"] || [];
+        if (!params["lokasi_ids"]) params["lokasi_ids"] = [];
         params["lokasi_ids"].push(id);
       });
 
@@ -148,10 +82,8 @@ const Services = () => {
         },
       });
 
-      console.log(response.data);
-
-      // Beri response.data.data ke filteredServices
       setFilteredServices(response.data.data || []);
+      setTotalServices(response.data.total || (response.data.data?.length || 0));
     } catch (error) {
       console.error("Search error:", error);
       setError("Failed to fetch filtered services.");
@@ -203,7 +135,7 @@ const Services = () => {
               <p className="text-gray-600 font-medium">
                 {loading
                   ? "Loading services..."
-                  : `Showing ${filteredServices.length} of ${serviceData.length} services`}
+                  : `Showing ${filteredServices.length} of ${totalServices} services`}
               </p>
             </div>
 
@@ -253,6 +185,7 @@ const Services = () => {
                         priceRange: [1000000, 5000000],
                       });
                       setFilteredServices(serviceData);
+                      setTotalServices(serviceData.length);
                     }}
                     className="text-cyan-600 hover:text-cyan-700 font-medium px-4 py-2 rounded-md hover:bg-cyan-50 transition-colors"
                   >
@@ -269,3 +202,5 @@ const Services = () => {
 };
 
 export default Services;
+
+

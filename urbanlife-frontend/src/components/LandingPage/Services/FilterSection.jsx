@@ -21,7 +21,7 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
 
   const [localPriceRange, setLocalPriceRange] = useState(filters.priceRange);
   const MIN = 0;
-  const MAX = 50000000;
+  const MAX = 15000000;
   const STEP = 50000;
 
   // 🔥 Ambil data filter dari API
@@ -36,6 +36,7 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
             countries: data.countries || [],
             cities: data.cities || [],
             services: data.services || [],
+            price: data.price || []
           });
         }
       } catch (error) {
@@ -203,14 +204,12 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
                 <div
                   className="absolute h-2 bg-gray-800 z-10 rounded-full"
                   style={{
-                    left: `${
-                      ((localPriceRange[0] - MIN) / (MAX - MIN)) * 100
-                    }%`,
-                    width: `${
-                      ((localPriceRange[1] - localPriceRange[0]) /
-                        (MAX - MIN)) *
+                    left: `${((localPriceRange[0] - MIN) / (MAX - MIN)) * 100
+                      }%`,
+                    width: `${((localPriceRange[1] - localPriceRange[0]) /
+                      (MAX - MIN)) *
                       100
-                    }%`,
+                      }%`,
                   }}
                 />
               </div>

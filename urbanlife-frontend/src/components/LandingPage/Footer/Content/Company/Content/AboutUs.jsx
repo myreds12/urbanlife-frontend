@@ -368,16 +368,17 @@ const AboutUs = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 gap-6 max-w-5xl mx-auto">
             {aboutData.services.map((service) => (
               <div
                 key={service.id}
                 id={`service-${service.id}`}
                 data-animate
-                className={`group bg-white border border-gray-100 rounded-xl p-6 hover:border-cyan-200 hover:shadow-lg transition-all duration-300 ${isVisible[`service-${service.id}`]
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-                  }`}
+                className={`group bg-white border border-gray-100 rounded-xl p-6 hover:border-cyan-200 hover:shadow-lg transition-all duration-300 ${
+                  isVisible[`service-${service.id}`]
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
+                }`}
               >
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center text-cyan-600 group-hover:bg-cyan-200/50 transition-colors">

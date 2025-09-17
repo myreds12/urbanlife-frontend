@@ -198,7 +198,7 @@ const AboutUs = () => {
                   // Filter hanya file yang merupakan gambar
                   const fileName = file.nama_file || file.url;
                   const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'];
-                  return imageExtensions.some(ext => 
+                  return imageExtensions.some(ext =>
                     fileName.toLowerCase().includes(ext.toLowerCase())
                   );
                 })
@@ -207,7 +207,7 @@ const AboutUs = () => {
                     .replace(/\\/g, "/")
                     .replace(/^uploads\//, "")}`
                 );
-              
+
               // Fallback ke dummy images jika tidak ada gambar valid
               return validImages.length > 0 ? validImages : dummyData.story.images;
             })(),
@@ -359,38 +359,38 @@ const AboutUs = () => {
         </div>
 
         <div className="mb-12">
-          <div className="text-center mb-10">
+          <div className="text-center mb-10 px-4">
             <h3 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-4">
               Our Services
             </h3>
-            <p className="font-inter text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+            <p className="font-inter text-gray-600 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
               Comprehensive travel solutions tailored to your needs
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 gap-8 max-w-4xl mx-auto justify-items-center px-4">
             {aboutData.services.map((service) => (
               <div
                 key={service.id}
                 id={`service-${service.id}`}
                 data-animate
-                className={`group bg-white border border-gray-100 rounded-xl p-6 hover:border-cyan-200 hover:shadow-lg transition-all duration-300 ${isVisible[`service-${service.id}`]
+                className={`group bg-white border border-gray-100 rounded-2xl p-8 hover:border-cyan-200 hover:shadow-xl transition-all duration-300 w-full ${isVisible[`service-${service.id}`]
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-4"
                   }`}
               >
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center text-cyan-600 group-hover:bg-cyan-200/50 transition-colors">
+                <div className="flex items-start space-x-6">
+                  <div className="w-14 h-14 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center text-cyan-600 group-hover:bg-cyan-200/50 transition-colors shrink-0 text-xl">
                     {getServiceIcon(service.icon)}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-playfair text-lg font-semibold text-gray-900 mb-2">
+                    <h4 className="font-playfair text-xl font-semibold text-gray-900 mb-3 break-words">
                       {service.title}
                     </h4>
-                    <p className="font-inter text-gray-600 text-sm mb-3">
+                    <p className="font-inter text-gray-600 text-base mb-4 break-words leading-relaxed whitespace-pre-wrap">
                       {service.description}
                     </p>
-                    <span className="font-inter text-xs text-cyan-600 bg-cyan-50 px-2 py-1 rounded-full">
+                    <span className="font-inter text-sm text-cyan-600 bg-cyan-50 px-3 py-1 rounded-full inline-block">
                       {service.location}
                     </span>
                   </div>
@@ -398,7 +398,9 @@ const AboutUs = () => {
               </div>
             ))}
           </div>
+
         </div>
+
 
         <div className="mb-12">
           <div className="max-w-5xl mx-auto">

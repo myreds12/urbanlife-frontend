@@ -7,12 +7,14 @@ const HeroSection = () => {
   const [heroData, setHeroData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log(heroData, "heroData");
+
   useEffect(() => {
     const fetchHero = async () => {
       try {
         const { data } = await apiClient.get("/hero-section");
         const active = data.data?.find(
-          (h) => h.status === true || h.is_active === true
+          (h) => h.status === true
         );
         setHeroData(active || null);
       } catch (err) {
@@ -36,7 +38,7 @@ const HeroSection = () => {
   const getImageUrl = (image) => {
     if (image instanceof File) {
       return URL.createObjectURL(image);
-    } else if (image.url) {
+    } else if (image?.url) {
       return `${apiClient.defaults.baseURL}/public/${image.url
         .replace(/\\/g, "/")
         .replace(/^uploads\//, "")}`;

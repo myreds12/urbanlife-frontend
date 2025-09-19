@@ -13,6 +13,8 @@ const FilterSection = ({ filters, setFilters, onSearch }) => {
     price: true,
   });
 
+  console.log(filters, "filters");
+
   const [filterOptions, setFilterOptions] = useState({
     countries: [],
     cities: [],

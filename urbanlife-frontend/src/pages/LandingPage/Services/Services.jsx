@@ -50,7 +50,7 @@ const Services = () => {
       const params = {
         take: 100,
         page: 1,
-        type: filters.services[0] || "", // ambil 1 jenis layanan
+        types: filters.services, // ambil 1 jenis layanan
         harga_min: filters.priceRange[0],
         harga_max: filters.priceRange[1],
       };
@@ -66,6 +66,8 @@ const Services = () => {
         if (!params["lokasi_ids"]) params["lokasi_ids"] = [];
         params["lokasi_ids"].push(id);
       });
+
+      console.log(params, "PARAMS");
 
       const response = await apiClient.get("/pemesanan/items", {
         params,

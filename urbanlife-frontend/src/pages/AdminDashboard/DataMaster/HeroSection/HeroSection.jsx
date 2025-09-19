@@ -146,7 +146,7 @@ const HeroSection = () => {
 
     try {
       // Balik status berdasarkan nilai isActive saat ini
-      const newStatus = !isActive;
+      const newStatus = isActive;
       console.log("New status:", newStatus);
 
       // Membuat FormData dan mengisi field status

@@ -3,6 +3,7 @@ import Navbar from "../../../../HomePage/Navbar/Navbar";
 import Footer from "../../../../HomePage/Footer";
 import toast from "react-hot-toast";
 import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
+import { useTranslation } from "react-i18next";
 
 const renderLexicalToHTML = (jsonString) => {
   if (!jsonString) return "";
@@ -107,10 +108,10 @@ const renderLexicalToHTML = (jsonString) => {
   }
 };
 
-
 const PrivacyPolicy = () => {
   const [policy, setPolicy] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchPolicy = async () => {
@@ -120,18 +121,18 @@ const PrivacyPolicy = () => {
         setPolicy(data);
       } catch (err) {
         console.error("Failed to fetch privacy policy:", err);
-        toast.error("Gagal memuat Privacy Policy");
+        toast.error(t("privacypolicy.error"));
       } finally {
         setLoading(false);
       }
     };
     fetchPolicy();
-  }, []);
+  }, [t]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500">Loading Privacy Policy...</p>
+        <p className="text-gray-500">{t("privacypolicy.loading")}</p>
       </div>
     );
   }
@@ -139,7 +140,7 @@ const PrivacyPolicy = () => {
   if (!policy) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500">Privacy Policy tidak ditemukan.</p>
+        <p className="text-red-500">{t("privacypolicy.not_found")}</p>
       </div>
     );
   }
@@ -150,26 +151,29 @@ const PrivacyPolicy = () => {
 
       {/* Header */}
       <div className="bg-gradient-to-b from-cyan-50 to-slate-50 py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-4">
-          {policy.title_en || "Privacy Policy"}
+        <h1 className="text-4xl md:text-5xl font-semibold text-slate-900 mt-15">
+          {i18n.language === "id" ? (policy.title_id || "Kebijakan Privasi") : (policy.title_en || "Privacy Policy")}
         </h1>
         <p className="text-slate-600">
-          Last updated:{" "}
-          {new Date(policy.createdAt).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
+          {t("privacypolicy.last_updated")}{" "}
+          {new Date(policy.createdAt).toLocaleDateString(
+            i18n.language === "id" ? "id-ID" : "en-US",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          )}
         </p>
       </div>
 
       {/* Content */}
       <div className="container mx-auto px-6 py-12 max-w-4xl">
-        {policy.content_en && (
+        {(i18n.language === "id" ? policy.content_id : policy.content_en) && (
           <div
             className="prose prose-slate max-w-none"
             dangerouslySetInnerHTML={{
-              __html: renderLexicalToHTML(policy.content_en),
+              __html: renderLexicalToHTML(i18n.language === "id" ? policy.content_id : policy.content_en),
             }}
           />
         )}
@@ -177,11 +181,11 @@ const PrivacyPolicy = () => {
         {/* Contact Section */}
         <div className="mt-16">
           <h2 className="text-2xl font-semibold text-slate-900 mb-3">
-            {policy.contact_title_en || "Contact Us"}
+            {i18n.language === "id" ? (policy.contact_title_id || "Hubungi Kami") : (policy.contact_title_en || "Contact Us")}
           </h2>
           <div className="rounded-xl border bg-white shadow-sm p-6">
             <p className="text-slate-700 mb-2">
-              If you have questions about this Privacy Policy, contact us:
+              {t("privacypolicy.contact_description")}
             </p>
             <p className="text-cyan-600 font-medium">{policy.contact_email}</p>
             <p className="text-slate-600">{policy.contact_phone}</p>

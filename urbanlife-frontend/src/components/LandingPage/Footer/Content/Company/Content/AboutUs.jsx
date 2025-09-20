@@ -1,4 +1,3 @@
-// src/pages/LandingPage/AboutUs/AboutUs.jsx
 import React, { useState, useEffect, useCallback } from "react";
 import {
   MapPin,
@@ -16,22 +15,28 @@ import {
   Star,
   Award,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import Navbar from "../../../../HomePage/Navbar/Navbar";
 import Footer from "../../../../HomePage/Footer";
 import apiClient from "../../../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
+import { normalizeLanguageField } from "../../../../../../components/AdminDashboard/Utils/Language/languageUtils"; // Ganti dengan path yang benar
 
 // Dummy data as fallback
 const dummyData = {
   header: {
-    title: "About UrbanLife",
-    tagline:
-      "Your trusted partner for seamless travel experiences in Bali and Jakarta",
+    title: { en: "About UrbanLife", id: "Tentang UrbanLife" },
+    tagline: {
+      en: "Your trusted partner for seamless travel experiences in Bali and Jakarta",
+      id: "Mitra terpercaya Anda untuk pengalaman perjalanan yang mulus di Bali dan Jakarta",
+    },
   },
   story: {
-    title: "Our Story",
-    description:
-      "UrbanLife was founded with a passion for making travel in Bali and Jakarta effortless and memorable. Since 2018, we've been helping travelers explore the vibrant culture, stunning landscapes, and hidden gems of these iconic destinations.",
+    title: { en: "Our Story", id: "Cerita Kami" },
+    description: {
+      en: "UrbanLife was founded with a passion for making travel in Bali and Jakarta effortless and memorable. Since 2018, we've been helping travelers explore the vibrant culture, stunning landscapes, and hidden gems of these iconic destinations.",
+      id: "UrbanLife didirikan dengan semangat untuk membuat perjalanan di Bali dan Jakarta menjadi mudah dan tak terlupakan. Sejak 2018, kami telah membantu wisatawan menjelajahi budaya yang hidup, pemandangan yang menakjubkan, dan permata tersembunyi dari destinasi ikonik ini.",
+    },
     images: [
       "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=400&fit=crop",
       "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&h=400&fit=crop",
@@ -41,50 +46,63 @@ const dummyData = {
   services: [
     {
       id: "private-car",
-      title: "Private Car with Driver",
-      description:
-        "Explore Bali and Jakarta with our English-speaking drivers.",
+      title: { en: "Private Car with Driver", id: "Mobil Pribadi dengan Sopir" },
+      description: {
+        en: "Explore Bali and Jakarta with our English-speaking drivers.",
+        id: "Jelajahi Bali dan Jakarta dengan sopir berbahasa Inggris kami.",
+      },
       location: "Bali & Jakarta",
       icon: "car",
     },
     {
       id: "airport-transfer",
-      title: "Airport Transfer",
-      description: "Hassle-free pick-up and drop-off services.",
+      title: { en: "Airport Transfer", id: "Antar-Jemput Bandara" },
+      description: {
+        en: "Hassle-free pick-up and drop-off services.",
+        id: "Layanan antar-jemput tanpa repot.",
+      },
       location: "Bali & Jakarta",
       icon: "plane",
     },
   ],
   operationalSchedule: {
-    title: "Operational Hours",
-    description:
-      "We are committed to providing excellent service during our operational hours.",
+    title: { en: "Operational Hours", id: "Jam Operasional" },
+    description: {
+      en: "We are committed to providing excellent service during our operational hours.",
+      id: "Kami berkomitmen untuk memberikan layanan terbaik selama jam operasional kami.",
+    },
     schedule: [
       { day: "Monday", time: "08:00 - 17:00" },
       { day: "Sunday", time: "08:00 - 17:00", highlight: true },
     ],
-    buttonText: "Contact Us Now",
+    buttonText: { en: "Contact Us Now", id: "Hubungi Kami Sekarang" },
     buttonLink: "/contact",
   },
   achievements: {
-    title: "Our Achievements",
-    subtitle: "Trusted by thousands of travelers across Indonesia",
+    title: { en: "Our Achievements", id: "Pencapaian Kami" },
+    subtitle: {
+      en: "Trusted by thousands of travelers across Indonesia",
+      id: "Dipercaya oleh ribuan wisatawan di seluruh Indonesia",
+    },
     stats: [
-      { number: "15,000+", label: "Happy Customers", icon: "users" },
-      { number: "4.9", label: "Average Rating", icon: "star" },
+      { number: "15,000+", label: { en: "Happy Customers", id: "Pelanggan Puas" }, icon: "users" },
+      { number: "4.9", label: { en: "Average Rating", id: "Rata-rata Penilaian" }, icon: "star" },
     ],
   },
   cta: {
-    title: "Ready to Explore?",
-    description: "Book your next adventure with urbanlife!",
-    buttonText: "Contact Us",
+    title: { en: "Ready to Explore?", id: "Siap Menjelajah?" },
+    description: {
+      en: "Book your next adventure with urbanlife!",
+      id: "Pesan petualangan Anda berikutnya dengan urbanlife!",
+    },
+    buttonText: { en: "Contact Us", id: "Hubungi Kami" },
     buttonLink: "/contact",
-    ctaButtonText: "Book Now",
+    ctaButtonText: { en: "Book Now", id: "Pesan Sekarang" },
     ctaButtonLink: "/booking",
   },
 };
 
-// Modern Carousel Component
+// Modern Carousel Component (tetap sama, tidak diubah)
 const ModernCarousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -174,6 +192,21 @@ const ModernCarousel = ({ images }) => {
 const AboutUs = () => {
   const [isVisible, setIsVisible] = useState({});
   const [aboutData, setAboutData] = useState(dummyData);
+  const [selectedLanguage, setSelectedLanguage] = useState("ENGLISH");
+  const { t, i18n } = useTranslation();
+
+  // Sinkronkan selectedLanguage dengan i18n.language
+  useEffect(() => {
+    setSelectedLanguage(i18n.language === "id" ? "INDONESIA" : "ENGLISH");
+  }, [i18n.language]);
+
+  // Fungsi untuk memilih konten berdasarkan bahasa
+  const getContentByLanguage = (field) => {
+    if (!field) {
+      return selectedLanguage === "INDONESIA" ? "Tidak ada data." : "No data available.";
+    }
+    return field[selectedLanguage === "INDONESIA" ? "id" : "en"] || field.en || "";
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -185,12 +218,12 @@ const AboutUs = () => {
         // Mengatur data ke dalam format yang sesuai
         const formattedData = {
           header: {
-            title: data.title_en,
-            tagline: data.content_en,
+            title: normalizeLanguageField(data, "title"),
+            tagline: normalizeLanguageField(data, "content"),
           },
           story: {
-            title: data.AboutUsStory.title_en,
-            description: data.AboutUsStory.content_en,
+            title: normalizeLanguageField(data.AboutUsStory, "title"),
+            description: normalizeLanguageField(data.AboutUsStory, "content"),
             // SESUDAH (sudah diperbaiki):
             images: (() => {
               const validImages = data.AboutUsFile
@@ -214,34 +247,42 @@ const AboutUs = () => {
           },
           services: data.AboutUsServices.map((service) => ({
             id: `private-car`,
-            title: service.title_en,
-            description: service.content_en,
+            title: normalizeLanguageField(service, "title"),
+            description: normalizeLanguageField(service, "content"),
             location: service.location,
             icon: service.icon,
           })),
           operationalSchedule: {
-            title: "Operational Hours", // Anda bisa menyesuaikan ini
-            description:
-              "We are committed to providing excellent service during our operational hours.", // Anda bisa menyesuaikan ini
+            title: { en: "Operational Hours", id: "Jam Operasional" }, // Anda bisa menyesuaikan ini
+            description: {
+              en: "We are committed to providing excellent service during our operational hours.",
+              id: "Kami berkomitmen untuk memberikan layanan terbaik selama jam operasional kami.",
+            }, // Anda bisa menyesuaikan ini
             schedule: data.AboutUsOperational,
-            buttonText: "Contact Us Now", // Anda bisa menyesuaikan ini
-            buttonLink: "/contact", // Anda bisa menyesuaikan ini
+            buttonText: { en: "Contact Us Now", id: "Hubungi Kami Sekarang" },  // Anda bisa menyesuaikan ini
+            buttonLink: "/contact",  // Anda bisa menyesuaikan ini
           },
           achievements: {
-            title: "Our Achievements", // Anda bisa menyesuaikan ini
-            subtitle: "Trusted by thousands of travelers across Indonesia", // Anda bisa menyesuaikan ini
+            title: { en: "Our Achievements", id: "Pencapaian Kami" },  // Anda bisa menyesuaikan ini
+            subtitle: {
+              en: "Trusted by thousands of travelers across Indonesia",
+              id: "Dipercaya oleh ribuan wisatawan di seluruh Indonesia",
+            },  // Anda bisa menyesuaikan ini
             stats: data.AboutUsAchievements.map((achievement) => ({
               number: achievement.number,
-              label: achievement.content_en,
+              label: normalizeLanguageField(achievement, "content"),
               icon: achievement.icon,
             })),
           },
           cta: {
-            title: data.AboutUsCta.title_en, // Anda bisa menyesuaikan ini
-            description: "Book your next adventure with urbanlife!", // Anda bisa menyesuaikan ini
-            buttonText: data.AboutUsCta.button_text || "Contact Us", // Dynamic Contact Us text
+            title: normalizeLanguageField(data.AboutUsCta, "title"),  // Anda bisa menyesuaikan ini
+            description: {
+              en: "Book your next adventure with urbanlife!",
+              id: "Pesan petualangan Anda berikutnya dengan urbanlife!",
+            },  // Anda bisa menyesuaikan ini
+            buttonText: normalizeLanguageField(data.AboutUsCta, "button_text") || { en: "Contact Us", id: "Hubungi Kami" }, // Dynamic Contact Us text
             buttonLink: data.AboutUsCta.button_url || "/contact", // Dynamic Contact Us link
-            ctaButtonText: data.AboutUsCta.cta_button_text || "Book Now", // Dynamic Book Now text
+            ctaButtonText: normalizeLanguageField(data.AboutUsCta, "cta_button_text") || { en: "Book Now", id: "Pesan Sekarang" },  // Dynamic Book Now text
             ctaButtonLink: data.AboutUsCta.cta_button_url || "/services", // Dynamic Book Now link
           },
         };
@@ -322,10 +363,10 @@ const AboutUs = () => {
 
         <div className="relative z-10 container mx-auto px-4 py-16 text-center sm:px-6 sm:py-20 mt-15">
           <h1 className="font-playfair text-5xl sm:text-6xl md:text-7xl text-white font-bold mb-6 leading-tight drop-shadow-md">
-            {aboutData.header.title}
+            {getContentByLanguage(aboutData.header.title)}
           </h1>
           <p className="font-inter text-xl sm:text-2xl text-white max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
-            {aboutData.header.tagline}
+            {getContentByLanguage(aboutData.header.tagline)}
           </p>
           <div className="mt-6 w-20 h-1 bg-white/60 mx-auto rounded-full"></div>
         </div>
@@ -346,10 +387,10 @@ const AboutUs = () => {
                 <MapPin className="w-5 h-5 text-cyan-600" />
               </div>
               <h2 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">
-                {aboutData.story.title}
+                {getContentByLanguage(aboutData.story.title)}
               </h2>
               <p className="font-inter text-gray-600 leading-relaxed text-base sm:text-lg">
-                {aboutData.story.description}
+                {getContentByLanguage(aboutData.story.description)}
               </p>
             </div>
             <div className="relative">
@@ -361,10 +402,10 @@ const AboutUs = () => {
         <div className="mb-12">
           <div className="text-center mb-10 px-4">
             <h3 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-4">
-              Our Services
+              {t("aboutus.services")} {/* i18n statis */}
             </h3>
             <p className="font-inter text-gray-600 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
-              Comprehensive travel solutions tailored to your needs
+              {t("aboutus.services_description")} {/* i18n statis */}
             </p>
           </div>
 
@@ -385,10 +426,10 @@ const AboutUs = () => {
                   </div>
                   <div className="flex-1">
                     <h4 className="font-playfair text-xl font-semibold text-gray-900 mb-3 break-words">
-                      {service.title}
+                      {getContentByLanguage(service.title)}
                     </h4>
                     <p className="font-inter text-gray-600 text-base mb-4 break-words leading-relaxed whitespace-pre-wrap">
-                      {service.description}
+                      {getContentByLanguage(service.description)}
                     </p>
                     <span className="font-inter text-sm text-cyan-600 bg-cyan-50 px-3 py-1 rounded-full inline-block">
                       {service.location}
@@ -398,9 +439,7 @@ const AboutUs = () => {
               </div>
             ))}
           </div>
-
         </div>
-
 
         <div className="mb-12">
           <div className="max-w-5xl mx-auto">
@@ -416,10 +455,10 @@ const AboutUs = () => {
                 <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
                   <div className="mb-4">
                     <h3 className="font-playfair text-xl font-semibold text-gray-900 mb-3">
-                      {aboutData.operationalSchedule.title}
+                      {getContentByLanguage(aboutData.operationalSchedule.title)}
                     </h3>
                     <p className="font-inter text-gray-600 text-sm">
-                      {aboutData.operationalSchedule.description}
+                      {getContentByLanguage(aboutData.operationalSchedule.description)}
                     </p>
                   </div>
                   <div className="space-y-2 mb-4">
@@ -449,7 +488,7 @@ const AboutUs = () => {
                     href={aboutData.operationalSchedule.buttonLink}
                     className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded-lg font-inter font-semibold transition-colors duration-300 text-center block text-sm"
                   >
-                    {aboutData.operationalSchedule.buttonText}
+                    {getContentByLanguage(aboutData.operationalSchedule.buttonText)}
                   </a>
                 </div>
               </div>
@@ -464,10 +503,10 @@ const AboutUs = () => {
                 <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
                   <div className="mb-4">
                     <h3 className="font-playfair text-xl font-semibold text-gray-900 mb-2">
-                      {aboutData.achievements.title}
+                      {getContentByLanguage(aboutData.achievements.title)}
                     </h3>
                     <p className="font-inter text-gray-600 text-sm">
-                      {aboutData.achievements.subtitle}
+                      {getContentByLanguage(aboutData.achievements.subtitle)}
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -480,7 +519,7 @@ const AboutUs = () => {
                           {stat.number}
                         </div>
                         <div className="font-inter text-xs text-gray-600 leading-tight">
-                          {stat.label}
+                          {getContentByLanguage(stat.label)}
                         </div>
                       </div>
                     ))}
@@ -501,31 +540,30 @@ const AboutUs = () => {
         >
           <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-8 relative shadow-lg">
             <h3 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">
-              {aboutData.cta.title}
+              {getContentByLanguage(aboutData.cta.title)}
             </h3>
             <p className="font-inter text-gray-600 mb-8 max-w-2xl mx-auto text-base sm:text-lg">
-              {aboutData.cta.description}
+              {getContentByLanguage(aboutData.cta.description)}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href={aboutData.cta.ctaButtonLink}
                 className="font-inter bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-cyan-700 transition-colors flex items-center justify-center shadow-sm hover:shadow-md"
-                aria-label={aboutData.cta.ctaButtonText}
+                aria-label={getContentByLanguage(aboutData.cta.ctaButtonText)}
               >
-                {aboutData.cta.ctaButtonText}
+                {getContentByLanguage(aboutData.cta.ctaButtonText)}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </a>
               <a
                 href={aboutData.cta.buttonLink}
                 className="font-inter border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:border-gray-400 hover:bg-gray-50 transition-colors shadow-sm hover:shadow-md"
-                aria-label={aboutData.cta.buttonText}
+                aria-label={getContentByLanguage(aboutData.cta.buttonText)}
               >
-                {aboutData.cta.buttonText}
+                {getContentByLanguage(aboutData.cta.buttonText)}
               </a>
             </div>
             <p className="font-inter text-gray-500 mt-6 text-sm">
-              Experience the difference with urbanlife - your journey starts
-              here
+              {t("aboutus.cta_footer")} {/* i18n statis */}
             </p>
           </div>
         </div>

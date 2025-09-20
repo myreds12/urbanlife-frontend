@@ -365,7 +365,12 @@
     "section_contact_email_general": "info@urbanlife.id",
     "section_contact_email_ads": "Advertisements: ads@urbanlife.id",
     "section_contact_phone_support": "Phone Support",
-    "section_contact_phone": "+62 816 919 812"
+    "section_contact_phone": "+62 816 919 812",
+    "loading": "Loading Privacy Policy...",
+    "not_found": "Privacy Policy Not Found.",
+    "error": "Failed to load Privacy Policy",
+    "last_updated": "Last updated:",
+    "contact_description": "If you have questions about this Privacy Policy, contact us:"
   },
   "termsandconditions": {
     "hero_label": "Legal Documentation",
@@ -432,32 +437,6 @@
     "intro_description_2": "From airport transfers to cultural explorations, our professional team ensures safe, comfortable, and reliable transportation solutions for every traveler.",
     "services_title": "Our Services",
     "services_subtitle": "Comprehensive transportation solutions tailored for your travel needs",
-    "services": [
-      {
-        "id": "day-tour",
-        "title": "Explore Our Day Tour Packages",
-        "description": "Experience top-rated day tours across Indonesia. From cultural landmarks to nature escapes, enjoy curated journeys with professional local guides.",
-        "location": "Various regions available"
-      },
-      {
-        "id": "car-rental",
-        "title": "Car Rental Services",
-        "description": "Rent a car easily for your trip—whether it’s for business or leisure. Wide selection from economy to luxury vehicles, with full insurance coverage.",
-        "location": "Available in major cities"
-      },
-      {
-        "id": "motorbike-rental",
-        "title": "Motorbike Rentals",
-        "description": "Navigate urban and island areas with ease using our flexible motorbike rental services. Daily, weekly, or monthly options available.",
-        "location": "City & island coverage"
-      },
-      {
-        "id": "ferry-transfers",
-        "title": "Pier & Ferry Transfers",
-        "description": "Seamless transport to and from main ports and terminals for your island-hopping adventures or daily commutes.",
-        "location": "Popular coastal areas"
-      }
-    ],
     "additional_title": "Complete Travel Solutions",
     "additional_subtitle": "Beyond transportation, we offer comprehensive travel planning",
     "additional_services": [
@@ -474,7 +453,9 @@
     "cta_subtitle": "Experience Indonesia with confidence. Professional service, local expertise, and reliable transportation for your perfect trip.",
     "cta_book_button": "Book Your Trip",
     "cta_contact_button": "Contact Us",
-    "cta_footer": "Have a safe trip and enjoy your holidays!"
+    "services": "Our Services",
+    "services_description": "Comprehensive travel solutions tailored to your needs",
+    "cta_footer": "Experience the difference with urbanlife - your journey starts here"
   },
   "orderdetail": {
         "title": "Order Detail",

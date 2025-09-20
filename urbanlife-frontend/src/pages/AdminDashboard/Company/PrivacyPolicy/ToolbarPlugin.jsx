@@ -208,8 +208,8 @@ const ToolbarPlugin = () => {
         type="button"
         onClick={() => formatAlign("left")}
         className={`px-2 py-1 rounded hover:bg-gray-200 ${activeFormats.align === "left"
-            ? "bg-cyan-600 text-white"
-            : "text-gray-700"
+          ? "bg-cyan-600 text-white"
+          : "text-gray-700"
           }`}
         title="Align Left"
       >
@@ -219,8 +219,8 @@ const ToolbarPlugin = () => {
         type="button"
         onClick={() => formatAlign("center")}
         className={`px-2 py-1 rounded hover:bg-gray-200 ${activeFormats.align === "center"
-            ? "bg-cyan-600 text-white"
-            : "text-gray-700"
+          ? "bg-cyan-600 text-white"
+          : "text-gray-700"
           }`}
         title="Align Center"
       >
@@ -230,8 +230,8 @@ const ToolbarPlugin = () => {
         type="button"
         onClick={() => formatAlign("right")}
         className={`px-2 py-1 rounded hover:bg-gray-200 ${activeFormats.align === "right"
-            ? "bg-cyan-600 text-white"
-            : "text-gray-700"
+          ? "bg-cyan-600 text-white"
+          : "text-gray-700"
           }`}
         title="Align Right"
       >
@@ -241,8 +241,8 @@ const ToolbarPlugin = () => {
         type="button"
         onClick={() => formatAlign("justify")}
         className={`px-2 py-1 rounded hover:bg-gray-200 ${activeFormats.align === "justify"
-            ? "bg-cyan-600 text-white"
-            : "text-gray-700"
+          ? "bg-cyan-600 text-white"
+          : "text-gray-700"
           }`}
         title="Justify"
       >

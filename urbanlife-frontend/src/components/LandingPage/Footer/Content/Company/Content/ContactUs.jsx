@@ -70,6 +70,13 @@ const ContactUsPage = () => {
     );
 
     console.log(res)
+
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+    })
   };
 
   return (

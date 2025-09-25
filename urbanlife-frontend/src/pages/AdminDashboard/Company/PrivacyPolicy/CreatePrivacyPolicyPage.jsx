@@ -24,21 +24,22 @@ const CreatePrivacyPolicyPage = () => {
     contact: { title_en: "", title_id: "", email: "", phone: "" },
   });
 
-  console.log(formData, "formData");
+  // console.log(formData, "formData");
 
   // 🟢 Fetch initial data saat edit
   useEffect(() => {
     const fetchInitialData = async () => {
       if (!isEditMode) return;
       try {
-        const { data } = await apiClient.get(`/privacypolicy/${id}`);
+        const { data } = await apiClient.get(`/privacyandpolicy/${id}`);
         const section = data.data || {};
 
         setFormData({
-          hero: section.hero || { title_en: "", title_id: "", subtitle_en: "", subtitle_id: "" },
-          content: section.content || { title_en: "", title_id: "", content_en: "", content_id: "" },
-          contact: section.contact || { title_en: "", title_id: "", email: "", phone: "" },
+          hero: section.hero || { title_en: section.title_en, title_id: section.title_id, subtitle_en: "", subtitle_id: "" },
+          content: section.content || { title_en: section.title_en, title_id: section.title_id, content_en: section.content_en, content_id: section.content_id },
+          contact: section.contact || { title_en: section.title_en, title_id: section.title_id, email: section.contact_email, phone: section.contact_phone },
         });
+ 
       } catch (error) {
         toast.error("Gagal memuat data.");
         console.error(error);
@@ -152,7 +153,8 @@ const CreatePrivacyPolicyPage = () => {
               id="content"
               isActive={activeSection === "content"}
               formData={formData.content}
-              handleChange={(field, value) => handleChange("content", field, value)}
+              handleChange={(field, value) => handleChange("content", field, value)} 
+              isEditMode={isEditMode}
             />
 
             <PrivacyPolicyContactSection

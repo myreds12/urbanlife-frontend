@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
 import Button from "../../../../components/AdminDashboard/Utils/Ui/button/Button";
 import Pagination from "../../../../components/AdminDashboard/Utils/Ui/Pagination/Pagination";
@@ -7,6 +7,7 @@ import BulkActionBar from "../../../../components/AdminDashboard/Utils/BulkActio
 import ModalView from "../../../../components/AdminDashboard/Utils/Ui/modal/ModalDetail";
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import apiClient from '../../../../components/AdminDashboard/Utils/ApiClient/apiClient';
 
 const dummyData = {
   hero: {
@@ -61,18 +62,29 @@ const TermsAndConditions = () => {
   const [selectedModalData, setSelectedModalData] = useState(null);
 
   useEffect(() => {
-    const fetchContents = () => {
+    const fetchContents = async () => {
       setLoading(true);
       try {
-        const localData = JSON.parse(localStorage.getItem('termsAndConditionsData'));
-        const heroData = JSON.parse(localStorage.getItem('heroData')) || dummyData.hero;
-        const sourceData = localData && localData.length > 0 ? localData : dummyData.custom;
-        const flattenedData = [
-          { ...heroData, section: 'Hero' },
-          ...sourceData,
-        ];
-        setContents(flattenedData);
-        setTotal(flattenedData.length);
+        // const localData = JSON.parse(localStorage.getItem('termsAndConditionsData'));
+        // const heroData = JSON.parse(localStorage.getItem('heroData')) || dummyData.hero;
+        // const sourceData = localData && localData.length > 0 ? localData : dummyData.custom;
+        // const flattenedData = [
+        //   { ...heroData, section: 'Hero' },
+        //   ...sourceData,
+        // ];
+        // setContents(flattenedData);
+        // setTotal(flattenedData.length);
+        const params = {
+          page: currentPage,
+          take,
+          ...(searchTerm.trim() && { search: searchTerm.trim() }), 
+        };
+
+        const res = await apiClient.get("/termsandcondition", { params });
+        const { data, total } = res.data;
+
+        setContents(data || []);
+        setTotal(total || 0);
       } catch (err) {
         console.error('Failed to fetch terms and conditions contents', err);
         toast.error('Failed to load data. Using local/dummy data.');
@@ -87,7 +99,7 @@ const TermsAndConditions = () => {
       }
     };
     fetchContents();
-  }, [currentPage]);
+  }, [currentPage, take, searchTerm]);
 
   const handleSort = (columnKey) => {
     let direction = 'asc';
@@ -178,7 +190,7 @@ const TermsAndConditions = () => {
   const columns = ['#', 'Section', 'Title (EN)', 'Title (ID)', 'Action'];
   const mapping = {
     '#': (_, index) => startIndex + index + 1,
-    'Section': (row) => row.section,
+    'Section': (row) => row.section || "hero",
     'Title (EN)': (row) => row.title_en,
     'Title (ID)': (row) => row.title_id,
     Action: null,

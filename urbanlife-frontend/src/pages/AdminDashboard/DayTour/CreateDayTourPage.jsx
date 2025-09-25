@@ -29,6 +29,10 @@ function CreateDayTourPage() {
     { id: null, bahasa: "INDONESIA", nama: "", deskripsi: "" },
   ]);
 
+  const [packagePrices, setPackagePrices] = useState([
+    { id: 1, description: "", harga: "" }
+  ]);
+
   const [formData, setFormData] = useState({
     nama: "",
     lokasi_id: 1,
@@ -40,6 +44,7 @@ function CreateDayTourPage() {
     harga_dewasa: 0,
     travel_package_itinerary: itinerary,
     travel_package_content: content,
+    travel_package_prices: packagePrices,
   });
 
   console.log(formData, "form data");
@@ -62,6 +67,13 @@ function CreateDayTourPage() {
       travel_package_itinerary: itinerary,
     }));
   }, [itinerary]);
+
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      travel_package_prices: packagePrices,
+    }));
+  }, [packagePrices]);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -98,6 +110,7 @@ function CreateDayTourPage() {
             travel_package_content,
             travel_package_itinerary,
             travelPackageFile,
+            travel_package_prices,
           } = travel;
 
           // Set form data utama
@@ -127,6 +140,7 @@ function CreateDayTourPage() {
                     kebijakan: "",
                   },
                 ],
+            travel_package_prices: travel_package_prices || [],
           });
 
           setContent(
@@ -156,6 +170,14 @@ function CreateDayTourPage() {
                   { id: null, bahasa: "INDONESIA", nama: "", deskripsi: "" },
                 ]
           );
+
+          setPackagePrices(
+            travel_package_prices?.length 
+              ? travel_package_prices 
+              : [
+                  { id: null, description: "", harga: ""}
+                ]
+          )
 
           // Set foto yang sudah ada
           setExistingPhotos(
@@ -218,6 +240,28 @@ function CreateDayTourPage() {
     setItinerary(updated);
   };
 
+  const handlePackagePriceChange = (index, event) => {
+    const updatedPackagePrices = [...packagePrices];
+    updatedPackagePrices[index][event.target.name] = event.target.value;
+    setPackagePrices(updatedPackagePrices);
+  };
+
+  const handleAddPackagePricePair = () => {
+    const newId = packagePrices.length
+      ? packagePrices[packagePrices.length - 1].id + 1
+      : 1;
+    setPackagePrices([
+      ...packagePrices,
+      { id: newId, description: "", harga: "" }
+    ]);
+  };
+
+  const handleRemovePackagePricePair = (index) => {
+    const updatedPackagePrices = packagePrices.filter((_, i) => i !== index);
+    setPackagePrices(updatedPackagePrices);
+  };
+
+
   const handleContentChange = (index, field, value) => {
     const updated = [...content];
     updated[index][field] = value;
@@ -271,6 +315,14 @@ function CreateDayTourPage() {
       );
       payload.append(`travel_package_itinerary[${index}][nama]`, item.nama);
     });
+
+    formData.travel_package_prices.forEach((item, index) => {
+      if (item.id) {
+        payload.append(`travel_package_prices[${index}][id]`, item.id);
+        payload.append(`travel_package_prices[${index}][description]`, item.description);
+        payload.append(`travel_package_prices[${index}][harga]`, item.harga);
+      }
+    })
 
     console.log("=== Payload yang akan dikirim ke API ===");
     console.log("Payload content:", formData.travel_package_content);
@@ -401,7 +453,14 @@ function CreateDayTourPage() {
               isActive={activeSection === "price"}
               formData={formData}
               handleChange={handleChange}
-              type={"daytour"}
+              type={"daytour"} 
+              prices={[]}
+              handleAddPrice={null}
+              handleDeletePrice={null}
+              handlePriceChange={null}
+              handleAddPackage={handleAddPackagePricePair}
+              handleChangePackage={handlePackagePriceChange}
+              handleRemovePackage={handleRemovePackagePricePair}
             />
 
             <PolicyAndProcedureSection

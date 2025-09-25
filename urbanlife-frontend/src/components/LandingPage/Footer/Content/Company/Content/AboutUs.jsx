@@ -20,6 +20,7 @@ import Navbar from "../../../../HomePage/Navbar/Navbar";
 import Footer from "../../../../HomePage/Footer";
 import apiClient from "../../../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 // Dummy data as fallback
 const dummyData = {
@@ -174,6 +175,7 @@ const ModernCarousel = ({ images }) => {
 const AboutUs = () => {
   const [isVisible, setIsVisible] = useState({});
   const [aboutData, setAboutData] = useState(dummyData);
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -185,12 +187,12 @@ const AboutUs = () => {
         // Mengatur data ke dalam format yang sesuai
         const formattedData = {
           header: {
-            title: data.title_en,
-            tagline: data.content_en,
+            title: i18n.language === 'en' ? data.title_en : data.title_id,
+            tagline: i18n.language === 'en' ? data.content_en : data.content_id,
           },
           story: {
-            title: data.AboutUsStory.title_en,
-            description: data.AboutUsStory.content_en,
+            title: i18n.language === 'en' ? data.AboutUsStory.title_en : data.AboutUsStory.title_id,
+            description: i18n.language === 'en' ? data.AboutUsStory.content_en : data.AboutUsStory.content_id,
             // SESUDAH (sudah diperbaiki):
             images: (() => {
               const validImages = data.AboutUsFile
@@ -214,34 +216,42 @@ const AboutUs = () => {
           },
           services: data.AboutUsServices.map((service) => ({
             id: `private-car`,
-            title: service.title_en,
-            description: service.content_en,
+            title: i18n.language === 'en' ? service.title_en : service.title_id,
+            description: i18n.language === 'en' ? service.content_en : service.content_id,
             location: service.location,
             icon: service.icon,
           })),
           operationalSchedule: {
-            title: "Operational Hours", // Anda bisa menyesuaikan ini
+            title: i18n.language === "en" ? "Operational Hours" : "Jam Operasional", // Anda bisa menyesuaikan ini
             description:
-              "We are committed to providing excellent service during our operational hours.", // Anda bisa menyesuaikan ini
+              i18n.language === "en" 
+              ? "We are committed to providing excellent service during our operational hours."
+              : "Kami berkomitmen untuk menyediakan layanan terbaik selama jam operasional kami.", // Anda bisa menyesuaikan ini
             schedule: data.AboutUsOperational,
-            buttonText: "Contact Us Now", // Anda bisa menyesuaikan ini
+            buttonText: i18n.language === "en" ? "Contact Us Now" : "Hubungi Kami Sekarang", // Anda bisa menyesuaikan ini
             buttonLink: "/contact", // Anda bisa menyesuaikan ini
           },
           achievements: {
-            title: "Our Achievements", // Anda bisa menyesuaikan ini
-            subtitle: "Trusted by thousands of travelers across Indonesia", // Anda bisa menyesuaikan ini
+            title: i18n.language === "en" ? "Our Achievements" : "Prestasi Kami", // Anda bisa menyesuaikan ini
+            subtitle: 
+              i18n.language === "en" 
+              ? "Trusted by thousands of travelers across Indonesia"
+              : "Dipercaya oleh ribuan wisatawan di seluruh Indonesia", // Anda bisa menyesuaikan ini
             stats: data.AboutUsAchievements.map((achievement) => ({
               number: achievement.number,
-              label: achievement.content_en,
+              label: i18n.language === 'en' ? achievement.content_en : achievement.content_id,
               icon: achievement.icon,
             })),
           },
           cta: {
-            title: data.AboutUsCta.title_en, // Anda bisa menyesuaikan ini
-            description: "Book your next adventure with urbanlife!", // Anda bisa menyesuaikan ini
-            buttonText: data.AboutUsCta.button_text || "Contact Us", // Dynamic Contact Us text
+            title: i18n.language === 'en' ? data.AboutUsCta.title_en : data.AboutUsCta.title_id, // Anda bisa menyesuaikan ini
+            description: 
+              i18n.language === "en" 
+              ? "Book your next adventure with urbanlife!"
+              : "Pesan petualangan Anda berikutnya dengan urbanlife!", // Anda bisa menyesuaikan ini
+            buttonText: i18n.language === "en" ? data.AboutUsCta.button_text || "Contact Us" : "Hubungi Kami", // Dynamic Contact Us text
             buttonLink: data.AboutUsCta.button_url || "/contact", // Dynamic Contact Us link
-            ctaButtonText: data.AboutUsCta.cta_button_text || "Book Now", // Dynamic Book Now text
+            ctaButtonText: i18n.language === "en" ? data.AboutUsCta.cta_button_text || "Book Now" : "Pesan Sekarang", // Dynamic Book Now text
             ctaButtonLink: data.AboutUsCta.cta_button_url || "/services", // Dynamic Book Now link
           },
         };
@@ -254,7 +264,7 @@ const AboutUs = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [i18n.language]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -361,10 +371,13 @@ const AboutUs = () => {
         <div className="mb-12">
           <div className="text-center mb-10 px-4">
             <h3 className="font-playfair text-2xl sm:text-3xl font-semibold text-gray-900 mb-4">
-              Our Services
+              { i18n.language === "en" ? "Our Services" : "Layanan Kami" } 
             </h3>
             <p className="font-inter text-gray-600 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
-              Comprehensive travel solutions tailored to your needs
+              { i18n.language === "en" 
+                ? "Comprehensive travel solutions tailored to your needs"
+                : "Solusi perjalanan komprehensif yang disesuaikan dengan kebutuhan Anda"
+              }
             </p>
           </div>
 
@@ -472,14 +485,14 @@ const AboutUs = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     {aboutData.achievements.stats.map((stat, index) => (
-                      <div key={index} className="text-center">
-                        <div className="w-10 h-10 mx-auto mb-2 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center text-cyan-600">
+                      <div key={index} className="">
+                        <div className="w-10 h-10 mb-2 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center text-cyan-600">
                           {getAchievementIcon(stat.icon)}
                         </div>
                         <div className="font-playfair text-lg font-bold text-gray-900 mb-1">
                           {stat.number}
                         </div>
-                        <div className="font-inter text-xs text-gray-600 leading-tight">
+                        <div className="font-inter text-sm text-gray-600 leading-tight">
                           {stat.label}
                         </div>
                       </div>
@@ -524,8 +537,10 @@ const AboutUs = () => {
               </a>
             </div>
             <p className="font-inter text-gray-500 mt-6 text-sm">
-              Experience the difference with urbanlife - your journey starts
-              here
+              { i18n.language === "en" 
+                ? "Experience the difference with urbanlife - your journey starts here"
+                : "Rasakan perbedaan dengan kehidupan urban - perjalanan Anda dimulai di sini"
+              }
             </p>
           </div>
         </div>

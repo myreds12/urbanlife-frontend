@@ -207,6 +207,7 @@ function App() {
               <Route path="privacy-policy/edit/:id" element={<CreatePrivacyPolicyPage />} />
               <Route path="terms-conditions" element={<TermsConditions />} />
               <Route path="terms-conditions/create" element={<CreateTermsConditions />} />
+              <Route path="terms-conditions/edit/:id" element={<CreateTermsConditions />} />
               <Route path="news" element={<News />} />
               <Route path="news/create" element={<CreateNews />} />
               <Route path="news/edit/:id" element={<CreateNews />} />

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -59,8 +59,23 @@ const PrivacyPolicyContentSection = ({
     content_id: "",
   },
   handleChange,
+  isEditMode
 }) => {
   const { content_en = "", content_id = "" } = formData;
+
+   const [isEditorReady, setIsEditorReady] = useState(false);
+
+    if(isEditMode) {
+      useEffect(() => {
+        if (content_en || content_id) {
+          setIsEditorReady(true);
+        }
+      }, [content_en, content_id]);
+
+      if (!isEditorReady) {
+        return <div>Loading...</div>;
+      }
+    }
 
   const onChange = (editorState, field) => {
     editorState.read(() => {
@@ -69,7 +84,7 @@ const PrivacyPolicyContentSection = ({
     });
   };
 
-  const getValidEditorState = (state) => {
+   const getValidEditorState = (state) => {
     if (!state || state === "") return null;
     try {
       JSON.parse(state);

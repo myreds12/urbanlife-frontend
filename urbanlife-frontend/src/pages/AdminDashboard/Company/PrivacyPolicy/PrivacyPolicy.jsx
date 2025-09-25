@@ -67,7 +67,7 @@ const PrivacyPolicy = () => {
 
   const handleView = async (row) => {
     try {
-      const { data } = await apiClient.get(`/privacypolicy/${row.id}`);
+      const { data } = await apiClient.get(`/privacyandpolicy/${row.id}`);
       setSelectedModalData(data.data);
     } catch (error) {
       console.error("Failed to fetch details:", error);

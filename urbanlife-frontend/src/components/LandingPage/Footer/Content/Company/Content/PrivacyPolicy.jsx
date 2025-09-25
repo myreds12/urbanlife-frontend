@@ -3,6 +3,7 @@ import Navbar from "../../../../HomePage/Navbar/Navbar";
 import Footer from "../../../../HomePage/Footer";
 import toast from "react-hot-toast";
 import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
+import { useTranslation } from "react-i18next";
 
 const renderLexicalToHTML = (jsonString) => {
   if (!jsonString) return "";
@@ -111,6 +112,7 @@ const renderLexicalToHTML = (jsonString) => {
 const PrivacyPolicy = () => {
   const [policy, setPolicy] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const fetchPolicy = async () => {
@@ -151,10 +153,18 @@ const PrivacyPolicy = () => {
       {/* Header */}
       <div className="bg-gradient-to-b from-cyan-50 to-slate-50 py-16 text-center">
         <h1 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-4">
-          {policy.title_en || "Privacy Policy"}
+          { 
+            i18n.language === "en" 
+              ? (policy.title_en || "Privacy Policy") 
+              : (policy.title_id || "Kebijakan Privasi")
+          }
         </h1>
         <p className="text-slate-600">
-          Last updated:{" "}
+          {i18n.language === "en" 
+           ? "Last updated:"
+           : "Terakhir diperbarui:"
+          }
+           {" "}
           {new Date(policy.createdAt).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
@@ -169,7 +179,7 @@ const PrivacyPolicy = () => {
           <div
             className="prose prose-slate max-w-none"
             dangerouslySetInnerHTML={{
-              __html: renderLexicalToHTML(policy.content_en),
+              __html: renderLexicalToHTML(i18n.language === "en" ? policy.content_en : policy.content_id),
             }}
           />
         )}
@@ -177,11 +187,18 @@ const PrivacyPolicy = () => {
         {/* Contact Section */}
         <div className="mt-16">
           <h2 className="text-2xl font-semibold text-slate-900 mb-3">
-            {policy.contact_title_en || "Contact Us"}
+            { 
+              i18n.language === "en" 
+                ? (policy.contact_title_en || "Contact Us") 
+                : (policy.contact_title_id || "Hubungi Kami")
+            }
           </h2>
           <div className="rounded-xl border bg-white shadow-sm p-6">
             <p className="text-slate-700 mb-2">
-              If you have questions about this Privacy Policy, contact us:
+              { i18n.language === "en" 
+                ? "If you have any questions about this privacy policy, please contact us at : "
+                : "Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi kami di:"
+              }
             </p>
             <p className="text-cyan-600 font-medium">{policy.contact_email}</p>
             <p className="text-slate-600">{policy.contact_phone}</p>

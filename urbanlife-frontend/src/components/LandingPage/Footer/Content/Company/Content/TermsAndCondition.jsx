@@ -1,10 +1,155 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FileText } from "lucide-react";
 import Navbar from "../../../../HomePage/Navbar/Navbar";
 import Footer from "../../../../HomePage/Footer";
+import { useTranslation } from "react-i18next";
+import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
+
+const renderLexicalToHTML = (jsonString) => {
+  if (!jsonString) return "";
+  try {
+    const parsed = JSON.parse(jsonString);
+    const children = parsed.root?.children || [];
+
+    const renderTextChildren = (children) => {
+      return children.map((c) => c.text).join("");
+    };
+
+    return children
+      .map((node) => {
+        // Heading
+        if (node.type === "heading") {
+          // Map tag ke class font size
+          const headingClassMap = {
+            h1: "text-4xl font-bold mb-6",
+            h2: "text-3xl font-semibold mb-5",
+            h3: "text-2xl font-semibold mb-4",
+            h4: "text-xl font-semibold mb-3",
+            h5: "text-lg font-semibold mb-2",
+            h6: "text-base font-semibold mb-2",
+          };
+          const alignStyle =
+            node.format === "center"
+              ? "text-align:center;"
+              : node.format === "right"
+                ? "text-align:right;"
+                : node.format === "left"
+                  ? "text-align:left;"
+                  : "";
+
+          return `<${node.tag} class="${headingClassMap[node.tag] || "text-lg font-semibold mb-4"}" style="${alignStyle}">
+            ${renderTextChildren(node.children)}
+          </${node.tag}>`;
+        }
+
+        // List
+        if (node.type === "list") {
+          // Render tiap list item
+          const items = node.children
+            .map((li) => {
+              const liAlignStyle =
+                li.format === "center"
+                  ? "text-align:center;"
+                  : li.format === "right"
+                    ? "text-align:right;"
+                    : li.format === "left"
+                      ? "text-align:left;"
+                      : "";
+
+              let liContent = li.children
+                .map((child) => {
+                  if (child.type === "text") {
+                    return child.text;
+                  } else if (child.type === "paragraph") {
+                    return `<p>${renderTextChildren(child.children)}</p>`;
+                  }
+                  return "";
+                })
+                .join("");
+
+              return `<li class="mb-2" style="${liAlignStyle}">${liContent}</li>`;
+            })
+            .join("");
+
+          const listTag = node.listType === "number" ? "ol" : "ul";
+          // Use Tailwind list style
+          const listClass =
+            listTag === "ol"
+              ? "list-decimal pl-6 space-y-1 mb-6"
+              : "list-disc pl-6 space-y-1 mb-6";
+
+          return `<${listTag} class="${listClass}">
+            ${items}
+          </${listTag}>`;
+        }
+
+        // Paragraph
+        if (node.type === "paragraph") {
+          const alignStyle =
+            node.format === "center"
+              ? "text-align:center;"
+              : node.format === "right"
+                ? "text-align:right;"
+                : node.format === "left"
+                  ? "text-align:left;"
+                  : "";
+
+          return `<p class="mb-4 leading-relaxed text-slate-700" style="${alignStyle}">
+            ${renderTextChildren(node.children)}
+          </p>`;
+        }
+
+        return "";
+      })
+      .join("");
+  } catch (err) {
+    console.error("Failed to parse Lexical JSON:", err);
+    return "";
+  }
+};
 
 //TODO: Untuk Saat ini masih Statis, Bisa diubah menjadi dinamis setelah golive
 const TermsAndConditions = () => {
+  const [terms, setTerms] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [t, i18n] = useTranslation()
+
+  useEffect(() => {
+    const fetchTerms = async () => {
+      try {
+        const res = await apiClient.get("/termsandcondition");
+        const data = res.data?.data?.[0];
+      
+        setTerms(data);
+  
+      } catch (err) {
+        console.error("Failed to fetch terms and condition:", err);
+        toast.error("Gagal memuat Terms And Condition");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTerms();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-500">Loading ...</p>
+      </div>
+    );
+  }
+
+  if (!terms) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">
+          {i18n.language === "en" ? `Terms & Condition Not Found` : `Syarat & Ketentuan tidak ditemukan`}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Navbar />
@@ -17,14 +162,14 @@ const TermsAndConditions = () => {
             Legal Documentation
           </div>
           <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-6 tracking-tight">
-            Terms & Conditions
+            {i18n.language === "en" ? terms.title_en : terms.title_id }
           </h1>
         </div>
       </section>
 
       {/* Content Section */}
       <div className="max-w-4xl mx-auto px-6 py-16">
-        <article className="bg-white rounded-2xl p-8 shadow-md border border-gray-200 leading-relaxed text-gray-700 space-y-6">
+        {/* <article className="bg-white rounded-2xl p-8 shadow-md border border-gray-200 leading-relaxed text-gray-700 space-y-6">
           <p>
             Welcome to our website. If you continue to browse and use this
             website, you agree to comply with and are bound to the following
@@ -127,6 +272,14 @@ const TermsAndConditions = () => {
               service.
             </li>
           </ul>
+        </article> */}
+        <article className="bg-white rounded-2xl p-8 shadow-md border border-gray-200 leading-relaxed text-gray-700 space-y-6">
+          <div
+            className="prose prose-slate max-w-none"
+            dangerouslySetInnerHTML={{
+              __html: renderLexicalToHTML(i18n.language === "en" ? terms.content_en : terms.content_id),
+            }}
+          />
         </article>
       </div>
 

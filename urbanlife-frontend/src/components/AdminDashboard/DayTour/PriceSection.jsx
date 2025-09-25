@@ -1,5 +1,5 @@
 
-const PriceSection = ({ id, isActive, formData, handleChange, type, prices, handleAddPrice, handleDeletePrice, handlePriceChange }) => {
+const PriceSection = ({ id, isActive, formData, handleChange, type, prices, handleAddPrice, handleDeletePrice, handlePriceChange, handleAddPackage, handleChangePackage, handleRemovePackage }) => {
 
 
   return (
@@ -20,6 +20,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
 
         
         {type === "daytour" ? (
+          <>
           <div className="grid grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -52,6 +53,7 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
               />
             </div>
           </div>
+          </>
         ) : (
           <div className="space-y-3">
             {prices.map((item, index) => (
@@ -101,6 +103,69 @@ const PriceSection = ({ id, isActive, formData, handleChange, type, prices, hand
 
           </div>
         )}
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold">Package Pricing</h3>
+          {type === "daytour" && (
+            <button
+              type="button"
+              onClick={handleAddPackage}
+              className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-6 py-2 rounded-md"
+            >
+              Add Package Pricing
+            </button>
+          )}
+        </div>
+
+        
+        {type === "daytour" ? (
+          <>
+            {formData.travel_package_prices.map((pair, index) => (
+              <div key={pair.id || index} className="relative grid grid-cols-2 gap-6 mb-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Description
+                  </label>
+                  <input
+                    type="text"
+                    name="description"
+                    value={pair.description}
+                    onChange={(e) => handleChangePackage(index, e)}
+                    className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md"
+                    placeholder="e.g. 1 - 4 Orang"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Price
+                  </label>
+                  <input
+                    type="number"
+                    name="harga"
+                    value={pair.harga}
+                    onChange={(e) => handleChangePackage(index, e)}
+                    className="w-full py-1 px-3 border border-gray-300 focus:ring-cyan-500 rounded-md"
+                    placeholder="e.g. 1200000"
+                    min={0}
+                  />
+                </div>
+
+                {formData.travel_package_prices.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemovePackage(index)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-red-600"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+            ))}
+          </>
+        ):null}
       </div>
     </div>
   );

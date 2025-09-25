@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Send, MessageSquare, Users, Car, Home, Sparkles, G
 import Navbar from '../../../../HomePage/Navbar/Navbar';
 import Footer from '../../../../HomePage/Footer';
 import { useTranslation } from 'react-i18next';
+import apiClient from '../../../../../AdminDashboard/Utils/ApiClient/apiClient';
 
 const ContactUsPage = () => {
   const { t, i18n } = useTranslation();
@@ -14,6 +15,7 @@ const ContactUsPage = () => {
   }, [i18n.language]);
 
   const [formData, setFormData] = useState({
+    to: 'purwohandoko83@gmail.com',
     name: '',
     email: '',
     subject: '',
@@ -52,10 +54,22 @@ const ContactUsPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      alert("All fields are required!");
+      return;
+    }
     console.log('Form submitted:', formData);
+  
     alert(t('contactus.form_success', 'Fallback: Form submission success'));
+
+    const res = await apiClient.post(
+      "/mails/contactus",
+      formData
+    );
+
+    console.log(res)
   };
 
   return (

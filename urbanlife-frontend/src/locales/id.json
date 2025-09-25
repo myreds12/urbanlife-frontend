@@ -241,7 +241,7 @@
     "destinations": "Destinasi",
     "car_rental": "Sewa Mobil",
     "hotels": "Hotel",
-    "service_description": "Di UrbanLife, kami merancang pengalaman perjalanan mulus yang disesuaikan untuk Anda. Jelajahi destinasi menakjubkan, nikmati sewa mobil yang andal, dan rileks di akomodasi berkualitas tinggi misi kami adalah mengubah perjalanan Anda menjadi kenangan tak terlupakan. Percayakan detailnya pada kami sambil Anda menciptakan petualangan Anda!",
+    "service_description": "Di urbanlife, kami merancang pengalaman perjalanan mulus yang disesuaikan untuk Anda. Jelajahi destinasi menakjubkan, nikmati sewa mobil yang andal, dan rileks di akomodasi berkualitas tinggi misi kami adalah mengubah perjalanan Anda menjadi kenangan tak terlupakan. Percayakan detailnya pada kami sambil Anda menciptakan petualangan Anda!",
     "send_message": "Kirim Pesan",
     "send_message_desc": "Ceritakan tentang proyek Anda dan kami akan menghubungi Anda dalam 24 jam.",
     "name": "Nama",
@@ -530,6 +530,8 @@
     "choose_duration": "Pilih durasi",
     "choose_room": "Pilih Kamar",
     "adult_count": " Dewasa",
-    "child_count": " Anak"
+    "child_count": " Anak",
+    "normal_price": "Harga Normal",
+    "package_price":  "Harga Paket"
   }
 }

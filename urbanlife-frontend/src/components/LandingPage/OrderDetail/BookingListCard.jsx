@@ -64,6 +64,7 @@ const BookingListCard = ({
       if (onAddService) {
         onAddService({
           type: matchedService.key,
+          label: matchedService.label,
           items: items || [],
         });
       }
@@ -88,6 +89,40 @@ const BookingListCard = ({
 
     if (field === "selected_room") {
       updatedItem.selected_room = { ...value }; // <-- penting!
+    }
+
+    if (field === "tanggal_selesai") {
+      const date = new Date(value);
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+
+      const tanggal_selesai = `${year}-${month}-${day}`;
+      
+      const selisih = new Date(tanggal_selesai) - new Date(updatedItem.tanggal_mulai);
+
+      const durasi = selisih / (1000 * 60 * 60 * 24);
+      
+      updatedItem.durasi = durasi
+    }
+
+    if (field === "v_package_price") {
+      const searchByPrice = (id) => {
+        const packagePrices = orderItems[0]?.deskripsi.package_prices;  // Mengakses array package_prices dari deskripsi
+        if (packagePrices) {
+          return packagePrices.find(pkg => pkg.id === id);  // Mencari harga yang sesuai
+        }
+        return null;
+      };
+
+      const pkg_price = searchByPrice(value);
+      
+      updatedItem.l_package_price = pkg_price.description
+      updatedItem.v_package_price = pkg_price.harga
+      updatedItem.price_type = "package"
+    } else {
+      updatedItem.price_type = "normal"
     }
 
     onUpdateItem(item.item_id, item.item_type, updatedItem);
@@ -122,7 +157,10 @@ const BookingListCard = ({
             handleChange={(field, value) =>
               handleFieldChange(index, field, value)
             }
-            handleRemove={() => onRemoveItem(item.item_id, item.item_type)}
+            handleRemove={() => onRemoveItem(item.item_id, item.item_type)} 
+            packagePrices={item.deskripsi.package_prices || []}
+            lPackagePrice={item.l_package_price}
+            vPackagePrice={item.v_package_price}
           />
         ))
       )}

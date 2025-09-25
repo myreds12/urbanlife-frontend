@@ -76,11 +76,11 @@ const AboutUs = () => {
     if (!window.confirm(`Hapus konten "${row.title_id}"?`)) return;
     try {
       await apiClient.delete(`/aboutus/${row.id}`);
-      toast.success(`Konten "${row.title_id}" berhasil dihapus`);
+      toast.success(`content "${row.title_id}" successfully deleted`);
       fetchContents();
     } catch (err) {
-      console.error("Gagal menghapus:", err);
-      toast.error("Gagal menghapus konten. Coba lagi.");
+      console.error("Failed to delete:", err);
+      toast.error("Failed to delete content. Please try again.");
     }
   };
 
@@ -88,13 +88,13 @@ const AboutUs = () => {
     if (!window.confirm(`Hapus ${selectedData.length} konten?`)) return;
     const ids = selectedData.map((item) => item.id);
     try {
-      await apiClient.delete("/aboutus", { data: { ids } });
-      toast.success(`${selectedData.length} konten berhasil dihapus`);
+      await apiClient.post("/aboutus/bulk-delete", {ids});
+      toast.success(`successfully deleted ${selectedData.length} content`);
       setSelectedRows([]);
       fetchContents();
     } catch (err) {
       console.error("Bulk delete failed:", err);
-      toast.error("Gagal menghapus konten. Coba lagi.");
+      toast.error("Bulk delete failed. Please try again.");
     }
   };
 

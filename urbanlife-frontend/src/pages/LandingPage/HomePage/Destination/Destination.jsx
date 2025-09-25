@@ -25,7 +25,7 @@ const Destination = () => {
                 .replace(/^uploads\//, "")}`
             : "/public/images/error/No_Image_Available.jpg",
         }));
-
+        console.log(processed)
         setTravelData(processed);
       } catch (err) {
         console.error("❌ API Error:", err);

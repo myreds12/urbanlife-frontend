@@ -24,6 +24,9 @@ const BookingItemCard = ({
   roomPrice,
   handleChange,
   handleRemove,
+  packagePrices,
+  lPackagePrice,
+  vPackagePrice
 }) => {
   const { t, i18n } = useTranslation();
   console.log("Current language:", i18n.language); // Debug bahasa saat ini
@@ -51,6 +54,9 @@ const BookingItemCard = ({
   const [showChildDropdown, setShowChildDropdown] = useState(false);
   const [showDurationDropdown, setShowDurationDropdown] = useState(false);
   const [showRoomDropdown, setShowRoomDropdown] = useState(false);
+  const [prizing, setPrizing ] = useState("normal");
+  const [showPrizingDropdown, setShowPrizingDropdown] = useState(false);
+  const [showPackageDropdown, setShowPackageDropdown] = useState(false);
 
   // Custom Dropdown Component
   const CustomDropdown = ({
@@ -170,19 +176,48 @@ const BookingItemCard = ({
         </div>
       </div>
 
+      { item_type === "travel_package" ? 
+          <div>
+            <p className="font-medium mb-3 text-sm text-black-800">
+                Prizing
+            </p>
+            <div className="">
+              <CustomDropdown
+                value={prizing === 'normal' ? t("bookingitem.normal_price") : t("bookingitem.package_price")}
+                options={[
+                  { value: 'normal', label: t("bookingitem.normal_price") },
+                  { value: 'package', label: t("bookingitem.package_price") },
+                ]}
+                onChange={(value) => setPrizing(value)}
+                showDropdown={showPrizingDropdown}
+                setShowDropdown={setShowPrizingDropdown}
+                displayValue={
+                  <div className="leading-tight">
+                      <div>
+                        {prizing === 'normal' ? t("bookingitem.normal_price") : t("bookingitem.package_price")}
+                      </div>
+                    </div>
+                }
+              />
+            </div>
+          </div>
+          : <></>
+      }
+
       {/* Duration or Person Count */}
       <div className="space-y-3">
         <div>
           <p className="font-medium mb-3 text-sm text-gray-600">
             {item_type === "travel_package"
-              ? t("bookingitem.person_number")
+              ? prizing === "normal" ? t("bookingitem.person_number") : t("bookingitem.package_price")
               : item_type === "akomodasi"
               ? t("bookingitem.room_and_duration")
               : t("bookingitem.duration")}
           </p>
 
           {item_type === "travel_package" ? (
-            <div className="grid grid-cols-2 gap-2">
+            prizing === "normal" 
+            ? <div className="grid grid-cols-2 gap-2">
               {/* Adults Dropdown */}
               <CustomDropdown
                 label={t("bookingitem.adults")}
@@ -246,6 +281,47 @@ const BookingItemCard = ({
                   )
                 }
               />
+            </div>
+            : <div className="grid grid-cols-2 gap-2">
+              <CustomDropdown
+                value={vPackagePrice}
+                options={
+                  packagePrices.map((p) => ({
+                    value: p.id,
+                    label: p.description,
+                  }))
+                }
+                onChange={(value) => handleChange("v_package_price", value)}
+                showDropdown={showPackageDropdown}
+                setShowDropdown={setShowPackageDropdown}
+                displayValue={
+                  vPackagePrice ? (
+                    <div className="leading-tight">
+                      <div className="text-sm text-gray-500">
+                        {lPackagePrice}
+                      </div>
+                    </div>
+                  ) : (
+                    "Pilih Type"
+                  )
+                }
+              />
+
+              <div className="relative">
+                <label className="block text-sm text-gray-600 mb-1"></label>
+                <input
+                  type="text"
+                  name="package_price"
+                  placeholder={t("bookingitem.package_price")}
+                  value={
+                    vPackagePrice
+                      ? `Rp ${Number(vPackagePrice).toLocaleString("id-ID")}`
+                      : "" 
+                  }
+                  disabled
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
+                />
+              </div>
             </div>
           ) : item_type === "kendaraan" ? (
             <CustomDropdown

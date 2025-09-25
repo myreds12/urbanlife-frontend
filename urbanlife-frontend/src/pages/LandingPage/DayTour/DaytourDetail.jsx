@@ -58,6 +58,7 @@ const Detail = () => {
         let price = data.harga || '0';
         let location = data.location || data.lokasi?.nama || '';
         let title = { en: data.nama || data.title || '', id: data.nama || data.title || '' };
+        let package_prices = [];
 
         // Debug log data
         console.log('Raw data:', data);
@@ -128,6 +129,10 @@ const Detail = () => {
             { id: 2, label: 'Children', harga: data.harga_anak || '0' },
           ];
           price = data.harga_dewasa || price;
+
+          package_prices = Array.isArray(data.travel_package_prices)
+            ? data.travel_package_prices
+            : [];
         }
 
         const normalizedData = {
@@ -143,6 +148,7 @@ const Detail = () => {
           itinerary,
           priceTable,
           room_and_price: roomAndPrice,
+          package_prices,
         };
 
         console.log('Normalized tourData:', normalizedData);
@@ -203,6 +209,7 @@ const Detail = () => {
             policies: tourData.policies[i18n.language],
             itinerary: tourData.itinerary,
             priceTable: tourData.priceTable,
+            package_prices: tourData.travel_package_prices,
           }}
           harga_dewasa={tourData.harga_dewasa}
           harga_anak={tourData.harga_anak}

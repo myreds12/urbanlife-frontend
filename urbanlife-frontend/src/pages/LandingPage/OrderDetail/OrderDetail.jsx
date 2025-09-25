@@ -30,6 +30,7 @@ const OrderDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [availableServices, setAvailableServices] = useState([]);
   const [selectedType, setSelectedType] = useState("");
+  const [selectedLabel, setSelectedLabel] = useState("")
   const [price, setPrice] = useState(bookingInfo.price);
 
   const [orderItems, setOrderItems] = useState(() => {
@@ -199,6 +200,7 @@ const OrderDetail = () => {
     setOrderItems((prevItems) => [...prevItems, formattedItem]);
     setIsModalOpen(false);
     setSelectedType("");
+    setSelectedLabel("")
     setAvailableServices([]);
   };
 
@@ -247,9 +249,13 @@ const OrderDetail = () => {
       let total = 0;
       switch (updatedItem.item_type) {
         case "travel_package":
-          total =
-            (updatedItem.jumlah_dewasa || 0) * (updatedItem.harga_dewasa || 0) +
-            (updatedItem.jumlah_anak || 0) * (updatedItem.harga_anak || 0);
+          if (updatedItem.price_type === "package") {
+            total = updatedItem.v_package_price * updatedItem.durasi
+          } else {
+            total =
+            ((updatedItem.jumlah_dewasa || 0) * (updatedItem.harga_dewasa || 0) +
+            (updatedItem.jumlah_anak || 0) * (updatedItem.harga_anak || 0)) * updatedItem.durasi;
+          }
           break;
         case "akomodasi":
           total = (updatedItem.durasi || 0) * (updatedItem.harga || 0);
@@ -276,8 +282,9 @@ const OrderDetail = () => {
 };
 
 
-  const handleAddService = async ({ type, items }) => {
+  const handleAddService = async ({ type, label, items }) => {
     setSelectedType(type);
+    setSelectedLabel(label)
     setAvailableServices(items || []);
     setIsModalOpen(true);
   };
@@ -438,8 +445,14 @@ const OrderDetail = () => {
                   className="mt-1 w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500"
                 />
                 <span className="text-sm text-gray-700">
-                  {t('orderdetail.agree_to_terms')} {" "}
-                    {t('orderdetail.terms_and_conditions')}
+                    <a
+                      href="TermsAndConditions"
+                      className="text-cyan-600 hover:underline"
+                      target="_blank"
+                    >
+                      {t('orderdetail.agree_to_terms')} {" "}
+                      {t('orderdetail.terms_and_conditions')}
+                    </a>
                 </span>
               </label>
             </div>
@@ -492,7 +505,7 @@ const OrderDetail = () => {
       >
         <div className="flex items-center justify-between mb-4 border-b pb-2">
           <h2 className="text-xl font-semibold text-gray-800">
-            {t('orderdetail.modal_select')} {selectedType}
+            {t('orderdetail.modal_select')} {selectedLabel}
           </h2>
           <button
             onClick={() => setIsModalOpen(false)}

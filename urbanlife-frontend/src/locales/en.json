@@ -252,7 +252,7 @@
     "destinations": "Destinations",
     "car_rental": "Car Rental",
     "hotels": "Hotels",
-    "service_description": "At UrbanLife, we craft seamless travel experiences tailored just for you. Explore stunning destinations, enjoy reliable car rentals, and relax in top-notch accommodations our mission is to turn your journey into unforgettable memories. Trust us to handle the details while you create your adventure!",
+    "service_description": "At urbanlife, we craft seamless travel experiences tailored just for you. Explore stunning destinations, enjoy reliable car rentals, and relax in top-notch accommodations our mission is to turn your journey into unforgettable memories. Trust us to handle the details while you create your adventure!",
     "send_message": "Send Message",
     "send_message_desc": "Tell us about your project and we'll get back to you within 24 hours.",
     "name": "Name",
@@ -525,7 +525,7 @@
         "booking_date": "Booking date",
         "start_date": "Start Date",
         "end_date": "End Date",
-        "person_number": "Person number",
+        "person_number": "Number of Person",
         "room_and_duration": "Room & Duration",
         "duration": "Duration",
         "adults": "Adults",
@@ -541,7 +541,9 @@
         "choose_duration": "Choose duration",
         "choose_room": "Choose Room",
         "adult_count": "Adult",
-        "child_count": "Child"
+        "child_count": "Child",
+        "normal_price": "Normal Price",
+        "package_price":  "Package Price"
   }
 
 

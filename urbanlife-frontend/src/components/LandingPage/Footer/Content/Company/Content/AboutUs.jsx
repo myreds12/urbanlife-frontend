@@ -381,7 +381,7 @@ const AboutUs = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 max-w-4xl mx-auto justify-items-center px-4">
+          <div className="grid grid-cols-1 gap-8 max-w-5xl mx-auto justify-items-center">
             {aboutData.services.map((service) => (
               <div
                 key={service.id}
@@ -426,7 +426,7 @@ const AboutUs = () => {
                   : "opacity-0 translate-y-6"
                   }`}
               >
-                <div className="bg-white border border-gray-100 rounded-xl p-5 h-full">
+                <div className="bg-white border border-gray-100 rounded-xl p-5">
                   <div className="mb-4">
                     <h3 className="font-playfair text-xl font-semibold text-gray-900 mb-3">
                       {aboutData.operationalSchedule.title}
@@ -458,12 +458,12 @@ const AboutUs = () => {
                       )
                     )}
                   </div>
-                  <a
+                  {/* <a
                     href={aboutData.operationalSchedule.buttonLink}
                     className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded-lg font-inter font-semibold transition-colors duration-300 text-center block text-sm"
                   >
                     {aboutData.operationalSchedule.buttonText}
-                  </a>
+                  </a> */}
                 </div>
               </div>
               <div

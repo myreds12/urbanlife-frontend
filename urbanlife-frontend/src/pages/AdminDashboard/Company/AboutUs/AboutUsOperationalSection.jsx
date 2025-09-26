@@ -97,7 +97,7 @@ const AboutUsOperationalSection = ({
           </div>
           {stats.map((stat, index) => (
             <div key={index} className="border-t pt-4 mt-4">
-              <div className="mb-4 flex items-center">
+              {/* <div className="mb-4 flex items-center">
                 <label
                   className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                   style={{ minWidth: "190px" }}
@@ -111,13 +111,13 @@ const AboutUsOperationalSection = ({
                   placeholder="Enter number (e.g., 15,000+)..."
                   className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500 placeholder-gray-400"
                 />
-              </div>
+              </div> */}
               <div className="mb-4 flex items-center">
                 <label
                   className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                   style={{ minWidth: "190px" }}
                 >
-                  Label (EN)
+                  Description (EN)
                 </label>
                 <input
                   type="text"
@@ -132,7 +132,7 @@ const AboutUsOperationalSection = ({
                   className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
                   style={{ minWidth: "190px" }}
                 >
-                  Label (ID)
+                  Description (ID)
                 </label>
                 <input
                   type="text"

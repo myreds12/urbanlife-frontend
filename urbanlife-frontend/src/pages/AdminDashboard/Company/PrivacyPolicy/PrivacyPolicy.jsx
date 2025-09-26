@@ -183,13 +183,16 @@ const PrivacyPolicy = () => {
                 placeholder="Search sections..."
               />
             </div>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => navigate("/admin/privacy-policy/create")}
-            >
-              Add Section <i className="fa-solid fa-plus"></i>
-            </Button>
+            { total == 0 
+              ? <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => navigate("/admin/privacy-policy/create")}
+                >
+                  Add Section <i className="fa-solid fa-plus"></i>
+                </Button>
+              : <></>
+            }
           </div>
         </div>
         <div style={{ overflowX: "auto" }}>
@@ -201,9 +204,9 @@ const PrivacyPolicy = () => {
             onSort={handleSort}
             sortConfig={sortConfig}
             startIndex={startIndex}
-            onView={handleView}
+            // onView={handleView}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            // onDelete={handleDelete}
             defaultMapping={mapping}
           />
         </div>

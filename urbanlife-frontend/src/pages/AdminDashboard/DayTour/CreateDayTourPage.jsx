@@ -30,7 +30,7 @@ function CreateDayTourPage() {
   ]);
 
   const [packagePrices, setPackagePrices] = useState([
-    { id: 1, description: "", harga: "" }
+    { id: null, description: "", harga: "" }
   ]);
 
   const [formData, setFormData] = useState({
@@ -175,7 +175,7 @@ function CreateDayTourPage() {
             travel_package_prices?.length 
               ? travel_package_prices 
               : [
-                  { id: null, description: "", harga: ""}
+                  { id: id, description: "", harga: ""}
                 ]
           )
 

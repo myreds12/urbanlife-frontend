@@ -125,13 +125,12 @@ const AboutUs = () => {
 
   const handlePageChange = (page) => setCurrentPage(page);
 
-  const columns = ["#", "Title (EN)", "Title (ID)", "Services Count", "Button Text", "Action"];
+  const columns = ["#", "Title", "Description", "Action"];
   const mapping = {
     "#": (_, index) => startIndex + index + 1,
-    "Title (EN)": (row) => row.title_en,
-    "Title (ID)": (row) => row.title_id,
-    "Services Count": (row) => row.AboutUsServices?.length || 0,
-    "Button Text": (row) => row.AboutUsCta?.button_text || "-",
+    "Title": (row) => row.title_en,
+    "Description": (row) => row.content_en,
+    
     Action: null,
   };
 
@@ -176,13 +175,16 @@ const AboutUs = () => {
                 placeholder="Search sections..."
               />
             </div>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => navigate("/admin/aboutus/create")}
-            >
-              Add Section <i className="fa-solid fa-plus"></i>
-            </Button>
+            { total == 0 
+              ? <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => navigate("/admin/aboutus/create")}
+                >
+                  Add Section <i className="fa-solid fa-plus"></i>
+                </Button>
+              : <></>
+            }
           </div>
         </div>
 
@@ -195,9 +197,9 @@ const AboutUs = () => {
             onSort={handleSort}
             sortConfig={sortConfig}
             startIndex={startIndex}
-            onView={handleView}
+            // onView={handleView}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            // onDelete={handleDelete}
             defaultMapping={mapping}
           />
         </div>
@@ -225,7 +227,7 @@ const AboutUs = () => {
             {
               fields: [
                 { key: "section", label: "Section" },
-                { key: "title_en", label: "Title (EN)" },
+                { key: "title_en", label: "Title)" },
                 { key: "title_id", label: "Title (ID)" },
                 { key: "subtitle_en", label: "Subtitle (EN)" },
                 { key: "subtitle_id", label: "Subtitle (ID)" },

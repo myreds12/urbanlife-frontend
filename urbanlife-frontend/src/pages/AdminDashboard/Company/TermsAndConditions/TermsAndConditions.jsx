@@ -230,13 +230,16 @@ const TermsAndConditions = () => {
                 placeholder="Search sections..."
               />
             </div>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => navigate('/admin/terms-conditions/create')}
-            >
-              Add Section <i className="fa-solid fa-plus"></i>
-            </Button>
+            { total == 0
+              ? <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => navigate('/admin/terms-conditions/create')}
+                >
+                  Add Section <i className="fa-solid fa-plus"></i>
+                </Button>
+              : <></>
+            }
           </div>
         </div>
 
@@ -249,9 +252,9 @@ const TermsAndConditions = () => {
             onSort={handleSort}
             sortConfig={sortConfig}
             startIndex={startIndex}
-            onView={handleView}
+            // onView={handleView}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            // onDelete={handleDelete}
             defaultMapping={mapping}
           />
         </div>

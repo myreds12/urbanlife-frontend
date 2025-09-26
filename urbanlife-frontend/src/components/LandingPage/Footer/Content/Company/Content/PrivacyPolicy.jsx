@@ -151,8 +151,8 @@ const PrivacyPolicy = () => {
       <Navbar />
 
       {/* Header */}
-      <div className="bg-gradient-to-b from-cyan-50 to-slate-50 py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-4">
+      <div className="bg-gradient-to-b from-cyan-50 to-slate-50 py-16 text-center py-20">
+        <h1 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-4 mt-10">
           { 
             i18n.language === "en" 
               ? (policy.title_en || "Privacy Policy") 

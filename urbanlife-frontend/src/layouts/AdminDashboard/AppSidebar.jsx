@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import SidebarItem from "../../components/AdminDashboard/SideBar/SidebarItem";
 import SidebarExpandableItem from "../../components/AdminDashboard/SideBar/SidebarExpandableItem";
 import { useAuthStore } from "../../components/AdminDashboard/Utils/Auth/AuthStore";
+import { useLogo } from "../../components/LogoFaviconManager";
 
 const navItems = [
   { icon: "fa-solid fa-border-all", name: "Dashboard", path: "/admin/dashboard" },
@@ -50,6 +51,8 @@ const othersItems = [
       { name: "Category", path: "/admin/category" },
       { name: "Users", path: "/admin/users" }, // hanya untuk super_admin
       { name: "Testimonial", path: "/admin/testimonial" },
+      { name: "Logo Favicon", path: "/admin/logo-favicon" },
+      { name: "Popular Category", path: "/admin/popular-category" },
     ],
   },
   {
@@ -61,6 +64,7 @@ const othersItems = [
 
 const AppSidebar = () => {
   const LOCATION = useLocation();
+  const { logo } = useLogo()
 
   // Ambil role user, sesuaikan sumbernya
   const userRole = useAuthStore((s) => s.user?.role);
@@ -94,7 +98,7 @@ const AppSidebar = () => {
   return (
     <aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 p-4 overflow-y-auto">
       <div className="mb-6">
-        <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="h-12" />
+        <img src={logo} alt="Urbanlife Logo" className="h-12" />
       </div>
       <nav>
         <div className="mb-4">

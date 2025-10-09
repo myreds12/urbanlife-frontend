@@ -8,6 +8,7 @@ import "./App.css";
 import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import ReactModal from "react-modal";
+import React, { useState } from "react";
 
 // Layout & Context
 import AppLayout from "./layouts/AdminDashboard/AppLayout";
@@ -16,6 +17,10 @@ import ProtectedRoute from "./components/AdminDashboard/Utils/Auth/ProtectedRout
 import AuthInitializer from "./components/AdminDashboard/Utils/Auth/AuthInitializer";
 import { BlogProvider } from "./pages/AdminDashboard/DataMaster/Blog/BlogProvider";
 import { CategoryProvider } from "./pages/AdminDashboard/DataMaster/Category/CategoryProvider"; // Tambahkan import ini
+import NewsPage from "./components/LandingPage/Footer/Content/Company/Content/NewsPage";
+import LogoFavicon from "./pages/AdminDashboard/LogoFavicon/LogoFavicon";
+import LogoFaviconManager from "./components/LogoFaviconManager";
+import PopularCategory from "./pages/AdminDashboard/DataMaster/PopularCategory/PopularCategory";
 // Lazy loaded Pages
 const Dashboard = lazy(() =>
   import("./pages/AdminDashboard/Dashboard/Dashboard")
@@ -132,107 +137,114 @@ function App() {
   // Set the root element for React Modal
   ReactModal.setAppElement("#root");
 
+  const [logo, setLogo] = useState("/images/All/Logo.png");
+
   return (
     <ThemeProvider>
       <Toaster position="top-right" reverseOrder={false} />
       <AuthInitializer /> {/* ✅ Tambahkan ini */}
-      <Router>
-        <Suspense fallback={<div className="text-center p-12">Loading...</div>}>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/Detail/:id" element={<Detail />} />
-            <Route path="/OrderDetail" element={<OrderDetail />} />
-            <Route path="/PaymentSection" element={<PaymentSection />} />
-            <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
-            <Route path="/PaymentUnsuccess" element={<PaymentUnsuccess />} />
-            <Route path="/Services" element={<Services />} />
-            <Route path="/login" element={<Login />} />
+      <LogoFaviconManager>
+        <Router>
+          <Suspense fallback={<div className="text-center p-12">Loading...</div>}>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/Detail/:id" element={<Detail />} />
+              <Route path="/OrderDetail" element={<OrderDetail />} />
+              <Route path="/PaymentSection" element={<PaymentSection />} />
+              <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
+              <Route path="/PaymentUnsuccess" element={<PaymentUnsuccess />} />
+              <Route path="/Services" element={<Services />} />
+              <Route path="/login" element={<Login />} />
 
-            {/* Footer */}
-            <Route path="/Company" element={<CompanyFooter />} />
-            <Route path="/AboutUs" element={<AboutUsPage />} />
-            <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
-            <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
-            <Route path="/ContactUs" element={<ContactUs />} />
-            <Route path="/DayTour" element={<DayTourPage />} />
-            <Route path="/DayTour/:slug" element={<Detail />} />
-            <Route path="/categories" element={<CategoriesFooter />} />
-            <Route path="/blog" element={<BlogPostMain />} />
-            <Route path="/blog/:slug" element={<BlogDetail />} />
-            <Route path="/unit-car" element={<CarRental />} />
-            <Route path="/accomodation" element={<AccomodationPage />} />
-            <Route path="/accomodation/detail/:id" element={<AccoDetail />} />
+              {/* Footer */}
+              <Route path="/Company" element={<CompanyFooter />} />
+              <Route path="/AboutUs" element={<AboutUsPage />} />
+              <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+              <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
+              <Route path="/ContactUs" element={<ContactUs />} />
+              <Route path="/DayTour" element={<DayTourPage />} />
+              <Route path="/DayTour/:slug" element={<Detail />} />
+              <Route path="/categories" element={<CategoriesFooter />} />
+              <Route path="/blog" element={<BlogPostMain />} />
+              <Route path="/blog/:slug" element={<BlogDetail />} />
+              <Route path="/unit-car" element={<CarRental />} />
+              <Route path="/accomodation" element={<AccomodationPage />} />
+              <Route path="/accomodation/detail/:id" element={<AccoDetail />} />
+              <Route path="/news" element={<NewsPage />} />
 
-            {/* Admin */}
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate to="dashboard" replace />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="order" element={<Order />} />
-              <Route path="order/detail/:id" element={<OrderView />} />
-              <Route path="order/edit/:id" element={<OrderEdit />} />
-              <Route path="calendar" element={<Calendar />} />
-              <Route path="day-tour" element={<DayTour />} />
-              <Route path="day-tour/create" element={<CreateDayTourPage />} />
-              <Route path="day-tour/edit/:id" element={<CreateDayTourPage />} />
-              <Route path="rent-car" element={<RentCar />} />
-              <Route path="rent-car/create" element={<CreateRentCarPage />} />
-              <Route path="rent-car/edit/:id" element={<CreateRentCarPage />} />
-              <Route path="customer" element={<Customer />} />
-              <Route path="accommodation" element={<Accomodation />} />
+              {/* Admin */}
               <Route
-                path="accommodation/create"
-                element={<CreateAccomodationPage />}
-              />
-              <Route
-                path="accommodation/edit/:id"
-                element={<CreateAccomodationPage />}
-              />
-              <Route path="AboutUs" element={<AboutUs />} />
-              <Route path="aboutus/create" element={<CreateAboutUsPage />} />
-              <Route path="aboutus/edit/:id" element={<CreateAboutUsPage />} />
-              <Route path="contact-us" element={<ContactUsAdmin />} />
-              <Route path="contact-us/create" element={<CreateContactUsPage />} />
-              <Route path="contact-us/edit/:id" element={<CreateContactUsPage />} />
-              <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
-              <Route path="privacy-policy/create" element={<CreatePrivacyPolicyPage />} />
-              <Route path="privacy-policy/edit/:id" element={<CreatePrivacyPolicyPage />} />
-              <Route path="terms-conditions" element={<TermsConditions />} />
-              <Route path="terms-conditions/create" element={<CreateTermsConditions />} />
-              <Route path="terms-conditions/edit/:id" element={<CreateTermsConditions />} />
-              <Route path="news" element={<News />} />
-              <Route path="news/create" element={<CreateNews />} />
-              <Route path="news/edit/:id" element={<CreateNews />} />
-              <Route path="whatsapp-connect" element={<WhatsappConnect />} />
-              <Route path="template" element={<Template />} />
-              <Route path="inbox" element={<Inbox />} />
-              <Route path="herosection" element={<HeroSection />} />
-              <Route path="ourpartner" element={<Partner />} />
-              <Route path="ServiceSchedule" element={<ServiceSchedule />} />
-              <Route path="country" element={<Country />} />
-              <Route path="city" element={<City />} />
-              <Route path="car" element={<Car />} />
-              <Route path="driver" element={<Driver />} />
-              <Route path="guide" element={<Guide />} />
-              <Route path="blogs" element={<BlogProvider><BlogAdmin /></BlogProvider>} />
-              <Route path="blogs/create" element={<BlogProvider><CreateBlog /></BlogProvider>} />
-              <Route path="blogs/edit/:id" element={<BlogProvider><CreateBlog /></BlogProvider>} />
-              <Route path="category" element={<CategoryProvider><CategoryAdmin /></CategoryProvider>} />
-              <Route path="users" element={<User/>} />
-              <Route path="testimonial" element={<Testimonial/>}></Route>
-              <Route path="profile" element={<UserProfile />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </Router>
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<Navigate to="dashboard" replace />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="order" element={<Order />} />
+                <Route path="order/detail/:id" element={<OrderView />} />
+                <Route path="order/edit/:id" element={<OrderEdit />} />
+                <Route path="calendar" element={<Calendar />} />
+                <Route path="day-tour" element={<DayTour />} />
+                <Route path="day-tour/create" element={<CreateDayTourPage />} />
+                <Route path="day-tour/edit/:id" element={<CreateDayTourPage />} />
+                <Route path="rent-car" element={<RentCar />} />
+                <Route path="rent-car/create" element={<CreateRentCarPage />} />
+                <Route path="rent-car/edit/:id" element={<CreateRentCarPage />} />
+                <Route path="customer" element={<Customer />} />
+                <Route path="accommodation" element={<Accomodation />} />
+                <Route
+                  path="accommodation/create"
+                  element={<CreateAccomodationPage />}
+                />
+                <Route
+                  path="accommodation/edit/:id"
+                  element={<CreateAccomodationPage />}
+                />
+                <Route path="AboutUs" element={<AboutUs />} />
+                <Route path="aboutus/create" element={<CreateAboutUsPage />} />
+                <Route path="aboutus/edit/:id" element={<CreateAboutUsPage />} />
+                <Route path="contact-us" element={<ContactUsAdmin />} />
+                <Route path="contact-us/create" element={<CreateContactUsPage />} />
+                <Route path="contact-us/edit/:id" element={<CreateContactUsPage />} />
+                <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+                <Route path="privacy-policy/create" element={<CreatePrivacyPolicyPage />} />
+                <Route path="privacy-policy/edit/:id" element={<CreatePrivacyPolicyPage />} />
+                <Route path="terms-conditions" element={<TermsConditions />} />
+                <Route path="terms-conditions/create" element={<CreateTermsConditions />} />
+                <Route path="terms-conditions/edit/:id" element={<CreateTermsConditions />} />
+                <Route path="news" element={<News />} />
+                <Route path="news/create" element={<CreateNews />} />
+                <Route path="news/edit/:id" element={<CreateNews />} />
+                <Route path="whatsapp-connect" element={<WhatsappConnect />} />
+                <Route path="template" element={<Template />} />
+                <Route path="inbox" element={<Inbox />} />
+                <Route path="herosection" element={<HeroSection />} />
+                <Route path="ourpartner" element={<Partner />} />
+                <Route path="ServiceSchedule" element={<ServiceSchedule />} />
+                <Route path="country" element={<Country />} />
+                <Route path="city" element={<City />} />
+                <Route path="car" element={<Car />} />
+                <Route path="driver" element={<Driver />} />
+                <Route path="guide" element={<Guide />} />
+                <Route path="blogs" element={<BlogProvider><BlogAdmin /></BlogProvider>} />
+                <Route path="blogs/create" element={<BlogProvider><CreateBlog /></BlogProvider>} />
+                <Route path="blogs/edit/:id" element={<BlogProvider><CreateBlog /></BlogProvider>} />
+                <Route path="category" element={<CategoryProvider><CategoryAdmin /></CategoryProvider>} />
+                <Route path="users" element={<User/>} />
+                <Route path="testimonial" element={<Testimonial/>}></Route>
+                <Route path="profile" element={<UserProfile />} />
+                <Route path="logo-favicon" element={<LogoFavicon />} />
+                <Route path="popular-category" element={<PopularCategory />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </Router>
+      </LogoFaviconManager>
     </ThemeProvider>
   );
 }

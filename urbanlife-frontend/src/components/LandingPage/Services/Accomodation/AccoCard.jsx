@@ -12,6 +12,17 @@ const AccoCard = ({
 }) => {
   const { t } = useTranslation();
 
+  const categoryMap = {
+    eco_lodge: "Eco Lodge",
+    hotel: "Hotel",
+    guest_house: "Guest House",
+  };
+
+  const formatType = (type) => {
+    return categoryMap[type] || type;
+  };
+
+
   return (
     <div className="acco-card-container">
       <div className="acco-card">
@@ -24,7 +35,7 @@ const AccoCard = ({
             <div className="location-badge">{location}</div>
             <div className="card-content">
               <h2 className="unit-name">{unit}</h2>
-              <p className="unit-type">— {type}</p>
+              <p className="unit-type">— {formatType(type)}</p>
             </div>
           </div>
         </div>

@@ -37,8 +37,21 @@ const PopularSection = () => {
   useEffect(() => {
     const fetchPopularItems = async () => {
       try {
-        const res = await apiClient.get("/pemesanan/popular-items?take=4");
-        const items = res.data.data.map((item) => {
+        // const res = await apiClient.get("/pemesanan/popular-items?take=4");
+        const getPopularData = async (endpoint) => {
+          const response = await apiClient.get(endpoint);
+          return response.data.data.filter(item => item.is_popular);
+        };
+
+        const [filteredTravelPackage, filteredKendaraan, filteredAkomodasi] = await Promise.all([
+          getPopularData("/travel-package"),
+          getPopularData("/kendaraan"),
+          getPopularData("/akomodasi")
+        ]);
+
+        const allData = [...filteredTravelPackage, ...filteredKendaraan, ...filteredAkomodasi];
+
+        const items = allData.map((item) => {
           const image = item.file_url
             ? `${apiClient.defaults.baseURL}/public/${item.file_url
                 .replace(/\\/g, "/")

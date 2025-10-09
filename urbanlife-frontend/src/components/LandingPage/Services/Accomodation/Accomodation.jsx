@@ -7,7 +7,7 @@ import AccoCard from "./AccoCard";
 import "./Accomodation.css";
 
 const AccomodationPage = () => {
-  const [activeAccomodation, setActiveAccomodation] = useState("All");
+  const [activeAccomodation, setActiveAccomodation] = useState("all");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [accommodations, setAccommodations] = useState([]);
   const { t } = useTranslation();
@@ -30,7 +30,7 @@ const categories = [
     const fetchAccommodations = async () => {
       try {
         const params = { take: 10, page: 1 };
-        if (activeAccomodation !== "All") {
+        if (activeAccomodation !== "all") {
           params.type = activeAccomodation;
         }
 
@@ -135,7 +135,7 @@ const categories = [
                 className={`accommodation-tab ${
                   activeAccomodation === category.name ? "active" : ""
                 }`}
-                onClick={() => handleAccomodationClick(category.name)}
+                onClick={() => handleAccomodationClick(category.id)}
               >
                 {category.name}
               </button>
@@ -166,7 +166,7 @@ const categories = [
                   backgroundImage={image}
                   location={accommodation.lokasi?.nama || ""}
                   unit={accommodation.nama}
-                  type={accommodation.kategori}
+                  type={accommodation.tipe}
                   buttonText="See More"
                   linkTo={`/accomodation/detail/${accommodation.id}`} //TODO: Ubah rute ke OrderDetail langsung
                 />

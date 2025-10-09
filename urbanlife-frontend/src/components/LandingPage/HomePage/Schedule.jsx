@@ -4,9 +4,34 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 
+const dayTranslations = {
+  en: {
+    Senin: 'Monday',
+    Selasa: 'Tuesday',
+    Rabu: 'Wednesday',
+    Kamis: 'Thursday',
+    Jumat: 'Friday',
+    Sabtu: 'Saturday',
+    Minggu: 'Sunday',
+  },
+  id: {
+    Monday: 'Senin',
+    Tuesday: 'Selasa',
+    Wednesday: 'Rabu',
+    Thursday: 'Kamis',
+    Friday: 'Jumat',
+    Saturday: 'Sabtu',
+    Sunday: 'Minggu',
+  },
+};
+
 const ServiceScheduleCard = () => {
   const { t, i18n } = useTranslation();
   console.log('Current language:', i18n.language); // Debug bahasa saat ini
+
+  const translateDay = (day) => {
+    return dayTranslations[i18n.language][day] || day;
+  };
 
   useEffect(() => {
     console.log('Language changed to:', i18n.language); // Debug perubahan bahasa
@@ -111,7 +136,7 @@ const ServiceScheduleCard = () => {
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-[#071C4D]" />
                     <span className="text-[#071C4D] font-semibold text-sm uppercase">
-                      {day}
+                      {translateDay(day)}
                     </span>
                   </div>
                   <span

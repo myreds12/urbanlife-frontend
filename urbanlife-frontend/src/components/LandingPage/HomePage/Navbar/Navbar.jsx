@@ -7,6 +7,7 @@ import "../../../../styles/LandingPage/HomePage/Navbar.css";
 
 import { useTranslation } from "react-i18next";
 import { formatBookingData } from "../../../AdminDashboard/Utils/FormatData/bookingFormatData";
+import { useLogo } from "../../../LogoFaviconManager";
 
 // Original comment: Main Navbar component
 const Navbar = () => {
@@ -22,6 +23,7 @@ const Navbar = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); // New comment: Hook for programmatic navigation
   const { t, i18n } = useTranslation();
+  const { logo } = useLogo();
 
   // Original comment: Static destination data
   const destinationData = {
@@ -194,6 +196,20 @@ const Navbar = () => {
     navigate(`/Detail/${destination.id}`, { state: bookingData });
   };
 
+  useEffect(() => {
+    const savedLang = localStorage.getItem('language');
+    if (savedLang) {
+      i18n.changeLanguage(savedLang);
+    }
+  }, [i18n]);
+
+  const handleLanguageChange = () => {
+    const newLang = i18n.language === 'en' ? 'id' : 'en';
+    i18n.changeLanguage(newLang);
+
+    localStorage.setItem('language', newLang);
+  };
+
   return (
     <>
       {/* Original comment: Navbar spacer */}
@@ -209,7 +225,7 @@ const Navbar = () => {
         <div className="navbar-logo">
           <a href="/" className="logo-link">
             <img
-              src="/images/All/Logo.png"
+              src={logo}
               alt="UrbanLife Logo"
               className="logo-image"
             />
@@ -402,15 +418,12 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <a href="#news" className="navbar-menu-item">
+          <a href="/news" className="navbar-menu-item">
             {t("navbar.news")}
           </a>
           <div
             className="flex items-center gap-2 text-[15px] font-medium text-[#333] cursor-pointer"
-            onClick={() => {
-              const newLang = i18n.language === "en" ? "id" : "en";
-              i18n.changeLanguage(newLang);
-            }}
+            onClick={handleLanguageChange}
           >
             <img
               src="/images/LandingPage/Navbar/language.png"

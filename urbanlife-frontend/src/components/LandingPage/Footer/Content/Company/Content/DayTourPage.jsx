@@ -12,8 +12,11 @@ const DayTourPage = () => {
   const [categories, setCategories] = useState([{ id: "all", name: "All" }]);
   const [activeCategory, setActiveCategory] = useState("all");
   const [tours, setTours] = useState([]);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
+
+  console.log('Current language:', i18n.language);
+  
   const handleHomeClick = () => {
     window.location.href = "/";
   };

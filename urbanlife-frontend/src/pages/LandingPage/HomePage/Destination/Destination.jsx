@@ -46,7 +46,7 @@ const Destination = () => {
   }
 
   return (
-    <div className="destination-slider-container mt-[-130px] md:mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-10 z-10">
+    <div className="destination-slider-container mt-[-130px] md:mt-[-150px] mb-10 relative w-full max-w-[1200px] mx-auto px-4 px-18 z-10">
       <Swiper
         modules={[Navigation]}
         spaceBetween={20}

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import apiClient from '../../AdminDashboard/Utils/ApiClient/apiClient';
 import toast from 'react-hot-toast';
+import { useLogo } from '../../LogoFaviconManager';
 
 const Footer = () => {
   const { t } = useTranslation();
   const [blogData, setBlogData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { logo } = useLogo()
 
   // Array warna-warna yang akan bergantian
   const colors = [
@@ -221,7 +223,7 @@ const Footer = () => {
           <div>
             <div className="mb-8">
               <div className="bg-white text-slate-900 px-5 py-2 rounded inline-block mb-4">
-                <img src="/images/All/Logo.png" alt="Urbanlife Logo" className="h-10" />
+                <img src={logo} alt="Urbanlife Logo" className="h-10" />
               </div>
               <div className="space-y-2">
                 <p className="text-gray-300">Jakarta Selatan</p>

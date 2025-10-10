@@ -222,36 +222,36 @@ const Accomodation = () => {
   };
 
   // Handler untuk Popular (sementara)
-  const handlePopular = async (row) => {
-    const newStatus = !row.is_popular; // langsung akses row.is_popular
+  // const handlePopular = async (row) => {
+  //   const newStatus = !row.is_popular; // langsung akses row.is_popular
 
-    const confirmed = window.confirm(
-      `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
-        newStatus ? "to" : "from"
-      } Popular Categories?`
-    );
-    if (!confirmed) return;
+  //   const confirmed = window.confirm(
+  //     `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
+  //       newStatus ? "to" : "from"
+  //     } Popular Categories?`
+  //   );
+  //   if (!confirmed) return;
 
-    try {
-      const updatePromise = apiClient.patch(`/akomodasi/${row.id}/popular`, {
-        is_popular: newStatus,
-      });
+  //   try {
+  //     const updatePromise = apiClient.patch(`/akomodasi/${row.id}/popular`, {
+  //       is_popular: newStatus,
+  //     });
 
-      await toast.promise(updatePromise, {
-        loading: newStatus
-          ? "Marking as popular..."
-          : "Removing from popular...",
-        success: `"${row.nama}" ${
-          newStatus ? "added to" : "removed from"
-        } popular categories!`,
-        error: "Failed to update popular status. Please try again.",
-      });
+  //     await toast.promise(updatePromise, {
+  //       loading: newStatus
+  //         ? "Marking as popular..."
+  //         : "Removing from popular...",
+  //       success: `"${row.nama}" ${
+  //         newStatus ? "added to" : "removed from"
+  //       } popular categories!`,
+  //       error: "Failed to update popular status. Please try again.",
+  //     });
 
-      fetchData(); // sama kayak handler lain, refresh data
-    } catch (err) {
-      console.error("Failed to update popular status:", err);
-    }
-  };
+  //     fetchData(); // sama kayak handler lain, refresh data
+  //   } catch (err) {
+  //     console.error("Failed to update popular status:", err);
+  //   }
+  // };
 
   const filtered = useMemo(() => {
     if (!search) return data;
@@ -416,7 +416,7 @@ const handleDelete = async (row) => {
             onView={handleView}
             onEdit={handleEdit}
             onDelete={handleDelete}
-            onPopular={handlePopular}
+            // onPopular={handlePopular}
             defaultMapping={{
               "#": (row, index) => (page - 1) * ITEMS_PER_PAGE + index + 1,
               Name: (row) => row.name,

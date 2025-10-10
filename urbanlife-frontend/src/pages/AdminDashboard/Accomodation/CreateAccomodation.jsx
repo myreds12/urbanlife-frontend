@@ -79,6 +79,7 @@ const CreateAccomodationPage = () => {
             akomodasi_room_and_price,
             akomodasi_facility_group,
             akomodasi_file,
+            status
           } = akomodasi;
 
           setFormData({
@@ -87,6 +88,7 @@ const CreateAccomodationPage = () => {
             kategori: kategori || "Hotel",
             top_attraction: top_attraction,
             tipe: tipe || "hotel",
+            status: status || false
           });
 
           setContent(
@@ -344,7 +346,7 @@ const CreateAccomodationPage = () => {
         <main className="p-1 flex-1 overflow-y-auto">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-              Create Accommodation
+              { isEditMode ? `Edit Accomodation ${formData.nama}` : "Create Accommodation" }
             </h2>
             <div className="text-sm text-gray-500 mb-6 flex space-x-5">
               {sections.map((section) => (

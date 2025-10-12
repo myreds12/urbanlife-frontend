@@ -8,7 +8,6 @@ import "./App.css";
 import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import ReactModal from "react-modal";
-import React, { useState } from "react";
 
 // Layout & Context
 import AppLayout from "./layouts/AdminDashboard/AppLayout";
@@ -136,8 +135,6 @@ const AccoDetail = lazy(() => import("./components/LandingPage/Services/Accomoda
 function App() {
   // Set the root element for React Modal
   ReactModal.setAppElement("#root");
-
-  const [logo, setLogo] = useState("/images/All/Logo.png");
 
   return (
     <ThemeProvider>

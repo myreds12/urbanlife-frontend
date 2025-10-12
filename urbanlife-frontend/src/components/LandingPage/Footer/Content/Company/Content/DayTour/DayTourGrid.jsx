@@ -32,15 +32,22 @@ const DayTourGrid = ({ cards }) => {
   return (
     <div className="daytour-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-8">
       {cards.map((card) => {
-        const image =
-          card.file_url && card.file_url !== ""
-            ? `${apiClient.defaults.baseURL.replace(
-                /\/$/,
-                ""
-              )}/public/${card.file_url
-                .replace(/\\/g, "/")
-                .replace(/^uploads\//, "")}`
-            : "/public/images/error/No_Image_Available.jpg";
+        let image = "";
+
+        if (card.file_url) {
+          image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${card.file_url
+            .replace(/\\/g, "/")
+            .replace(/^uploads\//, "")}`;
+        } else if (
+          card.itinerary?.[0]?.itinerary_files?.[0]?.url
+        ) {
+          image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${card.itinerary[0].itinerary_files[0].url
+            .replace(/\\/g, "/")
+            .replace(/^uploads\//, "")}`;
+        } else {
+          image = "/public/images/error/No_Image_Available.jpg";
+        }
+
         const description =
           card.content?.[0]?.deskripsi?.substring(0, 100) + "..." || "";
         return (

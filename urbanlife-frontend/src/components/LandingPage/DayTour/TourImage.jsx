@@ -3,26 +3,44 @@ import { Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 
-const TourImage = ({ itinerary_images = {}, title = "Tour Image" }) => {
+const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image" }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { t } = useTranslation();
-  const [ images, setImages] = useState([])
+  const [processedImages, setProcessedImages] = useState([]);
 
   useEffect(() => {
-    const all_images = []
-    itinerary_images.forEach((item) => {
-    item.itinerary_files.forEach((file) => {
-        all_images.push(`${apiClient.defaults.baseURL.replace(/\/$/, '')}/public/${file.url
-                    .replace(/\\/g, '/')
-                    .replace(/^uploads\//, '')}`)
+    let all_images = [];
+    console.log(images, 'images')
+    if (Array.isArray(images) && images.length > 0) {
+      all_images = images.map((img) =>
+        `${img
+          .replace(/\\/g, "/")
+          .replace(/^uploads\//, "")}`
+      );
+    }
+
+    else if (Array.isArray(itinerary_images)) {
+      itinerary_images.forEach((item) => {
+        item.itinerary_files?.forEach((file) => {
+          all_images.push(
+            `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${file.url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`
+          );
+        });
       });
-    });
-    setImages(all_images);
-  }, [itinerary_images]);
+    }
+
+    if (all_images.length === 0) {
+      all_images.push("/public/images/error/No_Image_Available.jpg");
+    }
+
+    setProcessedImages(all_images);
+  }, [images, itinerary_images]);
 
   // Take first 3 images
-  const mainImages = images.slice(0, 5);
+  const mainImages = processedImages.slice(0, 5);
 
   // Open gallery modal
   const handleOpenGallery = () => {
@@ -37,11 +55,11 @@ const TourImage = ({ itinerary_images = {}, title = "Tour Image" }) => {
 
   // Navigate images
   const handlePrevImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentImageIndex((prev) => (prev === 0 ? processedImages.length - 1 : prev - 1));
   };
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentImageIndex((prev) => (prev === processedImages.length - 1 ? 0 : prev + 1));
   };
 
   // Handle keyboard navigation
@@ -83,7 +101,7 @@ const TourImage = ({ itinerary_images = {}, title = "Tour Image" }) => {
 
   return (
     <div className="relative max-w-7xl mx-auto">
-      {(!images || images.length === 0) ? (
+      {(!processedImages || processedImages.length === 0) ? (
         <div className="h-64 bg-gray-200 rounded-xl flex items-center justify-center">
           <p className="text-gray-500 text-sm">No images available</p>
         </div>
@@ -128,7 +146,7 @@ const TourImage = ({ itinerary_images = {}, title = "Tour Image" }) => {
             className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-white hover:shadow-lg transition-all duration-300"
           >
             <Eye className="w-4 h-4" />
-            {t("detail.seeallimage", { count: images.length })}
+            {t("detail.seeallimage")}
           </button>
         </>
       )}
@@ -152,15 +170,29 @@ const TourImage = ({ itinerary_images = {}, title = "Tour Image" }) => {
             </div>
 
             {/* Main image */}
-            <div className="relative bg-gray-50 flex items-center justify-center min-h-[400px]">
+            <div className="relative p-10 bg-gray-50 flex items-center justify-center min-h-[400px]">
               <img
-                src={images[currentImageIndex]}
+                src={processedImages[currentImageIndex]}
                 alt={`${title} - Image ${currentImageIndex + 1}`}
-                className="max-w-full max-h-[400px] object-contain"
+                className="max-w-[600px] max-h-[400px] object-contain"
               />
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/60 text-white text-sm rounded-full">
-                {currentImageIndex + 1} / {images.length}
+                {currentImageIndex + 1} / {processedImages.length}
               </div>
+
+              <button
+                onClick={handlePrevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-800 p-2 rounded-full shadow-md"
+              >
+                <ChevronLeft className="w-6 h-6 text-white" />
+              </button>
+
+              <button
+                onClick={handleNextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-800 p-2 rounded-full shadow-md"
+              >
+                <ChevronRight className="w-6 h-6 text-white" />
+              </button>
             </div>
           </div>
         </div>

@@ -17,15 +17,29 @@ const Destination = () => {
         const response = await apiClient.get("/pemesanan/items?is_category=false");
         const rawData = response.data.data;
 
-        const processed = rawData.map((item) => ({
-          ...item,
-          image: item.file_url
-            ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.file_url
-                .replace(/\\/g, "/")
-                .replace(/^uploads\//, "")}`
-            : "/public/images/error/No_Image_Available.jpg",
-        }));
-        console.log(processed)
+        const processed = rawData.map((item) => {
+          let image = "";
+
+          if (item.file_url) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.file_url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          } else if (
+            item.itinerary?.[0]?.itinerary_files?.[0]?.url
+          ) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.itinerary[0].itinerary_files[0].url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          } else {
+            image = "/public/images/error/No_Image_Available.jpg";
+          }
+
+          return {
+            ...item,
+            image: image,
+          };
+        });
+
         setTravelData(processed);
       } catch (err) {
         console.error("❌ API Error:", err);

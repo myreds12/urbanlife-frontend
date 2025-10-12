@@ -50,13 +50,23 @@ const PopularSection = () => {
         ]);
 
         const allData = [...filteredTravelPackage, ...filteredKendaraan, ...filteredAkomodasi];
-
+        
         const items = allData.map((item) => {
-          const image = item.file_url
-            ? `${apiClient.defaults.baseURL}/public/${item.file_url
-                .replace(/\\/g, "/")
-                .replace(/^uploads\//, "")}`
-            : "/public/images/error/No_Image_Available.jpg";
+          let image = "";
+
+          if (item.file_url) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.file_url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          } else if (
+            item.travel_package_itinerary?.[0]?.itinerary_files?.[0]?.url
+          ) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.travel_package_itinerary[0].itinerary_files[0].url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          } else {
+            image = "/public/images/error/No_Image_Available.jpg";
+          }
 
           let destinations = "";
           let price = "";

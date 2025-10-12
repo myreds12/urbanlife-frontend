@@ -216,41 +216,41 @@ const RentCar = () => {
   };
 
   // Handler untuk Popular (sementara)
-  const handlePopular = async (row) => {
-    const newStatus = !row.is_popular; // toggle status
+  // const handlePopular = async (row) => {
+  //   const newStatus = !row.is_popular; // toggle status
 
-    const confirmed = window.confirm(
-      `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
-        newStatus ? "to" : "from"
-      } Popular Categories?`
-    );
-    if (!confirmed) return;
+  //   const confirmed = window.confirm(
+  //     `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
+  //       newStatus ? "to" : "from"
+  //     } Popular Categories?`
+  //   );
+  //   if (!confirmed) return;
 
-    try {
-      const updatePromise = apiClient.patch(`/kendaraan/${row.id}/popular`, {
-        is_popular: newStatus,
-      });
+  //   try {
+  //     const updatePromise = apiClient.patch(`/kendaraan/${row.id}/popular`, {
+  //       is_popular: newStatus,
+  //     });
 
-      await toast.promise(updatePromise, {
-        loading: newStatus
-          ? "Marking as popular..."
-          : "Removing from popular...",
-        success: `"${row.nama}" ${
-          newStatus ? "added to" : "removed from"
-        } popular categories!`,
-        error: "Failed to update popular status. Please try again.",
-      });
+  //     await toast.promise(updatePromise, {
+  //       loading: newStatus
+  //         ? "Marking as popular..."
+  //         : "Removing from popular...",
+  //       success: `"${row.nama}" ${
+  //         newStatus ? "added to" : "removed from"
+  //       } popular categories!`,
+  //       error: "Failed to update popular status. Please try again.",
+  //     });
 
-      fetchRentCar();
-    } catch (err) {
-      console.error("Failed to update popular status:", err);
+  //     fetchRentCar();
+  //   } catch (err) {
+  //     console.error("Failed to update popular status:", err);
 
-      if (err.response) {
-        console.error("Status:", err.response.status);
-        console.error("Data:", err.response.data);
-      }
-    }
-  };
+  //     if (err.response) {
+  //       console.error("Status:", err.response.status);
+  //       console.error("Data:", err.response.data);
+  //     }
+  //   }
+  // };
 
   const handleDelete = async (row) => {
     const confirmed = window.confirm(
@@ -484,7 +484,7 @@ const RentCar = () => {
               onView={handleView}
               onEdit={handleEdit}
               onDelete={handleDelete}
-              onPopular={handlePopular}
+              // onPopular={handlePopular}
               defaultMapping={{
                 "#": (row, index) => (page - 1) * take + index + 1,
                 ID: (row) => row.id,

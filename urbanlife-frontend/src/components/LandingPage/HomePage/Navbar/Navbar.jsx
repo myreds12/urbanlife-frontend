@@ -97,22 +97,33 @@ const Navbar = () => {
         }
 
         // New comment: Map API data to match destinationData structure
-        const formattedData = rawData.map((item) => ({
-          id: item.id,
-          name: item.nama,
-          location: `${item.lokasi?.nama || "Unknown"}, ${
-            item.lokasi?.negara?.nama || "Unknown"
-          }`,
-          image: item.file_url
-            ? `${apiClient.defaults.baseURL.replace(
-                /\/$/,
-                ""
-              )}/public/${item.file_url
-                .replace(/\\/g, "/")
-                .replace(/^uploads\//, "")}`
-            : "/public/images/error/No_Image_Available.jpg", // New comment: Fallback image
-            ...item,
-        }));
+        const formattedData = rawData.map((item) => {
+          let image = "";
+
+          if (item.file_url) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.file_url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          } else if (
+            item.itinerary?.[0]?.itinerary_files?.[0]?.url
+          ) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.itinerary[0].itinerary_files[0].url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          } else {
+            image = "/public/images/error/No_Image_Available.jpg";
+          }
+
+          return {
+            id: item.id,
+            name: item.nama,
+            location: `${item.lokasi?.nama || "Unknown"}, ${
+              item.lokasi?.negara?.nama || "Unknown"
+            }`,
+            image: image,
+          };
+        });
+        
         setTopAttractions(formattedData);
         console.log("Formatted top attractions:", formattedData); // New comment: Debug formatted data
       } catch (error) {

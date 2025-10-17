@@ -179,7 +179,8 @@
   "room": "{{room}} Room",
   "amenities": "Amenities :",
   "nofacility": "No Facility",
-  "noamenities": "No Amenities"
+  "noamenities": "No Amenities",
+  "package": "Package"
 },
 
 "sharemodal": {

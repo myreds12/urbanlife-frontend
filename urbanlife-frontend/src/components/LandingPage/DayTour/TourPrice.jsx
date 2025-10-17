@@ -11,9 +11,9 @@ const iconForLabel = (label) => {
   return null;
 };
 
-const TourPrice = ({ priceTable }) => {
+const TourPrice = ({ priceTable, package_prices }) => {
   const { t } = useTranslation();
-
+console.log(package_prices, 'package price')
   if (!priceTable || priceTable.length === 0) {
     return (
       <div className="space-y-4 bg-white p-6 rounded-xl shadow-md">
@@ -39,6 +39,31 @@ const TourPrice = ({ priceTable }) => {
               <tr key={row.id} className="hover:bg-gray-50 transition-all">
                 <td className="px-6 py-4 font-medium text-gray-700">
                   {iconForLabel(row.label)} {row.label}
+                </td>
+                <td className="px-6 py-4 text-gray-600">
+                  {Number(row.harga).toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+       <div className="overflow-x-auto my-20">
+        <table className="min-w-full table-auto border rounded-md overflow-hidden">
+          <thead className="bg-cyan-600 text-white text-sm uppercase">
+            <tr>
+              <th className="px-6 py-3 text-left">{t("detail.package")}</th>
+              <th className="px-6 py-3 text-left">{t("detail.price")}</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-100">
+            {package_prices.map((row) => (
+              <tr key={row.id} className="hover:bg-gray-50 transition-all">
+                <td className="px-6 py-4 font-medium text-gray-700">
+                  {row.description}
                 </td>
                 <td className="px-6 py-4 text-gray-600">
                   {Number(row.harga).toLocaleString("id-ID", {

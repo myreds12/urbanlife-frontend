@@ -175,7 +175,8 @@
     "room": "Kamar {{room}}",
     "amenities": "Fasilitas kamar :",
     "nofacility": "Fasilitas tidak tersedia",
-    "noamenities": "Fasilitas kamar tidak tersedia"
+    "noamenities": "Fasilitas kamar tidak tersedia",
+    "package": "Paket"
   },
 
   "sharemodal": {

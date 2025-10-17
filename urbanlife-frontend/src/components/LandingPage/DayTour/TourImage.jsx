@@ -11,7 +11,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
 
   useEffect(() => {
     let all_images = [];
-    console.log(images, 'images')
+    // console.log(images, 'images')
     if (Array.isArray(images) && images.length > 0) {
       all_images = images.map((img) =>
         `${img
@@ -21,7 +21,8 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
     }
 
     else if (Array.isArray(itinerary_images)) {
-      itinerary_images.forEach((item) => {
+      const itinerary_images_filter = itinerary_images.filter(img => img.bahasa === "ENGLISH")
+      itinerary_images_filter.forEach((item) => {
         item.itinerary_files?.forEach((file) => {
           all_images.push(
             `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${file.url

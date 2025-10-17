@@ -240,7 +240,7 @@ const Detail = () => {
             <TourDescription description={tourData.description[i18n.language]} />
           )}
           {activeTab === "itinerary" && <TourItinerary itinerary={tourData.itinerary} />}
-          {activeTab === "price" && <TourPrice priceTable={tourData.priceTable} />}
+          {activeTab === "price" && <TourPrice priceTable={tourData.priceTable} package_prices={tourData.travel_package_prices} />}
           {activeTab === "room_and_price" && (
             <TourRoomAndPrice roomAndPrice={tourData.room_and_price} />
           )}

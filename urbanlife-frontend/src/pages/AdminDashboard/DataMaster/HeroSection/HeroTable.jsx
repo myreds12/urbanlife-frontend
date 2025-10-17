@@ -3,7 +3,7 @@ import Table from "../../../../components/AdminDashboard/Utils/Table/Table";
 
 const HeroTable = ({ heroImages, onEdit, onDelete, onSetActive }) => {
   const columns = ["#", "Preview", "Title", "Status", "Action"];
-
+console.log(apiClient.defaults.baseURL)
   const getImageUrl = (image) => {
     if (image instanceof File) {
       return URL.createObjectURL(image);

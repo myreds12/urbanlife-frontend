@@ -46,8 +46,8 @@ export default function CardWidget() {
             />
           </svg>
         }
-        trendIcon="up"
-        trendValue="11.01%"
+        // trendIcon="up"
+        // trendValue="11.01%"
       />
 
       {/* Orders */}
@@ -68,8 +68,8 @@ export default function CardWidget() {
             <line x1="12" y1="22" x2="12" y2="12" />
           </svg>
         }
-        trendIcon="down"
-        trendValue="9.05%"
+        // trendIcon="down"
+        // trendValue="9.05%"
       />
     </div>
   );
@@ -92,10 +92,10 @@ function StatCard({ title, count, icon, trendIcon, trendValue }) {
     <div className="flex flex-col col-span-2 justify-between h-full rounded-2xl border border-gray-200 bg-white">
       <div className="flex justify-between items-center p-5">
         <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl">{icon}</div>
-        <span className={`flex items-center text-sm ${trendColor} px-2 py-1 rounded-full`}>
+        {/* <span className={`flex items-center text-sm ${trendColor} px-2 py-1 rounded-full`}>
           {TrendSVG}
           {trendValue}
-        </span>
+        </span> */}
       </div>
 
       <div className="flex flex-col items-center">

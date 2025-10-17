@@ -171,23 +171,23 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
             </div>
 
             {/* Main image */}
-            <div className="relative p-10 bg-gray-50 flex items-center justify-center min-h-[400px]">
+            <div className="relative p-20 bg-gray-50 flex items-center justify-center min-h-[400px]">
               <img
                 src={processedImages[currentImageIndex]}
                 alt={`${title} - Image ${currentImageIndex + 1}`}
-                className="max-w-[600px] max-h-[400px] object-contain"
+                className="w-full max-w-[600px] max-h-[400px] object-contain"
               />
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/60 text-white text-sm rounded-full">
                 {currentImageIndex + 1} / {processedImages.length}
               </div>
-
+              
               <button
                 onClick={handlePrevImage}
                 className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-800 p-2 rounded-full shadow-md"
               >
                 <ChevronLeft className="w-6 h-6 text-white" />
               </button>
-
+              
               <button
                 onClick={handleNextImage}
                 className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-800 p-2 rounded-full shadow-md"

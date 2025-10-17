@@ -72,3 +72,9 @@ html {
       padding-inline: calc(var(--spacing) * 18);
     }
 }
+
+.p20 {
+    @media (width >= 48rem) {
+      padding: calc(var(--spacing) * 20);
+    }
+}

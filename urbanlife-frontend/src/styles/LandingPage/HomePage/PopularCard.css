@@ -89,3 +89,12 @@
   font-weight: 600;
   margin: 4px 0 0;
 }
+
+.categories-card .book-btn {
+  width: 300px !important;
+}
+
+.categories-card:hover .book-btn,
+.categories-card.hover-active .book-btn {
+  opacity: 1;
+}

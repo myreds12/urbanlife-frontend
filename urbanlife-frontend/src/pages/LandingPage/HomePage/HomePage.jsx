@@ -38,7 +38,7 @@ const LandingPage = () => {
       </div>
 
       {/* Discover All Around Section */}
-      <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
+      {/* <div className="w-full px-4 md:px-8 lg:px-10 mb-16">
         <div className="max-w-[1200px] mx-auto">
           <h1 className="playfair text-[#071C4D] text-[25px] font-bold text-left mb-8 ml-5">
             {t("discover.title")}
@@ -47,7 +47,7 @@ const LandingPage = () => {
             <DiscoverSection />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Our Partner Section */}
       <AnimatedSection animationType="scaleIn">

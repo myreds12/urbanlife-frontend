@@ -40,11 +40,7 @@ const DestinationCard = ({ travel }) => {
       : travel.item_type?.toLowerCase() !== "kendaraan"
       ? `Durasi akan dipilih ketika pemesanan`
       : "1 - 12 hours"}`,
-    image: travel.file_url
-      ? `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${travel.file_url
-          .replace(/\\/g, "/")
-          .replace(/^uploads\//, "")}`
-      : "/public/images/error/No_Image_Available.jpg",
+    image: travel.image,
     url: `${window.location.origin}/destination/${travel.nama
       .replace(/\s+/g, "-")
       .toLowerCase()}?id=${travel.id}`,

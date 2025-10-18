@@ -7,7 +7,7 @@ const defaultPopularCategories = [
   {
     id: "default-1",
     country: "Indonesia",
-    title: "Eastern Bali Tour",
+    nama: "Eastern Bali Tour",
     destinations: "4 Destinations",
     price: "1,200,000",
     image: "/images/LandingPage/Destination/EasternBaliTour.png",
@@ -15,7 +15,7 @@ const defaultPopularCategories = [
   {
     id: "default-2",
     country: "Vietnam",
-    title: "Toyota Alphard",
+    nama: "Toyota Alphard",
     destinations: "1 - 4 hours",
     price: "1,200,000",
     image: "/images/LandingPage/Categories/Alphard.png",
@@ -23,7 +23,7 @@ const defaultPopularCategories = [
   {
     id: "default-3",
     country: "Indonesia",
-    title: "Fourteen Roses Boutique Hotel",
+    nama: "Fourteen Roses Boutique Hotel",
     destinations: "Single Bed",
     price: "1,200,000/night",
     image: "/images/LandingPage/Categories/Fourteenroses.png",
@@ -49,13 +49,32 @@ const PopularSection = () => {
           getPopularData("/akomodasi")
         ]);
 
-        const allData = [...filteredTravelPackage, ...filteredKendaraan, ...filteredAkomodasi];
-        
+        const travelPackageWithType = filteredTravelPackage.map(item => ({
+          ...item,
+          item_type: "travel_package"
+        }));
+
+        const kendaraanWithType = filteredKendaraan.map(item => ({
+          ...item,
+          item_type: "kendaraan"
+        }));
+
+        const akomodasiWithType = filteredAkomodasi.map(item => ({
+          ...item,
+          item_type: "akomodasi"
+        }));
+
+        const allData = [...travelPackageWithType, ...kendaraanWithType, ...akomodasiWithType];
+        console.log(allData, 'all data')
         const items = allData.map((item) => {
           let image = "";
 
-          if (item.file_url) {
-            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.file_url
+          if (item.kendaraan_file) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.kendaraan_file[0].url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          } else if (item.akomodasi_file) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.akomodasi_file[0].url
               .replace(/\\/g, "/")
               .replace(/^uploads\//, "")}`;
           } else if (
@@ -72,21 +91,21 @@ const PopularSection = () => {
           let price = "";
 
           switch (item.item_type) {
-            case "AKOMODASI":
-              destinations = item?.room_and_price[0]?.nama || "Akomodasi";
-              price = `${Number(item.room_and_price[0].harga).toLocaleString(
+            case "akomodasi":
+              destinations = item?.akomodasi_room_and_price[0]?.nama || "Akomodasi";
+              price = `${Number(item.akomodasi_room_and_price[0].harga).toLocaleString(
                 "id-ID"
               )}/night`;
               break;
-            case "TRAVEL_PACKAGE":
-              destinations = item?.itinerary[0]?.nama || "Destinations";
+            case "travel_package":
+              destinations = item?.travel_package_itinerary[0]?.nama || "Destinations";
               price = `${(
                 item.harga_dewasa ||
                 item.harga_anak ||
                 0
               ).toLocaleString("id-ID")}`;
               break;
-            case "KENDARAAN":
+            case "kendaraan":
               destinations =
                 item.durasi?.[0]?.durasi || "Durasi tidak tersedia";
               price = `${(Number(item.durasi?.[0]?.harga) || 0).toLocaleString(
@@ -98,14 +117,19 @@ const PopularSection = () => {
               price = "0";
           }
 
+          // return {
+          //   id: item.id,
+          //   country: item.lokasi?.negara?.nama || "Unknown",
+          //   nama: item.nama,
+          //   destinations,
+          //   price,
+          //   image,
+          // };
           return {
-            id: item.id,
-            country: item.lokasi?.negara?.nama || "Unknown",
-            title: item.nama,
-            destinations,
-            price,
-            image,
-          };
+            ...item,
+            destinations: destinations,
+            image: image,
+          }
         });
         console.log(items, "ITEMS")
 
@@ -130,7 +154,7 @@ const PopularSection = () => {
         items={dataToRender}
         gap={14}
         renderItem={(item) => (
-          <PopularCard key={`${item.id}-${item.title}`} item={item} />
+          <PopularCard key={`${item.id}-${item.nama}`} item={item} />
         )}
       />
     </div>

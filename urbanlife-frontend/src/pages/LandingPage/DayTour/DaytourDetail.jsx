@@ -110,8 +110,8 @@ const Detail = () => {
         }
 
         if (state.item_type === 'travel_package') {
-          images = Array.isArray(data.travelPackageFile)
-            ? data.travelPackageFile.map(
+          images = Array.isArray(data.travel_package_itinerary)
+            ? data.travel_package_itinerary[0].itinerary_files.map(
                 (file) =>
                   `${apiClient.defaults.baseURL.replace(/\/$/, '')}/public/${file.url
                     .replace(/\\/g, '/')

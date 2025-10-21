@@ -90,7 +90,7 @@ const ContactUsPage = () => {
 
         // Reset form
         setFormData({
-          to: "purwohandoko83@gmail.com",
+          to: "no-reply@urbanlife.id",
           name: "",
           email: "",
           subject: "",

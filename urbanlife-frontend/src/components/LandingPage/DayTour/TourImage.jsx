@@ -3,7 +3,7 @@ import { Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 
-const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image" }) => {
+const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image", type = null }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { t } = useTranslation();
@@ -11,30 +11,34 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
 
   useEffect(() => {
     let all_images = [];
-    // console.log(images, 'images')
-    if (Array.isArray(images) && images.length > 0) {
-      all_images = images.map((img) =>
-        `${img
-          .replace(/\\/g, "/")
-          .replace(/^uploads\//, "")}`
-      );
-    }
+    console.log(images, 'images')
 
-    else if (Array.isArray(itinerary_images)) {
+    if (type == "travel_package") {
       const itinerary_images_filter = itinerary_images.filter(img => img.bahasa === "ENGLISH")
       itinerary_images_filter.forEach((item) => {
         item.itinerary_files?.forEach((file) => {
-          all_images.push(
-            `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${file.url
+          all_images.push({
+            image: `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${file.url
               .replace(/\\/g, "/")
-              .replace(/^uploads\//, "")}`
-          );
+              .replace(/^uploads\//, "")}`,
+            label: item.nama
+          });
         });
       });
+    } else {
+      all_images = images.map((img) => ({
+        image: `${img
+          .replace(/\\/g, "/")
+          .replace(/^uploads\//, "")}`,
+        label: "Indonesia"
+      }));
     }
 
     if (all_images.length === 0) {
-      all_images.push("/public/images/error/No_Image_Available.jpg");
+      all_images.push({
+        imageUrl: "/public/images/error/No_Image_Available.jpg",
+        label: "No Image Available"
+      });
     }
 
     setProcessedImages(all_images);
@@ -110,32 +114,41 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
         <>
           {/* Grid layout */}
           <div className="grid grid-cols-3 gap-4">
-            <div className="w-full rounded-lg overflow-hidden">
+            <div className="w-full rounded-lg overflow-hidden relative">
               <img
-                src={mainImages[0]}
+                src={mainImages[0].image}
                 alt={`${title} - Image 1`}
                 className="w-full h-full object-cover"
               />
+              { type == "travel_package" 
+              ? <div className="itinerary-label">{mainImages[0].label}</div>
+              : <></> }
             </div>
             <div className="grid grid-rows-2 gap-4">
-              {mainImages.slice(1, 3).map((image, index) => (
-                <div key={index} className="h-55 rounded-lg overflow-hidden">
+              {mainImages.slice(1, 3).map((img, index) => (
+                <div key={index} className="h-55 rounded-lg overflow-hidden relative">
                   <img
-                    src={image}
+                    src={img.image}
                     alt={`${title} - Image ${index + 2}`}
                     className="w-full h-full object-cover"
                   />
+                  { type == "travel_package" 
+                  ? <div className="itinerary-label">{img.label}</div> 
+                  : <></> }
                 </div>
               ))}
             </div>
             <div className="grid grid-rows-2 gap-4">
-              {mainImages.slice(3, 6).map((image, index) => (
-                <div key={index} className="h-55 rounded-lg overflow-hidden">
+              {mainImages.slice(3, 6).map((img, index) => (
+                <div key={index} className="h-55 rounded-lg overflow-hidden relative">
                   <img
-                    src={image}
+                    src={img.image}
                     alt={`${title} - Image ${index + 2}`}
                     className="w-full h-full object-cover"
                   />
+                  { type == "travel_package" 
+                  ? <div className="itinerary-label">{img.label}</div> 
+                  : <></> }
                 </div>
               ))}
             </div>
@@ -172,11 +185,16 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
 
             {/* Main image */}
             <div className="relative p-20 bg-gray-50 flex items-center justify-center min-h-[400px]">
-              <img
-                src={processedImages[currentImageIndex]}
-                alt={`${title} - Image ${currentImageIndex + 1}`}
-                className="w-full max-w-[600px] max-h-[400px] object-contain"
-              />
+              <div className=" overflow-hidden relative">
+                <img
+                  src={processedImages[currentImageIndex].image}
+                  alt={`${title} - Image ${currentImageIndex + 1}`}
+                  className="w-full max-w-[600px] max-h-[400px] object-contain"
+                />
+                { type =="travel_package" 
+                ? <div className="itinerary-label">{processedImages[currentImageIndex].label}</div> 
+                : <></> }
+              </div>
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/60 text-white text-sm rounded-full">
                 {currentImageIndex + 1} / {processedImages.length}
               </div>

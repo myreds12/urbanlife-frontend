@@ -34,7 +34,9 @@
     "rent_car": "Sewa Mobil",
     "day_tour": "Tur Harian",
     "form_incomplete_alert": "Mohon lengkapi semua kolom!",
-    "search_failed": "Gagal mengambil hasil pencarian."
+    "search_failed": "Gagal mengambil hasil pencarian.",
+    "more_detail": "Lihat Selengkapnya",
+    "duration_not_available": "Durasi tidak tersedia"
   },
 
   "searchmodal": {
@@ -72,8 +74,8 @@
   },
 
   "testimonial": {
-    "title": "Mereka Menyukai Kami",
-    "subtitle": "Momen-momen yang memberi mereka\npengalaman terbaik",
+    "title": "Mereka Menyukai Layanan Kami",
+    "subtitle": "Momen-momen yang memberi mereka pengalaman terbaik",
     "review1": "Sangat puas dengan layanan, sopirnya sangat mendukung dan membantu, dan mobilnya juga bagus, sangat baik.",
     "review2": "Sangat puas dengan layanan, sopirnya sangat mendukung dan membantu, dan mobilnya juga bagus, sangat baik.",
     "review3": "urbanlife membuat hidup saya lebih mudah, hotelnya luar biasa, mobilnya bersih, dan sopirnya sangat baik serta membantu. Saya pasti akan merekomendasikan urbanlife ke teman dan keluarga saya.",
@@ -176,7 +178,8 @@
     "amenities": "Fasilitas kamar :",
     "nofacility": "Fasilitas tidak tersedia",
     "noamenities": "Fasilitas kamar tidak tersedia",
-    "package": "Paket"
+    "package": "Paket",
+    "persons": "Orang"
   },
 
   "sharemodal": {
@@ -186,7 +189,8 @@
     "sharetour": "Bagikan tur",
     "copylink": "Salin tautan",
     "message": "Pesan",
-    "embed": "Sematkan"
+    "embed": "Sematkan",
+    "duration": "Durasi akan dipilih ketika pemesanan"
   },
 
   "payment": {
@@ -533,6 +537,15 @@
     "adult_count": " Dewasa",
     "child_count": " Anak",
     "normal_price": "Harga Normal",
-    "package_price":  "Harga Paket"
+    "package_price":  "Harga Paket",
+    "pricing": "Harga",
+    "select_type": "Pilih Tipe"
+  },
+  "rentcar": {
+    "not_found" : "Tidak ada data durasi tersedia.",
+    "duration_price": "Durasi & Harga",
+    "duration": "Durasi",
+    "price": "Harga",
+    "hours": "Jam"
   }
 }

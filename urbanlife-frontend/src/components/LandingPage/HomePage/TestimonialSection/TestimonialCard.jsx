@@ -12,14 +12,14 @@ const TestimonialCard = ({ testimonial }) => {
 
       {/* Review dengan ikon kutipan */}
       <div className="text-center text-gray-700 text-base italic leading-relaxed relative px-4">
-        <svg
+        {/* <svg
           className="w-6 h-6 text-blue-200 absolute top-0 left-4"
           fill="currentColor"
           viewBox="0 0 24 24"
           aria-hidden="true"
         >
           <path d="M7.17 6A5.002 5.002 0 002 11v5a2 2 0 002 2h3a2 2 0 002-2v-5a5.002 5.002 0 00-2.83-5zM17.17 6A5.002 5.002 0 0012 11v5a2 2 0 002 2h3a2 2 0 002-2v-5a5.002 5.002 0 00-2.83-5z" />
-        </svg>
+        </svg> */}
         "{testimonial.description}"
       </div>
     </div>

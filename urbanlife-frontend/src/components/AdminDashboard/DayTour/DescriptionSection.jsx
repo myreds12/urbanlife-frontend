@@ -49,38 +49,39 @@ const DescriptionSection = ({
               {formData.top_attraction ? "Yes" : "No"}
             </span>
           </div>
-
-          <div className="flex items-center">
-            <label
-              className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-              style={{ minWidth: "190px" }}
-            >
-              Status
-            </label>
-            <button
-              type="button"
-              onClick={() =>
-                handleChange({
-                  target: {
-                    name: "status",
-                    value: !formData.status,
-                  },
-                })
-              }
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                formData.status ? "bg-cyan-600" : "bg-gray-300"
-              }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  formData.status ? "translate-x-6" : "translate-x-1"
+          { type !== "daytour" 
+          ? <div className="flex items-center">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                style={{ minWidth: "190px" }}
+              >
+                Status
+              </label>
+              <button
+                type="button"
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "status",
+                      value: !formData.status,
+                    },
+                  })
+                }
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  formData.status ? "bg-cyan-600" : "bg-gray-300"
                 }`}
-              />
-            </button>
-            <span className="ml-3 text-sm text-gray-600">
-              {formData.status ? "Active" : "Inactive"}
-            </span>
-          </div>
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    formData.status ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+              <span className="ml-3 text-sm text-gray-600">
+                {formData.status ? "Active" : "Inactive"}
+              </span>
+            </div>
+          : <></> }
         </div>
 
         <div className="mb-4 flex items-center ">

@@ -125,8 +125,8 @@ const Detail = () => {
             ? data.travel_package_itinerary
             : [];
           priceTable = [
-            { id: 1, label: 'Adult', harga: data.harga_dewasa || '0' },
-            { id: 2, label: 'Children', harga: data.harga_anak || '0' },
+            { id: 1, label: 'adult', harga: data.harga_dewasa || '0' },
+            { id: 2, label: 'children', harga: data.harga_anak || '0' },
           ];
           price = data.harga_dewasa || price;
 

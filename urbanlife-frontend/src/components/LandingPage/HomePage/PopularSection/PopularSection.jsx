@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import PopularCard from "./PopularCard";
 import Carousel from "../../../AdminDashboard/Utils/Ui/Carousel";
+import { useTranslation } from "react-i18next";
 
 const defaultPopularCategories = [
   {
@@ -33,6 +34,7 @@ const defaultPopularCategories = [
 const PopularSection = () => {
   const [popularItems, setPopularItems] = useState([]);
   const [fetchFailed, setFetchFailed] = useState(false);
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const fetchPopularItems = async () => {
@@ -89,6 +91,7 @@ const PopularSection = () => {
 
           let destinations = "";
           let price = "";
+          const language = i18n.language === "en" ? "ENGLISH" : "INDONESIA";
 
           switch (item.item_type) {
             case "akomodasi":
@@ -98,7 +101,9 @@ const PopularSection = () => {
               )}/night`;
               break;
             case "travel_package":
-              destinations = item?.travel_package_itinerary[0]?.nama || "Destinations";
+              // destinations = item?.travel_package_itinerary[0]?.nama || "Destinations";
+              const data_dest = item?.travel_package_itinerary.filter((i) => i.bahasa === language)
+              destinations = data_dest[0].nama
               price = `${(
                 item.harga_dewasa ||
                 item.harga_anak ||
@@ -107,8 +112,8 @@ const PopularSection = () => {
               break;
             case "kendaraan":
               destinations =
-                item.durasi?.[0]?.durasi || "Durasi tidak tersedia";
-              price = `${(Number(item.durasi?.[0]?.harga) || 0).toLocaleString(
+                item.kendaraan_durasi?.[0]?.durasi.replace("hours", t("rentcar.hours")) || t("cardform.duration_not_available");
+              price = `${(Number(item.kendaraan_durasi?.[0]?.harga) || 0).toLocaleString(
                 "id-ID"
               )}`;
               break;
@@ -141,7 +146,7 @@ const PopularSection = () => {
     };
 
     fetchPopularItems();
-  }, []);
+  }, [i18n.language]);
 
   const dataToRender =
     fetchFailed || popularItems.length === 0

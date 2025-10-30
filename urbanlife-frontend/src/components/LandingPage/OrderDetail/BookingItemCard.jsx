@@ -4,6 +4,7 @@ import { FiChevronRight, FiX, FiChevronDown } from "react-icons/fi";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateInput } from "../../../components/LandingPage/HomePage/CardForm/DateInput.jsx";
 import { differenceInDays, addDays } from "date-fns"; // date utils biar rapi
+import { useNavigate } from "react-router-dom";
 
 const BookingItemCard = ({
   id,
@@ -40,7 +41,20 @@ const BookingItemCard = ({
       const start = new Date(tanggal_mulai);
       const end = new Date(tanggal_selesai);
 
-      const diff = differenceInDays(end, start);
+      const diff = differenceInDays(end, start) + 1;
+      if (diff > 0 && diff !== durasi) {
+        handleChange("durasi", diff); // update durasi
+      }
+      console.log(diff, 'durasi')
+    } else {
+      const start = new Date(tanggal_mulai);
+      const end = new Date(tanggal_selesai);
+
+      const selisih = end - start;
+
+      const durasiHari = selisih / (1000 * 60 * 60 * 24);
+      const diff = Math.round(durasiHari) + 1
+
       if (diff > 0 && diff !== durasi) {
         handleChange("durasi", diff); // update durasi
       }
@@ -57,6 +71,36 @@ const BookingItemCard = ({
   const [prizing, setPrizing ] = useState("normal");
   const [showPrizingDropdown, setShowPrizingDropdown] = useState(false);
   const [showPackageDropdown, setShowPackageDropdown] = useState(false);
+  const [selDuration, setSelDuration] = useState(null)
+
+  const navigate = useNavigate()
+  const redirectService = () => {
+    switch (item_type) {
+      case 'travel_package':
+        navigate('/DayTour')
+        break;
+      case 'kendaraan':
+        navigate('/unit-car')
+        break
+      case 'akomodasi':
+        navigate('/accomodation')
+        break
+      default:
+        break;
+    }
+  }
+
+  useEffect(() => {
+    if(selDuration) {
+      handleChange("harga", selDuration)
+    }
+  }, [selDuration])
+
+  const handleDurationChange = (value) => {
+    const selected = durasi.find((d) => d.durasi === value)
+    handleChange("selected_durasi", selected);
+    setSelDuration(selected?.harga || 0)
+  }
 
   // Custom Dropdown Component
   const CustomDropdown = ({
@@ -179,7 +223,7 @@ const BookingItemCard = ({
       { item_type === "travel_package" ? 
           <div>
             <p className="font-medium mb-3 text-sm text-black-800">
-                Prizing
+                {t("bookingitem.pricing")}
             </p>
             <div className="">
               <CustomDropdown
@@ -288,7 +332,7 @@ const BookingItemCard = ({
                 options={
                   packagePrices.map((p) => ({
                     value: p.id,
-                    label: p.description,
+                    label: p.description.replace('persons', t('detail.persons'))
                   }))
                 }
                 onChange={(value) => handleChange("v_package_price", value)}
@@ -302,7 +346,7 @@ const BookingItemCard = ({
                       </div>
                     </div>
                   ) : (
-                    "Pilih Type"
+                    <div>{t("bookingitem.select_type")}</div>
                   )
                 }
               />
@@ -329,13 +373,14 @@ const BookingItemCard = ({
               value={selectedDuration?.durasi}
               options={durasi.map((d) => ({
                 value: d.durasi,
-                label: d.durasi,
+                label: d.durasi.replace('hours', t('rentcar.hours'))
               }))}
-              onChange={(value) => {
-                const selected = durasi.find((d) => d.durasi === value);
-                handleChange("selected_durasi", selected);
-                handleChange("harga", selected?.harga || 0);
-              }}
+              // onChange={(value) => {
+              //   const selected = durasi.find((d) => d.durasi === value);
+              //   handleChange("selected_durasi", selected);
+              //   handleChange("harga", selected?.harga || 0);
+              // }}
+              onChange={handleDurationChange}
               placeholder={t("bookingitem.choose_duration")}
               showDropdown={showDurationDropdown}
               setShowDropdown={setShowDurationDropdown}
@@ -422,7 +467,7 @@ const BookingItemCard = ({
       </div>
 
       {/* Change Package / Unit */}
-      <div className="flex items-center text-sm text-red-500 font-medium cursor-pointer hover:underline transition-all">
+      <div className="flex items-center text-sm text-red-500 font-medium cursor-pointer hover:underline transition-all" onClick={redirectService}>
         {item_type === "travel_package"
           ? t("bookingitem.change_package")
           : t("bookingitem.change_unit")}

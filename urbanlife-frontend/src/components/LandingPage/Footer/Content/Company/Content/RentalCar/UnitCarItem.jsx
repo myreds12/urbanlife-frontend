@@ -24,7 +24,7 @@ const UnitCarItem = ({
           <h3 className="car-unit">{unit}</h3>
           <div className="price">
             <h3 className="car-title">{title}</h3>
-            <p className="car-price">IDR {startsPrice.toLocaleString()}</p>
+            <p className="car-price">Rp. {startsPrice.toLocaleString()}</p>
           </div>
         </div>
 
@@ -37,12 +37,12 @@ const UnitCarItem = ({
 
             {duration.length > 0 && (
               <div className="duration-list">
-                <h4>Duration & Pricing:</h4>
+                <h4>{t("rentcar.duration_price")}:</h4>
                 <ul>
                   {duration.map((item, index) => (
                     <li key={index}>
-                      <span className="duration-time">{item.durasi}</span>
-                      <span className="duration-price">IDR {parseInt(item.harga || 0).toLocaleString()}</span>
+                      <span className="duration-time">{item.durasi.replace('hours', t('rentcar.hours'))}</span>
+                      <span className="duration-price">Rp. {parseInt(item.harga || 0).toLocaleString()}</span>
                     </li>
                   ))}
                 </ul>

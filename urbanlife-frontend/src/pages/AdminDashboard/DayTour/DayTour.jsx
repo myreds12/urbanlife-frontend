@@ -457,7 +457,7 @@ const DayTour = () => {
     "#": (row, index) => (currentPage - 1) * itemsPerPage + index + 1,
     "ID": (row) => row.id,
     "Name": (row) => row.nama || "-",
-    "Duration": (row) => `${row.durasi} ${row.tipe_durasi}`,
+    "Duration": (row) => `${row.durasi}`,
     "Adult Price": (row) => `Rp${Number(row.harga_dewasa).toLocaleString("id-ID")}`,
     "Child Price": (row) => `Rp${Number(row.harga_anak).toLocaleString("id-ID")}`,
     "Location": (row) => row.lokasi?.nama || "-",

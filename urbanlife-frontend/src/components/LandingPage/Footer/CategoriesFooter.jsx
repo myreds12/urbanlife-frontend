@@ -6,6 +6,7 @@ import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 import toast from 'react-hot-toast';
 import TicketCard from './TicketCard';
 import './CategoriesFooter.css';
+import { useNavigate } from 'react-router-dom';
 
 const CategoriesFooter = () => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ const CategoriesFooter = () => {
   const [categories, setCategories] = useState(['All']);
   const [loading, setLoading] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const navigate = useNavigate()
 
   // Mapping ikon berdasarkan kategori
   const categoryIcons = {
@@ -90,7 +92,16 @@ const CategoriesFooter = () => {
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
+    navigate(`/categories?category=${category}`);
   };
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const categoryFromQuery = queryParams.get('category');
+    if (categoryFromQuery && categories.includes(categoryFromQuery)) {
+      setActiveCategory(categoryFromQuery);
+    }
+  }, [location.search, categories]);
 
   // Filter blog berdasarkan kategori aktif
   const filteredPosts =

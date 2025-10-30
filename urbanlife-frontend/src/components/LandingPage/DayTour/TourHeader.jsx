@@ -125,7 +125,7 @@ const shareData = {
             <p className="text-gray-400 text-sm mb-1">{t("detail.startsfrom")}</p>
             <div className="flex items-baseline space-x-1">
               <span className="text-sm md:text-base font-semibold text-red-600">
-                IDR
+                Rp.
               </span>
               <span className="text-xl md:text-2xl font-bold text-red-600">
                 {(Number(price) || 0).toLocaleString("id-ID")}

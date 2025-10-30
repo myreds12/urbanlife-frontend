@@ -34,7 +34,9 @@
     "rent_car": "Rent a Car",
     "day_tour": "Day Tour",
     "form_incomplete_alert": "Please fill in all required fields!",
-    "search_failed": "Failed to fetch search results."
+    "search_failed": "Failed to fetch search results.",
+    "more_detail": "More Detail",
+    "duration_not_available": "Duration not available"
   },
 
   "searchmodal": {
@@ -72,8 +74,8 @@
       },
 
   "testimonial": {
-    "title": "They Are Loving Us",
-    "subtitle": "Moments were giving them\nthe best experience",
+    "title": "They Like Our Service",
+    "subtitle": "Moments that gave them the best experience",
     "review1": "Really satisfied with the service, the driver was so supportive and helpful and the car was also nice, very good.",
     "review2": "Really satisfied with the service, the driver was so supportive and helpful and the car was also nice, very good.",
     "review3": "urbanlife made my life easier, the hotel was wonderful, the car was clean and the driver was so nice and helpful. I will definitely recommend urbanlife to my friends and family.",
@@ -180,18 +182,19 @@
   "amenities": "Amenities :",
   "nofacility": "No Facility",
   "noamenities": "No Amenities",
-  "package": "Package"
+  "package": "Package",
+  "persons": "Persons"
 },
 
 "sharemodal": {
   "location": "Location :",
   "success": "Successfully copied to clipboard",
-  "share": "Share",
+  "share": "Share Destination",
   "sharetour": "Share tour",
   "copylink": "Copy link",
   "message": "Message",
-  "embed": "Embed"
-
+  "embed": "Embed",
+  "duration": "Duration will be selected when orderings"
 },
 
 "payment": {
@@ -544,8 +547,15 @@
         "adult_count": "Adult",
         "child_count": "Child",
         "normal_price": "Normal Price",
-        "package_price":  "Package Price"
+        "package_price":  "Package Price",
+        "pricing": "Pricing",
+        "select_type": "Select Type" 
+  },
+  "rentcar": {
+    "not_found" : "No duration data available.",
+    "duration_price": "Duration & Price",
+    "duration": "Duration",
+    "price": "Price",
+    "hours": "Hours"
   }
-
-
 }

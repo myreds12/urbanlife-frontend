@@ -176,7 +176,10 @@ const Footer = () => {
               ) : uniqueCategories.length > 0 ? (
                 uniqueCategories.map((category, index) => (
                   <li key={index}>
-                    <span className="text-gray-300">{category}</span>
+                    <a
+                      href={`/categories?category=${category}`}
+                      className="text-gray-300 hover:text-white transition-colors"
+                    >{category}</a>
                   </li>
                 ))
               ) : (

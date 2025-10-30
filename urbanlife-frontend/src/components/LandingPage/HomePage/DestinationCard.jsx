@@ -5,10 +5,12 @@ import "../../../styles/LandingPage/HomePage/DestinationCard.css";
 import ModalDestination from "../Utils/modal/ModalDestination";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 import { formatBookingData } from "../../AdminDashboard/Utils/FormatData/bookingFormatData";
+import { useTranslation } from "react-i18next";
 
 const DestinationCard = ({ travel }) => {
   const navigate = useNavigate();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const { t } = useTranslation()
 
   useEffect(() => {
     const wrapper = document.querySelector(".auto-scroll-wrapper");
@@ -33,12 +35,12 @@ const DestinationCard = ({ travel }) => {
   };
 
   const shareData = {
-    title: "Share Destination",
+    title: t('sharemodal.share'),
     location: travel.lokasi?.negara?.nama || "Unknown",
     description: `${travel.nama} - ${travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
       ? `${travel.durasi[0].durasi}`
       : travel.item_type?.toLowerCase() !== "kendaraan"
-      ? `Durasi akan dipilih ketika pemesanan`
+      ? t('sharemodal.duration')
       : "1 - 12 hours"}`,
     image: travel.image,
     url: `${window.location.origin}/destination/${travel.nama
@@ -64,7 +66,7 @@ const DestinationCard = ({ travel }) => {
             </svg>
           </button>
           <button onClick={handleBookNow} className="book-btn">
-            More Detail{" "}
+            {t("cardform.more_detail")}
             <span className="arrow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,16 +88,15 @@ const DestinationCard = ({ travel }) => {
           <h2 className="card-title">{travel.nama}</h2>
           <p className="destinations">
             {travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
-              ? `${travel.durasi[0].durasi}`
+              ? `${travel.durasi[0].durasi.replace('hours', t('rentcar.hours'))}`
               : travel.item_type?.toLowerCase() !== "kendaraan"
               // TODO : PERBAIKI STYLE KETIKA MENGGUNAKAN travel.durasi, KARENA UNTUK HARGA NYA TIDAK TERLIHAT 
               // ? travel.durasi
-              ? `Durasi akan dipilih ketika pemesanan`
+              ? t('sharemodal.duration')
               : "1 - 12 hours"}
           </p>
           <p className="price">
-            From{" "}
-            {Number(
+            {t("cardform.from")} {Number(
               travel.item_type?.toLowerCase() === "kendaraan"
                 ? travel?.durasi[0]?.harga ?? 0
                 : travel.item_type?.toLowerCase() === "travel_package"

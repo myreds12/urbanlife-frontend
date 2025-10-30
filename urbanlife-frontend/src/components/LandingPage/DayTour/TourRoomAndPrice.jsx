@@ -92,7 +92,7 @@ const TourRoomAndPrice = ({ roomAndPrice, facilities = [] }) => {
                       {t("detail.room", { room: room.nama })}
                     </h4>
                     <p className="room-price text-cyan-700 font-bold">
-                      IDR {Number(room.harga).toLocaleString("id-ID")} {t("detail.night")}
+                      Rp. {Number(room.harga).toLocaleString("id-ID")} {t("detail.night")}
                     </p>
                   </div>
                   {roomAmenities.length > 0 && (

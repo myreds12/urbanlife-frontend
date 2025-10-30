@@ -6,7 +6,7 @@ import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image", type = null }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [processedImages, setProcessedImages] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,8 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
     console.log(images, 'images')
 
     if (type == "travel_package") {
-      const itinerary_images_filter = itinerary_images.filter(img => img.bahasa === "ENGLISH")
+      const itinerary_images_filter = itinerary_images.filter(img => i18n.language == "en" ? img.bahasa === "ENGLISH" : img.bahasa === "INDONESIA")
+
       itinerary_images_filter.forEach((item) => {
         item.itinerary_files?.forEach((file) => {
           all_images.push({
@@ -42,7 +43,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
     }
 
     setProcessedImages(all_images);
-  }, [images, itinerary_images]);
+  }, [images, itinerary_images, t]);
 
   // Take first 3 images
   const mainImages = processedImages.slice(0, 5);

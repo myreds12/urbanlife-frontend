@@ -437,7 +437,7 @@ const AboutUs = () => {
                   </div>
                   <div className="space-y-2 mb-4">
                     {aboutData.operationalSchedule.schedule.map(
-                      ({ day, time, highlight }) => (
+                      ({ day, time, is_highlight }) => (
                         <div
                           key={day}
                           className="flex items-center justify-between py-1"
@@ -449,7 +449,7 @@ const AboutUs = () => {
                             </span>
                           </div>
                           <span
-                            className={`font-inter text-xs font-semibold ${highlight ? "text-red-500" : "text-gray-700"
+                            className={`font-inter text-xs font-semibold ${is_highlight ? "text-red-500" : "text-gray-700"
                               }`}
                           >
                             {time}

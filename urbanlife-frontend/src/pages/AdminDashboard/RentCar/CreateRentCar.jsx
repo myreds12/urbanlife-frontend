@@ -289,7 +289,7 @@ const CreateRentCarPage = () => {
                   <option value="">-- Choose a car --</option>
                   {availableCars.map((car) => (
                     <option key={car.id} value={car.id}>
-                      {car.nama} - {car.plat_nomor} ({car.lokasi?.nama})
+                      {car.nama} - {car.model} ({car.plat_nomor})
                     </option>
                   ))}
                 </select>
@@ -299,7 +299,7 @@ const CreateRentCarPage = () => {
                 <div className="mt-4 p-4 bg-gray-50 rounded-md">
                   <p className="text-sm text-gray-600">
                     <strong>Selected:</strong> {formData.nama} -{" "}
-                    {formData.plat_nomor}
+                    {formData.model}
                   </p>
                   {formData.driver_id && (
                     <p className="text-sm text-gray-600 mt-2">

@@ -342,6 +342,7 @@ function CreateDayTourPage() {
     payload.append("durasi", formData.durasi);
     payload.append("harga_anak", formData.harga_anak);
     payload.append("harga_dewasa", formData.harga_dewasa);
+    payload.append("top_attraction", formData.top_attraction)
 
     photos.forEach((file) => {
       payload.append("files", file);

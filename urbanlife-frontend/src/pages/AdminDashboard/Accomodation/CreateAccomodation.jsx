@@ -259,7 +259,9 @@ const CreateAccomodationPage = () => {
       );
     });
 
-    roomPrices.forEach((item, i) => {
+    for (let i = 0; i < roomPrices.length; i++) {
+      const item = roomPrices[i];
+
       if (item.id) payload.append(`akomodasi_room[${i}][id]`, item.id);
       payload.append(`akomodasi_room[${i}][nama]`, item.nama);
       payload.append(`akomodasi_room[${i}][harga]`, item.harga);
@@ -267,17 +269,30 @@ const CreateAccomodationPage = () => {
       const roomIdentifier = item.temp_id || `room_${item.id || Date.now()}`;
       payload.append(`akomodasi_room[${i}][temp_id]`, roomIdentifier);
 
-      item.images?.forEach((img) => {
-        if (!img.toBeDeleted) {
-          // Hanya tambahkan gambar yang tidak ditandai untuk dihapus
-          if (img.isExisting) {
-            payload.append(`room_room_${img.id}`, img); // Menggunakan id untuk gambar yang ada
-          } else {
-            payload.append(`room_${roomIdentifier}`, img); // Untuk gambar baru
+      const existingRoomFiles = await Promise.all(
+        item.images?.map(async (img) => {
+          if (!img.toBeDeleted) {
+            if (img.isExisting) {
+              payload.append(`room_${roomIdentifier}_${img.id}`, img);
+            } else {
+              payload.append(`room_${roomIdentifier}`, img);
+            }
+
+            if (img.isExisting) {
+              return fetchExistingFileAsFile(img.nama_file);
+            }
           }
+          return null;
+        })
+      );
+
+      existingRoomFiles.forEach((file) => {
+        if (file) {
+          payload.append(`room_${roomIdentifier}`, file);
         }
       });
-    });
+    }
+
 
     facilities.forEach((facility, i) => {
       if (facility.id)
@@ -295,8 +310,14 @@ const CreateAccomodationPage = () => {
       });
     });
 
+    if(photos) {
+      photos.forEach((file) => {
+        payload.append("files", file);
+      });
+    }
+
     const existingFileObjects = await Promise.all(
-      existingPhotos.map((f) => fetchExistingFileAsFile(f.nama_file))
+      existingPhotos.filter((f) => f.type == 1).map((f) => fetchExistingFileAsFile(f.nama_file))
     );
     existingFileObjects.forEach((file) => {
       payload.append("files", file);

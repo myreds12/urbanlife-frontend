@@ -38,7 +38,7 @@ console.log(package_prices, 'package price')
             {priceTable.map((row) => (
               <tr key={row.id} className="hover:bg-gray-50 transition-all">
                 <td className="px-6 py-4 font-medium text-gray-700">
-                  {iconForLabel(row.label)} {row.label}
+                  {iconForLabel(row.label)} {t(`detail.${row.label}`)}
                 </td>
                 <td className="px-6 py-4 text-gray-600">
                   {Number(row.harga).toLocaleString("id-ID", {
@@ -63,7 +63,7 @@ console.log(package_prices, 'package price')
             {package_prices.map((row) => (
               <tr key={row.id} className="hover:bg-gray-50 transition-all">
                 <td className="px-6 py-4 font-medium text-gray-700">
-                  {row.description}
+                  {row.description.replace('persons', t('detail.persons'))}
                 </td>
                 <td className="px-6 py-4 text-gray-600">
                   {Number(row.harga).toLocaleString("id-ID", {

@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import ModalDestination from "../../Utils/modal/ModalDestination";
 import { formatBookingData } from "../../../AdminDashboard/Utils/FormatData/bookingFormatData";
+import { useTranslation } from "react-i18next";
 
 
 const PopularCard = ({ item }) => {
   const navigate = useNavigate()
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const { t } = useTranslation()
 
   useEffect(() => {
     const wrapper = document.querySelector(".auto-scroll-wrapper");
@@ -34,7 +36,7 @@ const PopularCard = ({ item }) => {
     description: `${item.nama} - ${item.item_type === "kendaraan" && item.durasi?.length > 0
       ? `${item.durasi[0].durasi}`
       : item.item_type !== "kendaraan"
-      ? `Durasi akan dipilih ketika pemesanan`
+      ? t('sharemodal.duration')
       : "1 - 12 hours"}`,
     image: item.image,
     url: `${window.location.origin}/destination/${item.nama
@@ -70,7 +72,7 @@ const PopularCard = ({ item }) => {
             </svg>
           </button>
           <button onClick={handleBookNow} className="book-btn">
-            More Detail{" "}
+            {t("cardform.more_detail")}
             <span className="arrow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,8 +94,7 @@ const PopularCard = ({ item }) => {
             <h2 className="title-categories">{item.nama}</h2>
             <p className="categories-categories">{item.destinations}</p>
             <p className="price-categories">
-              From{" "}
-            {Number(
+              {t("cardform.from")} {Number(
               harga
             ).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}  
             </p>

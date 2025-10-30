@@ -7,7 +7,7 @@ import apiClient from '../../../../../../AdminDashboard/Utils/ApiClient/apiClien
 import { formatBookingData } from '../../../../../../AdminDashboard/Utils/FormatData/bookingFormatData';
 
 const UnitCarGrid = ({ cards }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   if (!cards || cards.length === 0) {
@@ -38,9 +38,12 @@ const UnitCarGrid = ({ cards }) => {
                 .replace(/^uploads\//, "")}`
             : "/public/images/error/No_Image_Available.jpg";
 
-        const deskripsi = card?.content?.[0]?.deskripsi || "Deskripsi tidak tersedia.";
+        // const deskripsi = card?.content?.[0]?.deskripsi || "Deskripsi tidak tersedia.";
+        const language = i18n.language === "en" ? "ENGLISH" : "INDONESIA";
+        const data_desc = card?.content.filter((item) => item.bahasa === language);
+        const deskripsi = data_desc[0].deskripsi;
         const harga = card?.durasi?.[0]?.harga ? parseInt(card.durasi[0].harga) : 0;
-        const kapasitas = card?.kapasitas || "-";
+        const kapasitas = card?.kapasitas.replace('persons', t('detail.persons')) || "-";
 
         return (
           <UnitCarItem

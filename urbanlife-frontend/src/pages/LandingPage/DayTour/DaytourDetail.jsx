@@ -133,6 +133,7 @@ const Detail = () => {
           package_prices = Array.isArray(data.travel_package_prices)
             ? data.travel_package_prices
             : [];
+          durasi = data.durasi
         }
 
         const normalizedData = {

@@ -22,7 +22,7 @@ const TourHeader = ({
 }) => {
   const navigate = useNavigate();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleBookNow = () => {
     const tanggalHariIni = new Date().toISOString().split("T")[0];
@@ -117,8 +117,15 @@ const shareData = {
   return (
     <>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-5 gap-4 md:gap-0">
-        <div className="text-xl md:text-2xl font-semibold text-gray-900">
-          {title}
+        <div>
+          <div className="text-xl md:text-2xl font-semibold text-gray-900">
+            {title}
+          </div>
+          {type === "travel_package"
+          ? <p className="text-xl font-semibold text-gray-600">
+            {i18n.language === "en" ? "Duration" : "Durasi"}: {durasi}
+          </p>
+          : <></>}
         </div>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-4">
           <div>

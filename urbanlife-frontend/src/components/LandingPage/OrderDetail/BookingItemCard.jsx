@@ -384,7 +384,7 @@ const BookingItemCard = ({
               placeholder={t("bookingitem.choose_duration")}
               showDropdown={showDurationDropdown}
               setShowDropdown={setShowDurationDropdown}
-              displayValue={selectedDuration?.durasi}
+              displayValue={selectedDuration ? selectedDuration.durasi.replace('hours', t('rentcar.hours')) : ""}
             />
           ) : (
             item_type === "akomodasi" && (

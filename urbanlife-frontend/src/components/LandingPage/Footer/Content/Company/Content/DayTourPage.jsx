@@ -119,7 +119,7 @@ const DayTourPage = () => {
       {/* Categories Tabs */}
       <div className="categories-container">
         <div className="categories-tabs">
-          {categories.map((category) => (
+          {/* {categories.map((category) => (
             <button
               key={category.id}
               className={`category-tab ${
@@ -129,7 +129,7 @@ const DayTourPage = () => {
             >
               {category.name}
             </button>
-          ))}
+          ))} */}
         </div>
       </div>
 

@@ -166,7 +166,7 @@ const Accomodation = () => {
           id: item.id,
           name: item.nama,
           location: item.lokasi?.nama || "-",
-          type: item.tipe,
+          type: item.typeAkomodasi.name,
           category: item.kategori,
           rawData: item,
         }));

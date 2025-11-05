@@ -33,11 +33,12 @@ const PopularCard = ({ item }) => {
   const shareData = {
     title: "Share Destination",
     location: item.lokasi?.negara?.nama || "Unknown",
-    description: `${item.nama} - ${item.item_type === "kendaraan" && item.durasi?.length > 0
-      ? `${item.durasi[0].durasi}`
-      : item.item_type !== "kendaraan"
-      ? t('sharemodal.duration')
-      : "1 - 12 hours"}`,
+    // description: `${item.nama} - ${item.item_type === "kendaraan" && item.durasi?.length > 0
+    //   ? `${item.durasi[0].durasi}`
+    //   : item.item_type !== "kendaraan"
+    //   ? t('sharemodal.duration')
+    //   : "1 - 12 hours"}`,
+    description: item.nama,
     image: item.image,
     url: `${window.location.origin}/destination/${item.nama
       .replace(/\s+/g, "-")

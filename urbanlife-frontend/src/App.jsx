@@ -20,6 +20,8 @@ import NewsPage from "./components/LandingPage/Footer/Content/Company/Content/Ne
 import LogoFavicon from "./pages/AdminDashboard/LogoFavicon/LogoFavicon";
 import LogoFaviconManager from "./components/LogoFaviconManager";
 import PopularCategory from "./pages/AdminDashboard/DataMaster/PopularCategory/PopularCategory";
+import { TypeAkomodasiProvider } from "./pages/AdminDashboard/DataMaster/TypeAkomodasi/TypeAkomodasiProvider";
+import TypeAkomodasiAdmin from "./pages/AdminDashboard/DataMaster/TypeAkomodasi/TypeAkomodasiAdmin";
 // Lazy loaded Pages
 const Dashboard = lazy(() =>
   import("./pages/AdminDashboard/Dashboard/Dashboard")
@@ -237,6 +239,7 @@ function App() {
                 <Route path="profile" element={<UserProfile />} />
                 <Route path="logo-favicon" element={<LogoFavicon />} />
                 <Route path="popular-category" element={<PopularCategory />} />
+                <Route path="type-akomodasi" element={<TypeAkomodasiProvider><TypeAkomodasiAdmin /></TypeAkomodasiProvider>} />
               </Route>
             </Routes>
           </Suspense>

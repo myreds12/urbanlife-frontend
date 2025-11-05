@@ -18,6 +18,7 @@ const CreateAccomodationPage = () => {
   const [existingPhotos, setExistingPhotos] = useState([]);
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
+  const [typeAkomodasi, setTypeAkomodasi] = useState([])
 
   const [content, setContent] = useState([
     {
@@ -58,14 +59,16 @@ const CreateAccomodationPage = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const [{ data: locationData }, akomodasiData] = await Promise.all([
+        const [{ data: locationData }, akomodasiData, { data: typeAkomodasiData }] = await Promise.all([
           apiClient.get("/lokasi?is_active=true"),
           isEditMode
             ? apiClient.get(`/akomodasi/${id}`)
             : Promise.resolve({ data: {} }),
+          apiClient.get("/type-akomodasi"),
         ]);
 
         setLocations(locationData.data || []);
+        setTypeAkomodasi(typeAkomodasiData.data || [])
 
         if (isEditMode) {
           const akomodasi = akomodasiData.data.data;
@@ -79,7 +82,8 @@ const CreateAccomodationPage = () => {
             akomodasi_room_and_price,
             akomodasi_facility_group,
             akomodasi_file,
-            status
+            status,
+            type_akomodasi_id,
           } = akomodasi;
 
           setFormData({
@@ -88,7 +92,8 @@ const CreateAccomodationPage = () => {
             kategori: kategori || "Hotel",
             top_attraction: top_attraction,
             tipe: tipe || "hotel",
-            status: status || false
+            status: status || false,
+            type_akomodasi_id: type_akomodasi_id || 0
           });
 
           setContent(
@@ -392,6 +397,7 @@ const CreateAccomodationPage = () => {
               handleChange={handleChange}
               locations={locations}
               type="accommodation"
+              type_akomodasi={typeAkomodasi}
             />
             <ImageSection
               id="image"

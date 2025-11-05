@@ -53,6 +53,7 @@ const othersItems = [
       { name: "Testimonial", path: "/admin/testimonial" },
       { name: "Logo Favicon", path: "/admin/logo-favicon" },
       { name: "Popular Category", path: "/admin/popular-category" },
+      { name: "Type Akomodasi", path: "/admin/type-akomodasi" },
     ],
   },
   {

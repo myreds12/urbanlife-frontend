@@ -27,7 +27,7 @@ const BookingItemCard = ({
   handleRemove,
   packagePrices,
   lPackagePrice,
-  vPackagePrice
+  vPackagePrice,
 }) => {
   const { t, i18n } = useTranslation();
   console.log("Current language:", i18n.language); // Debug bahasa saat ini
@@ -37,26 +37,40 @@ const BookingItemCard = ({
   }, [i18n.language]);
 
   useEffect(() => {
-    if (item_type === "akomodasi" && tanggal_mulai && tanggal_selesai) {
-      const start = new Date(tanggal_mulai);
-      const end = new Date(tanggal_selesai);
+    if (tanggal_mulai && tanggal_selesai) {
+      if (item_type === "akomodasi") {
+        const start = new Date(tanggal_mulai);
+        const end = new Date(tanggal_selesai);
 
-      const diff = differenceInDays(end, start) + 1;
-      if (diff > 0 && diff !== durasi) {
-        handleChange("durasi", diff); // update durasi
-      }
-      console.log(diff, 'durasi')
-    } else {
-      const start = new Date(tanggal_mulai);
-      const end = new Date(tanggal_selesai);
+        const diff = differenceInDays(end, start) + 1;
 
-      const selisih = end - start;
+        if (diff > 0 && diff !== durasi) {
+          handleChange("durasi", diff); // update durasi
+        }
+      } else if (item_type == "travel_package") {
+        const start = new Date(tanggal_mulai);
+        const end = new Date(tanggal_selesai);
 
-      const durasiHari = selisih / (1000 * 60 * 60 * 24);
-      const diff = Math.round(durasiHari) + 1
+        const selisih = end - start;
 
-      if (diff > 0 && diff !== durasi) {
-        handleChange("durasi", diff); // update durasi
+        const durasiHari = selisih / (1000 * 60 * 60 * 24);
+        const diff = Math.round(durasiHari) + 1
+
+        if (diff > 0 && diff !== durasi) {
+          handleChange("durasi", diff); // update durasi
+        }
+      } else {
+        const start = new Date(tanggal_mulai);
+        const end = new Date(tanggal_selesai);
+
+        const selisih = end - start;
+
+        const durasiHari = selisih / (1000 * 60 * 60 * 24);
+        const diff = Math.round(durasiHari)
+        if (diff > 0 && diff !== durasi) {
+          setKendaraanDurasi(diff)
+        }
+        setSelDuration((selectedDuration?.harga || 0) * diff)
       }
     }
   }, [tanggal_mulai, tanggal_selesai]);
@@ -72,6 +86,7 @@ const BookingItemCard = ({
   const [showPrizingDropdown, setShowPrizingDropdown] = useState(false);
   const [showPackageDropdown, setShowPackageDropdown] = useState(false);
   const [selDuration, setSelDuration] = useState(null)
+  const [kendaraanDurasi, setKendaraanDurasi] = useState(1)
 
   const navigate = useNavigate()
   const redirectService = () => {
@@ -98,8 +113,10 @@ const BookingItemCard = ({
 
   const handleDurationChange = (value) => {
     const selected = durasi.find((d) => d.durasi === value)
+    const kendaraan_harga = (selected?.harga || 0) * kendaraanDurasi
+
     handleChange("selected_durasi", selected);
-    setSelDuration(selected?.harga || 0)
+    setSelDuration(kendaraan_harga)
   }
 
   // Custom Dropdown Component

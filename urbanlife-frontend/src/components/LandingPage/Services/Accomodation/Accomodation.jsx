@@ -11,21 +11,49 @@ const AccomodationPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [accommodations, setAccommodations] = useState([]);
   const { t } = useTranslation();
+  const [categories, setCategories] = useState([])
 
   const handleHomeClick = () => {
     window.location.href = "/";
   };
 
   // Fetch categories from API
-const categories = [
-    { id: "all", name: "All" },
-    { id: "hotel", name: "Hotel" },
-    { id: "eco_lodge", name: "Eco Lodge" },
-    { id: "guest_house", name: "Guest House" },
-  ];
+// const categories = [
+//     { id: "all", name: "All" },
+//     { id: "hotel", name: "Hotel" },
+//     { id: "eco_lodge", name: "Eco Lodge" },
+//     { id: "guest_house", name: "Guest House" },
+//   ];
 
 
-  // Fetch accommodations based on selected category
+  useEffect(() => {
+    const fetchCategoriesAndAccommodations = async () => {
+      try {
+        const allRes = await apiClient.get(`/akomodasi`, { params: { take: 100, page: 1 } });
+        if (allRes.data.status === 200) {
+          const allData = allRes.data.data || [];
+
+          const uniqueTypes = [...new Set(allData.map(item => item.tipe))];
+
+          const formattedCategories = [
+            { id: "all", name: "All" },
+            ...uniqueTypes.map(type => ({
+              id: type,
+              name: type.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase())
+            })),
+          ];
+
+          setCategories(formattedCategories);
+        }
+      } catch (error) {
+        console.error("Gagal mengambil kategori akomodasi:", error);
+      }
+    };
+
+    fetchCategoriesAndAccommodations();
+  }, []); 
+
+
   useEffect(() => {
     const fetchAccommodations = async () => {
       try {

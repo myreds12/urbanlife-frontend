@@ -37,11 +37,12 @@ const DestinationCard = ({ travel }) => {
   const shareData = {
     title: t('sharemodal.share'),
     location: travel.lokasi?.negara?.nama || "Unknown",
-    description: `${travel.nama} - ${travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
-      ? `${travel.durasi[0].durasi}`
-      : travel.item_type?.toLowerCase() !== "kendaraan"
-      ? t('sharemodal.duration')
-      : "1 - 12 hours"}`,
+    // description: `${travel.nama} - ${travel.item_type?.toLowerCase() === "kendaraan" && travel.durasi?.length > 0
+    //   ? `${travel.durasi[0].durasi}`
+    //   : travel.item_type?.toLowerCase() !== "kendaraan"
+    //   ? t('sharemodal.duration')
+    //   : "1 - 12 hours"}`,
+    description: travel.nama,
     image: travel.image,
     url: `${window.location.origin}/destination/${travel.nama
       .replace(/\s+/g, "-")

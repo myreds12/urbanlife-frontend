@@ -17,7 +17,7 @@ const DayTourCard = ({ image, title, price, description, onBookNow }) => {
         <p className="card-description">{description}</p>
 
         <div className="price-and-button">
-          <div className="card-price">From IDR {price.toLocaleString()}</div>
+          <div className="card-price">From Rp. {price.toLocaleString()}</div>
           <button onClick={onBookNow} className="card-button">
             {t("daytour.readmore")}
           </button>

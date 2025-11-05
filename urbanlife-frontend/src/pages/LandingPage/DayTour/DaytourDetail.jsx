@@ -13,6 +13,7 @@ import TourRoomAndPrice from "../../../components/LandingPage/DayTour/TourRoomAn
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import TourDurasi from "../../../components/LandingPage/DayTour/TourDurasi";
 import { normalizeLanguageField } from '../../../components/AdminDashboard/Utils/Language/languageUtils';
+import TourFacilities from "../../../components/LandingPage/DayTour/TourFacility";
 
 const Detail = () => {
   const [activeTab, setActiveTab] = useState("description");
@@ -59,6 +60,7 @@ const Detail = () => {
         let location = data.location || data.lokasi?.nama || '';
         let title = { en: data.nama || data.title || '', id: data.nama || data.title || '' };
         let package_prices = [];
+        let facility = [];
 
         // Debug log data
         console.log('Raw data:', data);
@@ -107,6 +109,9 @@ const Detail = () => {
           description = normalizeLanguageField(data, 'akomodasi_content', true, 'deskripsi');
           policies = normalizeLanguageField(data, 'akomodasi_content', true, 'kebijakan');
           price = roomAndPrice[0]?.harga || price;
+          facility = Array.isArray(data.akomodasi_facility_group) 
+            ? data.akomodasi_facility_group
+            : [];
         }
 
         if (state.item_type === 'travel_package') {
@@ -150,6 +155,7 @@ const Detail = () => {
           priceTable,
           room_and_price: roomAndPrice,
           package_prices,
+          facility: facility
         };
 
         console.log('Normalized tourData:', normalizedData);
@@ -172,6 +178,9 @@ const Detail = () => {
       : []),
     ...(tourData?.type === "travel_package" && tourData.priceTable.length > 0
       ? [{ id: "price", label: t("detail.priceadultandchild") }]
+      : []),
+      ...(tourData?.type === "akomodasi" && tourData.facility.length > 0
+      ? [{ id: "facilities", label: t("detail.facility") }]
       : []),
     ...(tourData?.type === "akomodasi" && tourData.room_and_price.length > 0
       ? [{ id: "room_and_price", label: t("detail.roomnprice") }]
@@ -242,6 +251,9 @@ const Detail = () => {
           )}
           {activeTab === "itinerary" && <TourItinerary itinerary={tourData.itinerary} />}
           {activeTab === "price" && <TourPrice priceTable={tourData.priceTable} package_prices={tourData.travel_package_prices} />}
+          {activeTab === "facilities" && (
+            <TourFacilities facilities={tourData.facility} />
+          )}
           {activeTab === "room_and_price" && (
             <TourRoomAndPrice roomAndPrice={tourData.room_and_price} />
           )}

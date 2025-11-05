@@ -480,7 +480,7 @@ const AboutUs = () => {
                       {aboutData.achievements.title}
                     </h3>
                     <p className="font-inter text-gray-600 text-sm">
-                      {aboutData.achievements.subtitle}
+                      {/* {aboutData.achievements.subtitle} */}
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-3">

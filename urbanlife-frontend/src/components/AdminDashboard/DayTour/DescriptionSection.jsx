@@ -12,6 +12,7 @@ const DescriptionSection = ({
   guides = [], // ✅ Default value untuk guides
   drivers = [], // ✅ Default value untuk drivers
   type,
+  type_akomodasi
 }) => {
   return (
     <div id={id} className={isActive ? "block" : "hidden"}>
@@ -322,7 +323,7 @@ const DescriptionSection = ({
               >
                 Type <span className="text-red-500">*</span>
               </label>
-              <select
+              {/* <select
                 name="tipe"
                 value={formData.tipe}
                 onChange={handleChange}
@@ -332,6 +333,20 @@ const DescriptionSection = ({
                 <option value="hotel">Hotel</option>
                 <option value="eco_lodge">Eco Lodge</option>
                 <option value="guest_house">Guest House</option>
+              </select> */}
+              <select
+                name="type_akomodasi_id"
+                value={formData.type_akomodasi_id}
+                onChange={handleChange}
+                className="input input-bordered w-full py-1 rounded-lg border border-gray-300 focus:ring-cyan-500"
+                required
+              >
+                <option value="">-- Choose Type --</option>
+                {type_akomodasi.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
               </select>
             </div>
           </>

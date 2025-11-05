@@ -115,6 +115,7 @@ const Navbar = () => {
           }
 
           return {
+            ...item,
             id: item.id,
             name: item.nama,
             location: `${item.lokasi?.nama || "Unknown"}, ${

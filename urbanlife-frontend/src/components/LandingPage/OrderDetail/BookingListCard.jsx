@@ -91,7 +91,7 @@ const BookingListCard = ({
       updatedItem.selected_room = { ...value }; // <-- penting!
     }
 
-    if (field === "tanggal_selesai") {
+    if (field === "tanggal_selesai" && item.item_type != "kendaraan") {
       const date = new Date(value);
 
       const year = date.getFullYear();

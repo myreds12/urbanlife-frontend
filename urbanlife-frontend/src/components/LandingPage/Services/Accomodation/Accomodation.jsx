@@ -12,6 +12,7 @@ const AccomodationPage = () => {
   const [accommodations, setAccommodations] = useState([]);
   const { t } = useTranslation();
   const [categories, setCategories] = useState([])
+  const [filteredAccomodation, setFilteredAccommodations] = useState([])
 
   const handleHomeClick = () => {
     window.location.href = "/";
@@ -29,53 +30,43 @@ const AccomodationPage = () => {
   useEffect(() => {
     const fetchCategoriesAndAccommodations = async () => {
       try {
-        const allRes = await apiClient.get(`/akomodasi`, { params: { take: 100, page: 1 } });
-        if (allRes.data.status === 200) {
-          const allData = allRes.data.data || [];
+        const categoriesRes = await apiClient.get(`/type-akomodasi`, { params: { take: 100, page: 1 } });
+        const accommodationsRes = await apiClient.get(`/akomodasi`, { params: { take: 100, page: 1 } });
 
-          const uniqueTypes = [...new Set(allData.map(item => item.tipe))];
+        if (categoriesRes.data.status === 200 && accommodationsRes.data.status === 200) {
+          const allCategories = categoriesRes.data.data || [];
+          const allAccommodations = accommodationsRes.data.data || [];
 
           const formattedCategories = [
             { id: "all", name: "All" },
-            ...uniqueTypes.map(type => ({
-              id: type,
-              name: type.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase())
+            ...allCategories.map(type => ({
+              id: type.id,
+              name: type.name
             })),
           ];
 
           setCategories(formattedCategories);
+          setAccommodations(allAccommodations); 
+
+          setFilteredAccommodations(allAccommodations);
         }
       } catch (error) {
-        console.error("Gagal mengambil kategori akomodasi:", error);
+        console.error("Failed to fetch categories or accommodations:", error);
       }
     };
 
     fetchCategoriesAndAccommodations();
   }, []); 
 
-
   useEffect(() => {
-    const fetchAccommodations = async () => {
-      try {
-        const params = { take: 10, page: 1 };
-        if (activeAccomodation !== "all") {
-          params.type = activeAccomodation;
-        }
-
-        const res = await apiClient.get(`/akomodasi`, { params });
-
-        if (res.data.status === 200) {
-          setAccommodations(res.data.data || []);
-        } else {
-          console.error("Gagal mengambil data akomodasi:", res.data.message);
-        }
-      } catch (error) {
-        console.error("Gagal mengambil data akomodasi:", error);
-      }
-    };
-
-    fetchAccommodations();
-  }, [activeAccomodation]);
+    if (activeAccomodation === "all") {
+      setFilteredAccommodations(accommodations);
+    } else {
+      setFilteredAccommodations(
+        accommodations.filter(accommodation => accommodation.type_akomodasi_id === activeAccomodation)
+      );
+    }
+  }, [activeAccomodation, accommodations]);
 
   // Mouse move effect for hero section
   useEffect(() => {
@@ -174,11 +165,11 @@ const AccomodationPage = () => {
 
       {/* Content Area */}
       <div className="content-area">
-        {accommodations.length === 0 ? (
+        {filteredAccomodation.length === 0 ? (
           <EmptyState />
         ) : (
           <div className={`all-accommodations`}>
-            {accommodations.map((accommodation) => {
+            {filteredAccomodation.map((accommodation) => {
               const image =
                 accommodation.akomodasi_file &&
                 accommodation.akomodasi_file[0]?.url &&

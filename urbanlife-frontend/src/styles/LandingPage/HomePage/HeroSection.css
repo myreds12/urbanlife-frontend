@@ -2,9 +2,9 @@
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
-  min-height: 120vh;
+  /* min-height: 120vh; */
   width: 100%;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -14,14 +14,14 @@
 
 @media (max-width: 768px) {
   .hero-section {
-    min-height: 80vh; 
+    min-height: 20vh; 
     background-position: center center;
   }
 }
 
 @media (max-width: 480px) {
   .hero-section {
-    min-height: 120vh; 
+    /* min-height: 120vh;  */
     background-position: center center;
   }
 

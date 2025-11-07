@@ -48,7 +48,7 @@ const HeroSection = () => {
 
   return (
     <div
-      className="hero-section"
+      className="hero-section home"
       style={{
         backgroundImage: `url(${getImageUrl(heroData)})`,
       }}

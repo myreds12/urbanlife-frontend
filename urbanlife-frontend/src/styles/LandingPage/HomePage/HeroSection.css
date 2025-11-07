@@ -1,8 +1,8 @@
-.hero-section {
+.hero-section.home {
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
-  /* min-height: 120vh; */
+  min-height: 120vh;
   width: 100%;
   /* display: flex; */
   flex-direction: column;
@@ -21,7 +21,7 @@
 
 @media (max-width: 480px) {
   .hero-section {
-    /* min-height: 120vh;  */
+    min-height: 120vh; 
     background-position: center center;
   }
 

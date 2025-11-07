@@ -10,7 +10,8 @@
   background: linear-gradient(135deg, #007F9F 0%, #0092B8 100%);
   color: white;
   padding: 0;
-  height: 230px;
+  /* height: 230px; */
+  height: 120px
 }
 
 .hero-content {

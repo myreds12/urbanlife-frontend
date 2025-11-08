@@ -77,15 +77,20 @@ const Partner = () => {
       if (isEditing) {
         console.log("Editing partner id:", editingId);
 
-        await apiClient.patch(`/our-partner/${editingId}`, { nama }); // Ubah dari name ke nama
-        if (file) {
-          const formData = new FormData();
-          formData.append("file", file); // Ubah dari image ke file
-          await apiClient.post(
-            `/our-partner/${editingId}/upload-image`,
-            formData
-          );
-        }
+        // await apiClient.patch(`/our-partner/${editingId}`, { nama }); // Ubah dari name ke nama
+        // if (file) {
+        //   const formData = new FormData();
+        //   formData.append("file", file); // Ubah dari image ke file
+        //   await apiClient.post(
+        //     `/our-partner/${editingId}/upload-image`,
+        //     formData
+        //   );
+        // }
+        await apiClient.patch(`/our-partner/${editingId}`, dataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       } else {
         await apiClient.post("/our-partner", dataToSend, {
           headers: { "Content-Type": "multipart/form-data" },

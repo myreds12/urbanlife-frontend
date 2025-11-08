@@ -12,7 +12,7 @@ const PartnerTable = ({ partners, onEdit, onDelete }) => {
   const defaultMapping = {
     "#": (_, index) => index + 1,
     "Partner Name": (row) => row.nama || "-", // Ubah dari name ke nama
-    "Partner Image": (row) => row.file || "-", // Ubah dari image ke file
+    "Partner Image": (row) => row.nama_file || "-", // Ubah dari image ke file
   };
 
   return (

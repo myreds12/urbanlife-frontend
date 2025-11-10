@@ -483,7 +483,7 @@ const AboutUs = () => {
                       {/* {aboutData.achievements.subtitle} */}
                     </p>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid gap-3">
                     {aboutData.achievements.stats.map((stat, index) => (
                       <div key={index} className="">
                         <div className="w-10 h-10 mb-2 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center text-cyan-600">

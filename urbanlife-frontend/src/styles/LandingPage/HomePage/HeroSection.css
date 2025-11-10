@@ -10,6 +10,7 @@
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
+  margin-top: 0 !important;
 }
 
 @media (max-width: 768px) {

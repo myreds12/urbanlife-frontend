@@ -66,7 +66,7 @@ const BookingItemCard = ({
         const selisih = end - start;
 
         const durasiHari = selisih / (1000 * 60 * 60 * 24);
-        const diff = Math.round(durasiHari)
+        const diff = Math.round(durasiHari) + 1
         if (diff > 0 && diff !== durasi) {
           setKendaraanDurasi(diff)
         }

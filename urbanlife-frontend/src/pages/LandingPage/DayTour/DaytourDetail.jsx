@@ -255,7 +255,7 @@ const Detail = () => {
             <TourFacilities facilities={tourData.facility} />
           )}
           {activeTab === "room_and_price" && (
-            <TourRoomAndPrice roomAndPrice={tourData.room_and_price} />
+            <TourRoomAndPrice roomAndPrice={tourData.room_and_price} facilities={tourData.facility} />
           )}
           {activeTab === "durasi" && <TourDurasi durasi={tourData.durasi} />}
           {activeTab === "policies" && (

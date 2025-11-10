@@ -117,7 +117,7 @@ const OrderDetail = () => {
   });
 
   const handleSelectServiceItem = (item) => {
-    const rawUrl = item.file_url;
+    const rawUrl = (item.file_url == "" && item.item_type.toLowerCase() == "travel_package") ? item.itinerary[0].itinerary_files[0].url : item.file_url
     const type = selectedType.toLocaleLowerCase();
     const imageUrl =
       rawUrl && rawUrl.trim() !== ""

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
+import "../Services/Accomodation/AccoDetail.css";
 
 const TourRoomAndPrice = ({ roomAndPrice, facilities = [] }) => {
   const { t } = useTranslation();

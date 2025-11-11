@@ -24,6 +24,7 @@ const Navbar = () => {
   const navigate = useNavigate(); // New comment: Hook for programmatic navigation
   const { t, i18n } = useTranslation();
   const { logo } = useLogo();
+  const [contact, setContact] = useState(null)
 
   // Original comment: Static destination data
   const destinationData = {
@@ -221,6 +222,15 @@ const Navbar = () => {
 
     localStorage.setItem('language', newLang);
   };
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      const response = await apiClient.get("/aboutus");
+      const data = response.data.data[0];
+      setContact(data.AboutUsCta.button_url || "/contact")
+    }
+    fetchAboutData()
+  }, [])
 
   return (
     <>
@@ -446,7 +456,7 @@ const Navbar = () => {
           </div>{" "}
           {/* Original comment: Contact Us button */}
           <a
-            href="https://wa.me/+62816919812"
+            href={contact}
             className={`hidden lg:inline-block h-full px-6 py-5
               ${
                 isScrolled

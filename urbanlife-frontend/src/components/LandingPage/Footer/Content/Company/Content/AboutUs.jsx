@@ -539,7 +539,7 @@ const AboutUs = () => {
             <p className="font-inter text-gray-500 mt-6 text-sm">
               { i18n.language === "en" 
                 ? "Experience the difference with urbanlife - your journey starts here"
-                : "Rasakan perbedaan dengan kehidupan urban - perjalanan Anda dimulai di sini"
+                : "Rasakan perbedaan dengan kehidupan urbanlife - perjalanan Anda dimulai di sini"
               }
             </p>
           </div>

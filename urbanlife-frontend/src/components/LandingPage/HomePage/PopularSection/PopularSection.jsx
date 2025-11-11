@@ -71,11 +71,11 @@ const PopularSection = () => {
         const items = allData.map((item) => {
           let image = "";
 
-          if (item.kendaraan_file) {
+          if (item.kendaraan_file && item.kendaraan_file.length != 0) {
             image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.kendaraan_file[0].url
               .replace(/\\/g, "/")
               .replace(/^uploads\//, "")}`;
-          } else if (item.akomodasi_file) {
+          } else if (item.akomodasi_file && item.akomodasi_file != 0) {
             image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.akomodasi_file[0].url
               .replace(/\\/g, "/")
               .replace(/^uploads\//, "")}`;
@@ -155,13 +155,16 @@ const PopularSection = () => {
 
   return (
     <div className="relative w-full max-w-[1200px] mx-auto px-4 md:px-15">
-      <Carousel
+      {/* <Carousel
         items={dataToRender}
         gap={14}
         renderItem={(item) => (
           <PopularCard key={`${item.id}-${item.nama}`} item={item} />
         )}
-      />
+      /> */}
+      {dataToRender.map(item => (
+        <PopularCard key={`${item.id}-${item.nama}`} item={item} />
+      ))}
     </div>
   );
 };

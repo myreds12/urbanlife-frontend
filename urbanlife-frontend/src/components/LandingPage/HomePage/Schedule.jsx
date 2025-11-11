@@ -27,6 +27,7 @@ const dayTranslations = {
 
 const ServiceScheduleCard = () => {
   const { t, i18n } = useTranslation();
+  const [contact, setContact] = useState(null)
   console.log('Current language:', i18n.language); // Debug bahasa saat ini
 
   const translateDay = (day) => {
@@ -68,6 +69,15 @@ const ServiceScheduleCard = () => {
   useEffect(() => {
     fetchSchedule();
   }, []);
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      const response = await apiClient.get("/aboutus");
+      const data = response.data.data[0];
+      setContact(data.AboutUsCta.button_url || "/contact")
+    }
+    fetchAboutData()
+  }, [])
 
   if (loading) {
     return (
@@ -150,7 +160,7 @@ const ServiceScheduleCard = () => {
               ))}
             </div>
           )}
-          <Link to="https://wa.me/+62816919812">
+          <Link to={contact}>
             <button className="w-full bg-[#0092B8] hover:bg-[#007F9F] text-white py-2 px-4 rounded-lg font-semibold transition-colors duration-300">
               {t("servicenschedule.button")}
             </button>

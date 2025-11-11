@@ -9,6 +9,7 @@ const Footer = () => {
   const [blogData, setBlogData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { logo } = useLogo()
+  const [contact, setContact] = useState(null)
 
   // Array warna-warna yang akan bergantian
   const colors = [
@@ -80,6 +81,17 @@ const Footer = () => {
 
   // Ekstrak kategori unik dari blogData
   const uniqueCategories = [...new Set(blogData.map(blog => blog.blog_category?.name).filter(name => name))];
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      const response = await apiClient.get("/aboutus");
+      const data = response.data.data[0];
+      const phoneNumber = data.AboutUsCta.button_url.split('?')[0].split('/').pop();
+
+      setContact(phoneNumber || "/contact")
+    }
+    fetchAboutData()
+  }, [])
 
   return (
     <footer className="bg-[#071C4D] text-white pt-16 pb-6 px-8">
@@ -231,7 +243,7 @@ const Footer = () => {
               <div className="space-y-2">
                 <p className="text-gray-300">Jakarta Selatan</p>
                 <p className="text-gray-300">Indonesia</p>
-                <p className="text-gray-300">+62 816 919 812</p>
+                <p className="text-gray-300">{contact}</p>
                 <p className="text-gray-300"> info@urbanlife.id </p>
               </div>
             </div>

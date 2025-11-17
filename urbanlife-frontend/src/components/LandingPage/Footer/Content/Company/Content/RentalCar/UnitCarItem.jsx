@@ -10,7 +10,8 @@ const UnitCarItem = ({
   startsPrice,
   description,
   duration = [],
-  onBookNow
+  onBookNow,
+  location
 }) => {
   const { t } = useTranslation();
 
@@ -18,6 +19,7 @@ const UnitCarItem = ({
     <div className="card-item">
       <div className="card-image">
         <img src={image} alt={unit} />
+        <span className="location-badge">{location}</span>
         <span className="people-badge">{people}</span>
 
         <div className="text-overlay">

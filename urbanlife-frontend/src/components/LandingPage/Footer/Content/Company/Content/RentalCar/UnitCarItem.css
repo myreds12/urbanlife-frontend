@@ -390,3 +390,16 @@
     font-size: 11px;
   }
 }
+
+.location-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #007f9f;
+  color: white;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+  z-index: 2;
+}

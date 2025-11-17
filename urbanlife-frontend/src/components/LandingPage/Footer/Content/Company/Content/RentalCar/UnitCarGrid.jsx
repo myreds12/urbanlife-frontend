@@ -56,6 +56,7 @@ const UnitCarGrid = ({ cards }) => {
             description={deskripsi}
             duration={card.durasi}
             onBookNow={() => handleBookNow(card)}
+            location={card.lokasi?.nama}
           />
         );
       })}

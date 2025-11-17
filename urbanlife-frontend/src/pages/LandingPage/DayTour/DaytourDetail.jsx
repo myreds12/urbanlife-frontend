@@ -206,7 +206,7 @@ const Detail = () => {
       </div>
 
       <div className="mt-24">
-        <TourImage images={tourData.images} itinerary_images={tourData.itinerary} title={tourData.title[i18n.language]} type={tourData.type} />
+        <TourImage images={tourData.images} itinerary_images={tourData.itinerary} title={tourData.title[i18n.language]} type={tourData.type} location={tourData.location} />
         <TourHeader
           title={tourData.title[i18n.language]}
           price={tourData.price}

@@ -3,7 +3,7 @@ import { Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
 
-const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image", type = null }) => {
+const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image", type = null, location = null }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { t, i18n } = useTranslation();
@@ -26,6 +26,13 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
           });
         });
       });
+    } else if (type == "kendaraan") {
+      all_images = images.map((img) => ({
+        image: `${img
+          .replace(/\\/g, "/")
+          .replace(/^uploads\//, "")}`,
+        label: location
+      }));
     } else {
       all_images = images.map((img) => ({
         image: `${img
@@ -121,7 +128,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                 alt={`${title} - Image 1`}
                 className="w-full h-full object-cover"
               />
-              { type == "travel_package" 
+              { ["travel_package", "kendaraan"].includes(type) 
               ? <div className="itinerary-label">{mainImages[0].label}</div>
               : <></> }
             </div>
@@ -133,7 +140,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                     alt={`${title} - Image ${index + 2}`}
                     className="w-full h-full object-cover"
                   />
-                  { type == "travel_package" 
+                  { ["travel_package", "kendaraan"].includes(type)
                   ? <div className="itinerary-label">{img.label}</div> 
                   : <></> }
                 </div>
@@ -147,7 +154,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                     alt={`${title} - Image ${index + 2}`}
                     className="w-full h-full object-cover"
                   />
-                  { type == "travel_package" 
+                  { ["travel_package", "kendaraan"].includes(type)
                   ? <div className="itinerary-label">{img.label}</div> 
                   : <></> }
                 </div>
@@ -192,7 +199,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                   alt={`${title} - Image ${currentImageIndex + 1}`}
                   className="w-full max-w-[600px] max-h-[400px] object-contain"
                 />
-                { type =="travel_package" 
+                { ["travel_package", "kendaraan"].includes(type) 
                 ? <div className="itinerary-label">{processedImages[currentImageIndex].label}</div> 
                 : <></> }
               </div>

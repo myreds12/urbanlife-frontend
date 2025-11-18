@@ -31,7 +31,7 @@ const othersItems = [
     name: "Whatsapp",
     subItems: [
       { name: "Connect", path: "/admin/whatsapp-connect" },
-      { name: "Template", path: "/admin/template" },
+      // { name: "Template", path: "/admin/template" },
     ],
   },
   { icon: "fa-inbox", name: "Inbox", path: "/admin/inbox" },

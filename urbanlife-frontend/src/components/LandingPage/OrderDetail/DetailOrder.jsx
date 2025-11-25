@@ -8,17 +8,26 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
   console.log('Current language:', i18n.language); // Debug bahasa saat ini
 
   const [captchaToken, setCaptchaToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleVerify = (token) => {
     setCaptchaToken(token);
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (!captchaToken) {
       alert("Silakan verifikasi reCAPTCHA terlebih dahulu!");
       return;
     }
-    onPayment();
+    
+    setIsLoading(true); 
+    try {
+      await onPayment();
+    } catch (error) {
+      console.error("Terjadi kesalahan saat proses pembayaran:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -89,13 +98,23 @@ const DetailOrder = ({ orderItems = [], finalAmount = null, onPayment, disabled 
 
         <button
           onClick={handleClick}
-          disabled={disabled}
-          className={`w-full py-3 sm:py-4 px-6 rounded-lg font-semibold text-white transition-all ${disabled
+          disabled={disabled || isLoading}
+          className={`w-full py-3 sm:py-4 px-6 rounded-lg font-semibold text-white transition-all ${disabled || isLoading
             ? "bg-gray-300 cursor-not-allowed"
             : "bg-cyan-600 hover:bg-cyan-600 active:bg-cyan-700 shadow-lg hover:shadow-xl"
             }`}
         >
-          Select Payment
+          {isLoading ? (
+            <span className="flex justify-center items-center">
+              <svg className="animate-spin w-5 h-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 1116 0 8 8 0 01-16 0z"></path>
+              </svg>
+              {t('detailorder.processing')}...
+            </span>
+          ) : (
+            t('detailorder.select_payment')
+          )}
         </button>
       </div>
     </div>

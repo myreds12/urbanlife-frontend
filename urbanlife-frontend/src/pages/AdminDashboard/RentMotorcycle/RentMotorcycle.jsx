@@ -5,7 +5,7 @@ import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/P
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
 import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDetail";
-import dummyRentCarData from "./DummyRentcar";
+import dummyRentMotorcycleData from "./DummyRentMotorcycle";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
@@ -41,10 +41,10 @@ const useDebouncedValue = (value, delay = 500) => {
   return debouncedValue;
 };
 
-const RentCar = () => {
+const RentMotorcycle = () => {
   const navigate = useNavigate();
 
-  const [rentCarData, setRentCarData] = useState([]);
+  const [rentMotorcycleData, setRentMotorcycleData] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [take] = useState(10);
@@ -53,14 +53,14 @@ const RentCar = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [selectedRows, setSelectedRows] = useState([]);
 
-  console.log(rentCarData, "rentCarData");
+  console.log(rentMotorcycleData, "rentMotorcycleData");
 
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalData, setSelectedModalData] = useState(null);
 
-  // Modal config rentcar
-  const rentCarModalConfig = {
+  // Modal config rentMotorcycle
+  const rentMotorcycleModalConfig = {
     sections: [
       {
         fields: [
@@ -146,7 +146,7 @@ const RentCar = () => {
 
   const debouncedSearch = useDebouncedValue(searchTerm);
 
-  const fetchRentCar = async (search = "") => {
+  const fetchRentMotorcycle = async (search = "") => {
     setLoading(true);
     try {
       const params = {
@@ -158,20 +158,19 @@ const RentCar = () => {
       const res = await apiClient.get("/kendaraan", { params });
       const items = Array.isArray(res.data?.data) ? res.data.data : [];
 
-      const result = items.filter((item) => item.tipe === "MOBIL");
-
-      setRentCarData(result);
+      const result = items.filter((item) => item.tipe === "MOTOR");
+      setRentMotorcycleData(result);
       setTotal(res.data?.meta?.total ?? result.length);
     } catch (err) {
       console.error("API Error:", err);
-      setRentCarData(dummyRentCarData);
+      setRentMotorcycleData(dummyRentMotorcycleData);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRentCar(debouncedSearch);
+    fetchRentMotorcycle(debouncedSearch);
   }, [debouncedSearch, page]);
 
   const handleSort = (columnKey) => {
@@ -210,12 +209,12 @@ const RentCar = () => {
       setSelectedModalData(mappedData);
       setIsModalOpen(true);
     } catch (error) {
-      console.error("Failed to fetch rentcar data:", error);
+      console.error("Failed to fetch rentMotorcycle data:", error);
     }
   };
 
   const handleEdit = (row) => {
-    navigate(`/admin/rent-car/edit/${row.id}`);
+    navigate(`/admin/rent-motorcycle/edit/${row.id}`);
   };
 
   // Handler untuk Popular (sementara)
@@ -244,7 +243,7 @@ const RentCar = () => {
   //       error: "Failed to update popular status. Please try again.",
   //     });
 
-  //     fetchRentCar();
+  //     fetchRentMotorcycle();
   //   } catch (err) {
   //     console.error("Failed to update popular status:", err);
 
@@ -277,7 +276,7 @@ const RentCar = () => {
       });
 
       // TODO: Refresh list data jika perlu
-      fetchRentCar();
+      fetchRentMotorcycle();
     } catch (err) {
       console.error("Failed to delete:", err);
     }
@@ -304,7 +303,7 @@ const RentCar = () => {
       });
 
       // Update state lokal setelah sukses
-      setRentCarData((prev) => prev.filter((item) => !ids.includes(item.id)));
+      setRentMotorcycleData((prev) => prev.filter((item) => !ids.includes(item.id)));
     } catch (err) {
       console.error("Bulk delete failed:", err);
       // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
@@ -349,17 +348,17 @@ const RentCar = () => {
       link.setAttribute("href", url);
       link.setAttribute(
         "download",
-        `rent_cars_${new Date().toISOString().split("T")[0]}.csv`
+        `rent_Motorcycles_${new Date().toISOString().split("T")[0]}.csv`
       );
       link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      alert(`Successfully exported ${selectedData.length} rent cars`);
+      alert(`Successfully exported ${selectedData.length} rent Motorcycles`);
     } catch (err) {
-      console.error("Failed to export rent cars", err);
-      alert("Failed to export rent cars. Please try again.");
+      console.error("Failed to export rent Motorcycles", err);
+      alert("Failed to export rent Motorcycles. Please try again.");
     }
   };
 
@@ -368,9 +367,9 @@ const RentCar = () => {
   };
 
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return rentCarData;
+    if (!sortConfig.key) return rentMotorcycleData;
 
-    return [...rentCarData].sort((a, b) => {
+    return [...rentMotorcycleData].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
 
@@ -386,7 +385,7 @@ const RentCar = () => {
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [rentCarData, sortConfig]);
+  }, [rentMotorcycleData, sortConfig]);
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
@@ -451,7 +450,7 @@ const RentCar = () => {
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
             <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-gray-800">Rent a Car</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Rent a Motorcycle</h1>
             </div>
 
             <div className="flex flex-wrap justify-between items-center gap-4">
@@ -459,14 +458,14 @@ const RentCar = () => {
                 <Search
                   searchTerm={searchTerm}
                   onSearchChange={setSearchTerm}
-                  placeholder="Search rent cars..."
+                  placeholder="Search rent Motorcycles..."
                 />
               </div>
               <Button
                 variant="primary"
                 size="sm"
                 className="whitespace-nowrap"
-                onClick={() => navigate("/admin/rent-car/create")}
+                onClick={() => navigate("/admin/rent-motorcycle/create")}
               >
                 Add Unit
                 <i className="fa-solid fa-plus"></i>
@@ -513,7 +512,7 @@ const RentCar = () => {
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
             Showing {startIndex + 1} to {Math.min(startIndex + take, total)} of{" "}
-            {total} rent cars
+            {total} rent motorcycles
           </div>
           <Pagination
             currentPage={page}
@@ -530,11 +529,11 @@ const RentCar = () => {
         onClose={() => setIsModalOpen(false)}
         title="Detail Unit"
         data={selectedModalData}
-        config={rentCarModalConfig}
+        config={rentMotorcycleModalConfig}
         images={selectedModalData?.kendaraan_file || []}
       />
     </>
   );
 };
 
-export default RentCar;
+export default RentMotorcycle;

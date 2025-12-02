@@ -5,12 +5,12 @@ import Pagination from "../../../components/AdminDashboard/Utils/Ui/Pagination/P
 import Search from "../../../components/AdminDashboard/Utils/Ui/button/Search";
 import BulkActionBar from "../../../components/AdminDashboard/Utils/BulkAction/BulkActionBar";
 import ModalView from "../../../components/AdminDashboard/Utils/Ui/modal/ModalDetail";
-import dummyRentCarData from "./DummyRentcar";
+import dummyAirportShuttleData from "./DummyAirportShuttle";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast";
 
-const mapKendaraanContent = (contentArray = []) => {
+const mapAirportContent = (contentArray = []) => {
   const result = {
     deskripsi: { indonesia: "-", english: "-" },
     kebijakan: { indonesia: "-", english: "-" },
@@ -41,10 +41,10 @@ const useDebouncedValue = (value, delay = 500) => {
   return debouncedValue;
 };
 
-const RentCar = () => {
+const AirportShuttle = () => {
   const navigate = useNavigate();
 
-  const [rentCarData, setRentCarData] = useState([]);
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [take] = useState(10);
@@ -53,31 +53,24 @@ const RentCar = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [selectedRows, setSelectedRows] = useState([]);
 
-  console.log(rentCarData, "rentCarData");
-
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalData, setSelectedModalData] = useState(null);
 
   // Modal config rentcar
-  const rentCarModalConfig = {
+  const airportShuttleModalConfig = {
     sections: [
       {
         fields: [
           { key: "lokasi", label: "Location" },
-          { key: "nama", label: "Unit Name" },
-          { key: "model", label: "Model" },
-          { key: "capacity", label: "People Capacity" },
-          // { key: "plat_nomor", label: "Plat Nomor" },
-          { key: "tanggal_pajak_berakhir", label: "Tax expiry period" },
-          { key: "status", label: "Status" },
-          { key: "description", label: "Deskripsi", type: "language-toggle" },
+          { key: "nama", label: "Package Name" },
+          { key: "harga", label: "Harga" },
+          { key: "deskripsi", label: "Deskripsi", type: "language-toggle" },
           {
-            key: "policy_and_procedure",
+            key: "kebijakan",
             label: "Policy and Procedure",
             type: "language-toggle",
           },
-          { key: "price", label: "Price", type: "language-toggle" },
         ],
       },
     ],
@@ -87,47 +80,17 @@ const RentCar = () => {
   const bulkEditableFields = [
     {
       name: "nama",
-      label: "Nama Unit",
+      label: "Package Name",
       type: "text",
-      placeholder: "Masukkan nama kendaraan",
-      description: "Nama akan diubah untuk semua kendaraan yang dipilih",
+      placeholder: "Masukkan nama package",
+      description: "Nama akan diubah untuk semua package yang dipilih",
     },
     {
-      name: "model",
-      label: "Model",
+      name: "harga",
+      label: "Harga",
       type: "text",
-      placeholder: "Masukkan model kendaraan",
-      description: "Model kendaraan (contoh: Honda Civic, Toyota Avanza)",
-    },
-    {
-      name: "tipe",
-      label: "Tipe",
-      type: "select",
-      options: [
-        { value: "sedan", label: "Sedan" },
-        { value: "suv", label: "SUV" },
-        { value: "mpv", label: "MPV" },
-        { value: "hatchback", label: "Hatchback" },
-        { value: "pickup", label: "Pickup" },
-        { value: "van", label: "Van" },
-      ],
-      description: "Tipe kendaraan berdasarkan kategori",
-    },
-    {
-      name: "status",
-      label: "Status",
-      type: "select",
-      options: [
-        { value: true, label: "Aktif" },
-        { value: false, label: "Non-Aktif" },
-      ],
-      description: "Status ketersediaan kendaraan",
-    },
-    {
-      name: "tanggal_pajak_berakhir",
-      label: "Tanggal Pajak Berakhir",
-      type: "date",
-      description: "Tanggal berakhirnya pajak kendaraan",
+      placeholder: "Masukkan harga package",
+      description: "Harga package",
     },
     {
       name: "lokasi_id",
@@ -146,7 +109,7 @@ const RentCar = () => {
 
   const debouncedSearch = useDebouncedValue(searchTerm);
 
-  const fetchRentCar = async (search = "") => {
+  const fetchAirportShuttle = async (search = "") => {
     setLoading(true);
     try {
       const params = {
@@ -155,23 +118,20 @@ const RentCar = () => {
         is_rent: true,
         ...(search.trim() && { search: search.trim() }),
       };
-      const res = await apiClient.get("/kendaraan", { params });
-      const items = Array.isArray(res.data?.data) ? res.data.data : [];
+      const res = await apiClient.get("/airport-shuttle", { params });
 
-      const result = items.filter((item) => item.tipe === "MOBIL");
-
-      setRentCarData(result);
-      setTotal(res.data?.meta?.total ?? result.length);
+      setData(res.data.data || []);
+      setTotal(res.data.total);
     } catch (err) {
       console.error("API Error:", err);
-      setRentCarData(dummyRentCarData);
+      setData(dummyAirportShuttleData);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRentCar(debouncedSearch);
+    fetchAirportShuttle(debouncedSearch);
   }, [debouncedSearch, page]);
 
   const handleSort = (columnKey) => {
@@ -193,16 +153,16 @@ const RentCar = () => {
 
   const handleView = async (row) => {
     try {
-      const { data } = await apiClient.get(`/kendaraan/${row.id}`);
+      const { data } = await apiClient.get(`/airport-shuttle/${row.id}`);
 
-      const kendaraanContentMapped = mapKendaraanContent(
-        data.data.kendaraan_content
+      const airportContentMapped = mapAirportContent(
+        data.data.airport_shuttle_content
       );
 
       const mappedData = {
         ...data.data,
-        deskripsi: kendaraanContentMapped.deskripsi,
-        kebijakan: kendaraanContentMapped.kebijakan,
+        deskripsi: airportContentMapped.deskripsi,
+        kebijakan: airportContentMapped.kebijakan,
       };
 
       console.log(mappedData, "mappedData");
@@ -215,45 +175,8 @@ const RentCar = () => {
   };
 
   const handleEdit = (row) => {
-    navigate(`/admin/rent-car/edit/${row.id}`);
+    navigate(`/admin/airport-shuttle/edit/${row.id}`);
   };
-
-  // Handler untuk Popular (sementara)
-  // const handlePopular = async (row) => {
-  //   const newStatus = !row.is_popular; // toggle status
-
-  //   const confirmed = window.confirm(
-  //     `${newStatus ? "Add" : "Remove"} "${row.nama}" ${
-  //       newStatus ? "to" : "from"
-  //     } Popular Categories?`
-  //   );
-  //   if (!confirmed) return;
-
-  //   try {
-  //     const updatePromise = apiClient.patch(`/kendaraan/${row.id}/popular`, {
-  //       is_popular: newStatus,
-  //     });
-
-  //     await toast.promise(updatePromise, {
-  //       loading: newStatus
-  //         ? "Marking as popular..."
-  //         : "Removing from popular...",
-  //       success: `"${row.nama}" ${
-  //         newStatus ? "added to" : "removed from"
-  //       } popular categories!`,
-  //       error: "Failed to update popular status. Please try again.",
-  //     });
-
-  //     fetchRentCar();
-  //   } catch (err) {
-  //     console.error("Failed to update popular status:", err);
-
-  //     if (err.response) {
-  //       console.error("Status:", err.response.status);
-  //       console.error("Data:", err.response.data);
-  //     }
-  //   }
-  // };
 
   const handleDelete = async (row) => {
     const confirmed = window.confirm(
@@ -261,7 +184,7 @@ const RentCar = () => {
     );
     if (!confirmed) return;
 
-    const deletePromise = apiClient.delete(`/kendaraan`, {
+    const deletePromise = apiClient.delete(`/airport-shuttle`, {
       data: {
         ids: [row.id],
       },
@@ -271,13 +194,13 @@ const RentCar = () => {
       const result = await deletePromise;
       console.log(result, "result");
       await toast.promise(deletePromise, {
-        loading: "Deleting vehicle...",
+        loading: "Deleting package...",
         success: `"${row.nama}" was successfully deleted.`,
-        error: "Could not delete the vehicle. Please try again.",
+        error: "Could not delete the package. Please try again.",
       });
 
       // TODO: Refresh list data jika perlu
-      fetchRentCar();
+      fetchAirportShuttle();
     } catch (err) {
       console.error("Failed to delete:", err);
     }
@@ -292,19 +215,19 @@ const RentCar = () => {
 
     const ids = selectedData.map((item) => item.id);
 
-    const deletePromise = apiClient.delete("/kendaraan", {
+    const deletePromise = apiClient.delete("/airport-shuttle", {
       data: { ids },
     });
 
     try {
       await toast.promise(deletePromise, {
-        loading: "Deleting vehicles...",
+        loading: "Deleting package...",
         success: `${selectedData.length} was successfully deleted.`,
-        error: "Could not delete the vehicles. Please try again",
+        error: "Could not delete the package. Please try again",
       });
 
       // Update state lokal setelah sukses
-      setRentCarData((prev) => prev.filter((item) => !ids.includes(item.id)));
+      setData((prev) => prev.filter((item) => !ids.includes(item.id)));
     } catch (err) {
       console.error("Bulk delete failed:", err);
       // (Optional) toast error ditangani oleh toast.promise, jadi bisa dihapus jika tidak diperlukan
@@ -319,12 +242,8 @@ const RentCar = () => {
       const headers = [
         "ID",
         "Name",
-        "Model",
-        "Capacity",
-        "License Plate",
+        "Harga",
         "Location",
-        "Status",
-        "Tax Expiry",
       ];
       const csvContent = [
         headers.join(","),
@@ -332,12 +251,8 @@ const RentCar = () => {
           [
             item.id,
             `"${item.nama}"`,
-            `"${item.model}"`,
-            `"${item.capacity}"`,
-            `"${item.plat_nomor || ""}"`,
+            `"${item.harga}"`,
             `"${item.lokasi?.nama || ""}"`,
-            item.status ? "Aktif" : "Non-Aktif",
-            new Date(item.tanggal_pajak_berakhir).toLocaleDateString(),
           ].join(",")
         ),
       ].join("\n");
@@ -368,9 +283,9 @@ const RentCar = () => {
   };
 
   const sortedData = useMemo(() => {
-    if (!sortConfig.key) return rentCarData;
+    if (!sortConfig.key) return data;
 
-    return [...rentCarData].sort((a, b) => {
+    return [...data].sort((a, b) => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
 
@@ -386,7 +301,7 @@ const RentCar = () => {
       if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  }, [rentCarData, sortConfig]);
+  }, [data, sortConfig]);
 
   // Get selected data for bulk actions
   const selectedData = useMemo(() => {
@@ -400,12 +315,8 @@ const RentCar = () => {
     "#",
     "ID",
     "Name",
-    "Model",
-    "Capacity",
-    "License Plate",
+    "Harga",
     "Location",
-    "Status",
-    "Tax Expiry",
     "Action",
   ];
 
@@ -451,7 +362,7 @@ const RentCar = () => {
           {/* Header */}
           <div className="flex justify-between items-center mb-6 pt-3 pl-5 pr-5">
             <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-gray-800">Rent a Car</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Airport Shuttle</h1>
             </div>
 
             <div className="flex flex-wrap justify-between items-center gap-4">
@@ -459,16 +370,16 @@ const RentCar = () => {
                 <Search
                   searchTerm={searchTerm}
                   onSearchChange={setSearchTerm}
-                  placeholder="Search rent cars..."
+                  placeholder="Search airport shuttle..."
                 />
               </div>
               <Button
                 variant="primary"
                 size="sm"
                 className="whitespace-nowrap"
-                onClick={() => navigate("/admin/rent-car/create")}
+                onClick={() => navigate("/admin/airport-shuttle/create")}
               >
-                Add Unit
+                Add Package
                 <i className="fa-solid fa-plus"></i>
               </Button>
             </div>
@@ -492,13 +403,8 @@ const RentCar = () => {
                 "#": (row, index) => (page - 1) * take + index + 1,
                 ID: (row) => row.id,
                 Name: (row) => row.nama,
-                Model: (row) => row.model || "-",
-                Capacity: (row) => row.kapasitas || "-",
-                "License Plate": (row) => row.plat_nomor || "-",
+                Harga: (row) => row.harga || "-",
                 Location: (row) => row.lokasi?.nama || "-",
-                Status: (row) => (row.status ? "Aktif" : "Non-Aktif"),
-                "Tax Expiry": (row) =>
-                  new Date(row.tanggal_pajak_berakhir).toLocaleDateString(),
                 Action: null,
               }}
               take={take}
@@ -513,7 +419,7 @@ const RentCar = () => {
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-sm text-gray-700">
             Showing {startIndex + 1} to {Math.min(startIndex + take, total)} of{" "}
-            {total} rent cars
+            {total} airport shuttle
           </div>
           <Pagination
             currentPage={page}
@@ -528,13 +434,13 @@ const RentCar = () => {
       <ModalView
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Detail Unit"
+        title="Detail Package"
         data={selectedModalData}
-        config={rentCarModalConfig}
-        images={selectedModalData?.kendaraan_file || []}
+        config={airportShuttleModalConfig}
+        images={selectedModalData?.airport_shuttle_file || []}
       />
     </>
   );
 };
 
-export default RentCar;
+export default AirportShuttle;

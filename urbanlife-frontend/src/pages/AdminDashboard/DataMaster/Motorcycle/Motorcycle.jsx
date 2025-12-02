@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import CarForm from "./CarForm";
+import MotorcycleForm from "./MotorcycleForm";
 import Dropzone from "../../../../components/AdminDashboard/Utils/Form/DropZone";
 import Search from "../../../../components/AdminDashboard/Utils/Ui/button/Search";
 import Export from "../../../../components/AdminDashboard/Utils/Ui/button/Export";
 import FilterBar from "../../../../components/AdminDashboard/Utils/Ui/button/FilterBar";
-import CarTable from "./CarTable";
+import MotorcycleTable from "./MotorcycleTable";
 import apiClient from "../../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import toast from "react-hot-toast/headless";
 import Swal from "sweetalert2";
-//import dummyCars from "./dummyCar"; // Uncomment for testing with dummy data
+//import dummyMotorcycles from "./dummyMotorcycle"; // Uncomment for testing with dummy data
 
-const Car = () => {
-  const [cars, setCars] = useState([]);
+const Motorcycle = () => {
+  const [motorcycles, setMotorcycles] = useState([]);
   const [nextId, setNextId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -27,7 +27,7 @@ const Car = () => {
 
   const fetchData = useCallback(async (endpoint, setter, options = {}) => {
     try {
-      const { params = {}, direct = false, tipe = "MOBIL" } = options;
+      const { params = {}, direct = false, tipe = "MOTOR" } = options;
       console.log(`Fetching ${endpoint} with params:`, params);
 
       const { data } = await apiClient.get(endpoint, { params });
@@ -52,9 +52,9 @@ const Car = () => {
   const fetchAllData = useCallback(async () => {
     setLoading(true);
     await Promise.all([
-      fetchData("/kendaraan", setCars, {
+      fetchData("/kendaraan", setMotorcycles, {
         params: { is_rent: false },
-        tipe: "MOBIL",
+        tipe: "MOTOR",
       }),
       fetchData("/kendaraan/next-code", (data) => setNextId(data.code), {
         direct: true,
@@ -67,12 +67,12 @@ const Car = () => {
     fetchAllData();
   }, [fetchAllData]);
 
-  console.log(cars, "cars data");
+  console.log(motorcycles, "motorcycles data");
 
   // Uncomment for testing with dummy data
   // const fetchAllData = useCallback(async () => {
   //   setLoading(true);
-  //   setCars(dummyCars);
+  //   setMotorcycles(dummyMotorcycles);
   //   setNextId("U005");
   //   setLoading(false);
   // }, []);
@@ -84,18 +84,18 @@ const Car = () => {
   useEffect(() => {
     if (!formRef.current) return;
 
-    const car = cars.find((c) => c.id === Number(editingId));
-    if (isEditing && car) {
+    const motorcycle = motorcycles.find((c) => c.id === Number(editingId));
+    if (isEditing && motorcycle) {
       formRef.current.setFormData({
-        id: car.id,
-        model: car.model,
-        nama: car.nama,
-        plat_nomor: car.plat_nomor,
-        tanggal_pajak_berakhir: car.tanggal_pajak_berakhir,
-        status_pajak: car.status_pajak,
+        id: motorcycle.id,
+        model: motorcycle.model,
+        nama: motorcycle.nama,
+        plat_nomor: motorcycle.plat_nomor,
+        tanggal_pajak_berakhir: motorcycle.tanggal_pajak_berakhir,
+        status_pajak: motorcycle.status_pajak,
       });
 
-      const images = (car.kendaraan_file || []).map((file) => ({
+      const images = (motorcycle.kendaraan_file || []).map((file) => ({
         id: file.id,
         name: file.nama_file,
         url: `${apiClient.defaults.baseURL}/public/${file.url.replace(
@@ -110,7 +110,7 @@ const Car = () => {
       setFiles([]);
       setExistingFiles([]);
     }
-  }, [editingId, cars, isEditing]);
+  }, [editingId, motorcycles, isEditing]);
 
   const handleSave = async () => {
     const data = formRef.current?.getFormData?.();
@@ -170,8 +170,8 @@ const Car = () => {
     setSearchParams({});
   };
 
-  const handleEdit = (car) => {
-    setSearchParams({ edit: car.id });
+  const handleEdit = (motorcycle) => {
+    setSearchParams({ edit: motorcycle.id });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -192,7 +192,7 @@ const Car = () => {
     try {
       await apiClient.delete(`/kendaraan/${id}`);
       toast.success("Vehicle was successfully deleted");
-      fetchData("/kendaraan", setCars);
+      fetchData("/kendaraan", setMotorcycles);
     } catch (error) {
       console.error("Failed to delete:", error);
       toast.error(
@@ -203,12 +203,12 @@ const Car = () => {
   };
 
   const filteredData = useMemo(() => {
-    return cars.filter((car) =>
-      Object.values(car).some((value) =>
+    return motorcycles.filter((motorcycle) =>
+      Object.values(motorcycle).some((value) =>
         String(value).toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
-  }, [cars, searchTerm]);
+  }, [motorcycles, searchTerm]);
 
   if (loading) {
     return (
@@ -222,8 +222,8 @@ const Car = () => {
     <div className="p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
-          <h3 className="text-lg font-semibold text-gray-800">Car</h3>
-          <CarForm ref={formRef} carId={nextId} />
+          <h3 className="text-lg font-semibold text-gray-800">Motorcycle</h3>
+          <MotorcycleForm ref={formRef} motorcycleId={nextId} />
           <div className="flex justify-end gap-4">
             <button
               onClick={handleCancel}
@@ -251,7 +251,7 @@ const Car = () => {
 
       <div className="mt-8 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">List Car Unit</h3>
+          <h3 className="text-lg font-semibold text-gray-800">List Motorcycle Unit</h3>
           <div className="flex gap-2">
             <div className="w-67">
               <Search
@@ -275,19 +275,19 @@ const Car = () => {
             />
             <Export
               data={filteredData}
-              filename="car.csv"
+              filename="motorcycle.csv"
               buttonText="Download"
             />
           </div>
         </div>
-        <CarTable
+        <MotorcycleTable
           onEdit={handleEdit}
           onDelete={handleDelete}
-          cars={filteredData}
+          motorcycles={filteredData}
         />
       </div>
     </div>
   );
 };
 
-export default Car;
+export default Motorcycle;

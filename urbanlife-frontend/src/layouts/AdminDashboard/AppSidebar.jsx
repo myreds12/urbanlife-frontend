@@ -15,6 +15,9 @@ const contentItems = [
   { icon: "fa-car", name: "Rent a car", path: "/admin/rent-car" },
   { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
   { icon: "fa-newspaper", name: "News", path: "/admin/news" },
+  { icon: "fa-motorcycle", name: "Rent a motorcycle", path: "/admin/rent-motorcycle" },
+  { icon: "fa-plane", name: "Airport Shuttle", path: "/admin/airport-shuttle" },
+  { icon: "fa-ship", name: "Port Shuttle", path: "/admin/port-shuttle" },
 ];
 
 const companyItems = [
@@ -54,6 +57,7 @@ const othersItems = [
       { name: "Logo Favicon", path: "/admin/logo-favicon" },
       { name: "Popular Category", path: "/admin/popular-category" },
       { name: "Type Akomodasi", path: "/admin/type-akomodasi" },
+      { name: "Motorcycle", path: "/admin/motorcycle" },
     ],
   },
   {

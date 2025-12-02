@@ -423,6 +423,36 @@ const Navbar = () => {
                         {t("navbar.rentcar")}
                       </a>
                     </li>
+                    <li>
+                      <a href="/motorcycle" className="mega-menu-link">
+                        <img
+                          src="/images/LandingPage/Navbar/motorcycle.png"
+                          className="mega-menu-icon"
+                          alt="motorcycle"
+                        />
+                        {t("navbar.rentmotorcycle")}
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/airport-shuttle" className="mega-menu-link">
+                        <img
+                          src="/images/LandingPage/Navbar/airport_transfer.png"
+                          className="mega-menu-icon"
+                          alt="airport"
+                        />
+                        {t("navbar.airportshuttle")}
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/port-shuttle" className="mega-menu-link">
+                        <img
+                          src="/images/LandingPage/Navbar/port.png"
+                          className="mega-menu-icon"
+                          alt="port"
+                        />
+                        {t("navbar.portshuttle")}
+                      </a>
+                    </li>
                     {/* <li><a href="/airport-transfer" className="mega-menu-link"><img src="/images/LandingPage/Navbar/airport_transfer.png" className="mega-menu-icon" alt="airport"/> Airport Transfer</a></li>
                     <li><a href="/private-driver" className="mega-menu-link"><img src="/images/LandingPage/Navbar/private_driver.png" className="mega-menu-icon" alt="driver"/>Private Driver</a></li> */}
                   </ul>

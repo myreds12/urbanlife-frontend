@@ -28,6 +28,9 @@ const BookingListCard = ({
       apiKey: "travel_package",
     },
     { key: "AKOMODASI", label: t('bookinglist.service_accommodation'), apiKey: "akomodasi" },
+    { key: "MOTORCYCLE", label: t('bookinglist.motorcycle_rent'), apiKey: "kendaraan" },
+    { key: "AIRPORT_SHUTTLE", label: t('bookinglist.service_airport_shuttle'), apiKey: "airport_shuttle" },
+    { key: "PORT_SHUTTLE", label: t('bookinglist.service_port_shuttle'), apiKey: "port_shuttle" },
   ];
 
   // Pastikan item_type dibandingkan secara lowercase
@@ -60,12 +63,25 @@ const BookingListCard = ({
       }
 
       const items = result[matchedService.apiKey];
+      let results = items || [];
+
+      if (matchedService.apiKey === "kendaraan") {
+        const keyMap = {
+          "KENDARAAN": "MOBIL",
+          "MOTORCYCLE": "MOTOR"
+        };
+
+        const targetTipe = keyMap[matchedService.key];
+        if (targetTipe) {
+          results = items.filter(item => item.tipe === targetTipe);
+        }
+      }
 
       if (onAddService) {
         onAddService({
           type: matchedService.key,
           label: matchedService.label,
-          items: items || [],
+          items: results,
         });
       }
     } catch (error) {
@@ -161,6 +177,7 @@ const BookingListCard = ({
             packagePrices={item.deskripsi.package_prices || []}
             lPackagePrice={item.l_package_price}
             vPackagePrice={item.v_package_price}
+            type_key={item.tipe}
           />
         ))
       )}

@@ -37,8 +37,12 @@ const Detail = () => {
       setLoading(true);
 
       try {
-        const endpointType =
-          state.item_type === 'travel_package' ? 'travel-package' : state.item_type.toLowerCase();
+        const endpointType = 
+          state.item_type === 'travel_package' ? 'travel-package' :
+            state.item_type === 'airport_shuttle' ? 'airport-shuttle' :
+              state.item_type === 'port_shuttle' ? 'port-shuttle' :
+                state.item_type.toLowerCase();
+
         console.log(`Fetching data from endpoint: /${endpointType}/${state.id}`);
         const response = await apiClient.get(`/${endpointType}/${state.id}`);
         const data = response.data?.data;
@@ -139,6 +143,34 @@ const Detail = () => {
             ? data.travel_package_prices
             : [];
           durasi = data.durasi
+        }
+
+        if (state.item_type === 'airport_shuttle') {
+          images = Array.isArray(data.airport_shuttle_file)
+            ? data.airport_shuttle_file.map(
+                (file) =>
+                  `${apiClient.defaults.baseURL.replace(/\/$/, '')}/public/${file.url
+                    .replace(/\\/g, '/')
+                    .replace(/^uploads\//, '')}`
+              )
+            : ['/public/images/error/No_Image_Available.jpg'];
+
+          description = normalizeLanguageField(data, 'airport_shuttle_content', true, 'deskripsi');
+          policies = normalizeLanguageField(data, 'airport_shuttle_content', true, 'kebijakan');
+        }
+
+        if (state.item_type === 'port_shuttle') {
+          images = Array.isArray(data.port_shuttle_file)
+            ? data.port_shuttle_file.map(
+                (file) =>
+                  `${apiClient.defaults.baseURL.replace(/\/$/, '')}/public/${file.url
+                    .replace(/\\/g, '/')
+                    .replace(/^uploads\//, '')}`
+              )
+            : ['/public/images/error/No_Image_Available.jpg'];
+
+          description = normalizeLanguageField(data, 'port_shuttle_content', true, 'deskripsi');
+          policies = normalizeLanguageField(data, 'port_shuttle_content', true, 'kebijakan');
         }
 
         const normalizedData = {

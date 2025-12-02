@@ -26,7 +26,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
           });
         });
       });
-    } else if (type == "kendaraan") {
+    } else if (["kendaraan", "airport_shuttle", "port_shuttle"].includes(type)) {
       all_images = images.map((img) => ({
         image: `${img
           .replace(/\\/g, "/")
@@ -128,7 +128,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                 alt={`${title} - Image 1`}
                 className="w-full h-full object-cover"
               />
-              { ["travel_package", "kendaraan"].includes(type) 
+              { ["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) 
               ? <div className="itinerary-label">{mainImages[0].label}</div>
               : <></> }
             </div>
@@ -140,7 +140,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                     alt={`${title} - Image ${index + 2}`}
                     className="w-full h-full object-cover"
                   />
-                  { ["travel_package", "kendaraan"].includes(type)
+                  { ["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type)
                   ? <div className="itinerary-label">{img.label}</div> 
                   : <></> }
                 </div>
@@ -154,7 +154,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                     alt={`${title} - Image ${index + 2}`}
                     className="w-full h-full object-cover"
                   />
-                  { ["travel_package", "kendaraan"].includes(type)
+                  { ["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type)
                   ? <div className="itinerary-label">{img.label}</div> 
                   : <></> }
                 </div>
@@ -199,7 +199,7 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                   alt={`${title} - Image ${currentImageIndex + 1}`}
                   className="w-full max-w-[600px] max-h-[400px] object-contain"
                 />
-                { ["travel_package", "kendaraan"].includes(type) 
+                { ["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) 
                 ? <div className="itinerary-label">{processedImages[currentImageIndex].label}</div> 
                 : <></> }
               </div>

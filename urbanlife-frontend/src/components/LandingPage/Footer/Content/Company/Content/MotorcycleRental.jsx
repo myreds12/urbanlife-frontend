@@ -7,7 +7,7 @@ import "./RentalCar/CarRental.css";
 import apiClient from "../../../../../AdminDashboard/Utils/ApiClient/apiClient";
 import Footer from "../../../../HomePage/Footer";
 
-const CarRental = () => {
+const MotorcycleRental = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [data, setData] = useState([]);
   console.log(data, "data");
@@ -19,7 +19,7 @@ const CarRental = () => {
   const fetchData = async () => {
     try {
       const { data } = await apiClient.get("/pemesanan/items?type=KENDARAAN");
-      const result = data.data.filter((item) => item.tipe === "MOBIL")
+      const result = data.data.filter((item) => item.tipe === "MOTOR")
       
       setData(result);
     } catch (error) {
@@ -86,7 +86,7 @@ const CarRental = () => {
         </div>
 
         <div className="hero-content">
-          <h1 className="hero-title playfair">{t("unitcar.rentcar")}</h1>
+          <h1 className="hero-title playfair">{t("unitmotorcycle.rent")}</h1>
           <div className="breadcrumb">
             <button
               className="breadcrumb-link cursor-pointer"
@@ -95,7 +95,7 @@ const CarRental = () => {
               {t("services.home")}
             </button>
             <span className="separator">/</span>
-            <span>{t("unitcar.rentcar")}</span>
+            <span>{t("unitmotorcycle.rent")}</span>
           </div>
         </div>
       </div>
@@ -108,4 +108,4 @@ const CarRental = () => {
   );
 };
 
-export default CarRental;
+export default MotorcycleRental;

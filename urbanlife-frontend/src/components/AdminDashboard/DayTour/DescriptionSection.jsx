@@ -50,7 +50,7 @@ const DescriptionSection = ({
               {formData.top_attraction ? "Yes" : "No"}
             </span>
           </div>
-          { type !== "daytour" 
+          { !["daytour", "airport_shuttle", "port_shuttle"].includes(type) 
           ? <div className="flex items-center">
               <label
                 className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
@@ -218,7 +218,7 @@ const DescriptionSection = ({
           </>
         )}
 
-        {type === "rentcar" && (
+        {["rentcar", "rentmotorcycle"].includes(type) && (
           <>
             <div className="flex items-center">
               <label
@@ -270,30 +270,33 @@ const DescriptionSection = ({
                 className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
               />
             </div>
-
-            {/* ✅ Select Driver */}
-            <div className="flex items-center mt-5">
-              <label
-                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-                style={{ minWidth: "190px" }}
-              >
-                Driver <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="driver_id"
-                value={formData.driver_id || ""}
-                onChange={handleChange}
-                className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-                required
-              >
-                <option value="">-- Choose Driver --</option>
-                {drivers.map((driver) => (
-                  <option key={driver.id} value={driver.id}>
-                    {driver.nama} - {driver.no_telepon}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {type === "rentcar" && (
+              <>
+                {/* ✅ Select Driver */}
+                <div className="flex items-center mt-5">
+                  <label
+                    className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+                    style={{ minWidth: "190px" }}
+                  >
+                    Driver <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="driver_id"
+                    value={formData.driver_id || ""}
+                    onChange={handleChange}
+                    className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+                    required
+                  >
+                    <option value="">-- Choose Driver --</option>
+                    {drivers.map((driver) => (
+                      <option key={driver.id} value={driver.id}>
+                        {driver.nama} - {driver.no_telepon}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
           </>
         )}
 
@@ -348,6 +351,43 @@ const DescriptionSection = ({
                   </option>
                 ))}
               </select>
+            </div>
+          </>
+        )}
+
+        {["airport_shuttle", "port_shuttle"].includes(type)   && (
+          <>
+            <div className="flex items-center mb-5">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+              style={{ minWidth: "190px" }}
+              >
+                Package name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="nama"
+                value={formData.nama}
+                onChange={handleChange}
+                required
+              className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+              />
+            </div>
+            <div className="flex items-center mb-5">
+              <label
+                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
+              style={{ minWidth: "190px" }}
+              >
+                Harga <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                name="harga"
+                value={formData.harga}
+                onChange={handleChange}
+                required
+              className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
+              />
             </div>
           </>
         )}

@@ -69,6 +69,7 @@ const OrderDetail = () => {
           harga: bookingFromState.price,
           durasi: bookingFromState.durasi,
           deskripsi: bookingFromState.content,
+          tipe: bookingFromState.tipe
         };
         break;
 
@@ -84,6 +85,32 @@ const OrderDetail = () => {
           durasi: 1, // default 1 malam
           satuan: "malam",
           deskripsi: bookingFromState.content,
+        };
+        break;
+
+      case "airport_shuttle":
+        item = {
+          ...item,
+          title: bookingFromState.title,
+          lokasi: bookingFromState.location,
+          image: bookingFromState.image,
+          harga: bookingFromState.price,
+          durasi: bookingFromState.durasi || 1,
+          deskripsi: bookingFromState.content,
+          total_harga: bookingFromState.price || 0,
+        };
+        break;
+      
+      case "port_shuttle":
+        item = {
+          ...item,
+          title: bookingFromState.title,
+          lokasi: bookingFromState.location,
+          image: bookingFromState.image,
+          harga: bookingFromState.price,
+          durasi: bookingFromState.durasi || 1,
+          deskripsi: bookingFromState.content,
+          total_harga: bookingFromState.price || 0,
         };
         break;
 
@@ -264,6 +291,12 @@ const OrderDetail = () => {
           if (updatedItem.selected_durasi) {
             total = updatedItem.harga || 0;
           }
+          break;
+        case "airport_shuttle":          
+          total = updatedItem.harga || 0;
+          break;
+        case "port_shuttle":          
+          total = updatedItem.harga || 0;
           break;
       }
 

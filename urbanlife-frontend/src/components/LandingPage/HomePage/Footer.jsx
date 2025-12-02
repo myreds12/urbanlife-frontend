@@ -165,6 +165,21 @@ const Footer = () => {
                   {t('footer.accomodation')}
                 </a>
               </li>
+              <li>
+                <a href="/motorcycle" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.rentmotorcycle')}
+                </a>
+              </li>
+              <li>
+                <a href="/airport-shuttle" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.airportshuttle')}
+                </a>
+              </li>
+              <li>
+                <a href="/port-shuttle" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.portshuttle')}
+                </a>
+              </li>
             </ul>
           </div>
 

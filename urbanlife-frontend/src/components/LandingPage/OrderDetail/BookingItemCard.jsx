@@ -28,6 +28,7 @@ const BookingItemCard = ({
   packagePrices,
   lPackagePrice,
   vPackagePrice,
+  type_key
 }) => {
   const { t, i18n } = useTranslation();
   console.log("Current language:", i18n.language); // Debug bahasa saat ini
@@ -59,7 +60,7 @@ const BookingItemCard = ({
         if (diff > 0 && diff !== durasi) {
           handleChange("durasi", diff); // update durasi
         }
-      } else {
+      } else if (item_type == "kendaraan") {
         const start = new Date(tanggal_mulai);
         const end = new Date(tanggal_selesai);
 
@@ -95,10 +96,16 @@ const BookingItemCard = ({
         navigate('/DayTour')
         break;
       case 'kendaraan':
-        navigate('/unit-car')
+        type_key === "MOTOR" ? navigate('/motorcycle') : navigate('/unit-car')
         break
       case 'akomodasi':
         navigate('/accomodation')
+        break
+      case 'airport_shuttle':
+        navigate('/airport-shuttle')
+        break
+      case 'port_shuttle':
+        navigate('/port-shuttle')
         break
       default:
         break;
@@ -273,7 +280,7 @@ const BookingItemCard = ({
               ? prizing === "normal" ? t("bookingitem.person_number") : t("bookingitem.package_price")
               : item_type === "akomodasi"
               ? t("bookingitem.room_and_duration")
-              : t("bookingitem.duration")}
+              : item_type === "akomodasi" ? t("bookingitem.duration") : ""}
           </p>
 
           {item_type === "travel_package" ? (
@@ -485,7 +492,7 @@ const BookingItemCard = ({
 
       {/* Change Package / Unit */}
       <div className="flex items-center text-sm text-red-500 font-medium cursor-pointer hover:underline transition-all" onClick={redirectService}>
-        {item_type === "travel_package"
+        {["travel_package", "airport_shuttle", "port_shuttle"].includes(item_type)
           ? t("bookingitem.change_package")
           : t("bookingitem.change_unit")}
         <FiChevronRight className="ml-1 w-4 h-4" />

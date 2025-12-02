@@ -22,6 +22,7 @@ import LogoFaviconManager from "./components/LogoFaviconManager";
 import PopularCategory from "./pages/AdminDashboard/DataMaster/PopularCategory/PopularCategory";
 import { TypeAkomodasiProvider } from "./pages/AdminDashboard/DataMaster/TypeAkomodasi/TypeAkomodasiProvider";
 import TypeAkomodasiAdmin from "./pages/AdminDashboard/DataMaster/TypeAkomodasi/TypeAkomodasiAdmin";
+
 // Lazy loaded Pages
 const Dashboard = lazy(() =>
   import("./pages/AdminDashboard/Dashboard/Dashboard")
@@ -94,7 +95,13 @@ const Testimonial = lazy(() => import("./pages/AdminDashboard/DataMaster/Testimo
 const UserProfile = lazy(() => import("./pages/AdminDashboard/UserProfile/UserProfile"));
 const News = lazy(() => import("./pages/AdminDashboard/News/News"));
 const CreateNews = lazy(() => import("./pages/AdminDashboard/News/CreateNews"));
-
+const Motorcycle = lazy(() => import("./pages/AdminDashboard/DataMaster/Motorcycle/Motorcycle"));
+const RentMotorcycle= lazy(() => import("./pages/AdminDashboard/RentMotorcycle/RentMotorcycle"));
+const CreateRentMotorcyclePage = lazy(() => import("./pages/AdminDashboard/RentMotorcycle/CreateRentMotorcycle"));
+const AirportShuttle = lazy(() => import("./pages/AdminDashboard/AirportShuttle/AirportShuttle"));
+const CreateAirportShuttlePage = lazy(() => import("./pages/AdminDashboard/AirportShuttle/CreateAirportShuttlePage"));
+const PortShuttle = lazy(() => import("./pages/AdminDashboard/PortShuttle/PortShuttle"));
+const CreatePortShuttlePage = lazy(() => import("./pages/AdminDashboard/PortShuttle/CreatePortShuttlePage"));
 
 
 // Public pages
@@ -133,6 +140,9 @@ const BlogPostMain = lazy(() => import("./components/LandingPage/Footer/Content/
 const BlogDetail = lazy(() => import("./components/LandingPage/Footer/Content/BlogPost/BlogDetail"));
 const AccomodationPage = lazy(() => import("./components/LandingPage/Services/Accomodation/Accomodation"));
 const AccoDetail = lazy(() => import("./components/LandingPage/Services/Accomodation/AccoDetail"))
+const MotorcycleRental = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/MotorcycleRental"))
+const AirportPage = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/AirportPage"))
+const PortPage = lazy(() => import("./components/LandingPage/Footer/Content/Company/Content/PortPage"))
 
 function App() {
   // Set the root element for React Modal
@@ -172,6 +182,9 @@ function App() {
               <Route path="/accomodation" element={<AccomodationPage />} />
               <Route path="/accomodation/detail/:id" element={<AccoDetail />} />
               <Route path="/news" element={<NewsPage />} />
+              <Route path="/motorcycle" element={<MotorcycleRental />} />
+              <Route path="airport-shuttle" element={<AirportPage />} />
+              <Route path="port-shuttle" element={<PortPage />} />
 
               {/* Admin */}
               <Route
@@ -240,6 +253,16 @@ function App() {
                 <Route path="logo-favicon" element={<LogoFavicon />} />
                 <Route path="popular-category" element={<PopularCategory />} />
                 <Route path="type-akomodasi" element={<TypeAkomodasiProvider><TypeAkomodasiAdmin /></TypeAkomodasiProvider>} />
+                <Route path="motorcycle" element={<Motorcycle />} />
+                <Route path="rent-motorcycle" element={<RentMotorcycle />} />
+                <Route path="rent-motorcycle/create" element={<CreateRentMotorcyclePage />} />
+                <Route path="rent-motorcycle/edit/:id" element={<CreateRentMotorcyclePage />} />
+                <Route path="airport-shuttle" element={<AirportShuttle />} />
+                <Route path="airport-shuttle/create" element={<CreateAirportShuttlePage />} />
+                <Route path="airport-shuttle/edit/:id" element={<CreateAirportShuttlePage />} />
+                <Route path="port-shuttle" element={<PortShuttle />} />
+                <Route path="port-shuttle/create" element={<CreatePortShuttlePage />} />
+                <Route path="port-shuttle/edit/:id" element={<CreatePortShuttlePage />} />
               </Route>
             </Routes>
           </Suspense>

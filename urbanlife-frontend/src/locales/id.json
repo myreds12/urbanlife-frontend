@@ -11,7 +11,10 @@
     "transportation": "Transportasi",
     "accomodation": "Akomodasi",
     "news": "Berita",
-    "contactus": "Hubungi Kami"
+    "contactus": "Hubungi Kami",
+    "rentmotorcycle": "Sewa Motor",
+    "airportshuttle": "Antar Jemput Bandara",
+    "portshuttle": "Antar Jemput Pelabuhan"
   },
 
   "hero": {
@@ -128,7 +131,10 @@
     "nusadua": "Olahraga Air di Nusa Dua",
     "tegenunganwaterfall": "Air Terjun Tegenungan",
     "followus": "Ikuti Kami",
-    "paymentpartner": "Mitra Pembayaran"
+    "paymentpartner": "Mitra Pembayaran",
+    "rentmotorcycle": "Sewa Motor",
+    "airportshuttle": "Antar Jemput Bandara",
+    "portshuttle": "Antar Jemput Pelabuhan"
   },
 
   "services": {
@@ -509,11 +515,14 @@
     "all_services_added": "Semua layanan sudah ditambahkan",
     "no_services_available": "Tidak ada layanan lain yang tersedia",
     "available_services": "Layanan yang Tersedia",
-    "service_vehicle": "Kendaraan",
+    "service_vehicle": "Sewa Mobil",
     "service_travel_package": "Paket Perjalanan",
     "service_accommodation": "Akomodasi",
     "error_empty_result": "Hasil kosong dari API",
-    "error_service_not_found": "Layanan tidak ditemukan untuk tipe '{type}'"
+    "error_service_not_found": "Layanan tidak ditemukan untuk tipe '{type}'",
+    "motorcycle_rent": "Sewa Motor",
+    "service_airport_shuttle": "Antar Jemput Bandara",
+    "service_port_shuttle": "Antar Jemput Pelabuhan"
   },
   "bookingitem": {
     "booking_date": "Tanggal Pemesanan",
@@ -547,5 +556,20 @@
     "duration": "Durasi",
     "price": "Harga",
     "hours": "Jam"
+  },
+  "unitmotorcycle": {
+    "rent": "Sewa Motor",
+    "norent": "Tidak ada motor yang ditemukan untuk kategori yang dipilih",
+    "moredetail": "Baca Selengkapnya"
+  },
+  "airport": {
+    "airportpackage": "Antar Jemput Bandara",
+    "noairport": "Tidak ada paket antar jemput bandara",
+    "readmore": "Baca Selengkapnya"
+  },
+  "port": {
+    "portpackage": "Antar Jemput Pelabuhan",
+    "noport": "Tidak ada paket antar jemput pelabuhan",
+    "readmore": "Baca Selengkapnya"
   }
 }

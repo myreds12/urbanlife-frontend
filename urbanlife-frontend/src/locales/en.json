@@ -11,7 +11,10 @@
     "transportation": "Transportations",
     "accomodation": "Accommodations",
     "news": "News",
-    "contactus": "Contact Us"
+    "contactus": "Contact Us",
+    "rentmotorcycle": "Rent a Motorcycle",
+    "airportshuttle": "Airport Shuttle",
+    "portshuttle": "Port Shuttle"
   },
 
   "hero": {
@@ -127,7 +130,10 @@
         "nusadua": "Water Sports at Nusa Dua",
         "tegenunganwaterfall": "Tegenungan Waterfall",
     "followus": "Follow Us",
-    "paymentpartner": "Payment Partner"
+    "paymentpartner": "Payment Partner",
+    "rentmotorcycle": "Rent a Motorcycle",
+    "airportshuttle": "Airport Shuttle",
+    "portshuttle": "Port Shuttle"
   },
 
 
@@ -519,11 +525,14 @@
         "all_services_added": "All available services have been added.",
         "no_services_available": "No more services available to add.",
         "available_services": "Available Services",
-        "service_vehicle": "Vehicle",
+        "service_vehicle": "Car Rental",
         "service_travel_package": "Travel Package",
         "service_accommodation": "Accommodation",
         "error_empty_result": "Empty result from API",
-        "error_service_not_found": "Service not found for type '{type}'"
+        "error_service_not_found": "Service not found for type '{type}'",
+        "motorcycle_rent": "Motorcycle Rental",
+        "service_airport_shuttle": "Airport Shuttle",
+        "service_port_shuttle": "Port Shuttle"
   },
   "bookingitem": {
         "booking_date": "Booking date",
@@ -557,5 +566,20 @@
     "duration": "Duration",
     "price": "Price",
     "hours": "Hours"
+  },
+  "unitmotorcycle": {
+    "rent": "Motorcycle Rental",
+    "norent": "No Motorcycle Found for the Selected Category",
+    "moredetail": "More Detail"
+  },
+  "airport": {
+    "airportpackage": "Airport Shuttle",
+    "noairport": "No Airport Shuttle Found",
+    "readmore": "Read More"
+  },
+  "port": {
+    "portpackage": "Port Shuttle",
+    "noport": "No Port Shuttle Found",
+    "readmore": "Read More"
   }
 }

@@ -18,7 +18,7 @@ const DEFAULT_CONTENT = [
 
 const DEFAULT_PRICE = [{ durasi: "", harga: "" }];
 
-const CreateRentCarPage = () => {
+const CreateRentMotorcyclePage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
@@ -45,7 +45,7 @@ const CreateRentCarPage = () => {
   console.log(existingPhotos, "existingPhotos");
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
-  const [availableCars, setAvailableCars] = useState([]);
+  const [availableMotorcycles, setAvailableMotorcycles] = useState([]);
   const [drivers, setDrivers] = useState([]); // ✅ State untuk menyimpan data driver
 
   useEffect(() => {
@@ -57,8 +57,8 @@ const CreateRentCarPage = () => {
       try {
         const [
           { data: locationData },
-          carData,
-          availableCarsData,
+          motorcycleData,
+          availableMotorcyclesData,
           driversData, // ✅ Ambil data driver
         ] = await Promise.all([
           apiClient.get("/lokasi?is_active=true"),
@@ -68,40 +68,40 @@ const CreateRentCarPage = () => {
           apiClient.get("/kendaraan?is_rent=false"),
           apiClient.get("/driver"), // ✅ API untuk mendapatkan driver
         ]);
-        console.log(carData.data.data, "ini carData");
-        const resultAvailableCars = availableCarsData.data.data ? availableCarsData.data.data.filter(item => item.tipe === "MOBIL") : [];
+        console.log(motorcycleData.data.data, "ini motorcycleData");
+        const resultAvailableMotorcycles = availableMotorcyclesData.data.data ? availableMotorcyclesData.data.data.filter(item => item.tipe === "MOTOR") : [];
 
         setLocations(locationData.data || []);
-        setAvailableCars(resultAvailableCars);
+        setAvailableMotorcycles(resultAvailableMotorcycles);
         setDrivers(driversData.data.data || []); // ✅ Simpan data driver
 
         if (isEditMode) {
-          const car = carData.data.data;
+          const motorcycle = motorcycleData.data.data;
 
           setFormData({
-            nama: car.nama || "",
-            top_attraction: car.top_attraction,
-            lokasi_id: car.lokasi_id || 0,
-            status_pajak: car.status_pajak || "",
-            // status: car.status || "TERSEDIA DIPESAN",
-            status: car.status,
-            kapasitas: car.kapasitas || 0,
-            plat_nomor: car.plat_nomor || "",
-            model: car.model || "",
+            nama: motorcycle.nama || "",
+            top_attraction: motorcycle.top_attraction,
+            lokasi_id: motorcycle.lokasi_id || 0,
+            status_pajak: motorcycle.status_pajak || "",
+            // status: motorcycle.status || "TERSEDIA DIPESAN",
+            status: motorcycle.status,
+            kapasitas: motorcycle.kapasitas || 0,
+            plat_nomor: motorcycle.plat_nomor || "",
+            model: motorcycle.model || "",
             tanggal_pajak_berakhir:
-              car.tanggal_pajak_berakhir?.split("T")[0] || "",
-            content: car.kendaraan_content?.length
-              ? car.kendaraan_content
+              motorcycle.tanggal_pajak_berakhir?.split("T")[0] || "",
+            content: motorcycle.kendaraan_content?.length
+              ? motorcycle.kendaraan_content
               : DEFAULT_CONTENT,
-            durasi: car.kendaraan_durasi?.length
-              ? car.kendaraan_durasi
+            durasi: motorcycle.kendaraan_durasi?.length
+              ? motorcycle.kendaraan_durasi
               : DEFAULT_PRICE,
-            kendaraan_id: car.id || "",
-            driver_id: car.driver_id || "", // ✅ Set driver_id untuk edit mode
+            kendaraan_id: motorcycle.id || "",
+            driver_id: motorcycle.driver_id || "", // ✅ Set driver_id untuk edit mode
           });
 
           setExistingPhotos(
-            (car.kendaraan_file || []).map((file) => ({
+            (motorcycle.kendaraan_file || []).map((file) => ({
               id: file.id,
               url: `${apiClient.defaults.baseURL}/public/${file.url
                 .replace(/\\/g, "/")
@@ -110,8 +110,8 @@ const CreateRentCarPage = () => {
             }))
           );
 
-          setContent(car.kendaraan_content || DEFAULT_CONTENT);
-          setPrices(car.kendaraan_durasi || DEFAULT_PRICE);
+          setContent(motorcycle.kendaraan_content || DEFAULT_CONTENT);
+          setPrices(motorcycle.kendaraan_durasi || DEFAULT_PRICE);
         }
       } catch (error) {
         toast.error("Failed to get initial data.");
@@ -123,24 +123,24 @@ const CreateRentCarPage = () => {
   }, [isEditMode, id]);
 
   // ✅ Fungsi untuk handle pemilihan kendaraan
-  const handleCarSelect = (carId) => {
-    const selectedCar = availableCars.find((car) => car.id === parseInt(carId));
-    if (selectedCar) {
+  const handleMotorcycleSelect = (motorcycleId) => {
+    const selectedMotorcycle = availableMotorcycles.find((motorcycle) => motorcycle.id === parseInt(motorcycleId));
+    if (selectedMotorcycle) {
       setFormData((prev) => ({
         ...prev,
-        kendaraan_id: selectedCar.id,
-        nama: selectedCar.nama,
-        model: selectedCar.model,
-        plat_nomor: selectedCar.plat_nomor,
-        lokasi_id: selectedCar.lokasi_id,
-        kapasitas: selectedCar.kapasitas,
+        kendaraan_id: selectedMotorcycle.id,
+        nama: selectedMotorcycle.nama,
+        model: selectedMotorcycle.model,
+        plat_nomor: selectedMotorcycle.plat_nomor,
+        lokasi_id: selectedMotorcycle.lokasi_id,
+        kapasitas: selectedMotorcycle.kapasitas,
         tanggal_pajak_berakhir:
-          selectedCar.tanggal_pajak_berakhir?.split("T")[0] || "",
-        status_pajak: selectedCar.status_pajak ? "LUNAS" : "BELUM LUNAS",
+          selectedMotorcycle.tanggal_pajak_berakhir?.split("T")[0] || "",
+        status_pajak: selectedMotorcycle.status_pajak ? "LUNAS" : "BELUM LUNAS",
       }));
 
       setExistingPhotos(
-        (selectedCar.kendaraan_file || []).map((file) => ({
+        (selectedMotorcycle.kendaraan_file || []).map((file) => ({
           id: file.id,
           url: `${apiClient.defaults.baseURL}/public/${file.url
             .replace(/\\/g, "/")
@@ -226,7 +226,7 @@ const CreateRentCarPage = () => {
       }
     }
     console.log("========================================");
-
+// return false
     try {
       const response = isEditMode || formData.kendaraan_id
         ? await apiClient.patch(`/kendaraan/${id || formData.kendaraan_id}`, payload, {
@@ -240,7 +240,7 @@ const CreateRentCarPage = () => {
         toast.success(
           isEditMode ? "Updated successfully" : "Created successfully"
         );
-        navigate("/admin/rent-car");
+        navigate("/admin/rent-motorcycle");
       } else {
         toast.error(response.data.message);
       }
@@ -269,28 +269,28 @@ const CreateRentCarPage = () => {
         <main className="p-1 flex-1">
           <div className="p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-5">
-              {isEditMode ? "Edit Rent a Car" : "Create Rent a Car"}
+              {isEditMode ? "Edit Rent a Motorcycle" : "Create Rent a Motorcycle"}
             </h2>
 
             {/* ✅ Select Kendaraan yang Tersedia */}
             <div className="bg-white p-6 rounded-lg shadow-md shadow-black/20 mb-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                Select Available Car
+                Select Available Motorcycle
               </h3>
               <div className="flex items-center gap-5 mb-4">
                 <label className="block text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-md min-w-[120px]">
-                  Available Cars
+                  Available Motorcycles
                 </label>
                 <select
                   value={formData.kendaraan_id}
-                  onChange={(e) => handleCarSelect(e.target.value)}
+                  onChange={(e) => handleMotorcycleSelect(e.target.value)}
                   className="input input-bordered w-full py-2 rounded-lg border border-gray-200 shadow-sm"
                   disabled={isEditMode}
                 >
-                  <option value="">-- Choose a car --</option>
-                  {availableCars.map((car) => (
-                    <option key={car.id} value={car.id}>
-                      {car.nama} - {car.model} ({car.plat_nomor})
+                  <option value="">-- Choose a Motorcycle --</option>
+                  {availableMotorcycles.map((motorcycle) => (
+                    <option key={motorcycle.id} value={motorcycle.id}>
+                      {motorcycle.nama} - {motorcycle.model} ({motorcycle.plat_nomor})
                     </option>
                   ))}
                 </select>
@@ -338,14 +338,14 @@ const CreateRentCarPage = () => {
               onChangeContent={handleContentChange}
               handleChange={handleChange}
               locations={locations}
-              type="rentcar"
+              type="rentmotorcycle"
               drivers={drivers} // ✅ Pass drivers ke DescriptionSection
             />
 
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
-              type="rentcar"
+              type="rentmotorcycle"
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}
@@ -375,7 +375,7 @@ const CreateRentCarPage = () => {
               isActive={activeSection === "price"}
               formData={formData}
               handleChange={handleChange}
-              type="rentcar"
+              type="rentMotorcycle"
               prices={prices}
               handlePriceChange={handlePriceChange}
               handleAddPrice={() =>
@@ -388,7 +388,7 @@ const CreateRentCarPage = () => {
           </div>
 
           <div className="flex justify-end gap-3 px-6 pb-6">
-            <Link to="/admin/rent-car">
+            <Link to="/admin/rent-Motorcycle">
               <button
                 type="button"
                 className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
@@ -409,4 +409,4 @@ const CreateRentCarPage = () => {
   );
 };
 
-export default CreateRentCarPage;
+export default CreateRentMotorcyclePage;

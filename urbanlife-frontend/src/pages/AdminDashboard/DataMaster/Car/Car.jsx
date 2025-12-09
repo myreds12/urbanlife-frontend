@@ -132,7 +132,7 @@ const Car = () => {
 
     formData.append("nama", data.nama);
     formData.append("model", data.model || "");
-    formData.append("tipe", "MOTOR");
+    formData.append("tipe", "MOBIL");
     formData.append("plat_nomor", data.plat_nomor);
     formData.append(
       "tanggal_pajak_berakhir",

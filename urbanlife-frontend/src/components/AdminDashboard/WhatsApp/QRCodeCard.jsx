@@ -6,6 +6,7 @@ export default function QRCodeCard({
   qrCode,
   onConnect,
   onDisconnect,
+  admin
 }) {
   return (
     <div className="max-w-md w-full mx-auto p-6 border rounded-xl shadow-md text-center">
@@ -65,7 +66,7 @@ export default function QRCodeCard({
       ) : (
         <>
           <div className="mb-4 text-green-600 font-semibold text-lg">
-            ✅ WhatsApp is Connected!
+            ✅ WhatsApp +{admin.nomor_wa} is Connected!
           </div>
 
           <button

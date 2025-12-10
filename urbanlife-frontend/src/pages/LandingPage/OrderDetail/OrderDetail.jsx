@@ -97,7 +97,7 @@ const OrderDetail = () => {
           harga: bookingFromState.price,
           durasi: bookingFromState.durasi || 1,
           deskripsi: bookingFromState.content,
-          total_harga: bookingFromState.price || 0,
+          price_list: bookingFromState.price_list,
         };
         break;
       
@@ -110,7 +110,7 @@ const OrderDetail = () => {
           harga: bookingFromState.price,
           durasi: bookingFromState.durasi || 1,
           deskripsi: bookingFromState.content,
-          total_harga: bookingFromState.price || 0,
+          price_list: bookingFromState.price_list,
         };
         break;
 
@@ -210,6 +210,36 @@ const OrderDetail = () => {
         };
         break;
 
+      case "airport_shuttle":
+        formattedItem = {
+          ...formattedItem,
+          title: item.nama || "Unknown Title",
+          lokasi: item.lokasi?.nama || "Unknown",
+          negara: item.lokasi?.negara?.nama || "Unknown",
+          image: imageUrl,
+          harga: item.price?.[0]?.harga || 0,
+          durasi: 1,
+          deskripsi: item.content || [],
+          // total_harga: item.price?.[0]?.harga || 0,
+          price_list: item.price,
+        };
+        break;
+
+      case "port_shuttle":
+        formattedItem = {
+          ...formattedItem,
+          title: item.nama || "Unknown Title",
+          lokasi: item.lokasi?.nama || "Unknown",
+          negara: item.lokasi?.negara?.nama || "Unknown",
+          image: imageUrl,
+          harga: item.price?.[0]?.harga || 0,
+          durasi: 1,
+          deskripsi: item.content || [],
+          // total_harga: item.price?.[0]?.harga || 0,
+          price_list: item.price,
+        };
+        break;
+
       default:
         formattedItem = {
           ...formattedItem,
@@ -271,6 +301,9 @@ const OrderDetail = () => {
         selected_room: updatedValues.selected_room
           ? { ...updatedValues.selected_room }
           : item.selected_room,
+        selected_prices: updatedValues.selected_prices
+          ? { ...updatedValues.selected_prices }
+          : item.selected_prices,
       };
 
       let total = 0;
@@ -379,12 +412,33 @@ const OrderDetail = () => {
             };
           }
 
+          if (item.item_type === "kendaraan") {
+            return {
+              ...base,
+              durasi_id: item.selected_durasi?.id || null,
+            };
+          }
+
+          if (item.item_type === "airport_shuttle") {
+            return {
+              ...base,
+              airport_shuttle_id: item.selected_prices?.id || null,
+            };
+          }
+
+          if (item.item_type === "port_shuttle") {
+            return {
+              ...base,
+              port_shuttle_id: item.selected_prices?.id || null,
+            };
+          }
+
           return base;
         }),
       };
 
       console.log("Data Pemesanan Payload:", pemesananPayload);
-
+return false
       // 2. Kirim request untuk membuat pemesanan
       const { data: pemesananData } = await apiClient.post(
         "/pemesanan",

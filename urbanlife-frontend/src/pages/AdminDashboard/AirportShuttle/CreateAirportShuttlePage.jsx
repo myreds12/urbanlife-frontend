@@ -6,6 +6,13 @@ import "../../../styles/AdminDashboard/DayTour/DayTour.css";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import PolicyAndProcedureSection from "../../../components/AdminDashboard/RentCar/PolicyAndProcedureSection";
+import PriceSection from "../../../components/AdminDashboard/DayTour/PriceSection";
+
+const DEFAULT_CONTENT = [
+  { bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
+  { bahasa: "INDONESIA", deskripsi: "", kebijakan: "" },
+];
+const DEFAULT_PRICE = [{ id: 0, durasi: "", harga: "" }];
 
 const CreateAirportShuttlePage = () => {
   const navigate = useNavigate();
@@ -16,22 +23,19 @@ const CreateAirportShuttlePage = () => {
 
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
-  const [content, setContent] = useState([
-    { id: null, bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
-    { id: null, bahasa: "INDONESIA", deskripsi: "", kebijakan: "" },
-  ]);
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [prices, setPrices] = useState(DEFAULT_PRICE);
 
   const [formData, setFormData] = useState({
     nama: "",
-    harga: "",
     lokasi_id: 0,
     top_attraction: true,
   });
 
 
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, content }));
-  }, [content]);
+    setFormData((prev) => ({ ...prev, content, prices }));
+  }, [content, prices]);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -53,12 +57,14 @@ const CreateAirportShuttlePage = () => {
 
           setFormData({
             nama: airport.nama || "",
-            harga: airport.harga || "",
             top_attraction: airport.top_attraction,
             lokasi_id: airport.lokasi_id || 0,
             content: airport.airport_shuttle_content?.length
               ? airport.airport_shuttle_content
               : DEFAULT_CONTENT,
+            prices: airport.airport_shuttle_price?.length
+              ? airport.airport_shuttle_price
+              : DEFAULT_PRICE,
             airport_shuttle_id: airport.id || "",
           });
 
@@ -73,6 +79,13 @@ const CreateAirportShuttlePage = () => {
           );
 
           setContent(airport.airport_shuttle_content || DEFAULT_CONTENT);
+          setPrices(
+            (airport.airport_shuttle_price || []).map((p) => ({
+              id: p.id,
+              durasi: p.nama,
+              harga: p.harga,
+            }))
+          );
         }
       } catch (error) {
         toast.error("Failed to get initial data.");
@@ -92,6 +105,12 @@ const CreateAirportShuttlePage = () => {
     const updated = [...content];
     updated[index][field] = value;
     setContent(updated);
+  };
+
+  const handlePriceChange = (index, field, value) => {
+    const updated = [...prices];
+    updated[index][field] = value;
+    setPrices(updated);
   };
 
   const handlePolicyChange = (index, value) =>
@@ -120,7 +139,7 @@ const CreateAirportShuttlePage = () => {
     const payload = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== "content" && key !== "durasi" && key !== "airport_shuttle_id") {
+      if (key !== "content" && key !== "prices" && key !== "airport_shuttle_id") {
         payload.append(key, value);
       }
     });
@@ -129,6 +148,12 @@ const CreateAirportShuttlePage = () => {
       payload.append(`airport_shuttle_content[${i}][bahasa]`, item.bahasa);
       payload.append(`airport_shuttle_content[${i}][deskripsi]`, item.deskripsi);
       payload.append(`airport_shuttle_content[${i}][kebijakan]`, item.kebijakan);
+    });
+
+    prices.forEach((item, i) => {
+      payload.append(`airport_shuttle_price[${i}][id]`, item.id);
+      payload.append(`airport_shuttle_price[${i}][nama]`, item.durasi);
+      payload.append(`airport_shuttle_price[${i}][harga]`, item.harga);
     });
 
     const existingFileObjects = await Promise.all(
@@ -180,6 +205,7 @@ const CreateAirportShuttlePage = () => {
     "description",
     "image",
     "policy and procedure",
+    "price",
   ];
 
   return (
@@ -220,7 +246,7 @@ const CreateAirportShuttlePage = () => {
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
-              type="rentcar"
+              type="airport_shuttle"
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}
@@ -235,6 +261,21 @@ const CreateAirportShuttlePage = () => {
               onChangePolicy={handlePolicyChange}
             />
 
+            <PriceSection
+              id="price"
+              isActive={activeSection === "price"}
+              formData={formData}
+              handleChange={handleChange}
+              type="airport_shuttle"
+              prices={prices}
+              handlePriceChange={handlePriceChange}
+              handleAddPrice={() =>
+                setPrices([...prices, { id: 0, durasi: "", harga: "" }])
+              }
+              handleDeletePrice={(index) =>
+                setPrices(prices.filter((_, i) => i !== index))
+              }
+            />
           </div>
 
           <div className="flex justify-end gap-3 px-6 pb-6">

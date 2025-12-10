@@ -185,7 +185,8 @@
     "nofacility": "Fasilitas tidak tersedia",
     "noamenities": "Fasilitas kamar tidak tersedia",
     "package": "Paket",
-    "persons": "Orang"
+    "persons": "Orang",
+    "price_list": "Daftar Harga"
   },
 
   "sharemodal": {
@@ -548,7 +549,8 @@
     "normal_price": "Harga Normal",
     "package_price":  "Harga Paket",
     "pricing": "Harga",
-    "select_type": "Pilih Tipe"
+    "select_type": "Pilih Tipe",
+    "choose_package": "Pilih Paket"
   },
   "rentcar": {
     "not_found" : "Tidak ada data durasi tersedia.",
@@ -565,11 +567,17 @@
   "airport": {
     "airportpackage": "Antar Jemput Bandara",
     "noairport": "Tidak ada paket antar jemput bandara",
-    "readmore": "Baca Selengkapnya"
+    "readmore": "Baca Selengkapnya",
+    "description": "Deskripsi",
+    "price": "Harga",
+    "description_price": "Deskripsi & Harga"
   },
   "port": {
     "portpackage": "Antar Jemput Pelabuhan",
     "noport": "Tidak ada paket antar jemput pelabuhan",
-    "readmore": "Baca Selengkapnya"
+    "readmore": "Baca Selengkapnya",
+    "description": "Deskripsi",
+    "price": "Harga",
+    "description_price": "Deskripsi & Harga"
   }
 }

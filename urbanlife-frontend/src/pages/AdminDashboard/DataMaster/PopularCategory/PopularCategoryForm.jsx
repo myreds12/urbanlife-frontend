@@ -10,6 +10,14 @@ const PopularCategoryForm = forwardRef((props, ref) => {
   const { disabledForm } = props
   const [serviceOptions, setServiceOptions] = useState([]);
 
+  const options = [
+    { value: 'travel_package', label: 'Day Tour' },
+    { value: 'rent_car', label: 'Rent a car' },
+    { value: 'accomodation', label: 'Accommodation' },
+    { value: 'airport_shuttle', label: 'Airport Shuttle' },
+    { value: 'port_shuttle', label: 'Port Shuttle' }
+  ]
+
   const handleChange = async (e) => {
     const { name, value } = e.target;
 
@@ -32,11 +40,17 @@ const PopularCategoryForm = forwardRef((props, ref) => {
           case "accomodation":
             endpoint = "/akomodasi";
             break;
+          case "airport_shuttle":
+            endpoint = `/airport-shuttle`;
+            break;
+          case "port_shuttle":
+            endpoint = `/port-shuttle`;
+            break;
           default:
             endpoint = "";
         }
 
-        if(endpoint) {
+        if (endpoint) {
           const response = await apiClient.get(endpoint)
 
           if (response.data && Array.isArray(response.data.data)) {
@@ -64,7 +78,7 @@ const PopularCategoryForm = forwardRef((props, ref) => {
     }
   };
 
-   useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     getFormData: () => form,
   }));
 
@@ -93,9 +107,11 @@ const PopularCategoryForm = forwardRef((props, ref) => {
               className="input input-bordered w-full rounded-lg border border-gray-200 shadow-sm"
             >
               <option value="">Select</option>
-              <option value="travel_package">Day Tour</option>
-              <option value="rent_car">Rent a car</option>
-              <option value="accomodation">Accommodation</option>
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
           <div>

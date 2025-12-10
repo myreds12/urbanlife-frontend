@@ -27,6 +27,13 @@ const mapPortContent = (contentArray = []) => {
   return result;
 };
 
+const mapPrices = (pricesArray = []) => {
+  return pricesArray.map((price) => ({
+    destination: price.nama || "-",
+    description: `Rp${Number(price.harga).toLocaleString("id-ID")}`,
+  }));
+};
+
 const useDebouncedValue = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -64,7 +71,7 @@ const PortShuttle = () => {
         fields: [
           { key: "lokasi", label: "Location" },
           { key: "nama", label: "Package Name" },
-          { key: "harga", label: "Harga" },
+          { key: "room_and_price", label: "Prices" },
           { key: "deskripsi", label: "Deskripsi", type: "language-toggle" },
           {
             key: "kebijakan",
@@ -84,13 +91,6 @@ const PortShuttle = () => {
       type: "text",
       placeholder: "Masukkan nama package",
       description: "Nama akan diubah untuk semua package yang dipilih",
-    },
-    {
-      name: "harga",
-      label: "Harga",
-      type: "text",
-      placeholder: "Masukkan harga package",
-      description: "Harga package",
     },
     {
       name: "lokasi_id",
@@ -159,10 +159,13 @@ const PortShuttle = () => {
         data.data.port_shuttle_content
       );
 
+      const prices = mapPrices(data.data.port_shuttle_price);
+
       const mappedData = {
         ...data.data,
         deskripsi: portContentMapped.deskripsi,
         kebijakan: portContentMapped.kebijakan,
+        room_and_price: prices,
       };
 
       console.log(mappedData, "mappedData");
@@ -242,7 +245,6 @@ const PortShuttle = () => {
       const headers = [
         "ID",
         "Name",
-        "Harga",
         "Location",
       ];
       const csvContent = [
@@ -251,7 +253,6 @@ const PortShuttle = () => {
           [
             item.id,
             `"${item.nama}"`,
-            `"${item.harga}"`,
             `"${item.lokasi?.nama || ""}"`,
           ].join(",")
         ),
@@ -315,7 +316,6 @@ const PortShuttle = () => {
     "#",
     "ID",
     "Name",
-    "Harga",
     "Location",
     "Action",
   ];
@@ -403,7 +403,6 @@ const PortShuttle = () => {
                 "#": (row, index) => (page - 1) * take + index + 1,
                 ID: (row) => row.id,
                 Name: (row) => row.nama,
-                Harga: (row) => row.harga || "-",
                 Location: (row) => row.lokasi?.nama || "-",
                 Action: null,
               }}

@@ -67,6 +67,8 @@ const Footer = () => {
         });
         const { data } = response.data;
         setBlogData(data || []);
+        console.log(data, 'blog');
+        
       } catch (error) {
         console.error('❌ Failed to fetch blog data:', error);
         toast.error(t('blog.error_fetch'));

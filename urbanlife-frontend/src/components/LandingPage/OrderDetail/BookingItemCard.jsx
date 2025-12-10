@@ -28,7 +28,9 @@ const BookingItemCard = ({
   packagePrices,
   lPackagePrice,
   vPackagePrice,
-  type_key
+  type_key,
+  selectedPrices,
+  price_list
 }) => {
   const { t, i18n } = useTranslation();
   console.log("Current language:", i18n.language); // Debug bahasa saat ini
@@ -88,6 +90,7 @@ const BookingItemCard = ({
   const [showPackageDropdown, setShowPackageDropdown] = useState(false);
   const [selDuration, setSelDuration] = useState(null)
   const [kendaraanDurasi, setKendaraanDurasi] = useState(1)
+  const [showPricesDropdown, setShowPricesDropdown] = useState(false);
 
   const navigate = useNavigate()
   const redirectService = () => {
@@ -124,6 +127,14 @@ const BookingItemCard = ({
 
     handleChange("selected_durasi", selected);
     setSelDuration(kendaraan_harga)
+  }
+
+  const handlePricesChange = (value) => {
+    const selected = price_list.find((p) => p.harga === value)
+    const price = (selected?.harga || 0)
+
+    handleChange("selected_prices", selected);
+    setSelDuration(price)
   }
 
   // Custom Dropdown Component
@@ -280,7 +291,8 @@ const BookingItemCard = ({
               ? prizing === "normal" ? t("bookingitem.person_number") : t("bookingitem.package_price")
               : item_type === "akomodasi"
               ? t("bookingitem.room_and_duration")
-              : item_type === "akomodasi" ? t("bookingitem.duration") : ""}
+              : item_type === "akomodasi" ? t("bookingitem.duration") 
+              : ["airport_shuttle", "port_shuttle"].includes(item_type) ? t("detail.price_list"): ""}
           </p>
 
           {item_type === "travel_package" ? (
@@ -410,6 +422,20 @@ const BookingItemCard = ({
               setShowDropdown={setShowDurationDropdown}
               displayValue={selectedDuration ? selectedDuration.durasi.replace('hours', t('rentcar.hours')) : ""}
             />
+          ) : ["airport_shuttle", "port_shuttle"].includes(item_type) ? (
+            <CustomDropdown
+              // label={t("detail.price_list")}
+              value={selectedPrices?.harga}
+              options={price_list.map((d) => ({
+                value: d.harga,
+                label: `${d.nama} - Rp. ${d.harga}`,
+              }))}
+              onChange={handlePricesChange}
+              placeholder={t("bookingitem.choose_package")}
+              showDropdown={showPricesDropdown}
+              setShowDropdown={setShowPricesDropdown}
+              displayValue={selectedPrices ? `${selectedPrices?.nama} - Rp. ${selectedPrices?.harga}` : ""}
+            />
           ) : (
             item_type === "akomodasi" && (
               <div className="grid grid-cols-2 gap-2">
@@ -418,7 +444,7 @@ const BookingItemCard = ({
                   value={selectedRoom?.nama}
                   options={roomPrice.map((d) => ({
                     value: d.nama,
-                    label: d.nama,
+                    label: dd.nama,
                   }))}
                   onChange={(value) => {
                     const selected = roomPrice.find((d) => d.nama === value);

@@ -15,6 +15,7 @@ const WhatsappConnect = () => {
   const token = useAuthStore((s) => s.token);
 
   const { isConnected, isConnecting, qrCode } = connection;
+  const [admin, setAdmin] = useState([])
 
   /** 🔍 Cek status koneksi berdasarkan data user */
   const checkConnectionStatus = useCallback(async () => {
@@ -34,6 +35,8 @@ const WhatsappConnect = () => {
           user?.AdminWa?.session && user?.AdminWa?.is_active
         ),
       }));
+
+      setAdmin(user?.AdminWa?.[0])
     } catch (err) {
       console.error("Error fetching user details:", err);
       setConnection((prev) => ({ ...prev, isConnected: false }));
@@ -75,6 +78,8 @@ const WhatsappConnect = () => {
           isConnecting: false,
           qrCode: null,
         });
+
+        window.location.reload()
       } else {
         console.error("Disconnect failed:", response.message);
       }
@@ -148,6 +153,7 @@ const WhatsappConnect = () => {
             onConnect={handleConnect}
             onDisconnect={handleDisconnect}
             onRefresh={handleRefresh}
+            admin={admin}
           />
 
           {/* Instructions */}

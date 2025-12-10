@@ -6,6 +6,13 @@ import "../../../styles/AdminDashboard/DayTour/DayTour.css";
 import toast from "react-hot-toast";
 import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiClient";
 import PolicyAndProcedureSection from "../../../components/AdminDashboard/RentCar/PolicyAndProcedureSection";
+import PriceSection from "../../../components/AdminDashboard/DayTour/PriceSection";
+
+const DEFAULT_CONTENT = [
+  { bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
+  { bahasa: "INDONESIA", deskripsi: "", kebijakan: "" },
+];
+const DEFAULT_PRICE = [{ id: 0, durasi: "", harga: "" }];
 
 const CreatePortShuttlePage = () => {
   const navigate = useNavigate();
@@ -16,22 +23,19 @@ const CreatePortShuttlePage = () => {
 
   const [locations, setLocations] = useState([]);
   const [activeSection, setActiveSection] = useState("description");
-  const [content, setContent] = useState([
-    { id: null, bahasa: "ENGLISH", deskripsi: "", kebijakan: "" },
-    { id: null, bahasa: "INDONESIA", deskripsi: "", kebijakan: "" },
-  ]);
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [prices, setPrices] = useState(DEFAULT_PRICE);
 
   const [formData, setFormData] = useState({
     nama: "",
-    harga: "",
     lokasi_id: 0,
     top_attraction: true,
   });
 
 
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, content }));
-  }, [content]);
+    setFormData((prev) => ({ ...prev, content, prices }));
+  }, [content, prices]);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -53,12 +57,14 @@ const CreatePortShuttlePage = () => {
 
           setFormData({
             nama: port.nama || "",
-            harga: port.harga || "",
             top_attraction: port.top_attraction,
             lokasi_id: port.lokasi_id || 0,
             content: port.port_shuttle_content?.length
               ? port.port_shuttle_content
               : DEFAULT_CONTENT,
+            prices: port.port_shuttle_price?.length
+              ? port.port_shuttle_price
+              : DEFAULT_PRICE,
             port_shuttle_id: port.id || "",
           });
 
@@ -73,6 +79,13 @@ const CreatePortShuttlePage = () => {
           );
 
           setContent(port.port_shuttle_content || DEFAULT_CONTENT);
+          setPrices(
+            (port.port_shuttle_price || []).map((p) => ({
+              id: p.id,
+              durasi: p.nama,
+              harga: p.harga,
+            }))
+          );
         }
       } catch (error) {
         toast.error("Failed to get initial data.");
@@ -92,6 +105,12 @@ const CreatePortShuttlePage = () => {
     const updated = [...content];
     updated[index][field] = value;
     setContent(updated);
+  };
+
+  const handlePriceChange = (index, field, value) => {
+    const updated = [...prices];
+    updated[index][field] = value;
+    setPrices(updated);
   };
 
   const handlePolicyChange = (index, value) =>
@@ -120,7 +139,7 @@ const CreatePortShuttlePage = () => {
     const payload = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== "content" && key !== "durasi" && key !== "port_shuttle_id") {
+      if (key !== "content" && key !== "prices" && key !== "port_shuttle_id") {
         payload.append(key, value);
       }
     });
@@ -129,6 +148,12 @@ const CreatePortShuttlePage = () => {
       payload.append(`port_shuttle_content[${i}][bahasa]`, item.bahasa);
       payload.append(`port_shuttle_content[${i}][deskripsi]`, item.deskripsi);
       payload.append(`port_shuttle_content[${i}][kebijakan]`, item.kebijakan);
+    });
+
+    prices.forEach((item, i) => {
+      payload.append(`port_shuttle_price[${i}][id]`, item.id);
+      payload.append(`port_shuttle_price[${i}][nama]`, item.durasi);
+      payload.append(`port_shuttle_price[${i}][harga]`, item.harga);
     });
 
     const existingFileObjects = await Promise.all(
@@ -180,6 +205,7 @@ const CreatePortShuttlePage = () => {
     "description",
     "image",
     "policy and procedure",
+    "price",
   ];
 
   return (
@@ -220,7 +246,7 @@ const CreatePortShuttlePage = () => {
             <ImageSection
               id="image"
               isActive={activeSection === "image"}
-              type="rentcar"
+              type="port_shuttle"
               photos={photos}
               handlePhotoUpload={handlePhotoUpload}
               removePhoto={removePhoto}
@@ -233,6 +259,22 @@ const CreatePortShuttlePage = () => {
               isActive={activeSection === "policy and procedure"}
               content={content}
               onChangePolicy={handlePolicyChange}
+            />
+
+            <PriceSection
+              id="price"
+              isActive={activeSection === "price"}
+              formData={formData}
+              handleChange={handleChange}
+              type="port_shuttle"
+              prices={prices}
+              handlePriceChange={handlePriceChange}
+              handleAddPrice={() =>
+                setPrices([...prices, { id: 0, durasi: "", harga: "" }])
+              }
+              handleDeletePrice={(index) =>
+                setPrices(prices.filter((_, i) => i !== index))
+              }
             />
 
           </div>

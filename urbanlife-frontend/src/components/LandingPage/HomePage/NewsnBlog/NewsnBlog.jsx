@@ -16,19 +16,41 @@ const NewsnBlog = () => {
   const fetchNews = async () => {
     setIsLoading(true);
     try {
-      const response = await apiClient.get("/news");
-      console.log("API news data:", response.data.data); // Debug data API
-      // Normalisasi data
-      const normalizedData = response.data.data.map((article) => ({
+      const getData = async (endpoint) => {
+        const response = await apiClient.get(endpoint);
+        return response.data.data
+      };
+
+      const [news, blogs] = await Promise.all([
+        getData("/news"),
+        getData("/blog"),
+      ]);
+
+      const normalizedNews = news.map((article) => ({
         ...article,
         judul: normalizeLanguageField(article, "news_content", true),
-        deskripsi: normalizeLanguageField(
-          article,
-          "news_content",
-          true,
-          "deskripsi"
-        ),
+        deskripsi: normalizeLanguageField(article, "news_content", true, "deskripsi"),
+        tipe: 'news',
+        file: article?.news_file[0]?.nama_file
+          ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}`
+          : "/public/images/error/No_Image_Available.jpg",
+        name: article.news_category.name,
       }));
+
+      const normalizedBlogs = blogs.map((blog) => ({
+        ...blog,
+        judul: normalizeLanguageField(blog, "blog_content", true),
+        deskripsi: normalizeLanguageField(blog, "blog_content", true, "deskripsi"),
+        tipe: 'blog',
+        readTime: '-',
+        file: blog?.blog_file[0]?.nama_file
+          ? `${apiClient.defaults.baseURL}/public/blogs/${blog.blog_file[0].nama_file}`
+          : "/public/images/error/No_Image_Available.jpg",
+        name: blog.blog_category.name,
+      }));
+
+      const normalizedData = [...normalizedNews, ...normalizedBlogs];
+
       setNewsData(normalizedData);
     } catch (error) {
       console.error(t("newsnblog.error_fetch_news"), error);
@@ -42,7 +64,11 @@ const NewsnBlog = () => {
   const handleReadMore = (article) => {
     // Update URL with ID
     const url = new URL(window.location);
-    url.searchParams.set("id", article.id);
+    const data = article.tipe === 'blog' 
+    ? `/blog/${article.slug}`
+    : `/${article.id}`;
+
+    url.pathname = data;
     window.history.pushState({}, "", url);
 
     setSelectedArticle({
@@ -110,11 +136,7 @@ const NewsnBlog = () => {
               >
                 <div className="w-full h-48 md:w-60 md:h-full flex-shrink-0 flex items-center justify-center bg-gray-50 overflow-hidden">
                   <img
-                    src={
-                      article?.news_file[0]?.nama_file
-                        ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}`
-                        : "/public/images/error/No_Image_Available.jpg"
-                    }
+                    src={article.file}
                     alt={article.judul[i18n.language]}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -123,7 +145,7 @@ const NewsnBlog = () => {
                 <div className="flex-1 p-5 flex flex-col justify-between min-h-0">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="bg-[#0092B8] text-white px-3 py-1 rounded-full text-xs font-medium">
-                      {article.news_category.name}
+                      {article.name}
                     </span>
                     <span className="text-xs text-gray-500">
                       {new Date(article.createdAt).toLocaleDateString("id-ID", {

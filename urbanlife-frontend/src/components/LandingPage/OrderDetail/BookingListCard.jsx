@@ -178,6 +178,8 @@ const BookingListCard = ({
             lPackagePrice={item.l_package_price}
             vPackagePrice={item.v_package_price}
             type_key={item.tipe}
+            selectedPrices={item.selected_prices || ""}
+            price_list={item.price_list}
           />
         ))
       )}

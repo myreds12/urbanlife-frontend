@@ -34,6 +34,7 @@ const PortGrid = ({ cards }) => {
             .replace(/\\/g, "/")
             .replace(/^uploads\//, "")}` : "/public/images/error/No_Image_Available.jpg"
 
+        const harga = card.price?.[0].harga || 0;
         const description =
           card.content?.[0]?.deskripsi?.substring(0, 100) + "..." || "";
         return (
@@ -42,7 +43,7 @@ const PortGrid = ({ cards }) => {
             image={image}
             title={card.nama}
             duration={card.durasi_hari}
-            price={card.harga}
+            price={harga}
             description={description}
             onBookNow={() => handleBookNow(card)} // callback handler
           />

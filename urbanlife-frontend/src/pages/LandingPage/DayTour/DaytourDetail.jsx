@@ -14,6 +14,7 @@ import apiClient from "../../../components/AdminDashboard/Utils/ApiClient/apiCli
 import TourDurasi from "../../../components/LandingPage/DayTour/TourDurasi";
 import { normalizeLanguageField } from '../../../components/AdminDashboard/Utils/Language/languageUtils';
 import TourFacilities from "../../../components/LandingPage/DayTour/TourFacility";
+import TourPriceList from "../../../components/LandingPage/DayTour/TourPriceList ";
 
 const Detail = () => {
   const [activeTab, setActiveTab] = useState("description");
@@ -65,6 +66,7 @@ const Detail = () => {
         let title = { en: data.nama || data.title || '', id: data.nama || data.title || '' };
         let package_prices = [];
         let facility = [];
+        let price_list = [];
 
         // Debug log data
         console.log('Raw data:', data);
@@ -157,6 +159,10 @@ const Detail = () => {
 
           description = normalizeLanguageField(data, 'airport_shuttle_content', true, 'deskripsi');
           policies = normalizeLanguageField(data, 'airport_shuttle_content', true, 'kebijakan');
+          price = data.airport_shuttle_price[0].harga || price;
+          price_list = Array.isArray(data.airport_shuttle_price) 
+            ? data.airport_shuttle_price
+            : [];
         }
 
         if (state.item_type === 'port_shuttle') {
@@ -171,6 +177,10 @@ const Detail = () => {
 
           description = normalizeLanguageField(data, 'port_shuttle_content', true, 'deskripsi');
           policies = normalizeLanguageField(data, 'port_shuttle_content', true, 'kebijakan');
+          price = data.port_shuttle_price[0].harga || price;
+          price_list = Array.isArray(data.port_shuttle_price) 
+            ? data.port_shuttle_price
+            : [];
         }
 
         const normalizedData = {
@@ -187,7 +197,8 @@ const Detail = () => {
           priceTable,
           room_and_price: roomAndPrice,
           package_prices,
-          facility: facility
+          facility: facility,
+          price_list: price_list
         };
 
         console.log('Normalized tourData:', normalizedData);
@@ -219,6 +230,9 @@ const Detail = () => {
       : []),
     ...(tourData?.type === "kendaraan" && tourData.durasi.length > 0
       ? [{ id: "durasi", label: t("detail.duration") }]
+      : []),
+    ...(["airport_shuttle", "port_shuttle"].includes(tourData?.type) 
+      ? [{ id: "price_list", label: t("detail.price_list") }]
       : []),
     { id: "policies", label: t("detail.policy") },
   ];
@@ -259,6 +273,7 @@ const Detail = () => {
           room_and_price={tourData.room_and_price}
           durasi={tourData.durasi}
           tipe={tourData.tipe}
+          price_list={tourData.price_list}
         />
 
         <div className="mt-5 mb-1">
@@ -290,6 +305,7 @@ const Detail = () => {
             <TourRoomAndPrice roomAndPrice={tourData.room_and_price} facilities={tourData.facility} />
           )}
           {activeTab === "durasi" && <TourDurasi durasi={tourData.durasi} />}
+          {activeTab === "price_list" && <TourPriceList price_list={tourData.price_list} />}
           {activeTab === "policies" && (
             <TourPolicies policies={tourData.policies[i18n.language]} />
           )}

@@ -51,6 +51,10 @@ const PopularCard = ({ item }) => {
       harga = item?.kendaraan_durasi?.[0]?.harga ?? 0;
   } else if (item?.item_type === "travel_package") {
       harga = item?.harga_dewasa ?? 0;
+  } else if (item?.item_type === "airport_shuttle") {
+      harga = item?.airport_shuttle_price?.[0]?.harga ?? 0;
+  } else if (item?.item_type === "port_shuttle") {
+      harga = item?.port_shuttle_price?.[0]?.harga ?? 0;
   } else {
       harga = item?.akomodasi_room_and_price?.[0]?.harga ?? 0;
   }

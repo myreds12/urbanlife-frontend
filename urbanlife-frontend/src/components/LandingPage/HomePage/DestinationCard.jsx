@@ -104,6 +104,8 @@ const DestinationCard = ({ travel }) => {
                 ? travel.harga_dewasa
                 : travel.item_type?.toLowerCase() === "akomodasi" 
                 ? travel.room_and_price[0].harga
+                : ["airport_shuttle", "port_shuttle"].includes(travel.item_type?.toLowerCase())
+                ? travel.price[0]?.harga
                 : travel.harga
             ).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
           </p>

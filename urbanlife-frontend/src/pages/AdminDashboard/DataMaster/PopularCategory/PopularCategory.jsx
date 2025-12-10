@@ -23,10 +23,12 @@ const PopularCategory = () => {
         return response.data.data.filter(item => item.is_popular);
       };
 
-      const [filteredTravelPackage, filteredKendaraan, filteredAkomodasi] = await Promise.all([
+      const [filteredTravelPackage, filteredKendaraan, filteredAkomodasi, filteredAirport, filteredPort] = await Promise.all([
         getPopularData("/travel-package"),
         getPopularData("/kendaraan"),
-        getPopularData("/akomodasi")
+        getPopularData("/akomodasi"),
+        getPopularData("/airport-shuttle"),
+        getPopularData("/port-shuttle")
       ]);
 
       const allData = [
@@ -47,6 +49,18 @@ const PopularCategory = () => {
           nama: item.nama,
           type: "accomodation",
           service_type: "Accommodation"
+        })),
+        ...filteredAirport.map(item => ({
+          id: item.id,
+          nama: item.nama,
+          type: "airport_shuttle",
+          service_type: "Airport Shuttle"
+        })),
+        ...filteredPort.map(item => ({
+          id: item.id,
+          nama: item.nama,
+          type: "port_shuttle",
+          service_type: "Port Shuttle"
         }))
       ];
 
@@ -89,6 +103,12 @@ const PopularCategory = () => {
       case "accomodation":
         endpoint = `/akomodasi/update-popular-status/${serviceId}`;
         break;
+      case "airport_shuttle":
+        endpoint = `/airport-shuttle/update-popular-status/${serviceId}`;
+        break;
+      case "port_shuttle":
+        endpoint = `/port-shuttle/update-popular-status/${serviceId}`;
+        break;
       default:
         endpoint = "";
     }
@@ -130,6 +150,12 @@ const PopularCategory = () => {
         break;
       case "accomodation":
         endpoint = `/akomodasi/update-popular-status/${id}`;
+        break;
+      case "airport_shuttle":
+        endpoint = `/airport-shuttle/update-popular-status/${id}`;
+        break;
+      case "port_shuttle":
+        endpoint = `/port-shuttle/update-popular-status/${id}`;
         break;
       default:
         endpoint = "";

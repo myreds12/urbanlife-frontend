@@ -19,6 +19,7 @@ const TourHeader = ({
   durasi = [],
   harga_dewasa = 0,
   tipe,
+  price_list,
 }) => {
   const navigate = useNavigate();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
@@ -61,6 +62,14 @@ const TourHeader = ({
         bookingData.price = durasi?.[0]?.harga
           ? parseInt(durasi[0].harga)
           : price ?? 0;
+        break;
+      case "airport_shuttle":
+        bookingData.price = price_list?.[0]?.harga ?? 0;
+        bookingData.price_list = price_list;
+        break;
+      case "port_shuttle":
+        bookingData.price = price_list?.[0]?.harga ?? 0;
+        bookingData.price_list = price_list;
         break;
       default:
         bookingData.price = price ?? 0;

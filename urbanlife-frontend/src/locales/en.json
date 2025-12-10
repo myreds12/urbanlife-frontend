@@ -189,7 +189,8 @@
   "nofacility": "No Facility",
   "noamenities": "No Amenities",
   "package": "Package",
-  "persons": "Persons"
+  "persons": "Persons",
+  "price_list": "Price List"
 },
 
 "sharemodal": {
@@ -558,7 +559,8 @@
         "normal_price": "Normal Price",
         "package_price":  "Package Price",
         "pricing": "Pricing",
-        "select_type": "Select Type" 
+        "select_type": "Select Type",
+        "choose_package": "Choose Package" 
   },
   "rentcar": {
     "not_found" : "No duration data available.",
@@ -575,11 +577,17 @@
   "airport": {
     "airportpackage": "Airport Shuttle",
     "noairport": "No Airport Shuttle Found",
-    "readmore": "Read More"
+    "readmore": "Read More",
+    "description": "Description",
+    "price": "Price",
+    "description_price": "Description & Price"
   },
   "port": {
     "portpackage": "Port Shuttle",
     "noport": "No Port Shuttle Found",
-    "readmore": "Read More"
+    "readmore": "Read More",
+    "description": "Description",
+    "price": "Price",
+    "description_price": "Description & Price"
   }
 }

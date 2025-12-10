@@ -9,18 +9,25 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
   if (!isOpen || !article) return null;
 
   const getContentByLang = (bahasa) =>
-    article.news_content.find((c) => c.bahasa === bahasa) ||
-    article.news_content[0];
+    article.tipe === 'blog'
+    ? article.blog_content.find((c) => c.bahasa === bahasa) || article.blog_content[0]
+    : article.news_content.find((c) => c.bahasa === bahasa) || article.news_content[0];
 
   const currentContent = getContentByLang(language);
+
+  const image = article.tipe == 'blog'
+  ? article?.blog_file[0]?.url
+      ? `${apiClient.defaults.baseURL}/public/blogs/${article.blog_file[0].nama_file}`
+      : ""
+  : article?.news_file[0]?.url
+      ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}`
+      : ""
 
   const shareData = {
     title: language === "INDONESIA" ? "Bagikan Artikel" : "Share Article",
     location: currentContent.judul,
     description: currentContent.deskripsi,
-    image: article?.news_file[0]?.url
-      ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}`
-      : "",
+    image: image,
     url: window.location.href,
   };
 
@@ -177,11 +184,7 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
             {/* Header Image */}
             <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden">
               <img
-                src={
-                  article?.news_file[0]?.url
-                    ? `${apiClient.defaults.baseURL}/public/news/${article.news_file[0].nama_file}`
-                    : ""
-                }
+                src={image}
                 alt={currentContent.judul}
                 className="w-full h-full object-cover"
               />
@@ -242,7 +245,7 @@ const ArticleModal = ({ article, isOpen, onClose }) => {
                 </div>
                 <div>
                   <span className="bg-[#0092B8] text-white px-3 py-1.5 rounded-full text-sm font-medium">
-                    {article.news_category.name}
+                    {article.name}
                   </span>
                 </div>
               </div>

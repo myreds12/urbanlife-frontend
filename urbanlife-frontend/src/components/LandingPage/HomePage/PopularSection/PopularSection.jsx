@@ -45,10 +45,12 @@ const PopularSection = () => {
           return response.data.data.filter(item => item.is_popular);
         };
 
-        const [filteredTravelPackage, filteredKendaraan, filteredAkomodasi] = await Promise.all([
+        const [filteredTravelPackage, filteredKendaraan, filteredAkomodasi, filteredAirport, filteredPort] = await Promise.all([
           getPopularData("/travel-package"),
           getPopularData("/kendaraan"),
-          getPopularData("/akomodasi")
+          getPopularData("/akomodasi"),
+          getPopularData("/airport-shuttle"),
+          getPopularData("/port-shuttle")
         ]);
 
         const travelPackageWithType = filteredTravelPackage.map(item => ({
@@ -66,7 +68,17 @@ const PopularSection = () => {
           item_type: "akomodasi"
         }));
 
-        const allData = [...travelPackageWithType, ...kendaraanWithType, ...akomodasiWithType];
+        const airportWithType = filteredAirport.map(item => ({
+          ...item,
+          item_type: "airport_shuttle"
+        }));
+
+        const portWithType = filteredPort.map(item => ({
+          ...item,
+          item_type: "port_shuttle"
+        }));
+
+        const allData = [...travelPackageWithType, ...kendaraanWithType, ...akomodasiWithType, ...airportWithType, ...portWithType];
         console.log(allData, 'all data')
         const items = allData.map((item) => {
           let image = "";
@@ -85,7 +97,15 @@ const PopularSection = () => {
             image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.travel_package_itinerary[0].itinerary_files[0].url
               .replace(/\\/g, "/")
               .replace(/^uploads\//, "")}`;
-          } else {
+          } else if (item.airport_shuttle_file && item.airport_shuttle_file != 0) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.airport_shuttle_file[0].url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          } else if (item.port_shuttle_file && item.port_shuttle_file != 0) {
+            image = `${apiClient.defaults.baseURL.replace(/\/$/, "")}/public/${item.port_shuttle_file[0].url
+              .replace(/\\/g, "/")
+              .replace(/^uploads\//, "")}`;
+          }  else {
             image = "/public/images/error/No_Image_Available.jpg";
           }
 
@@ -116,6 +136,18 @@ const PopularSection = () => {
               price = `${(Number(item.kendaraan_durasi?.[0]?.harga) || 0).toLocaleString(
                 "id-ID"
               )}`;
+              break;
+            case "airport_shuttle":
+              destinations = item?.airport_shuttle_price[0]?.nama || t("cardform.duration_not_available");
+              price = `${Number(item.airport_shuttle_price[0].harga).toLocaleString(
+                "id-ID"
+              )}/night`;
+              break;
+            case "port_shuttle":
+              destinations = item?.port_shuttle_price[0]?.nama || t("cardform.duration_not_available");
+              price = `${Number(item.port_shuttle_price[0].harga).toLocaleString(
+                "id-ID"
+              )}/night`;
               break;
             default:
               destinations = "Kategori Tidak Diketahui";

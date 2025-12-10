@@ -175,7 +175,9 @@ const Motorcycle = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (data) => {
+    const id = data.id
+
     const result = await Swal.fire({
       title: "Delete Vehicle",
       text: "Are you sure want to delete this vehicle?",
@@ -190,9 +192,9 @@ const Motorcycle = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await apiClient.delete(`/kendaraan/${id}`);
+      await apiClient.delete(`/kendaraan/delete-kendaraan/${id}`);
       toast.success("Vehicle was successfully deleted");
-      fetchData("/kendaraan", setMotorcycles);
+      fetchAllData()
     } catch (error) {
       console.error("Failed to delete:", error);
       toast.error(

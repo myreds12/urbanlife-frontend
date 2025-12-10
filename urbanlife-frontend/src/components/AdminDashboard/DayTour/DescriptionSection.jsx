@@ -373,22 +373,6 @@ const DescriptionSection = ({
               className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
               />
             </div>
-            <div className="flex items-center mb-5">
-              <label
-                className="block text-sm font-medium text-gray-600 mr-5 bg-gray-100 px-4 py-2 rounded-md"
-              style={{ minWidth: "190px" }}
-              >
-                Harga <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                name="harga"
-                value={formData.harga}
-                onChange={handleChange}
-                required
-              className="py-1 px-3 w-full rounded-md border border-gray-300 focus:ring-cyan-500"
-              />
-            </div>
           </>
         )}
 

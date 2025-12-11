@@ -75,11 +75,7 @@ const BlogAdmin = () => {
     const confirmed = window.confirm(`Are you sure want to delete "${judul}"?`);
     if (!confirmed) return;
 
-    const deletePromise = apiClient.delete(`/blog`, {
-      data: {
-        ids: [row.id],
-      },
-    });
+    const deletePromise = apiClient.delete(`/blog/${row.id}`);
 
     try {
       await toast.promise(deletePromise, {

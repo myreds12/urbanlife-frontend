@@ -98,7 +98,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#071C4D] text-white pt-16 pb-6 px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Company Section */}
           <div>
             <button
@@ -186,7 +186,7 @@ const Footer = () => {
           </div>
 
           {/* Categories Section */}
-          <div>
+          {/* <div>
             <button
               onClick={handleCategoriesClick}
               onMouseEnter={handleCategoriesHover}
@@ -215,7 +215,7 @@ const Footer = () => {
                 <li className="text-gray-300">{t('blog.no_categories')}</li>
               )}
             </ul>
-          </div>
+          </div> */}
 
           {/* Blog Posts Section */}
           <div>

@@ -14,7 +14,8 @@ const contentItems = [
   { icon: "fa-solid fa-chart-pie", name: "Day tour", path: "/admin/day-tour" },
   { icon: "fa-car", name: "Rent a car", path: "/admin/rent-car" },
   { icon: "fa-bed", name: "Accommodation", path: "/admin/accommodation" },
-  { icon: "fa-newspaper", name: "News", path: "/admin/news" },
+  // { icon: "fa-newspaper", name: "News", path: "/admin/news" },
+  { icon: "fa-newspaper", name: "Blog", path: "/admin/blogs" },
   { icon: "fa-motorcycle", name: "Rent a motorcycle", path: "/admin/rent-motorcycle" },
   { icon: "fa-plane", name: "Airport Shuttle", path: "/admin/airport-shuttle" },
   { icon: "fa-ship", name: "Port Shuttle", path: "/admin/port-shuttle" },
@@ -50,7 +51,6 @@ const othersItems = [
       { name: "Car", path: "/admin/car" },
       { name: "Driver", path: "/admin/driver" },
       { name: "Guide", path: "/admin/guide" },
-      { name: "Blog", path: "/admin/blogs" },
       { name: "Category", path: "/admin/category" },
       { name: "Users", path: "/admin/users" }, // hanya untuk super_admin
       { name: "Testimonial", path: "/admin/testimonial" },

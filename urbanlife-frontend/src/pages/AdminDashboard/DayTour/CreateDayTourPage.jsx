@@ -33,6 +33,9 @@ function CreateDayTourPage() {
     { id: null, description: "", harga: "" }
   ]);
 
+  const disabled = false
+  const [isLoading, setIsLoading] = useState(false);
+
   const [deletedItineraryFile, setDeletedItineraryFile] = useState([])
 
   const [formData, setFormData] = useState({
@@ -334,6 +337,8 @@ function CreateDayTourPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     const payload = new FormData();
     payload.append("nama", formData.nama);
     payload.append("lokasi_id", formData.lokasi_id);
@@ -551,9 +556,23 @@ function CreateDayTourPage() {
 
             <button
               type="submit"
-              className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
+              disabled={disabled || isLoading}
+              className={`px-4 py-2 text-white rounded-md ${disabled || isLoading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "hover:bg-cyan-700 bg-cyan-600"
+              }`}
             >
-              Save
+              {isLoading ? (
+                <span className="flex justify-center items-center">
+                  <svg className="animate-spin w-5 h-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 1116 0 8 8 0 01-16 0z"></path>
+                </svg>
+                  processing...
+                </span>
+              ) : (
+                <span>Save</span>
+              )}
             </button>
           </div>
         </main>

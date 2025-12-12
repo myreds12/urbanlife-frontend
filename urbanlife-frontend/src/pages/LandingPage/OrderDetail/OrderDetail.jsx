@@ -438,7 +438,7 @@ const OrderDetail = () => {
       };
 
       console.log("Data Pemesanan Payload:", pemesananPayload);
-return false
+
       // 2. Kirim request untuk membuat pemesanan
       const { data: pemesananData } = await apiClient.post(
         "/pemesanan",

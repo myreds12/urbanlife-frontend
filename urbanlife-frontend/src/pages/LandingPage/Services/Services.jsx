@@ -55,18 +55,13 @@ const Services = () => {
         harga_max: filters.priceRange[1],
       };
 
-      // Tambahkan negara_ids[]
-      filters.countries.forEach((id) => {
-        if (!params["negara_ids"]) params["negara_ids"] = [];
-        params["negara_ids"].push(id);
-      });
+      if (filters.countries.length > 0) {
+        params.negara_ids = filters.countries;
+      }
 
-      // Tambahkan lokasi_ids[]
-      filters.cities.forEach((id) => {
-        if (!params["lokasi_ids"]) params["lokasi_ids"] = [];
-        params["lokasi_ids"].push(id);
-      });
-
+      if (filters.cities.length > 0) {
+        params.lokasi_ids = filters.cities;
+      }
       console.log(params, "PARAMS");
 
       const response = await apiClient.get("/pemesanan/items", {
@@ -84,8 +79,30 @@ const Services = () => {
         },
       });
 
-      setFilteredServices(response.data.data || []);
-      setTotalServices(response.data.total || (response.data.data?.length || 0));
+      let filtered = response.data.data.filter((item) =>
+        params.types.includes(item.item_type)
+      );
+
+      if (params.lokasi_ids && params.lokasi_ids.length > 0 && !params.lokasi_ids.includes(0)) {
+        filtered = filtered.filter((item) =>
+          params.lokasi_ids.includes(item.lokasi.id)
+        );
+      }
+
+      if (params.negara_ids && params.negara_ids.length > 0 && !params.negara_ids.includes(0)) {
+        filtered = filtered.filter((item) =>
+          params.negara_ids.includes(item.lokasi.negara.id)
+        );
+      }
+
+      if (params.harga_min !== undefined && params.harga_max !== undefined) {
+        filtered = filtered.filter(
+          (item) => item.harga >= params.harga_min && item.harga <= params.harga_max
+        );
+      }
+
+      setFilteredServices(filtered || []);
+      setTotalServices(filtered?.length || 0);
     } catch (error) {
       console.error("Search error:", error);
       setError("Failed to fetch filtered services.");

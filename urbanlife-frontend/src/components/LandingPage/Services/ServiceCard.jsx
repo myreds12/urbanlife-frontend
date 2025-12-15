@@ -29,6 +29,9 @@ const ServiceCard = ({ service }) => {
     if (service.item_type === "TRAVEL_PACKAGE") {
       return Number(service.harga_dewasa || service.harga_anak || service.harga || 0);
     }
+    if (["AIRPORT_SHUTTLE", "PORT_SHUTTLE"].includes(service.item_type)) {
+      return Number(service.price?.[0]?.harga || 0);
+    }
     return Number(service.harga || 0);
   };
 
@@ -36,7 +39,7 @@ const ServiceCard = ({ service }) => {
     if (service.item_type === "KENDARAAN")
       return "/ " + (service.durasi?.[0]?.durasi || "duration");
     if (service.item_type === "AKOMODASI") return "/ night";
-    if (service.item_type === "TRAVEL_PACKAGE") return t("servicepage./person");
+    if (["TRAVEL_PACKAGE", "AIRPORT_SHUTTLE", "PORT_SHUTTLE"].includes(service.item_type)) return t("servicepage./person");
     return t("servicepage.per_unit");
   };
 
@@ -140,6 +143,7 @@ const ServiceCard = ({ service }) => {
     if (service.item_type === "KENDARAAN") return "bg-green-100 text-green-800";
     if (service.item_type === "AKOMODASI") return "bg-purple-100 text-purple-800";
     if (service.item_type === "TRAVEL_PACKAGE") return "bg-blue-100 text-blue-800";
+    if (["AIRPORT_SHUTTLE", "PORT_SHUTTLE"].includes(service.item_type)) return "bg-red-100 text-red-800";
     return "bg-gray-100 text-gray-800";
   };
 
@@ -179,7 +183,12 @@ const ServiceCard = ({ service }) => {
               ? t("servicepage.rentcar")
               : service.item_type === "AKOMODASI"
               ? t("servicepage.accommodation")
-              : t("servicepage.daytour")}
+              : service.item_type === "TRAVEL_PACKAGE"
+              ? t("servicepage.daytour")
+              : service.item_type === "AIRPORT_SHUTTLE"
+              ? t("servicepage.airport_shuttle")
+              : t("servicepage.port_shuttle")
+            }
           </span>
         </div>
       </div>

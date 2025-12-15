@@ -237,7 +237,9 @@
     "rentcar": "Sewa Mobil",
     "accommodation": "Akomodasi",
     "daytour": "Tour Harian",
-    "/person": "/ Orang"
+    "/person": "/ Orang",
+    "airport_shuttle": "Antar Jemput Bandara",
+    "port_shuttle": "Antar Jemput Pelabuhan"
   },
 
   "contactus": {

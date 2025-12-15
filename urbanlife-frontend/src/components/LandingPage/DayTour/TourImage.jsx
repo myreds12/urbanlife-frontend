@@ -121,42 +121,42 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
       ) : (
         <>
           {/* Grid layout */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="w-full rounded-lg overflow-hidden relative">
               <img
                 src={mainImages[0].image}
                 alt={`${title} - Image 1`}
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-cover"
               />
-              { ["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) 
-              ? <div className="itinerary-label">{mainImages[0].label}</div>
-              : <></> }
+              {["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) && (
+                <div className="itinerary-label">{mainImages[0].label}</div>
+              )}
             </div>
             <div className="grid grid-rows-2 gap-4">
               {mainImages.slice(1, 3).map((img, index) => (
-                <div key={index} className="h-55 rounded-lg overflow-hidden relative">
+                <div key={index} className="h-56 rounded-lg overflow-hidden relative">
                   <img
                     src={img.image}
                     alt={`${title} - Image ${index + 2}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-auto object-cover"
                   />
-                  { ["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type)
-                  ? <div className="itinerary-label">{img.label}</div> 
-                  : <></> }
+                  {["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) && (
+                    <div className="itinerary-label">{img.label}</div>
+                  )}
                 </div>
               ))}
             </div>
             <div className="grid grid-rows-2 gap-4">
               {mainImages.slice(3, 6).map((img, index) => (
-                <div key={index} className="h-55 rounded-lg overflow-hidden relative">
+                <div key={index} className="h-56 rounded-lg overflow-hidden relative">
                   <img
                     src={img.image}
-                    alt={`${title} - Image ${index + 2}`}
-                    className="w-full h-full object-cover"
+                    alt={`${title} - Image ${index + 3}`}
+                    className="w-full h-auto object-cover"
                   />
-                  { ["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type)
-                  ? <div className="itinerary-label">{img.label}</div> 
-                  : <></> }
+                  {["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) && (
+                    <div className="itinerary-label">{img.label}</div>
+                  )}
                 </div>
               ))}
             </div>
@@ -199,21 +199,21 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                   alt={`${title} - Image ${currentImageIndex + 1}`}
                   className="w-full max-w-[600px] max-h-[400px] object-contain"
                 />
-                { ["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) 
-                ? <div className="itinerary-label">{processedImages[currentImageIndex].label}</div> 
-                : <></> }
+                {["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type)
+                  ? <div className="itinerary-label">{processedImages[currentImageIndex].label}</div>
+                  : <></>}
               </div>
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/60 text-white text-sm rounded-full">
                 {currentImageIndex + 1} / {processedImages.length}
               </div>
-              
+
               <button
                 onClick={handlePrevImage}
                 className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-800 p-2 rounded-full shadow-md"
               >
                 <ChevronLeft className="w-6 h-6 text-white" />
               </button>
-              
+
               <button
                 onClick={handleNextImage}
                 className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-gray-800 p-2 rounded-full shadow-md"

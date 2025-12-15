@@ -242,7 +242,9 @@
   "rentcar": "Rent a Car",
   "accommodation": "Accommodation",
   "daytour": "Day Tour",
-  "/person": "/ Person"
+  "/person": "/ Person",
+  "airport_shuttle": "Airport Shuttle",
+  "port_shuttle": "Port Shuttle"
 
 
 },

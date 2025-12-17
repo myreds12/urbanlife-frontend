@@ -125,7 +125,7 @@ const shareData = {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-5 gap-4 md:gap-0">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-5 gap-4 md:gap-0 cm-50">
         <div>
           <div className="text-xl md:text-2xl font-semibold text-gray-900">
             {title}

@@ -127,13 +127,16 @@
     position: relative;
   }
 
-  .thumb-label {
-    bottom: 0;
-    width: 90%;
-  }
-
   .see-all-button {
     right: 0;
     bottom: -40px;
   }
+
+  .cm-50 {
+    margin-top: 50px;
+  }
 }
+
+.thumb-label {
+    display: none;
+  }

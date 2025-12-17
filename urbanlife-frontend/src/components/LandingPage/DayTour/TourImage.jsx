@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import apiClient from "../../AdminDashboard/Utils/ApiClient/apiClient";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image", type = null, location = null }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { t, i18n } = useTranslation();
   const [processedImages, setProcessedImages] = useState([]);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   useEffect(() => {
     let all_images = [];
@@ -121,8 +128,8 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
       ) : (
         <>
           {/* Grid layout */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="w-full rounded-lg overflow-hidden relative">
+          <div className="grid grid-cols-1 gap-4 swiper-container">
+            {/* <div className="w-full rounded-lg overflow-hidden relative">
               <img
                 src={mainImages[0].image}
                 alt={`${title} - Image 1`}
@@ -159,13 +166,68 @@ const TourImage = ({ images = null, itinerary_images = null, title = "Tour Image
                   )}
                 </div>
               ))}
-            </div>
+            </div> */}
+            <Swiper
+              style={{
+                '--swiper-navigation-color': '#fff',
+                '--swiper-pagination-color': '#fff',
+              }}
+              loop={true}
+              spaceBetween={10}
+              navigation={true}
+              thumbs={{ swiper: thumbsSwiper }}
+              modules={[FreeMode, Navigation, Thumbs]}
+              className="swiper-tour"
+            >
+              {mainImages.slice(0, 6).map((img, index) => (
+                <SwiperSlide>
+                  <img src={img.image}
+                    alt={`${title} - Image ${index + 3}`} />
+                  {["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) && (
+                    <div className="itinerary-label main-label">{img.label}</div>
+                  )}
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <Swiper
+              onSwiper={setThumbsSwiper}
+              loop={true}
+              spaceBetween={10}
+              freeMode={true}
+              watchSlidesProgress={true}
+              modules={[FreeMode, Navigation, Thumbs]}
+              className="mySwiper"
+              breakpoints={{
+                1024: {
+                  slidesPerView: 4, 
+                },
+                768: {
+                  slidesPerView: 3
+                },
+                480: {
+                  slidesPerView: 3,
+                },
+                0: {
+                  slidesPerView: 3,
+                },
+              }}
+            >
+              {mainImages.slice(0, 6).map((img, index) => (
+                <SwiperSlide>
+                  <img src={img.image}
+                    alt={`${title} - Image ${index + 3}`} />
+                  {["travel_package", "kendaraan", "airport_shuttle", "port_shuttle"].includes(type) && (
+                    <div className="itinerary-label thumb-label">{img.label}</div>
+                  )}
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
 
           {/* See all image button */}
           <button
             onClick={() => setIsGalleryOpen(true)}
-            className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-white hover:shadow-lg transition-all duration-300"
+            className="absolute see-all-button bottom-4 right-4 bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-white hover:shadow-lg transition-all duration-300"
           >
             <Eye className="w-4 h-4" />
             {t("detail.seeallimage")}
